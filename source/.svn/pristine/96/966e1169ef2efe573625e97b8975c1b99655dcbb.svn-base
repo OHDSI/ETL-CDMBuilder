@@ -1,0 +1,27 @@
+﻿<QueryDefinition>
+  <Query>
+    select DISTINCT CONVERT(BIGINT,SUBSTRING(PTID,3,100)) PERSON_ID,
+    PTID,
+    CONVERT(DATETIME, SUBSTRING(FIRST_MONTH_ACTIVE,5,2) + '-1-' + SUBSTRING(FIRST_MONTH_ACTIVE,1,4)) StartDate,
+    CONVERT(DATETIME, SUBSTRING(LAST_MONTH_ACTIVE,5,2) + '-1-' + SUBSTRING(LAST_MONTH_ACTIVE,1,4)) EndDate,
+    Gender,
+    CONVERT(int, SUBSTRING(BIRTH_YR,1,4)) YearOfBirth,
+    REGION,
+    RACE
+    from PATIENT
+    JOIN _chunks ch ON ch.ChunkId = {0} AND PTID = ch.[PERSON_SOURCE_VALUE]
+    WHERE BIRTH_YR != 'Unknown'
+    ORDER BY PTID ASC
+  </Query>
+  <Persons>
+    <PersonDefinition>
+      <PersonId>PERSON_ID</PersonId>
+      <PersonSourceValue>PTID</PersonSourceValue>
+      <StartDate>StartDate</StartDate>
+      <EndDate>EndDate</EndDate>
+      <Gender>Gender</Gender>
+      <YearOfBirth>YearOfBirth</YearOfBirth>
+      <Location>Region</Location>
+    </PersonDefinition>
+  </Persons>
+</QueryDefinition>

@@ -1,0 +1,38 @@
+﻿<QueryDefinition>
+  <Query>
+    select PAT_ID, 3038553 as CONCEPT_ID, '39156-5' CONCEPT_CODE, BMI VALUE_AS_NUMBER, 'ratio' as UNITS, CON_DATE
+    from Contact
+    JOIN _chunks ch ON ch.ChunkId = {0} AND PAT_ID = ch.PERSON_ID
+    where BMI IS NOT NULL
+
+    UNION
+
+    select PAT_ID, 3025315 as CONCEPT_ID, '29463-7' CONCEPT_CODE, [WEIGHT] VALUE_AS_NUMBER, 'kg' as UNITS, CON_DATE
+    from Contact
+    JOIN _chunks ch ON ch.ChunkId = {0} AND PAT_ID = ch.PERSON_ID
+    where [WEIGHT] IS NOT NULL
+
+    UNION
+
+    select PAT_ID, 3036277 as CONCEPT_ID, '8302-2' CONCEPT_CODE, [HEIGHT] VALUE_AS_NUMBER, 'cm' as UNITS, CON_DATE
+    from Contact
+    JOIN _chunks ch ON ch.ChunkId = {0} AND PAT_ID = ch.PERSON_ID
+    where HEIGHT IS NOT NULL
+  </Query>
+  <Observation>
+    <ObservationDefinition>
+      <PersonId>PAT_ID</PersonId>
+      <StartDate>CON_DATE</StartDate>
+      <ValuesAsNumber>
+        <string>VALUE_AS_NUMBER</string>
+      </ValuesAsNumber>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field key="CONCEPT_CODE" conceptId="CONCEPT_ID" defaultTypeId="38000277"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+  </Observation>
+</QueryDefinition>

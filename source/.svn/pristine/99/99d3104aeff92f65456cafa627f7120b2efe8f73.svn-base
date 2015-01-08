@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B76BC58F-F8EB-4953-9AD9-00EAE7F1C23D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>org.ohdsi.cdm.presentation.builderprocess</RootNamespace>
+    <AssemblyName>org.ohdsi.cdm.presentation.builderprocess</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\jnj.omop.cdmbuilder_wpf\bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\jnj.omop.chunk_builder.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\jnj.omop.cdmbuilder_wpf\bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\jnj.omop.chunk_builder.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Builders\org.ohdsi.cdm.builders.cprd\org.ohdsi.cdm.builders.cprd.csproj">
+      <Project>{1ffe4f4a-556b-4048-8afe-dfded6f2ff0b}</Project>
+      <Name>org.ohdsi.cdm.builders.cprd</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Builders\org.ohdsi.cdm.builders.drugera\org.ohdsi.cdm.builders.drugera.csproj">
+      <Project>{afcf8cc6-cf54-437e-888c-a027d5ff913e}</Project>
+      <Name>org.ohdsi.cdm.builders.drugera</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Builders\org.ohdsi.cdm.builders.nhanes\org.ohdsi.cdm.builders.nhanes.csproj">
+      <Project>{d0dc1ef7-698d-4e54-83d9-bbea6c2d05d2}</Project>
+      <Name>org.ohdsi.cdm.builders.nhanes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Builders\org.ohdsi.cdm.builders.optum\org.ohdsi.cdm.builders.optum.csproj">
+      <Project>{6bf3686c-93ef-4336-aff8-e0a4a742ad3b}</Project>
+      <Name>org.ohdsi.cdm.builders.optum</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Builders\org.ohdsi.cdm.builders.premier\org.ohdsi.cdm.builders.premier.csproj">
+      <Project>{cddc5b73-24fa-46c7-b848-fe3554c6c65b}</Project>
+      <Name>org.ohdsi.cdm.builders.premier</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Builders\org.ohdsi.cdm.builders.truven\org.ohdsi.cdm.builders.truven.csproj">
+      <Project>{211c1346-b8f8-4ce6-a610-ca4b479dd4be}</Project>
+      <Name>org.ohdsi.cdm.builders.truven</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\org.ohdsi.cdm.framework.core\org.ohdsi.cdm.framework.core.csproj">
+      <Project>{1c984c39-9ff9-4d80-b591-b82a76660103}</Project>
+      <Name>org.ohdsi.cdm.framework.core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\org.ohdsi.cdm.framework.data\org.ohdsi.cdm.framework.data.csproj">
+      <Project>{e41e1c0d-6032-4cbc-b3a5-dd262445609f}</Project>
+      <Name>org.ohdsi.cdm.framework.data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\org.ohdsi.cdm.framework.entities\org.ohdsi.cdm.framework.entities.csproj">
+      <Project>{5625a098-2ed8-46f1-a60b-146fd7449da3}</Project>
+      <Name>org.ohdsi.cdm.framework.entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\org.ohdsi.cdm.framework.shared\org.ohdsi.cdm.framework.shared.csproj">
+      <Project>{eb712de3-e0a1-4aec-aa0f-ad54cee01c68}</Project>
+      <Name>org.ohdsi.cdm.framework.shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

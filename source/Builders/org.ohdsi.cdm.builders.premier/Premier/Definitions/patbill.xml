@@ -1,0 +1,102 @@
+﻿<QueryDefinition>
+   <Query>
+      SELECT
+      pat.medrec_key,
+      bill.serv_day,
+      pat.adm_date,
+      ROUND(bill.std_qty, 0) as quantity,
+      pat.pat_key,
+      bill.bill_charges as total_paid,
+      bill.std_chg_code,
+      case
+      when chg.std_dept_desc = 'LABORATORY' then 38003621
+      when pat.i_o_ind = 'I' then 38000249
+      when pat.i_o_ind = 'O' then 38000267
+      end as procedure_type_concept_id,
+      hosp.hosp_chg_desc,
+      case when hosp.hosp_chg_desc is not null then lower(hosp.hosp_chg_desc) else lower(chg.std_chg_desc) end as source_value,
+      drg,
+      pat.admphy_spec
+      FROM patbill bill
+      join pat pat on pat.pat_key = bill.pat_key
+      JOIN _chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_ID
+      join chgmstr chg on chg.std_chg_code = bill.std_chg_code
+      left join hospchg hosp on hosp.hosp_chg_id=bill.hosp_chg_id
+   </Query>
+   <DrugExposure>
+      <DrugExposureDefinition>
+         <IsUnique>true</IsUnique>
+         <PersonId>medrec_key</PersonId>
+         <Quantity>quantity</Quantity>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <ProviderId>admphy_spec</ProviderId>
+         <AdditionalFields>
+            <string>serv_day</string>
+            <string>std_chg_code</string>
+            <string>source_value</string>
+         </AdditionalFields>
+         <Concepts>
+            <Concept>
+               <IdRequired>true</IdRequired>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>Premier\Lookups\Drug.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="std_chg_code" defaultTypeId="38000180" sourceKey="source_value"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </DrugExposureDefinition>
+   </DrugExposure>
+   <DrugCost>
+      <DrugCostDefinition>
+         <TotalPaid>total_paid</TotalPaid>
+      </DrugCostDefinition>
+   </DrugCost>
+   <ProcedureOccurrence>
+      <ProcedureOccurrenceDefinition>
+         <IsUnique>true</IsUnique>
+         <PersonId>medrec_key</PersonId>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <ProviderId>admphy_spec</ProviderId>
+         <AdditionalFields>
+            <string>serv_day</string>
+         </AdditionalFields>
+         <Concepts>
+            <Concept>
+               <IdRequired>true</IdRequired>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>Premier\Lookups\Procedure_Drug.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="std_chg_code" typeId="procedure_type_concept_id" sourceKey="source_value"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </ProcedureOccurrenceDefinition>
+   </ProcedureOccurrence>
+   <ProcedureCost>
+      <ProcedureCostDefinition>
+         <TotalPaid>total_paid</TotalPaid>
+         <Concepts>
+            <Concept>
+               <Fields></Fields>
+            </Concept>
+            <Concept>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>Premier\Lookups\DiagnosisRelatedGroup.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="drg" eventDate="adm_date"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </ProcedureCostDefinition>
+   </ProcedureCost>
+</QueryDefinition>

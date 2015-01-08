@@ -1,0 +1,30 @@
+﻿<QueryDefinition>
+  <Query>
+     select CONVERT(BIGINT,SUBSTRING(PTID,3,100)) PERSON_ID, PTID, NDC, RXDATE, DAYS_SUPPLY,
+     CASE WHEN ISNUMERIC(QUANTITY_PER_FILL)=1 THEN QUANTITY_PER_FILL ELSE '0' END AS QUANTITY_PER_FILL, NUM_REFILLS
+     from PRESCRIPTIONS_WRITTEN
+     JOIN _chunks ch ON ch.ChunkId = {0} AND PTID = ch.PERSON_SOURCE_VALUE
+  </Query>
+  <DrugExposure>
+    <DrugExposureDefinition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>RXDATE</StartDate>
+      <DaysSupply>DAYS_SUPPLY</DaysSupply>
+      <Quantity>QUANTITY_PER_FILL</Quantity>
+      <Refill>NUM_REFILLS</Refill>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <File>Humedica\Lookups\HUMEDICA-NDC-RXNORM.txt</File>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="NDC" defaultTypeId="38000177"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DrugExposureDefinition>
+  </DrugExposure>
+
+</QueryDefinition>

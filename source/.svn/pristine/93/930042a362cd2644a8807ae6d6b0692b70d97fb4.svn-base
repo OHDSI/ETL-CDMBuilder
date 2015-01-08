@@ -1,0 +1,15 @@
+﻿with a as
+(
+SELECT DISTINCT lower(SOURCE_CODE) SOURCE_CODE, TARGET_CONCEPT_ID
+FROM SOURCE_TO_CONCEPT_MAP
+where source_vocabulary_ID in (500, 501,502) and SOURCE_CODE not in ('RXD240B','RXD260', 'RXDRUG', 'RXDDAYS', 'RXDDRID')
+union all
+SELECT DISTINCT upper(SOURCE_CODE) SOURCE_CODE, TARGET_CONCEPT_ID
+FROM SOURCE_TO_CONCEPT_MAP
+where source_vocabulary_ID in (500, 501,502) and SOURCE_CODE not in ('RXD240B','RXD260', 'RXDRUG', 'RXDDAYS', 'RXDDRID')
+)
+
+select * 
+from a
+where SOURCE_CODE not in (select SOURCE_CODE FROM SOURCE_TO_CONCEPT_MAP
+where source_vocabulary_ID = 500)

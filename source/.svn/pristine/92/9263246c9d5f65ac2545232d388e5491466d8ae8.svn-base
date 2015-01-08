@@ -1,0 +1,119 @@
+﻿<QueryDefinition>
+   <Query>
+      select
+      pat.medrec_key,
+      null as condition_end_date,
+      pat.disc_date,
+      case
+      when pat.i_o_ind = 'I' and icd.icd_pri_sec = 'P' then 38000183
+      when pat.i_o_ind = 'I' and icd.icd_pri_sec = 'S' then 38000185
+      when pat.i_o_ind = 'O' and icd.icd_pri_sec = 'P' then 38000215
+      when pat.i_o_ind = 'O' and icd.icd_pri_sec = 'S' then 38000216
+      when pat.i_o_ind = 'I' and icd.icd_pri_sec = 'A' then 4203942
+      when pat.i_o_ind = 'O' and icd.icd_pri_sec = 'A' then 4203942
+      else 0
+      end as condition_type_concept_id,
+      pat.pat_key,
+      case
+      WHEN code.icd_diag_proc = 'D' and icd.icd_pri_sec in ('P', 'S', 'A') THEN icd.icd_code
+      ELSE NULL
+      END as condition_source_value,
+      case
+      when pat.i_o_ind = 'I' then 38000249
+      when pat.i_o_ind = 'O' then 38000267
+      end as procedure_type_concept_id,
+      CASE
+      WHEN code.icd_diag_proc = 'P' THEN code.icd_code
+      ELSE NULL
+      END as procedure_source_value,
+      icd.icd_code,
+      pat.admphy_spec
+      from pat pat
+      JOIN _chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_ID
+      join paticd icd on pat.pat_key = icd.pat_key
+      join icdcode code on icd.icd_code = code.icd_code
+   </Query>
+   <ConditionOccurrence>
+      <ConditionOccurrenceDefinition>
+         <IsUnique>true</IsUnique>
+         <Condition>{condition_type_concept_id} > 0</Condition>
+         <PersonId>medrec_key</PersonId>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <ProviderId>admphy_spec</ProviderId>
+         <EndDate>condition_end_date</EndDate>
+         <Concepts>
+            <Concept>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>Premier\Lookups\Condition.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="condition_source_value" typeId="condition_type_concept_id"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </ConditionOccurrenceDefinition>
+   </ConditionOccurrence>
+   <DrugExposure>
+      <DrugExposureDefinition>
+         <IsUnique>true</IsUnique>
+         <PersonId>medrec_key</PersonId>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <ProviderId>admphy_spec</ProviderId>
+         <Concepts>
+            <Concept>
+               <IdRequired>true</IdRequired>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>Premier\Lookups\IcdDrug.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="procedure_source_value" defaultTypeId="38000179"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </DrugExposureDefinition>
+   </DrugExposure>
+   <ProcedureOccurrence>
+      <ProcedureOccurrenceDefinition>
+         <IsUnique>true</IsUnique>
+         <PersonId>medrec_key</PersonId>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <ProviderId>admphy_spec</ProviderId>
+         <Concepts>
+            <Concept>
+               <IdRequired>true</IdRequired>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>Premier\Lookups\IcdProcedure.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="procedure_source_value" typeId="procedure_type_concept_id"/>
+               </Fields>
+            </Concept>
+           </Concepts>
+      </ProcedureOccurrenceDefinition>
+   </ProcedureOccurrence>
+   <Death>
+      <DeathDefinition>
+         <IdRequired>true</IdRequired>
+         <PersonId>medrec_key</PersonId>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <Concepts>
+            <Concept>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>Premier\Lookups\DeathCodes.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="icd_code" defaultTypeId="38003567"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </DeathDefinition>
+   </Death>
+</QueryDefinition>

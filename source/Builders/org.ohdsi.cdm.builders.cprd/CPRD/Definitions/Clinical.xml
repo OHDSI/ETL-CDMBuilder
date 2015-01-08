@@ -1,0 +1,140 @@
+﻿<QueryDefinition>
+  <Query>
+    SELECT
+    a.medcode,
+    a.eventdate,
+    a.patid,
+    a.staffid,
+    cast((cast(a.patid as bigint)*100000000)+(year(a.eventdate) *10000)+
+    (month(a.eventdate)*100)+
+    day(a.eventdate) as bigint)
+    as visit_occurrence_id,
+    right(a.patid,3) as care_site_id,
+    null endDate,
+    medcode original_source
+    FROM Clinical a
+    JOIN _chunks ch ON ch.ChunkId = {0} AND a.patid = ch.PERSON_ID
+    where eventdate is not NULL
+  </Query>
+  <DrugExposure>
+    <DrugExposureDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <EndDate>eventdate</EndDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRD\Lookups\Clinical.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="medcode" defaultTypeId="38000178"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DrugExposureDefinition>
+  </DrugExposure>
+  <ConditionOccurrence>
+    <ConditionOccurrenceDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <EndDate>endDate</EndDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRD\Lookups\Condition.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="medcode" defaultTypeId="38000245"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+  </ConditionOccurrence>
+  <ProcedureOccurrence>
+    <ProcedureOccurrenceDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRD\Lookups\Clinical_Procedure.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="medcode" defaultTypeId="38000275"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureOccurrenceDefinition>
+  </ProcedureOccurrence>
+  <Observation>
+    <ObservationDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <AdditionalFields>
+        <string>original_source</string>
+      </AdditionalFields>
+      <ValuesAsString>
+        <string>original_source</string>
+      </ValuesAsString>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <SourceLookup>CPRD\Lookups\Observation_Source.sql</SourceLookup>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRD\Lookups\Observation.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="medcode" defaultTypeId="38000245"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+
+    <ObservationDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <AdditionalFields>
+        <string>original_source</string>
+      </AdditionalFields>
+      <ValuesAsString>
+        <string>original_source</string>
+      </ValuesAsString>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <SourceLookup>CPRD\Lookups\Observation_MEDHX_Source.sql</SourceLookup>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRD\Lookups\Observation_MEDHX.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="medcode" defaultTypeId="1"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+  </Observation>
+
+</QueryDefinition>

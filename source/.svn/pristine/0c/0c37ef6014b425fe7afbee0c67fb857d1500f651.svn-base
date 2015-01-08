@@ -1,0 +1,354 @@
+﻿<QueryDefinition>
+  <Query>
+    with test_upd as
+    (
+    select
+    medcode,
+    eventdate,
+    patid,
+    staffid,
+    enttype,
+    case when ABS(data1) - FLOOR(ABS(data1))=000
+    then cast(cast(data1 as bigint) as varchar(256))
+    else cast(data1 as varchar(256)) end  as data1,
+    case when ABS(data2) - FLOOR(ABS(data2))=000
+    then cast(cast(data2 as bigint) as varchar(256))
+    else cast(data2 as varchar(256)) end  as data2,
+    case when ABS(data3) - FLOOR(ABS(data3))=000
+    then cast(cast(data3 as bigint) as varchar(256))
+    else cast(data3 as varchar(256)) end  as data3,
+    case when ABS(data4) - FLOOR(ABS(data4))=000
+    then cast(cast(data4 as bigint) as varchar(256))
+    else cast(data4 as varchar(256)) end  as data4,
+    case when ABS(data5) - FLOOR(ABS(data5))=000
+    then cast(cast(data5 as bigint) as varchar(256))
+    else cast(data5 as varchar(256)) end  as data5,
+    case when ABS(data6) - FLOOR(ABS(data6))=000
+    then cast(cast(data6 as bigint) as varchar(256))
+    else cast(data6 as varchar(256)) end  as data6,
+    case when ABS(data7) - FLOOR(ABS(data7))=000
+    then cast(cast(data7 as bigint) as varchar(256))
+    else cast(data7 as varchar(256)) end  as data7,
+    case when ABS(data8) - FLOOR(ABS(data8))=000
+    then cast(cast(data8 as bigint) as varchar(256))
+    else cast(data8 as varchar(256)) end  as data8
+    FROM Test
+    JOIN _chunks ch ON ch.ChunkId = {0} AND patid = ch.PERSON_ID
+    )
+
+    SELECT
+    t.medcode,
+    t.eventdate,
+    t.patid,
+    cast((cast(t.patid as bigint)*100000000)+(year(t.eventdate) *10000)+
+    (month(t.eventdate)*100)+
+    day(t.eventdate) as bigint)
+    as visit_occurrence_id,
+    t.staffid,
+    t.enttype,
+
+    -- 4 data fields
+    CASE
+    WHEN e.data_fields = 4 and l_d1_79.[text] != 'Data Not Entered' THEN t.enttype
+    ELSE NULL
+    END as [4df_source_value],
+    l_d1_79.[text] as [4df_value_as_string],
+    case when l_d1_79.text = 'Not examined'  then 4301433
+    when l_d1_79.text = 'Potential Abnormal' then 40567538
+    when l_d1_79.text = 'Present' then 4181412
+    when l_d1_79.text = 'Unknown' then 4129922
+    when l_d1_79.text = 'Normal' then 4069590
+    when l_d1_79.text = 'Absent' then 4132135
+    when l_d1_79.text = 'Abnormal' then 4132135
+    when l_d1_79.text in ('+','++','+++') then 0
+    when l_d1_79.text = 'Below low reference limit' then 40567536
+    when l_d1_79.text = 'Above high reference limit' then 40567535
+    when l_d1_79.text = 'High' then 4328749
+    when l_d1_79.text = 'Low' then 4267416
+    when l_d1_79.text = 'Negative' then 40567548
+    when l_d1_79.text = 'Nil' then 4125556
+    when l_d1_79.text = 'Outside ref range' then 0
+    when l_d1_79.text = 'Positive' then 40567546
+    when l_d1_79.text = 'Potentially abnormal' then 40567538
+    when l_d1_79.text in ('Significantly High', 'Significantly Low') then 0
+    when l_d1_79.text ='Trace' then 9192
+    when l_d1_79.text= 'Unknown' then 42894201
+    when l_d1_79.text = 'Very High' then 4123513
+    when l_d1_79.text = 'Very Low' then 4125550
+    end as [4df_value_as_concept_id],
+    t.data2 as [4df_range_low],
+    t.data3 as [4df_range_high],
+
+    -- 7 data fields
+    CASE
+    WHEN e.data_fields in (7,8) and t.data2 is not null THEN t.enttype
+    ELSE NULL
+    END as [7df_source_value],
+    replace(isnull(l_d1_54.text,'') + ' ' + cast(t.data2 as varchar(20)) +' ' + isnull(l_d4_79.text,''),'Data Not Entered', '')  as [7df_value_as_string],
+    t.data2 as [7df_value_as_number],
+    t.data5 as [7df_range_low],
+    t.data6  as [7df_range_high],
+    cast(l_d3_77.text as varchar(20)) as [7df_units_source_value],
+
+    -- enttype 311, data7 peak flow device type
+    CASE
+    WHEN t.enttype = 311 and t.data7 is not null and l_d7_57.text != 'Data Not Entered' THEN cast(t.enttype as varchar(20)) + '-7'
+    ELSE NULL
+    END as [311_source_value],
+    l_d7_57.text as [311_value_as_string],
+
+    --enttype 284, data8 expected delivery date
+    CASE
+    WHEN e.data_fields = 8 and t.data8 is not null and t.data8 not in ('0', '2', '3') THEN cast(t.enttype as varchar(20)) + '-8'
+    ELSE NULL
+    END as [284_source_value],
+    cast(dateadd(d,-cast(t.data8 as int) - 10,'12-31-2014') as varchar(20)) as [284_value_as_string],
+
+    right(t.patid,3) as care_site_id,
+    null endDate,
+    medcode original_source
+    FROM test_upd t
+    LEFT JOIN Entity e on t.enttype = e.code
+    LEFT JOIN [Lookup] l_d1_79 ON t.data1 = cast(l_d1_79.code as varchar) and l_d1_79.lookup_type_id = (SELECT [lookup_type_id] FROM [LookupType] WHERE name = 'TQU')
+    LEFT JOIN [Lookup] l_d4_79 ON t.data4 = cast(l_d4_79.code as varchar) and l_d4_79.lookup_type_id = (SELECT [lookup_type_id] FROM [LookupType] WHERE name = 'TQU')
+    LEFT JOIN [Lookup] l_d1_54 ON t.data1 = cast(l_d1_54.code as varchar) and l_d1_54.lookup_type_id = (SELECT [lookup_type_id] FROM [LookupType] WHERE name = 'OPR')
+    LEFT JOIN [Lookup] l_d3_77 ON t.data3 = cast(l_d3_77.code as varchar) and l_d3_77.lookup_type_id = (SELECT [lookup_type_id] FROM [LookupType] WHERE name = 'SUM')
+    LEFT JOIN [Lookup] l_d7_57 ON t.data7 = cast(l_d7_57.code as varchar) and l_d7_57.lookup_type_id = (SELECT [lookup_type_id] FROM [LookupType] WHERE name = 'PFD')
+    where eventdate is not NULL
+  </Query>
+  <DrugExposure>
+    <DrugExposureDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <EndDate>eventdate</EndDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRD\Lookups\Clinical.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="medcode" defaultTypeId="38000178"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DrugExposureDefinition>
+  </DrugExposure>
+  <ConditionOccurrence>
+    <ConditionOccurrenceDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <EndDate>endDate</EndDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRD\Lookups\Condition.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="medcode" defaultTypeId="38000276"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+  </ConditionOccurrence>
+  <ProcedureOccurrence>
+    <ProcedureOccurrenceDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRD\Lookups\Clinical_Procedure.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="medcode" defaultTypeId="38003621"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureOccurrenceDefinition>
+  </ProcedureOccurrence>
+  <Observation>
+    <ObservationDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <AdditionalFields>
+        <string>original_source</string>
+      </AdditionalFields>
+      <ValuesAsString>
+        <string>original_source</string>
+      </ValuesAsString>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <SourceLookup>CPRD\Lookups\Observation_Source.sql</SourceLookup>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRD\Lookups\Observation.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="medcode" defaultTypeId="38000280"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+
+    <ObservationDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <AdditionalFields>
+        <string>original_source</string>
+      </AdditionalFields>
+      <ValuesAsString>
+        <string>original_source</string>
+      </ValuesAsString>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <SourceLookup>CPRD\Lookups\Observation_MEDHX_Source.sql</SourceLookup>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRD\Lookups\Observation_MEDHX.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="medcode" defaultTypeId="2"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+
+    <!--4 data fields-->
+    <ObservationDefinition>
+      <PersonId>patid</PersonId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <ValuesAsString>
+        <string>4df_value_as_string</string>
+      </ValuesAsString>
+      <RangeLow>4df_range_low</RangeLow>
+      <RangeHigh>4df_range_high</RangeHigh>
+      <ValueAsConceptId>4df_value_as_concept_id</ValueAsConceptId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRD\Lookups\Observation_Test.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="4df_source_value" defaultTypeId="38000279"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+
+    <!--7 data fields-->
+    <ObservationDefinition>
+      <PersonId>patid</PersonId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <ValuesAsString>
+        <string>7df_value_as_string</string>
+      </ValuesAsString>
+      <ValuesAsNumber>
+        <string>7df_value_as_number</string>
+      </ValuesAsNumber>
+      <RangeLow>7df_range_low</RangeLow>
+      <RangeHigh>7df_range_high</RangeHigh>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRD\Lookups\Observation_Test.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="7df_source_value" defaultTypeId="38000279"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Cprd\Lookups\Observation_Units.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="7df_units_source_value" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+
+    <!-- enttype 311, data7 peak flow device type-->
+    <ObservationDefinition>
+      <PersonId>patid</PersonId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <ValuesAsString>
+        <string>311_value_as_string</string>
+      </ValuesAsString>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRD\Lookups\Observation_Test.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="311_source_value" defaultTypeId="38000279"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+
+    <!--enttype 284, data8 expected delivery date-->
+    <ObservationDefinition>
+      <PersonId>patid</PersonId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <ValuesAsString>
+        <string>284_value_as_string</string>
+      </ValuesAsString>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRD\Lookups\Observation_Test.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="284_source_value" defaultTypeId="38000279"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+
+  </Observation>
+</QueryDefinition>

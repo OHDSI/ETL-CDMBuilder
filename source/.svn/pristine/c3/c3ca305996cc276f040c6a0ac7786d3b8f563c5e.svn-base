@@ -1,0 +1,28 @@
+﻿<QueryDefinition>
+   <Query>
+     select 1 id, patid, (select [start]
+     from hes_linkage_coverage
+     where data_source='hes') as hes_start,
+     (select [end]
+     from hes_linkage_coverage
+     where data_source='hes') as hes_end
+     from HES_linkage_eligibility
+     JOIN _chunks ch ON ch.ChunkId = {0} AND patid = ch.PERSON_ID
+     where hes_e=1
+   </Query>
+  <Cohort>
+    <CohortDefinition>
+      <Id>id</Id>
+      <PersonId>patid</PersonId>
+      <StartDate>hes_start</StartDate>
+      <EndDate>hes_end</EndDate>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field defaultConceptId="8717" defaultSource=" " defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </CohortDefinition>
+  </Cohort>
+</QueryDefinition>

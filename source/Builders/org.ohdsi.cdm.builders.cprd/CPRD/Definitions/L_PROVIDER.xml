@@ -1,0 +1,58 @@
+﻿<QueryDefinition>
+   <Query>
+     select
+     staffid as PROVIDER_ID,
+     Right(staffid, 3) as CARE_SITE_ID,
+     cast(staffid as varchar) as PROVIDER_SOURCE_VALUE,
+     role as SPECIALTY_SOURCE_VALUE
+     from Staff
+     union
+     (select record_count+5000000000 as PROVIDER_ID,
+     CARE_SITE_ID,
+     PROVIDER_SOURCE_VALUE,
+     SPECIALTY_SOURCE_VALUE
+     from
+     (select *,
+     row_number() over (order by provider_source_value)
+     as record_count
+     from
+     (select
+     null as NPI,
+     null as DEA,
+     null as CARE_SITE_ID,
+     a.pconsult as PROVIDER_SOURCE_VALUE,
+     a.tretspef as SPECIALTY_SOURCE_VALUE
+     from (select *
+     from
+     (select *, row_number() over (partition by pconsult order by count_spec desc) as prov_count
+     from
+     (select pconsult, tretspef, count(patid) as count_spec
+     from HES_episodes a
+     where pconsult != '&amp;' and tretspef != '&amp;'
+     group by pconsult, tretspef) a) b
+     where prov_count=1
+     ) a
+     ) b
+     ) c)
+
+   </Query>
+   <Providers>
+      <ProviderDefinition>
+         <Id>PROVIDER_ID</Id>
+         <ProviderSourceValue>PROVIDER_SOURCE_VALUE</ProviderSourceValue>
+         <CareSiteId>CARE_SITE_ID</CareSiteId>
+         <Concepts>
+            <Concept>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>CPRD\Lookups\Specialty.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="SPECIALTY_SOURCE_VALUE" defaultConceptId="0"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </ProviderDefinition>
+   </Providers>
+</QueryDefinition>

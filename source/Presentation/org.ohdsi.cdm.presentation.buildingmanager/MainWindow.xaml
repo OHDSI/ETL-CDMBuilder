@@ -1,0 +1,291 @@
+﻿<Window x:Class="org.ohdsi.cdm.presentation.buildingmanager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:enums="clr-namespace:org.ohdsi.cdm.framework.shared.Enums;assembly=org.ohdsi.cdm.framework.shared"
+        Title="{Binding Title}" Height="522" Width="975" MinHeight="479" MinWidth="975">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="vendors" 
+                        MethodName="GetNames" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enums:Vendors" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="saver" 
+                        MethodName="GetNames" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enums:SaveType" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <Style x:Key="LinkButton" TargetType="ToggleButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <TextBlock>
+                        <ContentPresenter /></TextBlock>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="LightGray" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Foreground" Value="DimGray" />
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Foreground" Value="DimGray" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="PlayButton" TargetType="ToggleButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Grid Width="32" Height="32">
+                            <Ellipse Stroke="Black" StrokeThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontFamily" Value="Webdings" />
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="Content" Value="4" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Foreground" Value="DimGray" />
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Content" Value=";" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ActionTextBlock" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Black" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Foreground" Value="DimGray" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <BooleanToVisibilityConverter x:Key="boolToVisConverter"/>
+    </Window.Resources>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <RadioButton Name="radioButtonSettings" Width="70" Style="{StaticResource LinkButton}" IsChecked="True" Content="settings" FontFamily="Calibri" FontSize="20" Margin="7,0"/>
+            <RadioButton Name="radioButtonBuilding" Width="70" Style="{StaticResource LinkButton}" Content="building" FontFamily="Calibri" FontSize="20" Command ="{Binding Path=SetBuildingCommand}" />
+        </StackPanel>
+        <TabControl  Grid.Row="1" Height="Auto" Width="Auto" Name="tabControl" Margin="25, 0" Background="Transparent" BorderBrush="Transparent">
+            <TabItem Header="TabItem" IsSelected="{Binding ElementName=radioButtonSettings, Path=IsChecked}">
+                <Grid Background="Transparent">
+                    <StackPanel Orientation="Vertical" Grid.Row="0" IsEnabled="{Binding SettingUnlocked}" Margin="0,0,-33,35">
+                        <StackPanel Orientation="Vertical">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="110" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" FontFamily="Calibri" FontSize="30" Foreground="DimGray" Margin="0,0,0,20">BUILDING SETTINGS</TextBlock>
+                                <ToggleButton HorizontalAlignment="Left" Grid.Column="1" Width="120" Height="25" Style="{StaticResource LinkButton}" Margin="0,0,0,20" Command ="{Binding Path=ResetCommand}" IsChecked="{Binding Path=Reset, Mode=OneWay}">Reset settings</ToggleButton>
+                            </Grid>
+                            <StackPanel Orientation="Vertical" Margin="15, 0">
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <TextBlock Width="65" Text="Source:"/>
+                                    <TextBox Width="700" Margin="5,0" Text="{Binding Source}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <TextBlock Width="65" Text="Destination:"/>
+                                    <TextBox Width="700" Margin="5,0" Text="{Binding Destination}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <TextBlock Width="65" Text="Vocabulary:"/>
+                                    <TextBox Width="700" Margin="5,0" Text="{Binding Vocabulary}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock FontFamily="Calibri" FontSize="30" Foreground="DimGray" Margin="0,20,0,20">BUILDER SETTINGS</TextBlock>
+                            <StackPanel Orientation="Vertical" Margin="15, 0">
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <TextBlock Width="133" Text="Vendor:"/>
+                                    <ComboBox x:Name="cmbVendor" ItemsSource="{Binding Source={StaticResource vendors}}" Text="{Binding Vendor}" Width="113" IsReadOnly="True" Margin="7,0"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <TextBlock Text="Number of batches:" Width="133"/>
+                                    <TextBox Width="113" Margin="7,0" Text="{Binding Batches}"/>
+                                    <TextBlock Text="Use 0 for full database" FontStyle="Italic" Foreground="DimGray" Width="133"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <TextBlock Text="Batch size:" Width="133"/>
+                                    <TextBox Width="113" Margin="7,0" Text="{Binding BatchSize}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <TextBlock Text="MaxDegreeOfParallelism:" Width="133"/>
+                                    <TextBox Width="113" Margin="7,0" Text="{Binding MaxDegreeOfParallelism}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <TextBlock Width="45" Text="Save to:" Margin="5,5" Visibility="Collapsed"/>
+                                    <ComboBox x:Name="cmbSaver" ItemsSource="{Binding Source={StaticResource saver}}" Text="{Binding Saver}" Width="113" IsReadOnly="True" Margin="0,0" Visibility="Collapsed"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="TabItem" IsSelected="{Binding ElementName=radioButtonBuilding, Path=IsChecked}" Height="20" VerticalAlignment="Top">
+                <Grid Background="Transparent">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Vertical" Height="Auto" Grid.Row="0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="Calibri" FontSize="30" Foreground="DimGray">BUILDING PROGRESS</TextBlock>
+                            <TextBlock FontFamily="Calibri" FontSize="30" Foreground="DimGray" Margin="5,0,0,20" Text="{Binding CurrentState}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="15, 0">
+                            <ToggleButton Style="{StaticResource PlayButton}" Margin="0,0,15,0" Command ="{Binding Path=StartBuildingCommand}" IsEnabled="{Binding ButtonEnabled}" IsChecked="{Binding Path=PlayButtonChecked, Mode=OneWay}" />
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Height="5">
+                                    <Polygon Points="0,0 2.5,5, 5,0" Stroke="Black" Fill="Black" HorizontalAlignment="Center" Visibility="{Binding DestinationStarted, Converter={StaticResource boolToVisConverter}}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <TextBlock Style="{StaticResource ActionTextBlock}" Text="CDM database creation">
+                                        <TextBlock.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Skip step" Command ="{Binding Path=SkipDbCreationStepCommand}"/>
+                                                <MenuItem Header="Reset step" Command ="{Binding Path=ResetDbCreationStepCommand}"/>
+                                            </ContextMenu>
+                                        </TextBlock.ContextMenu>
+                                    </TextBlock>
+                                    <Separator Width="20" Foreground="Black" Margin="3,1,3,0"/>
+                                </StackPanel>
+                                <TextBlock Background="LightGreen" Height="2" Visibility="{Binding DestinationCreated, Converter={StaticResource boolToVisConverter}}"/>
+                                <TextBlock Text="{Binding DestinationInfo}" TextAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Height="5">
+                                    <Polygon Points="0,0 2.5,5, 5,0" Stroke="Black" Fill="Black" HorizontalAlignment="Center" Visibility="{Binding ChunksStarted, Converter={StaticResource boolToVisConverter}}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <TextBlock Style="{StaticResource ActionTextBlock}" Text="Chunks creation">
+                                        <TextBlock.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Skip step" Command ="{Binding Path=SkipChunksCreationStepCommand}"/>
+                                                <MenuItem Header="Reset step" Command ="{Binding Path=ResetChunksCreationStepCommand}"/>
+                                            </ContextMenu>
+                                        </TextBlock.ContextMenu>
+                                    </TextBlock>
+                                    <Separator Width="20" Foreground="Black" Margin="3,1,3,0"/>
+                                </StackPanel>
+                                <TextBlock Background="LightGreen" Height="2" Visibility="{Binding ChunksCreated, Converter={StaticResource boolToVisConverter}}"/>
+                                <TextBlock Text="{Binding ChunksInfo}" TextAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Height="5">
+                                    <Polygon Points="0,0 2.5,5, 5,0" Stroke="Black" Fill="Black" HorizontalAlignment="Center" Visibility="{Binding LookupStarted, Converter={StaticResource boolToVisConverter}}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <TextBlock Style="{StaticResource ActionTextBlock}" Text="Lookup creation">
+                                        <TextBlock.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Skip step" Command ="{Binding Path=SkipLookupCreationStepCommand}"/>
+                                                <MenuItem Header="Reset step" Command ="{Binding Path=ResetLookupCreationStepCommand}"/>
+                                            </ContextMenu>
+                                        </TextBlock.ContextMenu>
+                                    </TextBlock>
+                                    <Separator Width="20" Foreground="Black" Margin="3,1,3,0"/>
+                                </StackPanel>
+                                <TextBlock Background="LightGreen" Height="2" Visibility="{Binding LookupCreated, Converter={StaticResource boolToVisConverter}}"/>
+                                <TextBlock Text="{Binding LookupInfo}" TextAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Height="5">
+                                    <Polygon Points="0,0 2.5,5, 5,0" Stroke="Black" Fill="Black" HorizontalAlignment="Center" Visibility="{Binding BuildingStarted, Converter={StaticResource boolToVisConverter}}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <TextBlock Style="{StaticResource ActionTextBlock}" Text="Conversion from RAW to CDM">
+                                        <TextBlock.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Reset not finished chunks" Command ="{Binding Path=ResetNotFinishedChunksCommand}"/>
+                                                <MenuItem Header="Truncate tables" Command ="{Binding Path=TruncateTablesCommand}"/>
+                                                <MenuItem Header="Truncate tables without lookup" Command ="{Binding Path=TruncateWithoutLookupTablesCommand}"/>
+                                                <Separator/>
+                                                <MenuItem Header="Skip step" Command ="{Binding Path=SkipBuildingStepCommand}"/>
+                                                <MenuItem Header="Reset step" Command ="{Binding Path=ResetBuildingStepCommand}"/>
+                                            </ContextMenu>
+                                        </TextBlock.ContextMenu>
+                                    </TextBlock>
+                                    <Separator Width="20" Foreground="Black" Margin="3,1,3,0"/>
+                                </StackPanel>
+                                <TextBlock Background="LightGreen" Height="2" Visibility="{Binding BuildingComplete, Converter={StaticResource boolToVisConverter}}"/>
+                                <TextBlock Text="{Binding BuildingInfo}" TextAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Height="5">
+                                    <Polygon Points="0,0 2.5,5, 5,0" Stroke="Black" Fill="Black" HorizontalAlignment="Center" Visibility="{Binding VocabularyStarted, Converter={StaticResource boolToVisConverter}}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <TextBlock Style="{StaticResource ActionTextBlock}" Text="Copying Vocabulary">
+                                        <TextBlock.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Skip step" Command ="{Binding Path=SkipVocabularyStepCommand}"/>
+                                                <MenuItem Header="Reset step" Command ="{Binding Path=ResetVocabularyStepCommand}"/>
+                                            </ContextMenu>
+                                        </TextBlock.ContextMenu>
+                                    </TextBlock>
+                                    <Separator Width="20" Foreground="Black" Margin="3,1,3,0"/>
+                                </StackPanel>
+                                <TextBlock Background="LightGreen" Height="2" Visibility="{Binding VocabularyCopied, Converter={StaticResource boolToVisConverter}}"/>
+                                <TextBlock Text="{Binding VocabularyInfo}" TextAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Height="5">
+                                    <Polygon Points="0,0 2.5,5, 5,0" Stroke="Black" Fill="Black" HorizontalAlignment="Center" Visibility="{Binding IndexesStarted, Converter={StaticResource boolToVisConverter}}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <TextBlock Style="{StaticResource ActionTextBlock}" Text="Indexes creation">
+                                        <TextBlock.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Skip step" Command ="{Binding Path=SkipIndexesStepCommand}"/>
+                                                <!--<MenuItem Header="Reset step" Command ="{Binding Path=ResetIndexesStepCommand}"/>-->
+                                            </ContextMenu>
+                                        </TextBlock.ContextMenu>
+                                    </TextBlock>
+                                </StackPanel>
+                                <TextBlock Background="LightGreen" Height="2" Visibility="{Binding IndexesCreated, Converter={StaticResource boolToVisConverter}}"/>
+                                <TextBlock Text="{Binding IndexesInfo}" TextAlignment="Center"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <TextBlock FontFamily="Calibri" FontSize="30" Foreground="DimGray" Margin="0,30,0,10">BUILDERS ON OTHER MACHINES</TextBlock>
+                        <TextBox IsReadOnly="True" Width="400" HorizontalAlignment="Left" Margin="15,0" Text="{Binding Path=OtherBuilderInfo, Mode=OneWay}"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="110" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,20,0,10" >
+                                <TextBlock FontFamily="Calibri" FontSize="30" Foreground="DimGray">ERRORS</TextBlock>
+                                <TextBlock FontFamily="Calibri" FontSize="30" Foreground="DimGray" Text="{Binding ErrorsInfo}" />
+                            </StackPanel>
+                            <ToggleButton HorizontalAlignment="Left" Grid.Column="1" Width="120" Style="{StaticResource LinkButton}" Command ="{Binding Path=ResetErrorsCommand}" IsChecked="{Binding Path=Reset, Mode=OneWay}" Margin="0,44,-10,0" RenderTransformOrigin="0.483,1.154" Height="23" VerticalAlignment="Top">Reset errors</ToggleButton>
+                        </Grid>
+
+                    </StackPanel>
+                    <Grid HorizontalAlignment="Stretch" Grid.Row="1">
+                        <TextBox Width="Auto" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsReadOnly="True" Margin="15,0,50,20" Text="{Binding Path=Errors, Mode=OneWay}"></TextBox>
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

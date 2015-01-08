@@ -1,0 +1,25 @@
+﻿<QueryDefinition>
+   <Query>
+     with a as
+     (
+     select distinct prov_area + ' ' + prov_division as source from providers
+     ),
+     b as
+     (
+     select ROW_NUMBER() OVER(ORDER BY source DESC) AS Location_id, source from a
+     )
+
+     SELECT distinct prov_id,
+     b.Location_id,
+     ('Urban_Rural:' + urban_rural + ' ' + 'Teaching:' + teaching + ' ' + 'Beds:' + cast(beds as varchar(5))) as place_of_service_source_value
+     FROM providers
+     Join b on prov_area + ' ' + prov_division = b.source
+   </Query>
+   <CareSites>
+      <CareSiteDefinition>
+         <Id>prov_id</Id>
+         <LocationId>Location_id</LocationId>
+         <PlaceOfSvcSourceValue>place_of_service_source_value</PlaceOfSvcSourceValue>
+      </CareSiteDefinition>
+   </CareSites>
+</QueryDefinition>

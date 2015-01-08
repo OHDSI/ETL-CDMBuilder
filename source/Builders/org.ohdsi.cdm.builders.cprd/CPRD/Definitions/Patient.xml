@@ -1,0 +1,89 @@
+﻿<QueryDefinition>
+   <Query>
+      with person as (
+      SELECT DISTINCT
+      a.patid,
+      yob + 1800 YEAR_OF_BIRTH,
+      case
+      when mob &gt; 0 then mob
+      else null
+      end as MONTH_OF_BIRTH,
+      null DAY_OF_BIRTH,
+      ISNULL(gender, 0) gender,
+      Right(a.patid,3) CARE_SITE_ID,
+      case when a.crd &gt; b.uts then a.crd
+      else b.uts end as observation_period_start_date,
+      case when a.tod IS null and a.deathdate IS null then b.lcd
+      when a.deathdate IS null and a.tod is not null and a.tod &lt; b.lcd  then a.tod
+      when a.deathdate IS null and a.tod is not null and a.tod >= b.lcd  then b.lcd
+      when a.tod IS null and a.deathdate is not null and a.deathdate &lt; b.lcd
+      then a.deathdate
+      when a.tod IS null and a.deathdate is not null and a.deathdate &gt;= b.lcd
+      then b.lcd
+      when a.deathdate IS not null and a.tod IS not null and
+      a.tod &lt;= b.lcd and a.tod &lt;= a.deathdate then a.tod
+      when a.deathdate IS not null and a.tod IS not null and
+      b.lcd &lt;= a.tod and b.lcd &lt;= a.deathdate then b.lcd
+      when  a.deathdate IS not null and a.tod IS not null and
+      a.deathdate &lt;= a.tod and a.deathdate &lt;= b.lcd then a.deathdate
+      else '23-DEC-2099' end
+      as observation_period_end_date,
+      deathdate,
+      toreason,
+      DIED =
+      CASE
+      WHEN toreason = 1 and deathdate is not null and deathdate &gt; '1987-01-01' THEN 1
+      ELSE 0
+      END,
+      CASE when c.ethnos='Chinese' then 38003579
+      when c.ethnos='Bangladesi' then 38003575
+      when c.ethnos='Pakistani' then	38003589
+      when c.ethnos='Unknown' then 8552
+      when c.ethnos='Oth_Asian' then	8515
+      when c.ethnos='Mixed' then 8522
+      when c.ethnos='White' then	8527
+      when c.ethnos='Bl_Afric' then	38003598
+      when c.ethnos='Indian' then	38003574
+      when c.ethnos='Bl_Other' then	38003598
+      when c.ethnos='Bl_Carib' then	38003598
+      when c.ethnos='Other' then	8522
+      else null end as RACE_CONCEPT_ID,
+      c.ethnos as RACE_SOURCE_VALUE
+      from PATIENT a
+      left outer join hes_patient c on c.patid=a.patid
+      JOIN _chunks ch ON ch.ChunkId = {0} AND a.patid = ch.PERSON_ID
+      join practice b on a.pracid = b.pracid
+      where accept = 1)
+
+      select * from person where observation_period_start_date &lt; observation_period_end_date
+   </Query>
+   <Persons>
+      <PersonDefinition>
+         <PersonId>patid</PersonId>
+         <PersonSourceValue>patid</PersonSourceValue>
+         <StartDate>OBSERVATION_PERIOD_START_DATE</StartDate>
+         <EndDate>OBSERVATION_PERIOD_END_DATE</EndDate>
+         <Race>RACE_SOURCE_VALUE</Race>
+         <RaceConceptId>RACE_CONCEPT_ID</RaceConceptId>
+         <Gender>gender</Gender>
+         <YearOfBirth>YEAR_OF_BIRTH</YearOfBirth>
+         <MonthOfBirth>MONTH_OF_BIRTH</MonthOfBirth>
+         <DayOfBirth>DAY_OF_BIRTH</DayOfBirth>
+         <CareSiteId>CARE_SITE_ID</CareSiteId>
+      </PersonDefinition>
+   </Persons>
+   <Death>
+      <DeathDefinition>
+         <PersonId>patid</PersonId>
+         <StartDate>deathdate</StartDate>
+         <Died>DIED</Died>
+         <Concepts>
+            <Concept>
+               <Fields>
+                  <Field key="toreason" defaultConceptId = "1" defaultTypeId = "38003569"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </DeathDefinition>
+   </Death>
+</QueryDefinition>

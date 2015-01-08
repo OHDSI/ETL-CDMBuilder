@@ -1,0 +1,100 @@
+﻿<QueryDefinition>
+   <Query>
+      with a as
+      (
+      SELECT patid, loinc_cd, rslt_nbr, fst_dt, low_nrml, hi_nrml, rslt_txt,
+
+      CASE
+      WHEN ISNUMERIC(rslt_txt) = 1 THEN RTRIM(LTRIM(REPLACE(REPLACE(REPLACE(rslt_txt,'+',''),' ', ''),',','')))
+      ELSE rslt_txt
+      END AS cleaned_rslt_txt,
+
+      CASE
+      WHEN RTRIM(LTRIM(rslt_txt)) = '' THEN NULL
+      ELSE RTRIM(LTRIM(rslt_txt))
+      END AS VALUE_AS_STRING,
+
+      rslt_unit_nm,
+      VALUE_AS_CONCEPT_ID =
+      CASE
+      WHEN RSLT_TXT = 'low' OR ABNL_CD ='L' THEN 4267416
+      WHEN RSLT_TXT = 'high' OR ABNL_CD ='H' THEN 4328749
+      WHEN RSLT_TXT = 'normal' OR ABNL_CD ='N' THEN 4069590
+      WHEN RSLT_TXT = 'abnormal' OR ABNL_CD IN ('A','AB') THEN 4135493
+      WHEN RSLT_TXT = 'absent' THEN 4132135
+      WHEN RSLT_TXT = 'present' THEN 4181412
+      WHEN RSLT_TXT = 'positive' THEN 9191
+      WHEN RSLT_TXT = 'negative' THEN 9189
+      WHEN RSLT_TXT IN ('final','final report') THEN 9188
+      WHEN RSLT_TXT = 'not found' THEN 9190
+      WHEN RSLT_TXT = 'trace' THEN 9192
+      ELSE 0
+      END,
+
+      CASE
+      WHEN loinc_cd IN ('UNLOINC', 'UNLOIN-') THEN RTRIM(LTRIM(tst_desc))
+      WHEN (
+      /*test for valid LOINC - #-#, ##-#, ###-#, ####-#, #####-#*/
+      LEN(loinc_cd) BETWEEN 3 AND 7
+      AND SUBSTRING(loinc_cd, 1, 1) IN ('0','1','2','3','4','5','6','7','8','9')			/*first number is a digit*/
+      AND SUBSTRING(RIGHT(loinc_cd, 1),1,1) IN ('0','1','2','3','4','5','6','7','8','9')	/*last number is a digit*/
+      AND SUBSTRING(RIGHT(loinc_cd, 2),1,1) = '-'											/*2nd to last character should be a dash*/
+      ) THEN RTRIM(LTRIM(loinc_cd))
+      ELSE RTRIM(LTRIM(tst_desc))
+      END AS OBSERVATION_SOURCE_VALUE
+      FROM Lab
+      JOIN _chunks ch ON ch.ChunkId = {0} AND patid = ch.PERSON_ID
+      )
+
+      select *,
+      CASE
+      WHEN rslt_nbr NOT IN (0, -999999.999999) THEN round(rslt_nbr, 3)
+      ELSE NULL
+      END AS VALUE_AS_NUMBER,
+
+      CASE
+      WHEN rslt_nbr NOT IN (0, -999999.999999) THEN 38000277
+      WHEN VALUE_AS_CONCEPT_ID != 0 THEN 38000279
+      ELSE 38000278
+      END AS OBSERVATION_TYPE_CONCEPT_ID
+      from a
+      WHERE RTRIM(LTRIM(OBSERVATION_SOURCE_VALUE)) NOT IN ('','.','******************************')
+   </Query>
+   <Observation>
+      <ObservationDefinition>
+         <PersonId>patid</PersonId>
+         <StartDate>fst_dt</StartDate>
+         <ValuesAsNumber>
+            <string>VALUE_AS_NUMBER</string>
+         </ValuesAsNumber>
+         <ValuesAsString>
+            <string>VALUE_AS_STRING</string>
+         </ValuesAsString>
+         <RangeLow>low_nrml</RangeLow>
+         <RangeHigh>hi_nrml</RangeHigh>
+         <ValueAsConceptId>VALUE_AS_CONCEPT_ID</ValueAsConceptId>
+         <Concepts>
+            <Concept>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>Optum\Lookups\Lab.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="OBSERVATION_SOURCE_VALUE" typeId="OBSERVATION_TYPE_CONCEPT_ID"/>
+               </Fields>
+            </Concept>
+            <Concept>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>Optum\Lookups\Lab_Units.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="rslt_unit_nm" defaultTypeId="0"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </ObservationDefinition>
+   </Observation>
+</QueryDefinition>

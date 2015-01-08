@@ -1,0 +1,33 @@
+﻿<QueryDefinition>
+   <Query>
+     with a as
+     (
+     SELECT distinct CONVERT(VARCHAR, PROV) PROVIDER, RTRIM(LTRIM(PROVCAT)) SPECIALTY_SOURCE FROM Medical
+     UNION
+     SELECT distinct
+     CASE
+     WHEN NPI is not null and DEA is not null THEN NPI+ '-' + DEA
+     ELSE ISNULL(NPI, DEA)
+     END as PROVIDER
+     , NULL SPECIALTY_SOURCE FROM Rx
+     )
+     SELECT RTRIM(LTRIM(PROVIDER)) PROVIDER, SPECIALTY_SOURCE FROM a
+   </Query>
+   <Providers>
+      <ProviderDefinition>
+         <ProviderSourceValue>PROVIDER</ProviderSourceValue>
+         <Concepts>
+            <Concept>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>Optum\Lookups\Specialty.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="SPECIALTY_SOURCE"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </ProviderDefinition>
+   </Providers>
+</QueryDefinition>

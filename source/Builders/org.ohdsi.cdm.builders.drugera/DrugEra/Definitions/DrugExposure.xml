@@ -1,0 +1,27 @@
+﻿<QueryDefinition>
+   <Query>
+      SELECT d.PERSON_ID
+      ,[DRUG_CONCEPT_ID]
+      ,[DRUG_EXPOSURE_START_DATE]
+      ,[DRUG_EXPOSURE_END_DATE]
+      ,[DAYS_SUPPLY]
+      ,[DRUG_TYPE_CONCEPT_ID]
+      FROM [DRUG_EXPOSURE] d
+      JOIN _chunks ch ON ch.ChunkId = {0} AND d.PERSON_ID = ch.PERSON_ID
+   </Query>
+   <DrugExposure>
+      <DrugExposureDefinition>
+         <PersonId>PERSON_ID</PersonId>
+         <StartDate>DRUG_EXPOSURE_START_DATE</StartDate>
+         <EndDate>DRUG_EXPOSURE_END_DATE</EndDate>
+         <DaysSupply>DAYS_SUPPLY</DaysSupply>
+         <Concepts>
+            <Concept>
+               <Fields>
+                  <Field conceptId="DRUG_CONCEPT_ID" typeId="DRUG_TYPE_CONCEPT_ID"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </DrugExposureDefinition>
+   </DrugExposure>
+</QueryDefinition>

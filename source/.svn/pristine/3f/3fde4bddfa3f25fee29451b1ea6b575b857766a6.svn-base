@@ -1,0 +1,20 @@
+﻿<QueryDefinition>
+  <Query>
+    select PAT_ID, CON_DATE, 9202 VISIT_CONCEPT_ID from Contact
+    JOIN _chunks ch ON ch.ChunkId = {0} AND PAT_ID = ch.PERSON_ID
+  </Query>
+  <VisitOccurrence>
+    <VisitOccurrenceDefinition>
+      <PersonId>PAT_ID</PersonId>
+      <StartDate>CON_DATE</StartDate>
+      <EndDate>CON_DATE</EndDate>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field conceptId="VISIT_CONCEPT_ID"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </VisitOccurrenceDefinition>   
+  </VisitOccurrence>
+</QueryDefinition>

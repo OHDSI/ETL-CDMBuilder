@@ -1,0 +1,35 @@
+﻿<QueryDefinition>
+   <Query>
+     select
+     a.patid  as person_id,
+     a.admidate as condition_start_date,
+     a.discharged as condition_end_date,
+     ICD_PRIMARY  as condition_source_value,
+     38000183 as condition_type_concept_id,
+     a.spno as visit_occurrence_id,
+     replace(replace(a.ICD_PRIMARY,'-',''),'.','') source_value
+     from HES_primary_diag_hosp a
+     JOIN _chunks ch ON ch.ChunkId = {0} AND a.patid = ch.PERSON_ID
+     where a.admidate is not null
+   </Query>
+  <ConditionOccurrence>
+    <ConditionOccurrenceDefinition>
+      <PersonId>person_id</PersonId>
+      <StartDate>condition_start_date</StartDate>
+      <EndDate>condition_end_date</EndDate>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRD\Lookups\HES_diagnosis_epi.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="source_value" sourceKey="condition_source_value" typeId="condition_type_concept_id"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+  </ConditionOccurrence>
+</QueryDefinition>

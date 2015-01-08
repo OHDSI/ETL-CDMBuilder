@@ -1,0 +1,31 @@
+﻿<QueryDefinition>
+   <Query>
+      select distinct
+      a.patid,
+      eventdate,
+      null place_of_service_source_value,
+      right(a.patid,3) as care_site_id,
+      cast((cast(a.patid as bigint)*100000000)+(year(a.eventdate) *10000)+
+      (month(a.eventdate)*100)+
+      day(a.eventdate) as bigint)
+      as visit_occurrence_id
+      from consultation a
+      JOIN _chunks ch ON ch.ChunkId = {0} AND a.patid = ch.PERSON_ID
+   </Query>
+   <VisitOccurrence>
+      <VisitOccurrenceDefinition>
+         <Id>visit_occurrence_id</Id>
+         <PersonId>patid</PersonId>
+         <StartDate>eventdate</StartDate>
+         <EndDate>eventdate</EndDate>
+         <CareSiteId>care_site_id</CareSiteId>
+         <Concepts>
+            <Concept>
+               <Fields>
+                  <Field defaultConceptId="9202" sourceKey="place_of_service_source_value" defaultTypeId="0"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </VisitOccurrenceDefinition>
+   </VisitOccurrence>
+</QueryDefinition>

@@ -1,0 +1,52 @@
+﻿<QueryDefinition>
+   <Query>
+     with base as
+     (
+     select SEQN as person_ID, case when RXD260 in (77777,99999) then NULL else RXD260 end as days_supply, RXDDRGID as drug_source_value from RXQ_RX
+     JOIN _chunks ch ON ch.ChunkId = {0} AND SEQN = ch.PERSON_ID
+     union
+     select SEQN as person_ID, case when RXD260 in (77777,99999) then NULL else RXD260 end as days_supply, RXDDRGID as drug_source_value from RXQ_RX_B
+     JOIN _chunks ch ON ch.ChunkId = {0} AND SEQN = ch.PERSON_ID
+     union
+     select SEQN as person_ID, case when RXDDAYS in (77777,99999) then NULL else RXDDAYS end as days_supply, RXDDRGID as drug_source_value from RXQ_RX_C
+     JOIN _chunks ch ON ch.ChunkId = {0} AND SEQN = ch.PERSON_ID
+     union
+     select SEQN as person_ID, case when RXDDAYS in (77777,99999) then NULL else RXDDAYS end as days_supply, RXDDRGID as drug_source_value from RXQ_RX_D
+     JOIN _chunks ch ON ch.ChunkId = {0} AND SEQN = ch.PERSON_ID
+     union
+     select SEQN as person_ID, case when RXDDAYS in (77777,99999) then NULL else RXDDAYS end as days_supply, RXDDRGID as drug_source_value from RXQ_RX_E
+     JOIN _chunks ch ON ch.ChunkId = {0} AND SEQN = ch.PERSON_ID
+     union
+     select SEQN as person_ID, case when RXDDAYS in (77777,99999) then NULL else RXDDAYS end as days_supply, RXDDRGID as drug_source_value from RXQ_RX_F
+     JOIN _chunks ch ON ch.ChunkId = {0} AND SEQN = ch.PERSON_ID
+     union
+     select SEQN as person_ID, case when RXDDAYS in (77777,99999) then NULL else RXDDAYS end as days_supply, RXDDRGID as drug_source_value from RXQ_RX_G
+     JOIN _chunks ch ON ch.ChunkId = {0} AND SEQN = ch.PERSON_ID
+     )
+
+     select distinct *,
+     44787730 as drug_type_concept_id,
+     CAST(GETDATE() AS date) tempDate
+     from base
+     where drug_source_value != ''
+   </Query>
+   <DrugExposure>
+      <DrugExposureDefinition>
+         <PersonId>person_ID</PersonId>
+         <StartDate>tempDate</StartDate>
+         <DaysSupply>days_supply</DaysSupply>
+         <Concepts>
+            <Concept>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>NHANES\Lookups\Rxq_rx.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="drug_source_value" typeId="drug_type_concept_id"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </DrugExposureDefinition>
+   </DrugExposure>
+</QueryDefinition>

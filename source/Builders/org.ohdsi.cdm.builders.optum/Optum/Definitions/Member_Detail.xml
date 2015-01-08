@@ -1,0 +1,64 @@
+﻿<QueryDefinition>
+   <Query>
+     with a as
+     (
+      SELECT DISTINCT patid,
+      yrdob,
+      gdr_cd,
+      state,
+      eligeff,
+      eligend,
+      CASE
+         WHEN eligeff &lt; '10/01/2005' THEN '10/01/2005'
+     ELSE eligeff
+     END as startDate,
+     COALESCE(bus,'') + ' ' bus,
+     CASE
+     WHEN ASO = 'Y' THEN '(ASO) '
+     else ''
+     END as aso,
+     CASE
+     WHEN PRODUCT = 'HMO' THEN 'Health Maint Org'
+     WHEN PRODUCT = 'PPO' THEN 'Preferred Provider Org'
+     WHEN PRODUCT = 'EPO' THEN 'Exclusive Provider Org'
+     WHEN PRODUCT = 'IND' THEN 'Indemnity'
+     WHEN PRODUCT = 'POS' THEN 'Point of Service'
+     WHEN PRODUCT = 'ALL' THEN 'National Ancillaries, All Products'
+     WHEN PRODUCT = 'UNK' THEN 'Unknown'
+     WHEN PRODUCT = 'OTH' THEN 'Other'
+     ELSE COALESCE(PRODUCT,'')
+     END AS product,
+     CASE
+     WHEN CDHP = 1 THEN '(HRA)'
+     WHEN CDHP = 2 THEN '(HSA)'
+     ELSE ''
+     END as cdhp,
+     PAT_PLANID
+     FROM Member_Detail
+     JOIN _chunks ch ON ch.ChunkId = {0} AND patid = ch.PERSON_ID
+     )
+
+     select *, LTRIM(bus) + LTRIM(aso) +  LTRIM(product) + LTRIM(cdhp) as PayerSource
+     from a
+   </Query>
+   <Persons>
+      <PersonDefinition>
+         <PersonId>patid</PersonId>
+         <PersonSourceValue>patid</PersonSourceValue>
+         <StartDate>startDate</StartDate>
+         <EndDate>eligend</EndDate>
+         <Gender>gdr_cd</Gender>
+         <YearOfBirth>yrdob</YearOfBirth>
+         <Location>state</Location>
+      </PersonDefinition>
+   </Persons>
+   <PayerPlanPeriods>
+      <PayerPlanPeriodDefinition>
+         <PersonId>patid</PersonId>
+         <StartDate>startDate</StartDate>
+         <EndDate>eligend</EndDate>
+         <PayerSource>PayerSource</PayerSource>
+         <PlanSource>PAT_PLANID</PlanSource>
+      </PayerPlanPeriodDefinition>
+   </PayerPlanPeriods>
+</QueryDefinition>

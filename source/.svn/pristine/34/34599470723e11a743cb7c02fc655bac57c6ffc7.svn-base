@@ -1,0 +1,68 @@
+﻿<QueryDefinition>
+	<Query>
+		with claimDays (pt_id, claim_id, days) as
+		(
+		select pt_id, claim_id, max(days) days
+		from dbo.Diagnosis d
+		group by  pt_id, claim_id
+		)
+		select CONVERT(BIGINT,SUBSTRING(d.PT_ID,2,100)) PERSON_ID,
+		d.PT_ID,
+		CONVERT(DATETIME, CONVERT(varchar(2),d.ym_visit%100) + '-1-' + CONVERT(varchar(4),floor(d.ym_visit/100))) DIAG_DATE,
+		DATEADD(d,d.days,CONVERT(DATETIME, CONVERT(varchar(2),d.ym_visit%100) + '-1-' + CONVERT(varchar(4),floor(d.ym_visit/100)))) VISIT_END_DATE,
+		d.icd4 DIAGNOSIS_CD,
+		d.CLAIM_ID,
+		CONCAT(d.claim_type,N':',HPGP) VISIT_TYPE_SOURCE,
+		d.hp_id,
+		CONCAT(d.dept,';') as ProviderIdKey,
+		d.mflag
+		from dbo.DIAGNOSIS d
+		join claimDays cd on cd.pt_id = d.pt_id and cd.claim_id = d.claim_id
+		JOIN _chunks ch ON ch.ChunkId = {0} AND d.PT_ID = ch.PERSON_SOURCE_VALUE
+		order by CONVERT(BIGINT,SUBSTRING(d.PT_ID,2,100))
+	</Query>
+	<ConditionOccurrence>
+		<ConditionOccurrenceDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<ProviderIdKey>ProviderIdKey</ProviderIdKey>
+			<StartDate>DIAG_DATE</StartDate>
+			<VisitOccurrenceId>CLAIM_ID</VisitOccurrenceId>
+			<AdditionalFields>
+				<string>mflag</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<ConceptIdMappers>
+						<Mapper>
+							<File>JMDC\Lookups\JMDC-ICD10-SNOMED.txt</File>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="DIAGNOSIS_CD" defaultTypeId="1"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ConditionOccurrenceDefinition>
+	</ConditionOccurrence>
+	<VisitOccurrence>
+		<VisitOccurrenceDefinition>
+			<Id>CLAIM_ID</Id>
+			<PersonId>PERSON_ID</PersonId>
+			<StartDate>DIAG_DATE</StartDate>
+			<EndDate>VISIT_END_DATE</EndDate>
+			<CareSiteId>hp_id</CareSiteId>
+			<Concepts>
+				<Concept>
+					<ConceptIdMappers>
+						<Mapper>
+							<File>JMDC\Lookups\VisitType.txt</File>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="VISIT_TYPE_SOURCE"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</VisitOccurrenceDefinition>
+	</VisitOccurrence>
+</QueryDefinition>

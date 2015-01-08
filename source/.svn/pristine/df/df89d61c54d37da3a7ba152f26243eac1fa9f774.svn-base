@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <connectionStrings>
+    <add name="Builder" connectionString="Data Source=ACVS0608S01;Initial Catalog=Builder;User Id=hix_reader;Password=reader1!;Connection Timeout=30;"/>
+  </connectionStrings>
+</configuration>

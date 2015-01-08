@@ -1,0 +1,87 @@
+﻿<QueryDefinition>
+   <Query>
+     with base as
+     (
+     select SEQN, SDDSRVYR, RIAGENDR, RIDAGEYR, RIDRETH1
+     from Demo
+     JOIN _chunks ch ON ch.ChunkId = {0} AND SEQN = ch.PERSON_ID
+     union
+     select SEQN, SDDSRVYR, RIAGENDR, RIDAGEYR, RIDRETH1
+     from Demo_B
+     JOIN _chunks ch ON ch.ChunkId = {0} AND SEQN = ch.PERSON_ID
+     union
+     select SEQN, SDDSRVYR, RIAGENDR, RIDAGEYR, RIDRETH1
+     from Demo_C
+     JOIN _chunks ch ON ch.ChunkId = {0} AND SEQN = ch.PERSON_ID
+     union
+     select SEQN, SDDSRVYR, RIAGENDR, RIDAGEYR, RIDRETH1
+     from Demo_D
+     JOIN _chunks ch ON ch.ChunkId = {0} AND SEQN = ch.PERSON_ID
+     union
+     select SEQN, SDDSRVYR, RIAGENDR, RIDAGEYR, RIDRETH1
+     from Demo_E
+     JOIN _chunks ch ON ch.ChunkId = {0} AND SEQN = ch.PERSON_ID
+     union
+     select SEQN, SDDSRVYR, RIAGENDR, RIDAGEYR, RIDRETH1
+     from Demo_F
+     JOIN _chunks ch ON ch.ChunkId = {0} AND SEQN = ch.PERSON_ID
+     union
+     select SEQN, SDDSRVYR, RIAGENDR, RIDAGEYR, RIDRETH1
+     from Demo_G
+     JOIN _chunks ch ON ch.ChunkId = {0} AND SEQN = ch.PERSON_ID
+     )
+
+     select *,
+     case SDDSRVYR when 1 then convert(date,'01/01/1999')
+     when 2 then convert(date,'01/01/2001')
+     when 3 then convert(date,'01/01/2003')
+     when 4 then convert(date,'01/01/2005')
+     when 5 then convert(date,'01/01/2007')
+     when 6 then convert(date,'01/01/2009')
+     when 7 then convert(date,'01/01/2011')
+     end as observation_period_start_date,
+     case SDDSRVYR when 1 then convert(date,'12/31/2000')
+     when 2 then convert(date,'12/31/2002')
+     when 3 then convert(date,'12/31/2004')
+     when 4 then convert(date,'12/31/2006')
+     when 5 then convert(date,'12/31/2008')
+     when 6 then convert(date,'12/31/2010')
+     when 7 then convert(date,'12/31/2012')
+     end as observation_period_end_date,
+     case SDDSRVYR
+     when 1 then 1999-RIDAGEYR
+     when 2 then 2001-RIDAGEYR
+     when 3 then 2003-RIDAGEYR
+     when 4 then 2005-RIDAGEYR
+     when 5 then 2007-RIDAGEYR
+     when 6 then 2009-RIDAGEYR
+     when 7 then 2011-RIDAGEYR
+     end as year_of_birth,
+     case RIDRETH1
+     when 1 then 38003563
+     when 2 then 38003564
+     end as ethnicity_concept_ID,
+     case RIDRETH1
+     when 3 then 8527
+     when 4 then 8516
+     when 5 then 8522
+     end as race_concept_ID,
+     ethnicity_source_value = RIDRETH1,
+     race_source_value = RIDRETH1
+     from base
+   </Query>
+   <Persons>
+     <PersonDefinition>
+       <PersonId>SEQN</PersonId>
+       <PersonSourceValue>SEQN</PersonSourceValue>
+       <StartDate>observation_period_start_date</StartDate>
+       <EndDate>observation_period_end_date</EndDate>
+       <Gender>RIAGENDR</Gender>
+       <YearOfBirth>year_of_birth</YearOfBirth>
+       <Race>race_source_value</Race>
+       <RaceConceptId>race_concept_ID</RaceConceptId>
+       <Ethnicity>ethnicity_source_value</Ethnicity>
+       <EthnicityConceptId>ethnicity_concept_ID</EthnicityConceptId>
+     </PersonDefinition>
+   </Persons>
+</QueryDefinition>

@@ -1,0 +1,19 @@
+﻿<QueryDefinition>
+  <Query>
+    SELECT PAT_ID, GEN_ID, BIRTH_YEAR, REGISTRATION_DATE, LAST_CONTACT_DATE
+    from Patient
+    JOIN _chunks ch ON ch.ChunkId = {0} AND PAT_ID = ch.[PERSON_ID]
+    WHERE BIRTH_YEAR > 1900 and YEAR(REGISTRATION_DATE) > BIRTH_YEAR
+    ORDER BY PAT_ID ASC
+  </Query>
+  <Persons>
+    <PersonDefinition>
+      <PersonId>PAT_ID</PersonId>
+      <PersonSourceValue>PAT_ID</PersonSourceValue>
+      <StartDate>REGISTRATION_DATE</StartDate>
+      <EndDate>LAST_CONTACT_DATE</EndDate>
+      <Gender>GEN_ID</Gender>
+      <YearOfBirth>BIRTH_YEAR</YearOfBirth>
+    </PersonDefinition>
+  </Persons>
+</QueryDefinition>

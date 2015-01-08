@@ -1,0 +1,144 @@
+﻿<QueryDefinition>
+   <Query>
+      select
+      pat.pat_key,
+      medrec_key,
+      adm_date,
+      disc_date,
+      gender,
+      race_concept_id =
+      case race
+      when 1 then 8527
+      when 2 then 8516
+      when 9 then 8522
+      when 3 then 8522
+      end,
+      ethnicity_concept_id =
+      case race
+      when 3 then 38003563
+      else NULL
+      end,
+      race as race_source_value,
+      race as ethnicity_source_value,
+      case when  pat.adm_date &lt;= '06/01/2010' and pat.adm_source='7' and pat.i_o_ind='O' then 9203
+      when  pat.adm_date  &gt;= '07/01/2010' and (pat.point_of_origin='7' OR pat.adm_source='1') and pat.i_o_ind='O' then 9203
+     when pat.i_o_ind='I' then 9201
+     when pat.i_o_ind='O' then 9202
+     end as place_of_service_concept_id,
+     i_o_ind,
+     pat.disc_status,
+     died =
+     CASE
+     WHEN pat.disc_status IN (20, 40, 41, 42) THEN 1
+     ELSE 0
+     END,
+     disc_mon_seq,
+     ds.disc_status_desc,
+     po.point_of_origin_desc,
+     martstat.mart_status_desc,
+     pat.admphy_spec,
+     pat.prov_id,
+     age
+     from pat
+     JOIN _chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_ID
+     left join martstat on pat.mart_status = martstat.mart_status
+     left join poorigin po on po.point_of_origin = pat.point_of_origin
+     left join disstat ds on ds.disc_status = pat.disc_status
+   </Query>
+   <Persons>
+     <PersonDefinition>
+       <ObservationPeriodGap>31</ObservationPeriodGap>
+       <PersonId>medrec_key</PersonId>
+       <PersonSourceValue>medrec_key</PersonSourceValue>
+       <StartDate>adm_date</StartDate>
+       <EndDate>disc_date</EndDate>
+       <Gender>gender</Gender>
+       <Race>race_source_value</Race>
+       <RaceConceptId>race_concept_id</RaceConceptId>
+       <Ethnicity>ETHNICITY_SOURCE_VALUE</Ethnicity>
+       <EthnicityConceptId>ethnicity_concept_id</EthnicityConceptId>
+       <YearOfBirth>age</YearOfBirth>
+     </PersonDefinition>
+   </Persons>
+   <VisitOccurrence>
+      <VisitOccurrenceDefinition>
+         <Id>pat_key</Id>
+         <PersonId>medrec_key</PersonId>
+         <StartDate>adm_date</StartDate>
+         <EndDate>disc_date</EndDate>
+         <CareSiteId>prov_id</CareSiteId>
+        <AdditionalFields>
+          <string>disc_mon_seq</string>
+        </AdditionalFields>
+         <Concepts>
+            <Concept>
+               <Fields>
+                  <Field conceptId = "place_of_service_concept_id" sourceKey = "i_o_ind"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </VisitOccurrenceDefinition>
+   </VisitOccurrence>
+   <Death>
+      <DeathDefinition>
+         <Condition>{died} = 1</Condition>
+         <PersonId>MEDREC_KEY</PersonId>
+         <Died>died</Died>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <Concepts>
+            <Concept>
+               <Fields>
+                  <Field key="disc_status" defaultConceptId="1" defaultTypeId="38003566"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </DeathDefinition>
+   </Death>
+   <Observation>
+      <ObservationDefinition>
+         <PersonId>medrec_key</PersonId>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <ValuesAsString>
+            <string>mart_status_desc</string>
+         </ValuesAsString>
+         <ProviderId>admphy_spec</ProviderId>
+         <Concepts>
+            <Concept>
+               <Fields>
+                  <Field defaultConceptId="3046344" defaultSource=" " defaultTypeId="38000281"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </ObservationDefinition>
+      <ObservationDefinition>
+         <PersonId>medrec_key</PersonId>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <ValuesAsString>
+            <string>point_of_origin_desc</string>
+         </ValuesAsString>
+         <ProviderId>admphy_spec</ProviderId>
+         <Concepts>
+            <Concept>
+               <Fields>
+                  <Field defaultConceptId="40757183" defaultSource=" " defaultTypeId="38000281"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </ObservationDefinition>
+      <ObservationDefinition>
+         <PersonId>medrec_key</PersonId>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <ValuesAsString>
+            <string>disc_status_desc</string>
+         </ValuesAsString>
+         <ProviderId>admphy_spec</ProviderId>
+         <Concepts>
+            <Concept>
+               <Fields>
+                  <Field defaultConceptId="40757177" defaultSource=" " defaultTypeId="38000281"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </ObservationDefinition>
+   </Observation>
+</QueryDefinition>

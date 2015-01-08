@@ -46,7 +46,7 @@ Getting Involved
 
 License
 =======
-Usagi is licensed under Apache License 2.0
+ETL-CDMBuilder is licensed under Apache License 2.0
 
 Development
 ===========

@@ -19,7 +19,7 @@ Features
 
 Screenshot
 ===========
-<img src="https://github.com/OHDSI/ETL-CDMBuilder/blob/master/man/Screenshot.png" alt="ETL-CDMBuilder" title="ETL-CDMBuilder" />
+<img src="https://github.com/OHDSI/ETL-CDMBuilder/blob/master/man/ScreenShot.png" alt="ETL-CDMBuilder" title="ETL-CDMBuilder" />
 
 Technology
 ============

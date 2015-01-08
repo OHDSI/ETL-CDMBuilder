@@ -57,7 +57,7 @@ Figure 1.0
 
 Getting Involved
 =============
-* User Guide
+* User Guide:  <a href="https://github.com/OHDSI/ETL-CDMBuilder/blob/master/man/ETL-CDMBuilder.docx">ETL-CDMBuilder</a>
 * Developer questions/comments/feedback: <a href="http://forums.ohdsi.org/c/developers">OHDSI Forum</a>
 * We use the <a href="../../issues">GitHub issue tracker</a> for all bugs/issues/enhancements
 

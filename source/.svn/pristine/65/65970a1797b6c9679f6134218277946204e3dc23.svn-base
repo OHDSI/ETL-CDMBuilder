@@ -1,3 +1,0 @@
-﻿SELECT DISTINCT {0} CONVERT(BIGINT,SUBSTRING(PT_ID,2,100)) ID, PT_ID 
-FROM dbo.Patient_info
-where pt_id = 'B2408357';

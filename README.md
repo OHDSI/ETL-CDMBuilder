@@ -33,6 +33,7 @@ System Requirements
 Dependencies
 ============
  * A SQL Server database of the OMOP Vocabulary must be accessible within your network. This will be used to map source concepts into CDM concepts.
+ * In the VOCAB_ADDITIONS folder, you will need to append these files to the OMOP Vocabulary (i.e. add the SOURCE_TO_CONCEPT_MAP_JANSSEN file to the records already in SOURCE_TO_CONCEPT_MAP and do the same for the VOCABULARY table with VOCABULARY_JANSSEN).
  
 Getting Started
 ===============

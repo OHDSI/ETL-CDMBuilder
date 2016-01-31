@@ -1,0 +1,42 @@
+1-1	0	JNJ_CPRD_HES_LOINC	Augmented/critical care period Augmented care period disposal	40757216	LOINC	19800101	20991231	
+1-2	0	JNJ_CPRD_HES_LOINC	Augmented/critical care period Duration	0	LOINC	19800101	20991231	
+1-3	0	JNJ_CPRD_HES_LOINC	Augmented/critical care period Augmented care location	0	LOINC	19800101	20991231	
+1-4	0	JNJ_CPRD_HES_LOINC	Augmented/critical care period Augmented care period outcome indicator	3044099	LOINC	19800101	20991231	
+1-5	0	JNJ_CPRD_HES_LOINC	Augmented/critical care period Augmented care period planned indicator	0	LOINC	19800101	20991231	
+1-6	0	JNJ_CPRD_HES_LOINC	Augmented/critical care period Augmented care period source	0	LOINC	19800101	20991231	
+1-7	0	JNJ_CPRD_HES_LOINC	Augmented/critical care period Augmented care period speciality function code	3022704	LOINC	19800101	20991231	
+1-8	0	JNJ_CPRD_HES_LOINC	Augmented/critical care period High-dependency care level	0	LOINC	19800101	20991231	
+1-9	0	JNJ_CPRD_HES_LOINC	Augmented/critical care period Intensive care level days	0	LOINC	19800101	20991231	
+1-10	0	JNJ_CPRD_HES_LOINC	Augmented/critical care period Number of organ systems supported	0	LOINC	19800101	20991231	
+2-1	0	JNJ_CPRD_HES_LOINC	Admissions Method of admission	0	LOINC	19800101	20991231	
+2-2	0	JNJ_CPRD_HES_LOINC	Admissions Source of admission	0	LOINC	19800101	20991231	
+2-3	0	JNJ_CPRD_HES_LOINC	Discharges Destination on discharge	40757216	LOINC	19800101	20991231	
+2-4	0	JNJ_CPRD_HES_LOINC	Discharges Method of discharge	40757177	LOINC	19800101	20991231	
+2-5	0	JNJ_CPRD_HES_LOINC	Admissions Duration	0	LOINC	19800101	20991231	
+2-6	0	JNJ_CPRD_HES_LOINC	Admissions Date of decision to admit	0	LOINC	19800101	20991231	
+2-7	0	JNJ_CPRD_HES_LOINC	Admissions Waiting time	0	LOINC	19800101	20991231	
+3-2	0	JNJ_CPRD_HES_LOINC	Maternity First antenatal assessment date	40760197	LOINC	19800101	20991231	
+3-3	0	JNJ_CPRD_HES_LOINC	Maternity Antenatal days of stay	40767432	LOINC	19800101	20991231	
+3-5	0	JNJ_CPRD_HES_LOINC	Maternity Resuscitation method	0	LOINC	19800101	20991231	
+3-6	0	JNJ_CPRD_HES_LOINC	Maternity Birth order	43533795	LOINC	19800101	20991231	
+3-7	0	JNJ_CPRD_HES_LOINC	Maternity Birth status	40767416	LOINC	19800101	20991231	
+3-8	0	JNJ_CPRD_HES_LOINC	Maternity Birth weight	40771080	LOINC	19800101	20991231	
+3-9	0	JNJ_CPRD_HES_LOINC	Maternity Delivery place change reason	0	LOINC	19800101	20991231	
+3-10	0	JNJ_CPRD_HES_LOINC	Maternity Delivery place (intended)	43054919	LOINC	19800101	20991231	
+3-11	0	JNJ_CPRD_HES_LOINC	Maternity Delivery method	40760190	LOINC	19800101	20991231	
+3-12	0	JNJ_CPRD_HES_LOINC	Maternity Labour / delivery onset method	40760193	LOINC	19800101	20991231	
+3-13	0	JNJ_CPRD_HES_LOINC	Maternity Delivery place (actual)	43054893	LOINC	19800101	20991231	
+3-14	0	JNJ_CPRD_HES_LOINC	Maternity Anaesthetic given post-labour or delivery	40762835	LOINC	19800101	20991231	
+3-15	0	JNJ_CPRD_HES_LOINC	Maternity Anaesthetic given during labour or delivery	40762835	LOINC	19800101	20991231	
+3-16	0	JNJ_CPRD_HES_LOINC	Maternity Status of person conducting delivery	43054891	LOINC	19800101	20991231	
+3-17	0	JNJ_CPRD_HES_LOINC	Maternity Length of gestation	43054890	LOINC	19800101	20991231	
+3-18	0	JNJ_CPRD_HES_LOINC	Maternity Mother's age at delivery	3045859	LOINC	19800101	20991231	
+3-4	0	JNJ_CPRD_HES_LOINC	Maternity Baby sequence number	43533795	LOINC	19800101	20991231	
+3-19	0	JNJ_CPRD_HES_LOINC	Maternity Neonatel level of care	3015777	LOINC	19800101	20991231	
+3-20	0	JNJ_CPRD_HES_LOINC	Maternity Baby's age in days	0	LOINC	19800101	20991231	
+3-21	0	JNJ_CPRD_HES_LOINC	Maternity Number of babies	40760833	LOINC	19800101	20991231	
+3-22	0	JNJ_CPRD_HES_LOINC	Maternity Number of previous pregnancies	3023973	LOINC	19800101	20991231	
+3-23	0	JNJ_CPRD_HES_LOINC	Maternity Postnatal stay	0	LOINC	19800101	20991231	
+3-24	0	JNJ_CPRD_HES_LOINC	Maternity Sex of baby	3000230	LOINC	19800101	20991231	
+3-25	0	JNJ_CPRD_HES_LOINC	Maternity Well baby flag	0	LOINC	19800101	20991231	
+3-1	0	JNJ_CPRD_HES_LOINC	Maternity Gestation period in weeks at first antenatal assessment	3048230	LOINC	19800101	20991231	

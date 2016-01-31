@@ -1,0 +1,247 @@
+1-1	0	JNJ_CPRD_ET_LOINC	Examination Findings Blood pressure Diastolic  	3004249	LOINC	19800101	20991231	
+1-2	0	JNJ_CPRD_ET_LOINC	Examination Findings Blood pressure Systolic   	3012888	LOINC	19800101	20991231	
+1-3	0	JNJ_CPRD_ET_LOINC	Examination Findings Blood pressure Korotkoff  	0	LOINC	19800101	20991231	
+1-4	0	JNJ_CPRD_ET_LOINC	Examination Findings Blood pressure Event Time  	0	LOINC	19800101	20991231	
+1-5	0	JNJ_CPRD_ET_LOINC	Examination Findings Blood pressure Laterality Laterality	0	LOINC	19800101	20991231	
+1-6	0	JNJ_CPRD_ET_LOINC	Examination Findings Blood pressure Posture Posture	0	LOINC	19800101	20991231	
+1-7	0	JNJ_CPRD_ET_LOINC	Examination Findings Blood pressure Cuff Cuff	0	LOINC	19800101	20991231	
+108-1	0	JNJ_CPRD_ET_LOINC	Elderly Over the counter drug use Self medication Yes/no Flag	0	LOINC	19800101	20991231	
+109-1	0	JNJ_CPRD_ET_LOINC	Elderly Risk factors - elderly Risk factor present  Yes/no Flag	0	LOINC	19800101	20991231	
+110-1	0	JNJ_CPRD_ET_LOINC	Disease Registers Thyroid disease Thyroid disease present  Yes/no Flag	40757930	LOINC	19800101	20991231	
+111-1	0	JNJ_CPRD_ET_LOINC	Epilepsy DVLC informed DVLC informed  Yes/no Flag	0	LOINC	19800101	20991231	
+112-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS Apgar score at 1 minute     Apgar score at 1 minute   	3016704	LOINC	19800101	20991231	
+113-1	0	JNJ_CPRD_ET_LOINC	Asthma Asthma last attack Oral steroids  Yes/no Flag	0	LOINC	19800101	20991231	
+113-2	0	JNJ_CPRD_ET_LOINC	Asthma Asthma last attack Nebulised Yes/no Flag	0	LOINC	19800101	20991231	
+113-3	0	JNJ_CPRD_ET_LOINC	Asthma Asthma last attack Hospitalised Yes/no Flag	0	LOINC	19800101	20991231	
+114-1	0	JNJ_CPRD_ET_LOINC	Maternity Pregnancy outcome Discharge Date  	0	LOINC	19800101	20991231	
+114-2	0	JNJ_CPRD_ET_LOINC	Maternity Pregnancy outcome Birth status Birth Type	40767416	LOINC	19800101	20991231	
+115-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Delivery Details (CHS) Birth Mode Birth Mode	0	LOINC	19800101	20991231	
+115-2	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Delivery Details (CHS) Birth Presentation Birth Presentation	3000119	LOINC	19800101	20991231	
+116-1	0	JNJ_CPRD_ET_LOINC	Maternity Foetal examination Fundus   	3023791	LOINC	19800101	20991231	
+116-3	0	JNJ_CPRD_ET_LOINC	Maternity Foetal examination Foetal Heart Heard Yes/no Flag	3006722	LOINC	19800101	20991231	
+116-4	0	JNJ_CPRD_ET_LOINC	Maternity Foetal examination Foetal Movement Felt Yes/no Flag	40759953	LOINC	19800101	20991231	
+116-5	0	JNJ_CPRD_ET_LOINC	Maternity Foetal examination Foetal Presentation Fetal Presentation	3000119	LOINC	19800101	20991231	
+117-1	0	JNJ_CPRD_ET_LOINC	Diabetes Foot pulse right leg Right Dorsalis Pedis Presence	3035430	LOINC	19800101	20991231	
+117-2	0	JNJ_CPRD_ET_LOINC	Diabetes Foot pulse right leg Right Posterior Tibia Presence	3018709	LOINC	19800101	20991231	
+118-1	0	JNJ_CPRD_ET_LOINC	Diabetes Foot pulse left leg Left Dorsalis Pedis Presence	3019743	LOINC	19800101	20991231	
+118-2	0	JNJ_CPRD_ET_LOINC	Diabetes Foot pulse left leg Left Posterior Tibia Presence	3008114	LOINC	19800101	20991231	
+119-1	0	JNJ_CPRD_ET_LOINC	Maternity Gestation - maternity outcome Weeks   	3048230	LOINC	19800101	20991231	
+120-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Gestational age of baby Weeks   	3048230	LOINC	19800101	20991231	
+120-3	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Gestational age of baby Outcome of Delivery Delivery Outcome	40760833	LOINC	19800101	20991231	
+121-1	0	JNJ_CPRD_ET_LOINC	Asthma Asthma management at 30% peak flow Asthma Management 30% Asthma Management	0	LOINC	19800101	20991231	
+122-1	0	JNJ_CPRD_ET_LOINC	Asthma Asthma management at 50% peak flow Asthma Management 50% Asthma Management	0	LOINC	19800101	20991231	
+123-1	0	JNJ_CPRD_ET_LOINC	Asthma Asthma management at 80% peak flow Asthma Management 80% Asthma Management	0	LOINC	19800101	20991231	
+124-1	0	JNJ_CPRD_ET_LOINC	Elderly Hygiene - elderly Hygiene at home Examination	3018396	LOINC	19800101	20991231	
+124-2	0	JNJ_CPRD_ET_LOINC	Elderly Hygiene - elderly Personal Hygiene Examination	3018396	LOINC	19800101	20991231	
+125-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS hospital follow up Follow up  Yes/no Flag	3006649	LOINC	19800101	20991231	
+125-2	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS hospital follow up Appointment Date  	3006649	LOINC	19800101	20991231	
+126-2	0	JNJ_CPRD_ET_LOINC	Maternity Maternity infant details Baby gender Sex	3003857	LOINC	19800101	20991231	
+126-3	0	JNJ_CPRD_ET_LOINC	Maternity Maternity infant details Birth Weight   	40759177	LOINC	19800101	20991231	
+126-5	0	JNJ_CPRD_ET_LOINC	Maternity Maternity infant details Apgar score at 1 minute    	3016704	LOINC	19800101	20991231	
+126-6	0	JNJ_CPRD_ET_LOINC	Maternity Maternity infant details Apgar score at 5 minutes   	3004221	LOINC	19800101	20991231	
+126-7	0	JNJ_CPRD_ET_LOINC	Maternity Maternity infant details Outcome Pregnancy Outcome	40767416	LOINC	19800101	20991231	
+127-1	0	JNJ_CPRD_ET_LOINC	Lifestyle Passive smoking Passive smoker  Yes/no Flag	40765298	LOINC	19800101	20991231	
+127-2	0	JNJ_CPRD_ET_LOINC	Lifestyle Passive smoking Cause Passive Smoking	40765298	LOINC	19800101	20991231	
+128-1	0	JNJ_CPRD_ET_LOINC	Maternity Perineum Episiotomy Yes/no Flag	0	LOINC	19800101	20991231	
+128-2	0	JNJ_CPRD_ET_LOINC	Maternity Perineum Tear stage  	0	LOINC	19800101	20991231	
+128-3	0	JNJ_CPRD_ET_LOINC	Maternity Perineum Sutures to remove Yes/no Flag	0	LOINC	19800101	20991231	
+129-1	0	JNJ_CPRD_ET_LOINC	Maternity Pregnancy dates LMP Certainty Lmp Certainty	3040000	LOINC	19800101	20991231	
+129-2	0	JNJ_CPRD_ET_LOINC	Maternity Pregnancy dates Expected date of delivery  	3011536	LOINC	19800101	20991231	
+13-1	0	JNJ_CPRD_ET_LOINC	Examination Findings Weight Weight in kilos  	3013762	LOINC	19800101	20991231	
+13-2	0	JNJ_CPRD_ET_LOINC	Examination Findings Weight Weight centile Centiles	3027871	LOINC	19800101	20991231	
+13-3	0	JNJ_CPRD_ET_LOINC	Examination Findings Weight BMI   	3038553	LOINC	19800101	20991231	
+131-1	0	JNJ_CPRD_ET_LOINC	Examination Findings Pulse (CVS/BP) Pulse rate   	3045980	LOINC	19800101	20991231	
+132-1	0	JNJ_CPRD_ET_LOINC	Lifestyle Residence Type of residence Residence Types	3050710	LOINC	19800101	20991231	
+132-2	0	JNJ_CPRD_ET_LOINC	Lifestyle Residence Lives Alone Yes/no Flag	40760331	LOINC	19800101	20991231	
+133-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS Sphincters Dry by Day  Yes/no Flag	0	LOINC	19800101	20991231	
+133-2	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS Sphincters Dry by Night Yes/no Flag	0	LOINC	19800101	20991231	
+133-3	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS Sphincters Clean by Day Yes/no Flag	0	LOINC	19800101	20991231	
+133-4	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS Sphincters Clean by Night Yes/no Flag	0	LOINC	19800101	20991231	
+134-1	0	JNJ_CPRD_ET_LOINC	Diabetes Visual acuity right eye Visual Acuity Visual Acuity	40767522	LOINC	19800101	20991231	
+134-2	0	JNJ_CPRD_ET_LOINC	Diabetes Visual acuity right eye Visual Aid Visual Aids	40766999	LOINC	19800101	20991231	
+135-1	0	JNJ_CPRD_ET_LOINC	Diabetes Visual acuity left eye Visual Acuity Visual Acuity	40767522	LOINC	19800101	20991231	
+135-2	0	JNJ_CPRD_ET_LOINC	Diabetes Visual acuity left eye Visual Aid Visual Aids	40766999	LOINC	19800101	20991231	
+136-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Schooling CHS Attends school  Yes/no Flag	0	LOINC	19800101	20991231	
+137-1	0	JNJ_CPRD_ET_LOINC	Allergy & Intolerance Allergy and intolerance (non drug) Reaction Type Reaction Type	40757167	LOINC	19800101	20991231	
+137-2	0	JNJ_CPRD_ET_LOINC	Allergy & Intolerance Allergy and intolerance (non drug) Severity Severity	0	LOINC	19800101	20991231	
+137-3	0	JNJ_CPRD_ET_LOINC	Allergy & Intolerance Allergy and intolerance (non drug) Certainty Certainty	0	LOINC	19800101	20991231	
+14-1	0	JNJ_CPRD_ET_LOINC	Examination Findings Height Height in metres  	3036277	LOINC	19800101	20991231	
+14-2	0	JNJ_CPRD_ET_LOINC	Examination Findings Height Height centile Centiles	3036798	LOINC	19800101	20991231	
+145-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS Apgar score at 5 minutes Apgar score at 5 minutes   	3004221	LOINC	19800101	20991231	
+147-1	0	JNJ_CPRD_ET_LOINC	CV / Hypertension Cardiovascular disease risk Cardiovascular risk status Cvd Risk	0	LOINC	19800101	20991231	
+147-2	0	JNJ_CPRD_ET_LOINC	CV / Hypertension Cardiovascular disease risk Risk score   	0	LOINC	19800101	20991231	
+148-1	0	JNJ_CPRD_ET_LOINC	Death Administartion Death administration Date of Death  	3014722	LOINC	19800101	20991231	
+148-2	0	JNJ_CPRD_ET_LOINC	Death Administartion Death administration Last Seen Alive  	0	LOINC	19800101	20991231	
+148-3	0	JNJ_CPRD_ET_LOINC	Death Administartion Death administration Post Mortem Post Mortem	0	LOINC	19800101	20991231	
+148-4	0	JNJ_CPRD_ET_LOINC	Death Administartion Death administration Seen after death After Death	0	LOINC	19800101	20991231	
+148-5	0	JNJ_CPRD_ET_LOINC	Death Administartion Death administration Employment Related Yes/no Flag	40771951	LOINC	19800101	20991231	
+149-1	0	JNJ_CPRD_ET_LOINC	Death Administartion Cause of death Category of death Category Of Death	3004765	LOINC	19800101	20991231	
+149-2	0	JNJ_CPRD_ET_LOINC	Death Administartion Cause of death Interval between last seen & death  	0	LOINC	19800101	20991231	
+150-1	0	JNJ_CPRD_ET_LOINC	Maternity Post-natal visit Seen by  	0	LOINC	19800101	20991231	
+150-2	0	JNJ_CPRD_ET_LOINC	Maternity Post-natal visit Days post-natal   	0	LOINC	19800101	20991231	
+20-1	0	JNJ_CPRD_ET_LOINC	Lifestyle Contraception Contraception service type Contraceptive Service Type	0	LOINC	19800101	20991231	
+20-2	0	JNJ_CPRD_ET_LOINC	Lifestyle Contraception New claim expiry date  	0	LOINC	19800101	20991231	
+20-3	0	JNJ_CPRD_ET_LOINC	Lifestyle Contraception Date IUCD fitted  	0	LOINC	19800101	20991231	
+20-4	0	JNJ_CPRD_ET_LOINC	Lifestyle Contraception Last claim expiry date  	0	LOINC	19800101	20991231	
+21-1	0	JNJ_CPRD_ET_LOINC	Allergy & Intolerance Allergy and intolerance Drug Code  	0	LOINC	19800101	20991231	
+21-2	0	JNJ_CPRD_ET_LOINC	Allergy & Intolerance Allergy and intolerance Reaction Type Reaction Type	40757167	LOINC	19800101	20991231	
+21-3	0	JNJ_CPRD_ET_LOINC	Allergy & Intolerance Allergy and intolerance Severity Severity	0	LOINC	19800101	20991231	
+21-4	0	JNJ_CPRD_ET_LOINC	Allergy & Intolerance Allergy and intolerance Certainty Certainty	0	LOINC	19800101	20991231	
+21-5	0	JNJ_CPRD_ET_LOINC	Allergy & Intolerance Allergy and intolerance Read Code For Reaction  	0	LOINC	19800101	20991231	
+22-1	0	JNJ_CPRD_ET_LOINC	Diabetes Diabetes annual check Program type Program Type	0	LOINC	19800101	20991231	
+22-2	0	JNJ_CPRD_ET_LOINC	Diabetes Diabetes annual check Check Up Type Check Up Type	0	LOINC	19800101	20991231	
+23-1	0	JNJ_CPRD_ET_LOINC	Lifestyle Advice given Format of advice Advice Given	0	LOINC	19800101	20991231	
+23-2	0	JNJ_CPRD_ET_LOINC	Lifestyle Advice given Type of advice Advice Type	0	LOINC	19800101	20991231	
+24-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS Behaviour Behaviour Problem State	40767295	LOINC	19800101	20991231	
+25-1	0	JNJ_CPRD_ET_LOINC	Asthma Current Asthma status Current Asthma Status Current Status	42868470	LOINC	19800101	20991231	
+26-1	0	JNJ_CPRD_ET_LOINC	Diabetes Current Diabetes status Diabetes Status Diabetic Status	40768836	LOINC	19800101	20991231	
+27-1	0	JNJ_CPRD_ET_LOINC	Asthma Asthma diagnosis Asthma Diagnosis Diagnosis Of Asthma	0	LOINC	19800101	20991231	
+28-1	0	JNJ_CPRD_ET_LOINC	Epilepsy Epilepsy managed by Managed by Epilepsy Management	0	LOINC	19800101	20991231	
+29-1	0	JNJ_CPRD_ET_LOINC	Lifestyle Diet Eating habits Examination	40763905	LOINC	19800101	20991231	
+29-2	0	JNJ_CPRD_ET_LOINC	Lifestyle Diet Type of diet Type Of Diet	0	LOINC	19800101	20991231	
+3-1	0	JNJ_CPRD_ET_LOINC	Other Pathology Tests Cervical cytology Inflammation category  	3011386	LOINC	19800101	20991231	
+3-2	0	JNJ_CPRD_ET_LOINC	Other Pathology Tests Cervical cytology In Practice In Practice Options	0	LOINC	19800101	20991231	
+3-3	0	JNJ_CPRD_ET_LOINC	Other Pathology Tests Cervical cytology Date Smear Reported  	40763487	LOINC	19800101	20991231	
+3-4	0	JNJ_CPRD_ET_LOINC	Other Pathology Tests Cervical cytology Excluded Yes/no Flag	0	LOINC	19800101	20991231	
+3-5	0	JNJ_CPRD_ET_LOINC	Other Pathology Tests Cervical cytology Reason for exclusion Cervical Cytology Exclusion	0	LOINC	19800101	20991231	
+3-6	0	JNJ_CPRD_ET_LOINC	Other Pathology Tests Cervical cytology Adequate? Yes/no Flag	0	LOINC	19800101	20991231	
+30-1	0	JNJ_CPRD_ET_LOINC	Lifestyle Exercise Type of Exercise Exercise	40758539	LOINC	19800101	20991231	
+31-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Feeding (child) Child Appetite  Problem State	42869415	LOINC	19800101	20991231	
+32-1	0	JNJ_CPRD_ET_LOINC	Maternity Feeding (maternity) Type of feeding Feeding	40766616	LOINC	19800101	20991231	
+33-1	0	JNJ_CPRD_ET_LOINC	Examination Findings Fundoscopy Result Normal/abnormal	3020633	LOINC	19800101	20991231	
+33-2	0	JNJ_CPRD_ET_LOINC	Examination Findings Fundoscopy Laterality Laterality	0	LOINC	19800101	20991231	
+34-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS genitalia Genitalia  Problem State	3000007	LOINC	19800101	20991231	
+35-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Hearing (6 weeks) Hearing state  Problem State	3002132	LOINC	19800101	20991231	
+350-1	0	JNJ_CPRD_ET_LOINC	Lifestyle Agencies Type of agency Elderly Patient Agencies	0	LOINC	19800101	20991231	
+36-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Hearing (over 6 weeks) Left Ear  Problem State	3002132	LOINC	19800101	20991231	
+36-2	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Hearing (over 6 weeks) Right Ear Problem State	3002132	LOINC	19800101	20991231	
+37-1	0	JNJ_CPRD_ET_LOINC	Elderly Hearing (over 75 years) Hearing state  Problem State	3002132	LOINC	19800101	20991231	
+371-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Gait for child health surveillance Gait  Problem State	3019828	LOINC	19800101	20991231	
+372-1	0	JNJ_CPRD_ET_LOINC	Diagnostic Tests Scoring test result Result of test   	0	LOINC	19800101	20991231	
+372-2	0	JNJ_CPRD_ET_LOINC	Diagnostic Tests Scoring test result Condition  	0	LOINC	19800101	20991231	
+372-3	0	JNJ_CPRD_ET_LOINC	Diagnostic Tests Scoring test result Scoring Methodology  	0	LOINC	19800101	20991231	
+372-4	0	JNJ_CPRD_ET_LOINC	Diagnostic Tests Scoring test result Qualifier Negative/Positive	0	LOINC	19800101	20991231	
+38-1	0	JNJ_CPRD_ET_LOINC	Asthma Inhaler ability Inhaler ability Examination	0	LOINC	19800101	20991231	
+39-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS locomotion 18 months Locomotion  Problem State	3052212	LOINC	19800101	20991231	
+4-1	0	JNJ_CPRD_ET_LOINC	Lifestyle Smoking Status Smoke/drink Status	40765288	LOINC	19800101	20991231	
+4-2	0	JNJ_CPRD_ET_LOINC	Lifestyle Smoking Cigarettes per day   	40766929	LOINC	19800101	20991231	
+4-3	0	JNJ_CPRD_ET_LOINC	Lifestyle Smoking Cigars per day   	0	LOINC	19800101	20991231	
+4-4	0	JNJ_CPRD_ET_LOINC	Lifestyle Smoking Ounces of tobacco   	0	LOINC	19800101	20991231	
+4-5	0	JNJ_CPRD_ET_LOINC	Lifestyle Smoking Start Date  	40766333	LOINC	19800101	20991231	
+4-6	0	JNJ_CPRD_ET_LOINC	Lifestyle Smoking Stop Date  	40766356	LOINC	19800101	20991231	
+40-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS language 3 years Language  Problem State	40765712	LOINC	19800101	20991231	
+41-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS manipulation Manipulation  Problem State	0	LOINC	19800101	20991231	
+42-1	0	JNJ_CPRD_ET_LOINC	Elderly Elderly mental cognitive state Mental cognitive state  Problem State	42870074	LOINC	19800101	20991231	
+43-1	0	JNJ_CPRD_ET_LOINC	Elderly Elderly mental emotional state Mental emotional state  Problem State	42868971	LOINC	19800101	20991231	
+44-1	0	JNJ_CPRD_ET_LOINC	Elderly Elderly mobility level Mobility Level Mobility Levels	42870052	LOINC	19800101	20991231	
+45-1	0	JNJ_CPRD_ET_LOINC	Asthma Night cough Night Cough Night Cough	40764833	LOINC	19800101	20991231	
+46-1	0	JNJ_CPRD_ET_LOINC	Miscellaneous Parental consent Type of consent Type Of Consent	3018196	LOINC	19800101	20991231	
+461-1	0	JNJ_CPRD_ET_LOINC	Miscellaneous Repeat Medication Review Due date  	0	LOINC	19800101	20991231	
+461-2	0	JNJ_CPRD_ET_LOINC	Miscellaneous Repeat Medication Review Seen by  	0	LOINC	19800101	20991231	
+461-3	0	JNJ_CPRD_ET_LOINC	Miscellaneous Repeat Medication Review Review date  	0	LOINC	19800101	20991231	
+461-4	0	JNJ_CPRD_ET_LOINC	Miscellaneous Repeat Medication Review Next review date  	0	LOINC	19800101	20991231	
+462-1	0	JNJ_CPRD_ET_LOINC	Diagnostic Tests Tactile Sensation Qualifier Presence	0	LOINC	19800101	20991231	
+463-1	0	JNJ_CPRD_ET_LOINC	Asthma Asthma Limiting Activity Numeric Result  	0	LOINC	19800101	20991231	
+463-2	0	JNJ_CPRD_ET_LOINC	Asthma Asthma Limiting Activity Fit Frequency Epileptic Fit Frequency	0	LOINC	19800101	20991231	
+464-1	0	JNJ_CPRD_ET_LOINC	Asthma Asthma Night time symptoms Numeric Result  	0	LOINC	19800101	20991231	
+464-2	0	JNJ_CPRD_ET_LOINC	Asthma Asthma Night time symptoms Fit Frequency Epileptic Fit Frequency	0	LOINC	19800101	20991231	
+465-1	0	JNJ_CPRD_ET_LOINC	Asthma Asthma Daytime symptoms Numeric Result  	0	LOINC	19800101	20991231	
+465-2	0	JNJ_CPRD_ET_LOINC	Asthma Asthma Daytime symptoms Fit Frequency Epileptic Fit Frequency	0	LOINC	19800101	20991231	
+47-1	0	JNJ_CPRD_ET_LOINC	Examination Findings Peripheral oedema Peripheral Oedema Absent/present	3045290	LOINC	19800101	20991231	
+47-2	0	JNJ_CPRD_ET_LOINC	Examination Findings Peripheral oedema Site of Oedema Anatomical Site In Leg	3046838	LOINC	19800101	20991231	
+47-3	0	JNJ_CPRD_ET_LOINC	Examination Findings Peripheral oedema Laterality Laterality	0	LOINC	19800101	20991231	
+475-1	0	JNJ_CPRD_ET_LOINC	Examination Findings Target blood pressure Diastolic  	0	LOINC	19800101	20991231	
+475-2	0	JNJ_CPRD_ET_LOINC	Examination Findings Target blood pressure Systolic  	0	LOINC	19800101	20991231	
+476-1	0	JNJ_CPRD_ET_LOINC	Examination Findings Waist circumference Circumference (cms)  	40759206	LOINC	19800101	20991231	
+479-1	0	JNJ_CPRD_ET_LOINC	Elderly Palliative Care Plan Date of agreement  	0	LOINC	19800101	20991231	
+479-2	0	JNJ_CPRD_ET_LOINC	Elderly Palliative Care Plan GP to sign Yes/no Flag	0	LOINC	19800101	20991231	
+479-3	0	JNJ_CPRD_ET_LOINC	Elderly Palliative Care Plan GSFS Review date  	0	LOINC	19800101	20991231	
+479-4	0	JNJ_CPRD_ET_LOINC	Elderly Palliative Care Plan ECS upload date  	0	LOINC	19800101	20991231	
+48-1	0	JNJ_CPRD_ET_LOINC	Elderly Physical health State of Physical Health  Problem State	3025182	LOINC	19800101	20991231	
+485-1	0	JNJ_CPRD_ET_LOINC	Immunisations Immunisation status Status Immunisation Status	40762844	LOINC	19800101	20991231	
+488-1	0	JNJ_CPRD_ET_LOINC	Examination Findings Weight loss Weight loss (kg)  	40768647	LOINC	19800101	20991231	
+489-1	0	JNJ_CPRD_ET_LOINC	Examination Findings Ankle Brachial Pressure Index Pressure Index Value  	0	LOINC	19800101	20991231	
+49-1	0	JNJ_CPRD_ET_LOINC	Elderly Referred to (elderly) Type of referral Elderly Patient Referrals	0	LOINC	19800101	20991231	
+5-1	0	JNJ_CPRD_ET_LOINC	Lifestyle Alcohol Status Smoke/drink Status	40770351	LOINC	19800101	20991231	
+5-2	0	JNJ_CPRD_ET_LOINC	Lifestyle Alcohol Units per week   	3043872	LOINC	19800101	20991231	
+5-3	0	JNJ_CPRD_ET_LOINC	Lifestyle Alcohol Start Date  	40766358	LOINC	19800101	20991231	
+5-4	0	JNJ_CPRD_ET_LOINC	Lifestyle Alcohol Stop Date  	0	LOINC	19800101	20991231	
+50-1	0	JNJ_CPRD_ET_LOINC	Lifestyle Treatment Compliance Assessment Examination	0	LOINC	19800101	20991231	
+51-1	0	JNJ_CPRD_ET_LOINC	Asthma Asthma risk factors Asthma risk factor Asthma Risk Factors	0	LOINC	19800101	20991231	
+52-1	0	JNJ_CPRD_ET_LOINC	Lifestyle Sleep pattern Sleep pattern  Problem State	42869414	LOINC	19800101	20991231	
+52-2	0	JNJ_CPRD_ET_LOINC	Lifestyle Sleep pattern Average Hours   	40768255	LOINC	19800101	20991231	
+53-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS speech 3 years Speech  Problem State	40768722	LOINC	19800101	20991231	
+54-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Speech and language Speech and language state  Problem State	40771400	LOINC	19800101	20991231	
+55-1	0	JNJ_CPRD_ET_LOINC	Asthma Time off in the last three months Time off in last 3 months Time Off In Last 3 Months	0	LOINC	19800101	20991231	
+56-1	0	JNJ_CPRD_ET_LOINC	Elderly Vision in the elderly Level of vision  Problem State	3026129	LOINC	19800101	20991231	
+56-2	0	JNJ_CPRD_ET_LOINC	Elderly Vision in the elderly Visual Aid Visual Aids	40766999	LOINC	19800101	20991231	
+57-1	0	JNJ_CPRD_ET_LOINC	CV / Hypertension Angina Angina state Yes/no Flag	40761344	LOINC	19800101	20991231	
+58-1	0	JNJ_CPRD_ET_LOINC	Immunisations Immunisation contraindicated Contraindicated? Yes/no Flag	42869553	LOINC	19800101	20991231	
+59-1	0	JNJ_CPRD_ET_LOINC	Diabetes Ankle neuropathy Left jerk Presence	40768240	LOINC	19800101	20991231	
+59-2	0	JNJ_CPRD_ET_LOINC	Diabetes Ankle neuropathy Right jerk Presence	40768240	LOINC	19800101	20991231	
+59-3	0	JNJ_CPRD_ET_LOINC	Diabetes Ankle neuropathy Left ankle vibration sense Presence	40768240	LOINC	19800101	20991231	
+59-4	0	JNJ_CPRD_ET_LOINC	Diabetes Ankle neuropathy Right ankle vibration sense Presence	40768240	LOINC	19800101	20991231	
+60-1	0	JNJ_CPRD_ET_LOINC	Maternity Ante-natal booking Weeks gestation   	3048230	LOINC	19800101	20991231	
+60-3	0	JNJ_CPRD_ET_LOINC	Maternity Ante-natal booking Type of booking Maternity Booking Type	43054893	LOINC	19800101	20991231	
+61-1	0	JNJ_CPRD_ET_LOINC	Maternity Ante-natal consultation Weeks  	0	LOINC	19800101	20991231	
+62-1	0	JNJ_CPRD_ET_LOINC	Asthma Asthma consultation Seen by  	0	LOINC	19800101	20991231	
+63-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS Examination Seen by  	0	LOINC	19800101	20991231	
+63-2	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS Examination Stage of CHS Chs Stages	0	LOINC	19800101	20991231	
+64-1	0	JNJ_CPRD_ET_LOINC	CV / Hypertension CV / BP consultation Seen by  	0	LOINC	19800101	20991231	
+65-1	0	JNJ_CPRD_ET_LOINC	Diabetes Diabetic consultation Seen by  	0	LOINC	19800101	20991231	
+66-1	0	JNJ_CPRD_ET_LOINC	Miscellaneous HRT consultation Seen by  	0	LOINC	19800101	20991231	
+67-1	0	JNJ_CPRD_ET_LOINC	Miscellaneous New registration consultation Seen by  	0	LOINC	19800101	20991231	
+68-1	0	JNJ_CPRD_ET_LOINC	Elderly Over 75 years check Check location Over 75 Check Location	0	LOINC	19800101	20991231	
+68-2	0	JNJ_CPRD_ET_LOINC	Elderly Over 75 years check Seen by  	0	LOINC	19800101	20991231	
+69-1	0	JNJ_CPRD_ET_LOINC	Maternity Post-natal examination Seen by  	0	LOINC	19800101	20991231	
+69-2	0	JNJ_CPRD_ET_LOINC	Maternity Post-natal examination Weeks post-natal   	0	LOINC	19800101	20991231	
+70-1	0	JNJ_CPRD_ET_LOINC	Miscellaneous Well person consultation Seen by  	0	LOINC	19800101	20991231	
+71-1	0	JNJ_CPRD_ET_LOINC	Haematology Blood group Blood group Blood Group	3002529	LOINC	19800101	20991231	
+72-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Head circumference centile Head size value   	3005042	LOINC	19800101	20991231	
+72-3	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Head circumference centile Centile Centiles	3035763	LOINC	19800101	20991231	
+73-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Heart sounds/femoral pulses Heart sounds Problem State	3004956	LOINC	19800101	20991231	
+73-2	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Heart sounds/femoral pulses Left femoral pulse Problem State	3035954	LOINC	19800101	20991231	
+73-3	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Heart sounds/femoral pulses Right femoral pulse Problem State	3035878	LOINC	19800101	20991231	
+74-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS Hernia  Left Inguinal  Problem State	3014308	LOINC	19800101	20991231	
+74-2	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS Hernia  Right Inguinal Problem State	3014308	LOINC	19800101	20991231	
+74-3	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS Hernia  Umbilical Hernia Problem State	0	LOINC	19800101	20991231	
+75-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Hips (CHS) Left hip  Problem State	3034125	LOINC	19800101	20991231	
+75-2	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Hips (CHS) Right hip Problem State	3034125	LOINC	19800101	20991231	
+76-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS Mother and Baby Feeding Feeding	40766616	LOINC	19800101	20991231	
+76-2	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS Mother and Baby Sleeping Problem State	42869414	LOINC	19800101	20991231	
+76-3	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS Mother and Baby Mother's health Problem State	40757687	LOINC	19800101	20991231	
+77-1	0	JNJ_CPRD_ET_LOINC	Maternity Parity status Number of births   	3023973	LOINC	19800101	20991231	
+77-2	0	JNJ_CPRD_ET_LOINC	Maternity Parity status Number of miscarriages   	3004718	LOINC	19800101	20991231	
+78-1	0	JNJ_CPRD_ET_LOINC	Maternity Stages of labour 1st Stage   	40760193	LOINC	19800101	20991231	
+78-3	0	JNJ_CPRD_ET_LOINC	Maternity Stages of labour 2nd Stage   	40760193	LOINC	19800101	20991231	
+78-5	0	JNJ_CPRD_ET_LOINC	Maternity Stages of labour 3rd Stage   	40760193	LOINC	19800101	20991231	
+79-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS squint Left eye  Problem State	3026129	LOINC	19800101	20991231	
+79-2	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance CHS squint Right eye Problem State	3026129	LOINC	19800101	20991231	
+80-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Muscle tone for 6 weeks (CHS) Muscle Tone  Problem State	3013961	LOINC	19800101	20991231	
+80-2	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Muscle tone for 6 weeks (CHS) Head Control Problem State	40763758	LOINC	19800101	20991231	
+81-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Muscle tone for 8 months (CHS) Sitting Balance  Problem State	3047335	LOINC	19800101	20991231	
+81-2	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Muscle tone for 8 months (CHS) Locomotion Problem State	3052212	LOINC	19800101	20991231	
+82-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Vision CHS 3 years and 41/2 years Left visual acuity  Problem State	42869405	LOINC	19800101	20991231	
+82-2	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Vision CHS 3 years and 41/2 years Right visual acuity Problem State	42869405	LOINC	19800101	20991231	
+83-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Vision CHS 8 and 18 months Left visual acuity Problem State	42869405	LOINC	19800101	20991231	
+83-2	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Vision CHS 8 and 18 months Right visual acuity Problem State	42869405	LOINC	19800101	20991231	
+84-1	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Vision CHS 6 weeks Fix vision Problem State	40767479	LOINC	19800101	20991231	
+84-2	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Vision CHS 6 weeks Red reflex left vision Problem State	40767461	LOINC	19800101	20991231	
+84-3	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Vision CHS 6 weeks Red Reflex right vision Problem State	40767461	LOINC	19800101	20991231	
+84-4	0	JNJ_CPRD_ET_LOINC	Child Health Surveillance Vision CHS 6 weeks Follows vision Problem State	0	LOINC	19800101	20991231	
+85-1	0	JNJ_CPRD_ET_LOINC	Medical History Absence of Condition Read Code For Condition  	0	LOINC	19800101	20991231	
+86-1	0	JNJ_CPRD_ET_LOINC	Epilepsy Fit details Fit Frequency Epileptic Fit Frequency	0	LOINC	19800101	20991231	
+86-2	0	JNJ_CPRD_ET_LOINC	Epilepsy Fit details Sleep state Asleep	0	LOINC	19800101	20991231	
+86-3	0	JNJ_CPRD_ET_LOINC	Epilepsy Fit details Fit Aura Yes/no Flag	0	LOINC	19800101	20991231	
+86-4	0	JNJ_CPRD_ET_LOINC	Epilepsy Fit details Numeric result  	0	LOINC	19800101	20991231	
+87-1	0	JNJ_CPRD_ET_LOINC	Medical History Family History Read Code For Condition  	3004395	LOINC	19800101	20991231	
+96-1	0	JNJ_CPRD_ET_LOINC	Examination Findings Heart examination Rhythm Normal/abnormal	3022318	LOINC	19800101	20991231	
+96-2	0	JNJ_CPRD_ET_LOINC	Examination Findings Heart examination Size/Failure Normal/abnormal	3004956	LOINC	19800101	20991231	
+96-3	0	JNJ_CPRD_ET_LOINC	Examination Findings Heart examination Sounds Normal/abnormal	3004956	LOINC	19800101	20991231	
+98-1	0	JNJ_CPRD_ET_LOINC	Elderly Next of kin - elderly Next of Kin Next Of Kin	0	LOINC	19800101	20991231	
+492-1	0	JNJ_CPRD_ET_LOINC	Palliative Care at Home Add. drugs available at home	0	LOINC	19800101	20991231	
+492-2	0	JNJ_CPRD_ET_LOINC	Palliative Care at Home Catheter products at home	0	LOINC	19800101	20991231	
+492-3	0	JNJ_CPRD_ET_LOINC	Palliative Care at Home Moving equipment at home	0	LOINC	19800101	20991231	
+494-1	0	JNJ_CPRD_ET_LOINC	Palliative OOH arrangements Date discussed with patient	0	LOINC	19800101	20991231	
+494-2	0	JNJ_CPRD_ET_LOINC	Palliative OOH arrangements Date discussed with carer	0	LOINC	19800101	20991231	
+494-3	0	JNJ_CPRD_ET_LOINC	Palliative OOH arrangements Should GP be contacted OO	0	LOINC	19800101	20991231	

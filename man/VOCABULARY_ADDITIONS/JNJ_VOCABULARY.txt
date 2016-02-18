@@ -1,0 +1,23 @@
+vocabulary_id	vocabulary_name	vocabulary_reference	vocabulary_version	vocabulary_concept_id
+JNJ_PMR_P_SPCLTY	Premier Provider Specialty	NULL	NULL	0
+JNJ_PMR_PROC_CHRG_CD	Premier Standard Charge Code - Procedures	NULL	NULL	0
+JNJ_PMR_DRUG_CHRG_CD	Premier Standard Charge Code - Drugs	NULL	NULL	0
+JNJ_PMR_OBS_CODE	Premier Observation Code	NULL	NULL	0
+JNJ_CPRD_GS_RXN	CPRD Prodcode (Gemscript Dictionary) Mapped to RxNorm Concepts	NULL	NULL	0
+JNJ_CPRD_ET_LOINC	CPRD Additional Enttypes Mapped to LOINC Concepts	NULL	NULL	0
+JNJ_CPRD_T_ET_LOINC	CPRD Test Enttypes Mapped to LOINC Concepts	NULL	NULL	0
+JNJ_CPRD_PROV_SPEC	CPRD Provider Roles Mapped to CMS Specialty	NULL	NULL	0
+JNJ_CPRD_SCORE_LOINC	CPRD Scoring Method Plus Read Codes Mapped to LOINC	NULL	NULL	0
+JNJ_CPRD_PROV_CMS2	CPRD Provider to CMS2	NULL	NULL	0
+JNJ_CPRD_HES_LOINC	CPRD HES Observation Fields to LOINC	NULL	NULL	0
+JNJ_OPTUM_P_SPCLTY	Optum Provider Specialty	NULL	NULL	0
+JNJ_TRU_P_SPCLTY	Truven Provider Specialty	NULL	NULL	0
+JNJ_TRU_HRA	Truven Health Risk Assessment (HRA)	NULL	NULL	0
+JNJ_TRU_HRA_QUESTION	Truven Health Risk Assessment (HRA) Questions	NULL	NULL	0
+JNJ_NHANES_COND_SM	NHANES Conditions to SNOMED	NULL	NULL	0
+JNJ_NHANES_DRUG_SM	NHANES Drugs to RxNorm	NULL	NULL	0
+JNJ_NHANES_OBS_LOINC	NHANES Observation to LOINC	NULL	NULL	0
+JNJ_JMDC_DRUGS	JMDC Drug codes	NULL	NULL	0
+JNJ_JMDC_SPECIALTIES	JMDC Specialty codes	NULL	NULL	0
+JNJ_JMDC_OBSERVATION	JMDC Observation codes	NULL	NULL	0
+JNJ_LAB_UNIT	Lab Unit	NULL	NULL	0

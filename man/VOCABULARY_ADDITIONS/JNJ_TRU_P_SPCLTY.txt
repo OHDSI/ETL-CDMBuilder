@@ -1,0 +1,135 @@
+1	0	JNJ_TRU_P_SPCLTY	Hospital	38004515	Specialty	20130106	20991231		Acute Care Hospital
+5	0	JNJ_TRU_P_SPCLTY	Ambulatory Surgical Center	38004679	Specialty	20130106	20991231		Ambulatory Surgery Centers
+6	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Urgent Care Facility
+10	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Birthing Center
+15	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Treatment Center
+20	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Mental Health/Chemical Dep NEC
+21	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Mental Health Facilities
+22	0	JNJ_TRU_P_SPCLTY	Addiction Medicine	38004498	Specialty	20130106	20991231		Chemical Depend Treatment Ctr
+23	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Mental Hlth/Chem Dep Day Care
+25	0	JNJ_TRU_P_SPCLTY	Physical Medicine And Rehabilitation	38004468	Specialty	20130106	20991231		Rehabilitation Facilities
+30	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Longterm Care (NEC)
+31	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Extended Care Facility
+32	0	JNJ_TRU_P_SPCLTY	Geriatric Medicine	38004478	Specialty	20130106	20991231		Geriatric Hospital
+33	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Convalescent Care Facility
+34	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Intermediate Care Facility
+35	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Residential Treatment Center
+36	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Continuing Care Retirement Com
+37	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Day/Night Care Center
+38	0	JNJ_TRU_P_SPCLTY	Hospice And Palliative Care	38004462	Specialty	20130106	20991231		Hospice Facility
+40	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Other Facility (NEC)
+41	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Infirmary
+42	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Special Care Facility (NEC)
+100	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Dentist - MD & DDS (NEC)
+105	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Dental Specialist
+120	0	JNJ_TRU_P_SPCLTY	Chiropractic	38004475	Specialty	20130106	20991231		Chiropractor/DCM
+130	0	JNJ_TRU_P_SPCLTY	Podiatry	38004486	Specialty	20130106	20991231		Podiatry
+140	0	JNJ_TRU_P_SPCLTY	Pain Management	38004494	Specialty	20130106	20991231		Pain Mgmt/Pain Medicine
+145	0	JNJ_TRU_P_SPCLTY	Anesthesiology	38004450	Specialty	20130106	20991231		Pediatric Anesthesiology
+150	0	JNJ_TRU_P_SPCLTY	Anesthesiology	38004450	Specialty	20130106	20991231		Anesthesiology
+160	0	JNJ_TRU_P_SPCLTY	Nuclear Medicine	38004476	Specialty	20130106	20991231		Nuclear Medicine
+170	0	JNJ_TRU_P_SPCLTY	Pathology	38004466	Specialty	20130106	20991231		Pathology
+175	0	JNJ_TRU_P_SPCLTY	Pathology	38004466	Specialty	20130106	20991231		Pediatric Pathology
+180	0	JNJ_TRU_P_SPCLTY	Physician/Diagnostic Radiology	38004675	Specialty	20130106	20991231		Radiology
+185	0	JNJ_TRU_P_SPCLTY	Physician/Diagnostic Radiology	38004675	Specialty	20130106	20991231		Pediatric Radiology
+200	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Medical Doctor - MD (NEC)
+202	0	JNJ_TRU_P_SPCLTY	Osteopathic Manipulative Therapy	38004457	Specialty	20130106	20991231		Osteopathic Medicine
+204	0	JNJ_TRU_P_SPCLTY	Internal Medicine	38004456	Specialty	20130106	20991231		Internal Medicine (NEC)
+206	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		MultiSpecialty Physician Group
+208	0	JNJ_TRU_P_SPCLTY	Colorectal Surgery	38004471	Specialty	20130106	20991231		Proctology
+210	0	JNJ_TRU_P_SPCLTY	Urology	38004474	Specialty	20130106	20991231		Urology
+215	0	JNJ_TRU_P_SPCLTY	Dermatology	38004452	Specialty	20130106	20991231		Dermatology
+220	0	JNJ_TRU_P_SPCLTY	Emergency Medicine	38004510	Specialty	20130106	20991231		Emergency Medicine
+225	0	JNJ_TRU_P_SPCLTY	Hospital	38004515	Specialty	20130106	20991231		Hospitalist
+227	0	JNJ_TRU_P_SPCLTY	Hospice And Palliative Care	38004462	Specialty	20130106	20991231		Palliative Medicine
+230	0	JNJ_TRU_P_SPCLTY	Allergy/Immunology	38004448	Specialty	20130106	20991231		Allergy & Immunology
+240	0	JNJ_TRU_P_SPCLTY	Family Practice	38004453	Specialty	20130106	20991231		Family Practice
+245	0	JNJ_TRU_P_SPCLTY	Geriatric Medicine	38004478	Specialty	20130106	20991231		Geriatric Medicine
+250	0	JNJ_TRU_P_SPCLTY	Cardiology	38004451	Specialty	20130106	20991231		Cardiovascular Dis/Cardiology
+260	0	JNJ_TRU_P_SPCLTY	Neurology	38004458	Specialty	20130106	20991231		Neurology
+265	0	JNJ_TRU_P_SPCLTY	Critical care (intensivist)	38004500	Specialty	20130106	20991231		Critical Care Medicine
+270	0	JNJ_TRU_P_SPCLTY	Endocrinology	38004485	Specialty	20130106	20991231		Endocrinology & Metabolism
+275	0	JNJ_TRU_P_SPCLTY	Gastroenterology	38004455	Specialty	20130106	20991231		Gastroenterology
+280	0	JNJ_TRU_P_SPCLTY	Hematology	38004501	Specialty	20130106	20991231		Hematology
+285	0	JNJ_TRU_P_SPCLTY	Infectious Disease	38004484	Specialty	20130106	20991231		Infectious Disease
+290	0	JNJ_TRU_P_SPCLTY	Nephrology	38004479	Specialty	20130106	20991231		Nephrology
+295	0	JNJ_TRU_P_SPCLTY	Pulmonary Disease	38004472	Specialty	20130106	20991231		Pulmonary Disease
+300	0	JNJ_TRU_P_SPCLTY	Rheumatology	38004491	Specialty	20130106	20991231		Rheumatology
+320	0	JNJ_TRU_P_SPCLTY	Obstetrics/Gynecology	38004461	Specialty	20130106	20991231		Obstetrics & Gynecology
+325	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Genetics
+330	0	JNJ_TRU_P_SPCLTY	Ophthalmology	38004463	Specialty	20130106	20991231		Ophthalmology
+340	0	JNJ_TRU_P_SPCLTY	Otolaryngology	38004449	Specialty	20130106	20991231		Otolaryngology
+350	0	JNJ_TRU_P_SPCLTY	Physical Medicine And Rehabilitation	38004468	Specialty	20130106	20991231		Physical Medicine & Rehab
+355	0	JNJ_TRU_P_SPCLTY	Maxillofacial Surgery	38004504	Specialty	20130106	20991231		Plastic/Maxillofacial Surgery
+360	0	JNJ_TRU_P_SPCLTY	Preventive Medicine	38004503	Specialty	20130106	20991231		Preventative Medicine
+365	0	JNJ_TRU_P_SPCLTY	Psychiatry	38004469	Specialty	20130106	20991231		Psychiatry
+380	0	JNJ_TRU_P_SPCLTY	Medical Oncology	38004507	Specialty	20130106	20991231		Oncology
+400	0	JNJ_TRU_P_SPCLTY	Pediatric Medicine	38004477	Specialty	20130106	20991231		Pediatrician (NEC)
+410	0	JNJ_TRU_P_SPCLTY	Pediatric Medicine	38004477	Specialty	20130106	20991231		Pediatric Specialist (NEC)
+413	0	JNJ_TRU_P_SPCLTY	Nephrology	38004479	Specialty	20130106	20991231		Pediatric Nephrology
+415	0	JNJ_TRU_P_SPCLTY	Ophthalmology	38004463	Specialty	20130106	20991231		Pediatric Ophthalmology
+418	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Pediatric Orthopaedics
+420	0	JNJ_TRU_P_SPCLTY	Otolaryngology	38004449	Specialty	20130106	20991231		Pediatric Otolaryngology
+423	0	JNJ_TRU_P_SPCLTY	Critical care (intensivist)	38004500	Specialty	20130106	20991231		Pediatric Critical Care Med
+425	0	JNJ_TRU_P_SPCLTY	Pulmonary Disease	38004472	Specialty	20130106	20991231		Pediatric Pulmonology
+428	0	JNJ_TRU_P_SPCLTY	Emergency Medicine	38004510	Specialty	20130106	20991231		Pediatric Emergency Medicine
+430	0	JNJ_TRU_P_SPCLTY	Allergy/Immunology	38004448	Specialty	20130106	20991231		Pediatric Allergy & Immunology
+433	0	JNJ_TRU_P_SPCLTY	Endocrinology	38004485	Specialty	20130106	20991231		Pediatric Endocrinology
+435	0	JNJ_TRU_P_SPCLTY	Pediatric Medicine	38004477	Specialty	20130106	20991231		Neonatal-Perinatal Medicine
+438	0	JNJ_TRU_P_SPCLTY	Gastroenterology	38004455	Specialty	20130106	20991231		Pediatric Gastroenterology
+440	0	JNJ_TRU_P_SPCLTY	Cardiology	38004451	Specialty	20130106	20991231		Pediatric Cardiology
+443	0	JNJ_TRU_P_SPCLTY	Hematology/Oncology	38004502	Specialty	20130106	20991231		Pediatric Hematology-Oncology
+448	0	JNJ_TRU_P_SPCLTY	Infectious Disease	38004484	Specialty	20130106	20991231		Pediatric Infectious Diseases
+450	0	JNJ_TRU_P_SPCLTY	Rheumatology	38004491	Specialty	20130106	20991231		Pediatric Rheumatology
+453	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Sports Medicine (Pediatrics)
+455	0	JNJ_TRU_P_SPCLTY	Urology	38004474	Specialty	20130106	20991231		Pediatric Urology
+458	0	JNJ_TRU_P_SPCLTY	Psychiatry	38004469	Specialty	20130106	20991231		Child Psychiatry
+460	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Pediatric Medical Toxicology
+500	0	JNJ_TRU_P_SPCLTY	General Surgery	38004447	Specialty	20130106	20991231		Surgeon (NEC)
+505	0	JNJ_TRU_P_SPCLTY	General Surgery	38004447	Specialty	20130106	20991231		Surgical Specialist (NEC)
+510	0	JNJ_TRU_P_SPCLTY	Colorectal Surgery	38004471	Specialty	20130106	20991231		Colon & Rectal Surgery
+520	0	JNJ_TRU_P_SPCLTY	Neurosurgery	38004459	Specialty	20130106	20991231		Neurological Surgery
+530	0	JNJ_TRU_P_SPCLTY	Orthopedic Surgery	38004465	Specialty	20130106	20991231		Orthopaedic Surgery
+535	0	JNJ_TRU_P_SPCLTY	General Surgery	38004447	Specialty	20130106	20991231		Abdominal Surgery
+540	0	JNJ_TRU_P_SPCLTY	Cardiac Surgery	38004497	Specialty	20130106	20991231		Cardiovascular Surgery
+545	0	JNJ_TRU_P_SPCLTY	General Surgery	38004447	Specialty	20130106	20991231		Dermatologic Surgery
+550	0	JNJ_TRU_P_SPCLTY	Vascular Surgery	38004496	Specialty	20130106	20991231		General Vascular Surgery
+555	0	JNJ_TRU_P_SPCLTY	General Surgery	38004447	Specialty	20130106	20991231		Head and Neck Surgery
+560	0	JNJ_TRU_P_SPCLTY	General Surgery	38004447	Specialty	20130106	20991231		Pediatric Surgery
+565	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Surgical Critical Care
+570	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Transplant Surgery
+575	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Traumatic Surgery
+580	0	JNJ_TRU_P_SPCLTY	Thoracic Surgery	38004473	Specialty	20130106	20991231		Cardiothoracic Surgery
+585	0	JNJ_TRU_P_SPCLTY	Thoracic Surgery	38004473	Specialty	20130106	20991231		Thoracic Surgery
+805	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Dental Technician
+810	0	JNJ_TRU_P_SPCLTY	Registered Dietitian or Nutrition Professional	38004694	Specialty	20130106	20991231		Dietitian
+815	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Medical Technician
+820	0	JNJ_TRU_P_SPCLTY	Certified Nurse Midwife	38004482	Specialty	20130106	20991231		Midwife
+822	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Nursing Services
+824	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Psychiatric Nurse
+825	0	JNJ_TRU_P_SPCLTY	Nurse Practitioner	38004487	Specialty	20130106	20991231		Nurse Practitioner
+827	0	JNJ_TRU_P_SPCLTY	Certified Registered Nurse Anesthetist	38004483	Specialty	20130106	20991231		Nurse Anesthesist
+830	0	JNJ_TRU_P_SPCLTY	Optometry	38004481	Specialty	20130106	20991231		Optometrist
+835	0	JNJ_TRU_P_SPCLTY	Optician	38004701	Specialty	20130106	20991231		Optician
+840	0	JNJ_TRU_P_SPCLTY	Pharmacy	38004520	Specialty	20130106	20991231		Pharmacist
+845	0	JNJ_TRU_P_SPCLTY	Physician Assistant	38004512	Specialty	20130106	20991231		Physician Assistant
+850	0	JNJ_TRU_P_SPCLTY	Physical Therapy	38004490	Specialty	20130106	20991231		Therapy (Physical)
+853	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Therapists (Supportive)
+855	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Therapists (Alternative)
+857	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Renal Dialysis Therapy
+860	0	JNJ_TRU_P_SPCLTY	Psychology	38004488	Specialty	20130106	20991231		Psychologist
+865	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Acupuncturist
+870	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Spiritual Healers
+900	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Health Educator/Agency
+905	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Transportation
+910	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Health Resort
+915	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Hearing Labs
+920	0	JNJ_TRU_P_SPCLTY	Home Health Agency	38004519	Specialty	20130106	20991231		Home Health Organiz/Agency
+925	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Imaging Center
+930	0	JNJ_TRU_P_SPCLTY	Clinical Laboratory	38004692	Specialty	20130106	20991231		Laboratory
+935	0	JNJ_TRU_P_SPCLTY	Pharmacy	38004520	Specialty	20130106	20991231		Pharmacy
+940	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Supply Center
+945	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Vision Center
+950	0	JNJ_TRU_P_SPCLTY	Public Health or Welfare Agency	38004689	Specialty	20130106	20991231		Public Health Agency
+955	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Unknown Clinic
+960	0	JNJ_TRU_P_SPCLTY	Unknown Physician Specialty	38004514	Specialty	20130106	20991231		Case Manager

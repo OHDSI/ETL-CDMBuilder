@@ -1,0 +1,104 @@
+/* TEST CASE 3.*: Observation Period Tests */
+
+
+INSERT INTO [dbo].[ENROLLMENT_DETAIL] ([ENROLID],[DTSTART],[DTEND],[DOBYR],[RX],[SEX])
+VALUES 
+(
+    301
+	,'1/1/2012'
+    ,'12/31/2012'
+	,'1980'
+	,'1'
+	,N'1'
+)
+
+INSERT INTO [dbo].[ENROLLMENT_DETAIL] ([ENROLID],[DTSTART],[DTEND],[DOBYR],[RX],[SEX])
+VALUES 
+(
+    301
+	,'6/1/2012'
+    ,'7/31/2012'
+	,'1980'
+	,'1'
+	,N'1'
+)
+
+INSERT INTO [dbo].[ENROLLMENT_DETAIL] ([ENROLID],[DTSTART],[DTEND],[DOBYR],[RX],[SEX])
+VALUES 
+(
+    302
+	,'5/1/2012'
+    ,'5/31/2012'
+	,'1980'
+	,'1'
+	,N'2'
+)
+
+INSERT INTO [dbo].[ENROLLMENT_DETAIL] ([ENROLID],[DTSTART],[DTEND],[DOBYR],[RX],[SEX])
+VALUES 
+(
+    302
+	,'6/15/2012'
+    ,'12/31/2012'
+	,'1980'
+	,'1'
+	,N'2'
+)
+
+INSERT INTO [dbo].[ENROLLMENT_DETAIL] ([ENROLID],[DTSTART],[DTEND],[DOBYR],[RX],[SEX])
+VALUES 
+(
+    303
+    ,'1/1/2012'
+	,'6/1/2012'
+	,'1980'
+	,'1'
+	,N'2'
+)
+
+INSERT INTO [dbo].[ENROLLMENT_DETAIL] ([ENROLID],[DTSTART],[DTEND],[DOBYR],[RX],[SEX])
+VALUES 
+(
+    303
+    ,'8/2/2012'
+	,'12/31/2012'
+	,'1980'
+	,'1'
+	,N'2'
+)
+
+INSERT INTO [dbo].[ENROLLMENT_DETAIL] ([ENROLID],[DTSTART],[DTEND],[DOBYR],[RX],[SEX])
+VALUES 
+(
+    304
+    ,'12/31/2012'
+	,'1/1/2012'
+	,'1980'
+	,'1'
+	,N'1'
+)
+
+INSERT INTO [dbo].[ENROLLMENT_DETAIL] ([ENROLID],[DTSTART],[DTEND],[DOBYR],[RX],[SEX])
+VALUES 
+(
+    305
+    ,'8/1/2010'
+	,'9/30/2012'
+	,'2010'
+	,'1'
+	,N'1'
+)
+
+
+/*
+INSERT INTO [dbo].[ENROLLMENT_DETAIL] ([ENROLID],[DTSTART],[DTEND],[DOBYR],[RX],[SEX])
+VALUES 
+(
+    <ENROLID, bigint,>
+    ,<DTSTART, date,>
+	,<DTEND, date,>
+	,'1980'
+	,'1'
+	,N'1'
+)
+*/

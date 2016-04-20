@@ -1,0 +1,69 @@
+EGEOLOC	EGEOLOC_Description	STATE
+01	Nation, unknown region	UN
+02	Northeast Region, unknown division	UN
+03	New England Division, unknown state	UN
+04	Connecticut	CT
+05	Maine	ME
+06	Massachusetts	MA
+07	New Hampshire	NH
+08	Rhode Island	RI
+09	Vermont	VT
+10	Middle Atlantic Division, unknown state	UN
+11	New Jersey	NJ
+12	New York	NY
+13	Pennsylvania	PA
+14	North Central Region, unknown division	UN
+15	East North Central Division, unknown state	UN
+16	Illinois	IL
+17	Indiana	IN
+18	Michigan	MI
+19	Ohio	OH
+20	Wisconsin	WI
+21	West North Central Division, unknown state	UN
+22	Iowa	IA
+23	Kansas	KS
+24	Minnesota	MN
+25	Missouri	MO
+26	Nebraska	NE
+27	North Dakota	ND
+28	South Dakota	SD
+29	South Region, unknown division	UN
+30	South Atlantic Division, unknown state	UN
+31	Washington, DC	DC
+32	Delaware	DE
+33	Florida	FL
+34	Georgia	GA
+35	Maryland	MD
+36	North Carolina	NC
+37	South Carolina	SC
+38	Virginia	VA
+39	West Virginia	WV
+40	East South Central Division, unknown state	UN
+41	Alabama	AL
+42	Kentucky	KY
+43	Mississippi	MS
+44	Tennessee	TN
+45	West South Central Division, unknown state	UN
+46	Arkansas	AR
+47	Louisiana	LA
+48	Oklahoma	OK
+49	Texas	TX
+50	West Region, unknown division	UN
+51	Mountain Division, unknown state	UN
+52	Arizona	AZ
+53	Colorado	CO
+54	Idaho	ID
+55	Montana	MT
+56	Nevada	NV
+57	New Mexico	NM
+58	Utah	UT
+59	Wyoming	WY
+60	Pacific Division, unknown state	UN
+61	Alaska	AK
+62	California	CA
+63	Hawaii	HI
+64	Oregon	OR
+65	Washington	WA
+97	Puerto Rico	PR
+98	Virgin Islands	UN
+99	Other International	UN

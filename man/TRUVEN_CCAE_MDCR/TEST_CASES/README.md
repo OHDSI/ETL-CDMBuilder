@@ -1,7 +1,5 @@
-CCAE and MDCR Test Scripts
+TRUVEN CCAE and MDCR Test Scripts
 ======================
-
-CCAE and MDCR are very similar CDMs, so for the most part the BUILDER components are exactly the same.  This is why they are bundled together here however it is recommended that the databases be kept as separate CDMS.
 
 The XLS file provides information on the test cases generated.  Each PERSON_ID represents one test case.
 

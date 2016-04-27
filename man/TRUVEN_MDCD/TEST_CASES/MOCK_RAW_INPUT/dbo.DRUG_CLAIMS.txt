@@ -1,0 +1,15 @@
+AWP	BOE	CAP	COB	COINS	COPAY	DAWIND	DAYSUPP	DEACLAS	DEDUCT	DISPFEE	DOBYR	DRUGCOVG	ENROLID	GENERID	GENIND	INGCOST	MAINTIN	MAS	MCASENUM	MEDICARE	METQTY	MHSACOVG	NDCNUM	NETPAY	PAY	PDDATE	PHARM_ID	PLANTYP	QTY	REFILL	SEQNUM	SEX	STDRACE	SVCDATE	THERCLS	THERGRP	VERSION	YEAR
+													1201										13533063512											2012-02-01				2012
+													1201										13533063512											2012-02-01				2012
+							-250						1202										36987257801											2012-06-12				2012
+							432						1203										36987257801											2012-08-07				2012
+													1205										13533063670											2012-01-17				2012
+													1301										00463303410											2012-02-04				2012
+													1301										00463303410											2012-02-22				2012
+													1302										00463303410											2012-09-21				2012
+													1302										00463303410											2012-12-08				2012
+							14						1303										00349835305											2012-12-08				2012
+							21						1305										00008419001											2012-05-01				2012
+					5				210				1401										00463303410											2012-03-15				2012
+													1206										00006000543											2006-07-08				2006
+													1207										00006032582											2014-09-18				2014

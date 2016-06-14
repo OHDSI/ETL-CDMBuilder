@@ -1,0 +1,492 @@
+code	description	filetype	category	data_fields	data1	data1lkup	data2	data2lkup	data3	data3lkup	data4	data4lkup	data5	data5lkup	data6	data6lkup	data7	data7lkup	data8	data8lkup
+1	Blood pressure	Clinical	Examination Findings	7	Diastolic		`Systolic `		Korotkoff		Event Time		Laterality	LAT	Posture	POS	Cuff	CUF		
+2	Medical History	Clinical	Medical History	0																
+3	Cervical cytology	Clinical	Other Pathology Tests	6	Inflammation category	Medical Dictionary	In Practice	INP	Date Smear Reported	GEN_SDC	Excluded	Y_N	Reason for exclusion	CYX	Adequate?	Y_N				
+4	Smoking	Clinical	Lifestyle	6	Status	YND	`Cigarettes per day `		`Cigars per day `		`Ounces of tobacco `		Start Date	GEN_SDC	Stop Date	GEN_SDC				
+5	Alcohol	Clinical	Lifestyle	4	Status	YND	`Units per week `		Start Date	GEN_SDC	Stop Date	GEN_SDC								
+6	Health promotion - Smoking	Clinical	HP Interventions	0																
+7	Health promotion - Alcohol	Clinical	HP Interventions	0																
+8	Health promotion - Hypertension	Clinical	HP Interventions	0																
+9	Health promotion - Overweight	Clinical	HP Interventions	0																
+10	Health promotion - CHD	Clinical	HP Interventions	0																
+11	Health promotion - Stroke / TIA	Clinical	HP Interventions	0																
+12	Health promotion - FH of CVA / IHD	Clinical	HP Interventions	0																
+13	Weight	Clinical	Examination Findings	3	Weight in kilos		Weight centile	CEN	`BMI `											
+14	Height	Clinical	Examination Findings	2	Height in metres		Height centile	CEN												
+15	Hypertension register	Clinical	Disease Registers	0																
+16	Coronary heart disease register	Clinical	Disease Registers	0																
+17	Stroke TIA register	Clinical	Disease Registers	0																
+18	Diabetic register	Clinical	Disease Registers	0																
+19	Asthma register	Clinical	Disease Registers	0																
+20	Contraception	Clinical	Lifestyle	4	Contraception service type	CTT	New claim expiry date	GEN_SDC	Date IUCD fitted	GEN_SDC	Last claim expiry date	GEN_SDC								
+21	Allergy and intolerance	Clinical	Allergy & Intolerance	5	Drug Code	Product Dictionary	Reaction Type	RCT	Severity	SEV	Certainty	CER	Read Code For Reaction	Medical Dictionary						
+22	Diabetes annual check	Clinical	Diabetes	2	Program type	HPS	Check Up Type	TYP												
+23	Advice given	Clinical	Lifestyle	2	Format of advice	ADV	Type of advice	ADT												
+24	CHS Behaviour	Clinical	Child Health Surveillance	1	Behaviour	PHR														
+25	Current Asthma status	Clinical	Asthma	1	Current Asthma Status	CST														
+26	Current Diabetes status	Clinical	Diabetes	1	Diabetes Status	DBS														
+27	Asthma diagnosis	Clinical	Asthma	1	Asthma Diagnosis	DAS														
+28	Epilepsy managed by	Clinical	Epilepsy	1	Managed by	EPM														
+29	Diet	Clinical	Lifestyle	2	Eating habits	GMP	Type of diet	DIE												
+30	Exercise	Clinical	Lifestyle	1	Type of Exercise	EXE														
+31	Feeding (child)	Clinical	Child Health Surveillance	1	`Child Appetite `	PHR														
+32	Feeding (maternity)	Clinical	Maternity	1	Type of feeding	LAC														
+33	Fundoscopy	Clinical	Examination Findings	2	Result	N_A	Laterality	LAT												
+34	CHS genitalia	Clinical	Child Health Surveillance	1	`Genitalia `	PHR														
+35	Hearing (6 weeks)	Clinical	Child Health Surveillance	1	`Hearing state `	PHR														
+36	Hearing (over 6 weeks)	Clinical	Child Health Surveillance	2	`Left Ear `	PHR	Right Ear	PHR												
+37	Hearing (over 75 years)	Clinical	Elderly	1	`Hearing state `	PHR														
+38	Inhaler ability	Clinical	Asthma	1	Inhaler ability	GMP														
+39	CHS locomotion 18 months	Clinical	Child Health Surveillance	1	`Locomotion `	PHR														
+40	CHS language 3 years	Clinical	Child Health Surveillance	1	`Language `	PHR														
+41	CHS manipulation	Clinical	Child Health Surveillance	1	`Manipulation `	PHR														
+42	Elderly mental cognitive state	Clinical	Elderly	1	`Mental cognitive state `	PHR														
+43	Elderly mental emotional state	Clinical	Elderly	1	`Mental emotional state `	PHR														
+44	Elderly mobility level	Clinical	Elderly	1	Mobility Level	MOB														
+45	Night cough	Clinical	Asthma	1	Night Cough	NCO														
+46	Parental consent	Clinical	Miscellaneous	1	Type of consent	COS														
+47	Peripheral oedema	Clinical	Examination Findings	3	Peripheral Oedema	P_A	Site of Oedema	LEG	Laterality	LAT										
+48	Physical health	Clinical	Elderly	1	`State of Physical Health `	PHR														
+49	Referred to (elderly)	Clinical	Elderly	1	Type of referral	REF														
+50	Treatment Compliance	Clinical	Lifestyle	1	Assessment	GMP														
+51	Asthma risk factors	Clinical	Asthma	1	Asthma risk factor	AAR														
+52	Sleep pattern	Clinical	Lifestyle	2	`Sleep pattern `	PHR	`Average Hours `													
+53	CHS speech 3 years	Clinical	Child Health Surveillance	1	`Speech `	PHR														
+54	Speech and language	Clinical	Child Health Surveillance	1	`Speech and language state `	PHR														
+55	Time off in the last three months	Clinical	Asthma	1	Time off in last 3 months	TOF														
+56	Vision in the elderly	Clinical	Elderly	2	`Level of vision `	PHR	Visual Aid	GLA												
+57	Angina	Clinical	CV / Hypertension	1	Angina state	Y_N														
+58	Immunisation contraindicated	Clinical	Immunisations	1	Contraindicated?	Y_N														
+59	Ankle neuropathy	Clinical	Diabetes	4	Left jerk	PRE	Right jerk	PRE	Left ankle vibration sense	PRE	Right ankle vibration sense	PRE								
+60	Ante-natal booking	Clinical	Maternity	3	`Weeks gestation `		Unit of measure	SUM	Type of booking	MBO										
+61	Ante-natal consultation	Clinical	Maternity	1	Weeks															
+62	Asthma consultation	Clinical	Asthma	1	Seen by															
+63	CHS Examination	Clinical	Child Health Surveillance	2	Seen by		Stage of CHS	CHS												
+64	CV / BP consultation	Clinical	CV / Hypertension	1	Seen by															
+65	Diabetic consultation	Clinical	Diabetes	1	Seen by															
+66	HRT consultation	Clinical	Miscellaneous	1	Seen by															
+67	New registration consultation	Clinical	Miscellaneous	1	Seen by															
+68	Over 75 years check	Clinical	Elderly	2	Check location	LOC	Seen by													
+69	Post-natal examination	Clinical	Maternity	2	Seen by		`Weeks post-natal `													
+70	Well person consultation	Clinical	Miscellaneous	1	Seen by															
+71	Blood group	Clinical	Haematology	1	Blood group	ABO														
+72	Head circumference centile	Clinical	Child Health Surveillance	3	`Head size value `		Unit of measure	SUM	Centile	CEN										
+73	Heart sounds/femoral pulses	Clinical	Child Health Surveillance	3	Heart sounds	PHR	Left femoral pulse	PHR	Right femoral pulse	PHR										
+74	`CHS Hernia `	Clinical	Child Health Surveillance	3	`Left Inguinal `	PHR	Right Inguinal	PHR	Umbilical Hernia	PHR										
+75	Hips (CHS)	Clinical	Child Health Surveillance	2	`Left hip `	PHR	Right hip	PHR												
+76	CHS Mother and Baby	Clinical	Child Health Surveillance	3	Feeding	LAC	Sleeping	PHR	Mother's health	PHR										
+77	Parity status	Clinical	Maternity	2	`Number of births `		`Number of miscarriages `													
+78	Stages of labour	Clinical	Maternity	6	`1st Stage `		1st Stage Unit	SUM	`2nd Stage `		2nd Stage Unit	SUM	`3rd Stage `		3rd Stage Unit	SUM				
+79	CHS squint	Clinical	Child Health Surveillance	2	`Left eye `	PHR	Right eye	PHR												
+80	Muscle tone for 6 weeks (CHS)	Clinical	Child Health Surveillance	2	`Muscle Tone `	PHR	Head Control	PHR												
+81	Muscle tone for 8 months (CHS)	Clinical	Child Health Surveillance	2	`Sitting Balance `	PHR	Locomotion	PHR												
+82	Vision CHS 3 years and 41/2 years	Clinical	Child Health Surveillance	2	`Left visual acuity `	PHR	Right visual acuity	PHR												
+83	Vision CHS 8 and 18 months	Clinical	Child Health Surveillance	2	Left visual acuity	PHR	Right visual acuity	PHR												
+84	Vision CHS 6 weeks	Clinical	Child Health Surveillance	4	Fix vision	PHR	Red reflex left vision	PHR	Red Reflex right vision	PHR	Follows vision	PHR								
+85	Absence of Condition	Clinical	Medical History	1	Read Code For Condition	Medical Dictionary														
+86	Fit details	Clinical	Epilepsy	4	Fit Frequency	FIT	Sleep state	ASL	Fit Aura	Y_N	Numeric result									
+87	Family History	Clinical	Medical History	1	Read Code For Condition	Medical Dictionary														
+88	Ante-natal symptoms	Clinical	Maternity	0																
+89	Carers - elderly	Clinical	Elderly	0																
+90	Check next examination - CHS	Clinical	Child Health Surveillance	0																
+91	Diabetes concerns	Clinical	Diabetes	0																
+92	Well person concerns	Clinical	Miscellaneous	0																
+93	Delivery details	Clinical	Maternity	0																
+94	Last fit	Clinical	Epilepsy	0																
+95	Foot care	Clinical	Examination Findings	0																
+96	Heart examination	Clinical	Examination Findings	3	Rhythm	N_A	Size/Failure	N_A	Sounds	N_A										
+97	Insulin dosage	Clinical	Diabetes	0																
+98	Next of kin - elderly	Clinical	Elderly	1	Next of Kin	KIN														
+99	Optician last seen	Clinical	Elderly	0																
+100	Perinatal problems	Clinical	Child Health Surveillance	0																
+101	Physical examination - CHS	Clinical	Child Health Surveillance	0																
+102	Post-natal symptoms	Clinical	Maternity	0																
+103	Previous occupation - elderly	Clinical	Elderly	0																
+104	Ante-natal risk factors	Clinical	Maternity	0																
+105	Ante-natal social factors	Clinical	Maternity	0																
+106	Breast examination (maternity)	Clinical	Maternity	0																
+107	Pelvic examination (maternity)	Clinical	Maternity	0																
+108	Over the counter drug use	Clinical	Elderly	1	Self medication	Y_N														
+109	Risk factors - elderly	Clinical	Elderly	1	`Risk factor present `	Y_N														
+110	Thyroid disease	Clinical	Disease Registers	1	`Thyroid disease present `	Y_N														
+111	DVLC informed	Clinical	Epilepsy	1	`DVLC informed `	Y_N														
+112	`CHS Apgar score at 1 minute    `	Clinical	Child Health Surveillance	1	`Apgar score at 1 minute `															
+113	Asthma last attack	Clinical	Asthma	3	`Oral steroids `	Y_N	Nebulised	Y_N	Hospitalised	Y_N										
+114	Pregnancy outcome	Clinical	Maternity	2	Discharge Date	GEN_SDC	Birth status	LIV												
+115	Delivery Details (CHS)	Clinical	Child Health Surveillance	2	Birth Mode	BMO	Birth Presentation	BPR												
+116	Foetal examination	Clinical	Maternity	5	`Fundus `		Unit of measure	SUM	Foetal Heart Heard	Y_N	Foetal Movement Felt	Y_N	Foetal Presentation	FPR						
+117	Foot pulse right leg	Clinical	Diabetes	2	Right Dorsalis Pedis	PRE	Right Posterior Tibia	PRE												
+118	Foot pulse left leg	Clinical	Diabetes	2	Left Dorsalis Pedis	PRE	Left Posterior Tibia	PRE												
+119	Gestation - maternity outcome	Clinical	Maternity	2	`Weeks `		Qualifier	SUM												
+120	Gestational age of baby	Clinical	Child Health Surveillance	3	`Weeks `		Unit of measure	SUM	Outcome of Delivery	SIN										
+121	Asthma management at 30% peak flow	Clinical	Asthma	1	Asthma Management 30%	AMA														
+122	Asthma management at 50% peak flow	Clinical	Asthma	1	Asthma Management 50%	AMA														
+123	Asthma management at 80% peak flow	Clinical	Asthma	1	Asthma Management 80%	AMA														
+124	Hygiene - elderly	Clinical	Elderly	2	Hygiene at home	GMP	Personal Hygiene	GMP												
+125	CHS hospital follow up	Clinical	Child Health Surveillance	3	`Follow up `	Y_N	Appointment Date	GEN_SDC	Hospital											
+126	Maternity infant details	Clinical	Maternity	7	Date of birth		Baby gender	SEX	`Birth Weight `		Birth Weight Unit	SUM	`Apgar score at 1 minute  `		`Apgar score at 5 minutes `		Outcome	POC		
+127	Passive smoking	Clinical	Lifestyle	2	`Passive smoker `	Y_N	Cause	PSM												
+128	Perineum	Clinical	Maternity	3	Episiotomy	Y_N	Tear stage		Sutures to remove	Y_N										
+129	Pregnancy dates	Clinical	Maternity	2	LMP Certainty	LMP	Expected date of delivery	GEN_SDC												
+130	Pre - treatment BP	Clinical	Examination Findings	0																
+131	Pulse (CVS/BP)	Clinical	Examination Findings	1	`Pulse rate `															
+132	Residence	Clinical	Lifestyle	2	Type of residence	RES	Lives Alone	Y_N												
+133	CHS Sphincters	Clinical	Child Health Surveillance	4	`Dry by Day `	Y_N	Dry by Night	Y_N	Clean by Day	Y_N	Clean by Night	Y_N								
+134	Visual acuity right eye	Clinical	Diabetes	2	Visual Acuity	VIS	Visual Aid	GLA												
+135	Visual acuity left eye	Clinical	Diabetes	2	Visual Acuity	VIS	Visual Aid	GLA												
+136	Schooling CHS	Clinical	Child Health Surveillance	1	`Attends school `	Y_N														
+137	Allergy and intolerance (non drug)	Clinical	Allergy & Intolerance	3	Reaction Type	RCT	Severity	SEV	Certainty	CER										
+138	Asthma concerns	Clinical	Asthma	0																
+139	Parental concerns	Clinical	Miscellaneous	0																
+140	Epilepsy register	Clinical	Disease Registers	0																
+141	Maternity plan	Clinical	Maternity	0																
+142	Continence - urinary	Clinical	Elderly	1	Continent	Y_N														
+143	Continence - bowels	Clinical	Elderly	0																
+144	Maternity outcome placenta	Clinical	Maternity	0																
+145	CHS Apgar score at 5 minutes	Clinical	Child Health Surveillance	1	`Apgar score at 5 minutes `															
+146	Occupation	Clinical	Lifestyle	0																
+147	Cardiovascular disease risk	Clinical	CV / Hypertension	2	Cardiovascular risk status	CVD	`Risk score `													
+148	Death administration	Clinical	Death Administartion	5	Date of Death	GEN_SDC	Last Seen Alive	GEN_SDC	Post Mortem	PMR	Seen after death	AFD	Employment Related	Y_N						
+149	Cause of death	Clinical	Death Administartion	2	Category of death	COD	Interval between last seen & death													
+150	Post-natal visit	Clinical	Maternity	2	Seen by		`Days post-natal `													
+151	Acid phosphatase	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+152	Albumin	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+153	Alkaline phosphatase	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+154	Alpha fetoprotein	Test	Maternity	8	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP	Weeks	
+155	Alanine aminotransferase	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+156	Aspartate aminotransferase	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+157	B12 levels	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+158	Bilirubin	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+159	Calcium	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+160	Calcium adjusted	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+161	Carbemazepine	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+162	Serum chloride	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+163	Serum cholesterol	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+164	Creatine phosphokinase level	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+165	Serum creatinine	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+166	Creatinine clearance	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+167	Digoxin blood level	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+168	Eosinophil count	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+169	Serum ferritin	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+170	Folate level	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+171	Follicle stimulating hormone	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+172	Gamma glutamyl transpeptidase	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+173	Haemoglobin	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+174	Human chorionic gonadotropin	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+175	High density lipoprotein	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+176	Lactate dehydrogenase	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+177	Low density lipoprotein	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+178	Luteinising hormone	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+179	Lithium levels	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+180	Mean corpuscular haemoglobin	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+181	MCH Hb Concentration	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+182	Mean corpuscular volume	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+183	Monocyte count	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+184	Neutrophil count	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+185	Oestrodiol level	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+186	Phenobarbitone	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+187	Phenytoin	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+188	Serum inorganic phosphate	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+189	Platelets	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+190	Potassium	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+191	Progesterone	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+192	Prolactin level	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+193	Prostatic acid phosphatase	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+194	Red blood cell count	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+195	Reticulocytes	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+196	Sodium	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+197	Triodothyronine	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+198	Thyroxine	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+199	Testosterone	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+200	Theophylline	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+201	Total protein	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+202	Triglycerides	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+203	Thyroid stimulating hormone	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+204	Urea - blood	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+205	Valproate	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+206	Very low density lipoprotein	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+207	Total White Blood cell count	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+208	Lymphocyte count	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+209	Amniocentesis	Test	Maternity	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+210	B12 & Folate level	Test	Biochemistry (Other)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+211	Barium enema	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+212	Barium meal	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+213	Blood glucose	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+214	Blood lipids	Test	Biochemistry (Routine)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+215	Clotting tests	Test	Haematology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+216	Drug levels	Test	Biochemistry (Other)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+217	Electrocardiogram	Test	Diagnostic Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+218	Endoscopy	Test	Diagnostic Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+219	Faecal occult blood	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+220	Full blood count	Test	Haematology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+221	Glandular fever test	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+222	Glucose tolerance test	Test	Biochemistry (Routine)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+223	Iron studies	Test	Biochemistry (Other)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+224	Intravenous pyelogram (IVP)	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+225	Liver function tests	Test	Biochemistry (Routine)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+226	Mammogram	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+227	Mid-stream specimen of urine	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+228	Nail clippings	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+229	Pregnancy test	Test	Maternity	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+230	Seminal analysis	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+231	Serology	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+232	Female sex hormone profile	Test	Biochemistry (Hormone)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+233	Male sex hormone profile	Test	Biochemistry (Hormone)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+234	Sputum culture	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+235	Stool culture	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+236	Thyroid function	Test	Biochemistry (Other)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+237	Abdominal ultra sound	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+238	Pelvic ultra sound	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+239	Urea and electrolytes	Test	Biochemistry (Routine)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+240	Urine test	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+241	Eye swab	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+242	Cervical swab	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+243	High vaginal swab	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+244	Nose swab	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+245	Other swab	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+246	Penile swab	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+247	Skin swab	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+248	Throat swab	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+249	Vaginal swab	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+250	Wound swab	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+251	Other diagnostic imaging	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+252	Ankle x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+253	Chest x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+254	Elbow x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+255	Upper leg x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+256	Foot x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+257	Hand x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+258	Hip x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+259	Upper arm x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+260	Knee x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+261	Neck x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+262	Pelvis x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+263	Ribs x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+264	Shoulder x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+265	Sinus x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+266	Skull x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+267	Spine x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+268	Lower leg x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+269	Wrist x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+270	Rubella test	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+271	Tuberculin test	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+272	Amylase	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+273	Erythrocyte sedimentation rate	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+274	Fasting glucose	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+275	HbA1c - diabetic control	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+276	Prostate specific antigen	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+277	Uric acid blood level	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+278	Anti mitochondrial antibodies	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+279	Anti nuclear antibodies	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+280	C Reactive protein	Test	Serology & Immunology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+281	Blood group antibodies	Test	Haematology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+282	Syphilis test	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+283	Viral studies	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+284	Maternity ultra sound scan	Test	Maternity	8	Operator	OPR	Estimated size in wks		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP	Expected delivery date	GEN_SDC
+285	Guthrie test	Test	Biochemistry (Other)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+286	Urinalysis - Glucose	Test	Biochemistry (Routine)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+287	Urinalysis - Protein	Test	Biochemistry (Routine)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+288	Other laboratory tests	Test	Other Pathology Tests	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+289	Film report	Test	Haematology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+290	Immunoglobulin	Test	Serology & Immunology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+291	Plasma electrophoresis	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+292	Rheumatoid factor	Test	Serology & Immunology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+293	Large unstained cells	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+294	Bronchoscopy	Test	Diagnostic Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+295	Duodenoscopy	Test	Diagnostic Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+296	Colonoscopy	Test	Diagnostic Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+297	Sigmoidoscopy	Test	Diagnostic Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+298	Nuclear medicine	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+299	CAT scan	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+300	MRI scan	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+301	Carotid angiogram	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+302	Coronary angiogram	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+303	Femoral arteriogram	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+304	ECG exercise	Test	Diagnostic Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+305	Barium swallow	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+306	Barium follow through	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+307	Lung Func. before bronchodilation	Test	Asthma	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+308	Lung Func. after bronchodilation	Test	Asthma	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+309	PF best ever	Test	Asthma	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+310	PF predicted	Test	Asthma	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+311	PF current	Test	Asthma	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Peak flow device	PFD		
+312	Packed cell volume	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+313	Basophil count	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+314	Differential white cell count	Test	Haematology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+315	Chemical function tests	Test	Biochemistry (Other)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+316	Examination of faeces	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+317	Synovial fluid examination	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+318	Bone marrow examination	Test	Haematology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+319	Sputum examination	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+320	Amniotic fluid examination	Test	Maternity	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+321	Prothrombin time	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+322	Partial thromboplastin time	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+323	INR	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+324	Colour index	Test	Haematology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+325	SH-antigen (hepatitis b) test	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+326	HIV test	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+327	Infection titres	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+328	Anti smooth muscle autoantibodies	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+329	Thyroid autoantibodies	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+330	DNA binding autoantibodies	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+331	Liver enzymes	Test	Biochemistry (Routine)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+332	Cardiac enzymes	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+333	Serum electrolytes	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+334	Serum osmolality	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+335	Serum globin	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+336	Blood trace elements / vitamins	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+337	Histology	Test	Other Pathology Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+338	HDL/LDL ratio	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+339	General ultra sound scan	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+340	Urine biochemistry	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+341	Abdominal xray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+342	Echocardiogram	Test	Diagnostic Tests	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+343	Nerve conduction studies	Test	Diagnostic Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+344	Free tri-iodothyronine	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+345	Free thyroxine	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+346	Other autoantibodies	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+347	Hepatitis a test	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+348	Other bacteriology tests	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+349	Microscopy for malarial parasites	Test	Haematology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+350	Agencies	Clinical	Lifestyle	1	Type of agency	AGC														
+351	Allowances received - elderly	Clinical	Elderly	0																
+352	Serum iron tests	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+353	RBC - folate	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+354	Total iron binding capacity	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+355	Bone studies	Test	Biochemistry (Routine)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+356	Fructosamine	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+357	Urethral swab	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+358	Lower arm x-ray	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+359	Antostreptolysin o titre	Test	Serology & Immunology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+360	CAP (RAST)	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+361	RBC red blood cell size	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+362	Iron kinetics	Test	Biochemistry (Other)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+363	Lipoprotein electrophoresis	Test	Biochemistry (Routine)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+364	LE cells	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+365	Gonadotrophin	Test	Biochemistry (Hormone)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+366	Serum cortisol	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+367	Doppler ultrasound peripheral pulse	Test	Diagnostic Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+368	Bone density studies	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+369	Sex hormone binding globulin	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+370	Other immunology tests	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+371	Gait for child health surveillance	Clinical	Child Health Surveillance	1	`Gait `	PHR														
+372	Scoring test result	Clinical	Diagnostic Tests	4	`Result of test `		Condition	Medical Dictionary	Scoring Methodology	Scoring	Qualifier	P_N								
+373	Tricyclics	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+374	Plasma viscosity	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+375	Toxicology	Test	Biochemistry (Other)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+376	Other drug levels	Test	Biochemistry (Other)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+377	E2 prostaglandin	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+378	Venography	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+379	ECG ambulatory	Test	Diagnostic Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+380	Pulmonary function tests	Test	Diagnostic Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+381	Red blood cell shape	Test	Haematology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+382	Red blood cell colour	Test	Haematology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+383	Serum amino acids	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+384	Blood gases	Test	Biochemistry (Other)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+385	Vomit examination	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+386	Calculus examination	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+387	Haemoglobin variants	Test	Haematology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+388	Legionella antibody test	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+389	Immuno electrophoresis	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+390	Feto-placental hormones	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+391	Serum bicarbonate	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+392	Ambulatory blood pressure	Test	Diagnostic Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+393	Skin prick test	Test	Diagnostic Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+394	Forced expiration volume in 1 sec	Test	Diagnostic Tests	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+395	FEV1 / FVC	Test	Diagnostic Tests	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+396	Forced vital capacity	Test	Diagnostic Tests	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+397	Serum fibrinogen level	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+398	Jugular venous pressure	Test	Examination Findings	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+399	Transfer coefficient for CO	Test	Diagnostic Tests	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+400	Serum parathyroid hormone	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+401	Respiratory rate	Test	Examination Findings	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+402	Temperature	Test	Examination Findings	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+403	Urine cytology	Test	Other Pathology Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+404	Electroencephalography	Test	Diagnostic Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+405	HLA tissue typing	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+406	Blood lead level	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+407	Chlamydia	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+408	Oesophagoscopy	Test	Diagnostic Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+409	Renal arteriography	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+410	Cerebro-spinal fluid examination	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+411	Postural drop in BP	Test	Examination Findings	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+412	Airway reversibility	Test	Diagnostic Tests	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+413	Total lung capacity	Test	Diagnostic Tests	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+414	Blood alcohol level	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+415	Methotrexate	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+416	Fluoroscopy	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+417	Lymphangiography	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+418	Red blood cell clumping	Test	Haematology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+419	Red blood cells enzymes	Test	Haematology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+420	Ascitic fluid examination	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+421	Parietal cell autoantibodes	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+422	Complement tests	Test	Serology & Immunology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+423	Gastrointestinal hormones	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+424	Serum growth hormone	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+425	Sputum cytology	Test	Other Pathology Tests	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+426	Intraocular pressure left	Test	Diagnostic Tests	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+427	Intraocular pressure right	Test	Diagnostic Tests	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+428	Microscopy culture & sensitivities	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+429	Serum insulin	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+430	Urine dipstick for glucose	Test	Biochemistry (Routine)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+431	Urine dipstick for protein	Test	Biochemistry (Routine)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+432	Urine dipstick for ketones	Test	Biochemistry (Routine)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+433	Urine dipstick for blood	Test	Biochemistry (Routine)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+434	Urine dipstick for ph	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+435	Urine microalbumin	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+436	Tumour markers	Test	Serology & Immunology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+437	Enzymes/specific protein	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+438	Other biochemistry test	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+439	Serum paracetamol	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+440	Serum cyclosporin	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+441	Schilling test - b12 absorption	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+442	Sickle cell disease screen	Test	Haematology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+443	Thrombin time	Test	Haematology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+444	Tomography	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+445	Serum adrenaline	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+446	Serum noradrenaline	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+447	Anion gap	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+448	Sialogram	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+449	Serum aldosterone	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+450	Serum lactate	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+451	Disaccharidase tolerance test	Test	Biochemistry (Other)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+452	Pleural fluid examination	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+453	Adrenal autoantibodies	Test	Serology & Immunology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+454	Serum renin	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+455	Carboxyhaemoglobin	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+456	Serum adrenocorticotrophic hormone	Test	Biochemistry (Hormone)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+457	Abdominal aortogram	Test	Diagnostic Imaging	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+458	Serum amiodarone	Test	Biochemistry (Other)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+459	No Data Entered	Clinical		0																
+460	FH Prevention Comment	Clinical	Miscellaneous	0																
+461	Repeat Medication Review	Clinical	Miscellaneous	4	Due date	GEN_SDC	Seen by		Review date	GEN_SDC	Next review date	GEN_SDC								
+462	Tactile Sensation	Clinical	Diagnostic Tests	1	Qualifier	PRE														
+463	Asthma Limiting Activity	Clinical	Asthma	2	Numeric Result		Fit Frequency	FIT												
+464	Asthma Night time symptoms	Clinical	Asthma	2	Numeric Result		Fit Frequency	FIT												
+465	Asthma Daytime symptoms	Clinical	Asthma	2	Numeric Result		Fit Frequency	FIT												
+466	Glomerular Filtration Rate	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+467	Procedures, specimens and samples	Test	Miscellaneous	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+468	Pulse oximetry	Test	Diagnostic Tests	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+469	Albumin creatinine ratio	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+470	Diabetic retinopathy screening	Test	Diabetes	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+471	Spirometry	Test	Diagnostic Tests	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+472	Immunology screening tests	Test	Serology & Immunology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+473	Urine dipstick for nitrites	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+474	Dexa scan/bone mineral density	Test	Diagnostic Imaging	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+475	Target blood pressure	Clinical	Examination Findings	2	Diastolic		Systolic													
+476	Waist circumference	Clinical	Examination Findings	1	Circumference (cms)															
+477	Lung function post steriods	Test	Diagnostic Tests	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+478	Hepatitis B Antibody	Test	Serology & Immunology	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+479	Palliative Care Plan	Clinical	Elderly	4	Date of agreement	GEN_SDC	GP to sign	Y_N	GSFS Review date	GEN_SDC	ECS upload date	GEN_SDC								
+480	Other Lab Result Information	Test	Other Pathology Tests	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+481	Biochemical screening tests	Test	Biochemistry (Other)	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+482	Genetic observations	Test	Miscellaneous	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+483	Haematology screening tests	Test	Haematology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+484	Urine Leucocytes	Test	Biochemistry (Routine)	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+485	Immunisation status	Clinical	Immunisations	1	Status	IMM														
+486	Lung function pre-steroids	Test	Diagnostic Tests	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+487	Ante-natal blood tests	Test	Maternity	7	Operator	OPR	Value		Unit of measure	SUM	Qualifier	TQU	Normal range from		Normal range to		Normal range basis	POP		
+488	Weight loss	Clinical	Examination Findings	1	Weight loss (kg)															
+489	Ankle Brachial Pressure Index	Clinical	Examination Findings	1	Pressure Index Value															
+490	Ear swab	Test	Microbiology	4	Qualifier	TQU	Normal range from		Normal range to		Normal range basis									
+491	Patient Preference	Clinical	Miscellaneous	0																

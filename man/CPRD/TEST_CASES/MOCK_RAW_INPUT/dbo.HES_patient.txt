@@ -1,0 +1,15 @@
+patid	pracid	ethnos	gen_HESid	n_patid_hes
+6	1	Pakistani		
+7	1	Martian		
+112114		Chinese		
+113114		Bangladesi		
+114114		Pakistani		
+115114		Unknown		
+116114		Oth_Asian		
+117114		Mixed		
+118114		White		
+119114		Bl_Afric		
+120114		Indian		
+121114		Bl_Other		
+122114		Bl_Carib		
+123114		Other		

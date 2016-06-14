@@ -1,0 +1,2 @@
+patid	spno	epikey	epistart	epiend	eorder	epidur	numbaby	numtailb	matordr	neocare	wellbaby	anasdate	birordr	birstat	biresus	sexbaby	birweit	delmeth	delonset	delinten	delplac	delchang	delprean	delposan	delstat	anagest	gestat	numpreg	matage	neodur	antedur	postdur
+1433111	10	5555	2012-01-01	2012-01-03			1		1			2012-01-01	1	1	1		3660		1			6									0	

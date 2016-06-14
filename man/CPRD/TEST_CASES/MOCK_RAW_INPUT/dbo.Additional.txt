@@ -1,0 +1,9 @@
+patid	enttype	adid	data1_value	data1_date	data2_value	data2_date	data3_value	data3_date	data4_value	data4_date	data5_value	data5_date	data6_value	data6_date	data7_value	data7_date
+1461111	21	35	42.000		2.000		3.000		3		1942					
+1462111	461	42		2007-07-08				2007-01-08		2007-07-09						
+1463111	372	45	15.000		100977.000		2.000		0							
+1464111	372	45	500.000		10302.000		0.000									
+1362111	372	45	500.000		7913.000		1373.000									
+1363111	114	35		2003-12-07	3.000											
+1364111	60	35	8.000		147.000											
+1361111	1	35	80.000		160.000		5.000				3					

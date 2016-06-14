@@ -1,0 +1,2 @@
+patid	spno	epikey	epistart	epiend	eorder	epidur	numacp	acpn	acpstar	acpend	acpdur	intdays	depdays	acploc	acpsour	acpdisp	acpout	acpplan	acpspef	orgsup	acpdqind
+1431111	10								2012-01-01		2		2	1	5	4	1	2	190	0	

@@ -1,0 +1,1 @@
+patid	spno	epikey	admidate	discharged	epistart	epiend	eorder	ccstartdate	ccstarttime	ccdisrdydate	ccdisrdytime	ccdisdate	ccdistime	ccadmitype	ccadmisorc	ccsorcloc	ccdisstat	ccdisdest	ccdisloc	cclev2days	cclev3days	bcardsupdays	acardsupdays	bressupdays	aressupdays	gisupdays	liversupdays	neurosupdays	rensupdays	dermsupdays	orgsupmax	ccunitfun	unitbedconfig	bestmatch	ccaprel

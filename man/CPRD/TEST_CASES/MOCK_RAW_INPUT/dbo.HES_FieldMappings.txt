@@ -1,0 +1,2023 @@
+MappingId	FieldId	Value	Description	Condition
+12136	1592	0	Valid (or missing because not required)	
+12137	1592	1	Missing	
+12138	1592	2	Invalid	
+12139	1593	dd/mm/yyyy	Date	
+12140	1593	null	Date not known / not applicable	
+12141	1594	dd/mm/yyyy	Date	
+12142	1594	null	Date not known / not applicable	
+12143	1595	0	Valid (or missing because not required)	
+12144	1595	1	Missing	
+12145	1595	2	Invalid	
+12146	1596	0	First in a series	
+12147	1596	1	Subsequent to first in a series	
+12148	1596	8	Not applicable: this episode of care is neither the first nor any subsequent attendance	
+12149	1596	9	Not known: this episode is an attendance within a sequence of regular day/night	
+12150	1597	11	Elective: from waiting list	
+12151	1597	12	Elective: booked	
+12152	1597	13	Elective: planned	
+12153	1597	21	Emergency: via Accident and Emergency (A&E) services, including the casualty department of the provider	
+12154	1597	22	Emergency: via general practitioner (GP)	
+12155	1597	23	Emergency: via Bed Bureau, including the Central Bureau	
+12156	1597	24	Emergency: via consultant outpatient clinic	
+12157	1597	28	Emergency: other means, including patients who arrive via the A&E department of another healthcare provider	
+12158	1597	31	Maternity: where the baby was delivered after the mother's admission	
+12159	1597	32	Maternity: where the baby was delivered before the mother's admission	
+12160	1597	81	Transfer of any admitted patient from another hospital provider other than in an emergency; this does not include admissions to high security psychiatric hospitals (HSPH)	
+12161	1597	82	Other: babies born in health care provider	
+12162	1597	83	Other: babies born outside the health care provider, except when born at home as intended	
+12163	1597	84	Admission by the admission panel of an HSPH; patient not entered on the HSPH admissions waiting list (not valid for admissions after 31 March 2002)	
+12164	1597	89	From the admissions waiting list of an HSPH (not valid for admissions after 31 March 2002)	
+12165	1597	98	Not applicable (eg other maternity event)	
+12166	1597	99	Not known	
+12167	1598	19	The usual place of residence, including no fixed abode	
+12168	1598	29	Temporary place of residence when usually resident elsewhere, for example, hotels and residential educational establishments	
+12169	1598	30	Repatriation from high security psychiatric hospital (1999-00 to 2006-07)	
+12170	1598	37	Penal establishment: court (1999-00 to 2006-07)	
+12171	1598	38	Penal establishment: police station (1999-00 to 2006-07)	
+12172	1598	39	Penal establishment (court and police station excluded from 1999-2000)	
+12173	1598	48	High security psychiatric hospital, Scotland (1999-00 to 2006-07)	
+12174	1598	49	NHS other hospital provider: high security psychiatric accommodation in an NHS hospital provider (NHS trust)	
+12175	1598	50	NHS other hospital provider: medium secure unit (1999-00 to 2006-07)	
+12176	1598	51	NHS other hospital provider: ward for general patients or the younger physically disabled or A&E department	
+12177	1598	52	NHS other hospital provider: ward for maternity patients or neonates	
+12178	1598	53	NHS other hospital provider: ward for patients who are mentally ill or have learning disabilities	
+12179	1598	54	NHS run nursing home, residential care home or group home	
+12180	1598	65	Local authority Part 3 residential accommodation: where care is provided (from 1996-97)	
+12181	1598	66	Local authority foster care, but not in Part 3 residential accommodation: where care is provided (from 1996-97)	
+12182	1598	69	Local authority home or care (1989-90 to 1995-96)	
+12183	1598	79	Babies born in or on the way to hospital	
+12184	1598	85	Non-NHS (other than Local Authority) run residential care home (from 1996-97)	
+12185	1598	86	Non-NHS (other than Local Authority) run nursing home (from 1996-97 to 2006-07)	
+12186	1598	87	Non-NHS run hospital	
+12187	1598	88	non-NHS (other than Local Authority) run hospice	
+12188	1598	89	Non-NHS institution (1989-90 to 1995-96)	
+12189	1598	98	Not applicable	
+12190	1598	99	Not known	
+12191	1599	4n	Waiting time in days from 1 to 8887	
+12192	1599	null	Other maternity events / not known	
+12193	1600	n	ACP sequence number	
+12194	1601	01	General intensive care unit (ICU). Adult intensive care, including wards labelled as surgical or medical ICU, but excluding the specialised units identified by other values. General ICUs may provide a mixture of high dependency unit (HDU) and ICU level care.	
+12195	1601	02	Cardiothoracic ICU, including units labelled as separate cardiac or thoracic units.	
+12196	1601	03	Liver ICU	
+12197	1601	04	Neurological ICU	
+12198	1601	05	HDU	
+12199	1601	06	Paediatric ICU: a unit generally admitting patients between 0 and 14 years old, but excluding special care baby units	
+12200	1601	07	Paediatric HDU	
+12201	1601	08	Neonatal ICU: a unit generally admitting only new born babies up to two-week's post delivery	
+12202	1601	09	Cardiac care unit or coronary care unit (CCU)	
+12203	1601	10	Combined HDU and CCU the beds and staff for the two units are in the same area	
+12204	1601	11	Combined CCU and ICU the beds and staff for the two units are in the same area	
+12205	1601	12	Combined HDU and ICU the beds and staff for the two units are in the same area	
+12206	1601	13	Post operative recovery unit, including a theatre recovery area	
+12207	1601	14	Spinal injury ICU: a unit designated for critical care rather than a spinal injury ward	
+12208	1601	15	Burns critical care unit, including all special care burns facilities other than short-term post-operative care areas	
+12209	1601	16	Renal unit, including an in-patient kidney dialysis unit, but excluding general nephrology or urology wards	
+12210	1601	17	Not otherwise specified	
+12211	1601	99	Not known	
+12212	1602	01	Ward in same hospital	
+12213	1602	02	High dependency unit (HDU) in same hospital, including special care baby units	
+12214	1602	03	Intensive care unit (ICU) in same hospital	
+12215	1602	04	ICU in other hospital	
+12216	1602	05	Other hospital (not ICU) including HDUs and Special Care Baby Units	
+12217	1602	06	Normal residence or other	
+12218	1602	07	Died	
+12219	1602	08	No change in location: the augmented care period ended because the consultant episode ended	
+12220	1602	98	Not applicable: augmented care period not finished	
+12221	1602	99	Not known	
+12222	1603	dd/mm/yyyy	Date augmented care period ended	
+12223	1605	2n	Order number in the range 01 to 97	
+12224	1605	99	Not known: a validation error	
+12225	1606	01	Survived	
+12226	1606	02	Died: no organ donation	
+12227	1606	03	Died: organs donated	
+12228	1606	98	Not applicable: Augmented care period not finished	
+12229	1606	99	Not known	
+12230	1607	1	Yes	
+12231	1607	2	No	
+12232	1607	9	Not known	
+12233	1608	01	Ward in same hospital	
+12234	1608	02	High dependency unit (HDU) or other immediate care area in same hospital, including special care babies	
+12235	1608	03	Intensive care unit (ICU) in same hospital	
+12236	1608	04	Theatre or recovery unit in same hospital	
+12237	1608	05	A&E department in same hospital	
+12238	1608	06	X-ray or endoscopy department in same hospital	
+12239	1608	07	ICU in other hospital	
+12240	1608	08	Other hospital (not ICU) including HDUs and special care baby units	
+12241	1608	09	Clinic, home or other	
+12242	1608	10	No change in location: augmented care period started because consultant episode changed	
+12243	1608	99	Not known	
+12244	1609	100	General surgery	
+12245	1609	101	Urology	
+12246	1609	110	Trauma and orthopaedics	
+12247	1609	120	Ear, nose and throat (ENT)	
+12248	1609	130	Ophthalmology	
+12249	1609	140	Oral surgery	
+12250	1609	141	Restorative dentistry	
+12251	1609	142	Paediatric dentistry (available from 1999-2000)	
+12252	1609	143	Orthodontics	
+12253	1609	145	Oral and maxillo facial surgery (available from 2004-05)	
+12254	1609	146	Endodontics (available from 2004-05)	
+12255	1609	147	Periodontics (available from 2004-05)	
+12256	1609	148	Prosthodontics (available from 2004-05)	
+12257	1609	149	Surgical dentistry (available from 2004-05)	
+12258	1609	150	Neurosurgery	
+12259	1609	160	Plastic surgery	
+12260	1609	170	Cardiothoracic surgery	
+12261	1609	171	Paediatric surgery	
+12262	1609	180	Accident and emergency (A&E)	
+12263	1609	190	Anaesthetics	
+12264	1609	191	Pain management (available from 1998-99 to 2003-04)	
+12265	1609	192	Critical care medicine (available from 2004-05)	
+12266	1609	199	Non-UK Provider - specialty function not known, treatment mainly surgical	
+12267	1609	300	General medicine	
+12268	1609	301	Gastroenterology	
+12269	1609	302	Endocrinology	
+12270	1609	303	Clinical haemotology	
+12271	1609	304	Clinical physiology	
+12272	1609	305	Clinical pharmacology	
+12273	1609	310	Audiological medicine	
+12274	1609	311	Clinical genetics	
+12275	1609	312	Clinical cytogenics and molecular genetics (available from 1990-91)	
+12276	1609	313	Clinical immunology and allergy (available from 1991-92)	
+12277	1609	314	Rehabilitation (available from 1991-92)	
+12278	1609	315	Palliative medicine	
+12279	1609	320	Cardiology	
+12280	1609	321	Paediatric cardiology (available from 2004-05)	
+12281	1609	330	Dermatology	
+12282	1609	340	Respiratory medicine (also known as thoracic medicine)	
+12283	1609	350	Infectious diseases	
+12284	1609	352	Tropical medicine (available from 2004-05)	
+12285	1609	360	Genito-urinary medicine	
+12286	1609	361	Nephrology	
+12287	1609	370	Medical oncology	
+12288	1609	371	Nuclear medicine	
+12289	1609	400	Neurology	
+12290	1609	401	Clinical neuro-physiology	
+12291	1609	410	Rheumatology	
+12292	1609	420	Paediatrics	
+12293	1609	421	Paediatric neurology	
+12294	1609	430	Geriatric medicine	
+12295	1609	450	Dental medicine (available from 1990-91)	
+12296	1609	460	Medical opthalmology (available from 1993-94)	
+12297	1609	499	Non-UK Provider - specialty function not known, treatment mainly medical	
+12298	1609	501	Obstetrics (prior to 2004-05: Obstetrics for patients using a hospital bed or delivery facilities)	
+12299	1609	502	Gynaecology	
+12300	1609	560	Midwifery (available from October 1995)	
+12301	1609	600	General Medical Practice	
+12302	1609	601	General Dental Practice	
+12303	1609	610	General practice with maternity function (available to 2003-04)	
+12304	1609	620	General practice other than maternity (available to 2003-04)	
+12305	1609	700	Learning disability (previously known as mental handicap)	
+12306	1609	710	Mental illness	
+12307	1609	711	Child and adolescent psychiatry	
+12308	1609	712	Forensic psychiatry	
+12309	1609	713	Psychotherapy	
+12310	1609	715	Old age psychiatry (available from 1990-91)	
+12311	1609	800	Clinical oncology (previously Radiotherapy)	
+12312	1609	810	Radiology	
+12313	1609	820	General pathology	
+12314	1609	821	Blood transfusion	
+12315	1609	822	Chemical pathology	
+12316	1609	823	Haematology	
+12317	1609	824	Histopathology	
+12318	1609	830	Immunopathology	
+12319	1609	831	Medical microbiology	
+12320	1609	832	Neuropathology (available to 2003-04)	
+12321	1609	900	Community medicine	
+12322	1609	901	Occupational medicine	
+12323	1609	902	Community health services - dental (available from 2004-05)	
+12324	1609	903	Public health medicine (available from 2004-05)	
+12325	1609	904	Public health dental (available from 2004-05)	
+12326	1609	950	Nursing episode (available from 2002-03)	
+12327	1609	960	Allied health professional episode (available from 2006-07)	
+12328	1609	null	Other maternity event	
+12329	1609	&	Not known	
+12330	1610	dd/mm/yyyy	Date period started	
+12331	1610	null	Not applicable / not known	
+12332	1611	4n	Number of days in the range 000 to 9998	
+12333	1611	9999	Not known: a validation error	
+12334	1612	4n	Number of days in the range 0000 to 9998	
+12335	1612	null	Not known: a validation error	
+12336	1613	2n	Number of augmented care periods within the episode	
+12337	1614	2n	Number of organ systems supported in the range 00 to 05	
+12338	1614	98	Not applicable: Augmented care period not finished	
+12339	1614	99	Not known: a validation error	
+12340	1615	dd/mm/yyyy	Date of operation	
+12341	1616	annnna	A valid ICD-9 or ICD-10 diagnosis code	
+12342	1616	annnnn	A valid ICD-9 or ICD-10 diagnosis code	
+12343	1616	null	not applicable	
+12344	1617	4an	Code copied from a diagnosis field: this is a standard ICD-10 code in the range V01-Y98	
+12345	1617	null	Unfinished episode, other maternity event or no cause code found	
+12346	1618	3an	Code copied from a diagnosis field: this is a standard ICD-10 code in the range V01-Y98	
+12347	1618	null	Unfinished episode, other maternity event or no cause code found	
+12348	1619	6an	Code copied from a diagnosis field: this is a standard ICD-10 code in the range V01-Y98	
+12349	1619	null	Unfinished episode, other maternity event or no cause code found	
+12350	1620	1	Patient to stay in hospital for at least one night	
+12351	1620	2	Patient not to stay in hospital overnight	
+12352	1620	3	Patient to have a planned series of admissionsat least one overnight stay	
+12353	1620	4	Patient to have a planned sequence of admissions no overnight stay	
+12354	1620	5	Patient to be admitted regularly for a sequence of nights rest of the 24 hour period at home	
+12355	1620	8	Not applicable	
+12356	1620	9	Not known	
+12357	1621	3an	Procedure code	
+12358	1621	-	No operation performed	
+12359	1621	&	Not known	
+12360	1622	100	General surgery	
+12361	1622	101	Urology	
+12362	1622	110	Trauma and orthopaedics	
+12363	1622	120	Ear, nose and throat (ENT)	
+12364	1622	130	Ophthalmology	
+12365	1622	140	Oral surgery	
+12366	1622	141	Restorative dentistry	
+12367	1622	142	Paediatric dentistry (available from 1999-2000)	
+12368	1622	143	Orthodontics	
+12369	1622	145	Oral and maxillo facial surgery (available from 2004-05)	
+12370	1622	146	Endodontics (available from 2004-05)	
+12371	1622	147	Periodontics (available from 2004-05)	
+12372	1622	148	Prosthodontics (available from 2004-05)	
+12373	1622	149	Surgical dentistry (available from 2004-05)	
+12374	1622	150	Neurosurgery	
+12375	1622	160	Plastic surgery	
+12376	1622	170	Cardiothoracic surgery	
+12377	1622	171	Paediatric surgery	
+12378	1622	180	Accident and emergency (A&E)	
+12379	1622	190	Anaesthetics	
+12380	1622	191	Pain management (available from 1998-99 to 2003-04)	
+12381	1622	192	Critical care medicine (available from 2004-05)	
+12382	1622	199	Non-UK Provider - specialty function not known, treatment mainly surgical	
+12383	1622	300	General medicine	
+12384	1622	301	Gastroenterology	
+12385	1622	302	Endocrinology	
+12386	1622	303	Clinical haemotology	
+12387	1622	304	Clinical physiology	
+12388	1622	305	Clinical pharmacology	
+12389	1622	310	Audiological medicine	
+12390	1622	311	Clinical genetics	
+12391	1622	312	Clinical cytogenics and molecular genetics (available from 1990-91)	
+12392	1622	313	Clinical immunology and allergy (available from 1991-92)	
+12393	1622	314	Rehabilitation (available from 1991-92)	
+12394	1622	315	Palliative medicine	
+12395	1622	320	Cardiology	
+12396	1622	321	Paediatric cardiology (available from 2004-05)	
+12397	1622	330	Dermatology	
+12398	1622	340	Respiratory medicine (also known as thoracic medicine)	
+12399	1622	350	Infectious diseases	
+12400	1622	352	Tropical medicine (available from 2004-05)	
+12401	1622	360	Genito-urinary medicine	
+12402	1622	361	Nephrology	
+12403	1622	370	Medical oncology	
+12404	1622	371	Nuclear medicine	
+12405	1622	400	Neurology	
+12406	1622	401	Clinical neuro-physiology	
+12407	1622	410	Rheumatology	
+12408	1622	420	Paediatrics	
+12409	1622	421	Paediatric neurology	
+12410	1622	430	Geriatric medicine	
+12411	1622	450	Dental medicine (available from 1990-91)	
+12412	1622	460	Medical opthalmology (available from 1993-94)	
+12413	1622	499	Non-UK Provider - specialty function not known, treatment mainly medical	
+12414	1622	501	Obstetrics (prior to 2004-05: Obstetrics for patients using a hospital bed or delivery facilities)	
+12415	1622	502	Gynaecology	
+12416	1622	560	Midwifery (available from October 1995)	
+12417	1622	600	General Medical Practice	
+12418	1622	601	General Dental Practice	
+12419	1622	610	General practice with maternity function (available to 2003-04)	
+12420	1622	620	General practice other than maternity (available to 2003-04)	
+12421	1622	700	Learning disability (previously known as mental handicap)	
+12422	1622	710	Adult mental illness	
+12423	1622	711	Child and adolescent psychiatry	
+12424	1622	712	Forensic psychiatry	
+12425	1622	713	Psychotherapy	
+12426	1622	715	Old age psychiatry (available from 1990-91)	
+12427	1622	800	Clinical oncology (previously Radiotherapy)	
+12428	1622	810	Radiology	
+12429	1622	820	General pathology	
+12430	1622	821	Blood transfusion	
+12431	1622	822	Chemical pathology	
+12432	1622	823	Haematology	
+12433	1622	824	Histopathology	
+12434	1622	830	Immunopathology	
+12435	1622	831	Medical microbiology	
+12436	1622	832	Neuropathology (available to 2003-04)	
+12437	1622	900	Community medicine	
+12438	1622	901	Occupational medicine	
+12439	1622	902	Community health services - dental (available from 2004-05)	
+12440	1622	903	Public health medicine (available from 2004-05)	
+12441	1622	904	Public health dental (available from 2004-05)	
+12442	1622	950	Nursing episode (available from 2002-03)	
+12443	1622	960	Allied health professional episode (available from 2006-07)	
+12444	1622	null	Other maternity event	
+12445	1622	&	Not known	
+12446	1623	4an	Procedure code	
+12447	1623	-	No operation performed	
+12448	1623	&	Not known	
+12449	1624	1	One or more operative procedures carried out	
+12450	1624	8	Not applicable, ie no operative procedures performed or intended	
+12451	1624	9	Not known, ie finished episode but no data entered or the episode is unfinished and no	
+12452	1625	1	Ordinary admission	
+12453	1625	2	Day case admission	
+12454	1625	3	Regular day attender	
+12455	1625	4	Regular night attender	
+12456	1625	5	Mothers and babies using only delivery facilities	
+12457	1625	8	Not applicable (other maternity event)	
+12458	1626	3n	Number of days between the main operation and the end of the episode from 0-365	
+12459	1626	null	Not applicable: no operation or episode unfinished	
+12460	1627	3n	Number of days between the start of the episode and the main operation from 0-365	
+12461	1627	null	Not applicable: no operation or episode unfinished	
+12462	1628	4an	A valid ICD-9 or ICD-10 diagnosis code	
+12463	1628	null	Not applicable	
+12464	1629	3an	A valid ICD-9 or ICD-10 diagnosis code	
+12465	1629	null	Not applicable	
+12466	1630	Chapters	Chapters I to XXII	
+12467	1631	100	General surgery	From 1 April 2004
+12468	1631	101	Urology	From 1 April 2004
+12469	1631	102	Transplantation surgery (includes renal and liver transplants, excludes cardiothoracic transplantation)	From 1 April 2004
+12470	1631	103	Breast surgery (includes suspected neoplasms, cysts etc, does not include cosmetic surgery)	From 1 April 2004
+12471	1631	104	Colorectal surgery (surgical treatment of disorders of the lower intestine - colon, anus and rectum)	From 1 April 2004
+12472	1631	105	Hepatobiliary & pancreatic surgery (includes liver surgery but excludes liver transplantation see transplantation surgery)	From 1 April 2004
+12473	1631	106	Upper gastrointestinal surgery	From 1 April 2004
+12474	1631	107	Vascular surgery	From 1 April 2004
+12475	1631	110	Trauma & orthopaedics	From 1 April 2004
+12476	1631	120	Ear, nose and throat (ENT)	From 1 April 2004
+12477	1631	130	Ophthalmology	From 1 April 2004
+12478	1631	140	Oral surgery	From 1 April 2004
+12479	1631	141	Restorative dentistry (endodontics, periodontics and prosthodontics)	From 1 April 2004
+12480	1631	142	Paediatric dentistry	From 1 April 2004
+12481	1631	143	Orthodontics	From 1 April 2004
+12482	1631	144	Maxillo-facial surgery	From 1 April 2004
+12483	1631	150	Neurosurgery	From 1 April 2004
+12484	1631	160	Plastic surgery	From 1 April 2004
+12485	1631	161	Burns care (recognised specialist services only - includes 'outreach' facilities)	From 1 April 2004
+12486	1631	170	Cardiothoracic surgery (where there are no separate services for cardiac and thoracic surgery)	From 1 April 2004
+12487	1631	171	Paediatric surgery	From 1 April 2004
+12488	1631	172	Cardiac surgery	From 1 April 2004
+12489	1631	173	Thoracic surgery	From 1 April 2004
+12490	1631	174	Cardiothoracic transplantation (recognised specialist services only - includes 'outreach' facilities)	From 1 April 2004
+12491	1631	180	Accident & emergency (A&E)	From 1 April 2004
+12492	1631	190	Not a treatment function	From 1 April 2004
+12493	1631	191	Pain management (complex pain disorders requiring diagnosis and treatment by a specialist multi-professional team)	From 1 April 2004
+12494	1631	192	Critical care medicine (also known as intensive care medicine)	From 1 April 2004
+12495	1631	199	Non-UK Provider - specialty function not known, treatment mainly surgical	From 1 April 2004
+12496	1631	211	Paediatric Urology (from 2006-07)	From 1 April 2004
+12497	1631	212	Paediatric Transplantation Surgery (from 2006-07)	From 1 April 2004
+12498	1631	213	Paediatric Gastrointestinal Surgery (from 2006-07)	From 1 April 2004
+12499	1631	214	Paediatric Trauma and Orthopaedics (from 2006-07)	From 1 April 2004
+12500	1631	215	Paediatric Ear Nose and Throat (from 2006-07)	From 1 April 2004
+12501	1631	216	Paediatric Ophthalmology (from 2006-07)	From 1 April 2004
+12502	1631	217	Paediatric Maxillo-Facial Surgery (from 2006-07)	From 1 April 2004
+12503	1631	218	Paediatric Neurosurgery (from 2006-07)	From 1 April 2004
+12504	1631	219	Paediatric Plastic Surgery (from 2006-07)	From 1 April 2004
+12505	1631	220	Paediatric Burns Care (from 2006-07)	From 1 April 2004
+12506	1631	221	Paediatric Cardiac Surgery (from 2006-07)	From 1 April 2004
+12507	1631	222	Paediatric Thoracic Surgery (from 2006-07)	From 1 April 2004
+12508	1631	241	Paediatric Pain Management (from 2006-07)	From 1 April 2004
+12509	1631	242	Paediatric Intensive Care (from 2006-07)	From 1 April 2004
+12510	1631	251	Paediatric Gastroenterology (from 2006-07)	From 1 April 2004
+12511	1631	252	Paediatric Endocrinology (from 2006-07)	From 1 April 2004
+12512	1631	253	Paediatric Clinical Haetology (from 2006-07)	From 1 April 2004
+12513	1631	254	Paediatric Audiological Medicine (from 2006-07)	From 1 April 2004
+12514	1631	255	Paediatric Clinical Immunology and Allergy (from 2006-07)	From 1 April 2004
+12515	1631	256	Paediatric Infectious diseases (from 2006-07)	From 1 April 2004
+12516	1631	257	Paediatric Dermatology (from 2006-07)	From 1 April 2004
+12517	1631	258	Paediatric Respiratory Medicine (from 2006-07)	From 1 April 2004
+12518	1631	259	Paediatric Nephrology (from 2006-07)	From 1 April 2004
+12519	1631	260	Paediatric Medical Oncology (from 2006-07)	From 1 April 2004
+12520	1631	261	Paediatric Metabolic disease (from 2006-07)	From 1 April 2004
+12521	1631	262	Paediatric Pheumalogy (from 2006-07)	From 1 April 2004
+12522	1631	280	Paediatric Interventional Radiology (from 2006-07)	From 1 April 2004
+12523	1631	290	Community Paediatrics (from 2006-07)	From 1 April 2004
+12524	1631	291	Paediatric Neuro-disability (from 2006-07)	From 1 April 2004
+12525	1631	300	General medicine	From 1 April 2004
+12526	1631	301	Gastroenterology	From 1 April 2004
+12527	1631	302	Endocrinology	From 1 April 2004
+12528	1631	303	Clinical haematology	From 1 April 2004
+12529	1631	304	Clinical Physiology (from 2008-09)	From 1 April 2004
+12530	1631	305	Clinical pharmacology	From 1 April 2004
+12531	1631	306	Hepatology	From 1 April 2004
+12532	1631	307	Diabetic medicine	From 1 April 2004
+12533	1631	308	Bone and marrow transplantation (previously part of clinical haematology)	From 1 April 2004
+12534	1631	309	Haemophilia (previously part of clinical haematology)	From 1 April 2004
+12535	1631	310	Audiological medicine	From 1 April 2004
+12536	1631	311	Clinical genetics	From 1 April 2004
+12537	1631	312	Not a treatment function	From 1 April 2004
+12538	1631	313	Clinical immunology and allergy (where there are no separate services for clinical immunology and allergy)	From 1 April 2004
+12539	1631	314	Rehabilitation	From 1 April 2004
+12540	1631	315	Palliative medicine	From 1 April 2004
+12541	1631	316	Clinical immunology	From 1 April 2004
+12542	1631	317	Allergy	From 1 April 2004
+12543	1631	318	Intermediate care (encompasses a range of multidisciplinary services designed to safeguard independence by maximising rehabilitation and recovery)	From 1 April 2004
+12544	1631	319	Respite care	From 1 April 2004
+12545	1631	320	Cardiology	From 1 April 2004
+12546	1631	321	Paediatric cardiology	From 1 April 2004
+12547	1631	322	Clinical microbiology	From 1 April 2004
+12548	1631	323	Spinal Injuries (from 2006-07)	From 1 April 2004
+12549	1631	330	Dermatology	From 1 April 2004
+12550	1631	340	Thoracic medicine	From 1 April 2004
+12551	1631	341	Respiratory Physiology (previously known as Sleep studies)	From 1 April 2004
+12552	1631	350	Infectious diseases	From 1 April 2004
+12553	1631	352	Tropical medicine	From 1 April 2004
+12554	1631	360	Genito-urinary medicine	From 1 April 2004
+12555	1631	361	Nephrology	From 1 April 2004
+12556	1631	370	Medical oncology	From 1 April 2004
+12557	1631	371	Nuclear Medicine (from 2008-09)	From 1 April 2004
+12558	1631	400	Neurology	From 1 April 2004
+12559	1631	401	Clinical Neurophysiology (from 2008-09)	From 1 April 2004
+12560	1631	410	Rheumatology	From 1 April 2004
+12561	1631	420	Paediatrics	From 1 April 2004
+12562	1631	421	Paediatric neurology	From 1 April 2004
+12563	1631	422	Neonatology	From 1 April 2004
+12564	1631	424	Well babies (care given by the mother/substitute, with nursing advice if needed)	From 1 April 2004
+12565	1631	430	Geriatric medicine	From 1 April 2004
+12566	1631	450	Dental medicine	From 1 April 2004
+12567	1631	460	Medical ophthalmology	From 1 April 2004
+12568	1631	499	Non-UK Provider - specialty function not known, treatment mainly medical	From 1 April 2004
+12569	1631	500	Not a treatment function	From 1 April 2004
+12570	1631	501	Obstetrics	From 1 April 2004
+12571	1631	502	Gynaecology	From 1 April 2004
+12572	1631	503	Gynaecological oncology	From 1 April 2004
+12573	1631	510 and 520	Not treatment functions	From 1 April 2004
+12574	1631	560	Midwife episode	From 1 April 2004
+12575	1631	600, 610 and 620	Not treatment functions	From 1 April 2004
+12576	1631	650	Physiotherapy (from 2006-07)	From 1 April 2004
+12577	1631	651	Occupational Therapy (from 2006-07)	From 1 April 2004
+12578	1631	652	Speech and Language Therapy (from 2006-07)	From 1 April 2004
+12579	1631	653	Podiatry (from 2006-07)	From 1 April 2004
+12580	1631	654	Dietetics (from 2006-07)	From 1 April 2004
+12581	1631	655	Orthoptics (from 2006-07)	From 1 April 2004
+12582	1631	656	Clinical Psychology (from 2006-07)	From 1 April 2004
+12583	1631	700	Learning disability (previously known as mental handicap)	From 1 April 2004
+12584	1631	710	Adult mental illness	From 1 April 2004
+12585	1631	711	Child and adolescent psychiatry	From 1 April 2004
+12586	1631	712	Forensic psychiatry	From 1 April 2004
+12587	1631	713	Psychotherapy	From 1 April 2004
+12588	1631	715	Old age psychiatry	From 1 April 2004
+12589	1631	720	Eating Disorders (from 2006-07)	From 1 April 2004
+12590	1631	721	Addicition Services (from 2006-07)	From 1 April 2004
+12591	1631	722	Liaison Psychiatry (from 2006-07)	From 1 April 2004
+12592	1631	723	Psychiatric Intensive Care(from 2006-07)	From 1 April 2004
+12593	1631	724	Perinatal Psychiatry (from 2006-07)	From 1 April 2004
+12594	1631	800	Clinical oncology (previously known as Radiotherapy)	From 1 April 2004
+12595	1631	810	Radiology (until 2005-06)	From 1 April 2004
+12596	1631	811	Interventional radiology	From 1 April 2004
+12597	1631	812	Diagnostic Imaging (from 2008-09)	From 1 April 2004
+12598	1631	820 and 821	Not treatment functions	From 1 April 2004
+12599	1631	822	Chemical pathology	From 1 April 2004
+12600	1631	823, 824, 830, 831 832, 900, 901, 950 and 990	Not treatment functions	From 1 April 2004
+12601	1631	840	Audiology (from 2008-09)	From 1 April 2004
+12602	1631	null	Other maternity event	From 1 April 2004
+12603	1631	&	Not known	From 1 April 2004
+12604	1631	100	General surgery	Until 31 March 2004
+12605	1631	101	Urology	Until 31 March 2004
+12606	1631	110	Trauma and orthopaedics	Until 31 March 2004
+12607	1631	120	Ear, nose and throat (ENT)	Until 31 March 2004
+12608	1631	130	Ophthalmology	Until 31 March 2004
+12609	1631	140	Oral surgery	Until 31 March 2004
+12610	1631	141	Restorative dentistry	Until 31 March 2004
+12611	1631	142	Paediatric dentistry (from 1999-2000)	Until 31 March 2004
+12612	1631	143	Orthodontics	Until 31 March 2004
+12613	1631	150	Neurosurgery	Until 31 March 2004
+12614	1631	160	Plastic surgery	Until 31 March 2004
+12615	1631	170	Cardiothoracic surgery	Until 31 March 2004
+12616	1631	171	Paediatric surgery	Until 31 March 2004
+12617	1631	180	Accident and emergency (A&E)	Until 31 March 2004
+12618	1631	190	Anaesthetics	Until 31 March 2004
+12619	1631	191	Pain management (from 1998-99)	Until 31 March 2004
+12620	1631	300	General medicine	Until 31 March 2004
+12621	1631	301	Gastroenterology	Until 31 March 2004
+12622	1631	302	Endocrinology	Until 31 March 2004
+12623	1631	303	Haematology (clinical)	Until 31 March 2004
+12624	1631	304	Clinical physiology	Until 31 March 2004
+12625	1631	305	Clinical pharmacology	Until 31 March 2004
+12626	1631	310	Audiological medicine	Until 31 March 2004
+12627	1631	311	Clinical genetics	Until 31 March 2004
+12628	1631	312	Clinical cytogenics and molecular genetics (from 1990-91)	Until 31 March 2004
+12629	1631	313	Clinical immunology and allergy (from 1991-92)	Until 31 March 2004
+12630	1631	314	Rehabilitation (from 1991-92)	Until 31 March 2004
+12631	1631	315	Palliative medicine	Until 31 March 2004
+12632	1631	320	Cardiology	Until 31 March 2004
+12633	1631	330	Dermatology	Until 31 March 2004
+12634	1631	340	Thoracic medicine	Until 31 March 2004
+12635	1631	350	Infectious diseases	Until 31 March 2004
+12636	1631	360	Genito-urinary medicine	Until 31 March 2004
+12637	1631	361	Nephrology	Until 31 March 2004
+12638	1631	370	Medical oncology	Until 31 March 2004
+12639	1631	371	Nuclear medicine	Until 31 March 2004
+12640	1631	400	Neurology	Until 31 March 2004
+12641	1631	401	Clinical neuro-physiology	Until 31 March 2004
+12642	1631	410	Rheumatology	Until 31 March 2004
+12643	1631	420	Paediatrics	Until 31 March 2004
+12644	1631	421	Paediatric neurology	Until 31 March 2004
+12645	1631	430	Geriatric medicine	Until 31 March 2004
+12646	1631	450	Dental medicine (from 1990-91)	Until 31 March 2004
+12647	1631	460	Medical opthalmology (from 1993-94)	Until 31 March 2004
+12648	1631	501	Obstetrics for patients using a hospital bed or delivery facilities	Until 31 March 2004
+12649	1631	502	Gynaecology	Until 31 March 2004
+12650	1631	560	Midwifery (from October 1995)	Until 31 March 2004
+12651	1631	610	General practice with maternity function	Until 31 March 2004
+12652	1631	620	General practice other than maternity	Until 31 March 2004
+12653	1631	700	Learning disability (previously known as mental handicap)	Until 31 March 2004
+12654	1631	710	Mental illness	Until 31 March 2004
+12655	1631	711	Child and adolescent psychiatry	Until 31 March 2004
+12656	1631	712	Forensic psychiatry	Until 31 March 2004
+12657	1631	713	Psychotherapy	Until 31 March 2004
+12658	1631	715	Old age psychiatry (from 1990-91)	Until 31 March 2004
+12659	1631	800	Clinical oncology (previously known as Radiotherapy)	Until 31 March 2004
+12660	1631	810	Radiology	Until 31 March 2004
+12661	1631	820	General pathology	Until 31 March 2004
+12662	1631	821	Blood transfusion	Until 31 March 2004
+12663	1631	822	Chemical pathology	Until 31 March 2004
+12664	1631	823	Haematology	Until 31 March 2004
+12665	1631	824	Histopathology	Until 31 March 2004
+12666	1631	830	Immunopathology	Until 31 March 2004
+12667	1631	831	Medical microbiology	Until 31 March 2004
+12668	1631	832	Neuropathology	Until 31 March 2004
+12669	1631	900	Community medicine	Until 31 March 2004
+12670	1631	901	Occupational medicine	Until 31 March 2004
+12671	1631	950	Nursing episode (from 2002-03)	Until 31 March 2004
+12672	1631	null	Other maternity event	Until 31 March 2004
+12673	1631	&	Not known	Until 31 March 2004
+12674	1632	1	episode contains a diagnosis that is ambulatory care sensitive	
+12675	1632	0	episode doesn't contain a diagnosis that is ambulatory care sensitive	
+12676	1633	annnna	A valid ICD-9 or ICD-10 diagnosis code	
+12677	1633	annnnn	A valid ICD-9 or ICD-10 diagnosis code	
+12678	1633	null	not applicable	
+12679	1635	d/mm/yyyy	Date	
+12680	1635	null	Date not known / not applicable	
+12681	1636	19	The usual place of residence, including no fixed abode	
+12682	1636	29	Temporary place of residence when usually resident elsewhere, for example, hotels and residential educational establishments	
+12683	1636	30	Repatriation from high security psychiatric hospital (from 1999-2000)	
+12684	1636	37	Penal establishment - court (from 1999-2000)	
+12685	1636	38	Penal establishment - police station (from 1999-2000)	
+12686	1636	39	Penal establishment - court and police station excluded (from 1999-2000 to 2006-07)	
+12687	1636	48	High security psychiatric hospital, Scotland (from 1999-2000)	
+12688	1636	49	NHS other hospital provider - high security psychiatric accommodation	
+12689	1636	50	NHS other hospital provider - medium secure unit (from 1999-2000)	
+12690	1636	51	NHS other hospital provider - ward for general patients or the younger physically disabled	
+12691	1636	52	NHS other hospital provider - ward for maternity patients or neonates	
+12692	1636	53	NHS other hospital provider - ward for patients who are mentally ill or have learning disabilities	
+12693	1636	54	NHS run nursing home, residential care home or group home	
+12694	1636	65	Local authority Part 3 residential accommodation - where care is provided (from 1996-97)	
+12695	1636	66	Local authority foster care, but not in Part 3 residential accommodation - where care is provided (from 1996-97)	
+12696	1636	69	LA home or care (1989-90 to 1995-96)	
+12697	1636	79	Not applicable - patient died or still birth	
+12698	1636	84	Non-NHS run hospital - medium secure unit (from 2003-04)	
+12699	1636	85	Non-NHS (other than local authority) run residential care home (from 1996-97 to 2003-04)	
+12700	1636	85	Non-NHS (other than local authority) run care home (from 2003-04)	
+12701	1636	86	Non-NHS (other than local authority) run nursing home (from 1996-97 to 2003-04)	
+12702	1636	87	Non-NHS run hospital	
+12703	1636	88	Non-NHS (other than local authority) run hospice	
+12704	1636	89	Non-NHS institution (1989-90 to 1995-96)	
+12705	1636	98	Not applicable	
+12706	1636	99	Not known	
+12707	1637	0	Valid (or missing because not required)	
+12708	1637	1	Missing	
+12709	1637	2	Invalid	
+12710	1638	dd/mm/yyyy	discharge ready date	
+12711	1639	1	Discharged on clinical advice or with clinical consent	
+12712	1639	2	Self discharged, or discharged by a relative or advocate	
+12713	1639	3	Discharged by a mental health review tribunal, the Home Secretary or a court	
+12714	1639	4	Died	
+12715	1639	5	Baby was still born	
+12716	1639	8	Not applicable: patient still in hospital	
+12717	1639	9	Not known: a validation error	
+12718	1640	3n	The number of days of stay from 0 to 366	
+12719	1640	null	Not applicable (other maternity event / not known)	
+12720	1641	0	Not first episode of spell	
+12721	1641	1	First episode of spell that started in previous year	
+12722	1641	2	First episode of spell that started in current year	
+12723	1641	null	Not applicable	
+12724	1642	dd/mm/yyyy	Date episode ended	
+12725	1642	null	Not applicable / not known	
+12726	1643	dd/mm/yyyy	Date episode started	
+12727	1643	null	Not applicable / not known	
+12728	1644	5n	Duration of spell in days from 0 to 29,200	
+12729	1644	null	Not applicable: patient not discharged (dismeth not in range 1-5), other maternity event (epitype is 5 or 6) or not valid	
+12730	1645	Y	Last episode of spell	
+12731	1645	N	Not last episode of spell	
+12732	1646	5n	Duration of episode in days from 0 to 29,200	
+12733	1646	null	Not applicable (other maternity event or not known)	
+12734	1647	0	Valid (or missing because not required)	
+12735	1647	1	Missing	
+12736	1647	2	Invalid	
+12737	1648	2n	The number of the episode in the sequence of episodes from 01-87	
+12738	1648	98	Not applicable	
+12739	1648	99	Not known	
+12740	1648	null	Not applicable: other maternity event	
+12741	1649	0	Valid (or missing because not required)	
+12742	1649	1	Missing	
+12743	1649	2	Invalid	
+12744	1650	1	Unfinished	
+12745	1650	3	Finished	
+12746	1650	9	Derived unfinished (not present on processed data)	
+12747	1651	1	General episode (anything that is not covered by the other codes)	
+12748	1651	2	Delivery episode	
+12749	1651	3	Birth episode	
+12750	1651	4	Formally detained under the provisions of mental health legislation or long-term (over one year) psychiatric patients who should have additional information recorded on the psychiatric census. This value can only appear in unfinished records	
+12751	1651	5	Other delivery event	
+12752	1651	6	Other birth event	
+12753	1653	A	home	
+12754	1653	A-71	Home leave, non-psychiatric	
+12755	1653	A-72	Home leave, psychiatric	
+12756	1653	B	age	
+12757	1653	B-1	Neonates	
+12758	1653	B-2	Children and adolescents	
+12759	1653	B-3	Elderly	
+12760	1653	B-8	Any age	
+12761	1653	B-9	Invalid	
+12762	1653	C	sex	
+12763	1653	C-8	Not specified	
+12764	1653	C-9	Invalid	
+12765	1653	D	hospital	
+12766	1653	D-1	NHS hospital provider	
+12767	1653	D-2	Non-NHS hospital provider	
+12768	1653	D-9	Invalid	
+12769	1653	E	is the number of days in a week that the ward is open only during the day	
+12770	1653	F	is the number of days in a week that the ward is open at night	
+12771	1654	N01-N98	Cancer Registry in England/Wales/Isle of Man	
+12772	1654	Z99	Scotland/Northern Ireland/Channel Islands (pseudo)	
+12773	1654	Null	no information available	
+12774	1655	Y0201-Y1701	Cancer Registry in England/Wales	
+12775	1655	Z9999	Scotland/NI/Channel Island/Isle of Man (pseudo)	
+12776	1655	Null	No information available	
+12777	1657	CC	county	
+12778	1657	DD	district or UA	
+12779	1657	WW	ward	
+12780	1658	00	Unitary authority	
+12781	1658	09	Bedfordshire	
+12782	1658	11	Buckinghamshire	
+12783	1658	12	Cambridgeshire	
+12784	1658	13	Cheshire	
+12785	1658	15	Cornwall and Isles of Scilly	
+12786	1658	16	Cumbria	
+12787	1658	17	Derbyshire	
+12788	1658	18	Devon	
+12789	1658	19	Dorset	
+12790	1658	20	Durham	
+12791	1658	21	East Sussex	
+12792	1658	22	Essex	
+12793	1658	23	Gloucestershire	
+12794	1658	24	Hampshire	
+12795	1658	26	Hertfordshire	
+12796	1658	29	Kent	
+12797	1658	30	Lancashire	
+12798	1658	31	Leicestershire	
+12799	1658	32	Lincolnshire	
+12800	1658	33	Norfolk	
+12801	1658	34	Northamptonshire	
+12802	1658	35	Northumberland	
+12803	1658	36	North Yorkshire	
+12804	1658	37	Nottinghamshire	
+12805	1658	38	Oxfordshire	
+12806	1658	39	Shropshire	
+12807	1658	40	Somerset	
+12808	1658	41	Staffordshire	
+12809	1658	42	Suffolk	
+12810	1658	43	Surrey	
+12811	1658	44	Warwickshire	
+12812	1658	45	West Sussex	
+12813	1658	46	Wiltshire	
+12814	1658	47	Worcestershire	
+12815	1658	S	Scotland	
+12816	1658	U	England	
+12817	1658	W	Wales	
+12818	1658	X	Foreign (from 1990-91 onwards)	
+12819	1658	Y	Not known	
+12820	1658	Z	Northern Ireland	
+12821	1659	2a	Electoral ward	
+12822	1660	5a	Electoral ward	
+12823	1661	6a	Electoral ward	
+12824	1662	6a	Electoral ward	
+12825	1663	A	North East	
+12826	1663	B	North West	
+12827	1663	C	Merseyside (until 1998-99)	
+12828	1663	D	Yorkshire and Humber	
+12829	1663	E	East Midlands	
+12830	1663	F	West Midlands	
+12831	1663	G	East of England	
+12832	1663	H	London	
+12833	1663	J	South East	
+12834	1663	K	South West	
+12835	1663	S	Scotland	
+12836	1663	U	No fixed above	
+12837	1663	W	Wales	
+12838	1663	X	Foreign (including Isle of Man and Channel Islands)	
+12839	1663	Y	Unknown	
+12840	1663	Z	Northern Ireland	
+12841	1664	A	North East	
+12842	1664	B	North West	
+12843	1664	D	Yorkshire and The Humber	
+12844	1664	E	East Midlands	
+12845	1664	F	West Midlands	
+12846	1664	G	East of England	
+12847	1664	H	London	
+12848	1664	J	South East	
+12849	1664	K	South West	
+12850	1664	Y	Not known	
+12851	1665	3a	Health authority of residence	
+12852	1665	S	Scotland	
+12853	1665	U	England - not otherwise specified	
+12854	1665	W	Wales	
+12855	1665	X	Foreign (including Isle of Man and Channel Islands)	
+12856	1665	Y	Unknown	
+12857	1665	Z	Northern Ireland	
+12858	1666	3a	Health authority of treatment	
+12859	1666	Y	Unknown	
+12860	1667	4an	Local authority code	
+12861	1667	S	Scotland	
+12862	1667	U	England (NOS)	
+12863	1667	W	Wales	
+12864	1667	Y	Not known	
+12865	1667	Z	Northern Ireland	
+12866	1667	X	Foreign (from 1991 onwards)	
+12867	1667	9999	Not known	
+12868	1668	4an	Local authority code	
+12869	1668	S	Scotland	
+12870	1668	U	England (NOS)	
+12871	1668	W	Wales	
+12872	1668	Y	Not known	
+12873	1668	Z	Northern Ireland	
+12874	1668	X	Foreign	
+12875	1669	10an	Lower Super Output Area	
+12876	1669	Z99999999	Not known	
+12877	1670	10an	Middle Super Output Area	
+12878	1670	Z99999999	Not known	
+12879	1671	9n	Ordnance survey grid reference (4 digits eastings, 5 digits northings)	
+12880	1672	3an	Health authority of residence	
+12881	1672	499	Non-UK Provider	
+12882	1672	X98	Unknown	
+12883	1673	naa or nan	Primary care trust of residence	
+12884	1673	59999	Unknown	
+12885	1673	59898	Not applicable	
+12886	1674	naa or nan	Primary care trust of residence	
+12887	1674	59999	Unknown	
+12888	1674	59898	Not applicable	
+12889	1675	naa or nan	Primary care trust of residence	
+12890	1675	59999	Unknown	
+12891	1675	59898	Not applicable	
+12892	1676	3an	Strategic health authority of residence	
+12893	1676	Y	Not known	
+12894	1677	3an	Strategic health authority of residence	
+12895	1677	Y	Not known	
+12896	1678	3an	Strategic health authority of residence	
+12897	1678	Y	Not known	
+12898	1679	3an	Primary care trust of treatment	
+12899	1679	59898	Not applicable	
+12900	1679	59999	Unknown	
+12901	1680	Y01	Northern and Yorkshire	From 1 April 1999
+12902	1680	Y02	Trent	From 1 April 1999
+12903	1680	Y07	West Midlands	From 1 April 1999
+12904	1680	Y08	North West	From 1 April 1999
+12905	1680	Y09	Eastern	From 1 April 1999
+12906	1680	Y10	London	From 1 April 1999
+12907	1680	Y11	South East	From 1 April 1999
+12908	1680	Y12	South West	From 1 April 1999
+12909	1680	Y	Not Known	From 1 April 1999
+12910	1680	Y01	Northern and Yorkshire	From 1 April 1996 to 31 March 1999
+12911	1680	Y02	Trent	From 1 April 1996 to 31 March 1999
+12912	1680	Y03	Anglia and Oxford	From 1 April 1996 to 31 March 1999
+12913	1680	Y04	North Thames	From 1 April 1996 to 31 March 1999
+12914	1680	Y05	South Thames	From 1 April 1996 to 31 March 1999
+12915	1680	Y06	South and West	From 1 April 1996 to 31 March 1999
+12916	1680	Y07	West Midlands	From 1 April 1996 to 31 March 1999
+12917	1680	Y08	North West	From 1 April 1996 to 31 March 1999
+12918	1680	Y	Not Known	From 1 April 1996 to 31 March 1999
+12919	1680	Y0A	Northern RHA	From 1 April 1989 to 31 March 1996
+12920	1680	Y0B	Yorkshire RHA	From 1 April 1989 to 31 March 1996
+12921	1680	Y0C	Trent RHA	From 1 April 1989 to 31 March 1996
+12922	1680	Y0D	East Anglian RHA	From 1 April 1989 to 31 March 1996
+12923	1680	Y0E	North West Thames RHA	From 1 April 1989 to 31 March 1996
+12924	1680	Y0F	North East Thames RHA	From 1 April 1989 to 31 March 1996
+12925	1680	Y0G	South East Thames RHA	From 1 April 1989 to 31 March 1996
+12926	1680	Y0H	South West Thames RHA	From 1 April 1989 to 31 March 1996
+12927	1680	Y0J	Wessex RHA	From 1 April 1989 to 31 March 1996
+12928	1680	Y0K	Oxford RHA	From 1 April 1989 to 31 March 1996
+12929	1680	Y0L	South Western RHA	From 1 April 1989 to 31 March 1996
+12930	1680	Y0M	West Midlands RHA	From 1 April 1989 to 31 March 1996
+12931	1680	Y0N	Mersey RHA	From 1 April 1989 to 31 March 1996
+12932	1680	Y0P	North Western RHA	From 1 April 1989 to 31 March 1996
+12933	1680	Y0Y	Not known	From 1 April 1989 to 31 March 1996
+12934	1681	Y01	Northern and Yorkshire	From 1 April 1999
+12935	1681	Y02	Trent	From 1 April 1999
+12936	1681	Y07	West Midlands	From 1 April 1999
+12937	1681	Y08	North West	From 1 April 1999
+12938	1681	Y09	Eastern	From 1 April 1999
+12939	1681	Y10	London	From 1 April 1999
+12940	1681	Y11	South East	From 1 April 1999
+12941	1681	Y12	South West	From 1 April 1999
+12942	1681	W00	Wales	From 1 April 1999
+12943	1681	S00	Scotland	From 1 April 1999
+12944	1681	Z00	Northern Ireland	From 1 April 1999
+12945	1681	U00	England - not otherwise specified	From 1 April 1999
+12946	1681	Y00	Unknown	From 1 April 1999
+12947	1681	X00	Foreign (including the Isle of Man and Channel Islands)	From 1 April 1999
+12948	1681	Y01	Northern and Yorkshire	From 1 April 1996 to 31 March 1999
+12949	1681	Y02	Trent	From 1 April 1996 to 31 March 1999
+12950	1681	Y03	Anglia and Oxford	From 1 April 1996 to 31 March 1999
+12951	1681	Y04	North Thames	From 1 April 1996 to 31 March 1999
+12952	1681	Y05	South Thames	From 1 April 1996 to 31 March 1999
+12953	1681	Y06	South and West	From 1 April 1996 to 31 March 1999
+12954	1681	Y07	West Midlands	From 1 April 1996 to 31 March 1999
+12955	1681	Y08	North West	From 1 April 1996 to 31 March 1999
+12956	1681	W	Wales	From 1 April 1996 to 31 March 1999
+12957	1681	S	Scotland	From 1 April 1996 to 31 March 1999
+12958	1681	Z	Northern Ireland	From 1 April 1996 to 31 March 1999
+12959	1681	U	England NOS	From 1 April 1996 to 31 March 1999
+12960	1681	Y	Not known	From 1 April 1996 to 31 March 1999
+12961	1681	X	Foreign	From 1 April 1996 to 31 March 1999
+12962	1681	Y0A	Northern RHA	From 1 April 1989 to 31 March 1996
+12963	1681	Y0B	Yorkshire RHA	From 1 April 1989 to 31 March 1996
+12964	1681	Y0C	Trent RHA	From 1 April 1989 to 31 March 1996
+12965	1681	Y0D	East Anglian RHA	From 1 April 1989 to 31 March 1996
+12966	1681	Y0E	North West Thames RHA	From 1 April 1989 to 31 March 1996
+12967	1681	Y0F	North East Thames RHA	From 1 April 1989 to 31 March 1996
+12968	1681	Y0G	South East Thames RHA	From 1 April 1989 to 31 March 1996
+12969	1681	Y0H	South West Thames RHA	From 1 April 1989 to 31 March 1996
+12970	1681	Y0J	Wessex RHA	From 1 April 1989 to 31 March 1996
+12971	1681	Y0K	Oxford RHA	From 1 April 1989 to 31 March 1996
+12972	1681	Y0L	South Western RHA	From 1 April 1989 to 31 March 1996
+12973	1681	Y0M	West Midlands RHA	From 1 April 1989 to 31 March 1996
+12974	1681	Y0N	Mersey RHA	From 1 April 1989 to 31 March 1996
+12975	1681	Y0P	North Western RHA	From 1 April 1989 to 31 March 1996
+12976	1681	Y0Y	Not known	From 1 April 1989 to 31 March 1996
+12977	1682	1	Urban	
+12978	1682	2	Town and Fringe - sparse. Output Area falls within the Small Town and Fringe areas category and the wider surrounding area is sparsely populated.	
+12979	1682	3	Village - sparse. Output Area falls within the Village category and the wider surrounding area is sparsely populated.	
+12980	1682	4	Hamlet and Isolated dwelling - sparse. Ouput Area fall within the Hamlet & Isolated Dwelling category and the wider surrounding area is sparsely populated.	
+12981	1682	5	Urban	
+12982	1682	6	Town and Fringe - less sparse. Output Area falls within the Small Town and Fringe areas category and the wider urrounding area is less sparsely populated.	
+12983	1682	7	Village - less sparse. Output Area falls within the Village category and the wider surrounding area is less sparsely populated.	
+12984	1682	8	Hamlet and Isolated Dwelling - less sparse. Output Area falls within the Hamlet & Isolated Dwelling category and the wider surrounding area is less sparsely populated.	
+12985	1682	9	postcode in Scotland/NI/Channel Islands/Isle of Man/pseudopostcodes	
+12986	1682	Space	No information available	
+12987	1683	5an	Site code of treatment	
+12988	1683	89999	Non-NHS UK provider where no organisation site code has been issued	
+12989	1683	89997	Not applicable: non-UK provider	
+12990	1684	3an	Strategic health authority of treatment	
+12991	1684	Y	Unknown	
+12992	1685	10an	Super Output Area	
+12993	1685	Z99999999	Not known	
+12994	1686	001-529	England	
+12995	1686	530-569	Wales	
+12996	1686	801-859	Scotland	
+12997	1686	701-718	Northern Ireland	
+12998	1686	800	Channel Islands (pseudo)	
+12999	1686	900	Isle of Man (pseudo)	
+13000	1687	3.1	Applied HRG code from 1989-90 to 2005-06 inclusive	
+13001	1687	3.5	Applied HRG code from 2003-04 onwards	
+13002	1687	4.0	Applied HRG code from 2006-07 onwards	
+13003	1687	null	Not applicable	
+13004	1688	4an	Procedure code	
+13005	1688	-	no operation performed	
+13006	1688	&	Not known	
+13007	1689	3an	Trust derived HRG value	
+13008	1690	5an	SUS generated HRG	
+13009	1690	Null	Records that have excluded from PbR in SUS as the activity is outside the scope of PbR	
+13010	1691	5an	SUS generated Core Spell HRG	
+13011	1691	Null	Spells that have excluded from PbR in SUS as the activity is outside the scope of PbR	
+13012	1692	4.0	HRG4	
+13013	1692	null	Not applicable	
+13014	1693	3an	Version no. of Trust derived HRG	
+13015	1694	1	General anaesthetic: the administration by a doctor of an agent to produce unconsciousness	
+13016	1694	2	Epidural or caudal anaesthetic: the injection of a local anaesthetic into the epidural space	
+13017	1694	3	Spinal anaesthetic: the injection of a local anaesthetic agent into the subarachnoid space	
+13018	1694	4	General anaesthetic and epidural or caudal anaesthetic	
+13019	1694	5	General anaesthetic and spinal anaesthetic	
+13020	1694	6	Epidural or caudal, and spinal anaesthetic	
+13021	1694	7	Other than 1 to 6	
+13022	1694	8	Not applicable	
+13023	1694	9	Not known	
+13024	1694	null	Not applicable (from 1990-91 to 1994-95)	
+13025	1695	1	General anaesthetic: the administration by a doctor of an agent to produce unconsciousness	
+13026	1695	2	Epidural or caudal anaesthetic: the injection of a local anaesthetic into the epidural space	
+13027	1695	3	Spinal anaesthetic: the injection of a local anaesthetic agent into the subarachnoid space	
+13028	1695	4	General anaesthetic and epidural or caudal anaesthetic	
+13029	1695	5	General anaesthetic and spinal anaesthetic	
+13030	1695	6	Epidural or caudal, and spinal anaesthetic	
+13031	1695	7	Other than 1 to 6	
+13032	1695	8	Not applicable	
+13033	1695	9	Not known	
+13034	1695	null	Not applicable (from 1990-91 to 1994-95)	
+13035	1696	3n	The number of days of stay from 0 to 270	
+13036	1696	null	Not applicable / not known	
+13037	1697	1n	birth sequence	
+13038	1698	2n	Age of patient in days from 0 to 27	
+13039	1698	null	Not applicable: other maternity event (epitype is 5 or 6) or baby is older than 27 days	
+13040	1699	dd/mm/yyyy	Date of birth	
+13041	1700	1	First, including single, birth	
+13042	1700	2	Second	
+13043	1700	3	Third	
+13044	1700	4	Fourth	
+13045	1700	5	Fifth	
+13046	1700	6	Sixth	
+13047	1700	7	Seventh	
+13048	1700	8	Not applicable	
+13049	1700	9	Not known: a validation error	
+13050	1700	X	Not known	
+13051	1701	4n	Weight in grams from 0001 to 6999	
+13052	1701	7000	7000g or more	
+13053	1701	9999	Not known	
+13054	1702	1	Decision made during pregnancy because the patient's address changed	
+13055	1702	2	Decision made during pregnancy for clinical reasons	
+13056	1702	3	Decision made during pregnancy for other reasons	
+13057	1702	4	Decision made during labour for clinical reasons	
+13058	1702	5	Decision made during labour for other reasons	
+13059	1702	6	Occurred unintentionally during labour	
+13060	1702	8	Not applicable: there was no change	
+13061	1702	9	Not known	
+13062	1702	null	No change (before 1995-96)	
+13063	1703	0	Spontaneous vertex (normal vaginal delivery, occipitoanterior)	
+13064	1703	1	Spontaneous other cephalic (cephalic vaginal delivery with abnormal presentation of head at delivery, without instruments, with or without manipulation)	
+13065	1703	2	Low forceps, not breech, including forceps delivery not otherwise specified (forceps, low application, without manipulation)	
+13066	1703	3	Other forceps, not breech, including high forceps and mid forceps (forceps with manipulation)	
+13067	1703	4	Ventouse, vacuum extraction	
+13068	1703	5	Breech, including partial breech extraction (spontaneous delivery assisted or unspecified)	
+13069	1703	6	Breech extraction not otherwise specified, including total breech extraction and version with breech extraction	
+13070	1703	7	Elective caesarean section (caesarean section before or at the onset of labour)	
+13071	1703	8	Emergency caesarean section	
+13072	1703	9	Other than those specified above, including destructive operation to facilitate delivery, and other surgical or instrumental delivery, for example, application of weight to leg in breech delivery	
+13073	1703	null	Not applicable (from 1990-91 to 1994-95)	
+13074	1703	x	Not known (from 1996-97 onwards)	
+13075	1704	01	Elective caesarean delivery	
+13076	1704	02	Other/Emergency caesarean delivery	
+13077	1704	03	Breech Extraction delivery	
+13078	1704	04	Other Breech delivery	
+13079	1704	05	Low Forceps cephalic delivery	
+13080	1704	06	Other Forceps Delivery	
+13081	1704	07	Ventouse (vacuum) delivery	
+13082	1704	08	Spontaneous other delivery	
+13083	1704	09	Normal delivery (spontaneous vertex)	
+13084	1704	10	Other methods of delivery	
+13085	1704	X	Unknown delivery method	
+13086	1705	0	In NHS hospital: delivery facilities associated with midwife ward	
+13087	1705	1	At a domestic address	
+13088	1705	2	In NHS hospital: delivery facilities associated with consultant ward	
+13089	1705	3	In NHS hospital: delivery facilities associated with GMP ward	
+13090	1705	4	In NHS hospital: delivery facilities associated with consultant, GMP or midwife ward, or any combination of two of these	
+13091	1705	5	In private hospital	
+13092	1705	6	In other hospital or institution	
+13093	1705	7	In NHS hospital: ward or unit without delivery facilities	
+13094	1705	8	Other than those above	
+13095	1705	9	Not known	
+13096	1706	0	In NHS hospital: delivery facilities associated with midwife ward	
+13097	1706	1	At a domestic address	
+13098	1706	2	In NHS hospital: delivery facilities associated with consultant ward	
+13099	1706	3	In NHS hospital: delivery facilities associated with GMP ward	
+13100	1706	4	In NHS hospital: delivery facilities associated with consultant and GMP ward	
+13101	1706	5	In private hospital	
+13102	1706	6	In other hospital or institution	
+13103	1706	7	In NHS hospital: ward or unit without delivery facilities	
+13104	1706	8	Other than those above	
+13105	1706	9	Not known	
+13106	1706	null	Not applicable (from 1990-91 to 1995-96)	
+13107	1707	dd/mm/yyyy	Date of first antenatal assessment	
+13108	1707	null	Not applicable / not known	
+13109	1708	2n	The gestation period in weeks	
+13110	1708	null	Not valid / not known	
+13111	1709	2n	Number of weeks in the range 10 to 49	
+13112	1709	99	Not known: a validation error	
+13113	1710	1	Live	
+13114	1710	2	Still birth: ante-partum	
+13115	1710	3	Still birth: intra-partum	
+13116	1710	4	Still birth: indeterminate	
+13117	1710	9	Not known	
+13118	1711	1	Spontaneous: the onset of regular contractions whether or not preceded by spontaneous rupture of the membranes	
+13119	1711	2	Any caesarean section carried out immediately following the onset of labour, when the decision was made before labour	
+13120	1711	3	Surgical induction by amniotomy	
+13121	1711	4	Medical induction, including the administration of agents either orally, intravenously or intravaginally with the intention of initiating labour	
+13122	1711	5	Combination of surgical induction and medical induction	
+13123	1711	8	Not applicable (from 1996-97 onwards)	
+13124	1711	9	Not known: validation error	
+13125	1711	null	Not applicable (from 1990-91 to 1994-95)	
+13126	1712	3n	Age in years	
+13127	1712	null	Not valid	
+13128	1713	dd/mm/yyyy	Mother's date of birth	
+13129	1714	0	Valid	
+13130	1714	1	Missing	
+13131	1714	2	Invalid	
+13132	1715	0	Normal care: care given by the mother or mother substitute, with medical and neonatal nursing advice if needed	
+13133	1715	1	Special care: care given in a special nursery, transitional care ward or postnatal ward, which provides care and treatment exceeding normal routine care. Some aspects of special care can be undertaken by a mother supervised by qualified nursing staff. Special nursing care includes support for and education of the infant's parents	
+13134	1715	2	Level 2 intensive care (high dependency intensive care): care given in an intensive or special care nursery, which provides continuous skilled supervision by qualified and specially trained nursing staff who may care for more babies than in level 1 intensive care. Care includes support for the infant's parents	
+13135	1715	3	Level 1 intensive care (maximal intensive care): care given in an intensive or special care nursery, which provides continuous skilled supervision by qualified and specially trained nursing and medical staff. Care includes support for the infant's parents	
+13136	1715	8	Not applicable: the episode of care does not involve a neonate at any time	
+13137	1715	9	Not known: the episode of care involves a neonate and is finished but no data has been entered this constitutes a validation error. Alternatively the episode involves a neonate but is unfinished, therefore no data need be present	
+13138	1716	1	One	
+13139	1716	2	Two	
+13140	1716	3	Three	
+13141	1716	4	Four	
+13142	1716	5	Five	
+13143	1716	6	Six or more	
+13144	1716	9	Not known: a validation error	
+13145	1716	X	Not known	
+13146	1717	1n	Number of valid births associated with the episode record	
+13147	1718	2n	Number of previous pregnancies, from 00 to 19, resulting in a registrable birth	
+13148	1718	99	Not known	
+13149	1719	3n	The number of days of stay, from 0 to 270	
+13150	1719	null	Not applicable / not known	
+13151	1720	1	Positive pressure nil, drugs nil	
+13152	1720	2	Positive pressure nil, drugs administered	
+13153	1720	3	Positive pressure by mask, drugs nil	
+13154	1720	4	Positive pressure by mask, drugs administered	
+13155	1720	5	Positive pressure by endotracheal tube, drugs nil	
+13156	1720	6	Positive pressure by endotracheal tube, drugs administered	
+13157	1720	8	Not applicable: still born and no method of resuscitation attempted	
+13158	1720	9	Not known	
+13159	1721	1	Male	From 1996-97
+13160	1721	2	Female	From 1996-97
+13161	1721	9	Not specified	From 1996-97
+13162	1721	0	Not known	From 1996-97
+13163	1721	1	Male	Up to 1996-97
+13164	1721	2	Female	Up to 1996-97
+13165	1721	3	Indeterminate, including those undergoing sex change operations	Up to 1996-97
+13166	1722	1	Hospital doctor	
+13167	1722	2	General practitioner	
+13168	1722	3	Midwife	
+13169	1722	8	Other than above	
+13170	1722	9	Not known: validation error	
+13171	1723	Y	Well baby episode	
+13172	1723	N	Any other episode	
+13173	1724	1	Health authorities	
+13174	1724	2	GP fund holders	
+13175	1724	3	Primary care groups	
+13176	1724	4	Primary care trusts	
+13177	1724	5	Private patients	
+13178	1724	6	Department of Health - the Department purchases treatment for patients from abroad (either under EU regulations or other reciprocal agreements) and for certain UK residents whose treatment is centrally financed, notably those treated by Special Health Authorities.	
+13179	1725	0	Purchaser code is not recognised throughout the NHS	
+13180	1725	1	Purchaser code is recognised throughout the NHS	
+13181	1726	S or S0000	Scotland	From 1999-2000 to 2001-2002
+13182	1726	W or W0000	Wales	From 1999-2000 to 2001-2002
+13183	1726	Y01	Northern and Yorkshire	From 1999-2000 to 2001-2002
+13184	1726	Y02	Trent	From 1999-2000 to 2001-2002
+13185	1726	Y07	West Midlands	From 1999-2000 to 2001-2002
+13186	1726	Y08	North West	From 1999-2000 to 2001-2002
+13187	1726	Y09	Eastern	From 1999-2000 to 2001-2002
+13188	1726	Y10	London	From 1999-2000 to 2001-2002
+13189	1726	Y11	South East	From 1999-2000 to 2001-2002
+13190	1726	Y12	South West	From 1999-2000 to 2001-2002
+13191	1726	Z or Z0000	Northern Ireland	From 1999-2000 to 2001-2002
+13192	1726	null	Not known	From 1999-2000 to 2001-2002
+13193	1726	S or S0000	Scotland	From 1996-97 to 1998-99
+13194	1726	W or W0000	Wales	From 1996-97 to 1998-99
+13195	1726	Y01	Northern and Yorkshire	From 1996-97 to 1998-99
+13196	1726	Y02	Trent	From 1996-97 to 1998-99
+13197	1726	Y03	Anglia and Oxford	From 1996-97 to 1998-99
+13198	1726	Y04	North Thames	From 1996-97 to 1998-99
+13199	1726	Y05	South Thames	From 1996-97 to 1998-99
+13200	1726	Y06	South and West	From 1996-97 to 1998-99
+13201	1726	Y07	West Midlands	From 1996-97 to 1998-99
+13202	1726	Y08	North West	From 1996-97 to 1998-99
+13203	1726	Z or Z0000	Northern Ireland	From 1996-97 to 1998-99
+13204	1726	null	Not known	From 1996-97 to 1998-99
+13205	1726	9999	Not known	From 1996-97 to 1998-99
+13206	1726	A0000	Northern	1995-96
+13207	1726	B0000	Yorkshire	1995-96
+13208	1726	C0000	Trent	1995-96
+13209	1726	D0000	East Anglia	1995-96
+13210	1726	E0000	North West Thames	1995-96
+13211	1726	F0000	North East Thames	1995-96
+13212	1726	G0000	South East Thames	1995-96
+13213	1726	H0000	South West Thames	1995-96
+13214	1726	J0000	Wessex	1995-96
+13215	1726	K0000	South Western	1995-96
+13216	1726	M0000	West Midlands	1995-96
+13217	1726	N0000	Mersey	1995-96
+13218	1726	P0000	North Western	1995-96
+13219	1726	Z or Z0000	Northern Ireland	1995-96
+13220	1726	null	Not known	1995-96
+13221	1726	9999	Not known	1995-96
+13222	1727	3an	Commissioner's strategic health authority	
+13223	1727	S	Scotland	
+13224	1727	X	Foreign (including Isle of Man and Channel Islands)	
+13225	1727	Y	Unknown	
+13226	1727	Z	Northen Ireland	
+13227	1729	aaa or aan	Health authority where patient's GP was registered	
+13228	1729	Y	Unknown	
+13229	1731	nan, naa or aaa	Primary care trust where patient's GP was registered	
+13230	1731	59898	Not applicable	
+13231	1731	59999	Unknown	
+13232	1732	nan, naa or aaa	Primary care trust	
+13233	1732	59898	Not applicable	
+13234	1732	59999	Unknown	
+13235	1733	nan, naa or aaa	Primary care trust	
+13236	1733	59898	Not applicable	
+13237	1733	59999	Unknown	
+13238	1734	nan, naa or aaa	Primary care trust	
+13239	1734	59898	Not applicable	
+13240	1734	59999	Unknown	
+13241	1735	5an	Provider code	
+13242	1736	3an	3-character provider code	
+13243	1737	5an	5-character provider code	
+13244	1737	89997	Non-UK provider where no organisation code has been issued	
+13245	1737	89999	Non-NHS UK provider where no organisation code has been issued	
+13246	1738	Caretrust	Care trust	
+13247	1738	Foundation	NHS foundation trust	
+13248	1738	Ind	Independent sector provider	
+13249	1738	Indsite	Independent sector provider site	
+13250	1738	Indsitetc	Treatment centre at independent sector provider site	
+13251	1738	Otherprov	Other provider organisation	
+13252	1738	PCT	Primary care trust	
+13253	1738	Trust	NHS trust	
+13254	1738	Trustsitetc	Treatment centre at NHS trust site	
+13255	1739	Y01	Northern and Yorkshire Regional Office	
+13256	1739	Y02	Trent Regional Office	
+13257	1739	Y07	West Midlands Regional Office	
+13258	1739	Y08	North West Regional Office	
+13259	1739	Y09	Eastern Regional Office	
+13260	1739	Y10	London Regional Office	
+13261	1739	Y11	South East Regional Office	
+13262	1739	Y12	South West Regional Office	
+13263	1739	Y00	Unknown	
+13264	1740	3an	Strategic health authority	
+13265	1740	S	Scotland	
+13266	1740	U	England - Not Otherwise Specified	
+13267	1740	W	Wales	
+13268	1740	X	Foreign (including Isle of Man and Channel Islands)	
+13269	1740	Y	Unknown	
+13270	1740	Z	Northern Ireland	
+13271	1741	10	NHS patient: not formally detained	
+13272	1741	11	NHS patient: formally detained under Part II of the Mental Health Act 1983	
+13273	1741	12	NHS patient: formally detained under Part III of the Mental Health Act 1983 or under other Acts	
+13274	1741	13	NHS patient: formally detained under part X, Mental Health Act 1983*	
+13275	1741	20	Private patient: not formally detained	
+13276	1741	21	Private patient: formally detained under Part II of the Mental Health Act 1983	
+13277	1741	22	Private patient: formally detained under Part III of the Mental Health Act 1983 or under other Acts	
+13278	1741	23	Private patient: formally detained under part X, Mental health Act 1983*	
+13279	1741	30	Amenity patient: not formally detained	
+13280	1741	31	Amenity patient: formally detained under Part II of the Mental Health Act 1983	
+13281	1741	32	Amenity patient: formally detained under Part III of the Mental Health Act 1983 or under other Acts	
+13282	1741	33	Amenity patient: formally detained under part X, Mental health Act 1983*	
+13283	1741	null	Other maternity event.	
+13284	1742	01	NHS patient, including overseas visitors charged under Section 121 of the NHS Act 1977 as amended by Section 7(12) and (14) of the Health and Medicine Act 1988	
+13285	1742	02	Private patient: one who uses accommodation or services authorised under section 65 and/or 66 of the NHS Act 1977 (Section 7(10) of Health and Medicine Act 1988 refers) as amended by Section 26 of the National Health Service and Community Care Act 1990	
+13286	1742	03	Amenity patient: one who pays for the use of a single room or small ward in accord with section 12 of the NHS Act 1977, as amended by section 7(12) and (14) of the Health and Medicine Act 1988	
+13287	1742	04	A category II patient: one for whom work is undertaken by hospital medical or dental staff within categories II as defined in paragraph 37 of the Terms and Conditions of Service of Hospital Medical and Dental Staff	
+13288	1742	98	Not applicable	
+13289	1742	99	Not known	
+13290	1743	01	NHS patient	
+13291	1743	02	Private patient	
+13292	1743	03	Amenity patient	
+13293	1743	04	Category II patient	
+13294	1743	98	Not applicable	
+13295	1743	99	Not known: a validation error	
+13296	1744	Y	Episode is an admission episode, ie episode order equals 1	
+13297	1744	N	Episode is not an admission episode	
+13298	1745	3n	age at activity date	
+13299	1745	999	Not known, ie date of birth not known and age cannot be estimated.	
+13300	1746	7001	Less than 1 day	
+13301	1746	7002	1 to 6 days	
+13302	1746	7003	7 to 28 days	
+13303	1746	7004	29 to 90 days (under 3 months)	
+13304	1746	7005	91 to 181 days (approximately 3 months to under 6 months)	
+13305	1746	7006	182 to 272 days (approximately 6 months to under 9 months)	
+13306	1746	7007	273 to 364 days (approximately 9 months to under 1 year)	
+13307	1746	null	Not applicable (other maternity event or not known)	
+13308	1747	7001	Less than 1 day	
+13309	1747	7002	1 to 6 days	
+13310	1747	7003	7 to 28 days	
+13311	1747	7004	29 to 90 days (under 3 months)	
+13312	1747	7005	91 to 181 days (approximately 3 months to under 6 months)	
+13313	1747	7006	182 to 272 days (approximately 6 months to under 9 months)	
+13314	1747	7007	273 to 364 days (approximately 9 months to under 1 year)	
+13315	1747	null	Not applicable (other maternity event or not known)	
+13316	1748	3n	age at activity date	
+13317	1748	999	Not known, ie date of birth not known and age cannot be estimated.	
+13318	1749	2n	Age of patient in days from 0 to 27	
+13319	1749	null	Not applicable: other maternity event (epitype is 5 or 6) or baby is older than 27 days	
+13320	1750	dd/mm/yyyy	Patient's date of birth	
+13321	1751	0	Valid (or missing because not required)	
+13322	1751	1	Missing	
+13323	1751	2	Invalid	
+13324	1752	Y	Episode is a discharge episode, ie discharge method is 1-5	
+13325	1752	N	Episode is not a discharge episode	
+13326	1753	A	British (White)	From 2001-02 onwards
+13327	1753	B	Irish (White)	From 2001-02 onwards
+13328	1753	C	Any other White background	From 2001-02 onwards
+13329	1753	D	White and Black Caribbean (Mixed)	From 2001-02 onwards
+13330	1753	E	White and Black African (Mixed)	From 2001-02 onwards
+13331	1753	F	White and Asian (Mixed)	From 2001-02 onwards
+13332	1753	G	Any other Mixed background	From 2001-02 onwards
+13333	1753	H	Indian (Asian or Asian British)	From 2001-02 onwards
+13334	1753	J	Pakistani (Asian or Asian British)	From 2001-02 onwards
+13335	1753	K	Bangladeshi (Asian or Asian British)	From 2001-02 onwards
+13336	1753	L	Any other Asian background	From 2001-02 onwards
+13337	1753	M	Caribbean (Black or Black British)	From 2001-02 onwards
+13338	1753	N	African (Black or Black British)	From 2001-02 onwards
+13339	1753	P	Any other Black background	From 2001-02 onwards
+13340	1753	R	Chinese (other ethnic group)	From 2001-02 onwards
+13341	1753	S	Any other ethnic group	From 2001-02 onwards
+13342	1753	Z	Not stated	From 2001-02 onwards
+13343	1753	X	Not known	From 2001-02 onwards
+13344	1753	0	White	From 1995-96 to 2000-01
+13345	1753	1	Black - Caribbean	From 1995-96 to 2000-01
+13346	1753	2	Black - African	From 1995-96 to 2000-01
+13347	1753	3	Black - Other	From 1995-96 to 2000-01
+13348	1753	4	Indian	From 1995-96 to 2000-01
+13349	1753	5	Pakistani	From 1995-96 to 2000-01
+13350	1753	6	Bangladeshi	From 1995-96 to 2000-01
+13351	1753	7	Chinese	From 1995-96 to 2000-01
+13352	1753	8	Any other ethnic group	From 1995-96 to 2000-01
+13353	1753	9	Not given	From 1995-96 to 2000-01
+13354	1753	X	Not known	From 1995-96 to 2000-01
+13355	1754	Y	Episode is finished, ie episode status equals 3	
+13356	1754	N	Episode status is not equal to 3	
+13357	1755	Y	Admitted within the HES year	
+13358	1755	N	Not admitted within the year	
+13359	1756	01	Informal	
+13360	1756	02	Formally detained under the Mental Health Act, Section 2	
+13361	1756	03	Formally detained under the Mental Health Act, Section 3	
+13362	1756	04	Formally detained under the Mental Health Act, Section 4	
+13363	1756	05	Formally detained under the Mental Health Act, Section 5(2)	
+13364	1756	06	Formally detained under the Mental Health Act, Section 5(4)	
+13365	1756	07	Formally detained under the Mental Health Act, Section 35	
+13366	1756	08	Formally detained under the Mental Health Act, Section 36	
+13367	1756	09	Formally detained under the Mental Health Act, Section 37 with Section 41 restrictions	
+13368	1756	10	Formally detained under the Mental Health Act, Section 37 excluding Section 37(4)	
+13369	1756	11	Formally detained under the Mental Health Act, Section 37(4)	
+13370	1756	12	Formally detained under the Mental Health Act, Section 38	
+13371	1756	13	Formally detained under the Mental Health Act, Section 44	
+13372	1756	14	Formally detained under the Mental Health Act, Section 46	
+13373	1756	15	Formally detained under the Mental Health Act, Section 47 with Section 49 restrictions	
+13374	1756	16	Formally detained under the Mental Health Act, Section 47	
+13375	1756	17	Formally detained under the Mental Health Act, Section 48 with Section 49 restrictions	
+13376	1756	18	Formally detained under the Mental Health Act, Section 48	
+13377	1756	19	Formally detained under the Mental Health Act, Section 135	
+13378	1756	20	Formally detained under the Mental Health Act, Section 136	
+13379	1756	21	Formally detained under the previous legislation (fifth schedule)	
+13380	1756	22	Formally detained under Criminal Procedure (Insanity) Act 1964 as amended by the Criminal Procedures (Insanity and Unfitness to Plead) Act 1991	
+13381	1756	23	Formally detained under other Acts	
+13382	1756	24	Supervised discharge under the Mental Health (Patients in the Community) Act 1995	
+13383	1756	25	Formally detained under the Mental Health Act, Section 45A	
+13384	1756	26	Not applicable	
+13385	1756	27	Not known	
+13386	1757	01	Informal	
+13387	1757	02	Formally detained under the Mental Health Act, Section 2	
+13388	1757	03	Formally detained under the Mental Health Act, Section 3	
+13389	1757	04	Formally detained under the Mental Health Act, Section 4	
+13390	1757	05	Formally detained under the Mental Health Act, Section 5(2)	
+13391	1757	06	Formally detained under the Mental Health Act, Section 5(4)	
+13392	1757	07	Formally detained under the Mental Health Act, Section 35	
+13393	1757	08	Formally detained under the Mental Health Act, Section 36	
+13394	1757	09	Formally detained under the Mental Health Act, Section 37 with Section 41 restrictions	
+13395	1757	10	Formally detained under the Mental Health Act, Section 37	
+13396	1757	12	Formally detained under the Mental Health Act, Section 38	
+13397	1757	13	Formally detained under the Mental Health Act, Section 44	
+13398	1757	14	Formally detained under the Mental Health Act, Section 46	
+13399	1757	15	Formally detained under the Mental Health Act, Section 47 with Section 49 restrictions	
+13400	1757	16	Formally detained under the Mental Health Act, Section 47	
+13401	1757	17	Formally detained under the Mental Health Act, Section 48 with Section 49 restrictions	
+13402	1757	18	Formally detained under the Mental Health Act, Section 48	
+13403	1757	19	Formally detained under the Mental Health Act, Section 135	
+13404	1757	20	Formally detained under the Mental Health Act, Section 136	
+13405	1757	31	Formally detained under Criminal Procedure(Insanity) Act 1964 as amended by the Criminal Procedures (Insanity and Unfitness to Plead) Act 1991	
+13406	1757	32	Formally detained under other acts	
+13407	1757	33	Supervised Discharge (Mental Health (Patients in the Community) Act 1995)	
+13408	1757	34	Formally detained under Mental Health Act Section 45A	
+13409	1757	35	Subject to guardianship under Mental Health Act Section 7	
+13410	1757	36	Subject to guardianship under Mental Health Act Section 37	
+13411	1757	98	Not applicable	
+13412	1757	99	Not known	
+13413	1758	10n	Local patient identifier	
+13414	1759	10n	NHS Number	
+13415	1762	4an	Postcode district	
+13416	1762	ZZ99	Unavailable / not applicable	
+13417	1763	aann naa	Postcode	
+13418	1763	ZZ99 3CZ	England, GB, UK (not otherwise stated)	
+13419	1763	ZZ99 3VZ	No fixed abode	
+13420	1763	ZZ99 3WZ	Not known + sundry categories	
+13421	1763	ZZ99 2WZ	Northern Ireland	
+13422	1763	ZZ99 1WZ	Scotland	
+13423	1763	ZZ99 3GZ	Wales	
+13424	1763	ZZ99 NNN	Other pseudo codes used for patients normally resident abroad (where NNN is	
+13425	1764	1	Male	From 1996-97 onwards
+13426	1764	2	Female	From 1996-97 onwards
+13427	1764	9	Not specified	From 1996-97 onwards
+13428	1764	0	Not known	From 1996-97 onwards
+13429	1764	1	Male	Prior to April 1996
+13430	1764	2	Female	Prior to April 1996
+13431	1764	3	Indeterminate, including those undergoing sex change operations	Prior to April 1996
+13432	1765	4n	duration of elective wait	
+13433	1765	9998	Not applicable	
+13434	1765	9999	Not known	
+13435	1766	dd/mm/yyyy	earliest reasonable date offered	
+13436	1767	5an	organisation code	
+13437	1768	20an	patient pathway identifier	
+13438	1769	dd/mm/yyyy	RTT period start date	
+13439	1770	10	First activity	The first activity in a referral to treatment period
+13440	1770	11	End of active monitoring	The first activity in a referral to treatment period
+13441	1770	12	Consultant referral	The first activity in a referral to treatment period
+13442	1770	20	subsequent activity. Further activities anticipated	Subsequent activity during a referral to treatment period
+13443	1770	21	Transfer to another healthcare provider	Subsequent activity during a referral to treatment period
+13444	1770	30	First treatment - the start of the first treatment that's intended to manage a patient's disease, condition or injury.	Activity that ends a referral to treatment period
+13445	1770	31	Start of active monitoring, initiated by the patient	Activity that ends a referral to treatment period
+13446	1770	32	Start of active monitoring, initiated by the care professional	Activity that ends a referral to treatment period
+13447	1770	33	Failure to attend the first care activity after referral	Activity that ends a referral to treatment period
+13448	1770	34	Decision not to treat or not further contact required	Activity that ends a referral to treatment period
+13449	1770	35	Patient decline offered treatment	Activity that ends a referral to treatment period
+13450	1770	36	Patient died before treatment	Activity that ends a referral to treatment period
+13451	1770	90	After treatment - first treatment occurred previously, eg admitted as an emergency from A&E91 - Active monitoring (the patient is observed but not treated)	Activity that is not part of a referral to treatment period
+13452	1770	92	Not yet referred	Activity that is not part of a referral to treatment period
+13453	1770	98	Not applicable	Activity that is not part of a referral to treatment period
+13454	1770	99	Not yet known	Activity where the referral to treatment period status is not yet known
+13455	1771	dd/mm/yyyy	RTT period end date	
+13456	1772	12n	unique booking reference number	
+13457	1773	0	Valid (or missing because not required)	
+13458	1773	1	Missing	
+13459	1773	2	Invalid	
+13460	1774	dd/mm/yyyy	Date	
+13461	1774	null	Date not known / not applicable	
+13462	1775	dd/mm/yyyy	Date	
+13463	1775	null	Date not known / not applicable	
+13464	1776	0	Valid (or missing because not required)	
+13465	1776	1	Missing	
+13466	1776	2	Invalid	
+13467	1777	0	First in a series	
+13468	1777	1	Subsequent to first in a series	
+13469	1777	8	Not applicable: this episode of care is neither the first nor any subsequent attendance within a sequence of regular day/night admissions	
+13470	1777	9	Not known: this episode is an attendance within a sequence of regular day/night admissions, but the status of this episode within the attendance is not known: a validation error	
+13471	1778	11	Elective: from waiting list	
+13472	1778	12	Elective: booked	
+13473	1778	13	Elective: planned	
+13474	1778	21	Emergency: via Accident and Emergency (A&E) services, including the casualty department of the provider	
+13475	1778	22	Emergency: via general practitioner (GP)	
+13476	1778	23	Emergency: via Bed Bureau, including the Central Bureau	
+13477	1778	24	Emergency: via consultant outpatient clinic	
+13478	1778	28	Emergency: other means, including patients who arrive via the A&E department of another healthcare provider	
+13479	1778	31	Maternity: where the baby was delivered after the mother's admission	
+13480	1778	32	Maternity: where the baby was delivered before the mother's admission	
+13481	1778	81	Transfer of any admitted patient from another hospital provider other than in an emergency this does not include admissions to high security psychiatric hospitals (HSPH)	
+13482	1778	82	Other: babies born in health care provider	
+13483	1778	83	Other: babies born outside the health care provider, except when born at home as intended	
+13484	1778	84	Admission by the admission panel of an HSPH patient not entered on the HSPH admissions waiting list (not valid for admissions after 31 March 2002)	
+13485	1778	89	From the admissions waiting list of an HSPH (not valid for admissions after 31 March 2002)	
+13486	1778	98	Not applicable (eg other maternity event)	
+13487	1778	99	Not known	
+13488	1779	19	The usual place of residence, including no fixed abode	
+13489	1779	29	Temporary place of residence when usually resident elsewhere, for example, hotels and residential educational establishments	
+13490	1779	30	Repatriation from high security psychiatric hospital (1999-00 to 2006-07)	
+13491	1779	37	Penal establishment: court (1999-00 to 2006-07)	
+13492	1779	38	Penal establishment: police station (1999-00 to 2006-07)	
+13493	1779	39	Penal establishment (court and police station excluded from 1999-2000)	
+13494	1779	48	High security psychiatric hospital, Scotland (1999-00 to 2006-07)	
+13495	1779	49	NHS other hospital provider: high security psychiatric accommodation in an NHS hospital provider (NHS trust)	
+13496	1779	50	NHS other hospital provider: medium secure unit (1999-00 to 2006-07)	
+13497	1779	51	NHS other hospital provider: ward for general patients or the younger physically disabled or A&E department	
+13498	1779	52	NHS other hospital provider: ward for maternity patients or neonates	
+13499	1779	53	NHS other hospital provider: ward for patients who are mentally ill or have learning disabilities	
+13500	1779	54	NHS run nursing home, residential care home or group home	
+13501	1779	65	Local authority Part 3 residential accommodation: where care is provided (from 1996-97)	
+13502	1779	66	Local authority foster care, but not in Part 3 residential accommodation: where care is provided (from 1996-97)	
+13503	1779	69	Local authority home or care (1989-90 to 1995-96)	
+13504	1779	79	Babies born in or on the way to hospital	
+13505	1779	85	Non-NHS (other than Local Authority) run residential care home (from 1996-97)	
+13506	1779	86	Non-NHS (other than Local Authority) run nursing home (from 1996-97)	
+13507	1779	87	Non-NHS run hospital	
+13508	1779	88	non-NHS (other than Local Authority) run hospice	
+13509	1779	89	Non-NHS institution (1989-90 to 1995-96)	
+13510	1779	98	Not applicable	
+13511	1779	99	Not known	
+13512	1780	4n	Waiting time in days from 1 to 8887	
+13513	1780	null	Other maternity events / not known	
+13514	1781	1	Patient to stay in hospital for at least one night	
+13515	1781	2	Patient not to stay in hospital overnight	
+13516	1781	3	Patient to have a planned series of admissions at least one overnight stay	
+13517	1781	4	Patient to have a planned sequence of admissions no overnight stay	
+13518	1781	5	Patient to be admitted regularly for a sequence of nights rest of the 24 hour period at home	
+13519	1781	8	Not applicable	
+13520	1781	9	Not known	
+13521	1782	100	General surgery	
+13522	1782	101	Urology	
+13523	1782	110	Trauma and orthopaedics	
+13524	1782	120	Ear, nose and throat (ENT)	
+13525	1782	130	Ophthalmology	
+13526	1782	140	Oral surgery	
+13527	1782	141	Restorative dentistry	
+13528	1782	142	Paediatric dentistry (available from 1999-2000)	
+13529	1782	143	Orthodontics	
+13530	1782	145	Oral and maxillo facial surgery (available from 2004-05)	
+13531	1782	146	Endodontics (available from 2004-05)	
+13532	1782	147	Periodontics (available from 2004-05)	
+13533	1782	148	Prosthodontics (available from 2004-05)	
+13534	1782	149	Surgical dentistry (available from 2004-05)	
+13535	1782	150	Neurosurgery	
+13536	1782	160	Plastic surgery	
+13537	1782	170	Cardiothoracic surgery	
+13538	1782	171	Paediatric surgery	
+13539	1782	180	Accident and emergency (A&E)	
+13540	1782	190	Anaesthetics	
+13541	1782	191	Pain management (available from 1998-99 to 2003-04)	
+13542	1782	192	Critical care medicine (available from 2004-05)	
+13543	1782	199	Non-UK Provider - specialty function not known, treatment mainly surgical	
+13544	1782	300	General medicine	
+13545	1782	301	Gastroenterology	
+13546	1782	302	Endocrinology	
+13547	1782	303	Clinical haemotology	
+13548	1782	304	Clinical physiology	
+13549	1782	305	Clinical pharmacology	
+13550	1782	310	Audiological medicine	
+13551	1782	311	Clinical genetics	
+13552	1782	312	Clinical cytogenics and molecular genetics (available from 1990-91)	
+13553	1782	313	Clinical immunology and allergy (available from 1991-92)	
+13554	1782	314	Rehabilitation (available from 1991-92)	
+13555	1782	315	Palliative medicine	
+13556	1782	320	Cardiology	
+13557	1782	321	Paediatric cardiology (available from 2004-05)	
+13558	1782	330	Dermatology	
+13559	1782	340	Respiratory medicine (also known as thoracic medicine)	
+13560	1782	350	Infectious diseases	
+13561	1782	352	Tropical medicine (available from 2004-05)	
+13562	1782	360	Genito-urinary medicine	
+13563	1782	361	Nephrology	
+13564	1782	370	Medical oncology	
+13565	1782	371	Nuclear medicine	
+13566	1782	400	Neurology	
+13567	1782	401	Clinical neuro-physiology	
+13568	1782	410	Rheumatology	
+13569	1782	420	Paediatrics	
+13570	1782	421	Paediatric neurology	
+13571	1782	430	Geriatric medicine	
+13572	1782	450	Dental medicine (available from 1990-91)	
+13573	1782	460	Medical opthalmology (available from 1993-94)	
+13574	1782	499	Non-UK Provider - specialty function not known, treatment mainly medical	
+13575	1782	501	Obstetrics (prior to 2004-05: Obstetrics for patients using a hospital bed or delivery facilities)	
+13576	1782	502	Gynaecology	
+13577	1782	560	Midwifery (available from October 1995)	
+13578	1782	600	General Medical Practice	
+13579	1782	601	General Dental Practice	
+13580	1782	610	General practice with maternity function (available to 2003-04)	
+13581	1782	620	General practice other than maternity (available to 2003-04)	
+13582	1782	700	Learning disability (previously known as mental handicap)	
+13583	1782	710	Adult mental illness	
+13584	1782	711	Child and adolescent psychiatry	
+13585	1782	712	Forensic psychiatry	
+13586	1782	713	Psychotherapy	
+13587	1782	715	Old age psychiatry (available from 1990-91)	
+13588	1782	800	Clinical oncology (previously Radiotherapy)	
+13589	1782	810	Radiology	
+13590	1782	820	General pathology	
+13591	1782	821	Blood transfusion	
+13592	1782	822	Chemical pathology	
+13593	1782	823	Haematology	
+13594	1782	824	Histopathology	
+13595	1782	830	Immunopathology	
+13596	1782	831	Medical microbiology	
+13597	1782	832	Neuropathology (available to 2003-04)	
+13598	1782	900	Community medicine	
+13599	1782	901	Occupational medicine	
+13600	1782	902	Community health services - dental (available from 2004-05)	
+13601	1782	903	Public health medicine (available from 2004-05)	
+13602	1782	904	Public health dental (available from 2004-05)	
+13603	1782	950	Nursing episode (available from 2002-03)	
+13604	1782	960	Allied health professional episode (available from 2006-07)	
+13605	1782	null	Other maternity event	
+13606	1782	&	Not known	
+13607	1783	1	Ordinary admission	
+13608	1783	2	Day case admission	
+13609	1783	3	Regular day attender	
+13610	1783	4	Regular night attender	
+13611	1783	5	Mothers and babies using only delivery facilities	
+13612	1783	8	Not applicable (other maternity event)	
+13613	1784	100	General surgery	From 1 April 2004
+13614	1784	101	Urology	From 1 April 2004
+13615	1784	102	Transplantation surgery (includes renal and liver transplants, excludes cardiothoracic transplantation)	From 1 April 2004
+13616	1784	103	Breast surgery (includes suspected neoplasms, cysts etc, does not include cosmetic surgery)	From 1 April 2004
+13617	1784	104	Colorectal surgery (surgical treatment of disorders of the lower intestine - colon, anus and rectum)	From 1 April 2004
+13618	1784	105	Hepatobiliary & pancreatic surgery (includes liver surgery but excludes liver transplantation see transplantation surgery)	From 1 April 2004
+13619	1784	106	Upper gastrointestinal surgery	From 1 April 2004
+13620	1784	107	Vascular surgery	From 1 April 2004
+13621	1784	110	Trauma & orthopaedics	From 1 April 2004
+13622	1784	120	Ear, nose and throat (ENT)	From 1 April 2004
+13623	1784	130	Ophthalmology	From 1 April 2004
+13624	1784	140	Oral surgery	From 1 April 2004
+13625	1784	141	Restorative dentistry (endodontics, periodontics and prosthodontics)	From 1 April 2004
+13626	1784	142	Paediatric dentistry	From 1 April 2004
+13627	1784	143	Orthodontics	From 1 April 2004
+13628	1784	144	Maxillo-facial surgery	From 1 April 2004
+13629	1784	150	Neurosurgery	From 1 April 2004
+13630	1784	160	Plastic surgery	From 1 April 2004
+13631	1784	161	Burns care (recognised specialist services only - includes 'outreach' facilities)	From 1 April 2004
+13632	1784	170	Cardiothoracic surgery (where there are no separate services for cardiac and thoracic surgery)	From 1 April 2004
+13633	1784	171	Paediatric surgery	From 1 April 2004
+13634	1784	172	Cardiac surgery	From 1 April 2004
+13635	1784	173	Thoracic surgery	From 1 April 2004
+13636	1784	174	Cardiothoracic transplantation (recognised specialist services only - includes 'outreach' facilities)	From 1 April 2004
+13637	1784	180	Accident & emergency (A&E)	From 1 April 2004
+13638	1784	190	Not a treatment function	From 1 April 2004
+13639	1784	191	Pain management (complex pain disorders requiring diagnosis and treatment by a specialist multi-professional team)	From 1 April 2004
+13640	1784	192	Critical care medicine (also known as intensive care medicine)	From 1 April 2004
+13641	1784	199	Non-UK Provider - specialty function not known, treatment mainly surgical	From 1 April 2004
+13642	1784	211	Paediatric Urology (from 2006-07)	From 1 April 2004
+13643	1784	212	Paediatric Transplantation Surgery (from 2006-07)	From 1 April 2004
+13644	1784	213	Paediatric Gastrointestinal Surgery (from 2006-07)	From 1 April 2004
+13645	1784	214	Paediatric Trauma and Orthopaedics (from 2006-07)	From 1 April 2004
+13646	1784	215	Paediatric Ear Nose and Throat (from 2006-07)	From 1 April 2004
+13647	1784	216	Paediatric Ophthalmology (from 2006-07)	From 1 April 2004
+13648	1784	217	Paediatric Maxillo-Facial Surgery (from 2006-07)	From 1 April 2004
+13649	1784	218	Paediatric Neurosurgery (from 2006-07)	From 1 April 2004
+13650	1784	219	Paediatric Plastic Surgery (from 2006-07)	From 1 April 2004
+13651	1784	220	Paediatric Burns Care (from 2006-07)	From 1 April 2004
+13652	1784	221	Paediatric Cardiac Surgery (from 2006-07)	From 1 April 2004
+13653	1784	222	Paediatric Thoracic Surgery (from 2006-07)	From 1 April 2004
+13654	1784	241	Paediatric Pain Management (from 2006-07)	From 1 April 2004
+13655	1784	242	Paediatric Intensive Care (from 2006-07)	From 1 April 2004
+13656	1784	251	Paediatric Gastroenterology (from 2006-07)	From 1 April 2004
+13657	1784	252	Paediatric Endocrinology (from 2006-07)	From 1 April 2004
+13658	1784	253	Paediatric Clinical Haetology (from 2006-07)	From 1 April 2004
+13659	1784	254	Paediatric Audiological Medicine (from 2006-07)	From 1 April 2004
+13660	1784	255	Paediatric Clinical Immunology and Allergy (from 2006-07)	From 1 April 2004
+13661	1784	256	Paediatric Infectious diseases (from 2006-07)	From 1 April 2004
+13662	1784	257	Paediatric Dermatology (from 2006-07)	From 1 April 2004
+13663	1784	258	Paediatric Respiratory Medicine (from 2006-07)	From 1 April 2004
+13664	1784	259	Paediatric Nephrology (from 2006-07)	From 1 April 2004
+13665	1784	260	Paediatric Medical Oncology (from 2006-07)	From 1 April 2004
+13666	1784	261	Paediatric Metabolic disease (from 2006-07)	From 1 April 2004
+13667	1784	262	Paediatric Pheumalogy (from 2006-07)	From 1 April 2004
+13668	1784	280	Paediatric Interventional Radiology (from 2006-07)	From 1 April 2004
+13669	1784	290	Community Paediatrics (from 2006-07)	From 1 April 2004
+13670	1784	291	Paediatric Neuro-disability (from 2006-07)	From 1 April 2004
+13671	1784	300	General medicine	From 1 April 2004
+13672	1784	301	Gastroenterology	From 1 April 2004
+13673	1784	302	Endocrinology	From 1 April 2004
+13674	1784	303	Clinical haematology	From 1 April 2004
+13675	1784	304	Clinical Physiology (from 2008-09)	From 1 April 2004
+13676	1784	305	Clinical pharmacology	From 1 April 2004
+13677	1784	306	Hepatology	From 1 April 2004
+13678	1784	307	Diabetic medicine	From 1 April 2004
+13679	1784	308	Bone and marrow transplantation (previously part of clinical haematology)	From 1 April 2004
+13680	1784	309	Haemophilia (previously part of clinical haematology)	From 1 April 2004
+13681	1784	310	Audiological medicine	From 1 April 2004
+13682	1784	311	Clinical genetics	From 1 April 2004
+13683	1784	312	Not a treatment function	From 1 April 2004
+13684	1784	313	Clinical immunology and allergy (where there are no separate services for clinical immunology and allergy)	From 1 April 2004
+13685	1784	314	Rehabilitation	From 1 April 2004
+13686	1784	315	Palliative medicine	From 1 April 2004
+13687	1784	316	Clinical immunology	From 1 April 2004
+13688	1784	317	Allergy	From 1 April 2004
+13689	1784	318	Intermediate care (encompasses a range of multidisciplinary services designed to safeguard independence by maximising rehabilitation and recovery)	From 1 April 2004
+13690	1784	319	Respite care	From 1 April 2004
+13691	1784	320	Cardiology	From 1 April 2004
+13692	1784	321	Paediatric cardiology	From 1 April 2004
+13693	1784	322	Clinical microbiology	From 1 April 2004
+13694	1784	323	Spinal Injuries (from 2006-07)	From 1 April 2004
+13695	1784	330	Dermatology	From 1 April 2004
+13696	1784	340	Thoracic medicine	From 1 April 2004
+13697	1784	341	Respiratory Physiology (previously known as Sleep studies)	From 1 April 2004
+13698	1784	350	Infectious diseases	From 1 April 2004
+13699	1784	352	Tropical medicine	From 1 April 2004
+13700	1784	360	Genito-urinary medicine	From 1 April 2004
+13701	1784	361	Nephrology	From 1 April 2004
+13702	1784	370	Medical oncology	From 1 April 2004
+13703	1784	371	Nuclear Medicine (from 2008-09)	From 1 April 2004
+13704	1784	400	Neurology	From 1 April 2004
+13705	1784	401	Clinical Neurophysiology (from 2008-09)	From 1 April 2004
+13706	1784	410	Rheumatology	From 1 April 2004
+13707	1784	420	Paediatrics	From 1 April 2004
+13708	1784	421	Paediatric neurology	From 1 April 2004
+13709	1784	422	Neonatology	From 1 April 2004
+13710	1784	424	Well babies (care given by the mother/substitute, with nursing advice if needed)	From 1 April 2004
+13711	1784	430	Geriatric medicine	From 1 April 2004
+13712	1784	450	Dental medicine	From 1 April 2004
+13713	1784	460	Medical ophthalmology	From 1 April 2004
+13714	1784	499	Non-UK Provider - specialty function not known, treatment mainly medical	From 1 April 2004
+13715	1784	500	Not a treatment function	From 1 April 2004
+13716	1784	501	Obstetrics	From 1 April 2004
+13717	1784	502	Gynaecology	From 1 April 2004
+13718	1784	503	Gynaecological oncology	From 1 April 2004
+13719	1784	510 and 520	Not treatment functions	From 1 April 2004
+13720	1784	560	Midwife episode	From 1 April 2004
+13721	1784	600, 610 and 620	Not treatment functions	From 1 April 2004
+13722	1784	650	Physiotherapy (from 2006-07)	From 1 April 2004
+13723	1784	651	Occupational Therapy (from 2006-07)	From 1 April 2004
+13724	1784	652	Speech and Language Therapy (from 2006-07)	From 1 April 2004
+13725	1784	653	Podiatry (from 2006-07)	From 1 April 2004
+13726	1784	654	Dietetics (from 2006-07)	From 1 April 2004
+13727	1784	655	Orthoptics (from 2006-07)	From 1 April 2004
+13728	1784	656	Clinical Psychology (from 2006-07)	From 1 April 2004
+13729	1784	700	Learning disability (previously known as mental handicap)	From 1 April 2004
+13730	1784	710	Adult mental illness	From 1 April 2004
+13731	1784	711	Child and adolescent psychiatry	From 1 April 2004
+13732	1784	712	Forensic psychiatry	From 1 April 2004
+13733	1784	713	Psychotherapy	From 1 April 2004
+13734	1784	715	Old age psychiatry	From 1 April 2004
+13735	1784	720	Eating Disorders (from 2006-07)	From 1 April 2004
+13736	1784	721	Addicition Services (from 2006-07)	From 1 April 2004
+13737	1784	722	Liaison Psychiatry (from 2006-07)	From 1 April 2004
+13738	1784	723	Psychiatric Intensive Care(from 2006-07)	From 1 April 2004
+13739	1784	724	Perinatal Psychiatry (from 2006-07)	From 1 April 2004
+13740	1784	800	Clinical oncology (previously known as Radiotherapy)	From 1 April 2004
+13741	1784	810	Radiology (until 2005-06)	From 1 April 2004
+13742	1784	811	Interventional radiology	From 1 April 2004
+13743	1784	812	Diagnostic Imaging (from 2008-09)	From 1 April 2004
+13744	1784	820 and 821	Not treatment functions	From 1 April 2004
+13745	1784	822	Chemical pathology	From 1 April 2004
+13746	1784	823, 824, 830, 831 832, 900, 901, 950 and 990	Not treatment functions	From 1 April 2004
+13747	1784	840	Audiology (from 2008-09)	From 1 April 2004
+13748	1784	null	Other maternity event	From 1 April 2004
+13749	1784	&	Not known	From 1 April 2004
+13750	1784	100	General surgery	Until 31 March 2004
+13751	1784	101	Urology	Until 31 March 2004
+13752	1784	110	Trauma and orthopaedics	Until 31 March 2004
+13753	1784	120	Ear, nose and throat (ENT)	Until 31 March 2004
+13754	1784	130	Ophthalmology	Until 31 March 2004
+13755	1784	140	Oral surgery	Until 31 March 2004
+13756	1784	141	Restorative dentistry	Until 31 March 2004
+13757	1784	142	Paediatric dentistry (from 1999-2000)	Until 31 March 2004
+13758	1784	143	Orthodontics	Until 31 March 2004
+13759	1784	150	Neurosurgery	Until 31 March 2004
+13760	1784	160	Plastic surgery	Until 31 March 2004
+13761	1784	170	Cardiothoracic surgery	Until 31 March 2004
+13762	1784	171	Paediatric surgery	Until 31 March 2004
+13763	1784	180	Accident and emergency (A&E)	Until 31 March 2004
+13764	1784	190	Anaesthetics	Until 31 March 2004
+13765	1784	191	Pain management (from 1998-99)	Until 31 March 2004
+13766	1784	300	General medicine	Until 31 March 2004
+13767	1784	301	Gastroenterology	Until 31 March 2004
+13768	1784	302	Endocrinology	Until 31 March 2004
+13769	1784	303	Haematology (clinical)	Until 31 March 2004
+13770	1784	304	Clinical physiology	Until 31 March 2004
+13771	1784	305	Clinical pharmacology	Until 31 March 2004
+13772	1784	310	Audiological medicine	Until 31 March 2004
+13773	1784	311	Clinical genetics	Until 31 March 2004
+13774	1784	312	Clinical cytogenics and molecular genetics (from 1990-91)	Until 31 March 2004
+13775	1784	313	Clinical immunology and allergy (from 1991-92)	Until 31 March 2004
+13776	1784	314	Rehabilitation (from 1991-92)	Until 31 March 2004
+13777	1784	315	Palliative medicine	Until 31 March 2004
+13778	1784	320	Cardiology	Until 31 March 2004
+13779	1784	330	Dermatology	Until 31 March 2004
+13780	1784	340	Thoracic medicine	Until 31 March 2004
+13781	1784	350	Infectious diseases	Until 31 March 2004
+13782	1784	360	Genito-urinary medicine	Until 31 March 2004
+13783	1784	361	Nephrology	Until 31 March 2004
+13784	1784	370	Medical oncology	Until 31 March 2004
+13785	1784	371	Nuclear medicine	Until 31 March 2004
+13786	1784	400	Neurology	Until 31 March 2004
+13787	1784	401	Clinical neuro-physiology	Until 31 March 2004
+13788	1784	410	Rheumatology	Until 31 March 2004
+13789	1784	420	Paediatrics	Until 31 March 2004
+13790	1784	421	Paediatric neurology	Until 31 March 2004
+13791	1784	430	Geriatric medicine	Until 31 March 2004
+13792	1784	450	Dental medicine (from 1990-91)	Until 31 March 2004
+13793	1784	460	Medical opthalmology (from 1993-94)	Until 31 March 2004
+13794	1784	501	Obstetrics for patients using a hospital bed or delivery facilities	Until 31 March 2004
+13795	1784	502	Gynaecology	Until 31 March 2004
+13796	1784	560	Midwifery (from October 1995)	Until 31 March 2004
+13797	1784	610	General practice with maternity function	Until 31 March 2004
+13798	1784	620	General practice other than maternity	Until 31 March 2004
+13799	1784	700	Learning disability (previously known as mental handicap)	Until 31 March 2004
+13800	1784	710	Mental illness	Until 31 March 2004
+13801	1784	711	Child and adolescent psychiatry	Until 31 March 2004
+13802	1784	712	Forensic psychiatry	Until 31 March 2004
+13803	1784	713	Psychotherapy	Until 31 March 2004
+13804	1784	715	Old age psychiatry (from 1990-91)	Until 31 March 2004
+13805	1784	800	Clinical oncology (previously known as Radiotherapy)	Until 31 March 2004
+13806	1784	810	Radiology	Until 31 March 2004
+13807	1784	820	General pathology	Until 31 March 2004
+13808	1784	821	Blood transfusion	Until 31 March 2004
+13809	1784	822	Chemical pathology	Until 31 March 2004
+13810	1784	823	Haematology	Until 31 March 2004
+13811	1784	824	Histopathology	Until 31 March 2004
+13812	1784	830	Immunopathology	Until 31 March 2004
+13813	1784	831	Medical microbiology	Until 31 March 2004
+13814	1784	832	Neuropathology	Until 31 March 2004
+13815	1784	900	Community medicine	Until 31 March 2004
+13816	1784	901	Occupational medicine	Until 31 March 2004
+13817	1784	950	Nursing episode (from 2002-03)	Until 31 March 2004
+13818	1784	null	Other maternity event	Until 31 March 2004
+13819	1784	&	Not known	Until 31 March 2004
+13820	1785	dd/mm/yyyy	Date	
+13821	1785	null	Date not known / not applicable	
+13822	1786	19	The usual place of residence, including no fixed abode	
+13823	1786	29	Temporary place of residence when usually resident elsewhere, for example, hotels and residential educational establishments	
+13824	1786	30	Repatriation from high security psychiatric hospital (from 1999-2000)	
+13825	1786	37	Penal establishment - court (from 1999-2000)	
+13826	1786	38	Penal establishment - police station (from 1999-2000)	
+13827	1786	39	Penal establishment - court and police station excluded (from 1999-2000)	
+13828	1786	48	High security psychiatric hospital, Scotland (from 1999-2000)	
+13829	1786	49	NHS other hospital provider - high security psychiatric accommodation	
+13830	1786	50	NHS other hospital provider - medium secure unit (from 1999-2000)	
+13831	1786	51	NHS other hospital provider - ward for general patients or the younger physically disabled	
+13832	1786	52	NHS other hospital provider - ward for maternity patients or neonates	
+13833	1786	53	NHS other hospital provider - ward for patients who are mentally ill or have learning disabilities	
+13834	1786	54	NHS run nursing home, residential care home or group home	
+13835	1786	65	Local authority Part 3 residential accommodation - where care is provided (from 1996-97)	
+13836	1786	66	Local authority foster care, but not in Part 3 residential accommodation - where care is provided (from 1996-97)	
+13837	1786	69	LA home or care (1989-90 to 1995-96)	
+13838	1786	79	Not applicable - patient died or still birth	
+13839	1786	84	Non-NHS run hospital - medium secure unit (from 2003-04)	
+13840	1786	85	Non-NHS (other than local authority) run residential care home (from 1996-97 to 2003-04)	
+13841	1786	85	Non-NHS (other than local authority) run care home (from 2003-04)	
+13842	1786	86	Non-NHS (other than local authority) run nursing home (from 1996-97 to 2003-04)	
+13843	1786	87	Non-NHS run hospital	
+13844	1786	88	Non-NHS (other than local authority) run hospice	
+13845	1786	89	Non-NHS institution (1989-90 to 1995-96)	
+13846	1786	98	Not applicable	
+13847	1786	99	Not known	
+13848	1787	0	Valid (or missing because not required)	
+13849	1787	1	Missing	
+13850	1787	2	Invalid	
+13851	1788	1	Discharged on clinical advice or with clinical consent	
+13852	1788	2	Self discharged, or discharged by a relative or advocate	
+13853	1788	3	Discharged by a mental health review tribunal, the Home Secretary or a court	
+13854	1788	4	Died	
+13855	1788	5	Baby was still born	
+13856	1788	8	Not applicable: patient still in hospital	
+13857	1788	9	Not known: a validation error	
+13858	1789	3n	The number of days of stay from 0 to 366	
+13859	1789	null	Not applicable (other maternity event / not known)	
+13860	1790	0	Not first episode of spell	
+13861	1790	1	First episode of spell that started in previous year	
+13862	1790	2	First episode of spell that started in current year	
+13863	1790	null	Not applicable	
+13864	1791	dd/mm/yyyy	Date episode ended	
+13865	1791	null	Not applicable / not known	
+13866	1792	dd/mm/yyyy	Date episode started	
+13867	1792	null	Not applicable / not known	
+13868	1793	5n	Duration of spell in days from 0 to 29,200	
+13869	1793	null	Not applicable: patient not discharged (dismeth not in range 1-5), other maternity event (epitype is 5 or 6) or not valid	
+13870	1794	Y	Last episode of spell	
+13871	1794	N	Not last episode of spell	
+13872	1795	5n	Duration of episode in days from 0 to 29,200	
+13873	1795	null	Not applicable (other maternity event or not known)	
+13874	1796	2n	The number of the episode in the sequence of episodes from 01-87	
+13875	1796	98	Not applicable	
+13876	1796	99	Not known	
+13877	1796	null	Not applicable: other maternity event	
+13878	1797	0	Valid (or missing because not required)	
+13879	1797	1	Missing	
+13880	1797	2	Invalid	
+13881	1798	1	Unfinished	
+13882	1798	3	Finished	
+13883	1798	9	Derived unfinished (not present on processed data)	
+13884	1799	1	General episode (anything that is not covered by the other codes)	
+13885	1799	2	Delivery episode	
+13886	1799	3	Birth episode	
+13887	1799	4	Formally detained under the provisions of mental health legislation or long-term (over one year) psychiatric patients who should have additional information recorded on the psychiatric census. This value can only appear in unfinished records	
+13888	1799	5	Other delivery event	
+13889	1799	6	Other birth event	
+13890	1801	A	home	
+13891	1801	A-71	Home leave, non-psychiatric	
+13892	1801	A-72	Home leave, psychiatric	
+13893	1801	B	age	
+13894	1801	B-1	Neonates	
+13895	1801	B-2	Children and adolescents	
+13896	1801	B-3	Elderly	
+13897	1801	B-8	Any age	
+13898	1801	B-9	Invalid	
+13899	1801	C	sex	
+13900	1801	C-8	Not specified	
+13901	1801	C-9	Invalid	
+13902	1801	D	hospital	
+13903	1801	D-1	NHS hospital provider	
+13904	1801	D-2	Non-NHS hospital provider	
+13905	1801	D-9	Invalid	
+13906	1801	E	is the number of days in a week that the ward is open only during the day	
+13907	1801	F	is the number of days in a week that the ward is open at night	
+13908	1802	6an	GP's practice code (English GPs with codes commencing A-P only)	
+13909	1802	V81998	Not applicable	
+13910	1802	V81999	Unknown	
+13911	1803	16an	pseudonymised code	
+13912	1803	&	Unknown	
+13913	1804	G9999998	GP code is unknown	
+13914	1804	G9999981	No registered GP	
+13915	1804	R9999981	No referring GP	
+13916	1804	A9999998	MOD doctor refers	
+13917	1804	P9999981	Prison doctor	
+13918	1805	16an	Pseudonymised registered GP code	
+13919	1805	&	Unknown	
+13920	1806	8an	Consultant code	
+13921	1806	C9999998	Consultant code not known	
+13922	1806	CD999998	Dental consultant: General Medical Council (GMC) number / General Dental Council number not known	
+13923	1806	D9999998	Dentist code not known	
+13924	1806	H9999998	Other health care professional	
+13925	1806	M9999998	Not applicable: midwife	
+13926	1806	N9999998	Nurse	
+13927	1806	&	Not known	
+13928	1807	16an	Pseudonymised consultant team code	
+13929	1807	&	Not known	
+13930	1808	Cnnnnnnn	Consultant's GMC code	
+13931	1808	CD999998	Dental consultant: General Medical Council (GMC) number / General Dental Council (GDC) number not known	
+13932	1808	Dnnnnnnn	Dentist's GMC code	
+13933	1808	R9999981	Referrer other than General Medical Practitioner, General Dental Practitioner or Consultant	
+13934	1808	X9999998	Not applicable: no code available (referrer not a GMP, GDP or consultant or emergency admission not via GP or GP not located in England)	
+13935	1808	&	Not known	
+13936	1809	16an	pseudonymised referrer code	
+13937	1809	&	Unknown	
+13938	1810	6an	Referring organisation code	
+13939	1810	X99998	Not applicable	
+13940	1810	X99999	Not known	
+13941	1811	3n	Age in years from 1 to 119 on the date of the annual psychiatric census	
+13942	1811	120	120 years or more on the date of the annual psychiatric census	
+13943	1811	null	Not applicable (epitype is not 4) / not known	
+13944	1812	01	Yes	
+13945	1812	02	No	
+13946	1812	99	Not known	
+13947	1813	dd/mm/yyyy	Date detention commenced	
+13948	1813	null	Not known / not applicable	
+13949	1814	0	Valid (or missing because not required)	
+13950	1814	1	Missing	
+13951	1814	2	Invalid	
+13952	1815	0	Informal, not formally detained	
+13953	1815	1	Formally detained under Part II, Mental Health Act 1983	
+13954	1815	2	Formally detained under Part III, Mental Health Act 1983, and other legislation	
+13955	1815	3	Formally detained under Part X, Mental Health Act 1983	
+13956	1816	5n	Duration of stay in days at census date from 0 to 29,200	
+13957	1816	null	Not applicable (epitype is not 4) / not known	
+13958	1817	5n	Duration of detention in days at census date from 0 to 29,200	
+13959	1817	null	Not applicable (epitype is not 4) / not known	
+13960	1818	0	Not formally detained (Leglcat is 01 or spaces)	
+13961	1818	1	Formally detained under Part II, Sections 2 to 34 of the Mental Health Act 1983 (Leglcat is 02 to 06, or 2 to 6)	
+13962	1818	2	Formally detained under Part III, Sections 35 to 55 of the Mental Health Act 1983, or previous legislation (Leglcat is 07 to18, 30 to 32, 34 or 7 to 9)	
+13963	1818	3	Formally detained under Part X, Sections 131 to 149 of the Mental Health Act 1983 (Leglcat is 19 or 20)	
+13964	1818	4	Supervised discharge under the Mental Health Act 1995 (Leglcat is 33)	
+13965	1818	5	Guardianship (Sections 7 & 37) under the Mental Health Act 1983 (Leglcat is 35 or 36)	
+13966	1818	Not applicable	ie home births/deliveries where epitype is 5 or 6	
+13967	1818	Not known	any other value for leglcat	
+13968	1819	0	Legal status on psychiatric census date is not formally detained	
+13969	1819	0-leglstat	01 or spaces	
+13970	1819	1	Legal status on psychiatric census date	
+13971	1819	1-leglstat	02-06 or space2-space6: Formally detained under Part II (Section 2-34) of the Mental Health Act 1983	
+13972	1819	2	Legal status on admission	
+13973	1819	2-leglcat	07-18, 30-32, 34 or space7-space9: Formally detained under Part III (Section 35-55) of the Mental Health Act 1983, or previous legislation	
+13974	1819	3	Legal status on admission	
+13975	1819	3-leglcat	19-20: Formally detained under Part X (Sections 131149) of the Mental Health Act 1983	
+13976	1819	4	Legal status on admission	
+13977	1819	4-leglcat	33: Supervised discharge under the Mental Health Act 1995	
+13978	1819	5	Legal status on admission	
+13979	1819	5-leglcat	35, 36: Guardianship (Sections 7 & 37) under the Mental Health Act 1983	
+13980	1819	8	Not applicable ie home births/deliveries, where epitype	
+13981	1819	10	Not known: any other value for leglstat.	
+13982	1820	01	Informal	
+13983	1820	02	Formally detained under the Mental Health Act, Section 2	
+13984	1820	03	Formally detained under the Mental Health Act, Section 3	
+13985	1820	04	Formally detained under the Mental Health Act, Section 4	
+13986	1820	05	Formally detained under the Mental Health Act, Section 5(2)	
+13987	1820	06	Formally detained under the Mental Health Act, Section 5(4)	
+13988	1820	07	Formally detained under the Mental Health Act, Section 35	
+13989	1820	08	Formally detained under the Mental Health Act, Section 36	
+13990	1820	09	Formally detained under the Mental Health Act, Section 37 with Section 41 restrictions	
+13991	1820	10	Formally detained under the Mental Health Act, Section 37 excluding Section 37(4)	
+13992	1820	11	Formally detained under the Mental Health Act, Section 37(4)	
+13993	1820	12	Formally detained under the Mental Health Act, Section 38	
+13994	1820	13	Formally detained under the Mental Health Act, Section 44	
+13995	1820	14	Formally detained under the Mental Health Act, Section 46	
+13996	1820	15	Formally detained under the Mental Health Act, Section 47 with Section 49 restrictions	
+13997	1820	16	Formally detained under the Mental Health Act, Section 47	
+13998	1820	17	Formally detained under the Mental Health Act, Section 48 with Section 49 restrictions	
+13999	1820	18	Formally detained under the Mental Health Act, Section 48	
+14000	1820	19	Formally detained under the Mental Health Act, Section 135	
+14001	1820	20	Formally detained under the Mental Health Act, Section 136	
+14002	1820	30	Formally detained under the previous legislation (fifth schedule)	
+14003	1820	31	Formally detained under Criminal Procedure (Insanity) Act 1964 as amended by the Criminal Procedures (Insanity and Unfitness to Plead) Act 1991	
+14004	1820	32	Formally detained under other Acts	
+14005	1820	33	Supervised discharge under the Mental Health (Patients in the Community) Act 1995	
+14006	1820	34	Formally detained under the Mental Health Act, Section 45A	
+14007	1820	35	Subject to guardianship under Mental Health Act Section 7	
+14008	1820	36	Subject to guardianship under Mental Health Act Section 37	
+14009	1820	98	Not applicable	
+14010	1820	99	Not known	
+14011	1821	8	Not applicable.	
+14012	1821	S	Single	From 1/10/2006 onwards
+14013	1821	M	Married/Civil Partner	From 1/10/2006 onwards
+14014	1821	D	Divorced/Person whose Civil Partnership has been dissolved	From 1/10/2006 onwards
+14015	1821	W	Widowed/Surviving Civil Partner	From 1/10/2006 onwards
+14016	1821	P	Separated	From 1/10/2006 onwards
+14017	1821	N	Not disclosed.	From 1/10/2006 onwards
+14018	1821	1	Single	Prior to 1/10/2006
+14019	1821	2	Married, including separated	Prior to 1/10/2006
+14020	1821	3	Divorced	Prior to 1/10/2006
+14021	1821	4	Widowed	Prior to 1/10/2006
+14022	1821	9	Not known	Prior to 1/10/2006
+14023	1822	1	Mental illness	
+14024	1822	2	Mental impairment	
+14025	1822	3	Severe mental impairment	
+14026	1822	4	Psychopathic disorder	
+14027	1822	5	Other (from 1995-96)	
+14028	1822	8	Not applicable	
+14029	1822	9	Not known	
+14030	1823	0	No known previous hospital provider spell with a consultant episode having a psychiatric specialty within any health care provider	
+14031	1823	1	One or more previous hospital provider spells with a consultant episode having a psychiatric specialty within this health care provider	
+14032	1823	2	One or more previous hospital provider spells with a consultant episode having a psychiatric specialty within another health care provider, but none with this healthcare provider	
+14033	1823	8	Not applicable: the patient is not receiving admitted patient care under a consultant in a psychiatric specialty	
+14034	1823	9	Not known: the patient is receiving admitted patient care under a consultant in a psychiatric specialty but the information is not available. This constitutes a validation error	
+14035	1824	1	Detained patient	
+14036	1824	2	Long term patient	
+14037	1824	3	Detained and long term patient	
+14038	1824	null	Not applicable (1990-91 to 1995-96)	
+14039	1825	1	V290 - Neonate: normal care usually given by a mother in a maternity neonatal ward, supervised by a midwife and doctor but requiring minimal medical or nursing advice	From 1989-90
+14040	1825	2	V291 - Neonate: special care which provided observation and treatment falling short of intensive care but exceeding routine care	From 1989-90
+14041	1825	3	V292 - Neonate: intensive care which involved continuous skills supervision by nursing and medical staff for at least one hour or until death. Resuscitation carried out immediately after birth and completed within an hour or so does not constitute intensive care	From 1989-90
+14042	1825	4	V690 - Psychiatric: not previously known to be admitted to a psychiatric hospital or hospital unit	From 1989-90
+14043	1825	5	V691 - Psychiatric: previously admitted to a psychiatric hospital or hospital unit of the provider	From 1989-90
+14044	1825	6	V692 - Psychiatric: previously admitted to a psychiatric hospital or a hospital unit of another provider	From 1989-90
+14045	1825	1	V290 became U500	For the 1995-96 year only, the codes were changed
+14046	1825	2	V291 became U501	For the 1995-96 year only, the codes were changed
+14047	1825	3	V292 became U502 or U503 (U502 denoting a level of care higher than that previously denoted by V291 but falling short of the highest, for which U503 was used)	For the 1995-96 year only, the codes were changed
+14048	1825	4	V690 became U510	For the 1995-96 year only, the codes were changed
+14049	1825	5	V691 became U511	For the 1995-96 year only, the codes were changed
+14050	1825	6	V692 became U512	For the 1995-96 year only, the codes were changed
+14051	1826	A	home	
+14052	1826	A-71	Home leave, non-psychiatric	
+14053	1826	A-72	Home leave, psychiatric	
+14054	1826	B	age	
+14055	1826	B-1	Neonates	
+14056	1826	B-2	Children and adolescents	
+14057	1826	B-3	Elderly	
+14058	1826	B-8	Any age	
+14059	1826	B-9	Invalid	
+14060	1826	C	sex	
+14061	1826	C-1	Male	
+14062	1826	C-2	Female	
+14063	1826	C-8	Not specified	
+14064	1826	C-9	Invalid	
+14065	1826	D	hospital	
+14066	1826	D-1	NHS hospital provider	
+14067	1826	D-2	Non-NHS hospital provider	
+14068	1826	D-9	Invalid	
+14069	1826	E	is the number of days in a week that the ward is open only during the day.	
+14070	1826	F	is the number of days in a week that the ward is open at night.	
+14071	1827	4n	IMD Barriers to Housing and Services Domain value	
+14072	1828	3n	IMD Crime Domain value	
+14073	1829	Between 1 and 3248	Most deprived 10%	
+14074	1829	Between 3249 and 6496	More deprived 10-20%	
+14075	1829	Between 6497 and 9745	More deprived 20-30%	
+14076	1829	Between 9746 and 12993	More deprived 30-40%	
+14077	1829	Between 12994 and 16241	More deprived 40-50%	
+14078	1829	Between 16242 and 19489	Less deprived 40-50%	
+14079	1829	Between 19490 and 22737	Less deprived 30-40%	
+14080	1829	Between 22738 and 25986	Less deprived 20-30%	
+14081	1829	Between 25987 and 29234	Less deprived 10-20%	
+14082	1829	Between 29235 and 32482	Least deprived 10%	
+14083	1830	4n	IMD Education, Skills and Training Domain value	
+14084	1831	3n	IMD Health and Disability Domain value	
+14085	1832	3n	IMD Health and Disability Domain value	
+14086	1833	3n	IMD Income Affecting Children Index value	
+14087	1834	3n	IMD Income Affecting Adults Index value	
+14088	1835	3n	IMD Income Domain value	
+14089	1836	4n	IMD Living Environment Domain value	
+14090	1837	5n	IMD Overall Ranking	
+14091	1839	6an	CDS version number	
+14092	1840	3an	CDS Protocol Identifier	
+14093	1841	35an	CDS Unique identifier	
+14094	1842	nn.nnnn	Combined grossing factor	
+14095	1843	nn.nnnn	Coverage grossing factor	
+14096	1844	dd/mm/yyyy	Date data received	
+14097	1845	9	Not Known (if ethraw also	
+14098	1846	A	British (white)	
+14099	1846	B	Irish (white)	
+14100	1846	C	Any other white background	
+14101	1846	D	White and Black Caribbean (mixed)	
+14102	1846	E	White and Black African (mixed)	
+14103	1846	F	White and Asian (mixed)	
+14104	1846	G	Any other mixed background	
+14105	1846	H	Indian (Asian or Asian British)	
+14106	1846	J	Pakistani	
+14107	1846	K	Bangladeshi (Asian or Asian British)	
+14108	1846	L	Any other Asian background	
+14109	1846	M	Caribbean (Black or Black British)	
+14110	1846	N	African (Black or Black British)	
+14111	1846	P	Any other Black background	
+14112	1846	R	Chinese (other ethnic group)	
+14113	1846	S	Any other ethnic group	
+14114	1846	X	Not known	
+14115	1846	Z	Not stated	
+14116	1847	01	Number present and verified	
+14117	1847	02	Number present but not traced	
+14118	1847	03	Trace needed	
+14119	1847	04	Trace attempted: no match, or multiple matches, found	
+14120	1847	05	Trace needs to be resolved: New NHS Number or patient detail conflict	
+14121	1847	06	Trace in progress	
+14122	1847	07	Number not present and trace not needed	
+14123	1847	08	Trace postponed (baby under six-weeks old)	
+14124	1847	91	Patient identity withheld (derived from SUS if not equal to 90) (from 2009-10 onwards)	
+14125	1848	1	GPPRAC was used to derive the code	
+14126	1848	2	REGGMP was used to derive the code	
+14127	1848	3	PURCODE was used to derive the code	
+14128	1848	4	POSTCODE was used to derive the code	
+14129	1848	5	POSTCODE allocated code, PCG code was blank	
+14130	1848	6	POSTCODE allocated code, PCG code was 49998	
+14131	1848	9	PCG code not known	
+14132	1849	1	GPPRAC was used to derive the code	
+14133	1849	2	REGGMP was used to derive the code	
+14134	1849	3	PURCODE was used to derive the code	
+14135	1849	4	POSTCODE was used to derive the code	
+14136	1849	5	POSTCODE allocated code, PCT code was blank	
+14137	1849	6	POSTCODE allocated code, PCT code	
+14138	1849	9	PCT code not known	
+14139	1850	1	GPPRAC was used to derive the code	
+14140	1850	2	REGGMP was used to derive the code	
+14141	1850	3	PURCODE was used to derive the code	
+14142	1850	4	POSTCODE was used to derive the code	
+14143	1850	5	POSTCODE allocated code, PCT code was blank	
+14144	1850	6	POSTCODE allocated code, PCT code was 59998	
+14145	1850	9	PCT code not known	
+14146	1851	1	GPPRAC was used to derive the code	
+14147	1851	2	REGGMP was used to derive the code	
+14148	1851	3	PURCODE was used to derive the code	
+14149	1851	4	POSTCODE was used to derive the code	
+14150	1851	5	POSTCODE allocated code, PCT code was blank	
+14151	1851	6	POSTCODE allocated code, PCT code was 59998	
+14152	1851	9	PCT code not known	
+14153	1853	8n	Record identifier	
+14154	1854	dd/mm/yyyy	SUS loaded staging date	
+14155	1855	14n	SUS record ID	
+14156	1856	10n	SUS spell ID	
+14157	1856	Null	Records that have excluded from PbR in SUS as the activity is outside the scope of PbR	

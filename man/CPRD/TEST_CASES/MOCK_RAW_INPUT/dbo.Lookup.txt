@@ -1,0 +1,1250 @@
+lookup_id	lookup_type_id	code	text
+1	1	0	Data Not Entered
+2	1	1	Not at risk
+3	1	2	Previous history of severe attack
+4	1	3	On 3 or more drugs
+5	1	4	Night symptoms
+6	1	5	Recent hospital admission
+7	1	6	`Other reason`
+8	2	0	Data Not Entered
+9	2	1	A
+10	2	2	A+
+11	2	3	A-
+12	2	4	B
+13	2	5	B+
+14	2	6	B-
+15	2	7	O
+16	2	8	O+
+17	2	9	O-
+18	2	10	AB
+19	2	11	AB+
+20	2	12	AB-
+21	2	13	Rhesus +
+22	2	14	`Rhesus -`
+23	3	0	Data Not Entered
+24	3	1	Alcohol
+25	3	2	Smoking
+26	3	3	Diet
+27	3	4	Family History
+28	3	5	Breast self examination
+29	3	6	Testes self-examination
+30	3	7	Menopause counselling
+31	3	8	Risk of CVD
+32	3	9	`Exercise`
+33	4	0	Data Not Entered
+34	4	1	Advice
+35	4	2	Leaflet and advice
+36	4	3	Internal counselling
+37	4	4	External counselling
+38	4	5	Therapy
+39	4	6	`PILS Leaflets`
+40	5	0	Data Not Entered
+41	5	1	Seen after death by me
+42	5	2	Seen after death by another medical practitioner
+43	5	3	`Not seen after death by a medical practitioner`
+44	6	0	Data Not Entered
+45	6	1	Meals on wheels
+46	6	2	District Nurse
+47	6	3	Social services
+48	6	4	Home help
+49	6	5	Other
+50	6	6	`Health Visitor`
+51	7	0	Data Not Entered
+52	7	1	Start inhaled steroids
+53	7	2	Double inhaled steroids
+54	7	3	Start oral steroids
+55	7	4	`Call Doctor`
+56	8	0	Data Not Entered
+57	8	1	Asleep
+58	8	2	Awake
+59	8	3	`Asleep and awake`
+60	9	0	Data Not Entered
+61	9	1	First visit
+62	9	2	Subsequent visit
+63	9	3	Last visit
+64	9	4	First follow-up
+65	9	5	`Subsequent follow-up`
+66	10	0	Data Not Entered
+67	10	1	Normal
+68	10	2	Forceps
+69	10	3	Ventouse
+70	10	4	Caesarian
+71	10	5	`Unknown`
+72	11	0	Data Not Entered
+73	11	1	Vertex
+74	11	2	Breech
+75	11	3	Transverse lie
+76	11	4	Other
+77	11	5	`Unknown`
+78	12	0	Data Not Entered
+79	12	1	Low
+80	12	2	Medium
+81	12	3	High
+82	12	4	`Not Applicable`
+83	13	0	Data Not Entered
+84	13	1	< 3
+85	13	2	3 - 9
+86	13	3	10 - 24
+87	13	4	25 - 49
+88	13	5	50 - 74
+89	13	6	75 - 89
+90	13	7	90 - 97
+91	13	8	`> 97`
+92	14	0	Data Not Entered
+93	14	1	Tentative
+94	14	2	Unlikely
+95	14	3	Possible
+96	14	4	Likely
+97	14	5	Certain
+98	14	6	`Absolute`
+99	15	0	Data Not Entered
+100	15	1	Birth
+101	15	2	6 weeks
+102	15	3	8 months
+103	15	4	18 months
+104	15	5	3 years
+105	15	6	`4+ years`
+106	16	0	Data Not Entered
+107	16	1	Category Ia
+108	16	2	Category Ib
+109	16	3	Category Ic
+110	16	4	`Category II`
+111	17	0	Data Not Entered
+112	17	1	Full consent
+113	17	2	Partial consent
+114	17	3	`No consent`
+115	18	0	Data Not Entered
+116	18	1	Clinic
+117	18	2	Night visit, Deputising service
+118	18	3	Follow-up/routine visit
+119	18	4	Night visit, Local rota
+120	18	5	Mail from patient
+121	18	6	Night visit , practice
+122	18	7	Out of hours, Practice
+123	18	8	Out of hours, Non Practice
+124	18	9	Surgery consultation
+125	18	10	Telephone call from a patient
+126	18	11	Acute visit
+127	18	12	Discharge details
+128	18	13	Letter from Outpatients
+129	18	14	Repeat Issue
+130	18	15	Other
+131	18	16	Results recording
+132	18	17	Mail to patient
+133	18	18	Emergency Consultation
+134	18	19	Administration
+135	18	20	Casualty Attendance
+136	18	21	Telephone call to a patient
+137	18	22	Third Party Consultation
+138	18	23	Hospital Admission
+139	18	24	Children's Home Visit
+140	18	25	Day Case Report
+141	18	26	GOS18 Report
+142	18	27	Home Visit
+143	18	28	Hotel Visit
+144	18	29	NHS Direct Report
+145	18	30	Nursing Home Visit
+146	18	31	Residential Home Visit
+147	18	32	Twilight Visit
+148	18	33	Triage
+149	18	34	Walk-in Centre
+150	18	35	Co-op Telephone advice
+151	18	36	Co-op Surgery Consultation
+152	18	37	Co-op Home Visit
+153	18	38	Minor Injury Service
+154	18	39	Medicine Management
+155	18	40	Community Clinic
+156	18	41	Community Nursing Note
+157	18	42	Community Nursing Report
+158	18	43	Data Transferred from other system
+159	18	44	Health Authority Entry
+160	18	45	Health Visitor Note
+161	18	46	Health Visitor Report
+162	18	47	Hospital Inpatient Report
+163	18	48	Initial Post Discharge Review
+164	18	49	Laboratory Request
+165	18	50	Night Visit
+166	18	51	Radiology Request
+167	18	52	Radiology Result
+168	18	53	Referral Letter
+169	18	54	Social Services Report
+170	18	55	Telephone Consultation
+171	18	56	Template Entry
+172	18	57	GP to GP communication transaction
+173	18	58	Non-consultation medication data
+174	18	59	Non-consultation data
+175	18	60	ePharmacy message
+176	19	0	Data Not Entered
+177	19	1	Observation only
+178	19	2	Continuous treatment
+179	19	3	Resolved
+180	19	4	`Intermittent treatment`
+181	20	0	Data Not Entered
+182	20	1	First service
+183	20	2	Subsequent service
+184	20	3	`Service end`
+185	21	0	Data Not Entered
+186	21	1	Standard
+187	21	2	Paediatric
+188	21	3	Large
+189	22	0	Data Not Entered
+190	22	1	General Advice Only
+191	22	2	Opportunistic Intervention
+192	22	3	`Priority`
+193	23	0	Data Not Entered
+194	23	1	Hysterectomy
+195	23	2	Follow-up Stopped
+196	23	3	Patient refusal
+197	23	4	`Considered inappropriate`
+198	24	0	Data Not Entered
+199	24	1	Chest symptoms
+200	24	2	Symptoms
+201	24	3	Night cough
+202	24	4	Peak flow variation > 15%
+203	24	5	`Other`
+204	25	0	Data Not Entered
+205	25	1	Oral hypoglycaemics
+206	25	2	Using Insulin
+207	25	3	Dietary control
+208	25	4	Gestational
+209	25	5	Other
+210	25	6	`Resolved`
+211	26	0	No Data Entered
+212	26	1	General Surgery
+213	26	2	Urology
+214	26	3	Trauma and Orthopaedics
+215	26	4	ENT
+216	26	5	Ophthalmology
+217	26	6	Oral Surgery
+218	26	7	Restorative Dentistry
+219	26	8	Paediatric Dentistry
+220	26	9	Orthodontics
+221	26	10	Neurosurgery
+222	26	11	Plastic Surgery
+223	26	12	Cardiothoracic Surgery
+224	26	13	Paediatric Surgery
+225	26	14	Accident and Emergency
+226	26	15	Anaesthetics
+227	26	16	General Medicine
+228	26	17	Gastroenterology
+229	26	18	Endocrinology
+230	26	19	Haematology (Clinical)
+231	26	20	Clinical Physiology
+232	26	21	Clinical Pharmacology
+233	26	22	Audiological Medicine
+234	26	23	Clinical Genetics
+235	26	24	Clinical Cytogenetics and Molecular Genetics
+236	26	25	Clinical Immunology and Allergy
+237	26	26	Rehabilitation
+238	26	27	Palliative Medicine
+239	26	28	Cardiology
+240	26	29	Dermatology
+241	26	30	Thoracic Medicine
+242	26	31	Infectious Diseases
+243	26	32	Genito-Urinary Medicine
+244	26	33	Nephrology
+245	26	34	Medical Oncology
+246	26	35	Nuclear Medicine
+247	26	36	Neurology
+248	26	37	Clinical Neuro-Physiology
+249	26	38	Rheumatology
+250	26	39	Paediatrics
+251	26	40	Paediatric Neurology
+252	26	41	Geriatric Medicine
+253	26	42	Dental Medicine Specialties
+254	26	43	Obstetrics (Hospital Bed or Delivery Facilities)
+255	26	44	Gynaecology
+256	26	45	Ante-natal clinic
+257	26	46	Post-natal clinic
+258	26	47	Maternity Function
+259	26	48	Other than Maternity
+260	26	49	Mental Handicap
+261	26	50	Mental Illness
+262	26	51	Child and Adolescent Psychiatry
+263	26	52	Forensic Psychiatry
+264	26	53	Psychotherapy
+265	26	54	Old Age Psychiatry
+266	26	55	Clinical Oncology
+267	26	56	Radiology
+268	26	57	General Pathology
+269	26	58	Blood Transfusion
+270	26	59	Chemical Pathology
+271	26	60	Haematology
+272	26	61	Histopathology
+273	26	62	Immunopathology
+274	26	63	Medical Microbiology
+275	26	64	Neuropathology
+276	26	65	Community Medicine
+277	26	66	Occupational Medicine
+278	26	67	Joint Consultant Clinics
+279	26	68	Clinical Psychology
+280	26	69	Learning Disabilities
+281	26	70	Adult Psychiatry
+282	26	71	Community Paediatrics
+283	26	72	Diabetic Nurse Specialist
+284	26	73	Optometrist
+285	26	74	Speech Therapy
+286	26	75	Chiropody
+287	26	76	Dietetics
+288	26	77	Physiotherapy
+289	26	78	Occupational Therapy
+290	26	79	Community Psychiatric Nurse
+291	26	80	Mobile Diabetic Eye Screening
+292	26	81	Obstetrics & Gynaecology
+293	26	82	Pain Management
+294	26	83	Medical Ophthalmology
+295	26	84	Midwife Episode
+296	26	85	General Practice
+297	26	86	Nursing Episode
+298	26	87	Vascular Surgeons
+299	26	88	Hearing Aid Clinic
+300	26	89	Endodontics
+301	26	90	Prosthodontics
+302	26	91	Paediatric Cardiology
+303	26	92	Tropical Medicine
+304	26	93	Community Sexual and Reproductive Health
+305	26	94	Public Health
+306	27	0	Data Not Entered
+307	27	1	Vegetarian
+308	27	2	`Vegan`
+309	28	0	Data Not Entered
+310	28	1	First Ever
+311	28	2	New event
+312	28	3	Continuing
+313	28	4	`Other`
+314	29	0	Data Not Entered
+315	29	1	Hospital only
+316	29	2	Community only
+317	29	3	GP only
+318	29	4	Shared
+319	29	5	`Other`
+320	30	0	Data Not Entered
+321	30	1	Inactive
+322	30	2	Moderate
+323	30	3	Vigorous
+324	30	4	`Gentle`
+325	31	0	Data Not Entered
+326	31	1	Daily
+327	31	2	Weekly
+328	31	3	Monthly
+329	31	4	Quarterly
+330	31	5	Yearly
+331	31	6	> Daily
+332	31	7	> Weekly
+333	31	8	> Monthly
+334	31	9	> Quarterly
+335	31	10	> Yearly
+336	31	11	`Less frequent`
+337	32	0	Data Not Entered
+338	32	1	Cephalic
+339	32	2	Breech
+340	32	3	Transverse lie
+341	32	4	Oblique
+342	32	5	`Unknown`
+343	33	0	Data Not Entered
+344	33	1	Wears spectacles
+345	33	2	Wears contact lenses
+346	33	3	`None`
+347	34	0	Data Not Entered
+348	34	1	Good
+349	34	2	Moderate
+350	34	3	Poor
+351	34	4	`Not examined`
+352	35	0	Data Not Entered
+353	35	1	Hospital
+354	35	2	Practice
+355	35	3	Shared
+356	36	0	Data Not Entered
+357	36	1	DT
+358	36	2	MMR
+359	36	3	DTP
+360	36	4	TD
+361	36	5	TP
+362	36	6	MR
+363	36	7	HIBDTP
+364	36	8	DP
+365	36	9	HEPABTWIN
+366	36	10	HEPATYP
+367	36	11	DTAPIPVHIB
+368	36	12	DTAPIPV
+369	36	13	DTIPV
+370	36	14	HEPATYP2
+371	36	15	HIBMENC
+372	36	16	HEPABAMBRIX
+373	36	17	HEPABAMBPA
+374	36	18	DTAP
+375	36	19	POLIO
+376	36	20	TETANUS
+377	36	21	MENC
+378	36	22	PERTUSSIS
+379	36	23	MUMPS
+380	36	24	TYPTYPHERIX
+381	36	25	HIB
+382	36	26	RUBELLA
+383	36	27	HEPATITIS_B
+384	36	28	HEPATITIS_A
+385	36	29	HEPA2
+386	36	30	MEASLES
+387	36	31	DIPHTHERIA
+388	36	32	TYPTYPHIM
+389	37	0	Data Not Entered
+390	37	1	Intramuscular
+391	37	2	Oral
+392	37	3	Subcutaneous
+393	37	4	Intradermal
+394	37	5	Intranasal
+395	38	0	Data Not Entered
+396	38	1	Given
+397	38	4	Refusal to start or complete course
+398	38	9	`Advised`
+399	39	0	
+400	39	1	TETANUS
+401	39	2	POLIO
+402	39	3	DIPHTHERIA
+403	39	4	FLU
+404	39	5	PERTUSSIS
+405	39	6	HIB
+406	39	7	MEASLES
+407	39	8	RUBELLA
+408	39	9	MUMPS
+409	39	10	MENC
+410	39	11	HEPA
+411	39	12	TYPHOID
+412	39	13	PNEUMOCOC
+413	39	14	HEPB
+414	39	15	BCG
+415	39	16	TYPTYPHIM
+416	39	17	HEPAMONO
+417	39	18	PNEUMOCONJ
+418	39	19	HEPAAVAXIM
+419	39	20	TYPTYPHERIX
+420	39	21	HNIG
+421	39	22	MENING
+422	39	23	YELLOW
+423	39	24	CHOLERA
+424	39	25	RABIES
+425	39	26	HEPAJUNIOR
+426	39	27	HEPAMONOJUNIO
+427	39	28	PNEUMOPOLY
+428	39	29	HEPATITIS_A
+429	39	30	SMALLPOX
+430	39	31	HEPATITIS_B
+431	39	32	OTHERCOMBINED
+432	39	33	HEPAVAQTA
+433	39	34	JAPAN
+434	39	35	HEPABTWIN
+435	39	36	MENACWY
+436	39	37	OTHERSINGLE
+437	39	38	HEPAEPAX
+438	39	39	HBIG
+439	39	40	HEPAPMMSD
+440	39	41	TICK
+441	39	42	TD
+442	39	43	VARICELLA
+443	39	44	TAB
+444	39	45	IGTETANUS
+445	39	46	HIBDTP
+446	39	47	DTP
+447	39	48	ANTHRAX
+448	39	49	TYPHUS
+449	39	50	MR
+450	39	51	MMR
+451	39	52	HIBMENC
+452	39	53	IGZOSTER
+453	39	54	TYPVIVOTIF
+454	39	55	DP
+455	39	56	IGRABIES
+456	39	57	DT
+457	39	58	HPV
+458	39	59	SMALLPOXUNSUC
+459	39	60	PLAGUE
+460	39	61	TULARAEMIA
+461	39	62	IGANTID
+462	39	63	IGCMV
+463	39	64	DIPHTHERIAUM
+464	39	66	MENU
+465	39	67	HPVCER
+466	39	68	HEPABAMBRIX
+467	39	69	HEPABAMBPA
+468	39	70	HEPA2
+469	39	71	PFLUGEN
+470	39	72	PFLUGSK
+471	39	73	PFLUGSKO
+472	39	74	PFLUGS
+473	39	75	PFLUBAXO
+474	39	76	PFLUBAX
+475	39	77	HEPA_JUN
+476	39	78	PFLUGENO
+477	39	79	DTAPIPV
+478	39	80	DTAPIPVHIB
+479	39	81	DTIPV
+480	39	82	PNEUMOCONJ13
+481	39	83	DIPTHERIA
+482	39	84	FLUSOHP
+483	39	85	FLUSPHARMA
+484	39	86	ROTAVIRUS
+485	39	87	HEPB_JUN
+486	39	88	SHINGLES
+487	39	89	FLUSIN
+488	39	90	HEPAVAQTADULT
+489	39	91	SHINGLESOHP
+490	39	92	ROTAVIRUS VAC
+491	40	0	Data Not Entered
+492	40	1	In this Practice
+493	40	2	Out of Practice
+494	40	3	In another Practice
+495	40	4	`Source unknown`
+496	41	0	Data Not Entered
+497	41	1	Left arm
+498	41	2	Right arm
+499	41	3	Left thigh
+500	41	4	Right thigh
+501	41	5	Left buttock
+502	41	6	Right buttock
+503	41	7	Other
+504	41	8	Upper left thigh
+505	41	9	Lower left thigh
+506	41	10	Upper right thigh
+507	41	11	`Lower right thigh`
+508	42	0	
+509	42	1	B
+510	42	2	1
+511	42	3	2
+512	42	4	3
+513	42	5	0
+514	42	6	B2
+515	42	7	4
+516	42	8	
+517	42	9	5
+518	42	10	6
+519	43	0	Data Not Entered
+520	43	1	Spouse
+521	43	2	Sibling
+522	43	3	Child
+523	43	4	Other relative
+524	43	5	`Other`
+525	44	0	Data Not Entered
+526	44	1	Breast
+527	44	2	Bottle
+528	44	3	`Breast and bottle`
+529	45	0	Data Not Entered
+530	45	1	Left
+531	45	2	Right
+532	45	3	Midline
+533	45	4	Indeterminate
+534	45	5	`Bilateral`
+535	46	0	Data Not Entered
+536	46	1	Toe
+537	46	2	Foot
+538	46	3	Ankle
+539	46	4	Lower Leg
+540	46	5	`Whole Leg`
+541	47	0	Data Not Entered
+542	47	1	Live birth
+543	47	2	Still birth
+544	47	3	Miscarriage
+545	47	4	`Unknown`
+546	48	0	Data Not Entered
+547	48	1	Sure
+548	48	2	Unsure  (use best guess LMP date)
+549	48	3	`Very unsure (use best guess LMP date)`
+550	49	0	Data Not Entered
+551	49	1	Surgery
+552	49	2	`Home`
+553	50	0	Data Not Entered
+554	50	1	Single
+555	50	2	Married
+556	50	3	Widowed
+557	50	4	Divorced
+558	50	5	Separated
+559	50	6	Unknown
+560	50	7	Engaged
+561	50	8	Co-habiting
+562	50	9	Remarried
+563	50	10	Stable relationship
+564	50	11	`Civil Partnership`
+565	51	0	Data Not Entered
+566	51	1	Hospital
+567	51	2	Home delivery
+568	51	3	`GP Unit`
+569	52	0	Data Not Entered
+570	52	1	Level 1
+571	52	2	Level 2
+572	52	3	Level 3
+573	52	4	Level 4
+574	52	5	Level 5
+575	52	6	Level 6
+576	52	7	Level 7
+577	52	8	Level 8
+578	52	9	Level 9
+579	52	10	Level 10
+580	52	11	Level 11
+581	52	12	Level 12
+582	52	13	Level 13
+583	52	14	`Level 14`
+584	53	0	Data Not Entered
+585	53	1	No night cough
+586	53	2	< 1/week
+587	53	3	1 - 3/week
+588	53	4	`> 3/week`
+589	54	0	Data Not Entered
+590	54	1	Normal
+591	54	2	Abnormal
+592	54	3	Potential Abnormal
+593	54	4	
+594	55	0	Data Not Entered
+595	55	1	<
+596	55	2	<=
+597	55	3	=
+598	55	4	>
+599	55	5	>=
+600	55	6	`~`
+601	56	0	Data Not Entered
+602	56	1	First reading
+603	56	2	Second reading
+604	56	3	Third reading
+605	56	4	`> Third reading`
+606	57	0	Data Not Entered
+607	57	1	Under 16 years of age
+608	57	2	16, 17 or 18 and in full-time education
+609	57	3	Woman aged 60 or over
+610	57	4	Man aged 60 or over
+611	57	5	Has a maternity/medical exemption certificate
+612	57	6	Has a prescription prepayment certificate
+613	57	7	Receives Income Support/Family credit et
+614	57	8	Has a War Pension exemption certificate
+615	57	9	Not Exempt
+616	57	10	Gets Disability Working Allowance
+617	57	11	Receives Income-based Jobseeker's Allowance
+618	57	12	Is named on a current HC2 charges certificate
+619	57	13	Was prescribed a free-of-charge contraceptive
+620	57	14	Has a maternity exemption certificate
+621	57	15	Has a medical exemption certificate
+622	57	16	Receives Income Support
+623	57	17	Has WFTC exemption or gets full or reduced WFTC
+624	57	18	Has DPTC exemption or gets full or reduced DPTC
+625	57	19	Aged 60 or over
+626	57	20	Entitled to/has a valid NHS Tax Credit Exemption Certificate
+627	57	21	`Has a Partner who gets Pension Credit guarantee credit PCGC`
+628	58	0	Data Not Entered
+629	58	1	Wright
+630	58	2	`EN13826`
+631	59	0	Data Not Entered
+632	59	1	Satisfactory
+633	59	2	Problem
+634	59	3	Continue observation
+635	59	4	Treatment being received
+636	59	5	Referral
+637	59	6	`Not examined`
+638	60	0	Data Not Entered
+639	60	1	Post-mortem information included
+640	60	2	Post-mortem information may be available later
+641	60	3	Post-mortem not being held
+642	60	4	`Death reported to the Coroner for further action`
+643	61	0	Data Not Entered
+644	61	1	Live
+645	61	2	Stillborn
+646	61	3	Neonatal death
+647	61	4	`Intra-partum death`
+648	62	0	Data Not Entered
+649	62	1	Age based
+650	62	2	Age and race based
+651	62	3	Age and sex based
+652	62	4	Gestational age based
+653	62	5	Generic normal range
+654	62	6	Other (e.g. specific disease based)
+655	62	7	Race based
+656	62	8	Race and sex based
+657	62	9	`Sex based`
+658	63	0	Data Not Entered
+659	63	1	Sitting
+660	63	2	Lying down
+661	63	3	Standing
+662	64	0	Data Not Entered
+663	64	1	Normal
+664	64	2	Absent
+665	64	3	Diminished
+666	64	4	Increased
+667	64	5	`Not examined`
+668	65	1	North East
+669	65	2	North West
+670	65	3	Yorkshire & The Humber
+671	65	4	East Midlands
+672	65	5	West Midlands
+673	65	6	East of England
+674	65	7	South West
+675	65	8	South Central
+676	65	9	London
+677	65	10	South East Coast
+678	65	11	Northern Ireland
+679	65	12	Scotland
+680	65	13	`Wales`
+681	66	0	Data Not Entered
+682	66	1	Parental
+683	66	2	Household
+684	66	3	Work place
+685	66	4	Other
+686	67	0	Data Not Entered
+687	67	1	Absent
+688	67	2	Present
+689	68	0	Data Not Entered
+690	68	1	Negative
+691	68	2	Positive
+692	69	0	Data Not Entered
+693	69	1	Allergy
+694	69	2	Intolerance
+695	69	3	`Adverse Effect`
+696	70	0	Data Not Entered
+697	70	1	Hospital
+698	70	2	Community care
+699	70	3	Social services
+700	70	4	GP
+701	70	5	`Other Agency`
+702	71	0	Data Not Entered
+703	71	1	Nursing home
+704	71	2	Rest home
+705	71	3	Warden supported
+706	71	4	Sheltered accomodation
+707	71	5	Own home
+708	71	6	`Other`
+709	72	0	Data Not Entered
+710	72	1	In Patient
+711	72	2	Day Case
+712	72	3	Out Patient
+713	72	4	Domiciliary
+714	72	5	Direct Access
+715	72	6	PHCT
+716	72	7	`Other`
+717	73	0	Data Not Entered
+718	73	1	Epidemic
+719	73	2	Special Risk Group
+720	73	3	Routine Measure
+721	73	4	`Traveller`
+722	74	0	Data Not Entered
+723	74	1	Senior Partner
+724	74	2	Partner
+725	74	3	Assistant
+726	74	4	Associate
+727	74	5	Non-commercial local rota of less than 10 GPs
+728	74	6	Commercial Deputising service
+729	74	7	Locum
+730	74	8	GP Registrar
+731	74	9	Consultant
+732	74	10	Sole Practitioner
+733	74	11	Practice Nurse
+734	74	12	Health Visitor
+735	74	13	Community Nurse
+736	74	14	Midwife
+737	74	15	Community Psychiatric Nurse
+738	74	16	Social Worker
+739	74	17	Pharmacist
+740	74	18	Dispenser
+741	74	19	Non-qualified Dispenser
+742	74	20	Practice Manager
+743	74	21	Fund Manager
+744	74	22	Business Manager
+745	74	23	Administrator
+746	74	24	Secretary
+747	74	25	Receptionist
+748	74	26	Physiotherapist
+749	74	27	Chiropodist
+750	74	28	Dentist
+751	74	29	Dietician
+752	74	30	Counsellor
+753	74	31	Osteopath
+754	74	32	Maintenance staff
+755	74	33	Other Health Care Professional
+756	74	34	Hospital Nurse
+757	74	35	Community Medical Officer
+758	74	36	School Nurse
+759	74	37	Health Education Officer
+760	74	38	Contact Tracing Nurse
+761	74	39	Stomatherapist
+762	74	40	Computer Manager
+763	74	41	Interpreter/Link Worker
+764	74	42	Chiropractor
+765	74	43	Acupuncturist
+766	74	44	Homeopath
+767	74	45	Mental Handicap Nurse
+768	74	46	Carer
+769	74	47	Salaried Partner
+770	74	48	Occupational Therapist
+771	74	49	Speech Therapist
+772	74	50	GP Retainer
+773	74	51	Phlebotomist
+774	74	52	Other Medical & Dental
+775	74	53	Other Students
+776	74	54	Other Nursing & Midwifery
+777	74	55	Other Allied Health Professionals
+778	74	56	Other Professional Scientific & Technical
+779	74	57	Other Healthcare Scientists
+780	74	58	Other Additional Clinical Services
+781	74	59	Other Admin & Clerical
+782	74	60	Clinical Practitioner Access Role
+783	74	61	Nurse Access Role
+784	74	62	Nurse Manager Access Role
+785	74	63	Health Professional Access Role
+786	74	64	Healthcare Student Access Role
+787	74	65	Biomedical Scientist Access Role
+788	74	66	Clinical Coder Access Role
+789	74	67	Optometrist
+790	74	68	`Radiographer`
+791	75	0	Missing
+792	75	1	Symptom
+793	75	2	Examination
+794	75	3	Diagnosis
+795	75	4	Intervention
+796	75	5	Management
+797	75	6	Administration
+798	75	7	Presenting complaint
+799	75	8	` `
+800	76	0	Data Not Entered
+801	76	1	Minimal
+802	76	2	Mild
+803	76	3	Moderate
+804	76	4	Severe
+805	76	5	Very severe
+806	76	6	Potentially Fatal
+807	77	0	Data Not Entered
+808	77	1	Male
+809	77	2	Female
+810	77	3	Indeterminate
+811	77	4	`Unknown`
+812	78	0	Data Not Entered
+813	78	1	Singleton
+814	78	2	Twin
+815	78	3	Triplet
+816	78	4	Multiple
+817	78	5	`Unknown`
+818	79	0	No Data Entered/Missing
+819	79	1	GP Referral
+820	79	2	Self
+821	79	3	3rd Party
+822	79	4	`PHCT`
+823	80	0	No Data Entered
+824	80	1	General Surgical
+825	80	2	General Medical
+826	80	3	Orthopaedic
+827	80	4	Rheumatology
+828	80	5	Ear, Nose and Throat
+829	80	6	Gynaecology
+830	80	7	Obstetrics
+831	80	8	Paediatrics
+832	80	9	Ophthalmology
+833	80	10	Psychiatry
+834	80	11	Geriatrics
+835	80	12	Dermatology
+836	80	13	Neurology
+837	80	14	Genito-Urinary
+838	80	15	X-Ray
+839	80	16	Pathology
+840	80	17	Other
+841	80	18	Non-referral report
+842	80	19	``
+843	81	0	No Data Entered
+844	81	1	%
+845	81	2	(bdsk u)
+846	81	3	(bsa)
+847	81	4	(cfU)
+848	81	5	(knk u)
+849	81	6	(mclg u)
+850	81	7	OD
+851	81	8	(pa)
+852	81	9	pH
+853	81	10	(ppb)
+854	81	11	(ppm)
+855	81	12	(pu)
+856	81	13	(td u)
+857	81	14	/(hpf)
+858	81	15	/day
+859	81	16	/hour
+860	81	17	/L
+861	81	18	/m3
+862	81	19	/min
+863	81	20	/minute
+864	81	21	/mL
+865	81	22	/month
+866	81	23	/second
+867	81	24	/week
+868	81	25	/year
+869	81	26	1
+870	81	27	1(tot)
+871	81	28	1/mL
+872	81	29	10*-2(%)
+873	81	30	10*-3(%)
+874	81	31	10*12/L
+875	81	32	10*3(rbc)
+876	81	33	10*3/L
+877	81	34	10*3/mL
+878	81	35	10*6/L
+879	81	36	10*6/mL
+880	81	37	10*9/L
+881	81	38	10*9/mL
+882	81	39	degC
+883	81	40	cm(H2O)
+884	81	41	d
+885	81	42	dB
+886	81	43	dBA
+887	81	44	deg
+888	81	45	ft
+889	81	46	fg
+890	81	47	fL
+891	81	48	fmol
+892	81	49	g
+893	81	50	g(creat)
+894	81	51	g(hgb)
+895	81	52	g(tot_nit)
+896	81	53	g(tot_prot)
+897	81	54	g(wet_tis)
+898	81	55	g/d
+899	81	56	g/dL
+900	81	57	g/L
+901	81	58	h
+902	81	59	IU
+903	81	60	IU/d
+904	81	61	IU/L
+905	81	62	IU/mL
+906	81	63	kat
+907	81	64	kat/kg
+908	81	65	kat/L
+909	81	66	Kgs
+910	81	67	/kg(body wt)
+911	81	68	kg/L
+912	81	69	kpal
+913	81	70	kU/L
+914	81	71	L/min
+915	81	72	lm
+916	81	73	lm/m2
+917	81	74	m
+918	81	75	m/s
+919	81	76	m/s2
+920	81	77	m2
+921	81	78	meq
+922	81	79	meq/L
+923	81	80	mg
+924	81	81	mg/d
+925	81	82	mg/dL
+926	81	83	mg/L
+927	81	84	mg/m3
+928	81	85	mg/min
+929	81	86	mg/mmol
+930	81	87	min
+931	81	88	mU/mL
+932	81	89	mL
+933	81	90	mL/min
+934	81	91	mL/s
+935	81	92	mm
+936	81	93	mm(Hg)
+937	81	94	mm/h
+938	81	95	mmol/d
+939	81	96	mmol/L
+940	81	97	mmol/mol
+941	81	98	mol/kg
+942	81	99	mol/L
+943	81	100	mol/s
+944	81	101	month
+945	81	102	mosmol/kg
+946	81	103	mosmol/L
+947	81	104	ng
+948	81	105	ng/L
+949	81	106	ng/mL
+950	81	107	nkat
+951	81	108	nm
+952	81	109	nmol/d
+953	81	110	nmol/L
+954	81	111	nmol/s
+955	81	112	ns
+956	81	113	Pa
+957	81	114	pg
+958	81	115	pg/L
+959	81	116	pg/mL
+960	81	117	pkat
+961	81	118	pm
+962	81	119	pmol
+963	81	120	pmol/L
+964	81	121	ps
+965	81	122	rad
+966	81	123	rem
+967	81	124	s
+968	81	125	stone
+969	81	126	u
+970	81	127	U/L
+971	81	128	ueq
+972	81	129	ug
+973	81	130	ug/d
+974	81	131	ug/dL
+975	81	132	ug/g
+976	81	133	ug/L
+977	81	134	ug/min
+978	81	135	uiu
+979	81	136	ukat
+980	81	137	um
+981	81	138	umol
+982	81	139	umol/d
+983	81	140	umol/g(creat)
+984	81	141	umol/h/g(Hb)
+985	81	142	umol/L
+986	81	143	umol/min
+987	81	144	umol/mL/h
+988	81	145	umol/mmol
+989	81	146	us
+990	81	147	week
+991	81	148	year
+992	81	149	MicroU/L
+993	81	150	cms
+994	81	151	ratio
+995	81	152	second
+996	81	153	10*9
+997	81	154	L
+998	81	155	10*6
+999	81	156	mmol
+1000	81	157	10*3
+1001	81	158	mPas
+1002	81	159	cP
+1003	81	160	mU/L
+1004	81	161	1/1
+1005	81	162	/100(WBC)
+1006	81	164	/uL
+1007	81	165	IU/dL
+1008	81	166	kg
+1009	81	167	kIU/L
+1010	81	168	kPa
+1011	81	169	mg/mmol(creat)
+1012	81	170	mIU/L
+1013	81	171	mmol/mmol(creat)
+1014	81	172	mPa.s
+1015	81	173	nmol/L/h
+1016	81	174	nmol/L/hr
+1017	81	175	U/dL
+1018	81	176	U/g
+1019	81	177	U/g(Hb)
+1020	81	178	U/mL
+1021	81	179	ug/mL
+1022	81	180	umol/mol
+1023	81	181	umol/mol(Hb)
+1024	81	182	uu/mL
+1025	81	183	10*-2
+1026	81	184	10*-3
+1027	81	185	L/L
+1028	81	186	kua/L
+1029	81	187	mmol/mmol
+1030	81	188	nmol/g
+1031	81	189	nmol/h/mL(RBC)
+1032	81	190	nmol/mL/min
+1033	81	191	nmol/mmol
+1034	81	192	pmol/h/mg(Hb)
+1035	81	193	uU/spec
+1036	81	194	g/mol
+1037	81	195	titre
+1038	81	196	mg/12hrs
+1039	81	197	SD
+1040	81	198	/cu.mm
+1041	81	199	GPL/ml
+1042	81	200	MPL/ml
+1043	81	201	ugFEU/ml
+1044	81	202	mOsm/kg
+1045	81	203	GPL U/ml
+1046	81	204	GPM U/ml
+1047	81	205	mmol/mol Hb
+1048	81	206	nmol/gHb/h
+1049	81	207	ml/min/1.73m
+1050	81	208	ml/min/1.73m*2
+1051	81	209	#/[tot]
+1052	81	210	#/HPF
+1053	81	211	#G ( )/L
+1054	81	212	#k ( )/L
+1055	81	213	#M ( )/L
+1056	81	214	#T ( )/L
+1057	81	215	%Hb
+1058	81	216	/g(Hb)
+1059	81	217	/m*3
+1060	81	218	AU/L
+1061	81	219	cell/L
+1062	81	220	cm
+1063	81	221	copy/L
+1064	81	222	fg/L
+1065	81	223	g/24h
+1066	81	224	g/h
+1067	81	225	g/kg
+1068	81	226	Gcell/L
+1069	81	227	Gcopy/L
+1070	81	228	inch
+1071	81	229	INR U
+1072	81	230	kAU/L
+1073	81	231	kcell/L
+1074	81	232	kcopy/L
+1075	81	233	L/24h
+1076	81	234	L/h
+1077	81	235	lm/m*2
+1078	81	236	m*2
+1079	81	237	m/s*2
+1080	81	238	MAU/L
+1081	81	239	Mcell/L
+1082	81	240	Mcopy/L
+1083	81	241	mg/24h
+1084	81	242	mg/g(dry wt)
+1085	81	243	mg/g(wet wt)
+1086	81	244	mg/h
+1087	81	245	mg/kg
+1088	81	246	mg/m*3
+1089	81	247	mg/mg
+1090	81	248	mIU/mL
+1091	81	249	mL/24h/1.73m*2
+1092	81	250	mL/h
+1093	81	251	mL/min/1.73m*2
+1094	81	252	mmol/24h
+1095	81	253	mmol/g(dry wt)
+1096	81	254	mmol/g(wet wt)
+1097	81	255	mmol/kg
+1098	81	256	MoM
+1099	81	257	ng/mL/h
+1100	81	258	nmol/10*9(platelets)
+1101	81	259	nmol/24h
+1102	81	260	nmol/h/mL
+1103	81	261	nmol/kg
+1104	81	262	nmol/mmol(creat)
+1105	81	263	nmol/mol(creat)
+1106	81	264	PFU
+1107	81	265	pL
+1108	81	266	pmol/24h
+1109	81	267	pmol/kg
+1110	81	268	Tcell/L
+1111	81	269	U
+1112	81	270	U/d
+1113	81	271	ug/24h
+1114	81	272	ug/g(dry wt)
+1115	81	273	ug/g(wet wt)
+1116	81	274	ug/h
+1117	81	275	ug/mmol(creat)
+1118	81	276	uIU/L
+1119	81	277	uL
+1120	81	278	umol/24h
+1121	81	279	umol/g(dry wt)
+1122	81	280	umol/g(wet wt)
+1123	81	281	umol/h/g(Prot)
+1124	81	282	umol/h/L
+1125	81	283	umol/kg
+1126	81	284	umol/mmol(creat)
+1127	81	285	uU/L
+1128	81	286	ngTDP/g Hb
+1129	81	287	pmol/g Hb
+1130	82	0	Data Not Entered
+1131	82	1	No time off
+1132	82	2	1 - 2 days
+1133	82	3	3 - 10 days
+1134	82	4	`> 10 days`
+1135	83	0	Data Not Entered
+1136	83	1	<
+1137	83	2	<=
+1138	83	3	=
+1139	83	4	>
+1140	83	5	>=
+1141	83	6	~
+1142	83	7	Very High
+1143	83	8	High
+1144	83	9	Normal
+1145	83	10	Low
+1146	83	11	Very Low
+1147	83	12	Abnormal
+1148	83	13	Potential Abnormal
+1149	83	14	Outside ref range
+1150	83	15	Nil
+1151	83	16	Trace
+1152	83	17	+
+1153	83	18	++
+1154	83	19	+++
+1155	83	20	Not examined
+1156	83	21	Positive
+1157	83	22	Negative
+1158	83	23	Absent
+1159	83	24	Present
+1160	83	25	Normal
+1161	83	26	Abnormal
+1162	83	27	Potential Abnormal
+1163	83	28	
+1164	83	29	Negative
+1165	83	30	Positive
+1166	83	31	Positive
+1167	83	32	Negative
+1168	83	33	Unknown
+1169	83	34	Not examined
+1170	83	35	Above high reference limit
+1171	83	36	Below low reference limit
+1172	83	37	Outside reference range
+1173	83	38	Potentially abnormal
+1174	83	39	Normal
+1175	83	40	Low
+1176	83	41	High
+1177	83	42	Significantly Low
+1178	83	43	Significantly High
+1179	83	44	Abnormal
+1180	83	45	Very Abnormal
+1181	83	46	`Not Applicable`
+1182	84	0	Data Not Entered
+1183	84	1	Death
+1184	84	2	Removal to new TP/HB/CSA
+1185	84	3	Internal Transfer
+1186	84	4	Mental Hospital
+1187	84	5	Embarkation
+1188	84	6	New TP/HB/CSA/Same GP
+1189	84	7	Adopted Child
+1190	84	8	Services
+1191	84	9	Deduction at GP's Request
+1192	84	10	Registration Cancelled
+1193	84	11	Service Dependant
+1194	84	12	Deduction at Patient's Request
+1195	84	13	Other reason
+1196	84	14	Enlistment
+1197	84	15	Institution
+1198	84	16	Transfer within Practice
+1199	84	17	Linkage
+1200	84	18	Untraced - Miscellaneous
+1201	84	19	Untraced - Immig
+1202	84	20	Untraced - GP Resign
+1203	84	21	Untraced - College
+1204	84	22	Untraced - outwith Practice
+1205	84	23	Untraced - outwith HB
+1206	84	24	Multiple Transfer
+1207	84	25	Intra-consortium transfer
+1208	84	26	Returned Undelivered
+1209	84	27	Internal Transfer - Address Change
+1210	84	28	Internal Transfer within Partnership
+1211	84	29	Correspondence states 'gone away'
+1212	84	30	Practice advise outside their area
+1213	84	31	Practice advise patient no longer resident
+1214	84	32	Practice advise removal via screening system
+1215	84	33	Practice advise removal via vaccination data
+1216	84	34	`Removal from Residential Institute`
+1217	85	0	Data Not Entered
+1218	85	1	Acute
+1219	85	2	Annual
+1220	85	3	`Routine`
+1221	86	0	Data Not Entered
+1222	86	1	2 week Wait
+1223	86	2	Routine
+1224	86	3	Stat (immediately)
+1225	86	4	Urgent
+1226	86	5	Emergency
+1227	86	6	Red Flag
+1228	87	0	Data Not Entered
+1229	87	1	6/5
+1230	87	2	6/6
+1231	87	3	6/9
+1232	87	4	6/12
+1233	87	5	6/18
+1234	87	6	6/24
+1235	87	7	6/60
+1236	87	8	Count fingers
+1237	87	9	Follow hand movements
+1238	87	10	Perceives light
+1239	87	11	No perception of light
+1240	87	12	6/36
+1241	87	13	6/4
+1242	87	14	`6/7`
+1243	88	0	Data Not Entered
+1244	88	1	Yes
+1245	88	2	No
+1246	88	3	Ex
+1247	89	0	Data Not Entered
+1248	89	1	Yes
+1249	89	2	`No`

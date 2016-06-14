@@ -1,0 +1,90 @@
+lookup_type_id	name	description
+1	AAR	Asthma Risk Factors
+2	ABO	Blood Group
+3	ADT	Advice Type
+4	ADV	Advice Given
+5	AFD	After Death
+6	AGC	Elderly Patient Agencies
+7	AMA	Asthma Management
+8	ASL	Asleep
+9	ATT	Attendance Type
+10	BMO	Birth Mode
+11	BPR	Birth Presentation
+12	CAP	Capitation Supplement
+13	CEN	Centiles
+14	CER	Certainty
+15	CHS	Chs Stages
+16	COD	Category Of Death
+17	COS	Type Of Consent
+18	COT	Consultation Type
+19	CST	Current Status
+20	CTT	Contraceptive Service Type
+21	CUF	Cuff
+22	CVD	Cvd Risk
+23	CYX	Cervical Cytology Exclusion
+24	DAS	Diagnosis Of Asthma
+25	DBS	Diabetic Status
+26	DEP	Departments
+27	DIE	Type Of Diet
+28	EPI	Episode Type
+29	EPM	Epilepsy Management
+30	EXE	Exercise
+31	FIT	Epileptic Fit Frequency
+32	FPR	Fetal Presentation
+33	GLA	Visual Aids
+34	GMP	Examination
+35	HPS	Program Type
+36	IMC	Immunisation Compound
+37	IME	Method Of Administration
+38	IMM	Immunisation Status
+39	IMT	Immunisation Type
+40	INP	In Practice Options
+41	ISI	Imms Site Of Administration
+42	IST	Immunisation Stage
+43	KIN	Next Of Kin
+44	LAC	Feeding
+45	LAT	Laterality
+46	LEG	Anatomical Site In Leg
+47	LIV	Birth Type
+48	LMP	Lmp Certainty
+49	LOC	Over 75 Check Location
+50	MAR	Marital Status
+51	MBO	Maternity Booking Type
+52	MOB	Mobility Levels
+53	NCO	Night Cough
+54	N_A	Normal/abnormal
+55	OPR	Operator
+56	PBP	Pretreatment Bp Reading Number
+57	PEX	Prescription Exemption
+58	PFD	Peak Flow Device Type
+59	PHR	Problem State
+60	PMR	Post Mortem
+61	POC	Pregnancy Outcome
+62	POP	Population Base
+63	POS	Posture
+64	PRE	Presence
+65	PRG	Practice Region
+66	PSM	Passive Smoking
+67	P_A	Absent/present
+68	P_N	Negative/Positive
+69	RCT	Reaction Type
+70	REF	Elderly Patient Referrals
+71	RES	Residence Types
+72	RFT	Referral Type
+73	RIN	Reason Indicator
+74	ROL	Role Of Staff
+75	SED	Medical Entry
+76	SEV	Severity
+77	SEX	Sex
+78	SIN	Delivery Outcome
+79	SOU	Source Of Referral
+80	SPE	Fhsa Specialty
+81	SUM	Specimen Unit Of Measure
+82	TOF	Time Off In Last 3 Months
+83	TQU	Test Qualifier
+84	TRA	Transfer Out Reason
+85	TYP	Check Up Type
+86	URG	Urgency
+87	VIS	Visual Acuity
+88	YND	Smoke/drink Status
+89	Y_N	Yes/no Flag

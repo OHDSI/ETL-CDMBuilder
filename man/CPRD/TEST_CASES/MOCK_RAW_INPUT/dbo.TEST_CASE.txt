@@ -1,0 +1,8 @@
+TEST_ID	TEST_CD	NAME	DESCRIPTION	PERSON_ID
+1	2.00	Acceptable Flag = 1 on Person	A person defined as being "Acceptable"	1
+2	2.01	Acceptable Flag = 0 on Person	A person defined as being "Unacceptable"	2
+3	2.02	Person with a Observation Start > Observation End	Person has a Obsrevation Period Start after Obsrevation End	3
+4	2.03	Invalid Year Of Birth (Year Prior to 1900)	A person defined with year of birth prior to 1900	4
+5	2.04	Invalid Year Of Birth (Year of Birth after coverage start)	A person defined with year of birth after the earliest coverage start from patient history	5
+6	2.05	Gender Map 1=Male	`A person assigned gender=1 `	6
+7	2.06	Gender Map 2=Female	A person assigned gender=2	7

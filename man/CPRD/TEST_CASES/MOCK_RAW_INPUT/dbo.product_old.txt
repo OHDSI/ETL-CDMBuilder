@@ -1,0 +1,5 @@
+prodcode	gemscriptcode	productname	drugsubstance	strength	formulation	route	bnf	bnf_with_dots	bnfchapter
+2	58976020								
+9999	89535020								
+41450	96901020								
+46190	99978020								

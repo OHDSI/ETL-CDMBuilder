@@ -1,0 +1,205 @@
+﻿<QueryDefinition>
+   <Query>
+     select
+     medrec_key,
+     pat.pat_key,
+     adm_date,
+     disc_date,
+     case gender
+     when 'U' then NULL
+     else gender
+     end as gender,
+     case race
+     when '1' then 8527
+     when '2' then 8516
+     when '3' then 8522
+     else 0
+     end as race_concept_id,
+     case race
+     when '3' then 38003563
+     else 0
+     end as ethnicity_concept_id,
+     race as race_source_value,
+     race as ethnicity_source_value,
+     case when  pat.adm_date &lt;= '06/01/2010' and pat.adm_source='7' and pat.i_o_ind='O' then 9203
+      when  pat.adm_date  &gt;= '07/01/2010' and (pat.point_of_origin='7' OR pat.adm_source='1') and pat.i_o_ind='O' then 9203
+     when pat.i_o_ind='I' then 9201
+     when pat.i_o_ind='O' then 9202
+     end as place_of_service_concept_id,
+     i_o_ind,
+     pat.disc_status,
+     CASE
+     WHEN pat.disc_status IN (20, 40, 41, 42) THEN 1
+     ELSE 0
+     END as died,
+     disc_mon_seq,
+     ds.disc_status_desc,
+     po.point_of_origin_desc,
+     martstat.mart_status_desc,
+     pat.adm_phy,
+     pat.prov_id,
+     age,
+     44818668 CurrencyConceptId,
+     44814725 PeriodTypeConceptId,
+     pat.pat_charges,
+     pat_type_desc,
+     CASE
+     WHEN len(pat.drg) = 1 THEN '00' + CAST(pat.drg as varchar)
+     WHEN len(pat.drg) = 2 THEN '0' + CAST(pat.drg as varchar)
+     ELSE CAST(pat.drg as varchar)
+     END AS drg
+     from {sc}.pat
+     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_ID
+     left join {sc}.martstat on pat.mart_status = martstat.mart_status
+     left join {sc}.poorigin po on po.point_of_origin = pat.point_of_origin
+     left join {sc}.disstat ds on ds.disc_status = pat.disc_status
+     left join {sc}.pattype pt on pat.pat_type=pt.pat_type
+   </Query>
+   <Persons>
+     <PersonDefinition>
+       <ObservationPeriodGap>31</ObservationPeriodGap>
+       <PersonId>medrec_key</PersonId>
+       <PersonSourceValue>medrec_key</PersonSourceValue>
+       <StartDate>adm_date</StartDate>
+       <EndDate>disc_date</EndDate>
+       <Gender>gender</Gender>
+       <Race>race_source_value</Race>
+       <RaceConceptId>race_concept_id</RaceConceptId>
+       <Ethnicity>ETHNICITY_SOURCE_VALUE</Ethnicity>
+       <EthnicityConceptId>ethnicity_concept_id</EthnicityConceptId>
+       <YearOfBirth>age</YearOfBirth>
+       <PeriodTypeConceptId>PeriodTypeConceptId</PeriodTypeConceptId>
+     </PersonDefinition>
+   </Persons>
+   <VisitOccurrence>
+      <VisitOccurrenceDefinition>
+         <Id>pat_key</Id>
+         <PersonId>medrec_key</PersonId>
+         <StartDate>adm_date</StartDate>
+         <EndDate>disc_date</EndDate>
+         <CareSiteId>prov_id</CareSiteId>
+         <ProviderId>adm_phy</ProviderId>
+        <AdditionalFields>
+          <string>disc_mon_seq</string>
+        </AdditionalFields>
+         <Concepts>
+            <Concept>
+               <Fields>
+                  <Field conceptId = "place_of_service_concept_id" sourceKey = "i_o_ind" defaultTypeId="44818517"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </VisitOccurrenceDefinition>
+   </VisitOccurrence>
+   <VisitCost>
+    <VisitCostDefinition>
+      <TotalPaid>pat_charges</TotalPaid>
+      <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+    </VisitCostDefinition>
+  </VisitCost>
+   <Death>
+      <DeathDefinition>
+         <Condition>{died} = 1</Condition>
+         <PersonId>MEDREC_KEY</PersonId>
+         <Died>died</Died>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <Concepts>
+            <Concept>
+               <Fields>
+                  <Field key="disc_status" defaultConceptId="1" defaultTypeId="38003566"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </DeathDefinition>
+   </Death>
+   <Observation>
+     <ObservationDefinition>
+       <PersonId>medrec_key</PersonId>
+       <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+       <ProviderId>adm_phy</ProviderId>
+       <ValuesAsString>
+         <string>mart_status_desc</string>
+       </ValuesAsString>
+       <Concepts>
+         <Concept>
+           <Fields>
+             <Field defaultConceptId="4053609" defaultSource=" " defaultTypeId="38000281"/>
+           </Fields>
+         </Concept>
+       </Concepts>
+     </ObservationDefinition>
+
+     <ObservationDefinition>
+       <PersonId>medrec_key</PersonId>
+       <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+       <ProviderId>adm_phy</ProviderId>
+       <ValuesAsString>
+         <string>point_of_origin_desc</string>
+       </ValuesAsString>
+       <Concepts>
+         <Concept>
+           <Fields>
+             <Field defaultConceptId="40757183" defaultSource=" " defaultTypeId="38000281"/>
+           </Fields>
+         </Concept>
+       </Concepts>
+     </ObservationDefinition>
+
+     <ObservationDefinition>
+       <PersonId>medrec_key</PersonId>
+       <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+       <ProviderId>adm_phy</ProviderId>
+       <ValuesAsString>
+         <string>disc_status_desc</string>
+       </ValuesAsString>
+       <Concepts>
+         <Concept>
+           <Fields>
+             <Field defaultConceptId="40757177" defaultSource=" " defaultTypeId="38000281"/>
+           </Fields>
+         </Concept>
+       </Concepts>
+     </ObservationDefinition>
+
+     <ObservationDefinition>
+       <PersonId>medrec_key</PersonId>
+       <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+       <ProviderId>adm_phy</ProviderId>
+       <ValuesAsString>
+         <string>pat_type_desc</string>
+       </ValuesAsString>
+       <Concepts>
+         <Concept>
+           <Fields>
+             <Field defaultConceptId="40769091" defaultSource=" " defaultTypeId="38000281"/>
+           </Fields>
+         </Concept>
+       </Concepts>
+     </ObservationDefinition>
+
+     <ObservationDefinition>
+       <PersonId>medrec_key</PersonId>
+       <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+       <ProviderId>adm_phy</ProviderId>
+       <Concepts>
+         <Concept>
+           <IdRequired>true</IdRequired>
+           <ConceptIdMappers>
+             <Mapper>
+               <Lookup>PremierV5\Lookups\ObservationDRG.sql</Lookup>
+             </Mapper>
+           </ConceptIdMappers>
+           <SourceConceptIdMappers>
+             <Mapper>
+               <Lookup>PremierV5\Lookups\ObservationDRG.sql</Lookup>
+             </Mapper>
+           </SourceConceptIdMappers>
+           <Fields>
+             <Field key="drg" defaultTypeId="38000281"/>
+           </Fields>
+         </Concept>
+       </Concepts>
+     </ObservationDefinition>
+     
+   </Observation>
+</QueryDefinition>

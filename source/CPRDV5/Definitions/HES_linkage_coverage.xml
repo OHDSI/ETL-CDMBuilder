@@ -1,0 +1,21 @@
+﻿<QueryDefinition>
+   <Query>
+     select 224 id, patid, (select [start]
+     from {sc}.hes_linkage_coverage
+     where data_source='hes') as hes_start,
+     (select [end]
+     from {sc}.hes_linkage_coverage
+     where data_source='hes') as hes_end
+     from {sc}.HES_linkage_eligibility
+     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND patid = ch.PERSON_ID
+     where hes_e=1
+   </Query>
+  <Cohort>
+    <CohortDefinition>
+      <Id>id</Id>
+      <PersonId>patid</PersonId>
+      <StartDate>hes_start</StartDate>
+      <EndDate>hes_end</EndDate>
+    </CohortDefinition>
+  </Cohort>
+</QueryDefinition>

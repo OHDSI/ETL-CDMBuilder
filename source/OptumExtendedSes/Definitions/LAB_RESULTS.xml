@@ -1,0 +1,150 @@
+﻿<QueryDefinition>
+   <Query>
+     with a as
+     (
+     SELECT patid, loinc_cd, rslt_nbr, fst_dt, low_nrml, hi_nrml, rslt_txt,
+
+     CASE
+     WHEN RTRIM(LTRIM(rslt_txt)) = '' THEN NULL
+     ELSE RTRIM(LTRIM(rslt_txt))
+     END AS VALUE_AS_STRING,
+
+     rslt_unit_nm,
+     CASE
+     WHEN RSLT_TXT = 'low' OR ABNL_CD ='L' THEN 4267416
+     WHEN RSLT_TXT = 'high' OR ABNL_CD ='H' THEN 4328749
+     WHEN RSLT_TXT = 'normal' OR ABNL_CD ='N' THEN 4069590
+     WHEN RSLT_TXT = 'abnormal' OR ABNL_CD IN ('A','AB') THEN 4135493
+     WHEN RSLT_TXT = 'absent' THEN 4132135
+     WHEN RSLT_TXT = 'present' THEN 4181412
+     WHEN RSLT_TXT = 'positive' THEN 9191
+     WHEN RSLT_TXT = 'negative' THEN 9189
+     WHEN RSLT_TXT IN ('final','final report') THEN 9188
+     WHEN RSLT_TXT = 'not found' THEN 9190
+     WHEN RSLT_TXT = 'trace' THEN 9192
+     ELSE 0
+     END as VALUE_AS_CONCEPT_ID,
+
+     CASE
+     WHEN loinc_cd IN ('UNLOINC', 'UNLOIN-') THEN RTRIM(LTRIM(tst_desc))
+     WHEN (
+     /*test for valid LOINC - #-#, ##-#, ###-#, ####-#, #####-#*/
+     LEN(loinc_cd) BETWEEN 3 AND 7
+     AND SUBSTRING(loinc_cd, 1, 1) IN ('0','1','2','3','4','5','6','7','8','9')			/*first number is a digit*/
+     AND SUBSTRING(RIGHT(loinc_cd, 1),1,1) IN ('0','1','2','3','4','5','6','7','8','9')	/*last number is a digit*/
+     AND SUBSTRING(RIGHT(loinc_cd, 2),1,1) = '-'											/*2nd to last character should be a dash*/
+     ) THEN RTRIM(LTRIM(loinc_cd))
+     ELSE RTRIM(LTRIM(tst_desc))
+     END AS OBSERVATION_SOURCE_VALUE,
+     PROC_CD,
+     case substring(rslt_txt, 0, 2)
+     when '&gt;' then 4172704
+     when '&lt;' then 4171756
+     when '=' then 4172703
+     when '&gt;=' then 4171755
+     when '&lt;=' then 4171754
+     end as OPERATOR_CONCEPT_ID
+     FROM {sc}.LAB_RESULTS
+     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND patid = ch.PERSON_ID
+     )
+
+     select *,
+     CASE
+     WHEN RTRIM(LTRIM(OBSERVATION_SOURCE_VALUE)) IN ('','.','******************************') THEN 0
+     ELSE 1
+     END as suitable,
+     CASE
+     WHEN rslt_nbr NOT IN (0, -999999.999999) THEN round(rslt_nbr, 3)
+     ELSE NULL
+     END AS VALUE_AS_NUMBER
+     from a
+   </Query>
+  <Measurement>
+    <MeasurementDefinition>
+         <Condition>{suitable} = 1</Condition>
+         <PersonId>patid</PersonId>
+         <StartDate>fst_dt</StartDate>
+         <ValuesAsNumber>
+            <string>VALUE_AS_NUMBER</string>
+         </ValuesAsNumber>
+         <ValuesAsString>
+            <string>VALUE_AS_STRING</string>
+         </ValuesAsString>
+         <RangeLow>low_nrml</RangeLow>
+         <RangeHigh>hi_nrml</RangeHigh>
+         <ValueAsConceptId>VALUE_AS_CONCEPT_ID</ValueAsConceptId>
+         <OperatorConceptId>OPERATOR_CONCEPT_ID</OperatorConceptId>
+         <Concepts>
+            <Concept>
+               <IdRequired>true</IdRequired>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>OptumExtendedSes\Lookups\Lab.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <SourceConceptIdMappers>
+                <Mapper>
+                  <Lookup>OptumExtendedSes\Lookups\LabSource.sql</Lookup>
+                </Mapper>
+              </SourceConceptIdMappers>
+               <Fields>
+                  <Field key="OBSERVATION_SOURCE_VALUE" defaultTypeId="1"/>
+               </Fields>
+            </Concept>
+            <Concept>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>OptumExtendedSes\Lookups\Lab_Units.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="rslt_unit_nm" defaultTypeId="0"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </MeasurementDefinition>
+    <MeasurementDefinition>
+      <Condition>{suitable} = 1</Condition>
+      <PersonId>patid</PersonId>
+      <StartDate>fst_dt</StartDate>
+      <ValuesAsNumber>
+        <string>VALUE_AS_NUMBER</string>
+      </ValuesAsNumber>
+      <ValuesAsString>
+        <string>VALUE_AS_STRING</string>
+      </ValuesAsString>
+      <RangeLow>low_nrml</RangeLow>
+      <RangeHigh>hi_nrml</RangeHigh>
+      <ValueAsConceptId>VALUE_AS_CONCEPT_ID</ValueAsConceptId>
+      <OperatorConceptId>OPERATOR_CONCEPT_ID</OperatorConceptId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumExtendedSes\Lookups\Procedure.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumExtendedSes\Lookups\ProcedureSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="PROC_CD" defaultTypeId="2"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumExtendedSes\Lookups\Lab_Units.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="rslt_unit_nm" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </MeasurementDefinition>
+   </Measurement>
+</QueryDefinition>

@@ -1,0 +1,88 @@
+﻿<QueryDefinition>
+  <Query>
+    select
+    a.patid,
+    a.staffid,
+    a.issueseq,
+    a.eventdate,
+    a.prodcode,
+    product.gemscriptcode,
+    round(case when a.qty &lt; 0 then null else a.qty end, 0) qty,
+    ISNULL(case when a.qty &lt; 0 then null else a.qty end, 0) quantity,
+    case
+    when a.numdays = 0 or a.numdays &gt; 365 then null
+    else a.numdays
+    end numdays,
+    cast((cast(a.patid as bigint)*100000000)+(year(a.eventdate) *10000)+
+    (month(a.eventdate)*100)+
+    day(a.eventdate) as bigint)
+    as visit_occurrence_id,
+    a.consid,
+    ISNULL(a.ndd, 0) ndd,
+    ISNULL(a.numpacks, 0) numpacks,
+    right(a.patid,3) as care_site_id
+    from {sc}.therapy a
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND a.patid = ch.PERSON_ID
+    left outer join {sc}.Product product on a.prodcode = product.prodcode
+    where a.prodcode &gt; 1 and a.eventdate is not null
+  </Query>
+  <DrugExposure>
+    <DrugExposureDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <EndDate>eventdate</EndDate>
+      <DaysSupply>numdays</DaysSupply>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <DaysSupplyLookup>CPRDV5\Lookups\DaysSupply.sql</DaysSupplyLookup>
+      <Refill>issueseq</Refill>
+      <Sig>ndd</Sig>
+      <AdditionalFields>
+        <string>prodcode</string>
+        <string>ndd</string>
+        <string>numpacks</string>
+        <string>consid</string>
+        <string>quantity</string>
+      </AdditionalFields>
+      <Quantity>qty</Quantity>
+      <ProviderId>staffid</ProviderId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Drug.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="gemscriptcode" defaultTypeId="38000177"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DrugExposureDefinition>
+  </DrugExposure>
+  <!--<DeviceExposure>
+    <DeviceExposureDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <ProviderId>staffid</ProviderId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Device.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\DrugSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="gemscriptcode" defaultTypeId="44818707"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DeviceExposureDefinition>
+  </DeviceExposure>-->
+</QueryDefinition>

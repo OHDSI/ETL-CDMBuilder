@@ -1,0 +1,37 @@
+﻿<QueryDefinition>
+  <Query>
+    SELECT CAST(RIGHT([Member ID], LEN([Member ID]) - 1) AS BIGINT) AS person_id,
+    CAST(RIGHT([Claim ID], LEN([Claim ID]) - 1) AS BIGINT) AS visit_occurrence_id,
+    [Type of claim] as place_of_service_source_value,
+    CAST(CAST([Month and year of medical care] AS VARCHAR(6)) + '15' AS DATE) AS visit_start_date,
+    [Actual number of days of medical care] as num_of_days,
+    CAST('1' + RIGHT([Institution ID], LEN([Institution ID]) - 1) AS BIGINT) AS care_site_id,
+    CASE
+    WHEN [Type of claim] LIKE 'out-patient'
+    OR [Type of claim] = 'pharmacy'
+    THEN 9202
+    ELSE 9201
+    END as place_of_service_concept_id
+    FROM {sc}.[Claim] c
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND c.[Member ID] = ch.PERSON_SOURCE_VALUE
+  </Query>
+  <VisitOccurrence>
+    <VisitOccurrenceDefinition>
+      <Id>visit_occurrence_id</Id>
+      <PersonId>person_id</PersonId>
+      <StartDate>visit_start_date</StartDate>
+      <EndDate>visit_start_date</EndDate>
+      <CareSiteId>care_site_id</CareSiteId>
+      <AdditionalFields>
+        <string>num_of_days</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field conceptId = "place_of_service_concept_id" sourceKey = "place_of_service_source_value" defaultTypeId = "44818517"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </VisitOccurrenceDefinition>
+  </VisitOccurrence>
+</QueryDefinition>

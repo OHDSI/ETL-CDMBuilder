@@ -1,0 +1,99 @@
+﻿<QueryDefinition>
+  <Query>
+    with a as
+    (
+    SELECT DISTINCT
+    MEMBER_DETAIL.PATID,
+    YRDOB,
+    SES.D_RACE_CODE,
+    GDR_CD,
+    ELIGEFF,
+    ELIGEND,
+    CASE
+    WHEN eligeff &lt; '05/01/2000' THEN '05/01/2000'
+    ELSE eligeff
+    END as startDate,
+    44814722 as PeriodTypeConceptId,
+    CASE SES.D_RACE_CODE
+    WHEN 'W' THEN 8527
+    WHEN 'A' THEN 8515
+    WHEN 'U' THEN 0
+    WHEN 'H' THEN 0
+    WHEN 'B' THEN 8516
+    ELSE 0
+    END as RaceConceptId,
+    CASE SES.D_RACE_CODE
+    WHEN 'W' THEN 0
+    WHEN 'A' THEN 0
+    WHEN 'U' THEN 0
+    WHEN 'H' THEN 38003563
+    WHEN 'B' THEN 0
+    ELSE 0
+    END as EthnicityConceptId,
+    CASE SES.D_RACE_CODE
+    WHEN 'W' THEN D_RACE_CODE
+    WHEN 'A' THEN D_RACE_CODE
+    WHEN 'B' THEN D_RACE_CODE
+    ELSE NULL
+    END AS RACE,
+    CASE SES.D_RACE_CODE
+    WHEN 'H' THEN D_RACE_CODE
+    ELSE NULL
+    END AS ETHNICITY,
+    DIVISION,
+    COALESCE(bus,'') + ' ' bus,
+    CASE
+    WHEN ASO = 'Y' THEN '(ASO) '
+    else ''
+    END as aso,
+    CASE
+    WHEN PRODUCT = 'HMO' THEN 'Health Maint Org '
+    WHEN PRODUCT = 'PPO' THEN 'Preferred Provider Org '
+    WHEN PRODUCT = 'EPO' THEN 'Exclusive Provider Org '
+    WHEN PRODUCT = 'IND' THEN 'Indemnity '
+    WHEN PRODUCT = 'POS' THEN 'Point of Service '
+    WHEN PRODUCT = 'ALL' THEN 'National Ancillaries, All Products '
+    WHEN PRODUCT = 'UNK' THEN 'Unknown '
+    WHEN PRODUCT = 'OTH' THEN 'Other '
+    ELSE COALESCE(PRODUCT,'')
+    END AS product,
+    CASE
+    WHEN CDHP = 1 THEN '(HRA)'
+    WHEN CDHP = 2 THEN '(HSA)'
+    ELSE ''
+    END as cdhp,
+    PAT_PLANID
+    FROM {sc}.MEMBER_DETAIL
+    LEFT JOIN {sc}.SES on MEMBER_DETAIL.PATID = SES.PATID
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND MEMBER_DETAIL.PATID = ch.PERSON_ID
+    )
+
+    select *, LTRIM(bus) + LTRIM(aso) +  LTRIM(product) + LTRIM(cdhp) as PayerSource
+    from a
+  </Query>
+  <Persons>
+    <PersonDefinition>
+      <PersonId>PATID</PersonId>
+      <PersonSourceValue>PATID</PersonSourceValue>
+      <StartDate>startDate</StartDate>
+      <EndDate>ELIGEND</EndDate>
+      <Gender>GDR_CD</Gender>
+      <YearOfBirth>YRDOB</YearOfBirth>
+      <RaceConceptId>RaceConceptId</RaceConceptId>
+      <Race>RACE</Race>
+      <EthnicityConceptId>EthnicityConceptId</EthnicityConceptId>
+      <Ethnicity>ETHNICITY</Ethnicity>
+      <PeriodTypeConceptId>PeriodTypeConceptId</PeriodTypeConceptId>
+      <Location>DIVISION</Location>
+    </PersonDefinition>
+  </Persons>
+  <PayerPlanPeriods>
+    <PayerPlanPeriodDefinition>
+      <PersonId>PATID</PersonId>
+      <StartDate>startDate</StartDate>
+      <EndDate>eligend</EndDate>
+      <PayerSource>PayerSource</PayerSource>
+      <PlanSource>PAT_PLANID</PlanSource>
+    </PayerPlanPeriodDefinition>
+  </PayerPlanPeriods>
+</QueryDefinition>

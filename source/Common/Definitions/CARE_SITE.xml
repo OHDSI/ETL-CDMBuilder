@@ -1,0 +1,17 @@
+﻿<QueryDefinition>
+   <Query>SELECT CARE_SITE_ID, LOCATION_ID, PLACE_OF_SERVICE_SOURCE_VALUE FROM {sc}.CARE_SITE</Query>
+   <CareSites>
+      <CareSiteDefinition>
+         <Id>CARE_SITE_ID</Id>
+         <LocationId>LOCATION_ID</LocationId>
+         <PlaceOfService>PLACE_OF_SERVICE_SOURCE_VALUE</PlaceOfService>
+         <Concepts>
+            <Concept>
+               <Fields>
+                  <Field key="PLACE_OF_SERVICE_SOURCE_VALUE"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </CareSiteDefinition>
+   </CareSites>
+</QueryDefinition>

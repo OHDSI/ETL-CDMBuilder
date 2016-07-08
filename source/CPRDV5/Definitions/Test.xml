@@ -1,0 +1,524 @@
+﻿<QueryDefinition>
+  <Query>
+    with test_upd as
+    (
+    select
+    t.medcode,
+    m.read_code,
+    eventdate,
+    patid,
+    staffid,
+    enttype,
+    case when ABS(data1) - FLOOR(ABS(data1))=000
+    then cast(cast(data1 as bigint) as varchar(256))
+    else cast(data1 as varchar(256)) end  as data1,
+    case when ABS(data2) - FLOOR(ABS(data2))=000
+    then cast(cast(data2 as bigint) as varchar(256))
+    else cast(data2 as varchar(256)) end  as data2,
+    case when ABS(data3) - FLOOR(ABS(data3))=000
+    then cast(cast(data3 as bigint) as varchar(256))
+    else cast(data3 as varchar(256)) end  as data3,
+    case when ABS(data4) - FLOOR(ABS(data4))=000
+    then cast(cast(data4 as bigint) as varchar(256))
+    else cast(data4 as varchar(256)) end  as data4,
+    case when ABS(data5) - FLOOR(ABS(data5))=000
+    then cast(cast(data5 as bigint) as varchar(256))
+    else cast(data5 as varchar(256)) end  as data5,
+    case when ABS(data6) - FLOOR(ABS(data6))=000
+    then cast(cast(data6 as bigint) as varchar(256))
+    else cast(data6 as varchar(256)) end  as data6,
+    case when ABS(data7) - FLOOR(ABS(data7))=000
+    then cast(cast(data7 as bigint) as varchar(256))
+    else cast(data7 as varchar(256)) end  as data7,
+    case when ABS(data8_value) - FLOOR(ABS(data8_value))=000
+    then cast(cast(data8_value as bigint) as varchar(256))
+    else cast(data8_value as varchar(256)) end  as data8,
+    data8_date
+    FROM {sc}.Test t
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND patid = ch.PERSON_ID
+    LEFT JOIN {sc}.Medical m on (t.medcode = m.medcode)
+    )
+
+    SELECT
+    t.medcode,
+    t.read_code,
+    t.eventdate,
+    t.patid,
+    cast((cast(t.patid as bigint)*100000000)+(year(t.eventdate) *10000)+
+    (month(t.eventdate)*100)+
+    day(t.eventdate) as bigint)
+    as visit_occurrence_id,
+    t.staffid,
+    t.enttype,
+
+    -- 4 data fields
+    CASE
+    WHEN e.data_fields = 4 and l_d1_79.[text] != 'Data Not Entered' THEN t.enttype
+    ELSE NULL
+    END as [4df_source_value],
+    l_d1_79.[text] as [4df_value_as_string],
+    case
+    when l_d1_79.text = 'Abnormal' then 45878745
+    when l_d1_79.text = 'Absent' then 45884086
+    when l_d1_79.text = 'High' then 45876384
+    when l_d1_79.text = 'Low' then 45881666
+    when l_d1_79.text = 'Negative' then 45878583
+    when l_d1_79.text = 'Normal' then 45884153
+    when l_d1_79.text = 'Positive' then 45884084
+    when l_d1_79.text = 'Present' then 45879438
+    when l_d1_79.text = 'Trace' then 45881796
+    when l_d1_79.text = 'Unknown' then 45877986
+    when l_d1_79.text = 'Very high' then 45879181
+    when l_d1_79.text = 'Very low' then 45879182
+    end as [4df_value_as_concept_id],
+    t.data2 as [4df_range_low],
+    t.data3 as [4df_range_high],
+
+    -- 7 data fields
+    CASE
+    WHEN e.data_fields in (7,8) and t.data2 is not null THEN t.enttype
+    ELSE NULL
+    END as [7df_source_value],
+    replace(isnull(l_d1_54.text,'') + ' ' + cast(t.data2 as varchar(20)) +' ' + isnull(l_d4_79.text,''),'Data Not Entered', '')  as [7df_value_as_string],
+    t.data2 as [7df_value_as_number],
+    t.data5 as [7df_range_low],
+    t.data6  as [7df_range_high],
+    cast(l_d3_77.text as varchar(20)) as [7df_units_source_value],
+    CASE l_d1_54.text
+    WHEN '=' THEN 4172703
+    WHEN '&gt;' THEN 4172704
+    WHEN '&lt;=' THEN 4171754
+    WHEN '&gt;=' THEN 4171755
+    WHEN '&lt;' THEN 4171756
+    WHEN '~' THEN 0
+    WHEN 'Data Not Entered' THEN 0
+    ELSE 0
+    END as [7df_operator_concept_id],
+    case
+    when l_d4_79.text = 'Abnormal' then 45878745
+    when l_d4_79.text = 'Absent' then 45884086
+    when l_d4_79.text = 'High' then 45876384
+    when l_d4_79.text = 'Low' then 45881666
+    when l_d4_79.text = 'Negative' then 45878583
+    when l_d4_79.text = 'Normal' then 45884153
+    when l_d4_79.text = 'Positive' then 45884084
+    when l_d4_79.text = 'Present' then 45879438
+    when l_d4_79.text = 'Trace' then 45881796
+    when l_d4_79.text = 'Unknown' then 45877986
+    when l_d4_79.text = 'Very high' then 45879181
+    when l_d4_79.text = 'Very low' then 45879182
+    end as [7df_value_as_concept_id],
+    l_d4_79.text as QualifierSourceValue,
+
+    -- enttype 311, data7 peak flow device type
+    CASE
+    WHEN t.enttype = 311 and t.data7 is not null and l_d7_57.text != 'Data Not Entered' THEN cast(t.enttype as varchar(20)) + '-7'
+    ELSE NULL
+    END as [311_source_value],
+    l_d7_57.text as [311_value_as_string],
+
+    --enttype 284, data8 expected delivery date
+    CASE
+    WHEN t.enttype = 284 and e.data_fields = 8 THEN cast(t.enttype as varchar(20)) + '-8'
+    ELSE NULL
+    END as [284_source_value],
+    t.data8_date as [284_value_as_string],
+
+    --enttype 154, data8 Alpha fetoprotein
+    CASE
+    WHEN t.enttype = 154 and e.data_fields = 8 and t.data8 is not null THEN cast(t.enttype as varchar(20)) + '-8'
+    ELSE NULL
+    END as [154_source_value],
+    t.data8 as [154_value_as_number],
+
+
+    right(t.patid,3) as care_site_id,
+    null endDate,
+    medcode original_source
+    FROM test_upd t
+    LEFT JOIN {sc}.Entity e on t.enttype = e.code
+    LEFT JOIN {sc}.[Lookup] l_d1_79 ON t.data1 = cast(l_d1_79.code as varchar) and l_d1_79.lookup_type_id = (SELECT [lookup_type_id] FROM {sc}.[LookupType] WHERE name = 'TQU')
+    LEFT JOIN {sc}.[Lookup] l_d4_79 ON t.data4 = cast(l_d4_79.code as varchar) and l_d4_79.lookup_type_id = (SELECT [lookup_type_id] FROM {sc}.[LookupType] WHERE name = 'TQU')
+    LEFT JOIN {sc}.[Lookup] l_d1_54 ON t.data1 = cast(l_d1_54.code as varchar) and l_d1_54.lookup_type_id = (SELECT [lookup_type_id] FROM {sc}.[LookupType] WHERE name = 'OPR')
+    LEFT JOIN {sc}.[Lookup] l_d3_77 ON t.data3 = cast(l_d3_77.code as varchar) and l_d3_77.lookup_type_id = (SELECT [lookup_type_id] FROM {sc}.[LookupType] WHERE name = 'SUM')
+    LEFT JOIN {sc}.[Lookup] l_d7_57 ON t.data7 = cast(l_d7_57.code as varchar) and l_d7_57.lookup_type_id = (SELECT [lookup_type_id] FROM {sc}.[LookupType] WHERE name = 'PFD')
+    where eventdate is not NULL
+  </Query>
+  <DrugExposure>
+    <DrugExposureDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <EndDate>eventdate</EndDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Clinical.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\DrugSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="read_code" defaultTypeId="38000178"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DrugExposureDefinition>
+  </DrugExposure>
+  <DeviceExposure>
+    <DeviceExposureDefinition>
+      <PersonId>patid</PersonId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <ProviderId>staffid</ProviderId>
+      <StartDate>eventdate</StartDate>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\DeviceRead.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\DrugSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="read_code" defaultTypeId="44818707"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DeviceExposureDefinition>
+  </DeviceExposure>
+  <ConditionOccurrence>
+    <ConditionOccurrenceDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <EndDate>endDate</EndDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Condition.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\ConditionSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="read_code" defaultTypeId="38000276"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+  </ConditionOccurrence>
+  <ProcedureOccurrence>
+    <ProcedureOccurrenceDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Clinical_Procedure.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\ConditionSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="read_code" defaultTypeId="38003621"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureOccurrenceDefinition>
+  </ProcedureOccurrence>
+  <Measurement>
+    <MeasurementDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <ProviderId>staffid</ProviderId>
+      <ValueSourceValue>original_source</ValueSourceValue>
+      <ProviderId>staffid</ProviderId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Measurement.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\ConditionSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="read_code" defaultTypeId="38000280"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </MeasurementDefinition>
+    
+    <MeasurementDefinition>
+      <PersonId>patid</PersonId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <ValueSourceValue>4df_value_as_string</ValueSourceValue>
+      <RangeLow>4df_range_low</RangeLow>
+      <RangeHigh>4df_range_high</RangeHigh>
+      <ValueAsConceptId>4df_value_as_concept_id</ValueAsConceptId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Measurement_Test.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="4df_source_value" defaultTypeId="44818702" sourceKey="enttype"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </MeasurementDefinition>
+    
+    <MeasurementDefinition>
+      <PersonId>patid</PersonId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <ValueSourceValue>7df_value_as_string</ValueSourceValue>
+      <ValueAsNumber>7df_value_as_number</ValueAsNumber>
+      <RangeLow>7df_range_low</RangeLow>
+      <RangeHigh>7df_range_high</RangeHigh>
+      <OperatorConceptId>7df_operator_concept_id</OperatorConceptId>
+      <ValueAsConceptId>7df_value_as_concept_id</ValueAsConceptId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Measurement_Test.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="7df_source_value" defaultTypeId="44818702" sourceKey="enttype"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Measurement_Units.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="7df_units_source_value" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </MeasurementDefinition>
+
+    <MeasurementDefinition>
+      <PersonId>patid</PersonId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <ValueSourceValue>311_value_as_string</ValueSourceValue>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Measurement_Test_Exceptions.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="311_source_value" defaultTypeId="44818702"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </MeasurementDefinition>
+
+    <MeasurementDefinition>
+      <PersonId>patid</PersonId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <ValueSourceValue>284_value_as_string</ValueSourceValue>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Measurement_Test_Exceptions.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="284_source_value" defaultTypeId="44818702"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </MeasurementDefinition>
+
+    <MeasurementDefinition>
+      <PersonId>patid</PersonId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <ValueSourceValue>154_value_as_number</ValueSourceValue>
+      <ValueAsNumber>154_value_as_number</ValueAsNumber>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Measurement_Test_Exceptions.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="154_source_value" defaultTypeId="44818702"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </MeasurementDefinition>
+  </Measurement>
+
+  <Observation>
+
+    <ObservationDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Observation.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\ConditionSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="read_code" defaultTypeId="38000280" isNullable="true"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+
+
+    <ObservationDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <!--<IdRequired>true</IdRequired>-->
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Observation_MEDHX.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\ConditionSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="read_code" defaultTypeId="2" isNullable="true"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+
+    <!--4 data fields-->
+    <ObservationDefinition>
+      <PersonId>patid</PersonId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <ValuesAsString>
+        <string>4df_value_as_string</string>
+      </ValuesAsString>
+      <QualifierConceptId>4df_value_as_concept_id</QualifierConceptId>
+      <QualifierSourceValue>4df_value_as_string</QualifierSourceValue>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Observation_Test.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="4df_source_value" defaultTypeId="38000278" sourceKey="enttype"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+
+    <!--7 data fields-->
+    <ObservationDefinition>
+      <PersonId>patid</PersonId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <ValuesAsString>
+        <string>7df_value_as_string</string>
+      </ValuesAsString>
+      <ValuesAsNumber>
+        <string>7df_value_as_number</string>
+      </ValuesAsNumber>
+      <QualifierConceptId>7df_value_as_concept_id</QualifierConceptId>
+      <QualifierSourceValue>QualifierSourceValue</QualifierSourceValue>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Observation_Test.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="7df_source_value" defaultTypeId="38000278" sourceKey="enttype"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Measurement_Units.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="7df_units_source_value" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+
+  </Observation>
+</QueryDefinition>

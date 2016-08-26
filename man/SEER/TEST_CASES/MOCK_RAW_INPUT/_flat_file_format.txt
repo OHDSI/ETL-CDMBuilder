@@ -2,7 +2,7 @@ Text qualifier: '`'
 Column delimiter: '\t'
 Row delimiter: '\n'
 Encoding: 'Unicode (UTF-8)'
-Save NULL as: '\0'
+Save NULL as: ''
 Date format: 'yyyy-MM-dd'
-DateTime format: 'O'
-Column names are in first row: False
+DateTime format: 'yyyy-MM-dd HH:mm:ss.fff'
+Column names are in first row: True

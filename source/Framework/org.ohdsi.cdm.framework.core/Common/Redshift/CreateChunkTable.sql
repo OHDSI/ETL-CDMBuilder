@@ -1,0 +1,6 @@
+﻿CREATE TABLE {sc}._chunks (
+ChunkId int NOT NULL SORTKEY, 
+PERSON_ID bigint NOT NULL, 
+PERSON_SOURCE_VALUE varchar(50) NULL
+)
+DISTSTYLE ALL;

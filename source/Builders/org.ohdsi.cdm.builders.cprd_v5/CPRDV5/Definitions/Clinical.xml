@@ -1,0 +1,205 @@
+﻿<QueryDefinition>
+  <Query>
+    SELECT
+    a.medcode,
+    a.eventdate,
+    a.patid,
+    a.staffid,
+    cast((cast(a.patid as bigint)*100000000)+(year(a.eventdate) *10000)+
+    (month(a.eventdate)*100)+
+    day(a.eventdate) as bigint)
+    as visit_occurrence_id,
+    right(a.patid,3) as care_site_id,
+    null endDate,
+    a.medcode original_source,
+    m.read_code
+    FROM {sc}.Clinical a
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND a.patid = ch.PERSON_ID
+    LEFT JOIN {sc}.Medical m on (a.medcode = m.medcode)
+    where eventdate is not NULL
+    order by a.patid
+  </Query>
+  <DrugExposure>
+    <DrugExposureDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <EndDate>eventdate</EndDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Clinical.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\DrugSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="read_code" defaultTypeId="38000178"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DrugExposureDefinition>
+  </DrugExposure>
+  <DeviceExposure>
+    <DeviceExposureDefinition>
+      <PersonId>patid</PersonId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <ProviderId>staffid</ProviderId>
+      <StartDate>eventdate</StartDate>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\DeviceRead.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\DrugSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="read_code" defaultTypeId="44818707"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DeviceExposureDefinition>
+  </DeviceExposure>
+  <ConditionOccurrence>
+    <ConditionOccurrenceDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <EndDate>endDate</EndDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Condition.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\ConditionSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="read_code" defaultTypeId="38000245"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+  </ConditionOccurrence>
+  <ProcedureOccurrence>
+    <ProcedureOccurrenceDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Clinical_Procedure.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\ConditionSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="read_code" defaultTypeId="38000275"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureOccurrenceDefinition>
+  </ProcedureOccurrence>
+  <Measurement>
+    <MeasurementDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <ProviderId>staffid</ProviderId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Measurement.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\ConditionSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="read_code" defaultTypeId="38000245"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </MeasurementDefinition>
+  </Measurement>
+  <Observation>
+    <ObservationDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Observation.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\ConditionSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="read_code" defaultTypeId="38000245"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+
+    <ObservationDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <!--<IdRequired>true</IdRequired>-->
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\Observation_MEDHX.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>CPRDV5\Lookups\ConditionSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="read_code" defaultTypeId="1" isNullable="true"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+  </Observation>
+</QueryDefinition>

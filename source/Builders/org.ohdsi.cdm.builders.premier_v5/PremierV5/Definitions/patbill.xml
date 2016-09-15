@@ -1,0 +1,179 @@
+﻿<QueryDefinition>
+   <Query>
+     SELECT
+     pat.medrec_key,
+     bill.serv_day,
+     pat.adm_date,
+     ROUND(bill.std_qty, 0) as quantity,
+     pat.pat_key,
+     bill.bill_charges as total_paid,
+     bill.std_chg_code,
+     case
+     when chg.std_dept_desc = 'LABORATORY' then 38003621
+     when pat.i_o_ind = 'I' then 38000249
+     when pat.i_o_ind = 'O' then 38000267
+     end as procedure_type_concept_id,
+     hosp.hosp_chg_desc,
+     case when hosp.hosp_chg_desc is not null then lower(hosp.hosp_chg_desc) else lower(chg.std_chg_desc) end as source_value,
+     drg,
+     chg.std_chg_desc + ' / ' + hosp.hosp_chg_desc   as observation_source_value,
+     pat.adm_phy,
+     44818668 CurrencyConceptId
+     FROM {sc}.patbill bill
+     join {sc}.pat pat on pat.pat_key = bill.pat_key
+     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_ID
+     left join {sc}.chgmstr chg on chg.std_chg_code = bill.std_chg_code
+     left join {sc}.hospchg hosp on hosp.hosp_chg_id=bill.hosp_chg_id
+     order by pat.medrec_key
+   </Query>
+   <DrugExposure>
+      <DrugExposureDefinition>
+         <IsUnique>true</IsUnique>
+         <PersonId>medrec_key</PersonId>
+         <Quantity>quantity</Quantity>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <ProviderId>adm_phy</ProviderId>
+         <AdditionalFields>
+            <string>serv_day</string>
+            <string>std_chg_code</string>
+            <string>source_value</string>
+         </AdditionalFields>
+         <Concepts>
+            <Concept>
+               <IdRequired>true</IdRequired>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>PremierV5\Lookups\Drug.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="std_chg_code" sourceKey="observation_source_value" defaultTypeId="38000180"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </DrugExposureDefinition>
+   </DrugExposure>
+   <DrugCost>
+      <DrugCostDefinition>
+         <TotalPaid>total_paid</TotalPaid>
+         <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+      </DrugCostDefinition>
+   </DrugCost>
+   <ProcedureOccurrence>
+      <ProcedureOccurrenceDefinition>
+         <IsUnique>true</IsUnique>
+         <PersonId>medrec_key</PersonId>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <ProviderId>adm_phy</ProviderId>
+         <AdditionalFields>
+            <string>serv_day</string>
+         </AdditionalFields>
+         <Concepts>
+            <Concept>
+               <IdRequired>true</IdRequired>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>PremierV5\Lookups\Procedure.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+              <SourceConceptIdMappers>
+                <Mapper>
+                  <Lookup>PremierV5\Lookups\ProcedureSource.sql</Lookup>
+                </Mapper>
+              </SourceConceptIdMappers>
+               <Fields>
+                  <Field key="std_chg_code" typeId="procedure_type_concept_id" sourceKey="observation_source_value"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </ProcedureOccurrenceDefinition>
+   </ProcedureOccurrence>
+   <ProcedureCost>
+      <ProcedureCostDefinition>
+         <TotalPaid>total_paid</TotalPaid>
+         <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+      </ProcedureCostDefinition>
+   </ProcedureCost>
+   <Observation>
+    <ObservationDefinition>
+      <PersonId>medrec_key</PersonId>
+      <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+      <ProviderId>adm_phy</ProviderId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\ObservationCHG.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\ObservationSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="std_chg_code" sourceKey="observation_source_value" defaultTypeId="38000281"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+  </Observation>
+   <Measurement>
+    <MeasurementDefinition>
+      <PersonId>medrec_key</PersonId>
+      <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+      <ProviderId>adm_phy</ProviderId>
+      <AdditionalFields>
+        <string>serv_day</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\Measurement.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\MeasurementSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="std_chg_code" sourceKey="observation_source_value" defaultTypeId="44818701"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </MeasurementDefinition>
+  </Measurement>
+   <DeviceExposure>
+    <DeviceExposureDefinition>
+      <PersonId>medrec_key</PersonId>
+      <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+      <ProviderId>adm_phy</ProviderId>
+      <AdditionalFields>
+        <string>serv_day</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\Device.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="std_chg_code" sourceKey="observation_source_value" defaultTypeId="44818705"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DeviceExposureDefinition>
+  </DeviceExposure>
+   <DeviceCost>
+    <DeviceCostDefinition>
+      <TotalPaid>total_paid</TotalPaid>
+      <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+    </DeviceCostDefinition>
+  </DeviceCost>
+</QueryDefinition>

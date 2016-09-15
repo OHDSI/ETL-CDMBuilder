@@ -1,0 +1,94 @@
+﻿<QueryDefinition>
+   <Query>
+     with a as
+     (
+     SELECT distinct PROVIDER,
+     8717 as PLACE_OF_SERVICE_CONCEPT_ID,
+     'Inpatient Hospital' PLACE_OF_SERVICE_SOURCE_VALUE
+     FROM {sc}.MEDPAR
+     union
+     SELECT distinct PROVIDER,
+     8756 as PLACE_OF_SERVICE_CONCEPT_ID,
+     'Outpatient Hospital' PLACE_OF_SERVICE_SOURCE_VALUE
+     FROM {sc}.OUTSAF
+     )
+
+
+     select PROVIDER,
+     -- SSA State Codes to FIPS State Codes (LocationId)
+     CASE substring(PROVIDER, 1, 2)
+     WHEN '01' THEN 1
+     WHEN '02' THEN 2
+     WHEN '03' THEN 4
+     WHEN '04' THEN 5
+     WHEN '05' THEN 6
+     WHEN '06' THEN 8
+     WHEN '07' THEN 9
+     WHEN '08' THEN 10
+     WHEN '09' THEN 11
+     WHEN '10' THEN 12
+     WHEN '11' THEN 13
+     WHEN '12' THEN 15
+     WHEN '13' THEN 16
+     WHEN '14' THEN 17
+     WHEN '15' THEN 18
+     WHEN '16' THEN 19
+     WHEN '17' THEN 20
+     WHEN '18' THEN 21
+     WHEN '19' THEN 22
+     WHEN '20' THEN 23
+     WHEN '21' THEN 24
+     WHEN '22' THEN 25
+     WHEN '23' THEN 26
+     WHEN '24' THEN 27
+     WHEN '25' THEN 28
+     WHEN '26' THEN 29
+     WHEN '27' THEN 30
+     WHEN '28' THEN 31
+     WHEN '29' THEN 32
+     WHEN '30' THEN 33
+     WHEN '31' THEN 34
+     WHEN '32' THEN 35
+     WHEN '33' THEN 36
+     WHEN '34' THEN 37
+     WHEN '35' THEN 38
+     WHEN '36' THEN 39
+     WHEN '37' THEN 40
+     WHEN '38' THEN 41
+     WHEN '39' THEN 42
+     WHEN '40' THEN 72
+     WHEN '41' THEN 44
+     WHEN '42' THEN 45
+     WHEN '43' THEN 46
+     WHEN '44' THEN 47
+     WHEN '45' THEN 48
+     WHEN '46' THEN 49
+     WHEN '47' THEN 50
+     WHEN '48' THEN 78
+     WHEN '49' THEN 51
+     WHEN '50' THEN 53
+     WHEN '51' THEN 54
+     WHEN '52' THEN 55
+     WHEN '53' THEN 56
+     WHEN '55' THEN 6
+     WHEN '64' THEN 60
+     WHEN '65' THEN 66
+     WHEN '98' THEN 66
+     ELSE 0
+     END AS LOCATION_ID,
+     min(PLACE_OF_SERVICE_CONCEPT_ID) PLACE_OF_SERVICE_CONCEPT_ID,
+     min(PLACE_OF_SERVICE_SOURCE_VALUE) PLACE_OF_SERVICE_SOURCE_VALUE
+     from a
+     where PROVIDER is not NULL
+     group by PROVIDER
+
+   </Query>
+   <CareSites>
+      <CareSiteDefinition>
+         <Id>PROVIDER</Id>
+         <LocationId>LOCATION_ID</LocationId>
+         <PlaceOfSvcSourceValue>PLACE_OF_SERVICE_SOURCE_VALUE</PlaceOfSvcSourceValue>
+         <PlaceOfSvcConceptId>PLACE_OF_SERVICE_CONCEPT_ID</PlaceOfSvcConceptId>
+      </CareSiteDefinition>
+   </CareSites>
+</QueryDefinition>

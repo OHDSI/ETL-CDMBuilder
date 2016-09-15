@@ -1,0 +1,34 @@
+﻿<QueryDefinition>
+   <Query>
+     SELECT distinct
+     a.adm_phy,
+     max(a.prov_id) as care_site_id,
+     max(a.admphy_spec) as provider_source_value,
+     MAX(b.admphy_spec_desc) as speciality_source_value
+     FROM {sc}.pat a
+     join {sc}.admspec b on a.admphy_spec = b.admphy_spec
+     group by a.adm_phy
+     union
+     select 900, 57824101, '900', 'Unknown Physician'
+   </Query>
+   <Providers>
+      <ProviderDefinition>
+         <Id>adm_phy</Id>
+         <LookupKey>adm_phy</LookupKey>
+         <CareSiteId>care_site_id</CareSiteId>
+         <ProviderSourceValue>provider_source_value</ProviderSourceValue>
+         <Concepts>
+            <Concept>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>PremierV5\Lookups\Specialty.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="speciality_source_value"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </ProviderDefinition>
+   </Providers>
+</QueryDefinition>

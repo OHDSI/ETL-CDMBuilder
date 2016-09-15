@@ -1,0 +1,61 @@
+﻿<QueryDefinition>
+   <Query>
+     select
+     staffid as PROVIDER_ID,
+     Right(staffid, 3) as CARE_SITE_ID,
+     cast(staffid as varchar) as PROVIDER_SOURCE_VALUE,
+     ISNULL(cast(role as varchar), 0) as SPECIALTY_SOURCE_VALUE,
+     ISNULL(gender, 0) as gender
+     from {sc}.Staff
+     union
+     (select record_count+5000000000 as PROVIDER_ID,
+     CARE_SITE_ID,
+     PROVIDER_SOURCE_VALUE,
+     SPECIALTY_SOURCE_VALUE,
+     0 as gender
+     from
+     (select *,
+     row_number() over (order by provider_source_value)
+     as record_count
+     from
+     (select
+     null as NPI,
+     null as DEA,
+     null as CARE_SITE_ID,
+     a.pconsult as PROVIDER_SOURCE_VALUE,
+     ISNULL(a.tretspef, 0) as SPECIALTY_SOURCE_VALUE
+     from (select *
+     from
+     (select *, row_number() over (partition by pconsult order by count_spec desc) as prov_count
+     from
+     (select pconsult, tretspef, count(patid) as count_spec
+     from {sc}.HES_episodes a
+     where pconsult != '&amp;'
+     group by pconsult, tretspef) a) b
+     where prov_count=1
+     ) a
+     ) b
+     ) c)
+
+   </Query>
+   <Providers>
+      <ProviderDefinition>
+         <Id>PROVIDER_ID</Id>
+         <ProviderSourceValue>PROVIDER_SOURCE_VALUE</ProviderSourceValue>
+         <CareSiteId>CARE_SITE_ID</CareSiteId>
+         <GenderSourceValue>gender</GenderSourceValue>
+         <Concepts>
+            <Concept>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>CPRDV5\Lookups\Specialty.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="SPECIALTY_SOURCE_VALUE" defaultConceptId="0"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </ProviderDefinition>
+   </Providers>
+</QueryDefinition>

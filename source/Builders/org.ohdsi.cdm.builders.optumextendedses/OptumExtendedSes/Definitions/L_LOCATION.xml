@@ -1,0 +1,10 @@
+﻿<QueryDefinition>
+   <Query>
+     SELECT distinct DIVISION FROM {sc}.MEMBER_DETAIL
+   </Query>
+   <Locations>
+      <LocationDefinition>
+        <SourceValue>DIVISION</SourceValue>
+      </LocationDefinition>
+   </Locations>
+</QueryDefinition>

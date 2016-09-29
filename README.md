@@ -13,6 +13,7 @@ System Requirements (for each server that will be running CDM Builder)
 Dependencies
 ============
  * A SQL Server or Amazon Redshift database of the OMOP Vocabulary must be accessible within your network. This will be used to map source concepts into CDM concepts.
+ * For SQL Server, SQL-based accounts are needed, as Trusted Connections via Windows Authentication are not supported.
  * In the MAN\VOCAB_ADDITIONS folder, you will need to append these files to the OMOP Vocabulary (i.e. add the JNJ_TRU_P_SPCLTY file to the records already in SOURCE_TO_CONCEPT_MAP and do the same for the VOCABULARY table with JNJ_VOCABULARY).
 
 Getting Started
@@ -21,7 +22,7 @@ Getting Started
 * The application requires the configuration of three databases: Source of non-CDM data, Destination (where to build the CDM data), and Vocabulary (the OMOP Vocabulary)
     - Connection strings and credentials for CDM Builder database can be configured either in the config file (<b>org.ohdsi.cdm.presentation.buildingmanager.exe.config</b>) or within the actual CDM Builder application (<b>org.ohdsi.cdm.presentation.buildingmanager.exe</b>)
     - Connection string examples (fill in the bolded values with your environment's values)
-        - SQL Server
+        - SQL Server (SQL-based accounts only)
             - Driver={SQL Server Native Client 11.0};Server=<b>HOST_NAME</b>;Database=<b>VOCAB_DB_NAME</b>;Uid=<b>USER_NAME</b>;Pwd=<b>PASSWORD</b>
         - Amazon Redshift
             - Driver={Amazon Redshift (x64)};Server=<b>HOST_NAME</b>;Database=<b>CDM_DB_NAME</b>;Sc=<b>SCHEMA_NAME</b>;Uid=<b>USER_NAME</b>;Pwd=<b>PASSWORD</b>;Port=<b>PORT</b>;SSL=<b>USE_SSL</b>;Sslmode=<b>SSL_MODE</b>                            

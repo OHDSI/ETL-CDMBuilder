@@ -1,0 +1,135 @@
+﻿<QueryDefinition>
+   <Query>
+     select distinct
+     pat.medrec_key,
+     pat.disc_date as procedure_date,
+     case
+     when pat.i_o_ind = 'I' then 38000249
+     when pat.i_o_ind = 'O' then 38000267
+     end as procedure_type_concept_id,
+     pat.pat_key,
+     cpt.cpt_code,
+     pat.adm_phy
+     from {sc}.pat
+     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_ID
+     join {sc}.patcpt cpt on PAT.PAT_KEY = cpt.pat_key
+     order by pat.medrec_key
+   </Query>
+   <ProcedureOccurrence>
+      <ProcedureOccurrenceDefinition>
+         <IsUnique>true</IsUnique>
+         <PersonId>medrec_key</PersonId>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <ProviderId>adm_phy</ProviderId>
+         <Concepts>
+            <Concept>
+               <IdRequired>true</IdRequired>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>PremierV5\Lookups\Procedure.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+              <SourceConceptIdMappers>
+                <Mapper>
+                  <Lookup>PremierV5\Lookups\ProcedureSource.sql</Lookup>
+                </Mapper>
+              </SourceConceptIdMappers>
+               <Fields>
+                  <Field key="cpt_code" DefaultConceptId = "0" typeId="procedure_type_concept_id"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </ProcedureOccurrenceDefinition>
+   </ProcedureOccurrence>
+   <DrugExposure>
+      <DrugExposureDefinition>
+         <IsUnique>true</IsUnique>
+         <PersonId>medrec_key</PersonId>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <ProviderId>adm_phy</ProviderId>
+         <Concepts>
+            <Concept>
+               <IdRequired>true</IdRequired>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>PremierV5\Lookups\Drug.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="cpt_code" defaultTypeId="38000180"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </DrugExposureDefinition>
+   </DrugExposure>
+   <Observation>
+    <ObservationDefinition>
+      <PersonId>medrec_key</PersonId>
+      <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+      <ProviderId>adm_phy</ProviderId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\ObservationCPT.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\ObservationSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="cpt_code" defaultTypeId="38000281"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+  </Observation>
+   <Measurement>
+    <MeasurementDefinition>
+      <PersonId>medrec_key</PersonId>
+      <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+      <ProviderId>adm_phy</ProviderId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\Measurement.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\MeasurementSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="cpt_code" defaultTypeId="44818701"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </MeasurementDefinition>
+  </Measurement>
+   <DeviceExposure>
+    <DeviceExposureDefinition>
+      <PersonId>medrec_key</PersonId>
+      <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+      <ProviderId>adm_phy</ProviderId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\Device.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="cpt_code" defaultTypeId="44818705"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DeviceExposureDefinition>
+  </DeviceExposure>
+</QueryDefinition>

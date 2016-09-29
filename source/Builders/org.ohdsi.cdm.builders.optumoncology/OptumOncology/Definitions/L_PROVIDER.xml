@@ -1,0 +1,24 @@
+﻿<QueryDefinition>
+   <Query>
+     select provid, specialty
+     from {sc}.provider
+     where prim_spec_ind = 1
+   </Query>
+   <Providers>
+      <ProviderDefinition>
+         <ProviderSourceValue>provid</ProviderSourceValue>
+         <Concepts>
+            <Concept>
+               <ConceptIdMappers>
+                  <Mapper>
+                    <File>OptumOncology\Lookups\Specialty.sql</File>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="specialty"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </ProviderDefinition>
+   </Providers>
+</QueryDefinition>

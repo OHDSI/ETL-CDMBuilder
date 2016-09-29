@@ -1,0 +1,116 @@
+﻿<QueryDefinition>
+  <Query>
+    select
+    cast(replace(o.ptid, 'PT','') as bigint) as PersonId,
+    cast(replace(o.encid, 'E0000','') as bigint) as VisitOccurrenceId,
+    o.obs_type,
+    o.obs_date,
+    o.obs_time,
+    o.obs_unit,
+    ec.provid,
+    o.obs_result as test_result,
+    'observations' as source,
+    CASE
+    WHEN lower(o.obs_result) = 'few' THEN 	45878239
+    WHEN lower(o.obs_result) = 'np' THEN 	45878582
+    WHEN lower(o.obs_result) = 'none' THEN 	45878582
+    WHEN lower(o.obs_result) = 'none seen' THEN 	45878582
+    WHEN lower(o.obs_result) = 'none see' THEN 	45878582
+    WHEN lower(o.obs_result) = 'negative' THEN 	45878583
+    WHEN lower(o.obs_result) = 'abnormal' THEN 	45878745
+    WHEN lower(o.obs_result) = 'present' THEN 	45879438
+    WHEN lower(o.obs_result) = 'pos' THEN 	45879438
+    WHEN lower(o.obs_result) = 'rare' THEN 	45880295
+    WHEN lower(o.obs_result) = 'trace' THEN 	45881796
+    WHEN lower(o.obs_result) = 'positive' THEN 	45884084
+    WHEN lower(o.obs_result) = 'absent' THEN 	45884086
+    ELSE NULL
+    END AS ValueAsConceptId,
+    CASE
+    WHEN lower(obs_type) = 'smoke' THEN 1
+    WHEN lower(obs_type) = 'alcohol' THEN 1
+    WHEN lower(obs_type) = 'exercise' THEN 1
+    ELSE 0
+    END AS Observation
+    from {sc}.observations o
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND o.ptid = ch.PERSON_SOURCE_VALUE
+    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = o.encid
+    order by cast(replace(o.ptid, 'PT','') as bigint)
+  </Query>
+  <!--<Measurement>
+    <MeasurementDefinition>
+      <PersonId>PersonId</PersonId>
+      <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
+      <StartDate>obs_date</StartDate>
+      <Time>obs_time</Time>
+      <ProviderId>provid</ProviderId>
+      <ValueSourceValue>test_result</ValueSourceValue>
+      <AdditionalFields>
+        <string>test_result</string>
+        <string>source</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <File>OptumOncology\Lookups\Obtype.sql</File>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="obs_type" defaultTypeId="45754907"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumOncology\Lookups\Lab_Units.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="obs_unit" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </MeasurementDefinition>
+  </Measurement>-->
+
+  <Observation>
+    <ObservationDefinition>
+      <!--<Condition>{Observation} = 1</Condition>-->
+      <PersonId>PersonId</PersonId>
+      <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
+      <StartDate>obs_date</StartDate>
+      <Time>obs_time</Time>
+      <ProviderId>provid</ProviderId>
+      <ValueSourceValue>test_result</ValueSourceValue>
+      <ValueAsConceptId>ValueAsConceptId</ValueAsConceptId>
+      <AdditionalFields>
+        <string>test_result</string>
+        <string>source</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumOncology\Lookups\Obtype.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="obs_type" defaultTypeId="38000280"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumOncology\Lookups\Lab_Units.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="obs_unit" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+  </Observation>
+
+</QueryDefinition>

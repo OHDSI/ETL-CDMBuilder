@@ -1,0 +1,63 @@
+﻿using System.Collections.Generic;
+using org.ohdsi.cdm.framework.entities.Omop;
+
+namespace org.ohdsi.cdm.builders.premier_v5
+{
+   class PatbillMeasurementComparer : IEqualityComparer<Measurement>
+   {
+      public bool Equals(Measurement x, Measurement y)
+      {
+         if (ReferenceEquals(x, y)) return true;
+
+         if (ReferenceEquals(x, null) || ReferenceEquals(y, null))
+            return false;
+
+         return x.PersonId.Equals(y.PersonId) &&
+                x.ConceptId == y.ConceptId &&
+                x.StartDate == y.StartDate &&
+                x.EndDate == y.EndDate &&
+                x.VisitOccurrenceId == y.VisitOccurrenceId &&
+                x.TypeConceptId == y.TypeConceptId &&
+                x.ValueAsNumber == y.ValueAsNumber &&
+                x.RangeLow == y.RangeLow &&
+                x.RangeHigh == y.RangeHigh &&
+                x.OperatorConceptId == y.OperatorConceptId &&
+                x.ValueAsConceptId == y.ValueAsConceptId &&
+                x.UnitConceptId == y.UnitConceptId &&
+                x.ProviderId == y.ProviderId &&
+                x.ValueSourceValue == y.ValueSourceValue &&
+                x.SourceConceptId == y.SourceConceptId &&
+                x.VisitOccurrenceId == y.VisitOccurrenceId &&
+                x.Time == y.Time &&
+                x.UnitSourceValue == y.UnitSourceValue &&
+                x.SourceValue == y.SourceValue &&
+                (x.AdditionalFields == null ? "" : x.AdditionalFields["serv_day"]) == (y.AdditionalFields == null ? "" : y.AdditionalFields["serv_day"]);
+      }
+
+      public int GetHashCode(Measurement m)
+      {
+         if (ReferenceEquals(m, null)) return 0;
+
+         return m.PersonId.GetHashCode() ^
+                m.ConceptId.GetHashCode() ^
+                (m.StartDate.GetHashCode()) ^
+                (m.EndDate.GetHashCode()) ^
+                m.TypeConceptId.GetHashCode() ^
+                m.VisitOccurrenceId.GetHashCode() ^
+                m.ValueAsNumber.GetHashCode() ^
+                m.RangeLow.GetHashCode() ^
+                m.RangeHigh.GetHashCode() ^
+                m.OperatorConceptId.GetHashCode() ^
+                m.VisitOccurrenceId.GetHashCode() ^
+                m.ValueAsConceptId.GetHashCode() ^
+                m.Time.GetHashCode() ^
+                m.ProviderId.GetHashCode() ^
+                (m.ValueSourceValue != null ? m.ValueSourceValue.GetHashCode() : 0) ^
+                m.SourceConceptId.GetHashCode() ^
+                m.UnitConceptId.GetHashCode() ^
+                (m.UnitSourceValue != null ? m.UnitSourceValue.GetHashCode() : 0) ^
+                (m.SourceValue != null ? m.SourceValue.GetHashCode() : 0) ^
+                (m.AdditionalFields == null ? 0 : m.AdditionalFields["serv_day"].GetHashCode());
+      }
+   }
+}

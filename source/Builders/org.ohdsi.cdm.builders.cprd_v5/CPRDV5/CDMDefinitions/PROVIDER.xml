@@ -1,0 +1,11 @@
+﻿<QueryDefinition>
+  <Query>
+    SELECT distinct PROVIDER_ID, PROVIDER_SOURCE_VALUE FROM {sc}.PROVIDER
+  </Query>
+  <Providers>
+    <ProviderDefinition>
+      <Id>PROVIDER_ID</Id>
+      <ProviderSourceValue>PROVIDER_SOURCE_VALUE</ProviderSourceValue>
+    </ProviderDefinition>
+  </Providers>
+</QueryDefinition>

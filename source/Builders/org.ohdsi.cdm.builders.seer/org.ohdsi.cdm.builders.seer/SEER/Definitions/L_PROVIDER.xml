@@ -1,0 +1,71 @@
+﻿<QueryDefinition>
+  <Query>
+    WITH DME1 as
+    (
+    SELECT distinct
+    CASE
+    WHEN  ORD_NPI is null OR ORD_NPI  = '' THEN ORD_UPIN
+    ELSE ORD_NPI
+    END AS PROVIDER_SOURCE_VALUE,
+    ORD_NPI as NPI,
+    NULL as CARE_SITE_ID,
+    HCFASPEC as SPECIALITY_SOURCE_VALUE
+    FROM {sc}.DME
+    WHERE (ORD_NPI is not null AND ORD_NPI  != '') or (ORD_UPIN is not null AND ORD_UPIN != '')
+    ),
+    NCH1 as
+    (
+    SELECT distinct
+    CASE
+    WHEN  PRF_NPI is null OR PRF_NPI = '' THEN PERUPIN
+    ELSE PRF_NPI
+    END AS PROVIDER_SOURCE_VALUE,
+    PRF_NPI as NPI,
+    NULL as CARE_SITE_ID,
+    HCFASPEC as SPECIALITY_SOURCE_VALUE
+    FROM {sc}.NCH
+    WHERE (PRF_NPI is not null AND PRF_NPI  != '') or (PERUPIN is not null AND PERUPIN != '')
+    ),
+    OUTSAF1 as
+    (
+    SELECT DISTINCT
+    CASE
+    WHEN  AT_NPI is null OR AT_NPI = '' THEN AT_UPIN
+    ELSE AT_NPI
+    END AS PROVIDER_SOURCE_VALUE,
+    AT_NPI as NPI,
+    PROVIDER as CARE_SITE_ID,
+    '99' as SPECIALITY_SOURCE_VALUE -- 38004514 (Unknown Physician Specialty)
+    FROM {sc}.OUTSAF
+    WHERE (AT_NPI is not null AND AT_NPI  != '') or (AT_UPIN is not null AND AT_UPIN != '')
+    )
+
+    select DME1.*
+    from DME1
+    UNION
+    select NCH1.*
+    from NCH1
+    UNION
+    select OUTSAF1.*
+    from OUTSAF1
+  </Query>
+  <Providers>
+    <ProviderDefinition>
+      <ProviderSourceValue>PROVIDER_SOURCE_VALUE</ProviderSourceValue>
+      <CareSiteId>CARE_SITE_ID</CareSiteId>
+      <NPI>NPI</NPI>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>SEER\Lookups\Specialty.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="SPECIALITY_SOURCE_VALUE"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProviderDefinition>
+  </Providers>
+</QueryDefinition>

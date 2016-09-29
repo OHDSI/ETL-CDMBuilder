@@ -1,0 +1,309 @@
+﻿<QueryDefinition>
+  <Variables>
+    <Variable name="providField" database="ccae, mdcr">CAST(PROVID AS VARCHAR)</Variable>
+    <Variable name="providField" database="mdcd">PROV_ID</Variable>
+
+    <Variable name="icdVer" database="ccae, mdcr">ISNULL(DXVER, '9') as DXVER, CASE WHEN ISNULL(PROCTYP, '9') != '0' THEN 9 ELSE 0 END as PROCTYP</Variable>
+    <Variable name="icdVer" database="mdcd">'9' as DXVER, '9' as PROCTYP</Variable>
+
+    <Variable name="diagnosisField" database="ccae, mdcr">DX1, DX2, DX3, DX4, DX5</Variable>
+    <Variable name="diagnosisField" database="mdcd">DX1, DX2, DX3, DX4, null DX5</Variable>
+  </Variables>
+  <Query>
+
+    select {diagnosisField}, PROC1, ENROLID, PROCGRP, STDPLAC,
+    STDPROV,
+    TSVCDAT,
+    SVCDATE, COPAY, COINS, DEDUCT, NETPAY, COB, PAY, REVCODE,
+    CASE
+    WHEN (
+    (REVCODE &gt;= '0100' AND REVCODE &lt;='0219')
+    OR (REVCODE &gt;= '0720' AND REVCODE &lt;='0729')
+    OR (REVCODE &gt;= '0800' AND REVCODE &lt;='0809')
+    ) THEN 'IP'
+    WHEN (
+    STDPLAC = 23
+    OR (REVCODE &gt;= '0450' AND REVCODE &lt;= '0459')
+    OR REVCODE = '0981'
+    OR PROC1 IN ('99281','99282','99283','99284','99285')
+    ) THEN 'ER'
+    ELSE 'OP'
+    END AS CLAIM_TYPE,
+    RTRIM(LTRIM(ISNULL({providField}, ''))) PROVID,
+    FACHDID, YEAR,
+    RTRIM(LTRIM(ISNULL(CAST(STDPROV AS VARCHAR), ''))) + ';' + RTRIM(LTRIM(ISNULL({providField}, ''))) ProviderIdKey,
+    SEQNUM,
+    1 priority,
+    44818668 CurrencyConceptId,
+    {icdVer}
+    from {sc}.OUTPATIENT_SERVICES
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND ENROLID = ch.PERSON_ID
+    ORDER BY ENROLID
+  </Query>
+  <ConditionOccurrence>
+    <ConditionOccurrenceDefinition>
+      <Condition>{DXVER} = 9</Condition>
+      <PersonId>ENROLID</PersonId>
+      <StartDate>SVCDATE</StartDate>
+      <ProviderIdKey>ProviderIdKey</ProviderIdKey>
+      <AdditionalFields>
+        <string>priority</string>
+        <string>FACHDID</string>
+        <string>YEAR</string>
+        <string>DXVER</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <!--<IdRequired>true</IdRequired>-->
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\Condition.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\ConditionSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="DX1" defaultTypeId="1"/>
+            <Field key="DX2" defaultTypeId="2"/>
+            <Field key="DX3" defaultTypeId="3"/>
+            <Field key="DX4" defaultTypeId="4"/>
+            <Field key="DX5" defaultTypeId="5"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+    <ConditionOccurrenceDefinition>
+      <Condition>{DXVER} = 0</Condition>
+      <PersonId>ENROLID</PersonId>
+      <StartDate>SVCDATE</StartDate>
+      <ProviderIdKey>ProviderIdKey</ProviderIdKey>
+      <AdditionalFields>
+        <string>priority</string>
+        <string>FACHDID</string>
+        <string>YEAR</string>
+        <string>DXVER</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <!--<IdRequired>true</IdRequired>-->
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\Condition_ICD10.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\ConditionSource_ICD10.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="DX1" defaultTypeId="1"/>
+            <Field key="DX2" defaultTypeId="2"/>
+            <Field key="DX3" defaultTypeId="3"/>
+            <Field key="DX4" defaultTypeId="4"/>
+            <Field key="DX5" defaultTypeId="5"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+  </ConditionOccurrence>
+  <DrugExposure>
+    <DrugExposureDefinition>
+      <PersonId>ENROLID</PersonId>
+      <StartDate>SVCDATE</StartDate>
+      <Concepts>
+        <Concept>
+          <!--<IdRequired>true</IdRequired>-->
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\Drug.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\DrugSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="PROC1" defaultTypeId="1"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DrugExposureDefinition>
+  </DrugExposure>
+  <ProcedureOccurrence>
+    <ProcedureOccurrenceDefinition>
+      <Condition>{PROCTYP} = 9</Condition>
+      <PersonId>ENROLID</PersonId>
+      <StartDate>SVCDATE</StartDate>
+      <EndDate>TSVCDAT</EndDate>
+      <ProviderIdKey>ProviderIdKey</ProviderIdKey>
+      <AdditionalFields>
+        <string>priority</string>
+        <string>FACHDID</string>
+        <string>YEAR</string>
+        <string>DX1</string>
+        <string>PROVID</string>
+        <string>STDPROV</string>
+        <string>PROCTYP</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <!--<IdRequired>true</IdRequired>-->
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\Procedure.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\ProcedureSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="PROC1" defaultTypeId="1" isNullable="true"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureOccurrenceDefinition>
+    <ProcedureOccurrenceDefinition>
+      <Condition>{PROCTYP} = 0</Condition>
+      <PersonId>ENROLID</PersonId>
+      <StartDate>SVCDATE</StartDate>
+      <EndDate>TSVCDAT</EndDate>
+      <ProviderIdKey>ProviderIdKey</ProviderIdKey>
+      <AdditionalFields>
+        <string>priority</string>
+        <string>FACHDID</string>
+        <string>YEAR</string>
+        <string>DX1</string>
+        <string>PROVID</string>
+        <string>STDPROV</string>
+        <string>PROCTYP</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <!--<IdRequired>true</IdRequired>-->
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\Procedure_ICD10.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\ProcedureSource_ICD10.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="PROC1" defaultTypeId="1" isNullable="true"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureOccurrenceDefinition>
+  </ProcedureOccurrence>
+  <ProcedureCost>
+    <ProcedureCostDefinition>
+      <PaidCopay>COPAY</PaidCopay>
+      <PaidCoinsurance>COINS</PaidCoinsurance>
+      <PaidTowardDeductible>DEDUCT</PaidTowardDeductible>
+      <PaidByPayer>NETPAY</PaidByPayer>
+      <PaidByCoordinationBenefits>COB</PaidByCoordinationBenefits>
+      <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\RevenueCode.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="REVCODE"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureCostDefinition>
+  </ProcedureCost>
+  <VisitOccurrence>
+    <VisitOccurrenceDefinition>
+      <PersonId>ENROLID</PersonId>
+      <StartDate>SVCDATE</StartDate>
+      <EndDate>TSVCDAT</EndDate>
+      <ProviderIdKey>ProviderIdKey</ProviderIdKey>
+      <AdditionalFields>
+        <string>FACHDID</string>
+        <string>YEAR</string>
+        <string>PROVID</string>
+        <string>STDPROV</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\Visits.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="CLAIM_TYPE" defaultTypeId="44818517"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </VisitOccurrenceDefinition>
+  </VisitOccurrence>
+  <Death>
+    <DeathDefinition>
+      <Condition>{DXVER} = 9</Condition>
+      <PersonId>ENROLID</PersonId>
+      <StartDate>SVCDATE</StartDate>
+      <AdditionalFields>
+        <string>priority</string>
+        <string>FACHDID</string>
+        <string>YEAR</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\DeathCodes.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="DX1" defaultTypeId="38003567"/>
+            <Field key="DX2" defaultTypeId="38003567"/>
+            <Field key="DX3" defaultTypeId="38003567"/>
+            <Field key="DX4" defaultTypeId="38003567"/>
+            <Field key="DX5" defaultTypeId="38003567"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DeathDefinition>
+    <DeathDefinition>
+      <Condition>{DXVER} = 0</Condition>
+      <PersonId>ENROLID</PersonId>
+      <StartDate>SVCDATE</StartDate>
+      <AdditionalFields>
+        <string>priority</string>
+        <string>FACHDID</string>
+        <string>YEAR</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\DeathCodes_ICD10.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="DX1" defaultTypeId="38003567"/>
+            <Field key="DX2" defaultTypeId="38003567"/>
+            <Field key="DX3" defaultTypeId="38003567"/>
+            <Field key="DX4" defaultTypeId="38003567"/>
+            <Field key="DX5" defaultTypeId="38003567"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DeathDefinition>
+  </Death>
+</QueryDefinition>

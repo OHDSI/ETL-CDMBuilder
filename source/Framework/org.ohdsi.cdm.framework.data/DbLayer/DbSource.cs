@@ -52,7 +52,7 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
 
          using (var connection = SqlConnectionHelper.OpenOdbcConnection(connectionString))
          {
-            foreach (var subQuery in query.Split(new[] {"GO" + Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries))
+            foreach (var subQuery in query.Split(new[] { "GO" + "\r\n", "GO" + "\n" }, StringSplitOptions.RemoveEmptyEntries))
             {
                using (var command = new OdbcCommand(subQuery, connection))
                {

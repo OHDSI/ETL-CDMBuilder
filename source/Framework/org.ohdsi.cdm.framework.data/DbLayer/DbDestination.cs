@@ -33,7 +33,7 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
          {
             query = string.Format(query, database);
 
-            foreach (var subQuery in query.Split(new[] { "\r\nGO" }, StringSplitOptions.None))
+            foreach (var subQuery in query.Split(new[] { "\r\nGO", "\nGO" }, StringSplitOptions.None))
             {
                using (var command = new OdbcCommand(subQuery, connection))
                {
@@ -194,7 +194,7 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
          
          using (var connection = SqlConnectionHelper.OpenOdbcConnection(connectionString))
          {
-            foreach (var subQuery in query.Split(new[] { "\r\nGO" }, StringSplitOptions.None))
+            foreach (var subQuery in query.Split(new[] { "\r\nGO", "\nGO" }, StringSplitOptions.None))
             {
                using (var command = new OdbcCommand(subQuery, connection))
                {

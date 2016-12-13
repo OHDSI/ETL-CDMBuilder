@@ -5,7 +5,8 @@ add_claim(member_id = "M000000999", claim_id = "C000000000999", month_and_year_o
 add_claim(member_id = "M000000999", claim_id = "C000000000998", month_and_year_of_medical_care = "201412")
 
 
-### Person ###
+# Person ------------------------------------------------------------------
+
 
 declareTest(101, "Person id")
 add_enrollment(member_id = "M000000101")
@@ -22,7 +23,7 @@ add_enrollment(member_id = "M000000104", year_of_birth_of_member = 1975)
 expect_person(person_id = 104, year_of_birth = 1975)
 
 
-### Observation period ###
+# Observation period ------------------------------------------------------------------
 
 declareTest(201, "Observation period person id")
 add_enrollment(member_id = "M000000201")
@@ -30,7 +31,7 @@ expect_observation_period(person_id = 201)
 
 declareTest(202, "Observation period start date without truncation")
 add_enrollment(member_id = "M000000202", month_and_year_of_entry = "201001", month_and_year_of_withdrawal = "201212")
-expect_observation_period(person_id = 202, observation_period_start_date = "20100101")
+expect_observation_period(person_id = lookup_person("person_id", person_source_value = "M000000202"), observation_period_start_date = "20100101")
 
 declareTest(203, "Observation period start date with truncation")
 add_enrollment(member_id = "M000000203", month_and_year_of_entry = "199001", month_and_year_of_withdrawal = "201212")
@@ -45,14 +46,14 @@ add_enrollment(member_id = "M000000205", month_and_year_of_entry = "201001", mon
 expect_observation_period(person_id = 205, observation_period_end_date = "20141231") # From last claim in database
 
 
-### Care site ###
+# Care site ------------------------------------------------------------------
 
 declareTest(301, "Care site id")
 add_institution(institution_id = "F0000001")
 expect_care_site(care_site_id = 10000001, care_site_source_value = "F0000001")
 
 
-### Visit occurrence ###
+# Visit occurrence ------------------------------------------------------------------
 
 declareTest(401, "Visit occurrence and person id")
 add_enrollment(member_id = "M000000401")
@@ -62,11 +63,11 @@ expect_visit_occurrence(person_id = 401, visit_occurrence_id = 401)
 declareTest(402, "Visit concept ID")
 add_enrollment(member_id = "M000000402")
 add_claim(member_id = "M000000402", claim_id = "C000000000402", type_of_claim = "out-patient")
-add_claim(member_id = "M000000402", claim_id = "C000000000403", type_of_claim = "pharmacy")
+# add_claim(member_id = "M000000402", claim_id = "C000000000403", type_of_claim = "pharmacy")
 add_claim(member_id = "M000000402", claim_id = "C000000000404", type_of_claim = "DPC")
 add_claim(member_id = "M000000402", claim_id = "C000000000405", type_of_claim = "in-patient")
 expect_visit_occurrence(person_id = 402, visit_occurrence_id = 402, visit_concept_id = 9202)
-expect_visit_occurrence(person_id = 402, visit_occurrence_id = 403, visit_concept_id = 9202)
+# expect_visit_occurrence(person_id = 402, visit_occurrence_id = 403, visit_concept_id = 9202)
 expect_visit_occurrence(person_id = 402, visit_occurrence_id = 404, visit_concept_id = 9201)
 expect_visit_occurrence(person_id = 402, visit_occurrence_id = 405, visit_concept_id = 9201)
 
@@ -146,8 +147,8 @@ expect_visit_occurrence(person_id = 412, visit_occurrence_id = 421, care_site_id
 
 declareTest(412, "Visit source value")
 add_enrollment(member_id = "M000000413")
-add_claim(member_id = "M000000413", claim_id = "C000000000422", type_of_claim = "pharmacy")
-expect_visit_occurrence(person_id = 413, visit_occurrence_id = 422, visit_source_value = "pharmacy")
+add_claim(member_id = "M000000413", claim_id = "C000000000422", type_of_claim = "out-patient")
+expect_visit_occurrence(person_id = 413, visit_occurrence_id = 422, visit_source_value = "out-patient")
 
 declareTest(413, "Visit start date from multiple start of medical care records")
 add_enrollment(member_id = "M000000414")
@@ -167,7 +168,12 @@ add_diagnosis(member_id = "M000000414", claim_id = "C000000000425", month_and_ye
 add_diagnosis(member_id = "M000000414", claim_id = "C000000000425", month_and_year_of_start_of_medical_care = "20100310", institution_id = 123)
 expect_visit_occurrence(person_id = 414, visit_occurrence_id = 425, visit_start_date = "2010-03-15")
 
-### Provider ###
+declareTest(414, "No visit occurrence when claim type is pharmacy")
+add_enrollment(member_id = "M000000415")
+add_claim(member_id = "M000000415", claim_id = "C000000000426", type_of_claim = "pharmacy")
+expect_no_visit_occurrence(person_id = 415)
+
+# Provider ------------------------------------------------------------------
 
 declareTest(501, "Provider ID from institution")
 add_institution(institution_id = "F0000003")
@@ -186,7 +192,7 @@ add_institution(institution_id = "F0000005", medium_classification_of_department
 expect_provider(care_site_id = 10000005, specialty_concept_id = 38004451, specialty_source_value = "Cardiology")
 
 
-### Death ###
+# Death ------------------------------------------------------------------
 
 declareTest(601, "Death person ID from diagnosis")
 add_enrollment(member_id = "M000000601")
@@ -231,7 +237,7 @@ expect_death(person_id = 607, death_type_concept_id = 38003565)
 expect_death(person_id = 608, death_type_concept_id = 38003567)
 
 
-### Condition occurrence ###
+# Condition occurrence ------------------------------------------------------------------
 
 declareTest(701, "Condition occurrence person ID")
 add_enrollment(member_id = "M000000701")
@@ -293,8 +299,14 @@ add_claim(member_id = "M000000709", claim_id = "C000000000711", month_and_year_o
 add_diagnosis(member_id = "M000000709", claim_id = "C000000000711", month_and_year_of_start_of_medical_care = "20091201")
 expect_condition_occurrence(person_id = 709, condition_type_concept_id = 38000246, condition_start_date = "2010-01-01", condition_end_date = "2010-02-15")
 
+declareTest(710, "Condition with suspicion flag")
+add_enrollment(member_id = "M000000710")
+add_claim(member_id = "M000000710", claim_id = "C000000000712")
+add_diagnosis(member_id = "M000000710", claim_id = "C000000000712", icd10_level4_code = "I10-", suspicion_flag = 1)
+expect_no_condition_occurrence(person_id = 710)
 
-### Drug exposure ###
+
+# Drug exposure ------------------------------------------------------------------
 
 declareTest(801, "Drug exposure person ID")
 add_enrollment(member_id = "M000000801")
@@ -343,9 +355,9 @@ expect_drug_exposure(person_id = 806, visit_occurrence_id = 809, drug_exposure_s
 
 declareTest(807, "Drug start date from visit date")
 add_enrollment(member_id = "M000000807")
-add_claim(member_id = "M000000807", claim_id = "C000000000810", month_and_year_of_medical_care = "201002")
+add_claim(member_id = "M000000807", claim_id = "C000000000810", month_and_year_of_medical_care = "201002", type_of_claim = "pharmacy")
 add_drug(member_id = "M000000807", claim_id = "C000000000810", date_of_prescription = NULL)
-expect_drug_exposure(person_id = 807, visit_occurrence_id = 810, drug_exposure_start_date = "2010-02-15")
+expect_drug_exposure(person_id = 807, visit_occurrence_id = NULL, drug_exposure_start_date = "2010-02-15")
 
 declareTest(808, "Drug end date")
 add_enrollment(member_id = "M000000808")
@@ -379,7 +391,7 @@ add_drug(member_id = "M000000811", claim_id = "C000000000816", as_needed_medicat
 expect_drug_exposure(person_id = 811, visit_occurrence_id = 816, sig = "2 g as needed")
 
 
-### Procedure occurrence ###
+# Procedure occurrence ------------------------------------------------------------------
 
 declareTest(901, "Procedure occurrence person ID")
 add_enrollment(member_id = "M000000901")
@@ -436,7 +448,7 @@ add_diagnosis(member_id = "M000000909", claim_id = "C000000000912", icd10_level4
 expect_procedure_occurrence(person_id = 909, visit_occurrence_id = 912, procedure_concept_id = 4085923, procedure_type_concept_id = 38000215)
 
 
-### Measurement ###
+# Measurement ------------------------------------------------------------------
 
 declareTest(1001, "Measurement person ID")
 add_enrollment(member_id = "M000001001")
@@ -473,7 +485,7 @@ add_diagnosis(member_id = "M000001006", claim_id = "C000000001001", icd10_level4
 expect_measurement(person_id = 1006, visit_occurrence_id = 1001, measurement_concept_id = 441968, value_as_concept_id = 4181412, measurement_type_concept_id = 38000215)
 
 
-### Observation ###
+# Observation ------------------------------------------------------------------
 
 declareTest(1101, "Observation person ID from diagnosis")
 add_enrollment(member_id = "M000001101")
@@ -517,7 +529,7 @@ add_health_checkups(member_id = "M000001107", sleeping = 2, month_and_year_of_he
 expect_observation(person_id = 1107, observation_date = "2010-01-15", observation_concept_id = 40764749, value_as_concept_id = 4188540)
 
 
-### Drug cost ###
+# Drug cost ------------------------------------------------------------------
 
 declareTest(1201, "Drug cost")
 add_enrollment(member_id = "M000001201")
@@ -526,7 +538,7 @@ add_drug(member_id = "M000001201", claim_id = "C000000001201", actual_point = 12
 expect_drug_cost(total_paid = 1230)
 
 
-### Procedure cost ###
+# Procedure cost ------------------------------------------------------------------
 
 declareTest(1301, "Procedure cost")
 add_enrollment(member_id = "M000001301")
@@ -538,24 +550,24 @@ write(insertSql, "insert.sql")
 write(testSql, "test.sql")
 
 
-### Execute tests ###
+# Execute tests ------------------------------------------------------------------
 library(DatabaseConnector)
-connectionDetails <- createConnectionDetails(user = "cdm_builder",
-                                             password = Sys.getenv("pwCdmBuilder"),
+connectionDetails <- createConnectionDetails(user = "USER",
+                                             password = Sys.getenv("ABCDEFG"),
                                              dbms = "sql server",
-                                             server = "RNDUSRDHIT09.jnj.com")
+                                             server = "12345")
 connection <- connect(connectionDetails)
 
 executeSql(connection, "USE jmdc_test")
 executeSql(connection, paste(insertSql, collapse = "\n"))
 
-# Run CDM_builder
+# Run CDM_builder. Note: settings 1265 vocab: Driver={SQL Server Native Client 11.0};Server=RNDUSRDHIT06;Database=Vocabulary_20160817;Uid=hix_reader;Pwd=reader1!;
 
 executeSql(connection, "USE jmdc_cdm")
 executeSql(connection, paste(testSql, collapse = "\n"))
 
 querySql(connection, "SELECT * FROM test_results")
-querySql(connection, "SELECT COUNT(*) FROM test_results WHERE status = 'FAIL'")
+querySql(connection, "SELECT * FROM test_results WHERE status = 'FAIL'")
 
 
 executeSql(connection, "USE jmdc_test")
@@ -564,20 +576,8 @@ querySql(connection, "SELECT * FROM Diagnosis WHERE [Member ID] = 'M000000601'")
 executeSql(connection, "USE jmdc_cdm")
 querySql(connection, "SELECT * FROM visit_occurrence WHERE person_id = 414")
 
-add_claim(member_id = "M000000414", claim_id = "C000000000424", month_and_year_of_medical_care = "201003")
-add_diagnosis(member_id = "M000000414", claim_id = "C000000000424", month_and_year_of_start_of_medical_care = "20100308")
-add_diagnosis(member_id = "M000000414", claim_id = "C000000000424", month_and_year_of_start_of_medical_care = "20100312", institution_id = 123)
-add_diagnosis(member_id = "M000000414", claim_id = "C000000000424", month_and_year_of_start_of_medical_care = "20100310", institution_id = 123)
-expect_visit_occurrence(person_id = 414, visit_occurrence_id = 424, visit_start_date = "2010-03-12")
-
 
 executeSql(connection, "USE jmdc_cdm")
-x <- querySql(connection, "SELECT MEASUREMENT_TYPE_CONCEPT_ID FROM measurement WHERE person_id = 1002 AND measurement_concept_id = 42869419")
-
-
-add_enrollment(member_id = "M000001002")
-add_health_checkups(member_id = "M000001002", bmi = "25", electrocardiogram = 1)
-expect_measurement(person_id = 1002, measurement_concept_id = 3038553, measurement_type_concept_id = 38000277) # BMI
-expect_measurement(person_id = 1002, measurement_concept_id = 42869419, measurement_type_concept_id = 38000279) # ECG, failing, currently type_concept_id = 900000004 
+querySql(connection, "SELECT * FROM drug_exposure WHERE person_id = 807")
 
 

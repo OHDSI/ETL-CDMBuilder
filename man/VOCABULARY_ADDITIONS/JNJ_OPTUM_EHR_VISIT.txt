@@ -1,0 +1,23 @@
+Nursing Home Inpatient	0	JNJ_OPTUM_EHR_VISIT	Nursing Home Inpatient	42898160	Visit	19700101	20991231
+Inpatient	0	JNJ_OPTUM_EHR_VISIT	Inpatient	9201	Visit	19700101	20991231
+Imaging	0	JNJ_OPTUM_EHR_VISIT	Imaging	9202	Visit	19700101	20991231
+Prescriptions and refills	0	JNJ_OPTUM_EHR_VISIT	Prescriptions and refills	9202	Visit	19700101	20991231
+Other patient type	0	JNJ_OPTUM_EHR_VISIT	Other patient type	0	None	19700101	20991231
+Home visits	0	JNJ_OPTUM_EHR_VISIT	Home visits	9202	Visit	19700101	20991231
+Labs and diagnostics.nonimaging	0	JNJ_OPTUM_EHR_VISIT	Labs and diagnostics.nonimaging	9202	Visit	19700101	20991231
+Observation patient	0	JNJ_OPTUM_EHR_VISIT	Observation patient	9201	Visit	19700101	20991231
+Unknown patient type	0	JNJ_OPTUM_EHR_VISIT	Unknown patient type	0	None	19700101	20991231
+Emergency patient	0	JNJ_OPTUM_EHR_VISIT	Emergency patient	9203	Visit	19700101	20991231
+Day surgery patient	0	JNJ_OPTUM_EHR_VISIT	Day surgery patient	9202	Visit	19700101	20991231
+Hospice	0	JNJ_OPTUM_EHR_VISIT	Hospice	42898160	Visit	19700101	20991231
+Ambulatory patient services	0	JNJ_OPTUM_EHR_VISIT	Ambulatory patient services	9203	Visit	19700101	20991231
+Office or clinic patient	0	JNJ_OPTUM_EHR_VISIT	Office or clinic patient	9202	Visit	19700101	20991231
+Not recorded	0	JNJ_OPTUM_EHR_VISIT	Not recorded	0	None	19700101	20991231
+Inpatient psych	0	JNJ_OPTUM_EHR_VISIT	Inpatient psych	9201	Visit	19700101	20991231
+Inpatient rehab	0	JNJ_OPTUM_EHR_VISIT	Inpatient rehab	9201	Visit	19700101	20991231
+Letter / Email	0	JNJ_OPTUM_EHR_VISIT	Letter / Email	0	None	19700101	20991231
+Other orders	0	JNJ_OPTUM_EHR_VISIT	Other orders	0	None	19700101	20991231
+Other physician advice	0	JNJ_OPTUM_EHR_VISIT	Other physician advice	0	None	19700101	20991231
+Skilled nursing facility inpatient	0	JNJ_OPTUM_EHR_VISIT	Skilled nursing facility inpatient	9201	Visit	19700101	20991231
+Telephone	0	JNJ_OPTUM_EHR_VISIT	Telephone	0	None	19700101	20991231
+Urgent care	0	JNJ_OPTUM_EHR_VISIT	Urgent care	9203	Visit	19700101	20991231

@@ -1,0 +1,25 @@
+JNJ_CPRD_GS_RXN	CPRD Prodcode (Gemscript Dictionary) Mapped to RxNorm Concepts			0	
+JNJ_CPRD_ET_LOINC	CPRD Additional Enttypes Mapped to LOINC Concepts			0	
+JNJ_CPRD_T_ET_LOINC	CPRD Test Enttypes Mapped to LOINC Concepts			0	
+JNJ_CPRD_PROV_SPEC	CPRD Provider Roles Mapped to CMS Specialty			0	
+JNJ_CPRD_SCORE_LOINC	CPRD Scoring Method Plus Read Codes Mapped to LOINC			0	
+JNJ_CPRD_PROV_CMS2	CPRD Provider to CMS2			0	
+JNJ_CPRD_HES_LOINC	CPRD HES Observation Fields to LOINC			0	
+JNJ_OPTUM_P_SPCLTY	Optum Provider Specialty			0	
+JNJ_TRU_P_SPCLTY	Truven Provider Specialty			0	
+JNJ_TRU_HRA	Truven Health Risk Assessment (HRA)			0	
+JNJ_TRU_HRA_QUESTION	Truven Health Risk Assessment (HRA) Questions			0	
+JNJ_NHANES_COND_SM	NHANES Conditions to SNOMED			0	
+JNJ_NHANES_DRUG_SM	NHANES Drugs to RxNorm			0	
+JNJ_NHANES_OBS_LOINC	NHANES Observation to LOINC			0	
+JNJ_JMDC_DRUGS	JMDC Drug codes			0	
+JNJ_JMDC_SPECIALTIES	JMDC Specialty codes			0	
+JNJ_JMDC_OBSERVATION	JMDC Observation codes			0	
+JNJ_LAB_UNIT	Lab Unit			0	
+JNJ_OPTUM_EHR_LABNAM	OPTUM Oncology EHR Lab Names			0	
+JNJ_OPTUM_EHR_LABRES	OPTUM Oncology EHR Lab Results			0	
+JNJ_OPTUM_EHR_OBTYPE	OPTUM Oncology EHR Observation Type			0	
+JNJ_OPTUM_EHR_ROUTE	OPTUM Oncology EHR Route			0	
+JNJ_OPTUM_EHR_SPCLTY	OPTUM Oncology EHR Specialty			0	
+JNJ_OPTUM_EHR_VISIT	OPTUM Oncology EHR Visit			0	
+JNJ_OPTUM_NLP_DRUG	OPTUM Oncology EHR Drug			0

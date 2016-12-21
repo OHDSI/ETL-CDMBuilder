@@ -1,0 +1,90 @@
+Unknown	Unknown	0	JNJ_OPTUM_EHR_SPCLTY	38004514	Specialty	19700101	20991231
+Unspecified	Unspecified	0	JNJ_OPTUM_EHR_SPCLTY	38004514	Specialty	19700101	20991231
+Internal Medicine	Internal Medicine	0	JNJ_OPTUM_EHR_SPCLTY	38004456	Specialty	19700101	20991231
+Family Medicine	Family Medicine	0	JNJ_OPTUM_EHR_SPCLTY	38004453	Specialty	19700101	20991231
+Mid Level Provider	Mid Level Provider	0	JNJ_OPTUM_EHR_SPCLTY	38004514	Specialty	19700101	20991231
+Emergency Medicine	Emergency Medicine	0	JNJ_OPTUM_EHR_SPCLTY	38004510	Specialty	19700101	20991231
+Radiology	Radiology	0	JNJ_OPTUM_EHR_SPCLTY	38004675	Specialty	19700101	20991231
+Cardiology	Cardiology	0	JNJ_OPTUM_EHR_SPCLTY	38004451	Specialty	19700101	20991231
+Anesthesiology	Anesthesiology	0	JNJ_OPTUM_EHR_SPCLTY	38004450	Specialty	19700101	20991231
+Orthopedic Surgery	Orthopedic Surgery	0	JNJ_OPTUM_EHR_SPCLTY	38004465	Specialty	19700101	20991231
+Surgery	Surgery	0	JNJ_OPTUM_EHR_SPCLTY	38004447	Specialty	19700101	20991231
+Oncology	Oncology	0	JNJ_OPTUM_EHR_SPCLTY	38004507	Specialty	19700101	20991231
+Physical Medicine and Rehabilitation	Physical Medicine and Rehabilitation	0	JNJ_OPTUM_EHR_SPCLTY	38004468	Specialty	19700101	20991231
+Obstetrics and Gynecology	Obstetrics and Gynecology	0	JNJ_OPTUM_EHR_SPCLTY	38004461	Specialty	19700101	20991231
+Pediatrics	Pediatrics	0	JNJ_OPTUM_EHR_SPCLTY	38004477	Specialty	19700101	20991231
+Neurology	Neurology	0	JNJ_OPTUM_EHR_SPCLTY	38004458	Specialty	19700101	20991231
+Urology	Urology	0	JNJ_OPTUM_EHR_SPCLTY	38004474	Specialty	19700101	20991231
+Gastroenterology	Gastroenterology	0	JNJ_OPTUM_EHR_SPCLTY	38004455	Specialty	19700101	20991231
+Pathology	Pathology	0	JNJ_OPTUM_EHR_SPCLTY	38004466	Specialty	19700101	20991231
+Technician/Technologist	Technician/Technologist	0	JNJ_OPTUM_EHR_SPCLTY	0	Specialty	19700101	20991231
+Hospital Medicine	Hospital Medicine	0	JNJ_OPTUM_EHR_SPCLTY	38004515	Specialty	19700101	20991231
+Ophthalmology	Ophthalmology	0	JNJ_OPTUM_EHR_SPCLTY	38004463	Specialty	19700101	20991231
+Nurse Anesthetist	Nurse Anesthetist	0	JNJ_OPTUM_EHR_SPCLTY	38004483	Specialty	19700101	20991231
+Psychiatry	Psychiatry	0	JNJ_OPTUM_EHR_SPCLTY	38004469	Specialty	19700101	20991231
+Occupational Therapy	Occupational Therapy	0	JNJ_OPTUM_EHR_SPCLTY	38004492	Specialty	19700101	20991231
+Pulmonary Medicine	Pulmonary Medicine	0	JNJ_OPTUM_EHR_SPCLTY	38004472	Specialty	19700101	20991231
+Dermatology	Dermatology	0	JNJ_OPTUM_EHR_SPCLTY	38004452	Specialty	19700101	20991231
+Nephrology	Nephrology	0	JNJ_OPTUM_EHR_SPCLTY	38004479	Specialty	19700101	20991231
+General Practice	General Practice	0	JNJ_OPTUM_EHR_SPCLTY	38004456	Specialty	19700101	20991231
+Otolaryngology	Otolaryngology	0	JNJ_OPTUM_EHR_SPCLTY	38004449	Specialty	19700101	20991231
+Optometry	Optometry	0	JNJ_OPTUM_EHR_SPCLTY	38004481	Specialty	19700101	20991231
+Dentistry	Dentistry	0	JNJ_OPTUM_EHR_SPCLTY	0	Specialty	19700101	20991231
+Podiatry	Podiatry	0	JNJ_OPTUM_EHR_SPCLTY	38004486	Specialty	19700101	20991231
+Endocrinology	Endocrinology	0	JNJ_OPTUM_EHR_SPCLTY	38004485	Specialty	19700101	20991231
+Neurological Surgery	Neurological Surgery	0	JNJ_OPTUM_EHR_SPCLTY	38004459	Specialty	19700101	20991231
+Pharmacy	Pharmacy	0	JNJ_OPTUM_EHR_SPCLTY	38004520	Specialty	19700101	20991231
+Psychology	Psychology	0	JNJ_OPTUM_EHR_SPCLTY	38004488	Specialty	19700101	20991231
+Chiropractic Care	Chiropractic Care	0	JNJ_OPTUM_EHR_SPCLTY	38004475	Specialty	19700101	20991231
+Infectious Disease	Infectious Disease	0	JNJ_OPTUM_EHR_SPCLTY	38004484	Specialty	19700101	20991231
+Radiation Oncology	Radiation Oncology	0	JNJ_OPTUM_EHR_SPCLTY	38004509	Specialty	19700101	20991231
+Pain Medicine	Pain Medicine	0	JNJ_OPTUM_EHR_SPCLTY	38004494	Specialty	19700101	20991231
+Geriatric Medicine	Geriatric Medicine	0	JNJ_OPTUM_EHR_SPCLTY	38004478	Specialty	19700101	20991231
+Critical Care Medicine	Critical Care Medicine	0	JNJ_OPTUM_EHR_SPCLTY	38004500	Specialty	19700101	20991231
+Thoracic Surgery	Thoracic Surgery	0	JNJ_OPTUM_EHR_SPCLTY	38004473	Specialty	19700101	20991231
+Plastic Surgery	Plastic Surgery	0	JNJ_OPTUM_EHR_SPCLTY	38004467	Specialty	19700101	20991231
+Rheumatology	Rheumatology	0	JNJ_OPTUM_EHR_SPCLTY	38004491	Specialty	19700101	20991231
+Vascular Surgery	Vascular Surgery	0	JNJ_OPTUM_EHR_SPCLTY	38004496	Specialty	19700101	20991231
+Diagnostic Testing Center	Diagnostic Testing Center	0	JNJ_OPTUM_EHR_SPCLTY	38004678	Specialty	19700101	20991231
+Counseling	Counseling	0	JNJ_OPTUM_EHR_SPCLTY	0	Specialty	19700101	20991231
+Social Work Clinical	Social Work Clinical	0	JNJ_OPTUM_EHR_SPCLTY	38004499	Specialty	19700101	20991231
+Hematology	Hematology	0	JNJ_OPTUM_EHR_SPCLTY	38004501	Specialty	19700101	20991231
+Oral and Maxillofacial Surgery	Oral and Maxillofacial Surgery	0	JNJ_OPTUM_EHR_SPCLTY	38004504	Specialty	19700101	20991231
+Allergy and Immunology	Allergy and Immunology	0	JNJ_OPTUM_EHR_SPCLTY	38004448	Specialty	19700101	20991231
+Nutrition	Nutrition	0	JNJ_OPTUM_EHR_SPCLTY	38004694	Specialty	19700101	20991231
+General Acute Care Hospital	General Acute Care Hospital	0	JNJ_OPTUM_EHR_SPCLTY	38004515	Specialty	19700101	20991231
+Social Work	Social Work	0	JNJ_OPTUM_EHR_SPCLTY	38004499	Specialty	19700101	20991231
+Pediatric Specialties	Pediatric Specialties	0	JNJ_OPTUM_EHR_SPCLTY	38004477	Specialty	19700101	20991231
+Colon and Rectal Surgery	Colon and Rectal Surgery	0	JNJ_OPTUM_EHR_SPCLTY	38004471	Specialty	19700101	20991231
+Hospice and Palliative Medicine	Hospice and Palliative Medicine	0	JNJ_OPTUM_EHR_SPCLTY	0	Specialty	19700101	20991231
+Transplant Surgery	Transplant Surgery	0	JNJ_OPTUM_EHR_SPCLTY	0	Specialty	19700101	20991231
+Surgical Oncology	Surgical Oncology	0	JNJ_OPTUM_EHR_SPCLTY	38004508	Specialty	19700101	20991231
+Clinic	Clinic	0	JNJ_OPTUM_EHR_SPCLTY	38004693	Specialty	19700101	20991231
+Psychiatry and Neurology	Psychiatry and Neurology	0	JNJ_OPTUM_EHR_SPCLTY	38004505	Specialty	19700101	20991231
+Clinical Nurse Specialist	Clinical Nurse Specialist	0	JNJ_OPTUM_EHR_SPCLTY	38004506	Specialty	19700101	20991231
+Occupational Medicine	Occupational Medicine	0	JNJ_OPTUM_EHR_SPCLTY	38004492	Specialty	19700101	20991231
+Ambulatory Surgical Center	Ambulatory Surgical Center	0	JNJ_OPTUM_EHR_SPCLTY	38004679	Specialty	19700101	20991231
+Nuclear Medicine	Nuclear Medicine	0	JNJ_OPTUM_EHR_SPCLTY	38004476	Specialty	19700101	20991231
+Trauma Surgery	Trauma Surgery	0	JNJ_OPTUM_EHR_SPCLTY	38004447	Specialty	19700101	20991231
+Clinical Neuropsychology	Clinical Neuropsychology	0	JNJ_OPTUM_EHR_SPCLTY	38004505	Specialty	19700101	20991231
+Pediatric Surgery	Pediatric Surgery	0	JNJ_OPTUM_EHR_SPCLTY	38004447	Specialty	19700101	20991231
+Preventive Medicine	Preventive Medicine	0	JNJ_OPTUM_EHR_SPCLTY	38004503	Specialty	19700101	20991231
+Medical Genetics	Medical Genetics	0	JNJ_OPTUM_EHR_SPCLTY	0	Specialty	19700101	20991231
+Cardiovascular Surgery	Cardiovascular Surgery	0	JNJ_OPTUM_EHR_SPCLTY	38004497	Specialty	19700101	20991231
+Hepatology	Hepatology	0	JNJ_OPTUM_EHR_SPCLTY	0	Specialty	19700101	20991231
+Legal Medicine	Legal Medicine	0	JNJ_OPTUM_EHR_SPCLTY	0	Specialty	19700101	20991231
+Skilled Nursing Facility	Skilled Nursing Facility	0	JNJ_OPTUM_EHR_SPCLTY	38004516	Specialty	19700101	20991231
+Marriage and Family Therapy	Marriage and Family Therapy	0	JNJ_OPTUM_EHR_SPCLTY	0	Specialty	19700101	20991231
+Clinical Pharmacology	Clinical Pharmacology	0	JNJ_OPTUM_EHR_SPCLTY	0	Specialty	19700101	20991231
+Dialysis Center	Dialysis Center	0	JNJ_OPTUM_EHR_SPCLTY	0	Specialty	19700101	20991231
+Surgery and Surgical Specialties	Surgery and Surgical Specialties	0	JNJ_OPTUM_EHR_SPCLTY	38004447	Specialty	19700101	20991231
+Psychiatric Hospital	Psychiatric Hospital	0	JNJ_OPTUM_EHR_SPCLTY	38004515	Specialty	19700101	20991231
+Other Non-Acute Hospital	Other Non-Acute Hospital	0	JNJ_OPTUM_EHR_SPCLTY	38004515	Specialty	19700101	20991231
+Mh/Sa Non-Acute Facility	Mh/Sa Non-Acute Facility	0	JNJ_OPTUM_EHR_SPCLTY	0	Specialty	19700101	20991231
+Bariatric Surgery	Bariatric Surgery	0	JNJ_OPTUM_EHR_SPCLTY	38004447	Specialty	19700101	20991231
+Other Nursing Facility	Other Nursing Facility	0	JNJ_OPTUM_EHR_SPCLTY	0	Specialty	19700101	20991231
+Psychoanalysis	Psychoanalysis	0	JNJ_OPTUM_EHR_SPCLTY	0	Specialty	19700101	20991231
+Birthing Center	Birthing Center	0	JNJ_OPTUM_EHR_SPCLTY	38004461	Specialty	19700101	20991231
+Facility; Other	Facility; Other	0	JNJ_OPTUM_EHR_SPCLTY	38004514	Specialty	19700101	20991231
+Imaging Center	Imaging Center	0	JNJ_OPTUM_EHR_SPCLTY	38004675	Specialty	19700101	20991231
+Urgent Care Center	Urgent Care Center	0	JNJ_OPTUM_EHR_SPCLTY	38004679	Specialty	19700101	20991231

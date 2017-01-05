@@ -1,0 +1,14 @@
+Package: OptumOncologyTests
+Type: Package
+Title: Configures Test Cases for Optum Oncology EHR
+Version: 0.1.0
+Author: Chris Knoll, Anthony Sena
+Maintainer: Chris Knoll <cknoll1@its.jnj.com>
+Description: Executes test case inserts and validates results.
+License: None
+LazyData: TRUE
+Depends:
+    SqlRender,
+    DatabaseConnector
+Roxygen: list(wrap = TRUE)
+RoxygenNote: 5.0.1

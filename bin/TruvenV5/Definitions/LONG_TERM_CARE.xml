@@ -18,6 +18,7 @@
      COPAY, COINS, DEDUCT, NETPAY, COB, REVCODE
      FROM {sc}.LONG_TERM_CARE
      JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND ENROLID = ch.PERSON_ID
+     ORDER BY ENROLID
    </Query>
    <ConditionOccurrence>
       <ConditionOccurrenceDefinition>

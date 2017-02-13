@@ -28,6 +28,6 @@ WHERE SOURCE_VOCABULARY_ID IN ('ICD9Proc','HCPCS','CPT4')
 AND TARGET_STANDARD_CONCEPT IS NOT NULL
 AND TARGET_INVALID_REASON IS NULL
 AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier')
-AND TARGET_DOMAIN_ID in ('Procedure', 'Measurement', 'Observation')
+AND TARGET_DOMAIN_ID in ('Drug', 'Procedure', 'Measurement', 'Observation')
 
 

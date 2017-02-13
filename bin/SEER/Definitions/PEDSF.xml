@@ -1,14 +1,14 @@
 ﻿<QueryDefinition>
   <Query>
-    SELECT distinct
-    PATIENT_ID,
-    Name,
-    Value,
-    0 as died,
-    SrcTable
-    FROM {sc}.PEDSF
-    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND PATIENT_ID = ch.PERSON_SOURCE_VALUE
-    ORDER BY Name desc
+	  SELECT distinct
+	  PATIENT_ID,
+	  Name,
+	  Value,
+	  0 as died,
+	  SrcTable
+	  FROM {sc}.PEDSF
+	  JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND PATIENT_ID = ch.PERSON_SOURCE_VALUE
+	  ORDER BY PATIENT_ID asc, Name desc
   </Query>
   <Persons>
     <PersonDefinition>

@@ -1,24 +1,40 @@
 ﻿<QueryDefinition>
    <Query>
-     if not exists (select * from sys.types where name = 'HessAcpNullType')
-     create type HessAcpNullType as table (fieldname varchar(50) NOT NULL, isnullable bit not null)
-
-     if not exists (select * from sys.types where name = 'HessAcpLookupTableType')
-     create type HessAcpLookupTableType as table (id varchar(50) NOT NULL, fieldname varchar(50) NOT NULL, fieldquery varchar(250) NOT NULL, observation_source_value varchar(50) NOT NULL, fieldid int null)
-     go;
-
-     declare @hessNull HessAcpNullType
-
-     insert into @hessNull
-     select 'delmeth',1 union select 'delonset',1 union select 'delinten',1 union select 'delchang',1
-     union  select 'delpren',1 union select 'delposn',1 union select 'anagest',1 union select 'matage',1
-     union select 'neodur',1 union select 'antedur',1 union select 'postdur',1 union select 'intdays',1
-     union select 'acpspef',1 union select 'elecdate',1 union select 'elecdur',1
-
-     declare @lookup HessAcpLookupTableType;
-
-     INSERT INTO @lookup
-     select a.id, a.fieldname, 'isnull(cast(' + a.id + ' as nvarchar(50)), ''9999999'') ' + a.id, '1-'+cast(row_number() OVER(Order By a.fieldname) as varchar(256)) as observation_source_value, b.fieldid
+     WITH nullFields as
+     (
+     select 'delmeth' as fieldName, 1 as isNullField
+     union
+     select 'delonset'as fieldName, 1 as isNullField
+     union
+     select 'delinten'as fieldName, 1 as isNullField
+     union
+     select 'delchang'as fieldName, 1 as isNullField
+     union
+     select 'delpren'as fieldName, 1 as isNullField
+     union
+     select 'delposn'as fieldName, 1 as isNullField
+     union
+     select 'anagest'as fieldName, 1 as isNullField
+     union
+     select 'matage'as fieldName, 1 as isNullField
+     union
+     select 'neodur'as fieldName, 1 as isNullField
+     union
+     select 'antedur'as fieldName, 1 as isNullField
+     union
+     select 'postdur'as fieldName, 1 as isNullField
+     union
+     select 'intdays'as fieldName, 1 as isNullField
+     union
+     select 'acpspef'as fieldName, 1 as isNullField
+     union
+     select 'elecdate'as fieldName, 1 as isNullField
+     union
+     select 'elecdur'as fieldName, 1 as isNullField
+     ),
+     acpLookup as
+     (
+     select a.id, a.fieldname, '1-'+cast(row_number() OVER(Order By a.fieldname) as varchar(256)) as observation_source_value, b.fieldid
      from
      (
      select 'acpdur' id ,'acpdur' fieldname union
@@ -33,62 +49,83 @@
      select 'orgsup' id ,'orgsup' fieldname
      ) as a
      left join {sc}.hes_fielddefinitions b on a.fieldname = b.fieldname and b.class = 'Augmented/critical care period'
-
-
-     declare @cols nvarchar(max);
-     declare @cols1 nvarchar(max);
-     declare @query nvarchar(max);
-
-     select @cols = coalesce(@cols+N',', N'') + fieldquery, @cols1 = coalesce(@cols1+N',', N'') + Id from @lookup
-
-     set @query = N'
-     with mappings as
-     (
-     SELECT distinct FieldId, Value, Description
-     FROM {sc}.hes_fieldmappings
-     UNION
-     SELECT distinct FieldId, CASE WHEN ISNUMERIC([Value]) = 1 THEN CAST(CAST([Value] as int) as varchar) ELSE [Value] END as [Value], Description
-     FROM {sc}.hes_fieldmappings
-     WHERE LEFT([Value], 1) = ''0''
      ),
-     a as
+     mappings as
      (
-     select patid, spno, acpstar, l.observation_source_value,
-     case when description is null then case when ISNUMERIC(var_code) = 1 then var_code else null end
-     else null end as value_as_number,
-     case when description is not null then description
-     when description is null and var_code is not null then var_code
-     else null end as value_as_string
-     from
+     SELECT distinct
+     FieldId,
+     REPLACE(Value, '0', '') Value,
+     Description
+     FROM {sc}.hes_fieldmappings
+     where Value like '0%' and len(Value) = 2
+     union
+     SELECT DISTINCT
+     FieldId,
+     Value,
+     Description
+     FROM {sc}.hes_fieldmappings
+     ),
+     hesacp as
      (
-     select patid, spno, acpstar, ' + @cols + '
-     from {sc}.hes_acp
+     SELECT
+     patid,
+     spno,
+     acpstar,
+     ISNULL(CAST(acpdisp AS nvarchar(50)), '9999999') acpdisp,
+     ISNULL(CAST(acpdur AS nvarchar(50)), '9999999') acpdur,
+     ISNULL(CAST(acploc AS nvarchar(50)), '9999999') acploc,
+     ISNULL(CAST(acpout AS nvarchar(50)), '9999999') acpout,
+     ISNULL(CAST(acpplan AS nvarchar(50)), '9999999') acpplan,
+     ISNULL(CAST(acpsour AS nvarchar(50)), '9999999') acpsour,
+     ISNULL(CAST(acpspef AS nvarchar(50)), '9999999') acpspef,
+     ISNULL(CAST(depdays AS nvarchar(50)), '9999999') depdays,
+     ISNULL(CAST(intdays AS nvarchar(50)), '9999999') intdays,
+     ISNULL(CAST(orgsup AS nvarchar(50)), '9999999') orgsup
+     FROM {sc}.hes_acp
      JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND patid = ch.PERSON_ID
-     where acpstar is not null
-     ) p
-     UNPIVOT
-     (var_code for field in ('+@cols1+')) as up
-     join @tblLookup l on l.id = field
-     left join @tblLookupNull n on l.fieldname = n.fieldname
-     left join mappings m on l.fieldid = m.fieldid and ((var_code = ''9999999'' and m.value = ''null'') or (var_code = m.value))
-     where var_code != '''' and (var_code != ''9999999'' or (isnullable = 1 and var_code = ''9999999''))
+     WHERE acpstar IS NOT NULL
+     ),
+     acp_unp as
+     (
+     SELECT patid, spno, acpstar, 'acpdisp' as fieldname, acpdisp as var_code from hesacp union
+     SELECT patid, spno, acpstar, 'acpdur' as fieldname , acpdur as var_code from hesacp union
+     SELECT patid, spno, acpstar, 'acploc' as fieldname , acploc as var_code from hesacp union
+     SELECT patid, spno, acpstar, 'acpout' as fieldname , acpout as var_code from hesacp union
+     SELECT patid, spno, acpstar, 'acpplan' as fieldname, acpplan as var_code from hesacp union
+     SELECT patid, spno, acpstar, 'acpsour' as fieldname, acpsour as var_code from hesacp union
+     SELECT patid, spno, acpstar, 'acpspef' as fieldname, acpspef as var_code from hesacp union
+     SELECT patid, spno, acpstar, 'depdays' as fieldname, depdays as var_code from hesacp union
+     SELECT patid, spno, acpstar, 'intdays' as fieldname, intdays as var_code from hesacp union
+     SELECT patid, spno, acpstar, 'orgsup' as fieldname , orgsup as var_code from hesacp
      )
 
-
-     select *, case when value_as_number is not null then 900000006
-     else 900000007 end as observation_type_concept_id
-     from a
-     '
-
-     exec sp_executesql  @query, N'@tblLookup HessAcpLookupTableType readonly, @tblLookupNull HessAcpNullType readonly', @lookup, @hessNull
+     select  patid,
+     spno,
+     acpstar,
+     l.observation_source_value,
+     900000007 as observation_type_concept_id,
+     CASE
+     WHEN description IS NOT NULL THEN description
+     WHEN description IS NULL AND
+     var_code IS NOT NULL THEN var_code
+     ELSE NULL
+     END AS value_as_string
+     from acp_unp
+     JOIN acpLookup l ON l.id = acp_unp.fieldname
+     LEFT JOIN nullFields n ON l.fieldname = n.fieldname
+     LEFT JOIN mappings m ON l.fieldid = m.fieldid AND ((var_code = '9999999'  AND m.value = 'null')  OR (var_code = m.value))
+     WHERE var_code != '' AND (var_code != '9999999' OR (isNullField = 1 AND var_code = '9999999'))
+     order by patid
    </Query>
   <Measurement>
     <MeasurementDefinition>
       <PersonId>patid</PersonId>
       <StartDate>acpstar</StartDate>
       <VisitOccurrenceId>spno</VisitOccurrenceId>
-      <ValueAsNumber>value_as_number</ValueAsNumber>
       <ValueSourceValue>value_as_string</ValueSourceValue>
+      <AdditionalFields>
+        <string>value_as_string</string>
+      </AdditionalFields>
       <Concepts>
         <Concept>
           <IdRequired>true</IdRequired>
@@ -112,9 +149,9 @@
       <ValuesAsString>
         <string>value_as_string</string>
       </ValuesAsString>
-      <ValuesAsNumber>
-        <string>value_as_number</string>
-      </ValuesAsNumber>
+      <AdditionalFields>
+        <string>value_as_string</string>
+      </AdditionalFields>
       <Concepts>
         <Concept>
           <!--<IdRequired>true</IdRequired>-->

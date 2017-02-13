@@ -207,6 +207,7 @@
     100 as Serum_creatinine_max
     FROM {sc}.[Health Checkups] h
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND h.[Member ID] = ch.PERSON_SOURCE_VALUE
+    order by CAST(RIGHT([Member ID], LEN([Member ID]) - 1) AS BIGINT)
   </Query>
 
   <Measurement>
@@ -214,9 +215,7 @@
       <PersonId>PERSON_ID</PersonId>
       <IsUnique>true</IsUnique>
       <StartDate>observation_date</StartDate>
-      <ValuesAsNumber>
-        <string>BMI</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>BMI</ValueAsNumber>
       <ValueSourceValue>BMI</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -235,9 +234,7 @@
       <PersonId>PERSON_ID</PersonId>
       <IsUnique>true</IsUnique>
       <StartDate>observation_date</StartDate>
-      <ValuesAsNumber>
-        <string>Amount_of_visceral_fat</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>Amount_of_visceral_fat</ValueAsNumber>
       <ValueSourceValue>Amount_of_visceral_fat</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -258,9 +255,7 @@
       <StartDate>observation_date</StartDate>
       <RangeLow>Abdominal_girth_min</RangeLow>
       <RangeHigh>Abdominal_girth_max</RangeHigh>
-      <ValuesAsNumber>
-        <string>Abdominal_girth</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>Abdominal_girth</ValueAsNumber>
       <ValueSourceValue>Abdominal_girth</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -281,9 +276,7 @@
       <StartDate>observation_date</StartDate>
       <RangeLow>SBP_min</RangeLow>
       <RangeHigh>SBP_max</RangeHigh>
-      <ValuesAsNumber>
-        <string>SBP</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>SBP</ValueAsNumber>
       <ValueSourceValue>SBP</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -304,9 +297,7 @@
       <StartDate>observation_date</StartDate>
       <RangeLow>DBP_min</RangeLow>
       <RangeHigh>DBP_max</RangeHigh>
-      <ValuesAsNumber>
-        <string>DBP</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>DBP</ValueAsNumber>
       <ValueSourceValue>DBP</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -327,9 +318,7 @@
       <StartDate>observation_date</StartDate>
       <RangeLow>TC_min</RangeLow>
       <RangeHigh>TC_max</RangeHigh>
-      <ValuesAsNumber>
-        <string>TC</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>TC</ValueAsNumber>
       <ValueSourceValue>TC</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -348,9 +337,7 @@
       <PersonId>PERSON_ID</PersonId>
       <IsUnique>true</IsUnique>
       <StartDate>observation_date</StartDate>
-      <ValuesAsNumber>
-        <string>TG</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>TG</ValueAsNumber>
       <ValueSourceValue>TG</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -371,9 +358,7 @@
       <StartDate>observation_date</StartDate>
       <RangeLow>HDL_C_min</RangeLow>
       <RangeHigh>HDL_C_max</RangeHigh>
-      <ValuesAsNumber>
-        <string>HDL_C</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>HDL_C</ValueAsNumber>
       <ValueSourceValue>HDL_C</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -394,9 +379,7 @@
       <StartDate>observation_date</StartDate>
       <RangeLow>LDL_C_min</RangeLow>
       <RangeHigh>LDL_C_max</RangeHigh>
-      <ValuesAsNumber>
-        <string>LDL_C</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>LDL_C</ValueAsNumber>
       <ValueSourceValue>LDL_C</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -416,9 +399,7 @@
       <IsUnique>true</IsUnique>
       <StartDate>observation_date</StartDate>
       <RangeHigh>GPT_max</RangeHigh>
-      <ValuesAsNumber>
-        <string>GPT</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>GPT</ValueAsNumber>
       <ValueSourceValue>GPT</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -438,9 +419,7 @@
       <IsUnique>true</IsUnique>
       <StartDate>observation_date</StartDate>
       <RangeHigh>G_GT_max</RangeHigh>
-      <ValuesAsNumber>
-        <string>G_GT</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>G_GT</ValueAsNumber>
       <ValueSourceValue>G_GT</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -461,9 +440,7 @@
       <StartDate>observation_date</StartDate>
       <RangeLow>Fasting_blood_sugar_min</RangeLow>
       <RangeHigh>Fasting_blood_sugar_max</RangeHigh>
-      <ValuesAsNumber>
-        <string>Fasting_blood_sugar</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>Fasting_blood_sugar</ValueAsNumber>
       <ValueSourceValue>Fasting_blood_sugar</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -484,9 +461,7 @@
       <StartDate>observation_date</StartDate>
       <RangeLow>Casual_blood_sugar_min</RangeLow>
       <RangeHigh>Casual_blood_sugar_max</RangeHigh>
-      <ValuesAsNumber>
-        <string>Casual_blood_sugar</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>Casual_blood_sugar</ValueAsNumber>
       <ValueSourceValue>Casual_blood_sugar</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -507,9 +482,7 @@
       <StartDate>observation_date</StartDate>
       <RangeLow>HbA1c_min</RangeLow>
       <RangeHigh>HbA1c_max</RangeHigh>
-      <ValuesAsNumber>
-        <string>HbA1c</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>HbA1c</ValueAsNumber>
       <ValueSourceValue>HbA1c</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -528,9 +501,7 @@
       <PersonId>PERSON_ID</PersonId>
       <IsUnique>true</IsUnique>
       <StartDate>observation_date</StartDate>
-      <ValuesAsNumber>
-        <string>Urine_sugar</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>Urine_sugar</ValueAsNumber>
       <ValueSourceValue>Urine_sugar</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -544,9 +515,7 @@
       <PersonId>PERSON_ID</PersonId>
       <IsUnique>true</IsUnique>
       <StartDate>observation_date</StartDate>
-      <ValuesAsNumber>
-        <string>Urine_protein</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>Urine_protein</ValueAsNumber>
       <ValueSourceValue>Urine_protein</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -561,9 +530,7 @@
       <IsUnique>true</IsUnique>
       <StartDate>observation_date</StartDate>
       <RangeHigh>Hematocrit_max</RangeHigh>
-      <ValuesAsNumber>
-        <string>Hematocrit</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>Hematocrit</ValueAsNumber>
       <ValueSourceValue>Hematocrit</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -583,9 +550,7 @@
       <IsUnique>true</IsUnique>
       <StartDate>observation_date</StartDate>
       <RangeHigh>Hemoglobin_max</RangeHigh>
-      <ValuesAsNumber>
-        <string>Hemoglobin</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>Hemoglobin</ValueAsNumber>
       <ValueSourceValue>Hemoglobin</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -605,9 +570,7 @@
       <IsUnique>true</IsUnique>
       <StartDate>observation_date</StartDate>
       <RangeHigh>Red_blood_cell_count_max</RangeHigh>
-      <ValuesAsNumber>
-        <string>Red_blood_cell_count</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>Red_blood_cell_count</ValueAsNumber>
       <ValueSourceValue>Red_blood_cell_count</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -627,9 +590,7 @@
       <IsUnique>true</IsUnique>
       <StartDate>observation_date</StartDate>
       <RangeHigh>Serum_uric_acid_max</RangeHigh>
-      <ValuesAsNumber>
-        <string>Serum_uric_acid</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>Serum_uric_acid</ValueAsNumber>
       <ValueSourceValue>Serum_uric_acid</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -649,9 +610,7 @@
       <IsUnique>true</IsUnique>
       <StartDate>observation_date</StartDate>
       <RangeHigh>Serum_creatinine_max</RangeHigh>
-      <ValuesAsNumber>
-        <string>Serum_creatinine</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>Serum_creatinine</ValueAsNumber>
       <ValueSourceValue>Serum_creatinine</ValueSourceValue>
       <Concepts>
         <Concept>
@@ -671,9 +630,7 @@
       <IsUnique>true</IsUnique>
       <StartDate>observation_date</StartDate>
       <ValueAsConceptId>Electrocardiogram_value</ValueAsConceptId>
-      <ValuesAsNumber>
-        <string>Electrocardiogram</string>
-      </ValuesAsNumber>
+      <ValueAsNumber>Electrocardiogram</ValueAsNumber>
       <ValueSourceValue>Electrocardiogram</ValueSourceValue>
       <Concepts>
         <Concept>

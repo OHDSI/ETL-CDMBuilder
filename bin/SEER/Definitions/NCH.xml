@@ -20,22 +20,22 @@
     LINK_NUM as VISIT_SOURCE_VALUE,
     PLCSRVC,
     CASE
-    WHEN PLCSRVC in (4,31) THEN 1
+    WHEN PLCSRVC in ('4','31') THEN 1
     ELSE 0
     END AS SUITABLE_FOR_MEDPAR_N,
     CASE
-    WHEN PLCSRVC in (3,21,51,52,55,56,61,65) THEN 1
+    WHEN PLCSRVC in ('3','21','51','52','55','56','61','65') THEN 1
     ELSE 0
     END AS SUITABLE_FOR_MEDPAR_OTHERS,
     CASE
-    WHEN PLCSRVC in (23, 41, 42) THEN 1
+    WHEN PLCSRVC in ('23', '41','42') THEN 1
     ELSE 0
     END AS SUITABLE_FOR_OUTSAF_ER,
     CASE
-    WHEN PLCSRVC in (5,8,9,22,26,53,54,60,62,71,72) THEN 1
+    WHEN PLCSRVC in ('5','8','9','22','26','53','54','60','62','71','72') THEN 1
     ELSE 0
     END AS SUITABLE_FOR_OUTSAF_O,
-    MTUSCNT,
+    ROUND(MTUSCNT, 0) as MTUSCNT,
     MF1,
     COINAMT,
     LDEDAMT,
@@ -73,6 +73,7 @@
 
     SELECT *, ISNULL(HCFASPEC, '') + ';' + PROVIDER_ID ProviderIdKey
     FROM a
+    order by PATIENT_ID
   </Query>
   <VisitOccurrence>
     <VisitOccurrenceDefinition>

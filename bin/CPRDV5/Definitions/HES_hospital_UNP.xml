@@ -1,24 +1,40 @@
 ﻿<QueryDefinition>
   <Query>
-    if not exists (select * from sys.types where name = 'HessHospNullType')
-    create type HessHospNullType as table (fieldname varchar(50) NOT NULL, isnullable bit not null)
-
-    if not exists (select * from sys.types where name = 'HessHospLookupTableType')
-    create type HessHospLookupTableType as table (id varchar(50) NOT NULL, fieldname varchar(50) NOT NULL, fieldquery varchar(250) NOT NULL, observation_source_value varchar(50) NOT NULL, fieldid int null)
-    go;
-
-    declare @hessNull HessHospNullType
-
-    insert into @hessNull
-    select 'delmeth',1 union select 'delonset',1 union select 'delinten',1 union select 'delchang',1
-    union  select 'delpren',1 union select 'delposn',1 union select 'anagest',1 union select 'matage',1
-    union select 'neodur',1 union select 'antedur',1 union select 'postdur',1 union select 'intdays',1
-    union select 'acpspef',1 union select 'elecdate',1 union select 'elecdur',1
-
-    declare @lookup HessHospLookupTableType;
-
-    INSERT INTO @lookup
-    select a.id, a.fieldname, 'isnull(cast(' + a.id + ' as nvarchar(50)), ''9999999'') ' + a.id, '2-'+cast(row_number() OVER(Order By a.fieldname) as varchar(256)) as observation_source_value, b.fieldid
+    WITH nullFields as
+    (
+    select 'delmeth' as fieldName, 1 as isNullField
+    union
+    select 'delonset'as fieldName, 1 as isNullField
+    union
+    select 'delinten'as fieldName, 1 as isNullField
+    union
+    select 'delchang'as fieldName, 1 as isNullField
+    union
+    select 'delpren'as fieldName, 1 as isNullField
+    union
+    select 'delposn'as fieldName, 1 as isNullField
+    union
+    select 'anagest'as fieldName, 1 as isNullField
+    union
+    select 'matage'as fieldName, 1 as isNullField
+    union
+    select 'neodur'as fieldName, 1 as isNullField
+    union
+    select 'antedur'as fieldName, 1 as isNullField
+    union
+    select 'postdur'as fieldName, 1 as isNullField
+    union
+    select 'intdays'as fieldName, 1 as isNullField
+    union
+    select 'acpspef'as fieldName, 1 as isNullField
+    union
+    select 'elecdate'as fieldName, 1 as isNullField
+    union
+    select 'elecdur'as fieldName, 1 as isNullField
+    ),
+    hospitalLookup as
+    (
+    select a.id, a.fieldname, '2-'+cast(row_number() OVER(Order By a.fieldname) as varchar(256)) as observation_source_value, b.fieldid
     from
     (
     select 'admimeth' id ,'admimeth' fieldname union
@@ -30,63 +46,81 @@
     select 'elecdur' id ,'elecdur' fieldname
     ) as a
     left join {sc}.hes_fielddefinitions b on a.fieldname = b.fieldname and b.class in ('Admissions', 'Discharges')
-
-
-    declare @cols nvarchar(max);
-    declare @cols1 nvarchar(max);
-    declare @query nvarchar(max);
-
-    select @cols = coalesce(@cols+N',', N'') + fieldquery, @cols1 = coalesce(@cols1+N',', N'') + Id from @lookup
-
-    set @query = N'
-    with mappings as
-    (
-    SELECT distinct FieldId, Value, Description
-    FROM {sc}.hes_fieldmappings
-    UNION
-    SELECT distinct FieldId, CASE WHEN ISNUMERIC([Value]) = 1 THEN CAST(CAST([Value] as int) as varchar) ELSE [Value] END as [Value], Description
-    FROM {sc}.hes_fieldmappings
-    WHERE LEFT([Value], 1) = ''0''
     ),
-    a as
+    mappings as
     (
-    select patid, spno, l.observation_source_value,
-    case when l.id in (''disdest'', ''dismeth'') then discharged
-    else admidate end as observation_date,
-    case when description is null then case when ISNUMERIC(var_code) = 1 then var_code else null end
-    else null end as value_as_number,
-    case when description is not null then description
-    when description is null and var_code is not null then var_code
-    else null end as value_as_string
-    from
+    SELECT distinct
+    FieldId,
+    REPLACE(Value, '0', '') Value,
+    Description
+    FROM {sc}.hes_fieldmappings
+    where Value like '0%' and len(Value) = 2
+    union
+    SELECT DISTINCT
+    FieldId,
+    Value,
+    Description
+    FROM {sc}.hes_fieldmappings
+    ),
+    hospital as
     (
-    select patid, spno, admidate, discharged, ' + @cols + '
-    from {sc}.hes_hospital
+    SELECT
+    patid,
+    spno,
+    admidate,
+    discharged,
+    ISNULL(CAST(admimeth AS nvarchar(50)), '9999999') admimeth,
+    ISNULL(CAST(admisorc AS nvarchar(50)), '9999999') admisorc,
+    ISNULL(CAST(disdest AS nvarchar(50)), '9999999') disdest,
+    ISNULL(CAST(dismeth AS nvarchar(50)), '9999999') dismeth,
+    ISNULL(CAST(duration AS nvarchar(50)), '9999999') duration,
+    ISNULL(CAST(elecdate AS nvarchar(50)), '9999999') elecdate,
+    ISNULL(CAST(elecdur AS nvarchar(50)), '9999999') elecdur
+    FROM {sc}.hes_hospital
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND patid = ch.PERSON_ID
-    where admidate is not null
-    ) p
-    UNPIVOT
-    (var_code for field in ('+@cols1+')) as up
-    join @tblLookup l on l.id = field
-    left join @tblLookupNull n on l.fieldname = n.fieldname
-    left join mappings m on l.fieldid = m.fieldid and ((var_code = ''9999999'' and m.value = ''null'') or (var_code = m.value))
-    where var_code != '''' and (var_code != ''9999999'' or (isnullable = 1 and var_code = ''9999999''))
+    WHERE admidate IS NOT NULL
+    ),
+    hospital_unp as
+    (
+    SELECT patid, spno, admidate, discharged, 'admimeth' as fieldname, admimeth as var_code from hospital union
+    SELECT patid, spno, admidate, discharged, 'admisorc' as fieldname, admisorc as var_code from hospital union
+    SELECT patid, spno, admidate, discharged, 'disdest' as fieldname , disdest as var_code from hospital union
+    SELECT patid, spno, admidate, discharged, 'dismeth' as fieldname , dismeth as var_code from hospital union
+    SELECT patid, spno, admidate, discharged, 'duration' as fieldname, duration as var_code from hospital union
+    SELECT patid, spno, admidate, discharged, 'elecdate' as fieldname, elecdate as var_code from hospital union
+    SELECT patid, spno, admidate, discharged, 'elecdur' as fieldname , elecdur as var_code from hospital
     )
 
-
-    select *, case when value_as_number is not null then 900000006
-    else 900000007 end as observation_type_concept_id
-    from a
-    where observation_date is not null
-    '
-    exec sp_executesql  @query, N'@tblLookup HessHospLookupTableType readonly, @tblLookupNull HessHospNullType readonly', @lookup, @hessNull
+    select
+    patid,
+    spno,
+    l.observation_source_value,
+    900000007 as observation_type_concept_id,
+    CASE
+    WHEN l.id IN ('disdest', 'dismeth') THEN discharged
+    ELSE admidate
+    END AS observation_date,
+    CASE
+    WHEN description IS NOT NULL THEN description
+    WHEN description IS NULL AND
+    var_code IS NOT NULL THEN var_code
+    ELSE NULL
+    END AS value_as_string
+    from hospital_unp
+    JOIN hospitalLookup l ON l.id = hospital_unp.fieldname
+    LEFT JOIN nullFields n ON l.fieldname = n.fieldname
+    LEFT JOIN mappings m ON l.fieldid = m.fieldid AND ((var_code = '9999999'  AND m.value = 'null')  OR (var_code = m.value))
+    WHERE var_code != '' AND (var_code != '9999999' OR (isNullField = 1 AND var_code = '9999999'))
+    order by patid
   </Query>
   <Measurement>
     <MeasurementDefinition>
       <PersonId>patid</PersonId>
       <StartDate>observation_date</StartDate>
       <VisitOccurrenceId>spno</VisitOccurrenceId>
-      <ValueAsNumber>value_as_number</ValueAsNumber>
+      <AdditionalFields>
+        <string>value_as_string</string>
+      </AdditionalFields>
       <Concepts>
         <Concept>
           <IdRequired>true</IdRequired>
@@ -110,9 +144,9 @@
       <ValuesAsString>
         <string>value_as_string</string>
       </ValuesAsString>
-      <ValuesAsNumber>
-        <string>value_as_number</string>
-      </ValuesAsNumber>
+      <AdditionalFields>
+        <string>value_as_string</string>
+      </AdditionalFields>
       <Concepts>
         <Concept>
           <ConceptIdMappers>

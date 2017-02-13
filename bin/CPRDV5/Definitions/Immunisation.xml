@@ -10,9 +10,9 @@
     cast(compound AS varchar(20))+'-' +
     cast(i.medcode as varchar(20))
     as immun_key,
-    cast((cast(patid as bigint)*100000000)+(year(eventdate) *10000)+
-    (month(eventdate)*100)+
-    day(eventdate) as bigint)
+    cast((cast(patid as bigint)*100000000)+(DATEPART(year,eventdate) *10000)+
+    (DATEPART(month,eventdate)*100)+
+    DATEPART(day,eventdate) as bigint)
     as visit_occurrence_id,
     right(patid,3) as care_site_id,
     i.status
@@ -20,6 +20,7 @@
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND patid = ch.PERSON_ID
     LEFT JOIN {sc}.Medical m on (i.medcode = m.medcode)
     WHERE eventdate is not NULL
+    order by i.patid
   </Query>
   <ConditionOccurrence>
     <ConditionOccurrenceDefinition>

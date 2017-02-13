@@ -1,16 +1,17 @@
 ﻿<QueryDefinition>
   <Query>
-    SELECT PATIENT_ID,
-    PROD_SRVC_ID,
-    SRVC_YR  + '-' + SRVC_MON + '-' + SRVC_DAY as Date,
-    QTY_DSPNSD_NUM,
-    DAYS_SUPLY_NUM,
-    TOT_RX_CST_AMT,
-    PTNT_PAY_AMT,
-    TOT_RX_CST_AMT + PTNT_PAY_AMT as TOTAL_PAID,
-    44818668 as CurrencyConceptId
-    FROM {sc}.PDESAF
-    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND PATIENT_ID = ch.PERSON_SOURCE_VALUE
+	  SELECT PATIENT_ID,
+	  PROD_SRVC_ID,
+	  SRVC_YR  + '-' + SRVC_MON + '-' + SRVC_DAY as Date,
+	  QTY_DSPNSD_NUM,
+	  DAYS_SUPLY_NUM,
+	  TOT_RX_CST_AMT,
+	  PTNT_PAY_AMT,
+	  TOT_RX_CST_AMT + PTNT_PAY_AMT as TOTAL_PAID,
+	  44818668 as CurrencyConceptId
+	  FROM {sc}.PDESAF
+	  JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND PATIENT_ID = ch.PERSON_SOURCE_VALUE
+	  order by PATIENT_ID
   </Query>
   <DrugExposure>
     <DrugExposureDefinition>

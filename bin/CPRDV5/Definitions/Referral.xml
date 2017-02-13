@@ -5,9 +5,9 @@
     a.eventdate,
     a.patid,
     a.staffid,
-    cast((cast(a.patid as bigint)*100000000)+(year(a.eventdate) *10000)+
-    (month(a.eventdate)*100)+
-    day(a.eventdate) as bigint)
+    cast((cast(a.patid as bigint)*100000000)+(DATEPART(year,a.eventdate) *10000)+
+    (DATEPART(month,a.eventdate)*100)+
+    DATEPART(day,a.eventdate) as bigint)
     as visit_occurrence_id,
     right(a.patid,3) as care_site_id,
     null endDate,
@@ -17,6 +17,7 @@
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND a.patid = ch.PERSON_ID
     LEFT JOIN {sc}.Medical m on (a.medcode = m.medcode)
     where eventdate is not NULL
+    order by a.patid
   </Query>
   <DrugExposure>
     <DrugExposureDefinition>

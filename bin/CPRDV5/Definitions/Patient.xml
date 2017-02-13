@@ -30,11 +30,10 @@
     as observation_period_end_date,
     deathdate,
     toreason,
-    DIED =
     CASE
     WHEN toreason = 1 and deathdate is not null and deathdate &gt; '1987-01-01' THEN 1
     ELSE 0
-    END,
+    END as DIED,
     CASE when c.ethnos='Chinese' then 38003579
     when c.ethnos='Bangladesi' then 38003575
     when c.ethnos='Pakistani' then	38003589
@@ -87,7 +86,10 @@
     join {sc}.practice b on a.pracid = b.pracid
     where accept = 1)
 
-    select *, 44814725 PeriodTypeConceptId from person where observation_period_start_date &lt; observation_period_end_date
+    select *, 44814725 PeriodTypeConceptId
+    from person
+    where observation_period_start_date &lt; observation_period_end_date
+    order by patid
   </Query>
   <Persons>
     <PersonDefinition>

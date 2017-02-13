@@ -44,9 +44,9 @@
     t.read_code,
     t.eventdate,
     t.patid,
-    cast((cast(t.patid as bigint)*100000000)+(year(t.eventdate) *10000)+
-    (month(t.eventdate)*100)+
-    day(t.eventdate) as bigint)
+    cast((cast(t.patid as bigint)*100000000)+(DATEPART(year,t.eventdate) *10000)+
+    (DATEPART(month,t.eventdate)*100)+
+    DATEPART(day,t.eventdate) as bigint)
     as visit_occurrence_id,
     t.staffid,
     t.enttype,
@@ -143,6 +143,7 @@
     LEFT JOIN {sc}.[Lookup] l_d3_77 ON t.data3 = cast(l_d3_77.code as varchar) and l_d3_77.lookup_type_id = (SELECT [lookup_type_id] FROM {sc}.[LookupType] WHERE name = 'SUM')
     LEFT JOIN {sc}.[Lookup] l_d7_57 ON t.data7 = cast(l_d7_57.code as varchar) and l_d7_57.lookup_type_id = (SELECT [lookup_type_id] FROM {sc}.[LookupType] WHERE name = 'PFD')
     where eventdate is not NULL
+    order by t.patid
   </Query>
   <DrugExposure>
     <DrugExposureDefinition>

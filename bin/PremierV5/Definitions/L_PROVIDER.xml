@@ -4,9 +4,9 @@
      a.adm_phy,
      max(a.prov_id) as care_site_id,
      max(a.admphy_spec) as provider_source_value,
-     MAX(b.admphy_spec_desc) as speciality_source_value
+     MAX(b.phy_spec_desc) as speciality_source_value
      FROM {sc}.pat a
-     join {sc}.admspec b on a.admphy_spec = b.admphy_spec
+     join {sc}.physpec b on a.admphy_spec = b.phy_spec
      group by a.adm_phy
      union
      select 900, 57824101, '900', 'Unknown Physician'

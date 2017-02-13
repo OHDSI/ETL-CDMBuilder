@@ -7,24 +7,56 @@
      ROUND(bill.std_qty, 0) as quantity,
      pat.pat_key,
      bill.bill_charges as total_paid,
+     bill.bill_cost,
+     sum_dept_desc + ' / ' + std_dept_desc AS revenue_code_source_value,
      bill.std_chg_code,
      case
      when chg.std_dept_desc = 'LABORATORY' then 38003621
      when pat.i_o_ind = 'I' then 38000249
      when pat.i_o_ind = 'O' then 38000267
      end as procedure_type_concept_id,
-     hosp.hosp_chg_desc,
-     case when hosp.hosp_chg_desc is not null then lower(hosp.hosp_chg_desc) else lower(chg.std_chg_desc) end as source_value,
-     drg,
-     chg.std_chg_desc + ' / ' + hosp.hosp_chg_desc   as observation_source_value,
+     case
+     when pat.i_o_ind = 'I' then 38000186
+     when pat.i_o_ind = 'O' then 38000217
+     end as condition_type_concept_id,
+     replace(replace(replace(hosp.hosp_chg_desc, chr(9), ' '), chr(10), ' '), chr(13), ' ') as hosp_chg_desc,
+     case when hosp.hosp_chg_desc is not null then lower(replace(replace(replace(hosp.hosp_chg_desc, chr(9), ' '), chr(10), ' '), chr(13), ' ')) else lower(replace(replace(replace(chg.std_chg_desc, chr(9), ' '), chr(10), ' '), chr(13), ' ')) end as source_value,
+     replace(replace(replace(chg.std_chg_desc, chr(9), ' '), chr(10), ' '), chr(13), ' ') + ' / ' + replace(replace(replace(hosp.hosp_chg_desc, chr(9), ' '), chr(10), ' '), chr(13), ' ')   as observation_source_value,
      pat.adm_phy,
      44818668 CurrencyConceptId
      FROM {sc}.patbill bill
      join {sc}.pat pat on pat.pat_key = bill.pat_key
-     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_ID
+     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_SOURCE_VALUE
      left join {sc}.chgmstr chg on chg.std_chg_code = bill.std_chg_code
      left join {sc}.hospchg hosp on hosp.hosp_chg_id=bill.hosp_chg_id
+     order by cast(pat.medrec_key as bigint)
    </Query>
+   <ConditionOccurrence>
+     <ConditionOccurrenceDefinition>
+      <IsUnique>true</IsUnique>
+      <PersonId>medrec_key</PersonId>
+      <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+      <ProviderId>adm_phy</ProviderId>
+      <AdditionalFields>
+        <string>serv_day</string>
+        <string>std_chg_code</string>
+        <string>source_value</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\Condition.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="std_chg_code" sourceKey="observation_source_value"  typeId="condition_type_concept_id"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+  </ConditionOccurrence>
    <DrugExposure>
       <DrugExposureDefinition>
          <IsUnique>true</IsUnique>
@@ -53,11 +85,24 @@
       </DrugExposureDefinition>
    </DrugExposure>
    <DrugCost>
-      <DrugCostDefinition>
-         <TotalPaid>total_paid</TotalPaid>
-         <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
-      </DrugCostDefinition>
-   </DrugCost>
+    <DrugCostDefinition>
+      <TotalPaid>total_paid</TotalPaid>
+      <PaidByPayer>bill_cost</PaidByPayer>
+      <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\RevenueCode.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="revenue_code_source_value"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DrugCostDefinition>
+  </DrugCost>
    <ProcedureOccurrence>
       <ProcedureOccurrenceDefinition>
          <IsUnique>true</IsUnique>
@@ -90,7 +135,20 @@
    <ProcedureCost>
       <ProcedureCostDefinition>
          <TotalPaid>total_paid</TotalPaid>
+         <PaidByPayer>bill_cost</PaidByPayer>
          <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+         <Concepts>
+          <Concept>
+            <ConceptIdMappers>
+              <Mapper>
+                <Lookup>PremierV5\Lookups\RevenueCode.sql</Lookup>
+              </Mapper>
+            </ConceptIdMappers>
+            <Fields>
+              <Field key="revenue_code_source_value"/>
+            </Fields>
+          </Concept>
+        </Concepts>
       </ProcedureCostDefinition>
    </ProcedureCost>
    <Observation>
@@ -98,12 +156,15 @@
       <PersonId>medrec_key</PersonId>
       <VisitOccurrenceId>pat_key</VisitOccurrenceId>
       <ProviderId>adm_phy</ProviderId>
+      <AdditionalFields>
+        <string>serv_day</string>
+      </AdditionalFields>
       <Concepts>
         <Concept>
           <IdRequired>true</IdRequired>
           <ConceptIdMappers>
             <Mapper>
-              <Lookup>PremierV5\Lookups\ObservationCHG.sql</Lookup>
+              <Lookup>PremierV5\Lookups\Observation.sql</Lookup>
             </Mapper>
           </ConceptIdMappers>
           <SourceConceptIdMappers>
@@ -118,6 +179,25 @@
       </Concepts>
     </ObservationDefinition>
   </Observation>
+   <ObservationCost>
+    <ObservationCostDefinition>
+      <TotalPaid>total_paid</TotalPaid>
+      <PaidByPayer>bill_cost</PaidByPayer>
+      <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\RevenueCode.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="revenue_code_source_value"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationCostDefinition>
+  </ObservationCost>
    <Measurement>
     <MeasurementDefinition>
       <PersonId>medrec_key</PersonId>
@@ -146,6 +226,25 @@
       </Concepts>
     </MeasurementDefinition>
   </Measurement>
+   <MeasurementCost>
+    <MeasurementCostDefinition>
+      <TotalPaid>total_paid</TotalPaid>
+      <PaidByPayer>bill_cost</PaidByPayer>
+      <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\RevenueCode.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="revenue_code_source_value"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </MeasurementCostDefinition>
+  </MeasurementCost>
    <DeviceExposure>
     <DeviceExposureDefinition>
       <PersonId>medrec_key</PersonId>
@@ -172,7 +271,20 @@
    <DeviceCost>
     <DeviceCostDefinition>
       <TotalPaid>total_paid</TotalPaid>
+      <PaidByPayer>bill_cost</PaidByPayer>
       <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\RevenueCode.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="revenue_code_source_value"/>
+          </Fields>
+        </Concept>
+      </Concepts>
     </DeviceCostDefinition>
   </DeviceCost>
 </QueryDefinition>

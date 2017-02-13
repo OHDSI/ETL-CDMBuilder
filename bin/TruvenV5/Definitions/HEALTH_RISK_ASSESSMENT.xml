@@ -163,11 +163,17 @@
      FROM hra1
      JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND hra1.PERSON_ID = ch.PERSON_ID
      WHERE VALUE_AS_NUMBER is not null
-     )
-
+     ),
+     result as
+     (
      SELECT * FROM r
      UNION
      SELECT * FROM r1
+     )
+
+     select *
+     from result
+     ORDER BY PERSON_ID
    </Query>
    <Observation>
       <ObservationDefinition>

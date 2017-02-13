@@ -4,13 +4,14 @@
      a.patid  as person_id,
      a.admidate as condition_start_date,
      a.discharged as condition_end_date,
-     ICD_PRIMARY  as condition_source_value,
+     ICD  as condition_source_value,
      38000183 as condition_type_concept_id,
      a.spno as visit_occurrence_id
-     -- ,replace(replace(a.ICD_PRIMARY,'-',''),'.','') source_value
+     -- ,replace(replace(a.ICD,'-',''),'.','') source_value
      from {sc}.HES_primary_diag_hosp a
      JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND a.patid = ch.PERSON_ID
      where a.admidate is not null
+     order by a.patid
    </Query>
   <ConditionOccurrence>
     <ConditionOccurrenceDefinition>

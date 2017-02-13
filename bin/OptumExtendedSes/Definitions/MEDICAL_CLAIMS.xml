@@ -1,94 +1,127 @@
 ﻿<QueryDefinition>
-   <Query>
-     with medical as
-     (
-     select
-     m.patid AS PERSON_ID,
-     m.fst_dt AS VISIT_START_DATE,
-     CASE
-     WHEN m.lst_dt IS NULL THEN m.fst_dt
-     WHEN m.lst_dt &lt; m.fst_dt THEN m.fst_dt
-     ELSE m.lst_dt
-     END AS VISIT_END_DATE,
-     CASE
-     WHEN (
-     m.rvnu_cd BETWEEN '0100' AND '0219'		/*Room and Board Charges*/
-     OR m.rvnu_cd BETWEEN '0720' AND '0729'	/*Labor Room and Delivery*/
-     OR m.rvnu_cd BETWEEN '0800' AND '0809'	/*Inpatient Renal Dialysis*/
-     ) THEN
-     CASE WHEN POS IN ('13','31','32','34') THEN 'LTC'
-     ELSE 'IP'
-     END
-     WHEN (
-     m.pos IN ('23')
-     OR m.rvnu_cd BETWEEN '0450' AND '0459'
-     OR m.rvnu_cd = '0981'
-     OR m.proc_cd IN ('99281','99282','99283','99284','99285')
-     ) THEN 'ER'
-     ELSE 'OP'
-     END AS CLAIM_TYPE,
-     m.pos,m.prov,m.provcat,
-     m.diag1,m.diag2,m.diag3,m.diag4,m.diag5,
-     m.proc1,m.proc2,m.proc3,m.proc_cd,
-     m.coins,m.copay,m.deduct,
-     m.std_cost,
-     dstatus,
-     CASE
-     WHEN m.DSTATUS IN ('20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '40', '41', '42') THEN 1
-     ELSE 0
-     END as DIED,
-     CASE
-     WHEN m.rvnu_cd = '0000' THEN NULL
-     ELSE m.rvnu_cd
-     END AS rvnu_cd,
-     CASE
-     WHEN m.drg = '' THEN NULL
-     ELSE m.drg
-     END AS drg,
-     CASE
-     WHEN prov IS NOT NULL THEN LTRIM(ISNULL(cast(m.provcat as varchar), '')) + ';' + LTRIM(cast(m.prov as varchar))
-     ELSE NULL
-     END as ProviderIdKey,
-     m.amt_cob_sav,
-     m.coins + m.deduct total_paid,
-     m.ndc,
-     m.Pat_PlanId,
-     m.ICD_FLAG,
-     m.Units,
-     44818668 as CurrencyConceptId
-     from {sc}.Medical_claims m
-     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND m.patid = ch.PERSON_ID
-     )
+  <Query>
+    with medical as
+    (
+    select
+    m.patid AS PERSON_ID,
+    m.fst_dt AS VISIT_START_DATE,
+    CASE
+    WHEN m.lst_dt IS NULL THEN m.fst_dt
+    WHEN m.lst_dt &lt; m.fst_dt THEN m.fst_dt
+    ELSE m.lst_dt
+    END AS VISIT_END_DATE,
+    CASE
+    WHEN (
+    m.rvnu_cd BETWEEN '0100' AND '0219'		/*Room and Board Charges*/
+    OR m.rvnu_cd BETWEEN '0720' AND '0729'	/*Labor Room and Delivery*/
+    OR m.rvnu_cd BETWEEN '0800' AND '0809'	/*Inpatient Renal Dialysis*/
+    ) THEN
+    CASE WHEN POS IN ('13','31','32','34') THEN 'LTC'
+    ELSE 'IP'
+    END
+    WHEN (
+    m.pos IN ('23')
+    OR m.rvnu_cd BETWEEN '0450' AND '0459'
+    OR m.rvnu_cd = '0981'
+    OR m.proc_cd IN ('99281','99282','99283','99284','99285')
+    ) THEN 'ER'
+    ELSE 'OP'
+    END AS CLAIM_TYPE,
+    m.pos,m.prov,m.provcat,
+    m.diag1,m.diag2,m.diag3,m.diag4,m.diag5,
+    m.proc1,m.proc2,m.proc3,m.proc_cd,
+    m.coins,m.copay,m.deduct,
+    m.std_cost,
+    dstatus,
+    CASE
+    WHEN m.DSTATUS IN ('20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '40', '41', '42') THEN 1
+    ELSE 0
+    END as DIED,
+    CASE
+    WHEN m.rvnu_cd = '0000' THEN NULL
+    ELSE m.rvnu_cd
+    END AS rvnu_cd,
+    CASE
+    WHEN m.drg = '' THEN NULL
+    ELSE m.drg
+    END AS drg,
+    CASE
+    WHEN prov IS NOT NULL THEN LTRIM(ISNULL(cast(m.provcat as varchar), '')) + ';' + LTRIM(cast(m.prov as varchar))
+    ELSE NULL
+    END as ProviderIdKey,
+    NULL as amt_cob_sav,
+    m.coins + m.deduct total_paid,
+    m.ndc,
+    m.Pat_PlanId,
+    m.ICD_FLAG,
+    m.Units,
+    44818668 as CurrencyConceptId
+    from {sc}.Medical_claims m
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND m.patid = ch.PERSON_ID
+    )
 
-     SELECT *,
-     CASE CLAIM_TYPE
-     WHEN 'IP' THEN 9201
-     WHEN 'OP' THEN 9202
-     WHEN 'ER' THEN 9203
-     WHEN 'LTC' THEN 42898160
-     END AS place_of_service_concept_id,
-     1 as fake
-     FROM medical
-   </Query>
-   <ConditionOccurrence>
-     <!-- fake definition, only to load JMDC-ICD10-MapsToValue lookup for observation ValueAsConceptId  -->
-     <ConditionOccurrenceDefinition>
-       <Condition>{fake} = 0</Condition>
-       <PersonId>PERSON_ID</PersonId>
-       <Concepts>
-         <Concept>
-           <ConceptIdMappers>
-             <Mapper>
-               <Lookup>OptumExtendedSes\Lookups\SourcetoValue.sql</Lookup>
-             </Mapper>
-           </ConceptIdMappers>
-           <Fields>
-             <Field key="fake" typeId="1" sourceKey="fake"/>
-           </Fields>
-         </Concept>
-       </Concepts>
-     </ConditionOccurrenceDefinition>
-     
+    SELECT *,
+    CASE CLAIM_TYPE
+    WHEN 'IP' THEN 9201
+    WHEN 'OP' THEN 9202
+    WHEN 'ER' THEN 9203
+    WHEN 'LTC' THEN 42898160
+    END AS place_of_service_concept_id,
+    SUBSTRING(ndc,1,9) NDC_SOURCE_VALUE_9,
+    1 as fake
+    FROM medical
+    order by PERSON_ID
+  </Query>
+  <DrugExposure>
+    <DrugExposureDefinition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>VISIT_START_DATE</StartDate>
+      <ProviderIdKey>ProviderIdKey</ProviderIdKey>
+      <Quantity>Units</Quantity>
+      <AdditionalFields>
+        <string>prov</string>
+        <string>provcat</string>
+        <string>claim_type</string>
+        <string>VISIT_START_DATE</string>
+        <string>VISIT_END_DATE</string>
+        <string>diag1</string>
+        <string>Pat_PlanId</string>
+        <string>Units</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumExtendedSes\Lookups\DrugRx.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="NDC" defaultTypeId="0" eventDate="VISIT_START_DATE"/>
+            <Field key="NDC_SOURCE_VALUE_9" sourceKey="NDC" defaultTypeId="0" eventDate="VISIT_START_DATE"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DrugExposureDefinition>
+  </DrugExposure>
+  <ConditionOccurrence>
+    <!-- fake definition, only to load JMDC-ICD10-MapsToValue lookup for observation ValueAsConceptId  -->
+    <ConditionOccurrenceDefinition>
+      <Condition>{fake} = 0</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumExtendedSes\Lookups\SourcetoValue.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="fake" typeId="1" sourceKey="fake"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+
     <ConditionOccurrenceDefinition>
       <Condition>{ICD_FLAG} = 9</Condition>
       <PersonId>PERSON_ID</PersonId>
@@ -101,6 +134,7 @@
         <string>VISIT_START_DATE</string>
         <string>VISIT_END_DATE</string>
         <string>ICD_FLAG</string>
+        <string>Units</string>
       </AdditionalFields>
       <Concepts>
         <Concept>
@@ -136,6 +170,7 @@
         <string>VISIT_START_DATE</string>
         <string>VISIT_END_DATE</string>
         <string>ICD_FLAG</string>
+        <string>Units</string>
       </AdditionalFields>
       <Concepts>
         <Concept>
@@ -160,7 +195,7 @@
       </Concepts>
     </ConditionOccurrenceDefinition>
   </ConditionOccurrence>
-   <ProcedureOccurrence>
+  <ProcedureOccurrence>
     <ProcedureOccurrenceDefinition>
       <Condition>{ICD_FLAG} = 9</Condition>
       <PersonId>PERSON_ID</PersonId>
@@ -176,6 +211,7 @@
         <string>VISIT_END_DATE</string>
         <string>diag1</string>
         <string>Pat_PlanId</string>
+        <string>Units</string>
       </AdditionalFields>
       <Concepts>
         <Concept>
@@ -214,6 +250,7 @@
         <string>VISIT_END_DATE</string>
         <string>diag1</string>
         <string>Pat_PlanId</string>
+        <string>Units</string>
       </AdditionalFields>
       <Concepts>
         <Concept>
@@ -237,7 +274,7 @@
       </Concepts>
     </ProcedureOccurrenceDefinition>
   </ProcedureOccurrence>
-   <Observation>
+  <Observation>
     <ObservationDefinition>
       <PersonId>PERSON_ID</PersonId>
       <StartDate>VISIT_START_DATE</StartDate>
@@ -264,52 +301,52 @@
       </Concepts>
     </ObservationDefinition>
   </Observation>
-   <ProcedureCost>
-      <ProcedureCostDefinition>
-         <PaidCopay>copay</PaidCopay>
-         <PaidCoinsurance>coins</PaidCoinsurance>
-         <PaidTowardDeductible>deduct</PaidTowardDeductible>
-         <PaidByCoordinationBenefits>amt_cob_sav</PaidByCoordinationBenefits>
-         <TotalPaid>std_cost</TotalPaid>
-         <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
-         <AdditionalFields>
-           <string>Pat_PlanId</string>
-         </AdditionalFields>
-         <Concepts>
-            <Concept>
-               <ConceptIdMappers>
-                  <Mapper>
-                     <Lookup>OptumExtendedSes\Lookups\RevenueCode.sql</Lookup>
-                  </Mapper>
-               </ConceptIdMappers>
-               <Fields>
-                  <Field key="rvnu_cd"/>
-               </Fields>
-            </Concept>
-         </Concepts>
-      </ProcedureCostDefinition>
-   </ProcedureCost>
-   <VisitOccurrence>
-      <VisitOccurrenceDefinition>
-         <PersonId>PERSON_ID</PersonId>
-         <StartDate>VISIT_START_DATE</StartDate>
-         <EndDate>VISIT_END_DATE</EndDate>
-         <ProviderIdKey>ProviderIdKey</ProviderIdKey>
-         <AdditionalFields>
-            <string>prov</string>
-            <string>provcat</string>
-            <string>pat_planid</string>
-         </AdditionalFields>
-         <Concepts>
-            <Concept>
-               <Fields>
-                 <Field conceptId = "place_of_service_concept_id" sourceKey = "CLAIM_TYPE" defaultTypeId="44818517"/>
-               </Fields>
-            </Concept>
-         </Concepts>
-      </VisitOccurrenceDefinition>
-   </VisitOccurrence>
-   <VisitCost>
+  <ProcedureCost>
+    <ProcedureCostDefinition>
+      <PaidCopay>copay</PaidCopay>
+      <PaidCoinsurance>coins</PaidCoinsurance>
+      <PaidTowardDeductible>deduct</PaidTowardDeductible>
+      <PaidByCoordinationBenefits>amt_cob_sav</PaidByCoordinationBenefits>
+      <TotalPaid>std_cost</TotalPaid>
+      <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+      <AdditionalFields>
+        <string>Pat_PlanId</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumExtendedSes\Lookups\RevenueCode.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="rvnu_cd"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureCostDefinition>
+  </ProcedureCost>
+  <VisitOccurrence>
+    <VisitOccurrenceDefinition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>VISIT_START_DATE</StartDate>
+      <EndDate>VISIT_END_DATE</EndDate>
+      <ProviderIdKey>ProviderIdKey</ProviderIdKey>
+      <AdditionalFields>
+        <string>prov</string>
+        <string>provcat</string>
+        <string>pat_planid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field conceptId = "place_of_service_concept_id" sourceKey = "CLAIM_TYPE" defaultTypeId="44818517"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </VisitOccurrenceDefinition>
+  </VisitOccurrence>
+  <VisitCost>
     <VisitCostDefinition>
       <PaidCopay>COPAY</PaidCopay>
       <PaidCoinsurance>COINS</PaidCoinsurance>
@@ -319,33 +356,33 @@
       <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
     </VisitCostDefinition>
   </VisitCost>
-   <Death>
-     <DeathDefinition>
-        <Condition>{ICD_FLAG} = 9</Condition>
-         <PersonId>PERSON_ID</PersonId>
-         <StartDate>VISIT_END_DATE</StartDate>
-         <Died>DIED</Died>
-         <Concepts>
-            <Concept>
-               <Fields>
-                  <Field key="DSTATUS" defaultConceptId="1" defaultTypeId="38003566"/>
-               </Fields>
-            </Concept>
-            <Concept>
-               <ConceptIdMappers>
-                  <Mapper>
-                     <Lookup>OptumExtendedSes\Lookups\DeathCodes.sql</Lookup>
-                  </Mapper>
-               </ConceptIdMappers>
-               <Fields>
-                  <Field key="diag1" defaultTypeId="38003567"/>
-                  <Field key="diag2" defaultTypeId="38003567"/>
-                  <Field key="diag3" defaultTypeId="38003567"/>
-                  <Field key="diag4" defaultTypeId="38003567"/>
-                  <Field key="diag5" defaultTypeId="38003567"/>
-               </Fields>
-            </Concept>
-           <!--<Concept>
+  <Death>
+    <DeathDefinition>
+      <Condition>{ICD_FLAG} = 9</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>VISIT_END_DATE</StartDate>
+      <Died>DIED</Died>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field key="DSTATUS" defaultConceptId="1" defaultTypeId="38003566"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumExtendedSes\Lookups\DeathCodes.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="diag1" defaultTypeId="38003567"/>
+            <Field key="diag2" defaultTypeId="38003567"/>
+            <Field key="diag3" defaultTypeId="38003567"/>
+            <Field key="diag4" defaultTypeId="38003567"/>
+            <Field key="diag5" defaultTypeId="38003567"/>
+          </Fields>
+        </Concept>
+        <!--<Concept>
              <ConceptIdMappers>
                <Mapper>
                  <Lookup>OptumExtendedSes\Lookups\DrgDeathCodes.sql</Lookup>
@@ -355,34 +392,34 @@
                <Field key="drg" defaultTypeId="38003568"/>
              </Fields>
            </Concept>-->
-         </Concepts>
-      </DeathDefinition>
-     <DeathDefinition>
-       <Condition>{ICD_FLAG} = 10</Condition>
-       <PersonId>PERSON_ID</PersonId>
-       <StartDate>VISIT_END_DATE</StartDate>
-       <Died>DIED</Died>
-       <Concepts>
-         <Concept>
-           <Fields>
-             <Field key="DSTATUS" defaultConceptId="1" defaultTypeId="38003566"/>
-           </Fields>
-         </Concept>
-         <Concept>
-           <ConceptIdMappers>
-             <Mapper>
-               <Lookup>OptumExtendedSes\Lookups\DeathCodesICD10.sql</Lookup>
-             </Mapper>
-           </ConceptIdMappers>
-           <Fields>
-             <Field key="diag1" defaultTypeId="38003567"/>
-             <Field key="diag2" defaultTypeId="38003567"/>
-             <Field key="diag3" defaultTypeId="38003567"/>
-             <Field key="diag4" defaultTypeId="38003567"/>
-             <Field key="diag5" defaultTypeId="38003567"/>
-           </Fields>
-         </Concept>
-         <!--<Concept>
+      </Concepts>
+    </DeathDefinition>
+    <DeathDefinition>
+      <Condition>{ICD_FLAG} = 10</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>VISIT_END_DATE</StartDate>
+      <Died>DIED</Died>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field key="DSTATUS" defaultConceptId="1" defaultTypeId="38003566"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumExtendedSes\Lookups\DeathCodesICD10.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="diag1" defaultTypeId="38003567"/>
+            <Field key="diag2" defaultTypeId="38003567"/>
+            <Field key="diag3" defaultTypeId="38003567"/>
+            <Field key="diag4" defaultTypeId="38003567"/>
+            <Field key="diag5" defaultTypeId="38003567"/>
+          </Fields>
+        </Concept>
+        <!--<Concept>
              <ConceptIdMappers>
                <Mapper>
                  <Lookup>OptumExtendedSes\Lookups\DrgDeathCodes.sql</Lookup>
@@ -392,29 +429,29 @@
                <Field key="drg" defaultTypeId="38003568"/>
              </Fields>
            </Concept>-->
-       </Concepts>
-     </DeathDefinition>
-     <DeathDefinition>
-       <PersonId>PERSON_ID</PersonId>
-       <StartDate>VISIT_END_DATE</StartDate>
-       <Died>DIED</Died>
-       <Concepts>
-         <Concept>
-           <Fields>
-             <Field key="DSTATUS" defaultConceptId="1" defaultTypeId="38003566"/>
-           </Fields>
-         </Concept>
-         <Concept>
-           <ConceptIdMappers>
-             <Mapper>
-               <Lookup>OptumExtendedSes\Lookups\DrgDeathCodes.sql</Lookup>
-             </Mapper>
-           </ConceptIdMappers>
-           <Fields>
-             <Field key="DRG" defaultTypeId="38003568"/>
-           </Fields>
-         </Concept>
-       </Concepts>
-     </DeathDefinition>
-   </Death>
+      </Concepts>
+    </DeathDefinition>
+    <DeathDefinition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>VISIT_END_DATE</StartDate>
+      <Died>DIED</Died>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field key="DSTATUS" defaultConceptId="1" defaultTypeId="38003566"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumExtendedSes\Lookups\DrgDeathCodes.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="DRG" defaultTypeId="38003568"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DeathDefinition>
+  </Death>
 </QueryDefinition>

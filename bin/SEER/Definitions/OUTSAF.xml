@@ -1,74 +1,75 @@
 ﻿<QueryDefinition>
   <Query>
-    with a as
-    (
-    SELECT
-    PATIENT_ID,
-    CASE
-    WHEN CENDM = '00' OR CENDD = '00' OR CENDY = '00' OR CENDM IS NULL OR CENDD IS NULL OR CENDY IS NULL
-    THEN FROM_DTY + '-' + FROM_DTM + '-' + FROM_DTD
-    ELSE CENDY + '-' + CENDM + '-' + CENDD
-    END as StartDate,
-    FROM_DTY + '-' + FROM_DTM + '-' + FROM_DTD as ConditionStartDate,
-    CASE
-    WHEN CENDM = '00' OR CENDD = '00' OR CENDY = '00' OR CENDM IS NULL OR CENDD IS NULL OR CENDY IS NULL
-    THEN THRU_DTY + '-' + THRU_DTM + '-' + THRU_DTD
-    ELSE CENDY + '-' + CENDM + '-' + CENDD
-    END as EndDate,
-    THRU_DTY + '-' + THRU_DTM + '-' + THRU_DTD as ConditionEndDate,
-    44818518 as VISIT_TYPE_CONCEPT_ID,
-    CASE
-    WHEN  AT_NPI is null OR AT_NPI = '' THEN AT_UPIN
-    ELSE AT_NPI
-    END AS PROVIDER_ID,
-    PROVIDER,
-    9202 VISIT_CONCEPT_ID,
-    ISNULL(CENTER, '') as CENTER,
-    HCPCS,
-    LINK_NUM as VISIT_SOURCE_VALUE,
-    DGN_CD1, E1DGNSCD
-    ,DGN_CD2, EDGNSD1
-    ,DGN_CD3, EDGNSD2
-    ,DGN_CD4, EDGNSD3
-    ,DGN_CD5, EDGNSD4
-    ,DGN_CD6, EDGNSD5
-    ,DGN_CD7, EDGNSD6
-    ,DGN_CD8
-    ,DGN_CD9
-    ,DGN_CD10
-    ,DGN_CD11
-    ,DGN_CD12
-    ,DGN_CD13
-    ,DGN_CD14
-    ,DGN_CD15
-    ,DGN_CD16
-    ,DGN_CD17
-    ,DGN_CD18
-    ,DGN_CD19
-    ,DGN_CD20
-    ,DGN_CD21
-    ,DGN_CD22
-    ,DGN_CD23
-    ,DGN_CD24
-    ,DGN_CD25
-    ,UNIT
-    ,MF1
-    ,WAGEADJ
-    ,REVDCTBL
-    ,PAY
-    ,REV_MSP1
-    ,44818668 as CurrencyConceptId,
-    CASE
-    WHEN ISNULL(CENTER, '') != '0001' AND (HCPCS = '' OR HCPCS IS NULL) THEN 1
-    ELSE 0
-    END as visitcost,
-    'outsaf' as SOURCE
-    FROM {sc}.OUTSAF
-    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND PATIENT_ID = ch.PERSON_SOURCE_VALUE
-    )
+	  with a as
+	  (
+	  SELECT
+	  PATIENT_ID,
+	  CASE
+	  WHEN CENDM = '00' OR CENDD = '00' OR CENDY = '00' OR CENDM IS NULL OR CENDD IS NULL OR CENDY IS NULL
+	  THEN FROM_DTY + '-' + FROM_DTM + '-' + FROM_DTD
+	  ELSE CENDY + '-' + CENDM + '-' + CENDD
+	  END as StartDate,
+	  FROM_DTY + '-' + FROM_DTM + '-' + FROM_DTD as ConditionStartDate,
+	  CASE
+	  WHEN CENDM = '00' OR CENDD = '00' OR CENDY = '00' OR CENDM IS NULL OR CENDD IS NULL OR CENDY IS NULL
+	  THEN THRU_DTY + '-' + THRU_DTM + '-' + THRU_DTD
+	  ELSE CENDY + '-' + CENDM + '-' + CENDD
+	  END as EndDate,
+	  THRU_DTY + '-' + THRU_DTM + '-' + THRU_DTD as ConditionEndDate,
+	  44818518 as VISIT_TYPE_CONCEPT_ID,
+	  CASE
+	  WHEN  AT_NPI is null OR AT_NPI = '' THEN AT_UPIN
+	  ELSE AT_NPI
+	  END AS PROVIDER_ID,
+	  PROVIDER,
+	  9202 VISIT_CONCEPT_ID,
+	  ISNULL(CENTER, '') as CENTER,
+	  HCPCS,
+	  LINK_NUM as VISIT_SOURCE_VALUE,
+	  DGN_CD1, E1DGNSCD
+	  ,DGN_CD2, EDGNSD1
+	  ,DGN_CD3, EDGNSD2
+	  ,DGN_CD4, EDGNSD3
+	  ,DGN_CD5, EDGNSD4
+	  ,DGN_CD6, EDGNSD5
+	  ,DGN_CD7, EDGNSD6
+	  ,DGN_CD8
+	  ,DGN_CD9
+	  ,DGN_CD10
+	  ,DGN_CD11
+	  ,DGN_CD12
+	  ,DGN_CD13
+	  ,DGN_CD14
+	  ,DGN_CD15
+	  ,DGN_CD16
+	  ,DGN_CD17
+	  ,DGN_CD18
+	  ,DGN_CD19
+	  ,DGN_CD20
+	  ,DGN_CD21
+	  ,DGN_CD22
+	  ,DGN_CD23
+	  ,DGN_CD24
+	  ,DGN_CD25
+	  ,UNIT
+	  ,MF1
+	  ,WAGEADJ
+	  ,REVDCTBL
+	  ,PAY
+	  ,REV_MSP1
+	  ,44818668 as CurrencyConceptId,
+	  CASE
+	  WHEN ISNULL(CENTER, '') != '0001' AND (HCPCS = '' OR HCPCS IS NULL) THEN 1
+	  ELSE 0
+	  END as visitcost,
+	  'outsaf' as SOURCE
+	  FROM {sc}.OUTSAF
+	  JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND PATIENT_ID = ch.PERSON_SOURCE_VALUE
+	  )
 
-    SELECT *, '99' + ';' + PROVIDER_ID ProviderIdKey
-    FROM a
+	  SELECT *, '99' + ';' + PROVIDER_ID ProviderIdKey
+	  FROM a
+	  order by PATIENT_ID
   </Query>
   <VisitOccurrence>
     <VisitOccurrenceDefinition>

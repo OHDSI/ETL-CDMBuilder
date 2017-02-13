@@ -1,0 +1,56 @@
+﻿<QueryDefinition>
+  <Query>
+    with a as
+    (
+    select
+    cast(replace(v.ptid, 'PT','') as bigint) as PersonId,
+    v.ptid,
+    v.visitid,
+    v.visit_type,
+    v.visit_start_date,
+    v.visit_end_date,
+    v.visit_start_time, 
+    v.visit_end_time, 
+    e.encid,
+    ec.provid,
+    cast(replace(e.encid, 'E0000','') as bigint) as VisitOccurrenceId,
+    row_number() over (partition by v.visitid order by e.interaction_date) as ordinal
+    from {sc}.visit v
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND v.ptid = ch.PERSON_SOURCE_VALUE
+    join {sc}.encounter e on v.visitid = e.visitid
+    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = e.encid
+    )
+
+    select *,
+    case
+    when visit_type = 'Inpatient' then 9201
+    when visit_type = 'Emergency patient' then 9203
+    when visit_type = 'Observation patient' then 9201
+    ELSE 0
+    end as conceptId
+    from a
+    where ordinal = 1
+    order by PersonId
+  </Query>
+  <VisitOccurrence>
+    <VisitOccurrenceDefinition>
+      <Id>VisitOccurrenceId</Id>
+      <PersonId>PersonId</PersonId>
+      <StartDate>visit_start_date</StartDate>
+      <EndDate>visit_end_date</EndDate>
+      <StartTime>visit_start_time</StartTime>
+      <EndTime>visit_end_time</EndTime>
+      <ProviderId>provid</ProviderId>
+      <AdditionalFields>
+        <string>encid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field conceptId="conceptId" sourceKey="visit_type" defaultTypeId="44818518"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </VisitOccurrenceDefinition>
+  </VisitOccurrence>
+</QueryDefinition>

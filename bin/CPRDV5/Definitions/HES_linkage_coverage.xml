@@ -9,6 +9,7 @@
      from {sc}.HES_linkage_eligibility
      JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND patid = ch.PERSON_ID
      where hes_e=1
+     order by patid
    </Query>
   <Cohort>
     <CohortDefinition>

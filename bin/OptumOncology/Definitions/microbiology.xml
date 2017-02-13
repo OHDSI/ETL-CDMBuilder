@@ -1,0 +1,37 @@
+﻿<QueryDefinition>
+  <Query>
+    select
+    cast(replace(m.ptid, 'PT','') as bigint) as PersonId,
+    cast(replace(m.encid, 'E0000','') as bigint) as VisitOccurrenceId,
+    m.collect_date,
+    m.collect_time,
+    m.specimen_source,
+    ec.provid,
+    m.organism
+
+    from {sc}.microbiology m
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND m.ptid = ch.PERSON_SOURCE_VALUE
+    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = m.encid
+    order by cast(replace(m.ptid, 'PT','') as bigint)
+  </Query>
+  <Observation>
+    <ObservationDefinition>
+      <PersonId>PersonId</PersonId>
+      <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
+      <StartDate>collect_date</StartDate>
+      <Time>collect_time</Time>
+      <ProviderId>provid</ProviderId>
+      <ValuesAsString>
+        <string>organism</string>
+      </ValuesAsString>
+      <ValueSourceValue>organism</ValueSourceValue>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field key="specimen_source" defaultConceptId="0" defaultTypeId="44818702"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+  </Observation>
+</QueryDefinition>

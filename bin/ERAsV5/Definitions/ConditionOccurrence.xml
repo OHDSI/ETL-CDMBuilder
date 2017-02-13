@@ -7,6 +7,7 @@
      ,c.CONDITION_TYPE_CONCEPT_ID
      FROM {sc}.CONDITION_OCCURRENCE as c
      JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND c.PERSON_ID = ch.PERSON_ID
+     order by c.PERSON_ID
    </Query>
   <ConditionOccurrence>
      <ConditionOccurrenceDefinition>

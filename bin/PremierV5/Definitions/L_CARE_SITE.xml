@@ -2,7 +2,7 @@
    <Query>
      with a as
      (
-     select distinct prov_area + ' ' + prov_division as source from {sc}.providers
+     select distinct prov_region + ' ' + prov_division as source from {sc}.providers
      ),
      b as
      (
@@ -11,9 +11,9 @@
 
      SELECT distinct prov_id,
      b.Location_id,
-     ('Urban_Rural:' + urban_rural + ' ' + 'Teaching:' + teaching + ' ' + 'Beds:' + cast(beds as varchar(5))) as place_of_service_source_value
+     ('Urban_Rural:' + urban_rural + ' ' + 'Teaching:' + teaching + ' ' + 'Beds:' + cast(beds_grp as varchar(5))) as place_of_service_source_value
      FROM {sc}.providers
-     Join b on prov_area + ' ' + prov_division = b.source
+     Join b on prov_region + ' ' + prov_division = b.source
    </Query>
    <CareSites>
       <CareSiteDefinition>

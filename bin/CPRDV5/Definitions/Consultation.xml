@@ -6,13 +6,14 @@
      cast(a.patid as varchar) + ':' + cast(eventdate as varchar) VISIT_SOURCE_VALUE,
      consid place_of_service_source_value,
      right(a.patid,3) as care_site_id,
-     cast((cast(a.patid as bigint)*100000000)+(year(a.eventdate) *10000)+
-     (month(a.eventdate)*100)+
-     day(a.eventdate) as bigint)
+     cast((cast(a.patid as bigint)*100000000)+(DATEPART(year,a.eventdate) *10000)+
+     (DATEPART(month,a.eventdate)*100)+
+     DATEPART(day,a.eventdate) as bigint)
      as visit_occurrence_id,
      staffid
      from {sc}.consultation a
      JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND a.patid = ch.PERSON_ID
+     order by a.patid
    </Query>
    <VisitOccurrence>
       <VisitOccurrenceDefinition>

@@ -8,6 +8,7 @@
      ,DRUG_TYPE_CONCEPT_ID
      FROM {sc}.DRUG_EXPOSURE d
      JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND d.PERSON_ID = ch.PERSON_ID
+     order by d.PERSON_ID
    </Query>
    <DrugExposure>
       <DrugExposureDefinition>

@@ -31,6 +31,7 @@
      JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND a.patid = ch.PERSON_ID
      join {sc}.hes_episodes b on a.patid=b.patid and a.epikey=b.epikey
      where a.evdate is not null
+     order by a.patid
    </Query>
    <ProcedureOccurrence>
       <ProcedureOccurrenceDefinition>

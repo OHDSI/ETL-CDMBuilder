@@ -515,8 +515,7 @@ namespace org.ohdsi.cdm.builders.optumextendedses
             {
                procedureOccurrence.StartDate = visitOccurrence.EndDate.Value;
 
-               if (procedureOccurrence.Domain != "Procedure" || CodeValidator.IsValidIcdProcedure(procedureOccurrence.SourceValue, GetIcdVersion(procedureOccurrence)))
-                  otherProcedures.Add(procedureOccurrence);
+               otherProcedures.Add(procedureOccurrence);
             }
 
             AddToDateClaimTypeDictionary(dateClaimTypeDictionary, procedureOccurrence, visitOccurrence);
@@ -569,6 +568,19 @@ namespace org.ohdsi.cdm.builders.optumextendedses
 
          if (death.Any())
          {
+            var dodDeath = death.FirstOrDefault(d => d.TypeConceptId == 38003569);
+            if (dodDeath != null)
+            {
+               var endOfMonth = new DateTime(dodDeath.StartDate.Year,
+                  dodDeath.StartDate.Month,
+                  DateTime.DaysInMonth(dodDeath.StartDate.Year,
+                     dodDeath.StartDate.Month));
+
+               dodDeath.StartDate = endOfMonth;
+
+               return dodDeath;
+            }
+
             var maxStartDate = death.Max(d => d.StartDate);
             var result = death.Where(d => d.StartDate == maxStartDate).OrderByDescending(d => d.Primary).First();
 
@@ -584,6 +596,12 @@ namespace org.ohdsi.cdm.builders.optumextendedses
       {
          foreach (var d in death)
          {
+            if (d.TypeConceptId == 38003569)
+            {
+               yield return d;
+               continue;
+            }
+
             var visitOccurrence = GetVisitOccurrence(d);
             if (visitOccurrence == null)
             {
@@ -601,11 +619,30 @@ namespace org.ohdsi.cdm.builders.optumextendedses
          }
       }
 
-      private IEnumerable<DrugExposure> PrepareDrugExposures(IEnumerable<DrugExposure> drugExposures, Dictionary<long, VisitOccurrence> visitOccurrences)
+      private IEnumerable<DrugExposure> PrepareDrugExposures(IEnumerable<DrugExposure> drugExposures, Dictionary<long, VisitOccurrence> vo)
       {
+         var dateClaimTypeDictionary = new Dictionary<DateTime, Dictionary<string, List<IEntity>>>();
+         var medicalNdcDrugs = new List<DrugExposure>();
+         var result = new HashSet<DrugExposure>();
+
          var rxDrugs = new Dictionary<Guid, List<DrugExposure>>();
          foreach (var drugExposure in drugExposures)
          {
+            if (drugExposure.TypeConceptId == 0)
+            {
+               var visitOccurrence = GetVisitOccurrence(drugExposure);
+               if (visitOccurrence == null)
+                  continue;
+
+               drugExposure.VisitOccurrenceId = visitOccurrence.Id;
+               drugExposure.StartDate = visitOccurrence.EndDate.Value;
+               drugExposure.TypeConceptId = 38000175;
+
+               medicalNdcDrugs.Add(drugExposure);
+               AddToDateClaimTypeDictionary(dateClaimTypeDictionary, drugExposure, visitOccurrence);
+               continue;
+            }
+
             if (drugExposure.TypeConceptId == 38000175 || drugExposure.TypeConceptId == 38000176)
             {
                if (!rxDrugs.ContainsKey(drugExposure.SourceRecordGuid))
@@ -625,6 +662,30 @@ namespace org.ohdsi.cdm.builders.optumextendedses
             }
 
             yield return similarDrugs.OrderBy(d => d.SourceValue.Length).Last();
+         }
+
+         foreach (var sameStartDate in medicalNdcDrugs.Where(c => c.VisitOccurrenceId.HasValue && !string.IsNullOrEmpty(c.SourceValue)).GroupBy(c => c.StartDate))
+         {
+            foreach (var sameVisit in sameStartDate.GroupBy(c => c.VisitOccurrenceId))
+            {
+               foreach (var sameSource in sameVisit.GroupBy(c => c.SourceValue))
+               {
+                  foreach (var sameConcept in sameSource.GroupBy(c => c.ConceptId))
+                  {
+                     var de = sameConcept.OrderBy(c => c.TypeConceptId).ToList()[0];
+                     de.ProviderKey = GetProviderKey(vo[de.VisitOccurrenceId.Value],
+                                                                      de, dateClaimTypeDictionary);
+
+                     de.Quantity = sameConcept.Sum(d => d.Quantity);
+                     result.Add(de);
+                  }
+               }
+            }
+         }
+
+         foreach (var drugExposure in result)
+         {
+            yield return drugExposure;
          }
       }
 
@@ -688,6 +749,12 @@ namespace org.ohdsi.cdm.builders.optumextendedses
          if (fisrtOP.Year == person.YearOfBirth)
          {
             person.MonthOfBirth = fisrtOP.Month;
+            person.DayOfBirth = fisrtOP.Day;
+         }
+         else
+         {
+            person.MonthOfBirth = null;
+            person.DayOfBirth = null;
          }
 
          var payerPlanPeriods = BuildPayerPlanPeriods(payerPlanPeriodsRaw.ToArray(), null).ToArray();
@@ -741,6 +808,11 @@ namespace org.ohdsi.cdm.builders.optumextendedses
          SetProviderIds(observations, providers);
 
          var death = BuildDeath(deathRecords.ToArray(), visitOccurrences, observationPeriods);
+
+         if (death != null && person.YearOfBirth.HasValue && person.YearOfBirth.Value > 0 &&
+             person.YearOfBirth > death.StartDate.Year)
+            death = null;
+
          var drugCosts = BuildDrugCosts(drugExposures).ToArray();
          var procedureCosts = BuildProcedureCosts(procedureOccurrences).ToArray();
          var devicCosts = BuildDeviceCosts(deviceExposure).ToArray();
@@ -897,6 +969,7 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                      drg.Quantity = proc.Quantity;
                   }
 
+                  drg.EndDate = null;
                   drugForEra.Add(drg);
                   chunkData.AddData(drg);
                   break;

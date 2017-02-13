@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,7 +36,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>..\..\build\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\</IntermediateOutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -43,7 +46,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
+    <OutputPath>..\..\build\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\</IntermediateOutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -53,6 +57,18 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AWSSDK.Core.3.3.5\lib\net45\AWSSDK.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AWSSDK.S3.3.3.4\lib\net45\AWSSDK.S3.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CsvHelper, Version=3.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CsvHelper.3.0.0-beta7\lib\net451\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -66,10 +82,13 @@
     <Compile Include="Builder\KeyMaster.cs" />
     <Compile Include="Builder\KeyMasterOffset.cs" />
     <Compile Include="DataReaders\ChunkDataReader.cs" />
+    <Compile Include="DataReaders\S3DataReader2.cs" />
+    <Compile Include="DataReaders\S3DataReader.cs" />
     <Compile Include="DataReaders\v5\CareSiteDataReader.cs" />
     <Compile Include="DataReaders\v5\CohortDataReader.cs" />
     <Compile Include="DataReaders\v5\ConditionEraDataReader.cs" />
     <Compile Include="DataReaders\v5\ConditionOccurrenceDataReader.cs" />
+    <Compile Include="DataReaders\v5\CostDataReader.cs" />
     <Compile Include="DataReaders\v5\DeviceCostDataReader.cs" />
     <Compile Include="DataReaders\v5\DeviceExposureDataReader.cs" />
     <Compile Include="DataReaders\v5\DrugCostDataReader.cs" />
@@ -91,6 +110,9 @@
     <Compile Include="Omop\Cohort.cs" />
     <Compile Include="Omop\ConditionEra.cs" />
     <Compile Include="Omop\ConditionOccurrence.cs" />
+    <Compile Include="Omop\ObservationCost.cs" />
+    <Compile Include="Omop\MeasurementCost.cs" />
+    <Compile Include="Omop\Cost.cs" />
     <Compile Include="Omop\DeviceCost.cs" />
     <Compile Include="Omop\DeviceExposure.cs" />
     <Compile Include="Omop\Measurement .cs" />
@@ -121,7 +143,20 @@
       <Name>org.ohdsi.cdm.framework.shared</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\AWSSDK.S3.3.3.4\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

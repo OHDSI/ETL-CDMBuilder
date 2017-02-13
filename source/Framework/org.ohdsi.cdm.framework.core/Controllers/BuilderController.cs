@@ -4,14 +4,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Amazon.S3;
-using org.ohdsi.cdm.framework.core.Helpers;
 using org.ohdsi.cdm.framework.core.Savers;
 using org.ohdsi.cdm.framework.data.DbLayer;
 using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.shared.Enums;
-using org.ohdsi.cdm.framework.shared.Helpers;
-using System.Data.Odbc;
 
 namespace org.ohdsi.cdm.framework.core.Controllers
 {
@@ -55,7 +51,12 @@ namespace org.ohdsi.cdm.framework.core.Controllers
                 return chunkController.GetCompleteChunksCount();
             }
         }
-        #endregion
+
+       public long TotalPersonCount
+       {
+          get { return chunkController.TotalPersonCount; }
+       }
+       #endregion
 
         #region Constructor
         public BuilderController()
@@ -88,15 +89,31 @@ namespace org.ohdsi.cdm.framework.core.Controllers
             }
         }
 
-        public void RefreshState()
-        {
-            foreach (var dataReader in dbBuilder.Load(Environment.MachineName, Settings.Current.Builder.Version))
-            {
-                Builder.SetFrom(dataReader);
-            }
-        }
+       public void RefreshState()
+       {
+          var attempt = 0;
 
-        public void UpdateState(BuilderState state)
+          while (true)
+          {
+             try
+             {
+                foreach (var dataReader in dbBuilder.Load(Environment.MachineName, Settings.Current.Builder.Version))
+                {
+                   Builder.SetFrom(dataReader);
+                }
+                break;
+             }
+             catch (Exception e)
+             {
+                attempt++;
+
+                if (attempt == 10)
+                   throw;
+             }
+          }
+       }
+
+       public void UpdateState(BuilderState state)
         {
             Builder.State = state;
             dbBuilder.UpdateState(Builder.Id, state);
@@ -106,13 +123,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
         {
             PerformAction(() =>
             {
-                var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
-                   Path.Combine(new[]
-                   {
-                   Settings.Current.Builder.Folder,
-                   "Common",
-                   Settings.Current.Building.DestinationEngine.Database.ToString()
-                   }), Settings.Current.Building.DestinationSchemaName);
+                var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.DestinationSchemaName);
 
 
                 if (Settings.Current.Building.DestinationEngine.Database != Database.Redshift)
@@ -124,67 +135,37 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
         public void CreateTablesStep()
         {
-            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
-                  Path.Combine(new[]
-                  {
-                   Settings.Current.Builder.Folder,
-                   "Common",
-                   Settings.Current.Building.DestinationEngine.Database.ToString()
-                  }), Settings.Current.Building.DestinationSchemaName);
+            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.DestinationSchemaName);
 
             dbDestination.CreateTables(Settings.Current.CreateCDMTablesScript);
         }
 
         public void DropDestination()
         {
-            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
-                  Path.Combine(new[]
-                  {
-                   Settings.Current.Builder.Folder,
-                   "Common",
-                   Settings.Current.Building.DestinationEngine.Database.ToString()
-                  }), Settings.Current.Building.DestinationSchemaName);
+            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.DestinationSchemaName);
 
             dbDestination.DropDatabase();
         }
 
         public void TruncateLookup()
         {
-            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
-                  Path.Combine(new[]
-                  {
-                   Settings.Current.Builder.Folder,
-                   "Common",
-                   Settings.Current.Building.DestinationEngine.Database.ToString()
-                  }), Settings.Current.Building.DestinationSchemaName);
+            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.DestinationSchemaName);
 
-            dbDestination.TruncateLookup();
+            dbDestination.TruncateLookup(Settings.Current.TruncateLookupScript);
         }
 
         public void TruncateTables()
         {
-            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
-                  Path.Combine(new[]
-                  {
-                   Settings.Current.Builder.Folder,
-                   "Common",
-                   Settings.Current.Building.DestinationEngine.Database.ToString()
-                  }), Settings.Current.Building.DestinationSchemaName);
+            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.DestinationSchemaName);
 
-            dbDestination.TruncateTables();
+            dbDestination.TruncateTables(Settings.Current.TruncateTablesScript);
         }
 
         public void TruncateWithoutLookupTables()
         {
-            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
-                  Path.Combine(new[]
-                  {
-                   Settings.Current.Builder.Folder,
-                   "Common",
-                   Settings.Current.Building.DestinationEngine.Database.ToString()
-                  }), Settings.Current.Building.DestinationSchemaName);
+            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.DestinationSchemaName);
 
-            dbDestination.TruncateWithoutLookupTables();
+            dbDestination.TruncateWithoutLookupTables(Settings.Current.TruncateWithoutLookupTablesScript);
         }
 
         public void ResetChunk()
@@ -206,15 +187,9 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
         public void ResetVocabularyStep()
         {
-            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
-                  Path.Combine(new[]
-                  {
-                   Settings.Current.Builder.Folder,
-                   "Common",
-                   Settings.Current.Building.DestinationEngine.Database.ToString()
-                  }), Settings.Current.Building.DestinationSchemaName);
+            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.DestinationSchemaName);
 
-            dbDestination.DropVocabularyTables();
+            dbDestination.DropVocabularyTables(Settings.Current.DropVocabularyTablesScript);
         }
 
         public void CreateChunks()
@@ -235,13 +210,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
         {
             PerformAction(() =>
             {
-                var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
-                   Path.Combine(new[]
-                   {
-                   Settings.Current.Builder.Folder,
-                   "Common",
-                   Settings.Current.Building.DestinationEngine.Database.ToString()
-                   }), Settings.Current.Building.DestinationSchemaName);
+                var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.DestinationSchemaName);
 
                 dbDestination.CreateIndexes(Settings.Current.CreateIndexesScript);
             });
@@ -249,18 +218,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
         public void RunAchilles()
         {
-            PerformAction(() =>
-            {
-                //var achillesSettings = new DbDestination(Settings.Current.Building.DestinationConnectionString,
-                //   Path.Combine(new[]
-                //   {
-                //   Settings.Current.Builder.Folder,
-                //   "Common",
-                //   Settings.Current.Building.DestinationEngine.Database.ToString()
-                //   }), Settings.Current.Building.DestinationSchemaName);
-
-                achillesController.Run();
-            });
+            PerformAction(() => achillesController.Run());
         }
 
         public void CreateLookup(bool lookupCreated)
@@ -305,7 +263,8 @@ namespace org.ohdsi.cdm.framework.core.Controllers
                             p.WaitForExit();
                             p.Close();
                         }
-
+                        
+                        RefreshState();
                         if (Builder.State != BuilderState.Running)
                         {
                             break;

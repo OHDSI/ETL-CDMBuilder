@@ -1,0 +1,10 @@
+﻿IF OBJECT_ID (N'CONCEPT', N'U') IS NOT NULL truncate table {sc}.CONCEPT;
+IF OBJECT_ID (N'concept_ancestor', N'U') IS NOT NULL truncate table {sc}.concept_ancestor;
+IF OBJECT_ID (N'concept_class', N'U') IS NOT NULL truncate table {sc}.concept_class;
+IF OBJECT_ID (N'concept_relationship', N'U') IS NOT NULL truncate table {sc}.concept_relationship;
+IF OBJECT_ID (N'CONCEPT_SYNONYM', N'U') IS NOT NULL truncate table {sc}.CONCEPT_SYNONYM;
+IF OBJECT_ID (N'domain', N'U') IS NOT NULL truncate table {sc}.domain;
+IF OBJECT_ID (N'DRUG_STRENGTH', N'U') IS NOT NULL truncate table {sc}.DRUG_STRENGTH;
+IF OBJECT_ID (N'relationship', N'U') IS NOT NULL truncate table {sc}.relationship;
+IF OBJECT_ID (N'source_to_concept_map', N'U') IS NOT NULL truncate table {sc}.source_to_concept_map;
+IF OBJECT_ID (N'VOCABULARY', N'U') IS NOT NULL truncate table {sc}.VOCABULARY;

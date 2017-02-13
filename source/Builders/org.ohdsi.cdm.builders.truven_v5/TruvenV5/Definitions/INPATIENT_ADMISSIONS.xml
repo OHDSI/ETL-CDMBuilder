@@ -26,6 +26,7 @@
     TOTCOB,
     TOTPAY,
     44818668 CurrencyConceptId,
+    DRG,
     {icdVer}
     FROM {sc}.inpatient_admissions
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND ENROLID = ch.PERSON_ID
@@ -335,6 +336,34 @@
             <Field key="DX13" defaultTypeId="38003567"/>
             <Field key="DX14" defaultTypeId="38003567"/>
             <Field key="DX15" defaultTypeId="38003567"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DeathDefinition>
+
+    <DeathDefinition>
+      <PersonId>ENROLID</PersonId>
+      <StartDate>DISDATE</StartDate>
+      <Died>DIED</Died>
+      <AdditionalFields>
+        <string>CASEID</string>
+        <string>YEAR</string>
+        <string>priority</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field key="DSTATUS" defaultConceptId="1" defaultTypeId="38003566"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\DeathDRG.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="DRG" defaultTypeId="38003568"/>
           </Fields>
         </Concept>
       </Concepts>

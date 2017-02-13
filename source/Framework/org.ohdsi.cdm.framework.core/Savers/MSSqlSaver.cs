@@ -53,14 +53,7 @@ namespace org.ohdsi.cdm.framework.core.Savers
 
       public override void CopyVocabulary()
       {
-         var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
-               Path.Combine(new[]
-                {
-                   Settings.Current.Builder.Folder,
-                   "Common",
-                   Settings.Current.Building.DestinationEngine.Database.ToString()
-                }), Settings.Current.Building.DestinationSchemaName);
-
+         var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.DestinationSchemaName);
          dbDestination.CopyVocabulary(Settings.Current.CopyVocabularyScript, Settings.Current.Building.VocabularyConnectionString);
       }
    }

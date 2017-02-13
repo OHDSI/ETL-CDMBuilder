@@ -19,10 +19,11 @@
     [Month and year of start of medical care] as month_and_year_of_start,
     [Month and year of medical care] as month_and_year,
     CAST(CAST([Month and year of start of medical care] AS VARCHAR(8)) AS DATE) as start_m_and_y_date,
+    [Suspicion flag] as suspicion_flag,
     1 as fake
     FROM {sc}.[Diagnosis] d
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND d.[Member ID] = ch.PERSON_SOURCE_VALUE
-    order by d.person_id
+    order by CAST(RIGHT([Member ID], LEN([Member ID]) - 1) AS BIGINT)
   </Query>
   <ConditionOccurrence>
     <!-- fake definition, only to load JMDC-ICD10-MapsToValue lookup for observation ValueAsConceptId  -->
@@ -52,6 +53,7 @@
         <string>month_and_year_of_start</string>
         <string>start_m_and_y_date</string>
         <string>month_and_year</string>
+        <string>suspicion_flag</string>
       </AdditionalFields>
       <Concepts>
         <Concept>

@@ -52,7 +52,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
                 relevantConditionConceptId = relevantConcepts.Min(c => c.ConceptId);
          }
 
-         
+
          foreach (var c in base.GetConcepts(concept, reader, keyOffset))
          {
             var e = (Entity) c;

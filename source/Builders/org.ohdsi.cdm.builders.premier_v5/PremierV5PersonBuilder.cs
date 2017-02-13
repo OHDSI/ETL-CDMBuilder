@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using org.ohdsi.cdm.framework.core.Base;
 using org.ohdsi.cdm.framework.entities.Omop;
+using org.ohdsi.cdm.framework.shared.Enums;
 
 namespace org.ohdsi.cdm.builders.premier_v5
 {
@@ -63,6 +64,9 @@ namespace org.ohdsi.cdm.builders.premier_v5
 
             var yearOfBirth = visitsDictionary[personRecord.SourceRecordGuid].StartDate.Year - personRecord.YearOfBirth;
 
+            if(yearOfBirth < 1900)
+               continue;
+
             if (yearOfBirth < minYearOfBirth)
                minYearOfBirth = yearOfBirth.Value;
 
@@ -108,23 +112,227 @@ namespace org.ohdsi.cdm.builders.premier_v5
          // set corresponding ProviderIds
          SetPayerPlanPeriodId(payerPlanPeriods, drugExposures, procedureOccurrences, visitOccurrences.Values.ToArray(), deviceExposure);
 
-         var drugCosts = BuildDrugCosts(drugExposures).ToArray();
-         var procedureCosts = BuildProcedureCosts(procedureOccurrences).ToArray();
-         var devicCosts = BuildDeviceCosts(deviceExposure).ToArray();
-         var visitCosts = BuildVisitCosts(visitOccurrences.Values.ToArray()).ToArray();
+         //var drugCosts = BuildDrugCosts(drugExposures).ToArray();
+         //var procedureCosts = BuildProcedureCosts(procedureOccurrences).ToArray();
+         //var devicCosts = BuildDeviceCosts(deviceExposure).ToArray();
+         //var visitCosts = BuildVisitCosts(visitOccurrences.Values.ToArray()).ToArray();
 
          // push built entities to ChunkBuilder for further save to CDM database
          AddToChunk(person, death,
             observationPeriods,
             payerPlanPeriods,
             drugExposures,
-            drugCosts,
+            new DrugCost[0], 
             conditionOccurrences,
             procedureOccurrences,
-            procedureCosts,
+            new ProcedureCost[0], 
             observations,
             measurements,
-            visitOccurrences.Values.ToArray(), visitCosts, new Cohort[0], deviceExposure, devicCosts);
+            visitOccurrences.Values.ToArray(), new VisitCost[0], new Cohort[0], deviceExposure, new DeviceCost[0]);
+      }
+
+      public override void AddToChunk(string domain, IEnumerable<IEntity> entities)
+      {
+         foreach (var entity in entities)
+         {
+            var entityDomain = entity.Domain;
+            if (string.IsNullOrEmpty(entityDomain))
+            {
+               entityDomain = domain;
+            }
+          
+            switch (entityDomain)
+            {
+               case "Condition":
+                  var obs = entity as Observation;
+                  if (obs == null || obs.ValueAsNumber == 1)
+                  {
+                     var cond = entity as ConditionOccurrence ??
+                                new ConditionOccurrence(entity)
+                                {
+                                   Id = chunkData.KeyMasterOffset.ConditionOccurrenceId
+                                };
+                     conditionForEra.Add(cond);
+                     chunkData.AddData(cond);
+                  }
+                  break;
+
+               case "Measurement":
+                  var mes = entity as Measurement ??
+                            new Measurement(entity) {Id = chunkData.KeyMasterOffset.MeasurementId};
+                  chunkData.AddData(mes);
+                  if (mes.MeasurementCost != null && mes.MeasurementCost.Count > 0)
+                  {
+                     foreach (var mc in mes.MeasurementCost)
+                     {
+                        chunkData.AddData(new Cost
+                        {
+                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                           CurrencyConceptId = mc.CurrencyConceptId.Value,
+                           TotalCharge = mc.TotalPaid,
+                           TotalCost = mc.PaidByPayer,
+                           RevenueCodeConceptId = mc.RevenueCodeConceptId,
+                           RevenueCodeSourceValue = mc.RevenueCodeSourceValue,
+                           Domain = entityDomain,
+                           TypeId = 0,
+                           EventId = mes.Id
+                        }, EntityType.Cost);
+                     }
+                  }
+                  break;
+
+               case "Meas Value":
+                  var mv = entity as Measurement ??
+                           new Measurement(entity) {Id = chunkData.KeyMasterOffset.MeasurementId};
+                  chunkData.AddData(mv);
+                  if (mv.MeasurementCost != null && mv.MeasurementCost.Count > 0)
+                  {
+                     foreach (var mc in mv.MeasurementCost)
+                     {
+                        chunkData.AddData(new Cost
+                        {
+                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                           CurrencyConceptId = mc.CurrencyConceptId.Value,
+                           TotalCharge = mc.TotalPaid,
+                           TotalCost = mc.PaidByPayer,
+                           RevenueCodeConceptId = mc.RevenueCodeConceptId,
+                           RevenueCodeSourceValue = mc.RevenueCodeSourceValue,
+                           Domain = entityDomain,
+                           TypeId = 0,
+                           EventId = mv.Id
+                        }, EntityType.Cost);
+                     }
+                  }
+                  break;
+
+               case "Observation":
+                  var obser = entity as Observation ??
+                              new Observation(entity) {Id = chunkData.KeyMasterOffset.ObservationId};
+                  chunkData.AddData(obser);
+                  if (obser.ObservationCost != null && obser.ObservationCost.Count > 0)
+                  {
+                     foreach (var oc in obser.ObservationCost)
+                     {
+                        chunkData.AddData(new Cost
+                        {
+                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                           CurrencyConceptId = oc.CurrencyConceptId.Value,
+                           TotalCharge = oc.TotalPaid,
+                           TotalCost = oc.PaidByPayer,
+                           RevenueCodeConceptId = oc.RevenueCodeConceptId,
+                           RevenueCodeSourceValue = oc.RevenueCodeSourceValue,
+                           Domain = entityDomain,
+                           TypeId = 0,
+                           EventId = obser.Id
+                        }, EntityType.Cost);
+                     }
+                  }
+                  break;
+
+               case "Procedure":
+                  var p = entity as ProcedureOccurrence ??
+                             new ProcedureOccurrence(entity)
+                             {
+                                Id =
+                                   chunkData.KeyMasterOffset.ProcedureOccurrenceId
+                             };
+                  chunkData.AddData(p);
+
+                  if (p.ProcedureCosts != null && p.ProcedureCosts.Count > 0)
+                  {
+                     foreach (var pc in p.ProcedureCosts)
+                     {
+                        chunkData.AddData(new Cost
+                        {
+                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                           CurrencyConceptId = pc.CurrencyConceptId,
+                           TotalCharge = pc.TotalPaid,
+                           TotalCost = pc.PaidByPayer,
+                           RevenueCodeConceptId = pc.RevenueCodeConceptId,
+                           RevenueCodeSourceValue = pc.RevenueCodeSourceValue,
+                           Domain = entityDomain,
+                           TypeId = 0,
+                           EventId = p.Id
+                        }, EntityType.Cost);
+                     }
+
+                  }
+                  break;
+
+               case "Device":
+                  var dev = entity as DeviceExposure ??
+                            new DeviceExposure(entity)
+                            {
+                               Id = chunkData.KeyMasterOffset.DeviceExposureId
+                            };
+                  chunkData.AddData(dev);
+                  if (dev.DeviceCosts != null && dev.DeviceCosts.Count > 0)
+                  {
+                     foreach (var dc in dev.DeviceCosts)
+                     {
+                        chunkData.AddData(new Cost
+                        {
+                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                           CurrencyConceptId = dc.CurrencyConceptId.Value,
+                           TotalCharge = dc.TotalPaid,
+                           TotalCost = dc.PaidByPayer,
+                           RevenueCodeConceptId = dc.RevenueCodeConceptId,
+                           RevenueCodeSourceValue = dc.RevenueCodeSourceValue,
+                           Domain = entityDomain,
+                           TypeId = 0,
+                           EventId = dev.Id
+                        }, EntityType.Cost);
+                     }
+                  }
+                  break;
+
+               case "Drug":
+                  var drg = entity as DrugExposure ??
+                            new DrugExposure(entity)
+                            {
+                               Id = chunkData.KeyMasterOffset.DrugExposureId,
+                               GetEraConceptIdsCall = vocabulary.LookupIngredientLevel
+                            };
+
+                  drugForEra.Add(drg);
+                  chunkData.AddData(drg);
+
+                  if (drg.DrugCost != null)
+                  {
+                     chunkData.AddData(new Cost
+                     {
+                        CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                        CurrencyConceptId = drg.DrugCost.CurrencyConceptId.Value,
+                        TotalCharge = drg.DrugCost.TotalPaid,
+                        TotalCost = drg.DrugCost.PaidByPayer,
+                        RevenueCodeConceptId = drg.DrugCost.RevenueCodeConceptId,
+                        RevenueCodeSourceValue = drg.DrugCost.RevenueCodeSourceValue,
+                        Domain = entityDomain,
+                        TypeId = 0,
+                        EventId = drg.Id
+                     }, EntityType.Cost);
+                  }
+
+                  break;
+
+            }
+
+            //HIX-823
+            if (domain == "Procedure" && entityDomain != "Procedure")
+            {
+               var po = (ProcedureOccurrence)entity;
+               po.ConceptId = 0;
+               chunkData.AddData(po);
+            }
+
+            if (domain == "Observation" && entityDomain != "Observation")
+            {
+               var o = (Observation)entity;
+               o.ConceptId = 0;
+               chunkData.AddData(o);
+            }
+
+         }
       }
 
       public override bool Excluded(Person person, IEnumerable<ObservationPeriod> periods)
@@ -140,6 +348,8 @@ namespace org.ohdsi.cdm.builders.premier_v5
       /// <returns>Person entity</returns>
       public override Person BuildPerson(List<Person> records)
       {
+         if (records == null || records.Count == 0) return null;
+
          var ordered = records.OrderByDescending(p => p.StartDate);
          var person = ordered.Take(1).First();
          person.StartDate = ordered.Take(1).Last().StartDate;
@@ -149,8 +359,12 @@ namespace org.ohdsi.cdm.builders.premier_v5
          // if a person has multiple genders that are specified then those records are eliminated.
          if (records.Any(p => p.GenderConceptId != gender.GenderConceptId))
             return null;
-         
-         var maxYearOfBirth = records.Max(p => p.YearOfBirth);
+
+         if (!records.Any(r => r.YearOfBirth < 130))
+            return null;
+
+         // YearOfBirth contains age value, YearOfBirth calculated in Build() method 
+         var maxYearOfBirth = records.Where(r => r.YearOfBirth < 130).Max(p => p.YearOfBirth);
          person.YearOfBirth = maxYearOfBirth;
 
          //take the maximum value of race for people that have multiple values 
@@ -370,6 +584,7 @@ namespace org.ohdsi.cdm.builders.premier_v5
          ConditionOccurrence[] conditionOccurrences, Dictionary<long, VisitOccurrence> visitOccurrences,
          ObservationPeriod[] observationPeriods)
       {
+         var patbillEntities = new HashSet<ConditionOccurrence>(new PatbillConditionOccurrenceComparer());
          var uniqueEntities = new HashSet<ConditionOccurrence>();
          foreach (var conditionOccurrence in conditionOccurrences)
          {
@@ -378,12 +593,29 @@ namespace org.ohdsi.cdm.builders.premier_v5
 
             var visitOccurrence = visitOccurrences[conditionOccurrence.VisitOccurrenceId.Value];
 
-            conditionOccurrence.StartDate = visitOccurrence.StartDate;
+            if (conditionOccurrence.AdditionalFields != null &&
+            conditionOccurrence.AdditionalFields.ContainsKey("serv_day")) // coming from PATBILL
+            {
+               SetDateForPatbillEntity(conditionOccurrence, visitOccurrence);
 
-            uniqueEntities.Add(conditionOccurrence);
+               patbillEntities.Add(conditionOccurrence);
+            }
+            else //patcpt or paticd
+            {
+               conditionOccurrence.StartDate = visitOccurrence.StartDate;
+               uniqueEntities.Add(conditionOccurrence);
+            }
          }
 
-         return uniqueEntities;
+         foreach (var patbillEntity in patbillEntities)
+         {
+            yield return patbillEntity;
+         }
+
+         foreach (var uniqueEntity in uniqueEntities)
+         {
+            yield return uniqueEntity;
+         }
       }
 
       /// <summary>
@@ -418,23 +650,6 @@ namespace org.ohdsi.cdm.builders.premier_v5
             else //the procedure is a CPT code or ICD9 procedure code
             {
                procedureOccurrence.StartDate = visitOccurrence.EndDate.Value;
-            }
-
-            if (procedureOccurrence.ProcedureCosts != null && procedureOccurrence.ProcedureCosts.Count > 0)
-            {
-               foreach (var procedureCost in procedureOccurrence.ProcedureCosts)
-               {
-                  if (procedureCost.DiseaseClassLookupKey == null || procedureCost.DiseaseClassSourceValue == null)
-                     continue;
-
-                  // The DISEASE_CLASS_CONCEPT_ID is calculated using the DRG and mapping the DRG back to medical disease class or MDC
-                  var result = vocabulary.Lookup(procedureCost.DiseaseClassSourceValue,
-                     procedureCost.DiseaseClassLookupKey, procedureOccurrence.StartDate);
-                  if (result.Count > 0)
-                  {
-                     procedureCost.DiseaseClassConceptId = result[0].ConceptId;
-                  }
-               }
             }
 
             uniqueEntities.Add(procedureOccurrence);
@@ -511,6 +726,10 @@ namespace org.ohdsi.cdm.builders.premier_v5
          foreach (var payerPlanPeriod in result)
          {
             payerPlanPeriod.Id = chunkData.KeyMasterOffset.PayerPlanPeriodId;
+
+            if (payerPlanPeriod.EndDate < payerPlanPeriod.StartDate)
+               payerPlanPeriod.EndDate = payerPlanPeriod.StartDate;
+
             yield return payerPlanPeriod;
          }
       }
@@ -564,6 +783,7 @@ namespace org.ohdsi.cdm.builders.premier_v5
          Dictionary<long, VisitOccurrence> visitOccurrences, ObservationPeriod[] observationPeriods)
       {
          var uniqueEntities = new HashSet<Observation>();
+         var patbillEntities = new HashSet<Observation>(new PatbillObservationComparer());
          foreach (var observation in observations)
          {
             var valueAsStringConceptIds = new long[]{4053609, 40757183, 40757177, 40769091};
@@ -577,12 +797,32 @@ namespace org.ohdsi.cdm.builders.premier_v5
 
             var visitOccurrence = visitOccurrences[observation.VisitOccurrenceId.Value];
 
-            observation.StartDate = visitOccurrence.StartDate;
 
-            uniqueEntities.Add(observation);
+            if (observation.AdditionalFields != null &&
+            observation.AdditionalFields.ContainsKey("serv_day")) // coming from PATBILL
+            {
+               SetDateForPatbillEntity(observation, visitOccurrence);
+
+               patbillEntities.Add(observation);
+               
+            }
+            else //patcpt or paticd
+            {
+               observation.StartDate = visitOccurrence.StartDate;
+
+               uniqueEntities.Add(observation);
+            }
          }
 
-         return uniqueEntities;
+         foreach (var patbillEntity in patbillEntities)
+         {
+            yield return patbillEntity;
+         }
+
+         foreach (var uniqueEntity in uniqueEntities)
+         {
+            yield return uniqueEntity;
+         }
       }
 
       private static void SetDateForPatbillEntity(IEntity e, VisitOccurrence visitOccurrence)
@@ -658,8 +898,12 @@ namespace org.ohdsi.cdm.builders.premier_v5
       // Determinate max service day value for current person. 
       private void UpdateMaxServDays()
       {
+         UpdateMaxServDays(conditionOccurrencesRaw);
          UpdateMaxServDays(drugExposuresRaw);
          UpdateMaxServDays(procedureOccurrencesRaw);
+         UpdateMaxServDays(measurementsRaw);
+         UpdateMaxServDays(observationsRaw);
+         UpdateMaxServDays(deviceExposureRaw);
       }
 
       // The length of the stay is determined via the PAT.PAT_BILL table using the field SERV_DAY

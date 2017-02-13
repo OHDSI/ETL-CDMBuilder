@@ -31,7 +31,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
             if (!string.IsNullOrEmpty(StartTime))
             {
                DateTime dt;
-               if(DateTime.TryParse(reader.GetString(StartTime), out dt))
+               if (DateTime.TryParse(reader.GetString(StartTime), out dt))
                {
                   startTime = dt.ToString("HH:mm:ss", CultureInfo.InvariantCulture);
                }

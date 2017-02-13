@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Odbc;
 using System.IO;
-using System.Linq;
-using org.ohdsi.cdm.framework.core.Databases;
-using org.ohdsi.cdm.framework.data.DbLayer;
-using org.ohdsi.cdm.framework.entities.Omop;
 using org.ohdsi.cdm.framework.shared.Enums;
-using org.ohdsi.cdm.framework.shared.Helpers;
-
 using Microsoft.Win32;
 using System.Text;
 using System.Diagnostics;
@@ -19,13 +14,34 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 {
     public class AchillesController
     {
-        const int timeout = 12 * 60 * 60 * 1000; // 12 hour timeout
+        private const int timeout = 12 * 60 * 60 * 1000; // 12 hour timeout
         private string script;
         private string rscriptPath;
 
         public AchillesController(string script)
         {
-            this.script = script;                        
+            this.script = script;
+        }
+
+        private static bool ExistsOnPath(string exeName)
+        {
+            var psi = new ProcessStartInfo
+            {
+                UseShellExecute = false,
+                Arguments = "--help",
+                FileName = exeName
+            };
+            var p = new Process { StartInfo = psi };
+            try
+            {
+                p.Start();
+                p.WaitForExit();
+            }
+            catch (System.ComponentModel.Win32Exception)
+            {
+                return false;
+            }
+            return p.ExitCode == 0;
         }
 
         private string RInstallPath()
@@ -33,6 +49,9 @@ namespace org.ohdsi.cdm.framework.core.Controllers
             RegistryKey key = null;
             try
             {
+                if (ExistsOnPath("rscript"))
+                    return "rscript";
+
                 key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\R-core\R64");
                 if (key == null)
                 {
@@ -64,32 +83,89 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
         public int Run()
         {
-            this.rscriptPath = Path.Combine(RInstallPath(), @"bin\Rscript.exe");
-            if (!(File.Exists(rscriptPath)))
-                return 1;
+            this.rscriptPath = RInstallPath();
+            if (!string.Equals(this.rscriptPath, "rscript", StringComparison.OrdinalIgnoreCase))
+            {
+                this.rscriptPath = Path.Combine(this.rscriptPath, @"bin\Rscript.exe");
+                if (!(File.Exists(rscriptPath)))
+                    return 1;
+            }
 
-            var achillesParams = new Dictionary<string, string>();
-            achillesParams.Add("rsCluster", ConfigurationManager.AppSettings["rsCluster"]);
-            achillesParams.Add("rsUser", ConfigurationManager.AppSettings["rsUser"]);
-            achillesParams.Add("rsPassword", ConfigurationManager.AppSettings["rsPassword"]);
-            achillesParams.Add("rsDbSchema", ConfigurationManager.AppSettings["rsDbSchema"] ?? "cdm");
-            achillesParams.Add("rsDbName", ConfigurationManager.AppSettings["rsDbName"]);
-            achillesParams.Add("sourceName", Settings.Current.Building.Vendor.ToString());
-            achillesParams.Add("achillesJsonFolder", ConfigurationManager.AppSettings["achillesJsonFolder"].Replace("\\", "/"));
-            achillesParams.Add("loadId", ConfigurationManager.AppSettings["loadId"]);
-            achillesParams.Add("runCostAnalysis", ConfigurationManager.AppSettings["runCostAnalysis"].ToUpper());
-            achillesParams.Add("cdmVersion", Settings.Current.Building.CDM == CDMVersions.v5 ? "5" : string.Empty);
-            achillesParams.Add("resultsSchema", ConfigurationManager.AppSettings["resultsSchema"]);
+            // create Achilles JSON root folder if not exists
+            var jsonPath = ConfigurationManager.AppSettings["achillesJsonFolder"];
+            if (string.IsNullOrWhiteSpace(jsonPath))
+                jsonPath = @"c:\temp\achillesJson";
+            jsonPath = Path.GetFullPath(new Uri(jsonPath).LocalPath)
+                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            if (!(Directory.Exists(jsonPath)))
+                Directory.CreateDirectory(jsonPath);
+            jsonPath = jsonPath.Replace("\\", "/");
+
+            var odbcConnection = new OdbcConnectionStringBuilder(Settings.Current.Building.DestinationConnectionString);
+            var server = odbcConnection["server"].ToString();
+            var usr = odbcConnection["uid"].ToString();
+            var pass = odbcConnection["pwd"].ToString();
+            var schema = Settings.Current.Building.DestinationSchemaName;
+            var db = odbcConnection["database"].ToString();
+            var src = Settings.Current.Building.Vendor.ToString();
+
+            var loadId = ConfigurationManager.AppSettings["loadId"];
+
+            var hixServer = ConfigurationManager.AppSettings["hixServer"];
+            if (string.IsNullOrWhiteSpace(hixServer))
+                hixServer = "rndusrdhit01";
+            var hixDb = ConfigurationManager.AppSettings["hixDatabase"];
+            if (string.IsNullOrWhiteSpace(hixDb))
+                hixDb = "HIX";
+            var hixPort = ConfigurationManager.AppSettings["hixPort"];
+            if (string.IsNullOrWhiteSpace(hixPort))
+                hixPort = "1433";
+            var hixUser = ConfigurationManager.AppSettings["hixUser"];
+            if (string.IsNullOrWhiteSpace(hixUser))
+                hixUser = "hix_reader";
+            var hixPass = ConfigurationManager.AppSettings["hixPassword"];
+
+            var runCost = ConfigurationManager.AppSettings["runCostAnalysis"];
+            if (string.IsNullOrWhiteSpace(runCost))
+                runCost = "TRUE";
+            else
+                runCost = runCost.Trim().ToUpper();
+
+            var cdmV = Settings.Current.Building.CDM == CDMVersions.v5 ? "5" : string.Empty;
+            var resSchema = ConfigurationManager.AppSettings["resultsSchema"];
+            if (string.IsNullOrWhiteSpace(resSchema))
+                resSchema = "cdm";
+
+            var achillesParams = new Dictionary<string, string>
+            {
+                {"rsCluster", server},
+                {"rsUser", usr},
+                {"rsPassword", pass},
+                {"rsDbSchema", schema},
+                {"rsDbName", db},
+                {"sourceName", src},
+                {"achillesJsonFolder", jsonPath},
+                {"loadId", loadId},
+                {"runCostAnalysis", runCost},
+                {"cdmVersion", cdmV},
+                {"resultsSchema", resSchema},
+                {"hixServer", hixServer},
+                {"hixUser", hixUser},
+                {"hixPassword", hixPass},
+                {"hixDb", hixDb},
+                {"hixPort", hixPort}
+            };
 
             script = Regex.Replace(script, @"\{(.+?)\}", m => achillesParams[m.Groups[1].Value]);
 
             var scriptPath = Path.GetTempFileName();
+            Logger.Write(null, LogMessageTypes.Info, script);
             File.WriteAllText(scriptPath, script);
 
-            var output = new StringBuilder();
-            var error = new StringBuilder();
+            //var output = new StringBuilder();
+            //var error = new StringBuilder();
 
-            var ProcessParameters = new ProcessStartInfo(rscriptPath)
+            var processParameters = new ProcessStartInfo(rscriptPath)
             {
                 Arguments = string.Format("\"{0}\" --vanilla --slave", scriptPath),
                 CreateNoWindow = true,
@@ -99,8 +175,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
                 RedirectStandardOutput = true
             };
 
-            var r = new Process();
-            r.StartInfo = ProcessParameters;
+            var r = new Process { StartInfo = processParameters };
 
             using (var outputWaitHandle = new AutoResetEvent(false))
             using (var errorWaitHandle = new AutoResetEvent(false))
@@ -113,7 +188,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
                     }
                     else
                     {
-                        output.AppendLine(e.Data);
+                        //output.AppendLine(e.Data);
                         Logger.Write(null, LogMessageTypes.Info, e.Data);
                     }
                 };
@@ -125,40 +200,29 @@ namespace org.ohdsi.cdm.framework.core.Controllers
                     }
                     else
                     {
-                        error.AppendLine(e.Data);
+                        //error.AppendLine(e.Data);
 
                         LogMessageTypes msgType;
-                        if (e.Data.StartsWith("Error:"))
-                            msgType = LogMessageTypes.Error;
-                        else
-                            msgType = LogMessageTypes.Warning;
+                        msgType = e.Data == "Execution halted" || e.Data.StartsWith("Error")
+                            ? LogMessageTypes.Error
+                            : LogMessageTypes.Warning;
 
                         Logger.Write(null, msgType, e.Data);
                     }
                 };
 
                 r.Start();
-
-                //r.StandardInput.WriteLine(script);
-
                 r.BeginOutputReadLine();
                 r.BeginErrorReadLine();
 
-                if (r.WaitForExit(timeout) &&
-                    outputWaitHandle.WaitOne(timeout) &&
-                    errorWaitHandle.WaitOne(timeout))
-                {
-                    if (File.Exists(scriptPath))
-                        File.Delete(scriptPath);
-
-                    return r.ExitCode;
-                }
-                else
-                {
+                if (!r.WaitForExit(timeout) || !outputWaitHandle.WaitOne(timeout) || !errorWaitHandle.WaitOne(timeout))
                     throw new Exception("Achilles timed out.");
-                }
-            }
 
+                if (File.Exists(scriptPath))
+                    File.Delete(scriptPath);
+
+                return r.ExitCode;
+            }
         }
     }
 }

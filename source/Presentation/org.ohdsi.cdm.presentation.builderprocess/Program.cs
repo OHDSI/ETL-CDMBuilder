@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Configuration;
-using System.Data.Odbc;
-using System.Linq;
 using System.Text.RegularExpressions;
 using org.ohdsi.cdm.builders.cprd_v5;
 using org.ohdsi.cdm.builders.jmdc_v5;
@@ -15,8 +13,6 @@ using org.ohdsi.cdm.framework.core.Base;
 using org.ohdsi.cdm.framework.core.Controllers;
 using org.ohdsi.cdm.framework.data.DbLayer;
 using org.ohdsi.cdm.framework.shared.Enums;
-using org.ohdsi.cdm.framework.shared.Helpers;
-using System.Threading;
 using org.ohdsi.cdm.builders.eras_v5;
 
 namespace org.ohdsi.cdm.presentation.builderprocess
@@ -44,7 +40,7 @@ namespace org.ohdsi.cdm.presentation.builderprocess
          {
             Settings.Initialize(ConfigurationManager.ConnectionStrings["Builder"].ConnectionString, Environment.MachineName);
          }
-         
+        
          var builderController = new BuilderController();
          try
          {
@@ -63,9 +59,7 @@ namespace org.ohdsi.cdm.presentation.builderprocess
 
       private static void Build(BuilderController builderController)
       {
-         var rnd = new Random();
          var dbChunk = new DbChunk(Settings.Current.Building.BuilderConnectionString);
-         var dbSource = new DbSource(Settings.Current.Building.SourceConnectionString, null, Settings.Current.Building.SourceSchemaName);
          int? chunkId = null;
          while (true)
          {
@@ -85,38 +79,34 @@ namespace org.ohdsi.cdm.presentation.builderprocess
                    builderController.Builder.State == BuilderState.Idle)
                   continue;
 
-               if (Settings.Current.Building.SourceEngine.Database == Database.Redshift)
-               {
-                  var cnt = dbChunk.GetChunksWithRunningQueriesCount(Settings.Current.Building.Id.Value);
-
-                  if (cnt > 0)
-                  {
-                     Thread.Sleep(rnd.Next(1000, 5000));
-                     continue;
-                  }
-
-                  const string query = "select count(*) from stv_recents where status='Running'";
-                  using (
-                     var connection =
-                        SqlConnectionHelper.OpenOdbcConnection(Settings.Current.Building.SourceConnectionString))
-                  using (var cmd = new OdbcCommand(query, connection) {CommandTimeout = 0})
-                  {
-                     cnt = Convert.ToInt32(cmd.ExecuteScalar());
-                  }
-
-                  if (cnt > 1)
-                  {
-                     Thread.Sleep(rnd.Next(7000, 10000));
-                     continue;
-                  }
-               }
-
                chunkId = dbChunk.TakeChunk(Settings.Current.Building.Id.Value, Settings.Current.Builder.Id.Value);
                if (!chunkId.HasValue) break;
 
-               var personIds = dbSource.GetPersonIds(chunkId.Value);
-               var chunk = new ChunkBuilder(chunkId.Value, personIds.ToArray(), CreatePersonBuilder, subChunkSize);
-               chunk.Process();
+                var attempt = 0;
+                var processing = false;
+                var chunk = Settings.Current.Building.SourceEngine.GetChunkBuilder(chunkId.Value, CreatePersonBuilder, subChunkSize);
+                while (!processing)
+                {
+
+                    try
+                    {
+                        attempt++;
+                        chunk.Process();
+                        processing = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (attempt <= 3)
+                        {
+                            Logger.Write(chunkId, LogMessageTypes.Warning, "chunk.Process attempt=" + attempt + ") " + Logger.CreateExceptionString(ex));
+                            chunk = Settings.Current.Building.SourceEngine.GetChunkBuilder(chunkId.Value, CreatePersonBuilder, subChunkSize);
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                }
                chunkId = null;
             }
             catch (Exception e)
@@ -161,6 +151,7 @@ namespace org.ohdsi.cdm.presentation.builderprocess
                return new SeerPersonBuilder();
 
             case Vendors.OptumExtendedSES:
+            case Vendors.OptumExtendedDOD:
                return new OptumExtendedSesPersonBuilder();
 
             case Vendors.OptumOncology:

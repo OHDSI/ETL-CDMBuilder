@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using org.ohdsi.cdm.framework.core.Definitions;
 using org.ohdsi.cdm.framework.core.Savers;
 using org.ohdsi.cdm.framework.shared.Helpers;
 using org.ohdsi.cdm.framework.shared.Enums;
@@ -55,6 +56,11 @@ namespace org.ohdsi.cdm.framework.core.Databases
          var c = new SqlCommand(cmdText, (SqlConnection)connection) {CommandTimeout = 999999999};
 
          return c;
+      }
+
+      public override IDataReader ReadChunkData(IDbConnection conn, IDbCommand cmd, QueryDefinition qd, int chunkId, string prefix)
+      {
+         return cmd.ExecuteReader();
       }
    }
 }

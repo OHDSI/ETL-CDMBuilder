@@ -19,7 +19,7 @@ namespace org.ohdsi.cdm.framework.core.Common.Services
         private static Dictionary<int, int> chunksIndexes;
 
         private BackgroundWorker saver;
-        private const int SIZE_OF_SET = 10;
+        private const int SIZE_OF_SET = 1;
         
         public void Start()
         {
@@ -160,21 +160,30 @@ namespace org.ohdsi.cdm.framework.core.Common.Services
                    SaveTable(connection, transaction, setIndex, "CONDITION_OCCURRENCE");
                    SaveTable(connection, transaction, setIndex, "DEATH");
                    SaveTable(connection, transaction, setIndex, "DRUG_EXPOSURE");
-                   SaveTable(connection, transaction, setIndex, "DRUG_COST");
                    SaveTable(connection, transaction, setIndex, "OBSERVATION");
                    SaveTable(connection, transaction, setIndex, "VISIT_OCCURRENCE");
-                   SaveTable(connection, transaction, setIndex, "VISIT_COST");
                    SaveTable(connection, transaction, setIndex, "PROCEDURE_OCCURRENCE");
-                   SaveTable(connection, transaction, setIndex, "PROCEDURE_COST");
+                   
                    SaveTable(connection, transaction, setIndex, "DRUG_ERA");
                    SaveTable(connection, transaction, setIndex, "CONDITION_ERA");
                    SaveTable(connection, transaction, setIndex, "DEVICE_EXPOSURE");
-                   SaveTable(connection, transaction, setIndex, "DEVICE_COST");
                    SaveTable(connection, transaction, setIndex, "MEASUREMENT");
                    SaveTable(connection, transaction, setIndex, "COHORT");
-                    
 
-                    transaction.Commit();
+                   if (Settings.Current.Building.CDM == CDMVersions.v5)
+                   {
+                      SaveTable(connection, transaction, setIndex, "DRUG_COST");
+                      SaveTable(connection, transaction, setIndex, "DEVICE_COST");
+                      SaveTable(connection, transaction, setIndex, "VISIT_COST");
+                      SaveTable(connection, transaction, setIndex, "PROCEDURE_COST");
+                   }
+                   else if (Settings.Current.Building.CDM == CDMVersions.v501)
+                   {
+                      SaveTable(connection, transaction, setIndex, "COST");
+                   }
+
+
+                   transaction.Commit();
                 }
                 catch (Exception e)
                 {
@@ -200,12 +209,10 @@ namespace org.ohdsi.cdm.framework.core.Common.Services
             var timer = new Stopwatch();
             timer.Start();
             Logger.Write(null, LogMessageTypes.Debug, string.Format("*** START index - {0}; table - {1}", setIndex, tableName));
-           var bucket = string.Format("{0}/{1}-{2}", Settings.Current.Bucket, Settings.Current.Building.Vendor,
-              Settings.Current.Building.Id);
-
-            var folder = setIndex;
-            var fileName = string.Format(@"{0}/{1}", folder, tableName + ".txt.gz");
-
+           var bucket = string.Format("{0}/{1}/{2}/{3}", Settings.Current.Bucket, Settings.Current.Building.Vendor,
+              Settings.Current.Building.Id, "cdm");
+            
+            var fileName = string.Format(@"{0}/{1}/{2}", "chunks-set", setIndex, tableName + ".txt.gz");
             tableName = string.Format("{0}.{1}", Settings.Current.Building.DestinationSchemaName, tableName);
 
             const string query = @"copy {0} from 's3://{1}/{2}' " +

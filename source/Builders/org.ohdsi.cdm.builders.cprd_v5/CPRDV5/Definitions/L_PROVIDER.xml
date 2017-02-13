@@ -2,9 +2,9 @@
    <Query>
      select
      staffid as PROVIDER_ID,
-     Right(staffid, 3) as CARE_SITE_ID,
+     cast(Right(cast(staffid as varchar), 3) as int) as CARE_SITE_ID,
      cast(staffid as varchar) as PROVIDER_SOURCE_VALUE,
-     ISNULL(cast(role as varchar), 0) as SPECIALTY_SOURCE_VALUE,
+     cast(ISNULL(role, 0) as varchar) as SPECIALTY_SOURCE_VALUE,
      ISNULL(gender, 0) as gender
      from {sc}.Staff
      union
@@ -21,9 +21,9 @@
      (select
      null as NPI,
      null as DEA,
-     null as CARE_SITE_ID,
+     cast(null as int) as CARE_SITE_ID,
      a.pconsult as PROVIDER_SOURCE_VALUE,
-     ISNULL(a.tretspef, 0) as SPECIALTY_SOURCE_VALUE
+     ISNULL(a.tretspef, '0') as SPECIALTY_SOURCE_VALUE
      from (select *
      from
      (select *, row_number() over (partition by pconsult order by count_spec desc) as prov_count

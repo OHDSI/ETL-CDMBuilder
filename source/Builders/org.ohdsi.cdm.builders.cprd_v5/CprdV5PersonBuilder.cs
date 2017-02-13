@@ -77,6 +77,28 @@ namespace org.ohdsi.cdm.builders.cprd_v5
 
       }
 
+      public override IEnumerable<Measurement> BuildMeasurement(Measurement[] measurements, Dictionary<long, VisitOccurrence> visitOccurrences,
+         ObservationPeriod[] observationPeriods)
+      {
+         foreach (var m in base.BuildMeasurement(measurements, visitOccurrences, observationPeriods))
+         {
+            if (m.AdditionalFields != null && m.AdditionalFields.ContainsKey("value_as_string"))
+            {
+               decimal valueAsNumber;
+
+               if (decimal.TryParse(m.AdditionalFields["value_as_string"], out valueAsNumber))
+               {
+                  m.ValueAsNumber = valueAsNumber;
+
+                  if (m.TypeConceptId == 900000007)
+                     m.TypeConceptId = 900000006;
+               }
+            }
+
+            yield return m;
+         }
+      }
+
       /// <summary>
       /// Projects Enumeration of Observations from the raw set of Observation entities. 
       /// During build:
@@ -96,6 +118,19 @@ namespace org.ohdsi.cdm.builders.cprd_v5
          {
             // exclude observations for person without observation periods
             if (!observationPeriods.Any()) continue;
+
+            if (observation.AdditionalFields != null && observation.AdditionalFields.ContainsKey("value_as_string"))
+            {
+               decimal valueAsNumber;
+
+               if (decimal.TryParse(observation.AdditionalFields["value_as_string"], out valueAsNumber))
+               {
+                  observation.ValueAsNumber = valueAsNumber;
+
+                  if (observation.TypeConceptId == 900000007)
+                     observation.TypeConceptId = 900000006;
+               }
+            }
 
             //Medical History Read code records
             if (observation.TypeConceptId >= 1 && observation.TypeConceptId <= 3)

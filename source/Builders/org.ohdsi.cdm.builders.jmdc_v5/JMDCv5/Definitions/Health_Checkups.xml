@@ -207,7 +207,7 @@
     100 as Serum_creatinine_max
     FROM {sc}.[Health Checkups] h
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND h.[Member ID] = ch.PERSON_SOURCE_VALUE
-    order by h.person_id
+    order by CAST(RIGHT([Member ID], LEN([Member ID]) - 1) AS BIGINT)
   </Query>
 
   <Measurement>

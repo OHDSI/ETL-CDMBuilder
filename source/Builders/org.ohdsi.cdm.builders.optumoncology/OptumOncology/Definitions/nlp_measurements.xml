@@ -25,6 +25,7 @@
     END AS ValueAsConceptId
     from {sc}.nlp_measurements n
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND n.ptid = ch.PERSON_SOURCE_VALUE
+    where DATEPART(year, n.measurement_date) > 1900
     order by cast(replace(n.ptid, 'PT','') as bigint)
   </Query>
   <Measurement>

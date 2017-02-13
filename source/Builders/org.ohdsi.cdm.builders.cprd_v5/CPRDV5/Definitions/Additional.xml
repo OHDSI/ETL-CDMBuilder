@@ -201,10 +201,9 @@
      a.patid,
      a.observation_source_value,
      a.value_as_string,
-     case when ISNUMERIC(a.value_as_string) = 1 then cast(a.value_as_string as float) else null end as value_as_number,
      b.eventdate,
      b.staffid,
-     (a.patid*100000000)+(year(b.eventdate)*10000)+(month(b.eventdate)*100)+day(b.eventdate) as visit_occurrence_id,
+     (a.patid*100000000)+(DATEPART(year,b.eventdate)*10000)+(DATEPART(month,b.eventdate)*100)+DATEPART(day,b.eventdate) as visit_occurrence_id,
      case when value_as_string =  'Not examined'  then 4301433
      when value_as_string ='Potential Abnormal' then 40567538
      when value_as_string =  'Present' then 4181412
@@ -232,8 +231,11 @@
       <StartDate>eventdate</StartDate>
       <ProviderId>staffid</ProviderId>
       <ValueSourceValue>value_as_string</ValueSourceValue>
-      <ValueAsNumber>value_as_number</ValueAsNumber>
+      <!--<ValueAsNumber>value_as_number</ValueAsNumber>-->
       <ValueAsConceptId>value_as_concept_id</ValueAsConceptId>
+      <AdditionalFields>
+        <string>value_as_string</string>
+      </AdditionalFields>
       <Concepts>
         <Concept>
           <IdRequired>true</IdRequired>
@@ -264,8 +266,11 @@
       <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
       <StartDate>eventdate</StartDate>
       <ProviderId>staffid</ProviderId>
-      <ValueAsNumber>value_as_number</ValueAsNumber>
+      <!--<ValueAsNumber>value_as_number</ValueAsNumber>-->
       <ValueSourceValue>value_as_string</ValueSourceValue>
+      <AdditionalFields>
+        <string>value_as_string</string>
+      </AdditionalFields>
       <Concepts>
         <Concept>
           <IdRequired>true</IdRequired>
@@ -292,10 +297,13 @@
          <ValuesAsString>
             <string>value_as_string</string>
          </ValuesAsString>
-         <ValuesAsNumber>
+         <!--<ValuesAsNumber>
            <string>value_as_number</string>
-         </ValuesAsNumber>
+         </ValuesAsNumber>-->
          <ValueAsConceptId>value_as_concept_id</ValueAsConceptId>
+         <AdditionalFields>
+            <string>value_as_string</string>
+         </AdditionalFields>
          <Concepts>
             <Concept>
                <!--<IdRequired>true</IdRequired>-->
@@ -327,9 +335,12 @@
        <StartDate>eventdate</StartDate>
        <ProviderId>staffid</ProviderId>
        <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
-       <ValuesAsNumber>
+       <!--<ValuesAsNumber>
          <string>value_as_number</string>
-       </ValuesAsNumber>
+       </ValuesAsNumber>-->
+       <AdditionalFields>
+         <string>value_as_string</string>
+       </AdditionalFields>
        <Concepts>
          <Concept>
            <ConceptIdMappers>

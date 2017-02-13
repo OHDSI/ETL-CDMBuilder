@@ -7,6 +7,7 @@ namespace org.ohdsi.cdm.framework.core.Base
 {
    public interface IPersonBuilder
    {
+      ChunkData Chunk { get; }
       void AddChildData(IEntity parent, IEntity child);
       void AddData(IEntity data);
       void Build(Dictionary<string, long> providers);

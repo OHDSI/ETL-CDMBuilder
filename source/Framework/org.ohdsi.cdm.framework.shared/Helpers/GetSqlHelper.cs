@@ -19,7 +19,7 @@ namespace org.ohdsi.cdm.framework.shared.Helpers
                {
                   var originalValue = match.Value;
                   // Remove [ and ] and replace spaces as _
-                  var forRedshift = originalValue.Replace("[", "").Replace("]", "").Replace(" ", "_").Replace("-", "_").Trim();
+                  var forRedshift = originalValue.Replace("[", @"""").Replace("]", @"""").Replace(" ", "_").Replace("-", "_").Trim();
                   query = query.Replace(originalValue, forRedshift);
                }
                break;

@@ -12,6 +12,15 @@ namespace org.ohdsi.cdm.builders.premier_v5
          if (ReferenceEquals(x, null) || ReferenceEquals(y, null))
             return false;
 
+         var x_serv_day = "";
+         var y_serv_day = "";
+
+         if (x.AdditionalFields != null && x.AdditionalFields.ContainsKey("serv_day"))
+            x_serv_day = x.AdditionalFields["serv_day"] ?? "";
+
+         if (y.AdditionalFields != null && y.AdditionalFields.ContainsKey("serv_day"))
+            y_serv_day = y.AdditionalFields["serv_day"] ?? "";
+
          return x.PersonId.Equals(y.PersonId) &&
                 x.ConceptId == y.ConceptId &&
                 x.TypeConceptId == y.TypeConceptId &&
@@ -22,12 +31,17 @@ namespace org.ohdsi.cdm.builders.premier_v5
                 x.Quantity == y.Quantity &&
                 x.ProviderId == y.ProviderId &&
                 x.EndDate == y.EndDate &&
-                (x.AdditionalFields == null ? "" : x.AdditionalFields["serv_day"]) == (y.AdditionalFields == null ? "" : y.AdditionalFields["serv_day"]);
+                x_serv_day == y_serv_day;
       }
 
       public int GetHashCode(DeviceExposure d)
       {
          if (ReferenceEquals(d, null)) return 0;
+
+         var serv_day = "";
+
+         if (d.AdditionalFields != null && d.AdditionalFields.ContainsKey("serv_day"))
+            serv_day = d.AdditionalFields["serv_day"] ?? "";
 
          return d.PersonId.GetHashCode() ^
                 d.ConceptId.GetHashCode() ^
@@ -39,7 +53,7 @@ namespace org.ohdsi.cdm.builders.premier_v5
                 (d.UniqueDeviceId != null ? d.UniqueDeviceId.GetHashCode() : 0) ^
                 (d.StartDate.GetHashCode()) ^
                 (d.EndDate.GetHashCode()) ^
-                (d.AdditionalFields == null ? 0 : d.AdditionalFields["serv_day"].GetHashCode());
+                serv_day.GetHashCode();
       }
    }
 }

@@ -42,6 +42,10 @@ namespace org.ohdsi.cdm.framework.core.Definitions
       public Query Query { get; set; }
       public QueryVariable[] Variables { get; set; }
       public DynamicQuery DynamicQuery { get; set; }
+      public string FileName { get; set; }
+
+      [XmlIgnore]
+      public Dictionary<string, int> FieldHeaders { get; set; }
 
       public long ProcessedPersonId
       {
@@ -62,6 +66,9 @@ namespace org.ohdsi.cdm.framework.core.Definitions
       public DrugExposureDefinition[] DrugExposure { get; set; }
       public DrugCostDefinition[] DrugCost { get; set; }
       public ProcedureCostDefinition[] ProcedureCost { get; set; }
+      public MeasurementCostDefinition[] MeasurementCost { get; set; }
+      public ObservationCostDefinition[] ObservationCost { get; set; }
+
       public ProcedureOccurrenceDefinition[] ProcedureOccurrence { get; set; }
       public ObservationDefinition[] Observation { get; set; }
       public MeasurementDefinition[] Measurement { get; set; }
@@ -123,6 +130,66 @@ namespace org.ohdsi.cdm.framework.core.Definitions
          return
             databases.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries)
                .Any(db => vendor.ToString().ToLower().Contains(db.Trim().ToLower()));
+      }
+
+      public string GetPersonIdFieldName()
+      {
+         if (Persons != null && Persons.Any())
+         {
+            return Persons[0].PersonId;
+         }
+
+         if (PayerPlanPeriods != null && PayerPlanPeriods.Any())
+         {
+            return PayerPlanPeriods[0].PersonId;
+         }
+
+         if (ConditionOccurrence != null && ConditionOccurrence.Any())
+         {
+            return ConditionOccurrence[0].PersonId;
+         }
+
+         if (Death != null && Death.Any())
+         {
+            return Death[0].PersonId;
+         }
+
+         if (DrugExposure != null && DrugExposure.Any())
+         {
+            return DrugExposure[0].PersonId;
+         }
+
+         if (ProcedureOccurrence != null && ProcedureOccurrence.Any())
+         {
+            return ProcedureOccurrence[0].PersonId;
+         }
+
+         if (Observation != null && Observation.Any())
+         {
+            return Observation[0].PersonId;
+         }
+
+         if (Measurement != null && Measurement.Any())
+         {
+            return Measurement[0].PersonId;
+         }
+
+         if (VisitOccurrence != null && VisitOccurrence.Any())
+         {
+            return VisitOccurrence[0].PersonId;
+         }
+
+         if (Cohort != null && Cohort.Any())
+         {
+            return Cohort[0].PersonId;
+         }
+
+         if (DeviceExposure != null && DeviceExposure.Any())
+         {
+            return DeviceExposure[0].PersonId;
+         }
+
+         throw new Exception("Cant find PersonId FieldName " + this.FileName);
       }
    }
 }

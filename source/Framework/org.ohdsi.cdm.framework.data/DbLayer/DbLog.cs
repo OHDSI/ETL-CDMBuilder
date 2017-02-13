@@ -48,7 +48,7 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
          const string query =
             "delete [dbo].[Log] FROM [dbo].[Log] l " +
             "join [dbo].[Builder] b on l.BuilderId = b.Id " +
-            "where l.[BuildingId] = {0} ";
+            "where l.[BuildingId] = {0} and l.[Type] = 'Error'";
 
          using (var connection = SqlConnectionHelper.OpenMSSQLConnection(connectionString))
          {

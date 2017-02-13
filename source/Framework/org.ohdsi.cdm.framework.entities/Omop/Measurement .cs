@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using org.ohdsi.cdm.framework.shared.Enums;
 
 namespace org.ohdsi.cdm.framework.entities.Omop
@@ -14,6 +15,8 @@ namespace org.ohdsi.cdm.framework.entities.Omop
       public decimal? RangeHigh { get; set; }
       public string UnitSourceValue { get; set; }
       public string ValueSourceValue { get; set; }
+
+      public List<MeasurementCost> MeasurementCost { get; set; }
 
       public Measurement(IEntity ent)
       {

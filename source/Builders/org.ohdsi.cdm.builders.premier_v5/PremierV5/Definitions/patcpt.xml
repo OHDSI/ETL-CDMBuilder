@@ -11,9 +11,9 @@
      cpt.cpt_code,
      pat.adm_phy
      from {sc}.pat
-     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_ID
+     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_SOURCE_VALUE
      join {sc}.patcpt cpt on PAT.PAT_KEY = cpt.pat_key
-     order by pat.medrec_key
+     order by cast(pat.medrec_key as bigint)
    </Query>
    <ProcedureOccurrence>
       <ProcedureOccurrenceDefinition>
@@ -72,7 +72,7 @@
           <IdRequired>true</IdRequired>
           <ConceptIdMappers>
             <Mapper>
-              <Lookup>PremierV5\Lookups\ObservationCPT.sql</Lookup>
+              <Lookup>PremierV5\Lookups\Observation.sql</Lookup>
             </Mapper>
           </ConceptIdMappers>
           <SourceConceptIdMappers>

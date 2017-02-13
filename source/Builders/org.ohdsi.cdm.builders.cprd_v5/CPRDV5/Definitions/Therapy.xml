@@ -13,9 +13,9 @@
     when a.numdays = 0 or a.numdays &gt; 365 then null
     else a.numdays
     end numdays,
-    cast((cast(a.patid as bigint)*100000000)+(year(a.eventdate) *10000)+
-    (month(a.eventdate)*100)+
-    day(a.eventdate) as bigint)
+    cast((cast(a.patid as bigint)*100000000)+(DATEPART(year,a.eventdate) *10000)+
+    (DATEPART(month,a.eventdate)*100)+
+    DATEPART(day,a.eventdate) as bigint)
     as visit_occurrence_id,
     a.consid,
     ISNULL(a.ndd, 0) ndd,

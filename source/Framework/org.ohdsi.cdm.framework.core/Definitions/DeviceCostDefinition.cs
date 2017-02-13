@@ -18,6 +18,9 @@ namespace org.ohdsi.cdm.framework.core.Definitions
       public string TotalOutOfPocket { get; set; }
       public string TotalPaid { get; set; }
 
+      public long? RevenueCodeConceptId { get; set; }
+      public string RevenueCodeSourceValue { get; set; }
+
       public override IEnumerable<IEntity> GetConcepts(Concept concept, IDataRecord reader, KeyMasterOffset keyOffset)
       {
          throw new NotImplementedException();
@@ -41,6 +44,26 @@ namespace org.ohdsi.cdm.framework.core.Definitions
             totalOutOfPocket = paidCoinsurance + paidTowardDeductible;
          }
 
+         long? revenueCodeConceptId = null;
+         string revenueCodeSource = null;
+         if (Concepts != null)
+         {
+            if (Concepts.Length > 0)
+            {
+               var revenueCodeConcept = Concepts[0];
+
+               if (revenueCodeConcept.Fields.Length > 0)
+               {
+                  revenueCodeSource = reader.GetString(revenueCodeConcept.Fields[0].Key);
+
+                  var revenueConcepts = revenueCodeConcept.GetConceptIdValues(Vocabulary, revenueCodeConcept.Fields[0],
+                     reader);
+                  if (revenueConcepts.Count > 0)
+                     revenueCodeConceptId = revenueConcepts[0].ConceptId;
+               }
+            }
+         }
+
          return new DeviceCost(de)
                    {
                       DeviceCostId = keyOffset.DeviceCostId,
@@ -51,7 +74,9 @@ namespace org.ohdsi.cdm.framework.core.Definitions
                       PaidByCoordinationBenefits = reader.GetDecimal(PaidByCoordinationBenefits),
                       TotalPaid = reader.GetDecimal(TotalPaid),
                       TotalOutOfPocket = totalOutOfPocket,
-                      CurrencyConceptId = reader.GetLong(CurrencyConceptId)
+                      CurrencyConceptId = reader.GetLong(CurrencyConceptId),
+                      RevenueCodeConceptId = revenueCodeConceptId,
+                      RevenueCodeSourceValue = revenueCodeSource,
                    };
       }
    }

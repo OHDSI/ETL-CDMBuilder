@@ -47,12 +47,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>..\..\build\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\</IntermediateOutputPath>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>bin\x64\Release\</OutputPath>
+    <OutputPath>..\..\build\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\</IntermediateOutputPath>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'x64 Solution Configuration|x64'">
@@ -62,6 +64,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Base\ChunkBuilder.cs" />
+    <Compile Include="Base\ChunkBuilder2.cs" />
     <Compile Include="Base\IChunkBuilder.cs" />
     <Compile Include="Base\IPersonBuilder.cs" />
     <Compile Include="Base\PersonBuilder.cs" />
@@ -85,6 +88,8 @@
     <Compile Include="Definitions\Condition.cs" />
     <Compile Include="Definitions\ConditionOccurrenceDefinition.cs" />
     <Compile Include="Definitions\ConjunctionTypes.cs" />
+    <Compile Include="Definitions\ObservationCostDefinition.cs" />
+    <Compile Include="Definitions\MeasurementCostDefinition.cs" />
     <Compile Include="Definitions\DeviceCostDefinition.cs" />
     <Compile Include="Definitions\DeviceExposureDefinition.cs" />
     <Compile Include="Definitions\MeasurementDefinition.cs" />
@@ -136,12 +141,16 @@
     <Compile Include="Vocabulary.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="AWSSDK, Version=2.3.55.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AWSSDK.2.3.55.0\lib\net45\AWSSDK.dll</HintPath>
+    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AWSSDK.Core.3.3.5\lib\net45\AWSSDK.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CsvHelper.2.15.0.2\lib\net45\CsvHelper.dll</HintPath>
+    <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AWSSDK.S3.3.3.4\lib\net45\AWSSDK.S3.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CsvHelper, Version=3.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CsvHelper.3.0.0-beta7\lib\net451\CsvHelper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -199,19 +208,21 @@
     <Content Include="Common\MSSQL\AddUsers.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Common\MSSQL\v5.01\CopyVocabulary.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\MSSQL\v5.01\CreateIndexes.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\MSSQL\v5.01\CreateTables.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Common\MSSQL\CreateIndexesChunkTable.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Common\MSSQL\DropChunkTable.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Common\MSSQL\TruncateLookup.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Common\MSSQL\TruncateTables.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Common\MSSQL\TruncateWithoutLookupTables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Common\MSSQL\CreateChunkTable.sql">
@@ -233,6 +244,18 @@
     <Content Include="Common\Definitions\PROVIDER.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Common\MSSQL\v5.01\DropVocabularyTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\MSSQL\v5.01\TruncateLookup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\MSSQL\v5.01\TruncateTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\MSSQL\v5.01\TruncateWithoutLookupTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Common\MSSQL\v5\CopyVocabulary.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -244,16 +267,94 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Common\MSSQL\v5\DropVocabularyTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\MSSQL\v5\TruncateLookup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\MSSQL\v5\TruncateTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\MSSQL\v5\TruncateWithoutLookupTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Common\Redshift\AddUsers.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Common\Redshift\TruncateLookup.sql">
+    <Content Include="Common\Redshift\v5.01\CopyVocabulary.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Common\Redshift\TruncateTables.sql">
+    <Content Include="Common\Redshift\v5.01\CreateIndexes.sql">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Common\Redshift\TruncateWithoutLookupTables.sql">
+    <Content Include="Common\Redshift\v5.01\CreateTables.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.01\DropVocabularyTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.01\TruncateLookup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.01\TruncateTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.01\TruncateWithoutLookupTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.01\Vocabulary\concept.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.01\Vocabulary\concept_ancestor.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.01\Vocabulary\concept_class.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.01\Vocabulary\concept_relationship.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.01\Vocabulary\concept_synonym.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.01\Vocabulary\domain.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.01\Vocabulary\drug_strength.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.01\Vocabulary\relationship.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.01\Vocabulary\source_to_concept_map.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.01\Vocabulary\vocabulary.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5\DropVocabularyTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5\TruncateLookup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5\TruncateTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5\TruncateWithoutLookupTables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Common\Redshift\CreateChunkTable.sql">
@@ -343,12 +444,17 @@
     <Content Include="Common\Redshift\Achilles.R">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Common\APS\Achilles.R">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Common\MSSQL\Achilles.R">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\AWSSDK.S3.3.3.4\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

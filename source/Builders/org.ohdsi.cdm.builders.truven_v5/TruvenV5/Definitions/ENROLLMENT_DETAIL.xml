@@ -10,7 +10,7 @@
      DOBYR,
      DTSTART,
      DTEND,
-     PLANKEY,
+     null PLANKEY,
      SUBSTRING(RIGHT('00000000000' + CONVERT(VARCHAR,ENROLID), 11), 1,9) Family,
      null RACE_SOURCE_VALUE,
      null RACE_CONCEPT_ID,

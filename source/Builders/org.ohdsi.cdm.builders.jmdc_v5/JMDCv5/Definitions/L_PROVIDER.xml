@@ -3,7 +3,7 @@
     SELECT CAST('2' + RIGHT([Physician ID], LEN([Physician ID]) - 1) AS BIGINT) AS provider_id,
     [Physician id] AS provider_source_value,
     [Medium classification of department] AS specialty_source_value,
-    null AS care_site_id
+    0 AS care_site_id
     FROM {sc}.[Physician]
     union all
     SELECT CAST('1' + RIGHT([Institution ID], LEN([Institution ID]) - 1) AS BIGINT) AS provider_id,

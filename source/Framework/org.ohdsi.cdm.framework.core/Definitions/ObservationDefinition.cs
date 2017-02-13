@@ -32,7 +32,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
       {
          if (Concepts.Length < 2)
             return new KeyValuePair<long?, string>(null, string.Empty);
-         
+
          var unitsConcepts = base.GetConcepts(Concepts[1], reader, null).ToList();
 
          if (unitsConcepts.Count > 0)
@@ -106,7 +106,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
                   }
                }
             }
-            else if (!string.IsNullOrEmpty(obsConcepts[0].SourceValue))
+            else if (obsConcepts[0].ConceptId > 0 || !string.IsNullOrEmpty(obsConcepts[0].SourceValue))
             {
                var observation = createObservation();
                if (ValuesAsNumber != null && ValuesAsNumber.Length > 0)

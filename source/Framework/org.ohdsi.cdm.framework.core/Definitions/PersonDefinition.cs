@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.entities.Omop;
@@ -50,7 +49,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
 
          var genderSource = reader.GetString(Gender);
          var genderConceptId = Vocabulary.LookupGender(genderSource);
-         
+
          var personId = reader.GetLong(PersonId);
          if(personId.HasValue)
          {

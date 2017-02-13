@@ -34,7 +34,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.builders.truv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.builders.cprd_v5", "Builders\org.ohdsi.cdm.builders.cprd_v5\org.ohdsi.cdm.builders.cprd_v5.csproj", "{42ED060A-4253-49C2-90DE-695AAE0BD8F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.builders.seer", "Builders\org.ohdsi.cdm.builders.seer\org.ohdsi.cdm.builders.seer\org.ohdsi.cdm.builders.seer.csproj", "{FEBF609B-C70B-4FB2-B0CD-B48601DB2964}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.builders.seer", "Builders\org.ohdsi.cdm.builders.seer\org.ohdsi.cdm.builders.seer.csproj", "{FEBF609B-C70B-4FB2-B0CD-B48601DB2964}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.builders.jmdc_v5", "Builders\org.ohdsi.cdm.builders.jmdc_v5\org.ohdsi.cdm.builders.jmdc_v5.csproj", "{85D73E52-1D44-4C08-9255-72577A2994F1}"
 EndProject
@@ -52,6 +52,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{FA2A06
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.builders.optumoncology", "Builders\org.ohdsi.cdm.builders.optumoncology\org.ohdsi.cdm.builders.optumoncology.csproj", "{5F2CBF9B-1648-4C0E-B065-BF709F82B396}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.presentation.buildercmd", "Presentation\org.ohdsi.cdm.presentation.buildercmd\org.ohdsi.cdm.presentation.buildercmd.csproj", "{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -395,6 +397,26 @@ Global
 		{5F2CBF9B-1648-4C0E-B065-BF709F82B396}.x64 Solution Configuration|Mixed Platforms.Build.0 = Release|Any CPU
 		{5F2CBF9B-1648-4C0E-B065-BF709F82B396}.x64 Solution Configuration|x64.ActiveCfg = Release|Any CPU
 		{5F2CBF9B-1648-4C0E-B065-BF709F82B396}.x64 Solution Configuration|x86.ActiveCfg = Release|Any CPU
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.Debug|x64.ActiveCfg = Debug|x64
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.Debug|x64.Build.0 = Debug|x64
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.Release|x64.ActiveCfg = Release|x64
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.Release|x64.Build.0 = Release|x64
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.Release|x86.ActiveCfg = Release|Any CPU
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.x64 Solution Configuration|Any CPU.ActiveCfg = Release|Any CPU
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.x64 Solution Configuration|Any CPU.Build.0 = Release|Any CPU
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.x64 Solution Configuration|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.x64 Solution Configuration|Mixed Platforms.Build.0 = Release|Any CPU
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.x64 Solution Configuration|x64.ActiveCfg = Release|Any CPU
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C}.x64 Solution Configuration|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -414,6 +436,7 @@ Global
 		{5F2CBF9B-1648-4C0E-B065-BF709F82B396} = {841F6DD6-12BC-46B6-8952-2D159538BE62}
 		{B76BC58F-F8EB-4953-9AD9-00EAE7F1C23D} = {6CD59175-6606-4E1A-B171-CF631615BF0F}
 		{15CAC549-EAC7-461C-859E-9D4AF121B9D7} = {6CD59175-6606-4E1A-B171-CF631615BF0F}
+		{0FE4D548-FBE4-45E3-A721-A410FF1CAA0C} = {6CD59175-6606-4E1A-B171-CF631615BF0F}
 		{BE3D4020-39EF-4CE6-ACF3-11D358F0DCB7} = {69D5B1B9-1EF1-47EC-8FAF-88D5D2CF0A2C}
 	EndGlobalSection
 EndGlobal

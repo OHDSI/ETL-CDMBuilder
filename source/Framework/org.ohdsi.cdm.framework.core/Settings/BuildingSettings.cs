@@ -218,7 +218,14 @@ namespace org.ohdsi.cdm.framework.core
 
          var folder = Path.Combine(vendorFolder, "Definitions");
          SourceQueryDefinitions = Directory.GetFiles(folder).Select(
-             definition => new QueryDefinition().DeserializeFromXml(File.ReadAllText(definition))).ToList();
+            definition =>
+            {
+               var qd = new QueryDefinition().DeserializeFromXml(File.ReadAllText(definition));
+               var fileInfo = new FileInfo(definition);
+               qd.FileName = fileInfo.Name.Replace(fileInfo.Extension, "");
+
+               return qd;
+            }).ToList();
 
          folder = Path.Combine(Directory.GetParent(vendorFolder).FullName, Path.Combine("Common", "Definitions"));
          CommonQueryDefinitions = Directory.GetFiles(folder).Select(

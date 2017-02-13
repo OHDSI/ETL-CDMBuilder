@@ -84,6 +84,24 @@ namespace org.ohdsi.cdm.builders.optumoncology
          return base.BuildObservationPeriods(gap, observationPeriods);
       }
 
+      public override IEnumerable<Observation> BuildObservations(Observation[] observations, Dictionary<long, VisitOccurrence> visitOccurrences,
+         ObservationPeriod[] observationPeriods)
+      {
+         foreach (var observation in base.BuildObservations(observations, visitOccurrences, observationPeriods))
+         {
+            if (observation.AdditionalFields != null && observation.AdditionalFields.ContainsKey("test_result"))
+            {
+               decimal value;
+               if (decimal.TryParse(observation.AdditionalFields["test_result"], out value))
+                  observation.ValueAsNumber = value;
+               else
+                  observation.ValueAsString = observation.AdditionalFields["test_result"];
+            }
+
+            yield return observation;
+         }
+      }
+
       public override IEnumerable<Measurement> BuildMeasurement(Measurement[] measurements, Dictionary<long, VisitOccurrence> visitOccurrences,
          ObservationPeriod[] observationPeriods)
       {
@@ -226,11 +244,34 @@ namespace org.ohdsi.cdm.builders.optumoncology
                   break;
 
                case "Measurement":
-                  chunkData.AddData(entity as Measurement ?? new Measurement(entity) { Id = chunkData.KeyMasterOffset.MeasurementId });
+                  var mes = entity as Measurement ??
+                            new Measurement(entity) {Id = chunkData.KeyMasterOffset.MeasurementId};
+
+                  if (entity.AdditionalFields != null && entity.AdditionalFields.ContainsKey("test_result"))
+                  {
+                     mes.ValueSourceValue = entity.AdditionalFields["test_result"];
+                  }
+
+                  if (mes.TypeConceptId != 44786627 && mes.TypeConceptId != 44786629)
+                     mes.TypeConceptId = 45754907;
+
+                  chunkData.AddData(mes);
                   break;
 
                case "Meas Value":
-                  chunkData.AddData(entity as Measurement ?? new Measurement(entity) { Id = chunkData.KeyMasterOffset.MeasurementId });
+                  var m = entity as Measurement ??
+                            new Measurement(entity) {Id = chunkData.KeyMasterOffset.MeasurementId};
+
+                  if (entity.AdditionalFields != null && entity.AdditionalFields.ContainsKey("test_result"))
+                  {
+                     m.ValueSourceValue = entity.AdditionalFields["test_result"];
+                  }
+
+                  if (m.TypeConceptId != 44786627 && m.TypeConceptId != 44786629)
+                     m.TypeConceptId = 45754907;
+
+                  m.TypeConceptId = 45754907;
+                  chunkData.AddData(m);
                   break;
 
                case "Observation":

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.Odbc;
-using System.IO;
 using org.ohdsi.cdm.framework.shared.Helpers;
 
 namespace org.ohdsi.cdm.framework.data.DbLayer
@@ -11,10 +10,9 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
       private readonly string folder;
       private readonly string schemaName;
 
-      public DbDestination(string connectionString, string folder, string schemaName)
+      public DbDestination(string connectionString, string schemaName)
       {
          this.connectionString = connectionString;
-         this.folder = folder;
          this.schemaName = schemaName;
       }
 
@@ -54,7 +52,7 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
          using (var connection = SqlConnectionHelper.OpenOdbcConnection(sqlConnectionStringBuilder.ConnectionString))
          {
             var query = string.Format("ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;", destination);
-            
+
             using (var command = new OdbcCommand(query, connection))
             {
                command.CommandTimeout = 30000;
@@ -71,11 +69,11 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
          }
       }
 
-      public void TruncateLookup()
+      public void TruncateLookup(string query)
       {
          using (var connection = SqlConnectionHelper.OpenOdbcConnection(connectionString))
          {
-            var query = File.ReadAllText(Path.Combine(folder, "TruncateLookup.sql"));
+            //var query = File.ReadAllText(Path.Combine(folder, "TruncateLookup.sql"));
             query = query.Replace("{sc}", schemaName);
 
             using (var command = new OdbcCommand(query, connection))
@@ -86,11 +84,11 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
          }
       }
 
-      public void TruncateTables()
+      public void TruncateTables(string query)
       {
          using (var connection = SqlConnectionHelper.OpenOdbcConnection(connectionString))
          {
-            var query = File.ReadAllText(Path.Combine(folder, "TruncateTables.sql"));
+            //var query = File.ReadAllText(Path.Combine(folder, "TruncateTables.sql"));
             query = query.Replace("{sc}", schemaName);
 
             using (var command = new OdbcCommand(query, connection))
@@ -101,11 +99,11 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
          }
       }
 
-      public void TruncateWithoutLookupTables()
+      public void TruncateWithoutLookupTables(string query)
       {
          using (var connection = SqlConnectionHelper.OpenOdbcConnection(connectionString))
          {
-            var query = File.ReadAllText(Path.Combine(folder, "TruncateWithoutLookupTables.sql"));
+            //var query = File.ReadAllText(Path.Combine(folder, "TruncateWithoutLookupTables.sql"));
             query = query.Replace("{sc}", schemaName);
 
             using (var command = new OdbcCommand(query, connection))
@@ -116,27 +114,28 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
          }
       }
 
-      public void DropVocabularyTables()
+      public void DropVocabularyTables(string query)
       {
          using (var connection = SqlConnectionHelper.OpenOdbcConnection(connectionString))
          {
-            const string query =
-               "IF OBJECT_ID (N'AGG_DESCENDANT_SOURCECODES', N'U') IS NOT NULL truncate table AGG_DESCENDANT_SOURCECODES; " +
-               "IF OBJECT_ID (N'attribute_definition', N'U') IS NOT NULL truncate table attribute_definition; " +
-               "IF OBJECT_ID (N'cohort_definition', N'U') IS NOT NULL truncate table cohort_definition; " +
-               "IF OBJECT_ID (N'CONCEPT', N'U') IS NOT NULL truncate table CONCEPT; " +
-               "IF OBJECT_ID (N'concept_ancestor', N'U') IS NOT NULL truncate table concept_ancestor; " +
-               "IF OBJECT_ID (N'concept_class', N'U') IS NOT NULL truncate table concept_class; " +
-               "IF OBJECT_ID (N'concept_relationship', N'U') IS NOT NULL truncate table concept_relationship; " +
-               "IF OBJECT_ID (N'CONCEPT_SYNONYM', N'U') IS NOT NULL truncate table CONCEPT_SYNONYM; " +
-               "IF OBJECT_ID (N'DESCENDANT_CONCEPT_COUNT', N'U') IS NOT NULL truncate table DESCENDANT_CONCEPT_COUNT; " +
-               "IF OBJECT_ID (N'DESCENDANT_SOURCE_CODE_COUNT', N'U') IS NOT NULL truncate table DESCENDANT_SOURCE_CODE_COUNT; " +
-               "IF OBJECT_ID (N'domain', N'U') IS NOT NULL truncate table domain; " +
-               "IF OBJECT_ID (N'DRUG_APPROVAL', N'U') IS NOT NULL truncate table DRUG_APPROVAL; " +
-               "IF OBJECT_ID (N'DRUG_STRENGTH', N'U') IS NOT NULL truncate table DRUG_STRENGTH; " +
-               "IF OBJECT_ID (N'relationship', N'U') IS NOT NULL truncate table relationship; " +
-               "IF OBJECT_ID (N'source_to_concept_map', N'U') IS NOT NULL truncate table source_to_concept_map; " +
-               "IF OBJECT_ID (N'VOCABULARY', N'U') IS NOT NULL truncate table VOCABULARY; ";
+            query = query.Replace("{sc}", schemaName);
+            //const string query =
+            //   "IF OBJECT_ID (N'AGG_DESCENDANT_SOURCECODES', N'U') IS NOT NULL truncate table AGG_DESCENDANT_SOURCECODES; " +
+            //   "IF OBJECT_ID (N'attribute_definition', N'U') IS NOT NULL truncate table attribute_definition; " +
+            //   "IF OBJECT_ID (N'cohort_definition', N'U') IS NOT NULL truncate table cohort_definition; " +
+            //   "IF OBJECT_ID (N'CONCEPT', N'U') IS NOT NULL truncate table CONCEPT; " +
+            //   "IF OBJECT_ID (N'concept_ancestor', N'U') IS NOT NULL truncate table concept_ancestor; " +
+            //   "IF OBJECT_ID (N'concept_class', N'U') IS NOT NULL truncate table concept_class; " +
+            //   "IF OBJECT_ID (N'concept_relationship', N'U') IS NOT NULL truncate table concept_relationship; " +
+            //   "IF OBJECT_ID (N'CONCEPT_SYNONYM', N'U') IS NOT NULL truncate table CONCEPT_SYNONYM; " +
+            //   "IF OBJECT_ID (N'DESCENDANT_CONCEPT_COUNT', N'U') IS NOT NULL truncate table DESCENDANT_CONCEPT_COUNT; " +
+            //   "IF OBJECT_ID (N'DESCENDANT_SOURCE_CODE_COUNT', N'U') IS NOT NULL truncate table DESCENDANT_SOURCE_CODE_COUNT; " +
+            //   "IF OBJECT_ID (N'domain', N'U') IS NOT NULL truncate table domain; " +
+            //   "IF OBJECT_ID (N'DRUG_APPROVAL', N'U') IS NOT NULL truncate table DRUG_APPROVAL; " +
+            //   "IF OBJECT_ID (N'DRUG_STRENGTH', N'U') IS NOT NULL truncate table DRUG_STRENGTH; " +
+            //   "IF OBJECT_ID (N'relationship', N'U') IS NOT NULL truncate table relationship; " +
+            //   "IF OBJECT_ID (N'source_to_concept_map', N'U') IS NOT NULL truncate table source_to_concept_map; " +
+            //   "IF OBJECT_ID (N'VOCABULARY', N'U') IS NOT NULL truncate table VOCABULARY; ";
 
             using (var command = new OdbcCommand(query, connection))
             {
@@ -191,7 +190,7 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
       public void CreateIndexes(string query)
       {
          if (string.IsNullOrEmpty(query.Trim())) return;
-         
+
          using (var connection = SqlConnectionHelper.OpenOdbcConnection(connectionString))
          {
             foreach (var subQuery in query.Split(new[] { "\r\nGO", "\nGO" }, StringSplitOptions.None))

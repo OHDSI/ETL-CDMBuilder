@@ -25,4 +25,5 @@ select p.medrec_key, p.medrec_key
 from p
 left join dups_medrec_key as dups on (p.medrec_key = dups.medrec_key)
 where dups.medrec_key is null
+order by p.medrec_key
 

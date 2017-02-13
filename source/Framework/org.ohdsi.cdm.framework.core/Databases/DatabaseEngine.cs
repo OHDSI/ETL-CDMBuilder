@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Odbc;
+using org.ohdsi.cdm.framework.core.Base;
+using org.ohdsi.cdm.framework.core.Definitions;
 using org.ohdsi.cdm.framework.core.Savers;
+using org.ohdsi.cdm.framework.data.DbLayer;
+using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.shared.Enums;
 using org.ohdsi.cdm.framework.shared.Helpers;
 
@@ -32,7 +36,7 @@ namespace org.ohdsi.cdm.framework.core.Databases
          return string.Format("select {0} from {1} JOIN _chunks ch ON ch.ChunkId = {2} AND {3} = ch.PERSON_ID", string.Join(",", columns), tableName, chunkId, personIdFieldName);
       }
 
-      public IDbConnection GetConnection(string odbcConnectionString)
+      public virtual IDbConnection GetConnection(string odbcConnectionString)
       {
          return SqlConnectionHelper.OpenConnection(odbcConnectionString, Database);
       }
@@ -40,6 +44,24 @@ namespace org.ohdsi.cdm.framework.core.Databases
       public virtual IDbCommand GetCommand(string cmdText, IDbConnection connection)
       {
          throw new NotImplementedException();
+      }
+
+      public virtual IDataReader ReadChunkData(IDbConnection conn, IDbCommand cmd, QueryDefinition qd, int chunkId, string prefix)
+      {
+         throw new NotImplementedException();
+      }
+
+      public virtual IChunkBuilder GetChunkBuilder(int chunkId, Func<IPersonBuilder> createPersonBuilder, int subChunkSize)
+      {
+         var dbChunk = new DbChunk(Settings.Current.Building.BuilderConnectionString);
+         var subChunks = new List<ChunkData>();
+         foreach (var subChunkRecord in dbChunk.GetSubChunks(chunkId))
+         {
+            subChunks.Add(new ChunkData(chunkId, subChunkRecord.Index, subChunkRecord.Count, subChunkRecord.MinPersonId,
+                  subChunkRecord.MaxPersonId, subChunkRecord.Saved));
+         }
+
+         return new ChunkBuilder(chunkId, createPersonBuilder, subChunkSize, subChunks);
       }
 
       public static IDatabaseEngine GetEngine(OdbcConnection cn)

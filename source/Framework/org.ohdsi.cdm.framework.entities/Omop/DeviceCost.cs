@@ -17,6 +17,9 @@ namespace org.ohdsi.cdm.framework.entities.Omop
 
       public long? PayerPlanPeriodId { get; set; }
 
+      public long? RevenueCodeConceptId { get; set; }
+      public string RevenueCodeSourceValue { get; set; }
+
       public DeviceCost(DeviceExposure ent)
          : base(ent)
       {

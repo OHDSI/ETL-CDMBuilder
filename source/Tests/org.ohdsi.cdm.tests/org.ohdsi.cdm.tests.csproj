@@ -43,7 +43,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>..\..\build\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\</IntermediateOutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -59,7 +60,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
+    <OutputPath>..\..\build\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\</IntermediateOutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -77,8 +79,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NUnit.3.4.1\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -101,7 +103,7 @@
       <Project>{779e5e00-9218-4f0b-ac3d-5b70a6ebd886}</Project>
       <Name>org.ohdsi.cdm.builders.optumextendedses</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Builders\org.ohdsi.cdm.builders.seer\org.ohdsi.cdm.builders.seer\org.ohdsi.cdm.builders.seer.csproj">
+    <ProjectReference Include="..\..\Builders\org.ohdsi.cdm.builders.seer\org.ohdsi.cdm.builders.seer.csproj">
       <Project>{febf609b-c70b-4fb2-b0cd-b48601db2964}</Project>
       <Name>org.ohdsi.cdm.builders.seer</Name>
     </ProjectReference>

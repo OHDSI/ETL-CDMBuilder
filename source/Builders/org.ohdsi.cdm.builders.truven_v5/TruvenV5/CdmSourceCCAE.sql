@@ -1,4 +1,7 @@
-﻿INSERT INTO {sc}.CDM_SOURCE
+﻿truncate table {sc}.CDM_SOURCE;
+truncate table {sc}.CDM_DOMAIN_META;
+
+INSERT INTO {sc}.CDM_SOURCE
            (CDM_SOURCE_NAME
            ,CDM_SOURCE_ABBREVIATION
            ,CDM_HOLDER

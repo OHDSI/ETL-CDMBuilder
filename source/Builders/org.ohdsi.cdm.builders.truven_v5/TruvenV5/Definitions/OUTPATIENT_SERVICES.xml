@@ -3,7 +3,7 @@
     <Variable name="providField" database="ccae, mdcr">CAST(PROVID AS VARCHAR)</Variable>
     <Variable name="providField" database="mdcd">PROV_ID</Variable>
 
-    <Variable name="icdVer" database="ccae, mdcr">ISNULL(DXVER, '9') as DXVER, CASE WHEN ISNULL(PROCTYP, '9') != '0' THEN 9 ELSE 0 END as PROCTYP</Variable>
+    <Variable name="icdVer" database="ccae, mdcr">ISNULL(DXVER, '9') as DXVER, CASE WHEN ISNULL(PROCTYP, '0') != '0' THEN 9 ELSE 0 END as PROCTYP</Variable>
     <Variable name="icdVer" database="mdcd">'9' as DXVER, '9' as PROCTYP</Variable>
 
     <Variable name="diagnosisField" database="ccae, mdcr">DX1, DX2, DX3, DX4, DX5</Variable>

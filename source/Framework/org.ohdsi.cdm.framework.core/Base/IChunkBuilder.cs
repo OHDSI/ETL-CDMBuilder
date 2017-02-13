@@ -1,13 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace org.ohdsi.cdm.framework.core.Base
+﻿namespace org.ohdsi.cdm.framework.core.Base
 {
-   interface IChunkBuilder
+   public interface IChunkBuilder
    {
-      ChunkBuilder Load();
-      //ChunkBuilder Build();
-
-      //IEnumerable<Task> Save();
+      void Process();
    }
 }

@@ -163,6 +163,10 @@ namespace org.ohdsi.cdm.framework.core
             Load(folder, qd.CareSites);
             Load(folder, qd.Providers);
             Load(folder, qd.ProcedureCost);
+            Load(folder, qd.DeviceCost);
+            Load(folder, qd.ObservationCost);
+            Load(folder, qd.MeasurementCost);
+            Load(folder, qd.DrugCost);
             Load(folder, qd.Death);
             Load(folder, qd.Measurement);
             Load(folder, qd.DeviceExposure);

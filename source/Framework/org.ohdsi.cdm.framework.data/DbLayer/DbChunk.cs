@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using org.ohdsi.cdm.framework.entities.Omop;
 using org.ohdsi.cdm.framework.shared.Extensions;
 using org.ohdsi.cdm.framework.shared.Helpers;
 
@@ -14,6 +15,32 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
         public DbChunk(string connectionString)
         {
             this.connectionString = connectionString;
+        }
+
+        public void AddSubChunk(int chunkId, int index, long minPersonId, long maxPersonId, int personCount)
+        {
+           const string query =
+              "INSERT INTO SubChunk ([ChunkId],[Index],[MinPersonId],[MaxPersonId],[PersonCount]) VALUES (@chunkId,@index,@minPersonId,@maxPersonId,@personCount);";
+           using (var connection = SqlConnectionHelper.OpenMSSQLConnection(connectionString))
+           using (var cmd = new SqlCommand(query, connection) { CommandTimeout = 0 })
+           {
+              cmd.Parameters.Add("@chunkId", SqlDbType.Int);
+              cmd.Parameters["@chunkId"].Value = chunkId;
+
+              cmd.Parameters.Add("@index", SqlDbType.Int);
+              cmd.Parameters["@index"].Value = index;
+
+              cmd.Parameters.Add("@minPersonId", SqlDbType.BigInt);
+              cmd.Parameters["@minPersonId"].Value = minPersonId;
+
+              cmd.Parameters.Add("@maxPersonId", SqlDbType.BigInt);
+              cmd.Parameters["@maxPersonId"].Value = maxPersonId;
+
+              cmd.Parameters.Add("@personCount", SqlDbType.Int);
+              cmd.Parameters["@personCount"].Value = personCount;
+
+              cmd.ExecuteNonQuery();
+           }
         }
 
         public int AddChunk(int buildingId)
@@ -83,12 +110,26 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
 
         public void ResetChunks(int buildingId)
         {
-           var query = string.Format("UPDATE [dbo].[Chunk] SET [Started] = NULL,  [Ended] = NULL, [QueriesExecuted] = NULL, [Loaded] = NULL, [Built] = NULL WHERE [BuildingId] = {0}", buildingId);
+            var query = string.Format("UPDATE [dbo].[Chunk] SET [Started] = NULL,  [Ended] = NULL, [QueriesExecuted] = NULL, [Loaded] = NULL, [Built] = NULL WHERE [BuildingId] = {0}", buildingId);
             using (var connection = SqlConnectionHelper.OpenMSSQLConnection(connectionString))
             using (var cmd = new SqlCommand(query, connection) { CommandTimeout = 0 })
             {
                 cmd.ExecuteNonQuery();
             }
+
+            query = string.Format("DELETE FROM [dbo].[AvailableOnS3] WHERE [BuildingId] = {0}", buildingId);
+            using (var connection = SqlConnectionHelper.OpenMSSQLConnection(connectionString))
+            using (var cmd = new SqlCommand(query, connection) { CommandTimeout = 0 })
+            {
+               cmd.ExecuteNonQuery();
+            }
+
+            //query = string.Format("DELETE FROM SubChunk where ChunkId in (SELECT Id FROM Chunk WHERE BuildingId =  {0})", buildingId);
+            //using (var connection = SqlConnectionHelper.OpenMSSQLConnection(connectionString))
+            //using (var cmd = new SqlCommand(query, connection) { CommandTimeout = 0 })
+            //{
+            //   cmd.ExecuteNonQuery();
+            //}
         }
 
         public bool AllChunksStarted(int buildingId)
@@ -207,6 +248,34 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
            using (var cmd = new SqlCommand(query, connection) { CommandTimeout = 0 })
            {
               cmd.ExecuteNonQuery();
+           }
+        }
+
+        public IEnumerable<SubChunkRecord> GetSubChunks(int chunkId)
+        {
+           using (var connection = SqlConnectionHelper.OpenMSSQLConnection(connectionString))
+           {
+              var query = string.Format("SELECT [Index],[MinPersonId],[MaxPersonId],[PersonCount],[Saved] FROM [SubChunk] where [ChunkId] = {0}", chunkId);
+
+              using (var cmd = new SqlCommand(query, connection) { CommandTimeout = 0 })
+              {
+                 using (var reader = cmd.ExecuteReader())
+                 {
+                    while (reader.Read())
+                    {
+                       yield return
+                          new SubChunkRecord
+                          {
+                             ChunkId = chunkId,
+                             Index = reader.GetInt("Index").Value,
+                             MinPersonId = reader.GetLong("MinPersonId").Value,
+                             MaxPersonId = reader.GetLong("MaxPersonId").Value,
+                             Count = reader.GetInt("PersonCount").Value,
+                             Saved = reader.GetString("Saved") == "1"
+                          };
+                    }
+                 }
+              }
            }
         }
 

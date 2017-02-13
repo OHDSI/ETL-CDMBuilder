@@ -5,7 +5,7 @@
     cast(replace(ptid, 'PT','') as bigint) as PersonId,
     lower(gender) gender,
     case
-    when lower(birth_yr) like '% and earlier' then '1930'
+    when lower(birth_yr) like '% and earlier' then '1927'
     else birth_yr
     end as YearOfBirth,
     race,

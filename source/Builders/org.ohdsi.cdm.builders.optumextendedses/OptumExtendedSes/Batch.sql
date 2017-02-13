@@ -39,3 +39,4 @@ AND (
        OR MIN_SEX != MAX_SEX 
 ) 
 )
+order by f.patid

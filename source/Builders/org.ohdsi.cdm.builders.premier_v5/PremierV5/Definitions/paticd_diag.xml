@@ -1,0 +1,219 @@
+﻿<QueryDefinition>
+   <Query>
+     select
+     pat.medrec_key,
+     null as condition_end_date,
+     pat.disc_date,
+     case
+     when pat.i_o_ind = 'I' and icd.icd_pri_sec = 'P' then 38000183
+     when pat.i_o_ind = 'I' and icd.icd_pri_sec = 'S' then 38000185
+     when pat.i_o_ind = 'O' and icd.icd_pri_sec = 'P' then 38000215
+     when pat.i_o_ind = 'O' and icd.icd_pri_sec = 'S' then 38000216
+     when pat.i_o_ind = 'I' and icd.icd_pri_sec = 'A' then 4203942
+     when pat.i_o_ind = 'O' and icd.icd_pri_sec = 'A' then 4203942
+     else 0
+     end as condition_type_concept_id,
+     pat.pat_key,
+     icd.icd_code source_value,
+     case
+     when pat.i_o_ind = 'I' then 38000249
+     when pat.i_o_ind = 'O' then 38000267
+     end as procedure_type_concept_id,
+     icd.icd_code,
+     pat.adm_phy,
+     icd.icd_version
+     from {sc}.pat pat
+     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_SOURCE_VALUE
+     join {sc}.paticd_diag icd on pat.pat_key = icd.pat_key
+     order by cast(pat.medrec_key as bigint)
+   </Query>
+   <ConditionOccurrence>
+      <ConditionOccurrenceDefinition>
+         <IsUnique>true</IsUnique>
+         <Condition>{condition_type_concept_id} > 0</Condition>
+         <PersonId>medrec_key</PersonId>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <ProviderId>adm_phy</ProviderId>
+         <EndDate>condition_end_date</EndDate>
+         <Concepts>
+            <Concept>
+               <IdRequired>true</IdRequired>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>PremierV5\Lookups\ConditionIcd.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <SourceConceptIdMappers>
+                <Mapper>
+                  <Lookup>PremierV5\Lookups\ConditionSource.sql</Lookup>
+                </Mapper>
+              </SourceConceptIdMappers>
+               <Fields>
+                  <Field key="source_value" typeId="condition_type_concept_id"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </ConditionOccurrenceDefinition>
+   </ConditionOccurrence>
+   <!--<DrugExposure>
+      <DrugExposureDefinition>
+         <IsUnique>true</IsUnique>
+         <PersonId>medrec_key</PersonId>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <ProviderId>adm_phy</ProviderId>
+         <Concepts>
+            <Concept>
+               <IdRequired>true</IdRequired>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>PremierV5\Lookups\Drug.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="source_value" defaultTypeId="38000180"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </DrugExposureDefinition>
+   </DrugExposure>-->
+   <!--<ProcedureOccurrence>
+      <ProcedureOccurrenceDefinition>
+         <IsUnique>true</IsUnique>
+         <PersonId>medrec_key</PersonId>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <ProviderId>adm_phy</ProviderId>
+         <Concepts>
+            <Concept>
+               <IdRequired>true</IdRequired>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>PremierV5\Lookups\Procedure.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+              <SourceConceptIdMappers>
+                <Mapper>
+                  <Lookup>PremierV5\Lookups\ProcedureSource.sql</Lookup>
+                </Mapper>
+              </SourceConceptIdMappers>
+               <Fields>
+                  <Field key="source_value" typeId="procedure_type_concept_id"/>
+               </Fields>
+            </Concept>
+           </Concepts>
+      </ProcedureOccurrenceDefinition>
+   </ProcedureOccurrence>-->
+   <Death>
+      <DeathDefinition>
+         <IdRequired>true</IdRequired>
+         <PersonId>medrec_key</PersonId>
+         <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+         <Concepts>
+            <Concept>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>PremierV5\Lookups\DeathCodes.sql</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="icd_code" defaultTypeId="38003567"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </DeathDefinition>
+   </Death>
+   <Measurement>
+     <MeasurementDefinition>
+      <PersonId>medrec_key</PersonId>
+      <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+      <ProviderId>adm_phy</ProviderId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\Measurement.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\MeasurementSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="icd_code" defaultTypeId="44818701"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </MeasurementDefinition>
+  </Measurement>
+   <Observation>
+     <ObservationDefinition>
+      <Condition>{icd_version} = 9</Condition>
+      <PersonId>medrec_key</PersonId>
+      <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+      <ProviderId>adm_phy</ProviderId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\ObservationICD9.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\ObservationSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="icd_code" defaultTypeId="38000281"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+     <ObservationDefinition>
+       <Condition>{icd_version} = 10</Condition>
+       <PersonId>medrec_key</PersonId>
+       <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+       <ProviderId>adm_phy</ProviderId>
+       <Concepts>
+         <Concept>
+           <IdRequired>true</IdRequired>
+           <ConceptIdMappers>
+             <Mapper>
+               <Lookup>PremierV5\Lookups\ObservationICD10.sql</Lookup>
+             </Mapper>
+           </ConceptIdMappers>
+           <SourceConceptIdMappers>
+             <Mapper>
+               <Lookup>PremierV5\Lookups\ObservationSource.sql</Lookup>
+             </Mapper>
+           </SourceConceptIdMappers>
+           <Fields>
+             <Field key="icd_code" defaultTypeId="38000281"/>
+           </Fields>
+         </Concept>
+       </Concepts>
+     </ObservationDefinition>
+  </Observation>
+   <DeviceExposure>
+     <DeviceExposureDefinition>
+      <PersonId>medrec_key</PersonId>
+      <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+      <ProviderId>adm_phy</ProviderId>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>PremierV5\Lookups\Device.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="icd_code" defaultTypeId="44818705"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DeviceExposureDefinition>
+  </DeviceExposure>
+</QueryDefinition>

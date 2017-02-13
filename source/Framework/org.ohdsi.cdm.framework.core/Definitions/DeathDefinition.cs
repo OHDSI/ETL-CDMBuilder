@@ -28,12 +28,12 @@ namespace org.ohdsi.cdm.framework.core.Definitions
                 {
                     for (int i = 1; i < Concepts.Count(); i++)
                     {
-                        foreach (var entity in PopulateDeath(reader, Concepts[i], baseConcept)) yield return entity;
+                       foreach (var entity in PopulateDeath(reader, Concepts[i], baseConcept)) yield return entity;
                     }
                 }
                 else
                 {
-                    foreach (var entity in PopulateDeath(reader, Concepts[0], baseConcept)) yield return entity;
+                   foreach (var entity in PopulateDeath(reader, Concepts[0], baseConcept)) yield return entity;
                 }
             }
          }

@@ -21,6 +21,8 @@ namespace org.ohdsi.cdm.framework.entities.Omop
 
       // CDM v5 props
       public long? CurrencyConceptId { get; set; }
+      public long? RevenueCodeConceptId { get; set; }
+      public string RevenueCodeSourceValue { get; set; }
 
       public DrugCost(DrugExposure ent)
          : base(ent)

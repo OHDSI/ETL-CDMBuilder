@@ -1,10 +1,15 @@
 ﻿<QueryDefinition>
+  <Variables>
+    <Variable name="fields" database="ses">DIVISION as SourceValue, NULL AS STATE</Variable>
+    <Variable name="fields" database="dod">STATE as SourceValue, STATE</Variable>
+  </Variables>
    <Query>
-     SELECT distinct DIVISION FROM {sc}.MEMBER_DETAIL
+     SELECT distinct {fields} FROM {sc}.MEMBER_DETAIL
    </Query>
    <Locations>
       <LocationDefinition>
-        <SourceValue>DIVISION</SourceValue>
+        <State>STATE</State>
+        <SourceValue>SourceValue</SourceValue>
       </LocationDefinition>
    </Locations>
 </QueryDefinition>

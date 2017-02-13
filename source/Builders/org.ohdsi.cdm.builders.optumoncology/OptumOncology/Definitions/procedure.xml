@@ -18,7 +18,7 @@
     else NULL
     end as source_code2,
     case
-    when proc_code_type NOT IN ('CPT4', 'HCPCS', 'ICD9', 'ICD10') then 1
+    when proc_code_type NOT IN ('CPT4', 'HCPCS', 'ICD9', 'ICD10') or proc_code_type is NULL then 1
     else 0
     end as unknown
 
@@ -29,8 +29,8 @@
     where proc_code is not NULL
     order by cast(replace(p.ptid, 'PT','') as bigint)
   </Query>
-  <ConditionOccurrence>
-    <ConditionOccurrenceDefinition>
+  <ProcedureOccurrence>
+    <ProcedureOccurrenceDefinition>
       <PersonId>PersonId</PersonId>
       <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
       <StartDate>proc_date</StartDate>
@@ -55,9 +55,9 @@
           </Fields>
         </Concept>
       </Concepts>
-    </ConditionOccurrenceDefinition>
+    </ProcedureOccurrenceDefinition>
 
-    <ConditionOccurrenceDefinition>
+    <ProcedureOccurrenceDefinition>
       <Condition>{unknown} = 1</Condition>
       <PersonId>PersonId</PersonId>
       <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
@@ -73,6 +73,6 @@
           </Fields>
         </Concept>
       </Concepts>
-    </ConditionOccurrenceDefinition>
-  </ConditionOccurrence>
+    </ProcedureOccurrenceDefinition>
+  </ProcedureOccurrence>
 </QueryDefinition>

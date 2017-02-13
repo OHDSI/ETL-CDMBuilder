@@ -17,7 +17,10 @@
       DeviceCost,
       DrugCost,
       ProcedureCost,
+      Cost,
       VisitCost,
+      ObservationCost,
+      MeasurementCost,
       ObservationPeriod,
       ConditionEra,
       DrugEra

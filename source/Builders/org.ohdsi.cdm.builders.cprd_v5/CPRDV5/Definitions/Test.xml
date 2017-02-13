@@ -44,9 +44,9 @@
     t.read_code,
     t.eventdate,
     t.patid,
-    cast((cast(t.patid as bigint)*100000000)+(year(t.eventdate) *10000)+
-    (month(t.eventdate)*100)+
-    day(t.eventdate) as bigint)
+    cast((cast(t.patid as bigint)*100000000)+(DATEPART(year,t.eventdate) *10000)+
+    (DATEPART(month,t.eventdate)*100)+
+    DATEPART(day,t.eventdate) as bigint)
     as visit_occurrence_id,
     t.staffid,
     t.enttype,

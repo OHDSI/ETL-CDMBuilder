@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using org.ohdsi.cdm.framework.shared.Enums;
 
 namespace org.ohdsi.cdm.framework.entities.Omop
@@ -20,6 +21,8 @@ namespace org.ohdsi.cdm.framework.entities.Omop
       // CDM V5 props
       public long? QualifierConceptId { get; set; }
       public string QualifierSourceValue { get; set; }
+
+      public List<ObservationCost> ObservationCost { get; set; }
 
       public Observation(IEntity ent)
       {

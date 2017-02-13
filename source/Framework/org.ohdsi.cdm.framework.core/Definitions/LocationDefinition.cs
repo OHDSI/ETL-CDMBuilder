@@ -17,10 +17,10 @@ namespace org.ohdsi.cdm.framework.core.Definitions
 
       public override IEnumerable<IEntity> GetConcepts(Concept concept, IDataRecord reader, KeyMasterOffset keyOffset)
       {
-         var id = string.IsNullOrEmpty(Id) ? KeyMaster.GetLocationId() : int.Parse(reader[Id].ToString());
+         var id = string.IsNullOrEmpty(Id) ? KeyMaster.GetLocationId() : reader.GetLong(Id);
          yield return new Location
          {
-            Id = id,
+            Id = id.Value,
             State = reader.GetString(State),
             SourceValue = reader.GetString(SourceValue),
             Address1 = reader.GetString(Address1),

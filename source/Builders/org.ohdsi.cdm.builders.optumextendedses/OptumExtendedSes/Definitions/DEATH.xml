@@ -1,0 +1,23 @@
+﻿<QueryDefinition>
+  <Query database="dod">
+    select distinct
+    PATID,
+    cast(YMDOD + '01' as date) as Date
+    FROM {sc}.DEATH
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND DEATH.PATID = ch.PERSON_ID
+    order by PATID
+  </Query>
+  <Death>
+    <DeathDefinition>
+      <PersonId>PATID</PersonId>
+      <StartDate>Date</StartDate>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field defaultConceptId="1" defaultTypeId="38003569"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DeathDefinition>
+  </Death>
+</QueryDefinition>

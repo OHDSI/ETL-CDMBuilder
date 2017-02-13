@@ -55,10 +55,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>..\..\build\</OutputPath>
+	<IntermediateOutputPath>..\..\obj\</IntermediateOutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisLogFile>bin\Debug\jnj.omop.cdmbuilder_wpf.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
@@ -72,7 +73,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
+    <OutputPath>..\..\build\</OutputPath>
+	<IntermediateOutputPath>..\..\obj\</IntermediateOutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -90,6 +92,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -171,6 +176,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -215,6 +221,10 @@
     <ProjectReference Include="..\..\Framework\org.ohdsi.cdm.framework.shared\org.ohdsi.cdm.framework.shared.csproj">
       <Project>{eb712de3-e0a1-4aec-aa0f-ad54cee01c68}</Project>
       <Name>org.ohdsi.cdm.framework.shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\org.ohdsi.cdm.presentation.buildercmd\org.ohdsi.cdm.presentation.buildercmd.csproj">
+      <Project>{0fe4d548-fbe4-45e3-a721-a410ff1caa0c}</Project>
+      <Name>org.ohdsi.cdm.presentation.buildercmd</Name>
     </ProjectReference>
     <ProjectReference Include="..\org.ohdsi.cdm.presentation.builderprocess\org.ohdsi.cdm.presentation.builderprocess.csproj">
       <Project>{b76bc58f-f8eb-4953-9ad9-00eae7f1c23d}</Project>

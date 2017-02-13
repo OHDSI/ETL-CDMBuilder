@@ -12,6 +12,7 @@ namespace org.ohdsi.cdm.framework.core
       private string awsAccessKeyId;
       private string awsSecretAccessKey;
       private string bucket;
+      private int? subChunkSize;
 
       #region Properties
       public static Settings Current { get; set; }
@@ -20,7 +21,75 @@ namespace org.ohdsi.cdm.framework.core
 
       public string ResultFolder { get; set; }
 
-      
+      static Settings ()
+      {
+         Current = new Settings();
+      }
+
+      public string DropVocabularyTablesScript
+      {
+         get
+         {
+            return File.ReadAllText(
+               Path.Combine(new[] {
+                  Builder.Folder, 
+                  "Common", 
+                  Building.DestinationEngine.Database.ToString(),
+                  GetCDMVersionFolder(),
+                  "DropVocabularyTables.sql"
+               }));
+
+         }
+      }
+
+      public string TruncateWithoutLookupTablesScript
+      {
+         get
+         {
+            return File.ReadAllText(
+               Path.Combine(new[] {
+                  Builder.Folder, 
+                  "Common", 
+                  Building.DestinationEngine.Database.ToString(),
+                  GetCDMVersionFolder(),
+                  "TruncateWithoutLookupTables.sql"
+               }));
+
+         }
+      }
+
+      public string TruncateTablesScript
+      {
+         get
+         {
+            return File.ReadAllText(
+               Path.Combine(new[] {
+                  Builder.Folder, 
+                  "Common", 
+                  Building.DestinationEngine.Database.ToString(),
+                  GetCDMVersionFolder(),
+                  "TruncateTables.sql"
+               }));
+
+         }
+      }
+
+      public string TruncateLookupScript
+      {
+         get
+         {
+            return File.ReadAllText(
+               Path.Combine(new[] {
+                  Builder.Folder, 
+                  "Common", 
+                  Building.DestinationEngine.Database.ToString(),
+                  GetCDMVersionFolder(),
+                  "TruncateLookup.sql"
+               }));
+
+         }
+      }
+
       public string CreateCDMTablesScript
       {
          get
@@ -48,7 +117,6 @@ namespace org.ohdsi.cdm.framework.core
                   Building.DestinationEngine.Database.ToString(), 
                   "CreateDestination.sql"
                }));
-
          }
       }
 
@@ -122,8 +190,12 @@ namespace org.ohdsi.cdm.framework.core
       {
          get
          {
-            return int.Parse(ConfigurationManager.AppSettings["SubChunkSize"]);
+            if(!subChunkSize.HasValue)
+               subChunkSize = int.Parse(ConfigurationManager.AppSettings["SubChunkSize"]);
+
+            return subChunkSize.Value;
          }
+         set { subChunkSize = value; }
       }
 
       public bool StoreToAPS
@@ -168,12 +240,11 @@ namespace org.ohdsi.cdm.framework.core
                })); 
          }
       }
-      #endregion
+        #endregion
 
       #region Methods
       public static void Initialize(string builderConnectionString, string machineName)
       {
-         Current = new Settings();
          Current.Building = new BuildingSettings(builderConnectionString);
          Current.Builder = new BuilderSettings(machineName);
          Current.Builder.Load();

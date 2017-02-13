@@ -36,8 +36,8 @@ namespace org.ohdsi.cdm.framework.core.Definitions
 
         public override IEnumerable<IEntity> GetConcepts(Concept concept, IDataRecord reader, KeyMasterOffset keyOffset)
         {
-            var obsConcepts = base.GetConcepts(concept, reader, keyOffset).ToList();
-            var unitConcept = GetUnitConcept(reader);
+           var obsConcepts = base.GetConcepts(concept, reader, keyOffset).ToList();
+           var unitConcept = GetUnitConcept(reader);
 
             if (obsConcepts.Count > 0)
             {

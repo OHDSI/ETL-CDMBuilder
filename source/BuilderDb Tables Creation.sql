@@ -51,6 +51,37 @@ CREATE NONCLUSTERED INDEX [IDX_BuildingId] ON [dbo].[Chunk]
 	[BuilderId] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 GO
+
+
+CREATE TABLE [SubChunk](
+	[ChunkId] [int] NOT NULL,
+	[Index] [int] NOT NULL,
+	[MinPersonId] [bigint] NOT NULL,
+	[MaxPersonId] [bigint] NOT NULL,
+	[PersonCount] [int] NOT NULL,
+	[Saved] [tinyint] NOT NULL,
+ CONSTRAINT [PK_SubChunk] PRIMARY KEY CLUSTERED 
+(
+	[ChunkId] ASC,
+	[Index] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [SubChunk] ADD  CONSTRAINT [DF_SubChunk_Saved]  DEFAULT ((0)) FOR [Saved]
+GO
+
+ALTER TABLE [SubChunk]  WITH CHECK ADD  CONSTRAINT [FK_SubChunk_Chunk] FOREIGN KEY([ChunkId])
+REFERENCES [Chunk] ([Id])
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [SubChunk] CHECK CONSTRAINT [FK_SubChunk_Chunk]
+GO
+
+
+
 /****** Object:  Table [dbo].[BuildingSettings]    Script Date: 07/04/2016 11:16:14 ******/
 SET ANSI_NULLS ON
 GO

@@ -17,7 +17,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
 
       public override IEnumerable<IEntity> GetConcepts(Concept concept, IDataRecord reader, KeyMasterOffset keyOffset)
       {
-         var id = string.IsNullOrEmpty(Id) ? KeyMaster.GetCareSiteId() : int.Parse(reader[Id].ToString());
+         var id = string.IsNullOrEmpty(Id) ? KeyMaster.GetCareSiteId() : reader.GetLong(Id);
          long conceptId = 0;
          if (!string.IsNullOrEmpty(PlaceOfSvcConceptId) && reader.GetLong(PlaceOfSvcConceptId).HasValue)
          {
@@ -26,12 +26,12 @@ namespace org.ohdsi.cdm.framework.core.Definitions
 
          var locationId = reader.GetLong(LocationId);
          var careSiteSourceValue = string.IsNullOrEmpty(CareSiteSourceValue)
-            ? id.ToString(CultureInfo.InvariantCulture)
+            ? id.Value.ToString(CultureInfo.InvariantCulture)
             : reader.GetString(CareSiteSourceValue);
 
          yield return new CareSite
                          {
-                            Id = id,
+                            Id = id.Value,
                             LocationId = locationId.HasValue ? locationId.Value : 0,
                             PlaceOfSvcSourceValue = reader.GetString(PlaceOfSvcSourceValue),
                             ConceptId = conceptId,

@@ -45,7 +45,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
 
                if (revenueCodeConcept.Fields.Length > 0)
                {
-                  revenueCodeSource = reader[revenueCodeConcept.Fields[0].Key].ToString().Trim();
+                  revenueCodeSource = reader.GetString(revenueCodeConcept.Fields[0].Key);
 
                   var revenueConcepts = revenueCodeConcept.GetConceptIdValues(Vocabulary, revenueCodeConcept.Fields[0], reader);
                   if (revenueConcepts.Count > 0)
@@ -56,7 +56,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
             if (Concepts.Length == 2)
             {
                var diseaseClassConcept = Concepts[1];
-               diseaseClassSource = reader[diseaseClassConcept.Fields[0].Key].ToString().Trim();
+               diseaseClassSource = reader.GetString(diseaseClassConcept.Fields[0].Key);
                var diseaseConcepts = diseaseClassConcept.GetConceptIdValues(Vocabulary, diseaseClassConcept.Fields[0], reader);
 
                if (diseaseConcepts.Count > 0)

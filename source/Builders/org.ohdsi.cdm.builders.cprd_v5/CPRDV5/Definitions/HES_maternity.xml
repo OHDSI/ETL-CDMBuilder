@@ -1,25 +1,40 @@
 ﻿<QueryDefinition>
    <Query>
-
-     if not exists (select * from sys.types where name = 'HessMaternityNullType')
-     create type HessMaternityNullType as table (fieldname varchar(50) NOT NULL, isnullable bit not null)
-
-     if not exists (select * from sys.types where name = 'HessMaternityLookupTableType')
-     create type HessMaternityLookupTableType as table (id varchar(50) NOT NULL, fieldname varchar(50) NOT NULL, fieldquery varchar(250) NOT NULL, observation_source_value varchar(50) NOT NULL, fieldid int not null)
-     go;
-
-     declare @hessNull HessMaternityNullType
-
-     insert into @hessNull
-     select 'delmeth',1 union select 'delonset',1 union select 'delinten',1 union select 'delchang',1
-     union  select 'delpren',1 union select 'delposn',1 union select 'anagest',1 union select 'matage',1
-     union select 'neodur',1 union select 'antedur',1 union select 'postdur',1 union select 'intdays',1
-     union select 'acpspef',1 union select 'elecdate',1 union select 'elecdur',1
-
-     declare @lookup HessMaternityLookupTableType;
-
-     INSERT INTO @lookup
-     select a.id, a.fieldname, 'isnull(cast(' + a.id + ' as nvarchar(50)), ''9999999'') ' + a.id, '3-'+cast(row_number() OVER(Order By a.fieldname) as varchar(256)) as observation_source_value, b.fieldid
+     WITH nullFields as
+     (
+     select 'delmeth' as fieldName, 1 as isNullField
+     union
+     select 'delonset'as fieldName, 1 as isNullField
+     union
+     select 'delinten'as fieldName, 1 as isNullField
+     union
+     select 'delchang'as fieldName, 1 as isNullField
+     union
+     select 'delpren'as fieldName, 1 as isNullField
+     union
+     select 'delposn'as fieldName, 1 as isNullField
+     union
+     select 'anagest'as fieldName, 1 as isNullField
+     union
+     select 'matage'as fieldName, 1 as isNullField
+     union
+     select 'neodur'as fieldName, 1 as isNullField
+     union
+     select 'antedur'as fieldName, 1 as isNullField
+     union
+     select 'postdur'as fieldName, 1 as isNullField
+     union
+     select 'intdays'as fieldName, 1 as isNullField
+     union
+     select 'acpspef'as fieldName, 1 as isNullField
+     union
+     select 'elecdate'as fieldName, 1 as isNullField
+     union
+     select 'elecdur'as fieldName, 1 as isNullField
+     ),
+     maternityLookup as
+     (
+     select a.id, a.fieldname, '3-'+cast(row_number() OVER(Order By a.fieldname) as varchar(256)) as observation_source_value, b.fieldid
      from
      (
      select 'numbaby' id ,'numbaby' fieldname union
@@ -49,72 +64,125 @@
      select 'sexbaby' id ,'sexbaby' fieldname union
      select 'wellbaby' id ,'well_baby_ind' fieldname
      ) as a
-     left join {sc}.hes_fielddefinitions b on a.fieldname = b.fieldname and b.class = 'maternity';
-
-     declare @cols nvarchar(max);
-     declare @cols1 nvarchar(max);
-     declare @query nvarchar(max);
-
-     select @cols = coalesce(@cols+N',', N'') + fieldquery, @cols1 = coalesce(@cols1+N',', N'') + Id from @lookup
-
-     set @query = N'
-     with mappings as
-     (
-     SELECT distinct FieldId, Value, Description
-     FROM {sc}.hes_fieldmappings
-     UNION
-     SELECT distinct FieldId, CASE WHEN ISNUMERIC([Value]) = 1 THEN CAST(CAST([Value] as int) as varchar) ELSE [Value] END as [Value], Description
-     FROM {sc}.hes_fieldmappings
-     WHERE LEFT([Value], 1) = ''0''
+     left join {sc}.hes_fielddefinitions b on a.fieldname = b.fieldname and b.class = 'maternity'
      ),
-     a as
+     mappings as
      (
-     select patid, spno, epistart, l.observation_source_value,
-     case when description is null then case when ISNUMERIC(var_code) = 1 then var_code else null end
-     else null end as value_as_number,
-     case when description is not null then description
-     when description is null and var_code is not null then var_code
-     else null end as value_as_string
-     from
+     SELECT distinct
+     FieldId,
+     REPLACE(Value, '0', '') Value,
+     Description
+     FROM {sc}.hes_fieldmappings
+     where Value like '0%' and len(Value) = 2
+     union
+     SELECT DISTINCT
+     FieldId,
+     Value,
+     Description
+     FROM {sc}.hes_fieldmappings
+     ),
+     maternity as
      (
-     select patid, spno, epistart, ' + @cols + '
-     from {sc}.HES_maternity
+     SELECT
+     patid,
+     spno,
+     epistart,
+     ISNULL(CAST(anagest AS nvarchar(50)), '9999999') anagest,
+     ISNULL(CAST(anasdate AS nvarchar(50)), '9999999') anasdate,
+     ISNULL(CAST(antedur AS nvarchar(50)), '9999999') antedur,
+     ISNULL(CAST(matordr AS nvarchar(50)), '9999999') matordr,
+     ISNULL(CAST(biresus AS nvarchar(50)), '9999999') biresus,
+     ISNULL(CAST(birordr AS nvarchar(50)), '9999999') birordr,
+     ISNULL(CAST(birstat AS nvarchar(50)), '9999999') birstat,
+     ISNULL(CAST(birweit AS nvarchar(50)), '9999999') birweit,
+     ISNULL(CAST(delchang AS nvarchar(50)), '9999999') delchang,
+     ISNULL(CAST(delinten AS nvarchar(50)), '9999999') delinten,
+     ISNULL(CAST(delmeth AS nvarchar(50)), '9999999') delmeth,
+     ISNULL(CAST(delonset AS nvarchar(50)), '9999999') delonset,
+     ISNULL(CAST(delplac AS nvarchar(50)), '9999999') delplac,
+     ISNULL(CAST(delposan AS nvarchar(50)), '9999999') delposan,
+     ISNULL(CAST(delprean AS nvarchar(50)), '9999999') delprean,
+     ISNULL(CAST(delstat AS nvarchar(50)), '9999999') delstat,
+     ISNULL(CAST(gestat AS nvarchar(50)), '9999999') gestat,
+     ISNULL(CAST(matage AS nvarchar(50)), '9999999') matage,
+     ISNULL(CAST(neocare AS nvarchar(50)), '9999999') neocare,
+     ISNULL(CAST(neodur AS nvarchar(50)), '9999999') neodur,
+     ISNULL(CAST(numbaby AS nvarchar(50)), '9999999') numbaby,
+     ISNULL(CAST(numpreg AS nvarchar(50)), '9999999') numpreg,
+     ISNULL(CAST(postdur AS nvarchar(50)), '9999999') postdur,
+     ISNULL(CAST(sexbaby AS nvarchar(50)), '9999999') sexbaby,
+     ISNULL(CAST(wellbaby AS nvarchar(50)), '9999999') wellbaby
+     FROM {sc}.HES_maternity
      JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND patid = ch.PERSON_ID
-     where epistart is not null and
-     ((numbaby=''1'' and matordr=1)
-     or (numbaby=''2'' and matordr&lt;=2)
-     or (numbaby=''3'' and matordr&lt;=3)
-     or (numbaby=''4'' and matordr&lt;=4)
-     or (numbaby=''5'' and matordr&lt;=5)
-     or (numbaby=''6'' and matordr&lt;=6)
-     or (numbaby=''7'' and matordr&lt;=7)
-     or (numbaby=''8'' and matordr&lt;=8)
-     or ((numbaby=''9'' or numbaby=''X'') and matordr=1))
-     ) p
-     UNPIVOT
-     (var_code for field in ('+@cols1+')) as up
-     join @tblLookup l on l.id = field
-     left join @tblLookupNull n on l.fieldname = n.fieldname
-     left join mappings m on l.fieldid = m.fieldid and ((var_code = ''9999999'' and m.value = ''null'') or (var_code = m.value))
-     where var_code != '''' and (var_code != ''9999999'' or (isnullable = 1 and var_code = ''9999999''))
+     WHERE epistart IS NOT NULL
+     AND ((numbaby = '1' AND matordr  = 1) OR
+     (numbaby = '2' AND matordr &lt;= 2) OR
+     (numbaby = '3' AND matordr &lt;= 3) OR
+     (numbaby = '4' AND matordr &lt;= 4) OR
+     (numbaby = '5' AND matordr &lt;= 5) OR
+     (numbaby = '6' AND matordr &lt;= 6) OR
+     (numbaby = '7' AND matordr &lt;= 7) OR
+     (numbaby = '8' AND matordr &lt;= 8) OR
+     ((numbaby = '9' OR numbaby = 'X') AND matordr = 1))
+     ),
+     maternity_unp as
+     (
+     SELECT patid, spno, epistart, 'anagest' as fieldname,  anagest as var_code from maternity union
+     SELECT patid, spno, epistart, 'anasdate' as fieldname, anasdate as var_code from maternity union
+     SELECT patid, spno, epistart, 'antedur' as fieldname,  antedur as var_code from maternity union
+     SELECT patid, spno, epistart, 'matordr' as fieldname,  matordr as var_code from maternity union
+     SELECT patid, spno, epistart, 'biresus' as fieldname,  biresus as var_code from maternity union
+     SELECT patid, spno, epistart, 'birordr' as fieldname,  birordr as var_code from maternity union
+     SELECT patid, spno, epistart, 'birstat' as fieldname,  birstat as var_code from maternity union
+     SELECT patid, spno, epistart, 'birweit' as fieldname,  birweit as var_code from maternity union
+     SELECT patid, spno, epistart, 'delchang' as fieldname, delchang as var_code from maternity union
+     SELECT patid, spno, epistart, 'delinten' as fieldname, delinten as var_code from maternity union
+     SELECT patid, spno, epistart, 'delmeth' as fieldname,  delmeth as var_code from maternity union
+     SELECT patid, spno, epistart, 'delonset' as fieldname, delonset as var_code from maternity union
+     SELECT patid, spno, epistart, 'delplac' as fieldname,  delplac as var_code from maternity union
+     SELECT patid, spno, epistart, 'delposan' as fieldname, delposan as var_code from maternity union
+     SELECT patid, spno, epistart, 'delprean' as fieldname, delprean as var_code from maternity union
+     SELECT patid, spno, epistart, 'delstat' as fieldname,  delstat as var_code from maternity union
+     SELECT patid, spno, epistart, 'gestat' as fieldname,  gestat as var_code from maternity union
+     SELECT patid, spno, epistart, 'matage' as fieldname,  matage as var_code from maternity union
+     SELECT patid, spno, epistart, 'neocare' as fieldname,  neocare as var_code from maternity union
+     SELECT patid, spno, epistart, 'neodur' as fieldname,  neodur as var_code from maternity union
+     SELECT patid, spno, epistart, 'numbaby' as fieldname,  numbaby as var_code from maternity union
+     SELECT patid, spno, epistart, 'numpreg' as fieldname,  numpreg as var_code from maternity union
+     SELECT patid, spno, epistart, 'postdur' as fieldname,  postdur as var_code from maternity union
+     SELECT patid, spno, epistart, 'sexbaby' as fieldname,  sexbaby as var_code from maternity union
+     SELECT patid, spno, epistart, 'wellbaby' as fieldname, wellbaby as var_code from maternity
      )
 
 
-     select *, case when value_as_number is not null then 900000006
-     else 900000007 end as observation_type_concept_id
-     from a
-     order by a.patid
-     '
-
-     exec sp_executesql  @query, N'@tblLookup HessMaternityLookupTableType readonly, @tblLookupNull HessMaternityNullType readonly', @lookup, @hessNull
+     select
+     patid,
+     spno,
+     epistart,
+     l.observation_source_value,
+     900000007 as observation_type_concept_id,
+     CASE
+     WHEN description IS NOT NULL THEN description
+     WHEN description IS NULL AND var_code IS NOT NULL THEN var_code
+     ELSE NULL
+     END AS value_as_string
+     from maternity_unp
+     JOIN maternityLookup l ON l.id = maternity_unp.fieldname
+     LEFT JOIN nullFields n ON l.fieldname = n.fieldname
+     LEFT JOIN mappings m ON l.fieldid = m.fieldid AND ((var_code = '9999999' AND m.value = 'null')  OR (var_code = m.value))
+     WHERE var_code != '' AND (var_code != '9999999' OR (isNullField = 1 AND var_code = '9999999'))
+     order by patid
    </Query>
   <Measurement>
     <MeasurementDefinition>
       <PersonId>patid</PersonId>
       <StartDate>epistart</StartDate>
       <VisitOccurrenceId>spno</VisitOccurrenceId>
-      <ValueAsNumber>value_as_number</ValueAsNumber>
+      <!--<ValueAsNumber>value_as_number</ValueAsNumber>-->
       <ValueSourceValue>value_as_string</ValueSourceValue>
+      <AdditionalFields>
+        <string>value_as_string</string>
+      </AdditionalFields>
       <Concepts>
         <Concept>
           <IdRequired>true</IdRequired>
@@ -138,9 +206,12 @@
       <ValuesAsString>
         <string>value_as_string</string>
       </ValuesAsString>
-      <ValuesAsNumber>
+      <!--<ValuesAsNumber>
         <string>value_as_number</string>
-      </ValuesAsNumber>
+      </ValuesAsNumber>-->
+      <AdditionalFields>
+        <string>value_as_string</string>
+      </AdditionalFields>
       <Concepts>
         <Concept>
           <ConceptIdMappers>

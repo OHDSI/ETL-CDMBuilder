@@ -13,7 +13,7 @@
     [Actual point] * 10 AS total_paid
     FROM {sc}.[Procedure] p
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND p.[Member ID] = ch.PERSON_SOURCE_VALUE
-    order by p.person_id
+    order by CAST(RIGHT([Member ID], LEN([Member ID]) - 1) AS BIGINT)
   </Query>
   <ProcedureOccurrence>
     <ProcedureOccurrenceDefinition>

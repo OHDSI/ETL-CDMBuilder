@@ -11,13 +11,21 @@ namespace org.ohdsi.cdm.builders.jmdc_v5
 	   readonly Dictionary<long, DateTime> visitsDate = new Dictionary<long, DateTime>();
       readonly Dictionary<long, DateTime> visitsDateDiagnosis = new Dictionary<long, DateTime>();
       readonly Dictionary<long, DateTime> visitsDateDiagnosisWithAdmissionDate = new Dictionary<long, DateTime>();
+      readonly Dictionary<long, VisitOccurrence> pharmacyVisits = new Dictionary<long, VisitOccurrence>();
 
-	   private static void SetStartDate(IDictionary<long, VisitOccurrence> visitOccurrences, IEntity entity)
+	   private void SetStartDate(IDictionary<long, VisitOccurrence> visitOccurrences, IEntity entity)
       {
-         if (entity.StartDate == DateTime.MinValue && entity.VisitOccurrenceId.HasValue &&
-             visitOccurrences.ContainsKey(entity.VisitOccurrenceId.Value))
+         if (entity.StartDate == DateTime.MinValue && entity.VisitOccurrenceId.HasValue)
          {
-            entity.StartDate = visitOccurrences[entity.VisitOccurrenceId.Value].StartDate;
+            if (visitOccurrences.ContainsKey(entity.VisitOccurrenceId.Value))
+            {
+               entity.StartDate = visitOccurrences[entity.VisitOccurrenceId.Value].StartDate;
+            }
+            else if (pharmacyVisits.ContainsKey(entity.VisitOccurrenceId.Value))
+            {
+               entity.StartDate = pharmacyVisits[entity.VisitOccurrenceId.Value].StartDate;
+               entity.VisitOccurrenceId = null;
+            }
          }
       }
 
@@ -56,7 +64,17 @@ namespace org.ohdsi.cdm.builders.jmdc_v5
 	            visitOccurrence.EndDate = visitOccurrence.StartDate.AddDays(days - 1);
 	         }
 	      }
-	      return base.BuildVisitOccurrences(visitOccurrences, observationPeriods);
+
+         foreach (var visitOccurrence in base.BuildVisitOccurrences(visitOccurrences, observationPeriods))
+	      {
+	         if (visitOccurrence.SourceValue == "pharmacy")
+	         {
+               pharmacyVisits.Add(visitOccurrence.Id, visitOccurrence);
+	            continue;
+	         }
+
+	         yield return visitOccurrence;
+	      }
 	   }
 
 	   public override Death BuildDeath(Death[] death, Dictionary<long, VisitOccurrence> visitOccurrences, ObservationPeriod[] observationPeriods)
@@ -70,6 +88,19 @@ namespace org.ohdsi.cdm.builders.jmdc_v5
 	      }
 
 	      return base.BuildDeath(death, visitOccurrences, observationPeriods);
+	   }
+
+	   private IEnumerable<ConditionOccurrence> CleanupConditions(IEnumerable<ConditionOccurrence> conditionOccurrences)
+	   {
+	      foreach (var co in conditionOccurrences)
+	      {
+            // This flag indicates that a test is being order to determine whether indeed the diagnosis is correct. 
+            // A later record should confirm if it is, and the [month and year of start of medical care] will inform us what the right date of onset is, as already implements
+	         if(co.AdditionalFields != null && co.AdditionalFields.ContainsKey("suspicion_flag") && co.AdditionalFields["suspicion_flag"] == "1")
+               continue;
+
+	         yield return co;
+	      }
 	   }
 
 	   /*
@@ -93,7 +124,7 @@ namespace org.ohdsi.cdm.builders.jmdc_v5
             co.EndDate = null;
 		   }
 
-		   var conditions = base.BuildEntities(conditionOccurrences, visitOccurrences, observationPeriods).ToArray();
+         var conditions = CleanupConditions(base.BuildEntities(conditionOccurrences, visitOccurrences, observationPeriods)).ToArray();
 
          foreach (var sameProviderId in conditions.GroupBy(c => c.ProviderId))
 		   {
@@ -344,15 +375,21 @@ namespace org.ohdsi.cdm.builders.jmdc_v5
                                   Id = chunkData.KeyMasterOffset.MeasurementId
                                };
 
+                     
                      var result = vocabulary.Lookup(mes.SourceValue, @"JMDCv5\Lookups\JMDC-ICD10-MapsToValue.sql", DateTime.MinValue);
+                     long conceptId = 4181412;
 
-                     if (!mes.ValueAsConceptId.HasValue)
+                     if (result.Any() && result[0].ConceptId.HasValue && result[0].ConceptId > 0)
+                        conceptId = result[0].ConceptId.Value;
+
+                     if (!mes.ValueAsConceptId.HasValue || mes.ValueAsConceptId == 0)
                      {
-                        mes.ValueAsConceptId = result.Any() ? result[0].ConceptId : 4181412;
+                        mes.ValueAsConceptId = conceptId;
                      }
 
                      chunkData.AddData(mes);
                   }
+
                   break;
 
                case "Meas Value":
@@ -369,10 +406,14 @@ namespace org.ohdsi.cdm.builders.jmdc_v5
                      };
 
                      var result = vocabulary.Lookup(obser.SourceValue, @"JMDCv5\Lookups\JMDC-ICD10-MapsToValue.sql", DateTime.MinValue);
+                     long conceptId = 4181412;
 
-                     if (!obser.ValueAsConceptId.HasValue)
+                     if (result.Any() && result[0].ConceptId.HasValue && result[0].ConceptId > 0)
+                        conceptId = result[0].ConceptId.Value;
+
+                     if (!obser.ValueAsConceptId.HasValue || obser.ValueAsConceptId == 0)
                      {
-                        obser.ValueAsConceptId = result.Any() ? result[0].ConceptId : 4181412;
+                        obser.ValueAsConceptId = conceptId;
                      }
 
                      chunkData.AddData(obser);

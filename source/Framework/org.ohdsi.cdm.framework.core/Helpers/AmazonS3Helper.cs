@@ -70,8 +70,8 @@ namespace org.ohdsi.cdm.framework.core.Helpers
                 timer.Restart();
 
                 using (var gz = Compress(source))
+                using (var directoryTransferUtility = new TransferUtility(client))
                 {
-                    var directoryTransferUtility = new TransferUtility(client);
                     directoryTransferUtility.Upload(new TransferUtilityUploadRequest
                     {
                         BucketName = bucketName,
@@ -80,12 +80,13 @@ namespace org.ohdsi.cdm.framework.core.Helpers
                         StorageClass = S3StorageClass.ReducedRedundancy,
                         InputStream = gz
                     });
+                    
                     timer.Stop();
                 }
             }
         }
 
-        static MemoryStream Compress(Stream inputStream)
+        public static MemoryStream Compress(Stream inputStream)
         {
             var timer = new Stopwatch();
             timer.Start();
@@ -143,7 +144,7 @@ namespace org.ohdsi.cdm.framework.core.Helpers
                  {
                     if (string.IsNullOrEmpty(entry.Key)) continue;
                     // remove only chunk data
-                    if (entry.Key.Count(c => c == '/') == 1)
+                    if (!entry.Key.Contains("chunks-set"))
                        continue;
 
                     containsObjectsToDelete = true;

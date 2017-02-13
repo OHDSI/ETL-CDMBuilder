@@ -32,7 +32,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
       private Condition1 condition;
 
       public string LookupKey { get; set; }
-      
+
       public bool Match(IDataRecord reader)
       {
          if (string.IsNullOrEmpty(Condition))

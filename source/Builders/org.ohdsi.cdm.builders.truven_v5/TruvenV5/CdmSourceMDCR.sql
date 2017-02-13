@@ -1,4 +1,7 @@
-﻿INSERT INTO {sc}.CDM_SOURCE
+﻿truncate table {sc}.CDM_SOURCE;
+truncate table {sc}.CDM_DOMAIN_META;
+
+INSERT INTO {sc}.CDM_SOURCE
            (CDM_SOURCE_NAME
            ,CDM_SOURCE_ABBREVIATION
            ,CDM_HOLDER
@@ -11,7 +14,7 @@
            ,VOCABULARY_VERSION)
      VALUES
            (
-		   'The Truven Health MarketScan® Research Databases',
+		   'The Truven Health MarketScan® Research Databases, Medicare',
 		   'MDCR',
 		   'Janssen R&D',
 		   'The Truven Health MarketScan® Research Databases contain individual-level, de-identified, healthcare claims information from employers, health plans, hospitals, Medicare, and Medicaid programs. Since their creation in the early 1990s, the MarketScan Databases have grown into one of the largest collections of de-identified patient-level data in the nation. These databases reflect the real-world of treatment patterns and costs by tracking millions of patients as they travel through the healthcare system offering detailed information about all aspects of care. Data from individual patients are integrated from all providers of care, maintaining all healthcare utilization and cost record connections at the patient level. Used primarily for research, these databases are fully HIPAA compliant. Research using MarketScan data has been widely publicized in peer-reviewed journals.

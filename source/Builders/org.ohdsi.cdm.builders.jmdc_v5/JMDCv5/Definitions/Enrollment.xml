@@ -27,7 +27,7 @@
     FROM {sc}.[Enrollment] e
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND e.[Member ID] = ch.[PERSON_SOURCE_VALUE]
     join min_max as mm on 1 = mm.id
-    order by e.person_id
+    order by CAST(RIGHT([Member ID], LEN([Member ID]) - 1) AS BIGINT)
   </Query>
   <Persons>
     <PersonDefinition>

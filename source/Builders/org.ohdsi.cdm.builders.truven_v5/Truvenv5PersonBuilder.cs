@@ -103,6 +103,12 @@ namespace org.ohdsi.cdm.builders.truven_v5
             var visitOccurrence = visitOccurrences[d.VisitOccurrenceId.Value];
 
             d.StartDate = visitOccurrence.EndDate.Value;
+
+            if (d.TypeConceptId == 38003568 && !d.StartDate.Between(d.ValidStartDate, d.ValidEndDate))
+            {
+               continue;
+            }
+
             yield return d;
          }
       }
@@ -735,6 +741,12 @@ namespace org.ohdsi.cdm.builders.truven_v5
          if (fisrtOP.Year == person.YearOfBirth)
          {
             person.MonthOfBirth = fisrtOP.Month;
+            person.DayOfBirth = fisrtOP.Day;
+         }
+         else
+         {
+            person.MonthOfBirth = null;
+            person.DayOfBirth = null;
          }
          
          var payerPlanPeriods = BuildPayerPlanPeriods(payerPlanPeriodsRaw.ToArray(), null).ToArray();
@@ -783,6 +795,18 @@ namespace org.ohdsi.cdm.builders.truven_v5
          var devicCosts = BuildDeviceCosts(deviceExposure).ToArray();
          var visitCosts = BuildVisitCosts(visitOccurrences.Values.Where(v => v.ConceptId != 1).ToArray()).ToArray();
 
+
+         if (death != null)
+         {
+            death = CleanUpDeath(visitOccurrences.Values, death);
+            death = CleanUpDeath(drugExposures, death);
+            death = CleanUpDeath(conditionOccurrences, death);
+            death = CleanUpDeath(procedureOccurrences, death);
+            death = CleanUpDeath(measurements, death);
+            death = CleanUpDeath(observations, death);
+            death = CleanUpDeath(deviceExposure, death);
+         }
+
          // push built entities to ChunkBuilder for further save to CDM database
          AddToChunk(person, death,
             observationPeriods,
@@ -795,6 +819,13 @@ namespace org.ohdsi.cdm.builders.truven_v5
             observations,
             measurements,
             visitOccurrences.Values.ToArray(), visitCosts, new Cohort[0], deviceExposure, devicCosts);
+      }
+
+      private static Death CleanUpDeath(IEnumerable<IEntity> items, Death death)
+      {
+         if (death == null) return null;
+
+         return items.Any(item => item.StartDate > death.StartDate.AddDays(30)) ? null : death;
       }
 
       /// <summary>

@@ -9,7 +9,6 @@
     when primary_diagnosis = '1' then 44786627
     else  44786629
     end as TypeId,
-    diagnosis_cd,
     ec.provid,
     diagnosis_cd,
     case
@@ -29,7 +28,7 @@
     else NULL
     end as others,
     case
-    when diagnosis_cd_type NOT IN ('ICD9', 'ICD10', 'SNOMED') then 1
+    when diagnosis_cd_type NOT IN ('ICD9', 'ICD10', 'SNOMED') or diagnosis_cd_type is NULL then 1
     else 0
     end as unknown
     from {sc}.diagnosis as d

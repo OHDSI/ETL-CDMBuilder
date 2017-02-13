@@ -12,6 +12,15 @@ namespace org.ohdsi.cdm.builders.premier_v5
          if (ReferenceEquals(x, null) || ReferenceEquals(y, null))
             return false;
 
+         var x_serv_day = "";
+         var y_serv_day = "";
+
+         if (x.AdditionalFields != null && x.AdditionalFields.ContainsKey("serv_day"))
+            x_serv_day = x.AdditionalFields["serv_day"] ?? "";
+
+         if (y.AdditionalFields != null && y.AdditionalFields.ContainsKey("serv_day"))
+            y_serv_day = y.AdditionalFields["serv_day"] ?? "";
+
          return x.PersonId.Equals(y.PersonId) &&
                 x.ConceptId == y.ConceptId &&
                 x.StartDate == y.StartDate &&
@@ -31,12 +40,17 @@ namespace org.ohdsi.cdm.builders.premier_v5
                 x.Time == y.Time &&
                 x.UnitSourceValue == y.UnitSourceValue &&
                 x.SourceValue == y.SourceValue &&
-                (x.AdditionalFields == null ? "" : x.AdditionalFields["serv_day"]) == (y.AdditionalFields == null ? "" : y.AdditionalFields["serv_day"]);
+                x_serv_day == y_serv_day;
       }
 
       public int GetHashCode(Measurement m)
       {
          if (ReferenceEquals(m, null)) return 0;
+
+         var serv_day = "";
+
+         if (m.AdditionalFields != null && m.AdditionalFields.ContainsKey("serv_day"))
+            serv_day = m.AdditionalFields["serv_day"] ?? "";
 
          return m.PersonId.GetHashCode() ^
                 m.ConceptId.GetHashCode() ^
@@ -50,14 +64,14 @@ namespace org.ohdsi.cdm.builders.premier_v5
                 m.OperatorConceptId.GetHashCode() ^
                 m.VisitOccurrenceId.GetHashCode() ^
                 m.ValueAsConceptId.GetHashCode() ^
-                m.Time.GetHashCode() ^
+                (m.Time != null ? m.Time.GetHashCode() : 0) ^
                 m.ProviderId.GetHashCode() ^
                 (m.ValueSourceValue != null ? m.ValueSourceValue.GetHashCode() : 0) ^
                 m.SourceConceptId.GetHashCode() ^
                 m.UnitConceptId.GetHashCode() ^
                 (m.UnitSourceValue != null ? m.UnitSourceValue.GetHashCode() : 0) ^
                 (m.SourceValue != null ? m.SourceValue.GetHashCode() : 0) ^
-                (m.AdditionalFields == null ? 0 : m.AdditionalFields["serv_day"].GetHashCode());
+                serv_day.GetHashCode();
       }
    }
 }

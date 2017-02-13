@@ -12,6 +12,15 @@ namespace org.ohdsi.cdm.builders.premier_v5
          if (ReferenceEquals(x, null) || ReferenceEquals(y, null))
             return false;
 
+         var x_serv_day = "";
+         var y_serv_day = "";
+
+         if (x.AdditionalFields != null && x.AdditionalFields.ContainsKey("serv_day"))
+            x_serv_day = x.AdditionalFields["serv_day"] ?? "";
+
+         if (y.AdditionalFields != null && y.AdditionalFields.ContainsKey("serv_day"))
+            y_serv_day = y.AdditionalFields["serv_day"] ?? "";
+
          return x.PersonId.Equals(y.PersonId) &&
                 x.ConceptId == y.ConceptId &&
                 x.ModifierConceptId == y.ModifierConceptId &&
@@ -22,13 +31,17 @@ namespace org.ohdsi.cdm.builders.premier_v5
                 x.StartDate == y.StartDate &&
                 x.VisitOccurrenceId == y.VisitOccurrenceId &&
                 x.SourceValue == y.SourceValue &&
-                (x.AdditionalFields == null ? "" : x.AdditionalFields["serv_day"]) ==
-                (y.AdditionalFields == null ? "" : y.AdditionalFields["serv_day"]);
+                x_serv_day == y_serv_day;
       }
 
       public int GetHashCode(ProcedureOccurrence p)
       {
          if (ReferenceEquals(p, null)) return 0;
+
+         var serv_day = "";
+
+         if (p.AdditionalFields != null && p.AdditionalFields.ContainsKey("serv_day"))
+            serv_day = p.AdditionalFields["serv_day"] ?? "";
 
          return p.PersonId.GetHashCode() ^
                 p.ConceptId.GetHashCode() ^
@@ -40,7 +53,7 @@ namespace org.ohdsi.cdm.builders.premier_v5
                 (p.QualifierSourceValue != null ? p.QualifierSourceValue.GetHashCode() : 0) ^
                 (p.StartDate.GetHashCode()) ^
                 (p.SourceValue != null ? p.SourceValue.GetHashCode() : 0) ^
-                (p.AdditionalFields == null ? 0 : p.AdditionalFields["serv_day"].GetHashCode());
+                serv_day.GetHashCode();
       }
    }
 }

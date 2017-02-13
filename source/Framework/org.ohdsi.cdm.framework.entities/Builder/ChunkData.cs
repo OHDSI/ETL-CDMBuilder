@@ -27,12 +27,33 @@ namespace org.ohdsi.cdm.framework.entities.Builder
       public ConcurrentQueue<Cohort> Cohort { get; private set; }
       public ConcurrentQueue<DeviceExposure> DeviceExposure { get; private set; }
       public ConcurrentQueue<DeviceCost> DeviceCost { get; private set; }
+      public ConcurrentQueue<Cost> Cost { get; private set; }
 
       public KeyMasterOffset KeyMasterOffset { get; private set; }
-      
-      
-      public ChunkData(int chunkId, int subChunkId)
+      public bool Saved { get; private set; }
+      public long MinPersonId { get; private set; }
+      public long MaxPersonId { get; private set; }
+
+      private readonly int size;
+      private int readyPersonCount;
+
+      public bool RadyToSave
       {
+         get { return readyPersonCount == size; }
+      }
+
+      public void PersonWasBuilt()
+      {
+         readyPersonCount++;
+      }
+      
+      public ChunkData(int chunkId, int subChunkId, int size, long minPersonId, long maxPersonId, bool saved)
+      {
+         this.size = size;
+         MinPersonId = minPersonId;
+         MaxPersonId = maxPersonId;
+         Saved = saved;
+
          ChunkId = chunkId;
          SubChunkId = subChunkId;
          
@@ -56,31 +77,33 @@ namespace org.ohdsi.cdm.framework.entities.Builder
          Cohort = new ConcurrentQueue<Cohort>();
          DeviceExposure = new ConcurrentQueue<DeviceExposure>();
          DeviceCost = new ConcurrentQueue<DeviceCost>();
+         Cost = new ConcurrentQueue<Cost>();
       }
 
       public void Clean()
       {
-          Persons = null;
-          Deaths = null;
-          ObservationPeriods = null;
-          PayerPlanPeriods = null;
-          ConditionOccurrences = null;
-          DrugExposures = null;
-          ProcedureOccurrences = null;
-          Observations = null;
-          Measurements = null;
-          VisitOccurrences = null;
-          VisitCost = null;
-          DrugCost = null;
-          ProcedureCost = null;
-          ConditionEra = null;
-          DrugEra = null;
-          Cohort = null;
-          DeviceExposure = null;
-          DeviceCost = null;
+         Persons = null;
+         Deaths = null;
+         ObservationPeriods = null;
+         PayerPlanPeriods = null;
+         ConditionOccurrences = null;
+         DrugExposures = null;
+         ProcedureOccurrences = null;
+         Observations = null;
+         Measurements = null;
+         VisitOccurrences = null;
+         VisitCost = null;
+         DrugCost = null;
+         ProcedureCost = null;
+         ConditionEra = null;
+         DrugEra = null;
+         Cohort = null;
+         DeviceExposure = null;
+         DeviceCost = null;
+         Cost = null;
       }
 
-      
+
       public void AddData(IEntity data, EntityType entityType)
       {
          switch (entityType)
@@ -166,6 +189,12 @@ namespace org.ohdsi.cdm.framework.entities.Builder
             case EntityType.VisitCost:
             {
                VisitCost.Enqueue((VisitCost) data);
+               break;
+            }
+
+            case EntityType.Cost:
+            {
+               Cost.Enqueue((Cost)data);
                break;
             }
 

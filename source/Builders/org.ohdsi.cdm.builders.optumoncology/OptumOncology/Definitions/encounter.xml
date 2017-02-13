@@ -31,7 +31,7 @@
         <Concept>
           <ConceptIdMappers>
             <Mapper>
-              <File>OptumOncology\Lookups\Visits.sql</File>
+              <Lookup>OptumOncology\Lookups\Visits.sql</Lookup>
             </Mapper>
           </ConceptIdMappers>
           <Fields>

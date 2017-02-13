@@ -84,7 +84,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
             return field.DefaultTypeId;
          }
 
-         var typeIds = mapper.Map(null, field.Key, reader[field.Key].ToString(), reader.GetDateTime(field.EventDate));
+         var typeIds = mapper.Map(null, field.Key, reader.GetString(field.Key), reader.GetDateTime(field.EventDate));
 
          if (typeIds.Count == 0)
             return null;

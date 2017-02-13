@@ -53,6 +53,11 @@ namespace org.ohdsi.cdm.framework.core.Base
          ProviderKeys = new ConcurrentDictionary<string, bool>();
       }
 
+      public ChunkData Chunk
+      {
+         get { return chunkData; }
+      }
+
       /// <summary>
       /// Add raw related entities to builder for further build
       /// like: DrugCost & ProcedureCosts
@@ -84,6 +89,18 @@ namespace org.ohdsi.cdm.framework.core.Base
             case EntityType.DeviceExposure:
             {
                ((DeviceExposure) parent).DeviceCosts = new List<DeviceCost> {(DeviceCost) child};
+               break;
+            }
+
+            case EntityType.Measurement:
+            {
+               ((Measurement)parent).MeasurementCost = new List<MeasurementCost> { (MeasurementCost)child };
+               break;
+            }
+
+            case EntityType.Observation:
+            {
+               ((Observation)parent).ObservationCost = new List<ObservationCost> { (ObservationCost)child };
                break;
             }
          }

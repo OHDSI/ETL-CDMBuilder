@@ -1,0 +1,14 @@
+Package: OptumExtendedSesDodTesting
+Type: Package
+Title: Configures CDM ETL Test Cases for Optum Extended SES and DOD
+Version: 0.1.0
+Author: Ajit Londhe, Erica Voss, Clair Blacketer
+Maintainer: Ajit Londhe <alondhe2@its.jnj.com>
+Description: Executes test case inserts and validates results.
+License: None
+LazyData: TRUE
+Depends:
+    SqlRender,
+    DatabaseConnector
+Roxygen: list(wrap = TRUE)
+RoxygenNote: 5.0.1

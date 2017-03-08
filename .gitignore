@@ -1,2 +1,3 @@
 # Ignore .svn directories
 .svn/
+.Rproj.user

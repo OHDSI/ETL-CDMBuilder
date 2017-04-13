@@ -81,8 +81,11 @@ WHERE SOURCE_VOCABULARY_ID IN ('ICD9CM')
 
 AND TARGET_VOCABULARY_ID IN ('ICD9CM')
 
+```
+
 ### Source to Standard Terminology
 
+```
 WITH CTE_VOCAB_MAP AS (
 
        SELECT c.concept_code AS SOURCE_CODE, c.concept_id AS

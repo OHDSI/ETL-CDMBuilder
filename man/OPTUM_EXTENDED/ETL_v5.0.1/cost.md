@@ -8,24 +8,13 @@
 
 # CDM Table: COST
 
-The COST table captures cost information associated with any medical entity recorded in one of the DRUG_EXPOSURE, PROCEDURE_OCCURRENCE, VISIT_OCCURRENCE or DEVICE_EXPOSURE tables.
+The COST table captures cost information associated with any medical entity recorded in the [DRUG], [PROCEDURE], [VISIT], and [DEVICE] domains.
 
 **Key conventions:**
 
-- [DRUG]
-    - Information is pulled from the **RX_CLAIMS** table at the same time the *DRUG_EXPOSURE* is loaded. Also, it is not appropriate to pull across procedure drug costs into this table.
-    - Starts from the intermediate table created throughout *DRUG_EXPOSURE* table creation (prescription drug, step 3).
+- Use [**TEMP_MEDICAL**](observation_period.md), [*VISIT_OCCURRENCE*](visit_occurrence.md), and [*DEVICE_EXPOSURE*](device_exposure.md) to build this table.
 
-- [PROCEDURE]
-    - Captures the cost of a procedure performed on a person as well as other costs (e.g. room charge etc.).
-    - Costs are actually associated to the PROC_CDs from the *PROCEDURE_OCCURRENCE* table, they are not really associated to the PROC1 through PROC3 codes.
-
-- [VISIT]
-
-- [DEVICE]
-    - Optum does not have clear device cost information so this table will only contain one value representing the fact that no note information will be captured.
-
--   Since the amount of observation time in OBSERVATION_PERIOD may be greater than that in *PAYER_PLAN_PERIOD* table, use left join to avoid excluding records when pulling PAYER_PLAN_PERIOD_ID. For those records fall out of PAYER_PLAN_PERIOD_START_DATE AND PAYER_PLAN_PERIOD_END_DATE, set PAYER_PLAN_PERIOD_ID as NULL.
+- Since the amount of observation time in OBSERVATION_PERIOD may be greater than that in *PAYER_PLAN_PERIOD* table, use left join to avoid excluding records when pulling PAYER_PLAN_PERIOD_ID. For those records fall out of PAYER_PLAN_PERIOD_START_DATE AND PAYER_PLAN_PERIOD_END_DATE, set PAYER_PLAN_PERIOD_ID as NULL.
 
 
 **Destination Field**|**Source Field**|**Applied Rule**|**Comment**

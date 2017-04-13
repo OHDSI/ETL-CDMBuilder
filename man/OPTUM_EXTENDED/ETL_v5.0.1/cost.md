@@ -12,7 +12,9 @@ The COST table captures cost information associated with any medical entity reco
 
 **Key conventions:**
 
-- Use [**TEMP_MEDICAL**](observation_period.md), [*VISIT_OCCURRENCE*](visit_occurrence.md), and [*DEVICE_EXPOSURE*](device_exposure.md) to build this table.
+- Use [*DRUG_EXPOSURE*](drug_exposure.md), [*PROCEDURE_OCCURRENCE*](procedure_occurrence.md), [*VISIT_OCCURRENCE*](visit_occurrence.md), and [*DEVICE_EXPOSURE*](device_exposure.md) to reference the COST_EVENT_ID
+- Use *PAYER_PLAN_PERIOD* to obtain the PAYER_PLAN_PERIOD_ID.
+- Use **RX_CLAIMS** and **TEMP_MEDICAL** to obtain the actual costs.
 
 - Since the amount of observation time in OBSERVATION_PERIOD may be greater than that in *PAYER_PLAN_PERIOD* table, use left join to avoid excluding records when pulling PAYER_PLAN_PERIOD_ID. For those records fall out of PAYER_PLAN_PERIOD_START_DATE AND PAYER_PLAN_PERIOD_END_DATE, set PAYER_PLAN_PERIOD_ID as NULL.
 
@@ -38,8 +40,8 @@ PAID_DISPENSING_COST|-| |
 PAID_DISPENSING_FEE|[DRUG]<br>**RX_CLAIMS**<br>sum(DISPFEE)| | 
 PAYER_PLAN_PERIOD_ID|*PAYER_PLAN_PERIOD*<br>PAYER_PLAN_PERIOD_ID|[DRUG]<br>Look up associated PAYER_PLAN_PERIOD_ID by PERSON_ID and DRUG_EXPOSURE_START_DATE AND PAT_PLANID.  If there no match, put NULL.<br><br>[PROCEDURE]<br>Lookup associated PAYER_PLAN_PERIOD_ID.  Look up by PERSON_ID and PROCEDURE_DATE.  If there no match, put NULL.<br><br>[VISIT]<br>Lookup associated PAYER_PLAN_PERIOD_ID.  Look up by PERSON_ID and VISIT_START_DATE.  If there no match, put NULL.| 
 AMOUNT_ALLOWED|[DRUG]<br>**RX_CLAIMS**<br>sum(STD_COST)<br><br>[PROCEDURE]<br>**TEMP_MEDICAL**<br>STD_COST<br><br>[VISIT]<br>**TEMP_MEDICAL**<br>STD_COST| | 
-REVENUE_CODE_CONCEPT_ID|**TEMP_MEDICAL**<br>RVNU_CD|Use Vocabulary map  3.1.1.Filters: <br>WHERE SOURCE_VOCABULARY_ID IN ('Revenue Code')<br>AND TARGET_VOCABULARY_ID IN ('Revenue Code')| 
+REVENUE_CODE_CONCEPT_ID|**TEMP_MEDICAL**<br>RVNU_CD|Use Vocabulary map  [Source to Source](code_snippets.md#source-to-source).<br>Filters: <br>```WHERE SOURCE_VOCABULARY_ID IN ('Revenue Code')<br>AND TARGET_VOCABULARY_ID IN ('Revenue Code')```| 
 DRG_CONCEPT_ID|-| | 
-REVENUE_CODE_SOURCE_VALUE|**TEMP_MEDICAL**<br>RVNU_CD|if RVNU_CD == '0000' then NULL | 
+REVENUE_CODE_SOURCE_VALUE|**TEMP_MEDICAL**<br>RVNU_CD|```if RVNU_CD == '0000' then NULL``` | 
 DRG_SOURCE_VALUE|-| | 
 

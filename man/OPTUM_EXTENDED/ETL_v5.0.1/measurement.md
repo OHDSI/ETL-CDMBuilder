@@ -6,7 +6,7 @@
 
 ---
 
-# MEASUREMENT
+# CDM Table: MEASUREMENT
 
 The Measurement table contains lab tests, vital signs, etc. that were
 conducted during a valid *OBSERVATION_PERIOD*. Lab values are sourced
@@ -130,20 +130,20 @@ ELSE MEASUREMENT_TYPE_CONCEPT_ID = **38000278**; /*Result as Text*/
 **Destination Field**|**Source Field**|**Applied Rule**|**Comment**
 :-----:|:-----:|:-----:|:-----:
 MEASUREMENT_ID|-|System Generated| 
-PERSON_ID|LAB_RESULTS:<br>PATID / PAT_PLANID<br><br>TEMP_MEDICAL:<br>PATID / PAT_PLANID|At the row level we work with PAT_PLANID, but PATID is what is written to the CDM.| 
-MEASUREMENT_CONCEPT_ID|LAB_RESULTS: <br>LOINC_CD<br>PROC_CD<br><br>TEMP_MEDICAL:<br>DIAG1-DIAG5; PROC1-PROC3, PROC_CD|LAB_RESULTS:<br>(First, look for LOINC_CD. If no map exists, then look for PROC_CD):<br>Use Section 3.1.2 and filter with Section 4.3<br><br>TEMP_MEDICAL (DIAG1-DIAG5):<br>Use Section 3.1.2 and filter with Section 4.1<br><br>TEMP_MEDICAL (PROC1-PROC3, PROC_CD):<br>Use Section 3.1.2 and filter with Section 4.2<br><br>From LOINC_CD:<br>WHERE SOURCE_VOCABULARY_ID IN ('LOINC')<br>AND TARGET_STANDARD_CONCEPT IS NOT NULL <br>| 
-MEASUREMENT_<br>DATE|LAB_RESULTS:<br>FST_DT<br><br>TEMP_MEDICAL:<br>FST_DT| | 
+PERSON_ID|**LAB_RESULTS**:<br>PATID / PAT_PLANID<br><br>**TEMP_MEDICAL**:<br>PATID / PAT_PLANID|At the row level we work with PAT_PLANID, but PATID is what is written to the CDM.| 
+MEASUREMENT_CONCEPT_ID|**LAB_RESULTS**: <br>LOINC_CD<br>PROC_CD<br><br>**TEMP_MEDICAL**:<br>DIAG1-DIAG5; PROC1-PROC3, PROC_CD|**LAB_RESULTS**:<br>(First, look for LOINC_CD. If no map exists, then look for PROC_CD):<br>Use [Source to Standard Snippet](code_snippets.md#source-to-standard-terminology) and filter with Section 4.3<br><br>**TEMP_MEDICAL** (DIAG1-DIAG5):<br>Use Section 3.1.2 and filter with Section 4.1<br><br>**TEMP_MEDICAL** (PROC1-PROC3, PROC_CD):<br>Use Section 3.1.2 and filter with Section 4.2<br><br>From LOINC_CD:<br>WHERE SOURCE_VOCABULARY_ID IN ('LOINC')<br>AND TARGET_STANDARD_CONCEPT IS NOT NULL <br>| 
+MEASUREMENT_<br>DATE|**LAB_RESULTS**:<br>FST_DT<br><br>**TEMP_MEDICAL**:<br>FST_DT| | 
 MEASUREMENT_<br>TIME|-|NULL| 
-MEASUREMENT_<br>TYPE_CONCEPT_ID|-|From LAB_RESULTS table: This will be 44818702 for all rows (Lab Result)<br><br>If the record is coming from another table, like the CONDITION_OCCURENCE, keep the types that would have been assigned in that table.| 
-OPERATOR_<br>CONCEPT_ID|LAB_RESULTS:<br>RSLT_TXT<br>|Use first 2 characters of RSLT_TXT as described above to get the concept ID| 
-VALUE_AS_NUMBER|LAB_RESULTS: <br>RSLT_NBR<br><br>TEMP_MEDICAL: <br>UNITS<br>| | 
-VALUE_AS_<br>CONCEPT_ID|LAB_RESULTS<br>ABNL_CD<br>RSLT_TXT<br><br>TEMP_MEDICAL:<br>DIAG1-DIAG5; PROC1-PROC3, PROC_CD|LAB_RESULTS<br>Refer to logic above<br><br><br>TEMP_MEDICAL:<br>Use 3.1.3 and point it at the SOURCE_CODE.  But only take the top TARGET_CONCEPT_ID because a few SOURCE_CODES can map to multiple TARGET_CONCEPT_ID.|<br>
-UNIT_CONCEPT_ID|LAB_RESULTS:<br>RSLT_UNIT_NM<br><br><br>|Filters:<br>WHERE SOURCE_VOCABULARY_ID IN ('UCUM')<br>AND TARGET_VOCABULARY_ID IN ('UCUM') <br>AND TARGET_INVALID_REASON IS NULL|Use the code in Section 3.1.1.<br><br>This vocabulary is case sensitive.
-RANGE_LOW|LAB_RESULTS:<br>LOW_NRML<br>| | 
-RANGE_HIGH|LAB_RESULTS:<br>HI_NRML<br>| | 
-PROVIDER_ID|TEMP_MEDICAL:<br>PROV| | 
-VISIT_OCCURRENCE_ID|Measurement from TEMP_MEDICAL tables use VISIT_OCCURRENCE:<br>VISIT_OCCURRENCE_ID|Refer to logic in building VISIT_OCCURRENCE table for linking with VISIT_OCCURRENCE_ID| 
-MEASUREMENT_<br>SOURCE_VALUE|LAB_RESULTS: <br>LOINC_CD<br>PROC_CD<br><br>TEMP_MEDICAL:<br>DIAG1-DIAG5; PROC1-PROC3, PROC_CD|LAB_RESULTS: <br>The LOINC_CD or PROC_CD as it appears in the LAB_RESULTS table and as was selected above (i.e. use the LOINC_CD first if possible).  <br><br>TEMP_MEDICAL: Code as it appears in the table| 
-MEASUREMENT_SOURCE_CONCEPT_ID|LAB_RESULTS: <br>LOINC_CD,<br>PROC_CD<br><br><br><br><br>TEMP_MEDICAL: <br>DIAG1-DIAG5; PROC1-PROC3, PROC_CD|LAB_RESULTS use When LOINC was selected section 3.1. with filters:<br>WHERE SOURCE_VOCABULARY_ID IN ('LOINC')<br>AND TARGET_VOCABULARY_ID IN ('LOINC') <br>When PROC_CD was selected, use section 3.1 with filters from 6.3.<br><br><br>TEMP_MEDICAL (DIAG1-DIAG5):<br>Use Section 3.1.1 and filter using Section 6.1<br><br>TEMP_MEDICAL (PROC1-PROC3, PROC_CD):<br>Use Section 3.1.1 and filter using Section 6.2|Use the code in Section 3.1.1.<br>
-UNIT_SOURCE_<br>VALUE|LAB_RESULTS:<br>RSLT_UNIT_NM<br><br>TEMP_MEDICAL:<br>NULL| | 
-VALUE_SOURCE_<br>VALUE|LAB_RESULTS:<br>RSLT_TXT<br><br>TEMP_MEDICAL:<br>DIAG1-DIAG5; PROC1-PROC3, PROC_CD| | 
+MEASUREMENT_<br>TYPE_CONCEPT_ID|-|From **LAB_RESULTS** table: This will be 44818702 for all rows (Lab Result)<br><br>If the record is coming from another table, like the CONDITION_OCCURENCE, keep the types that would have been assigned in that table.| 
+OPERATOR_<br>CONCEPT_ID|**LAB_RESULTS**:<br>RSLT_TXT<br>|Use first 2 characters of RSLT_TXT as described above to get the concept ID| 
+VALUE_AS_NUMBER|**LAB_RESULTS**: <br>RSLT_NBR<br><br>**TEMP_MEDICAL**: <br>UNITS<br>| | 
+VALUE_AS_<br>CONCEPT_ID|**LAB_RESULTS**<br>ABNL_CD<br>RSLT_TXT<br><br>**TEMP_MEDICAL**:<br>DIAG1-DIAG5; PROC1-PROC3, PROC_CD|**LAB_RESULTS**<br>Refer to logic above<br><br><br>**TEMP_MEDICAL**:<br>Use 3.1.3 and point it at the SOURCE_CODE.  But only take the top TARGET_CONCEPT_ID because a few SOURCE_CODES can map to multiple TARGET_CONCEPT_ID.|<br>
+UNIT_CONCEPT_ID|**LAB_RESULTS**:<br>RSLT_UNIT_NM<br><br><br>|Filters:<br>WHERE SOURCE_VOCABULARY_ID IN ('UCUM')<br>AND TARGET_VOCABULARY_ID IN ('UCUM') <br>AND TARGET_INVALID_REASON IS NULL|Use the code in Section 3.1.1.<br><br>This vocabulary is case sensitive.
+RANGE_LOW|**LAB_RESULTS**:<br>LOW_NRML<br>| | 
+RANGE_HIGH|**LAB_RESULTS**:<br>HI_NRML<br>| | 
+PROVIDER_ID|**TEMP_MEDICAL**:<br>PROV| | 
+VISIT_OCCURRENCE_ID|Measurement from **TEMP_MEDICAL** tables use VISIT_OCCURRENCE:<br>VISIT_OCCURRENCE_ID|Refer to logic in building VISIT_OCCURRENCE table for linking with VISIT_OCCURRENCE_ID| 
+MEASUREMENT_<br>SOURCE_VALUE|**LAB_RESULTS**: <br>LOINC_CD<br>PROC_CD<br><br>**TEMP_MEDICAL**:<br>DIAG1-DIAG5; PROC1-PROC3, PROC_CD|**LAB_RESULTS**: <br>The LOINC_CD or PROC_CD as it appears in the **LAB_RESULTS** table and as was selected above (i.e. use the LOINC_CD first if possible).  <br><br>**TEMP_MEDICAL**: Code as it appears in the table| 
+MEASUREMENT_SOURCE_CONCEPT_ID|**LAB_RESULTS**: <br>LOINC_CD,<br>PROC_CD<br><br><br><br><br>**TEMP_MEDICAL**: <br>DIAG1-DIAG5; PROC1-PROC3, PROC_CD|**LAB_RESULTS** use When LOINC was selected section 3.1. with filters:<br>WHERE SOURCE_VOCABULARY_ID IN ('LOINC')<br>AND TARGET_VOCABULARY_ID IN ('LOINC') <br>When PROC_CD was selected, use section 3.1 with filters from 6.3.<br><br><br>**TEMP_MEDICAL** (DIAG1-DIAG5):<br>Use Section 3.1.1 and filter using Section 6.1<br><br>**TEMP_MEDICAL** (PROC1-PROC3, PROC_CD):<br>Use Section 3.1.1 and filter using Section 6.2|Use the code in Section 3.1.1.<br>
+UNIT_SOURCE_<br>VALUE|**LAB_RESULTS**:<br>RSLT_UNIT_NM<br><br>**TEMP_MEDICAL**:<br>NULL| | 
+VALUE_SOURCE_<br>VALUE|**LAB_RESULTS**:<br>RSLT_TXT<br><br>**TEMP_MEDICAL**:<br>DIAG1-DIAG5; PROC1-PROC3, PROC_CD| | 

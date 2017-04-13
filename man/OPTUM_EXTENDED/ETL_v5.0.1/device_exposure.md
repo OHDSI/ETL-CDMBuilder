@@ -6,7 +6,7 @@
 
 ---
 
-# DEVICE_EXPOSURE
+# CDM Table: DEVICE_EXPOSURE
 
 The *DEVICE_EXPOSURE* table will be populated with records from
 **TEMP_MEDICAL,** where the PROC code was mapped to a standard concept

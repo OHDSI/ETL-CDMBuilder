@@ -6,7 +6,7 @@
 
 ---
 
-# PROCEDURE_OCCURRENCE
+# CDM Table: PROCEDURE_OCCURRENCE
 
 Procedure data can be extracted from the Optum **TEMP_MEDICAL** table
 and should be created when building *VISIT_OCCURRENCE*.

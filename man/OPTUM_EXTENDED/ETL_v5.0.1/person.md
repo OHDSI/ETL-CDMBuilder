@@ -6,7 +6,8 @@
 
 ---
 
-# PERSON
+# CDM Table: PERSON
+
 PERSON demographics are sourced from the **MEMBER_DETAIL** table. All
 enrollment records in **MEMBER_DETAIL** table have both medical and
 pharmacy coverage, but one person may have multiple records if there are

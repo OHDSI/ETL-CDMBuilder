@@ -6,7 +6,7 @@
 
 ---
 
-# OBSERVATION
+# CDM Table: OBSERVATION
 
 Observations describe symptoms, clinical observations, etc. about the
 person.

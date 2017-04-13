@@ -6,7 +6,7 @@
 
 ---
 
-# PAYER_PLAN_PERIOD
+# CDM Table: PAYER_PLAN_PERIOD
 
 For each person, create records that indicate that person's continuous
 enrollment for a specific product (defined by BUS and PRODUCT) according

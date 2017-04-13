@@ -6,7 +6,7 @@
 
 ---
 
-# CONDITION_ERA
+# CDM Table: CONDITION_ERA
 
 *CONDITION_ERA*s are chronological periods of condition occurrence.
 There will only be one type of persistence window (duration that is

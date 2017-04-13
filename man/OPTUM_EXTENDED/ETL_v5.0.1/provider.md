@@ -6,7 +6,7 @@
 
 ---
 
-# PROVIDER
+# CDM Table: PROVIDER
 
 The PROVIDER table contains a list of uniquely identified health care
 providers (physicians). Optum does have some provider information in

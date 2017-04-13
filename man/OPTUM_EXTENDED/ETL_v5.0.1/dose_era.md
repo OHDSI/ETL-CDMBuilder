@@ -6,7 +6,7 @@
 
 ---
 
-# DOSE_ERA
+# CDM Table: DOSE_ERA
 
 The *DOSE_ERA* table captures the span of time when the person is
 assumed to be exposed to a constant dose of a specific active

@@ -6,7 +6,7 @@
 
 ---
 
-# DRUG_ERA
+# CDM Table: DRUG_ERA
 
 A Drug Era is defined as a span of time when the Person is assumed to be
 exposed to a particular drug. Successive periods of Drug Exposures are

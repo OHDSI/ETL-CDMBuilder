@@ -6,7 +6,7 @@
 
 ---
 
-# CARE_SITE
+# CDM Table: CARE_SITE
 
 The *CARE_SITE* table contains a list of uniquely identified points of
 care, or an individual clinical location within an organization. Each

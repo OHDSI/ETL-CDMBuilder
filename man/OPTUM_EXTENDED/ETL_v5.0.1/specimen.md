@@ -6,7 +6,7 @@
 
 ---
 
-# SPECIMEN
+# CDM Table: SPECIMEN
 
 The SPECIMEN table contains information identifying biological samples
 from a person.

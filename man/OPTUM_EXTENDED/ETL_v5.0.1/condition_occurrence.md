@@ -6,7 +6,7 @@
 
 ---
 
-# CONDITION_OCCURRENCE
+# CDM Table: CONDITION_OCCURRENCE
 
 Condition data can be found in the medical claim table and should be
 created when building VISIT_OCCURRENCE table.
@@ -50,10 +50,10 @@ CONDITION_START_DATE|**VISIT_OCCURRENCE** VISIT_START_DATE| |
 CONDITION_END_DATE|-|NULL| 
 CONDITION_TYPE_CONCEPT_ID|**VISIT_OCCURRENCE** PLACE_OF_SERVICE_SOURCE_VALUE|**DIAG1-DIAG25**: Use Section 5.1 <br> PROC1-3, PROC_CD Use Section 5.2|If same ICD code exists in more than one position, keep only the one with lowest position number. <br> Map to inpatient/outpatient header to be consistent with PROCEDURE_OCCURRENCE table. <br> These CONCEPT_IDs fall under VOCABULARY_ID = 'Condition Type' in CONCEPT table.
 STOP_REASON|-|NULL| 
-PROVIDER_ID|**TEMP_MEDICAL** NEW_PROV, NEW_PROVCAT|Map NEW_PROV and NEW_PROVCAT to PROVIDER_SOURCE_VALUE and SPECIALTY_SOURCE_VALUE in Provider table to extract its associated Provider ID. | 
+PROVIDER_ID|**TEMP_MEDICAL**<br>NEW_PROV, NEW_PROVCAT|Map NEW_PROV and NEW_PROVCAT to PROVIDER_SOURCE_VALUE and SPECIALTY_SOURCE_VALUE in Provider table to extract its associated Provider ID. | 
 VISIT_OCCURRENCE_ID|**VISIT_OCCURRENCE** VISIT_OCCURRENCE_ID| | 
-CONDITION_STATUS_CONCEPT_ID|**TEMP_MEDICAL** POA, DIAG1-DIAG25 | Split period-delimited string to obtain single character value corresponding to DIAG code by ordinal value.<br><br>N = 0<br>U = 0<br>W = 46236988<br>Y = 46236988<br>|
-CONDITION_SOURCE_CONCEPT_ID|**TEMP_MEDICAL** DIAG1-DIAG25, PROC_CD, PROC1-3|**DIAG1-DIAG25**: Use Section 3.1.1 and filter with Section 6.1 <br><br> PROC_CD, PROC1-3: Use Section 3.1.1 and filter with Section 6.2| 
-CONDITION_SOURCE_VALUE|**TEMP_MEDICAL** DIAG1-DIAG25, PROC_CD, PROC1-3|Exclude records with invalid ICD9 or ICD10 diagnosis codes.|Use rules mentioned above to exclude invalid ICD9 or ICD10 diagnosis codes.|
-CONDITION_SOURCE_VALUE|**TEMP_MEDICAL** POA, DIAG1-DIAG25|Split period-delimited string to obtain single character value corresponding to DIAG code by ordinal value.|
+CONDITION_STATUS_CONCEPT_ID|**TEMP_MEDICAL**<br>POA, DIAG1-DIAG25 | Split POA, a period-delimited string, to obtain single character value corresponding to DIAG code by ordinal value. Map character using the following:<br><br>N = 0<br>U = 0<br>W = 46236988<br>Y = 46236988<br>|
+CONDITION_SOURCE_CONCEPT_ID|**TEMP_MEDICAL**<br>DIAG1-DIAG25, PROC_CD, PROC1-3|**DIAG1-DIAG25**: Use Section 3.1.1 and filter with Section 6.1 <br><br> PROC_CD, PROC1-3: Use Section 3.1.1 and filter with Section 6.2| 
+CONDITION_SOURCE_VALUE|**TEMP_MEDICAL**<br>DIAG1-DIAG25, PROC_CD, PROC1-3|Exclude records with invalid ICD9 or ICD10 diagnosis codes.|Use rules mentioned above to exclude invalid ICD9 or ICD10 diagnosis codes.|
+CONDITION_SOURCE_VALUE|**TEMP_MEDICAL**<br>POA, DIAG1-DIAG25|Split POA, a period-delimited string, to obtain single character value corresponding to DIAG code by ordinal value.|
 

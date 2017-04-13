@@ -6,7 +6,7 @@
 
 ---
 
-# OBSERVATION_PERIOD
+# CDM Table: OBSERVATION_PERIOD
 
 The **MEMBER_DETAIL** table includes records that indicate a person's
 continuous enrollment with both medical and pharmacy coverage.

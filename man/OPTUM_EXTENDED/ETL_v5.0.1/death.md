@@ -6,7 +6,7 @@
 
 ---
 
-# DEATH
+# CDM Table: DEATH
 
 The *DEATH* table is designed to capture the time when a person is
 deceased and cause of death. Death in Optum Extended SES/DOD can be

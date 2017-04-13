@@ -6,7 +6,7 @@
 
 ---
 
-# NOTE
+# CDM Table: NOTE
 
 The NOTE table captures free text information recorder by a provider
 about a patient.

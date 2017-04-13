@@ -6,7 +6,7 @@
 
 ---
 
-# FACT_RELATIONSHIP
+# CDM Table: FACT_RELATIONSHIP
 
 The *FACT_RELATIONSHIP* table captures the relationships between facts
 in any table of the CDM. These can be person relationships, care site

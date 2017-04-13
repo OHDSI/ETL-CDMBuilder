@@ -6,7 +6,7 @@
 
 ---
 
-# LOCATION
+# CDM Table: LOCATION
 
 This table is built off the Optum **MEMBER_DETAIL** table, which contains only census division where members live during a certain
 enrollment period.

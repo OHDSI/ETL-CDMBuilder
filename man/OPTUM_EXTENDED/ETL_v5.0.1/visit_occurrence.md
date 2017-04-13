@@ -53,7 +53,7 @@ The LTC codes are Place of Service Codes from CMS.
 
 ## TEMP_MEDICAL Table
 
-This **TEMP_MEDICAL** table can be used throughout the loading process. Pulling the following columns will help you throughout the build:
+1. This **TEMP_MEDICAL** table can be used throughout the loading process. Pulling the following columns will help you throughout the build:
 
  -   RVNU_CD
  -   POS

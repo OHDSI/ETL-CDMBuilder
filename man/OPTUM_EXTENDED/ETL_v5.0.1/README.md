@@ -1,6 +1,3 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mermaid/7.0.0/mermaid.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/7.0.0/mermaid.js"></script>
-
 # Common Data Model ETL Mapping Specification for Optum Extended SES & Extended DOD 
 ### CDM Version = 5.0.1, Clinformatics Version = v7.0
 ##### Authors: Qianli Ma; Erica Voss, Chris Knoll, Ajit Londhe, Clair Blacketer (Janssen)
@@ -90,69 +87,33 @@ source data files.
 
 Use **MEMBER_DETAIL** table to build *LOCATION*, *PERSON*, *OBSERVATION_PERIOD*, and *PAYER_PLAN_PERIOD* tables:
 
-<div class="mermaid">
-    graph TD
-        MEMBER_DETAIL-->LOCATION
-        LOCATION-->PERSON
-        PERSON-->OBSERVATION_PERIOD
-        PERSON-->PAYER_PLAN_PERIOD
-</div>
+![](flowchart_step1.png)
 
 ### Step II
 
 Use **RX_CLAIMS** and **MEDICAL_CLAIMS** tables to build *PROVIDER*
 table:
 
-<div class="mermaid">
-    graph TD
-        RX_CLAIMS-->PROVIDER
-        MEDICAL_CLAIMS-->PROVIDER
-</div>
+![](flowchart_step2.png)
 
 ### Step III
 
 Use *OBSERVATION_PERIOD*, *PAYER_PLAN_PERIOD*, *PROVIDER* and **MEDICAL_CLAIMS** tables to build *VISIT_OCCURRENCE*, *CONDITION_OCCURRENCE*, *CONDITION_ERA*, *PROCEDURE_OCCURRENCE*,
 *COST*, and *DEATH* tables:
 
-<div class="mermaid">
-    graph TD
-        MEDICAL_CLAIMS-->VISIT_OCCURRENCE
-        PROVIDER-->VISIT_OCCURRENCE
-        OBSERVATION_PERIOD-->VISIT_OCCURRENCE
-        PAYER_PLAN_PERIOD-->VISIT_OCCURRENCE
-        VISIT_OCCURRENCE-->CONDITION_OCCURRENCE
-        VISIT_OCCURRENCE-->DEATH
-        VISIT_OCCURRENCE-->PROCEDURE_OCCURRENCE
-        CONDITION_OCCURRENCE-->CONDITION_ERA
-        PROCEDURE_OCCURRENCE-->COST
-        
-</div>
+![](flowchart_step3.png)
 
 ### Step IV 
 
 Use *OBSERVATION_PERIOD*, *PAYER_PLAN_PERIOD*, *PROVIDER*, *PROCEDURE_OCCURRENCE* and **RX_CLAIMS** tables to build *DRUG_EXPOSURE*, *DRUG_ERA*, and *COST* tables:
 
-<div class="mermaid">
-    graph TD
-        RX_CLAIMS-->DRUG_EXPOSURE
-        PROVIDER-->DRUG_EXPOSURE
-        OBSERVATION_PERIOD-->DRUG_EXPOSURE
-        PROCEDURE_OCCURRENCE-->DRUG_EXPOSURE
-        PAYER_PLAN_PERIOD-->DRUG_EXPOSURE
-        DRUG_EXPOSURE-->DRUG_ERA
-        DRUG_EXPOSURE-->COST
-        
-</div>
+![](flowchart_step4.png)
 
 ### Step V 
 
 Use *OBSERVATION_PERIOD* and **LAB_RESULTS** tables to build *OBSERVATION* and *MEASUREMENT* tables, and create table shells for *CARE_SITE* table:
 
-<div class="mermaid">
-    graph TD
-        LAB_RESULTS-->OBSERVATION
-        OBSERVATION_PERIOD-->OBSERVATION
-</div>
+![](flowchart_step5.png)
 
 ### Data Mapping
 

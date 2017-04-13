@@ -1,10 +1,11 @@
-*Common Data Model ETL Mapping Specification for Optum Extended SES & Extended DOD 
-CDM Version = 5.0.1, Clinformatics Version = v7.0
-Authors: Qianli Ma; Erica Voss, Chris Knoll, Ajit Londhe, Clair Blacketer (Janssen)*
+*Common Data Model ETL Mapping Specification for Optum Extended SES & Extended DOD* 
+<br>*CDM Version = 5.0.1, Clinformatics Version = v7.0*
+<br>*Authors: Qianli Ma; Erica Voss, Chris Knoll, Ajit Londhe, Clair Blacketer (Janssen)*
 
-[Back to README](readme.md)
+[Back to README](README.md)
 
 ---
+
 # PERSON
 PERSON demographics are sourced from the **MEMBER_DETAIL** table. All
 enrollment records in **MEMBER_DETAIL** table have both medical and

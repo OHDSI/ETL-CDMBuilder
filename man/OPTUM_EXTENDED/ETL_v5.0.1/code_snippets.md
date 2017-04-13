@@ -1,8 +1,8 @@
-*Common Data Model ETL Mapping Specification for Optum Extended SES & Extended DOD 
-CDM Version = 5.0.1, Clinformatics Version = v7.0
-Authors: Qianli Ma; Erica Voss, Chris Knoll, Ajit Londhe, Clair Blacketer (Janssen)*
+*Common Data Model ETL Mapping Specification for Optum Extended SES & Extended DOD* 
+<br>*CDM Version = 5.0.1, Clinformatics Version = v7.0*
+<br>*Authors: Qianli Ma; Erica Voss, Chris Knoll, Ajit Londhe, Clair Blacketer (Janssen)*
 
-[Back to README](readme.md)
+[Back to README](README.md)
 
 ---
 
@@ -71,11 +71,11 @@ c2.standard_concept AS TARGET_STANDARD_CONCEPT
 
 )
 
-SELECT \*
+SELECT *
 
 FROM CTE_VOCAB_MAP
 
-/\*EXAMPLE FILTERS\*/
+/*EXAMPLE FILTERS*/
 
 WHERE SOURCE_VOCABULARY_ID IN ('ICD9CM')
 
@@ -153,11 +153,11 @@ c2.standard_concept AS TARGET_STANDARD_CONCEPT
 
 )
 
-SELECT \*
+SELECT *
 
 FROM CTE_VOCAB_MAP
 
-/\*EXAMPLE FILTERS\*/
+/*EXAMPLE FILTERS*/
 
 WHERE SOURCE_VOCABULARY_ID IN ('NDC')
 
@@ -206,11 +206,11 @@ AND C1.INVALID_REASON IS NULL
 
 )
 
-SELECT \*
+SELECT *
 
 FROM CTE_VOCAB_MAP
 
-/\*EXAMPLE FILTERS\*/
+/*EXAMPLE FILTERS*/
 
 WHERE SOURCE_CODE = 'V87.43'
 
@@ -226,10 +226,10 @@ AND TARGET_STANDARD_CONCEPT ='S'
 AND TARGET_INVALID_REASON IS NULL
 AND SOURCE_VOCABULARY_ID IN (
 CASE
-/\*ICD9-CM\*/
+/*ICD9-CM*/
 WHEN ICD_FLAG = 9
 THEN 'ICD9CM'
-/\*ICD10-CM\*/
+/*ICD10-CM*/
 WHEN ICD_FLAG = 10
 THEN ('ICD10CM')
 END

@@ -384,3 +384,41 @@ filter = "WHERE SOURCE_VOCABULARY_ID IN ('HCPCS','CPT4') AND TARGET_VOCABULARY_I
 
 ## Payer Source Logic
 Combine in the following order: BUS, ASO, PRODUCT, and CDHP:<br>[W] BUS<br>[Y] ASO<br>[X] PRODUCT<br>[Z] CDHP<br>Or [W] + [Y] + [X] + [Z]<br><br>For [W] Take BUS as is, if NULL set to empty string ''<br><br>If ASO = Y replace [Y] with '(ASO)'<br><br>ELSE replace [Y] with ''<br><br>If PRODUCT = 'HMO' replace [X] with 'Health Maint Org'<br>If PRODUCT = 'PPO' replace [X] with 'Preferred Provider Org'<br>If PRODUCT = 'EPO' replace [X] with 'Exclusive Provider Org'<br>If PRODUCT = 'IND' replace [X] with 'Indemnity'<br>If PRODUCT = 'POS' replace [X] with 'Point of Service'<br>If PRODUCT = 'ALL' replace [X] with 'National Ancillaries, All Prod'<br>If PRODUCT = 'UNK' replace [X] with 'Unknown'<br>If PRODUCT = 'OTH' replace [X]  with 'Other'<br>IF PRODUCT = NULL then replace [X] with ''<br>Else [X] = PRODUCT<br>If CDHP = 1 replace [Z] with '(HRA)'.<br>If CDHP = 2 replace [Z] with '(HSA)'.<br>IF CDHP IS NULL then ''<br>Else [Z] = ''
+
+## POA to CONDITION_STATUS_CONCEPT_ID
+
+The POA field in **TEMP_MEDICAL** is a period-delimited string that looks like this: 
+```Y.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U```
+
+There is a POA character value that corresponds for each slot of the DIAG codes (1-25), but this string must be split on period (".") in order to get this array of POA values. Here's a C#-like code snippet using the above sample POA.
+
+```
+POA_split = POA.split('.').ToList();
+
+if (DIAG1) POA_value = POA_split[0]; // this would get 'Y'
+if (DIAG2) POA_value = POA_split[1]; // this and all subsequent DIAG codes would get 'U'
+if (DIAG3) POA_value = POA_split[2];
+if (DIAG4) POA_value = POA_split[3];
+if (DIAG5) POA_value = POA_split[4];
+if (DIAG6) POA_value = POA_split[5];
+if (DIAG7) POA_value = POA_split[6];
+if (DIAG8) POA_value = POA_split[7];
+if (DIAG9) POA_value = POA_split[8];
+if (DIAG10) POA_value = POA_split[9];
+if (DIAG11) POA_value = POA_split[10];
+if (DIAG12) POA_value = POA_split[11];
+if (DIAG13) POA_value = POA_split[12];
+if (DIAG14) POA_value = POA_split[13];
+if (DIAG15) POA_value = POA_split[14];
+if (DIAG16) POA_value = POA_split[15];
+if (DIAG17) POA_value = POA_split[16];
+if (DIAG18) POA_value = POA_split[17];
+if (DIAG19) POA_value = POA_split[18];
+if (DIAG20) POA_value = POA_split[19];
+if (DIAG21) POA_value = POA_split[20];
+if (DIAG22) POA_value = POA_split[21];
+if (DIAG23) POA_value = POA_split[22];
+if (DIAG24) POA_value = POA_split[23];
+if (DIAG25) POA_value = POA_split[24];
+
+```

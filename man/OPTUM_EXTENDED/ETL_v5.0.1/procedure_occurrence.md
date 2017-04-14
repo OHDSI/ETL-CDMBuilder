@@ -19,7 +19,7 @@ and should be created when building *VISIT_OCCURRENCE*.
 -   The following graph shows how procedure data is stored in
     **MEDICAL_CLAIMS** table
 
-![](diagram_procedure_occurrence.png)
+![](images/diagram_procedure_occurrence.png)
 
 -   For ICD procedure codes stored in PROC1, PROC2 and PROC3:
 
@@ -72,7 +72,6 @@ and should be created when building *VISIT_OCCURRENCE*.
 
 -   Remove duplicate records before assigning PROCEDURE_URCE_ID.
 
-<a name="table-mappings-procedure-occurrence"></a>
 
 **Destination Field**|**Source Field**|**Applied Rule**|**Comment**
 :-----:|:-----:|:-----:|:-----:

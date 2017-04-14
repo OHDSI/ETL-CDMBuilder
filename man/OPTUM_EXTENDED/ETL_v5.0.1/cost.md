@@ -16,7 +16,7 @@ The COST table captures cost information associated with any medical entity reco
 - Use *PAYER_PLAN_PERIOD* to obtain the PAYER_PLAN_PERIOD_ID.
 - Use **RX_CLAIMS** and **TEMP_MEDICAL** to obtain the actual costs.
 
-- Since the amount of observation time in OBSERVATION_PERIOD may be greater than that in *PAYER_PLAN_PERIOD* table, use left join to avoid excluding records when pulling PAYER_PLAN_PERIOD_ID. For those records fall out of PAYER_PLAN_PERIOD_START_DATE AND PAYER_PLAN_PERIOD_END_DATE, set PAYER_PLAN_PERIOD_ID as NULL.
+- Since the amount of observation time in *OBSERVATION_PERIOD* may be greater than that in *PAYER_PLAN_PERIOD* table, use left join to avoid excluding records when pulling PAYER_PLAN_PERIOD_ID. For those records fall out of PAYER_PLAN_PERIOD_START_DATE AND PAYER_PLAN_PERIOD_END_DATE, set PAYER_PLAN_PERIOD_ID as NULL.
 
 
 **Destination Field**|**Source Field**|**Applied Rule**|**Comment**

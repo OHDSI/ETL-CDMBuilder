@@ -87,33 +87,33 @@ source data files.
 
 Use **MEMBER_DETAIL** table to build *LOCATION*, *PERSON*, *OBSERVATION_PERIOD*, and *PAYER_PLAN_PERIOD* tables:
 
-![](flowchart_step1.png)
+![](images/flowchart_step1.png)
 
 ### Step II
 
 Use **RX_CLAIMS** and **MEDICAL_CLAIMS** tables to build *PROVIDER*
 table:
 
-![](flowchart_step2.png)
+![](images/flowchart_step2.png)
 
 ### Step III
 
 Use *OBSERVATION_PERIOD*, *PAYER_PLAN_PERIOD*, *PROVIDER* and **MEDICAL_CLAIMS** tables to build *VISIT_OCCURRENCE*, *CONDITION_OCCURRENCE*, *CONDITION_ERA*, *PROCEDURE_OCCURRENCE*,
 *COST*, and *DEATH* tables:
 
-![](flowchart_step3.png)
+![](images/flowchart_step3.png)
 
 ### Step IV 
 
 Use *OBSERVATION_PERIOD*, *PAYER_PLAN_PERIOD*, *PROVIDER*, *PROCEDURE_OCCURRENCE* and **RX_CLAIMS** tables to build *DRUG_EXPOSURE*, *DRUG_ERA*, and *COST* tables:
 
-![](flowchart_step4.png)
+![](images/flowchart_step4.png)
 
 ### Step V 
 
 Use *OBSERVATION_PERIOD* and **LAB_RESULTS** tables to build *OBSERVATION* and *MEASUREMENT* tables, and create table shells for *CARE_SITE* table:
 
-![](flowchart_step5.png)
+![](images/flowchart_step5.png)
 
 ### Data Mapping
 

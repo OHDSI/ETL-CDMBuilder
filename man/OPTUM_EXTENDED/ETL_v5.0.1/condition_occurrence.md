@@ -13,6 +13,9 @@ created when building VISIT_OCCURRENCE table.
 
 **Key conventions:**
 
+- **For this ETL, we will adopt the CONDITION_STATUS_CONCEPT_ID and CONDITION_STATUS_SOURCE_VALUE fields from CDM v5.1 ([see Wiki](http://www.ohdsi.org/web/wiki/doku.php?id=documentation:cdm:condition_occurrence)). This is to allow us to accommodate POA data. This is the only deviation from CDM v5.0.1.**
+
+
 -   Starts from the **TEMP_MEDICAL** table generated throughout the
     VISIT_OCCURRENCE creation.
 
@@ -54,5 +57,5 @@ VISIT_OCCURRENCE_ID|**VISIT_OCCURRENCE** VISIT_OCCURRENCE_ID| |
 CONDITION_STATUS_CONCEPT_ID|**TEMP_MEDICAL**<br>POA, DIAG1-DIAG25 | Use [POA to CONDITION_STATUS_CONCEPT_ID](code_snippets.md#poa-to-condition_status_concept_id) to parse POA string. Then, map POA character using the following:<br><br>N = 0<br>U = 0<br>W = 46236988<br>Y = 46236988<br>|
 CONDITION_SOURCE_CONCEPT_ID|**TEMP_MEDICAL**<br>DIAG1-DIAG25, PROC_CD, PROC1-3|**DIAG1-DIAG25**: Use [Source to Source](code_snippets.md#source-to-source) and filter with [Source Concept Ids from Medical Claims Diagnosis Fields](code_snippets.md#from-medical-claims-diagnosis-fields-2) <br><br> PROC_CD, PROC1-3: Use [Source to Source](code_snippets.md#source-to-source) and filter with [Source Concept Ids from Medical Claims Procedure Fields](code_snippets.md#from-medical-claims-procedure-fields-2)| 
 CONDITION_SOURCE_VALUE|**TEMP_MEDICAL**<br>DIAG1-DIAG25, PROC_CD, PROC1-3|Exclude records with invalid ICD9 or ICD10 diagnosis codes.|Use rules mentioned above to exclude invalid ICD9 or ICD10 diagnosis codes.|
-CONDITION_SOURCE_VALUE|**TEMP_MEDICAL**<br>POA, DIAG1-DIAG25|Use [POA to CONDITION_STATUS_CONCEPT_ID](code_snippets.md#poa-to-condition_status_concept_id) to parse POA string.|
+CONDITION_STATUS_SOURCE_VALUE|**TEMP_MEDICAL**<br>POA, DIAG1-DIAG25|Use [POA to CONDITION_STATUS_CONCEPT_ID](code_snippets.md#poa-to-condition_status_concept_id) to parse POA string.|
 

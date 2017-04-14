@@ -19,7 +19,7 @@ and should be created when building *VISIT_OCCURRENCE*.
 -   The following graph shows how procedure data is stored in
     **MEDICAL_CLAIMS** table
 
-> &lt;img src="media/image7.png" width="560" height="161" />
+![](diagram_procedure_occurrence.png)
 
 -   For ICD procedure codes stored in PROC1, PROC2 and PROC3:
 

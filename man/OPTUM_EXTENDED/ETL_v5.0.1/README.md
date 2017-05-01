@@ -10,6 +10,7 @@
 |2017/01/11|Updated to use Clinformatics v7, but without adding all of the new features. Clinformatics v7 removes two variables, AMT_COB_RED, and AMT_COB_SAV, so now we are mapping PAID_BY_COORDINATION_BENEFITS to null in drug_cost, procedure_cost, and device_cost|
 |2017/03/15|Modified IP visit logic to collapse potential IP visits on the same day even if there are multiple pat_planids associated.|
 |2017/04/11|Upgraded to CDM v5.0.1, which brings changes to the COST tables and POA mapping. Also upgraded to Clinformatics v7 fully, bringing in all 25 DIAG fields. Converted document to Markdown.|
+|2017/05/01|Added 25 PROC fields to domain tables and in the code snippets section.|
 
 ---
 

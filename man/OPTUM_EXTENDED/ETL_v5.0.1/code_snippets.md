@@ -355,12 +355,10 @@ else
   if PROC_CD then 38000272;
   
   if PROC1 then 38000269
-  else if PROC2 then 38000269
-  else if PROC3 then 38000270
-  else if PROC4 then 38000271
-  else if PROC5 then 38000272
-  else if PROC6 then 38000273
-  else if PROC7 then 38000274
+  else if PROC2 then 38000270
+  else if PROC3 then 38000271
+  else if PROC4 then 38000272
+  else if PROC5 then 38000273
   else then 38000274;
 }
 

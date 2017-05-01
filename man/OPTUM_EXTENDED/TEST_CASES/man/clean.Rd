@@ -15,4 +15,3 @@ Clean native DB
 \details{
 Removes all test case data (truncates native tables)
 }
-

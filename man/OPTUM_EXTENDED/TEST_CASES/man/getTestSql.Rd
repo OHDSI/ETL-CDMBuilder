@@ -15,4 +15,3 @@ Get testing SQL
 \details{
 Returns testing Sql for the CDM DB.
 }
-

@@ -223,7 +223,7 @@ WHERE SOURCE_CODE = 'V87.43'
   ### From Medical Claims' Diagnosis Fields
       
 ```
-**DIAG1-5:**
+**DIAG1-DIAG25:**
 WHERE
 AND TARGET_STANDARD_CONCEPT ='S'
 AND TARGET_INVALID_REASON IS NULL
@@ -242,7 +242,7 @@ END
 ### From Medical Claims' Procedure Fields
 
 ```
-**PROC_CD,PROC1-3:**
+**PROC_CD,PROC1-PROC25:**
 
 If ICD_FLAG = 9
 
@@ -285,7 +285,7 @@ AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier')
        
 
 ```
-**DIAG1-25:**
+**DIAG1-DIAG25:**
 
 if (PLACE_OF_SERVICE_SOURCE_VALUE == 'IP')
 {
@@ -331,17 +331,37 @@ else
 ```
 if (PLACE_OF_SERVICE_SOURCE_VALUE == 'IP')
 {
+  if PROC_CD then 38000254;
+  
   if PROC1 then 38000251
   else if PROC2 then 38000252
   else if PROC3 then 38000253
-  else if PROC_CD then 38000254;
+  else if PROC4 then 38000254
+  else if PROC5 then 38000255
+  else if PROC6 then 38000256
+  else if PROC7 then 38000257
+  else if PROC8 then 38000258
+  else if PROC9 then 38000259
+  else if PROC10 then 38000260
+  else if PROC11 then 38000261
+  else if PROC12 then 38000262
+  else if PROC13 then 38000264
+  else if PROC14 then 38000264
+  else if PROC15 then 38000265
+  else then 38000265;
 }
 else
 {
+  if PROC_CD then 38000272;
+  
   if PROC1 then 38000269
-  else if PROC2 then 38000270
-  else if PROC3 then 38000271
-  else if PROC_CD then 38000272
+  else if PROC2 then 38000269
+  else if PROC3 then 38000270
+  else if PROC4 then 38000271
+  else if PROC5 then 38000272
+  else if PROC6 then 38000273
+  else if PROC7 then 38000274
+  else then 38000274;
 }
 
 ```
@@ -364,7 +384,7 @@ else if (ICD_FLAG == '10')
 ```
 ### From Medical Claims' Procedure Fields
 
-**PROC_CD, PROC1-3:**
+**PROC_CD, PROC1-PROC25:**
 ```
 if (ICD_FLAG == '9') 
 {
@@ -390,7 +410,7 @@ Combine in the following order: BUS, ASO, PRODUCT, and CDHP:<br>[W] BUS<br>[Y] A
 The POA field in **TEMP_MEDICAL** is a period-delimited string that looks like this: 
 ```Y.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U```
 
-There is a POA character value that corresponds for each slot of the DIAG codes (1-25), but this string must be split on period (".") in order to get this array of POA values. Here's a C#-like code snippet using the above sample POA.
+There is a POA character value that corresponds for each slot of the DIAG codes (DIAG1-DIAG25), but this string must be split on period (".") in order to get this array of POA values. Here's a C#-like code snippet using the above sample POA.
 
 ```
 POA_split = POA.split('.').ToList();

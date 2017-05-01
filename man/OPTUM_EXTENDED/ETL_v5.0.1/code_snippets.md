@@ -345,7 +345,7 @@ if (PLACE_OF_SERVICE_SOURCE_VALUE == 'IP')
   else if PROC10 then 38000260
   else if PROC11 then 38000261
   else if PROC12 then 38000262
-  else if PROC13 then 38000264
+  else if PROC13 then 38000263
   else if PROC14 then 38000264
   else if PROC15 then 38000265
   else then 38000265;

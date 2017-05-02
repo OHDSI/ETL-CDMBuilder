@@ -1,0 +1,68 @@
+*******************************************************************************
+* CDM_PREMIER
+*******************************************************************************
+1) (JNJ Specific) Same cut of data.
+
+2) HIX-1233
+Updated procedure code fix (HIX-1233).  We have improved the mapping from 
+standard billing codes to OMOP Vocabulary concepts leveraging the fact that
+there is a CPT hidden within the billing code.  Improved records mapped to 
+concepts by 23%.
+
+*******************************************************************************
+* CDM_OPTUM_EHR
+*******************************************************************************
+1) HIX-1237
+Eliminated duplicates from JNJ_OPTUM_EHR_LABNAME.
+GITHUB-https://github.com/OHDSI/ETL-CDMBuilder/issues/23
+
+*******************************************************************************
+* CDM_OPTUM_EXTENDED
+*******************************************************************************
+1) HIX-1146, HIX-1257, HIX-1236
+Optum Extended Change to CDM 5.0.1 (mostly change to the cost table)
+
+2) HIX-1260
+Using additional procedure codes now provided by Optum.
+
+3) HIX-1259
+Fixed error in CONDITION_TYPE_CONCEPT_ID for diagnosis 15-25.
+
+4) HIX-1256, HIX-1192
+Adding a present on admission flag to CONDITION_STATUS_CONCEPT_ID.
+
+5) HIX-1239
+DRUG_SOURCE_CONCEPT_ID wasn't getting mapped, this is now fixed.
+
+6) HIX-1225
+Optum Multiple IP Visit starts per day for patients, fixing this bug.
+
+*******************************************************************************
+* CDM_TRUVEN_CCAE / MDCR / MDCD
+*******************************************************************************
+1) HIX-1252, HIX-1245, HIX-1232
+Truven to CDM 5.0.1 (most change to the cost table)
+
+2) HIX-1252
+It was easy for a future record for Mental Health Substance Abuse flag to 
+eliminate a DEATH record.  We elimiated this.
+
+3) HIX-1250
+Truven PROCMOD values only assined to CPT4 PROC1 codes
+
+4) HIX-1223
+Truven Visit Occurrence Notes
+GIHUB-https://github.com/OHDSI/ETL-CDMBuilder/issues/22#issuecomment-285924410
+
+5) HIX-1180
+Truven Discharge status added to the OBSERVATION table.
+
+6) HIX-942
+Just double checking that MDCD is making prior ICD9 vs ICD10 checks.
+
+
+
+
+
+
+

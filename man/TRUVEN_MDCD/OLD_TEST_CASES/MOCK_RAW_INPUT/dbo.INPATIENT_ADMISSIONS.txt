@@ -1,8 +1,0 @@
-ADMDATE	ADMTYP	BOE	CAP	CASEID	DAYS	DISDATE	DOBYR	DRUGCOVG	DSTATUS	DX1	DX10	DX11	DX12	DX13	DX14	DX15	DX2	DX3	DX4	DX5	DX6	DX7	DX8	DX9	ENROLID	HOSPNET	HOSPPAY	HOSP_ID	MAS	MCASENUM	MDC	MEDICARE	MHSACOVG	PDDATE	PDX	PHYSNET	PHYSPAY	PHYS_ID	PLANTYP	PPROC	PROC1	PROC10	PROC11	PROC12	PROC13	PROC14	PROC15	PROC2	PROC3	PROC4	PROC5	PROC6	PROC7	PROC8	PROC9	SEQNUM	SEX	STDRACE	TOTCOB	TOTCOINS	TOTCOPAY	TOTDED	TOTNET	TOTPAY	VERSION	YEAR	DRG
-				8011																					801																																									2012	
-				7011																					701										`0092 `																															2012	
-				9011																					901															29914																										2012	
-				9021																					902																																									2012	
-				13041																					1304															90676																										2012	
-				12041																					1204															90376																										2012	
-				10011																					1001																																									2012	

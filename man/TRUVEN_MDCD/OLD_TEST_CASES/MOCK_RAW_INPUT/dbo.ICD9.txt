@@ -1,1 +1,0 @@
-icd_key	icd_code	parent_icd_code	level	children_count	children_count_recursive	description

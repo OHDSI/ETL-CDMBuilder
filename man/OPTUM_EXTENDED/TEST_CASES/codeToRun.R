@@ -1,38 +1,39 @@
 # Establish Extended Type and Connection strings
 #=============================
 
-detach("package:OptumExtendedSesDodTesting", unload=TRUE)
+detach("package:OptumExtendedSesDodTesting", unload = TRUE)
 
 ## Set Extended Type ("ses" for SES, "dod" for DOD)
 
-#Sys.setenv(extendedType = "ses")
-Sys.setenv(extendedType = "dod")
+Sys.setenv(extendedType = "ses")
+#Sys.setenv(extendedType = "dod")
 
 library(OptumExtendedSesDodTesting)
 
-source_schema <- "scratch_cdm_testing"
-cdm_schema <- "scratch_cdm_results"
+sourceDatabaseSchema <- "scratch_cdm_testing"
+cdmDatabaseSchema <- "scratch_cdm_results"
 
 ## Set Environment variables before running
 user <- Sys.getenv("cdmUser")
 password <- Sys.getenv("cdmPassword")
 server <- Sys.getenv("cdmServer")
 port <- Sys.getenv("cdmServerPort")
+dbms <- Sys.getenv("cdmDbms")
 
 ## Modify connection details as needed
-connectionDetails <- createConnectionDetails(dbms="redshift", server=server,
-                                             port=port, user=user, password=password)
+connectionDetails <- DatabaseConnector::createConnectionDetails(dbms = dbms, server = server,
+                                             port = port, user = user, password = password)
 
 #BUILD RAW DATA
 #=============================
 
-connection <- connect(connectionDetails)
+connection <- DatabaseConnector::connect(connectionDetails = connectionDetails)
 
-insertSql <- translateSql(renderSql(paste(getInsertSql(connectionDetails), sep = "", collapse = "\n"),
-                                    source_schema = source_schema)$sql,
+insertSql <- SqlRender::translateSql(SqlRender::renderSql(paste(getInsertSql(connectionDetails), sep = "", collapse = "\n"),
+                                    sourceDatabaseSchema = sourceDatabaseSchema)$sql,
                           targetDialect = connectionDetails$dbms)$sql
 
-executeSql(connection, insertSql)
+DatabaseConnector::executeSql(connection, insertSql)
 
 #RUN CDM BUILDER (not part of this package)
 #=============================
@@ -41,16 +42,20 @@ executeSql(connection, insertSql)
 # RUN TESTS
 #=============================
 
-testSql <- translateSql(renderSql(paste(getTestSql(connectionDetails), sep = "", collapse = "\n"),
-                                  cdm_schema = cdm_schema)$sql,
+testSql <- SqlRender::translateSql(SqlRender::renderSql(paste(getTestSql(connectionDetails), collapse = "\n"),
+                                  cdmDatabaseSchema = cdmDatabaseSchema)$sql,
                         targetDialect = connectionDetails$dbms)$sql
-executeSql(connection, testSql)
+DatabaseConnector::executeSql(connection, testSql)
 
 
 # VIEW TEST RESULTS
 #=============================
 
-querySql(connection, renderSql("SELECT status, count(*) FROM @cdm_schema.test_results group by status", cdm_schema = cdm_schema)$sql)
-querySql(connection, renderSql("SELECT * FROM @cdm_schema.test_results where status = 'FAIL'", cdm_schema = cdm_schema)$sql)
+DatabaseConnector::querySql(connection, 
+                            SqlRender::renderSql("SELECT status, count(*) FROM @cdmDatabaseSchema.test_results group by status", cdmDatabaseSchema = cdmDatabaseSchema)$sql)
+DatabaseConnector::querySql(connection, 
+                            SqlRender::renderSql("SELECT * FROM @cdmDatabaseSchema.test_results where status = 'FAIL'", cdmDatabaseSchema = cdmDatabaseSchema)$sql)
+
+
 
 

@@ -15,4 +15,3 @@ Get insert SQL
 \details{
 Returns insert Sql for native DB.
 }
-

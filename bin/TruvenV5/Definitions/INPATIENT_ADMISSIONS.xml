@@ -1,9 +1,11 @@
 ﻿<QueryDefinition>
   <Variables>
-    <Variable name="icdVer" database="ccae, mdcr">ISNULL(DXVER, '9') as DXVER, '9' as PROCTYP</Variable>
+    <Variable name="icdVer" database="ccae, mdcr">CASE WHEN DXVER NOT IN ('0', '9') THEN CASE WHEN ADMDATE &lt; '10/01/2015' THEN '9' ELSE '0' END ELSE DXVER END as DXVER, '9' as PROCTYP</Variable>
     <Variable name="icdVer" database="mdcd">'9' as DXVER, '9' as PROCTYP</Variable>
   </Variables>
   <Query>
+    with a as
+    (
     SELECT
     PDX,
     DX1, DX2, DX3, DX4, DX5, DX6, DX7, DX8, DX9, DX10, DX11, DX12, DX13, DX14, DX15,
@@ -27,9 +29,45 @@
     TOTPAY,
     44818668 CurrencyConceptId,
     DRG,
-    {icdVer}
+    {icdVer},
+    CASE
+    WHEN DSTATUS = '01' THEN 'Discharged to home self care'
+    WHEN DSTATUS = '02' THEN 'Transfer to short term hospital'
+    WHEN DSTATUS = '03' THEN 'Transfer to SNF'
+    WHEN DSTATUS = '04' THEN 'Transfer to ICF'
+    WHEN DSTATUS = '05' THEN 'Transfer to other facility'
+    WHEN DSTATUS = '06' THEN 'Discharged home under care'
+    WHEN DSTATUS = '07' THEN 'Left against medical advice'
+    WHEN DSTATUS IN ('08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19') THEN 'Other alive status'
+    WHEN DSTATUS = '20' THEN 'Died'
+    WHEN DSTATUS = '21' THEN 'Discharged/transferred to court/law enforcement'
+    WHEN DSTATUS IN ('30', '31', '32', '33', '34', '35', '36', '37', '38', '39') THEN 'Still patient'
+    WHEN DSTATUS IN ('40', '41', '42') THEN 'Other died status'
+    WHEN DSTATUS = '43' THEN 'Discharged/transferred to federal hospital'
+    WHEN DSTATUS = '50' THEN 'Discharged to home (from Hospice)'
+    WHEN DSTATUS = '51' THEN 'Transfer to med fac (from Hospice)'
+    WHEN DSTATUS = '61' THEN 'Transfer to Medicare approved swing bed'
+    WHEN DSTATUS = '62' THEN 'Transferred to inpatient rehab facility (IRF)'
+    WHEN DSTATUS = '63' THEN 'Transferred to long term care hospital (LTCH)'
+    WHEN DSTATUS = '64' THEN 'Transferred to nursing facility Medicaid certified'
+    WHEN DSTATUS = '65' THEN 'Transferred to psychiatric hospital or unit'
+    WHEN DSTATUS = '66' THEN 'Transferred to critical access hospital (CAH)'
+    WHEN DSTATUS = '70' THEN 'Transfer to another facility NEC'
+    WHEN DSTATUS = '71' THEN 'Transfer/referred to other facility for outpt svcs'
+    WHEN DSTATUS = '72' THEN 'Transfer/referred to this facility for outpt svcs'
+    WHEN DSTATUS = '99' THEN 'Transfer (Hospital ID MDST change)'
+    ELSE NULL
+    END as VALUE_AS_STRING
     FROM {sc}.inpatient_admissions
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND ENROLID = ch.PERSON_ID
+    )
+
+    select *,
+    case
+    when VALUE_AS_STRING is null THEN 0
+    else 1
+    end as toObservation
+    from a
     ORDER BY ENROLID
   </Query>
   <ConditionOccurrence>
@@ -397,4 +435,28 @@
       <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
     </VisitCostDefinition>
   </VisitCost>
+  <Observation>
+    <ObservationDefinition>
+      <Condition>{toObservation} = 1</Condition>
+      <IsUnique>true</IsUnique>
+      <PersonId>ENROLID</PersonId>
+      <StartDate>ADMDATE</StartDate>
+      <ValuesAsString>
+        <string>VALUE_AS_STRING</string>
+      </ValuesAsString>
+      <AdditionalFields>
+        <string>CASEID</string>
+        <string>YEAR</string>
+        <string>priority</string>
+        <string>DXVER</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field key="DSTATUS" defaultConceptId="4202605" defaultTypeId="38000280"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+  </Observation>
 </QueryDefinition>

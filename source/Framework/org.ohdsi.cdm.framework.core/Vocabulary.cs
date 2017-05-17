@@ -317,7 +317,7 @@ namespace org.ohdsi.cdm.framework.core
       {
          if (conceptId == 0 || ingredientLevel == null) return new HashSet<long?> {conceptId};
 
-         var ingredientLevelConceptIds = ingredientLevel.MultiLookupValue(conceptId.ToString(), null).ToList();
+         var ingredientLevelConceptIds = ingredientLevel.MultiLookupValue(conceptId.ToString(), null, false).ToList();
          if (ingredientLevelConceptIds.Count == 1 && ingredientLevelConceptIds[0].ConceptId == 0)
          {
             return new HashSet<long?> {conceptId};
@@ -337,9 +337,9 @@ namespace org.ohdsi.cdm.framework.core
          return (int?) daysSupplyLookup.LookupValue(key);
       }
 
-      public List<LookupValue> Lookup(string sourceValue, string key, DateTime eventDate)
+      public List<LookupValue> Lookup(string sourceValue, string key, DateTime eventDate, bool ignoreCase)
       {
-         return lookups[key].MultiLookupValue(sourceValue, eventDate).ToList();
+         return lookups[key].MultiLookupValue(sourceValue, eventDate, ignoreCase).ToList();
       }
 
       public string LookupSource(string sourceValue, string key)

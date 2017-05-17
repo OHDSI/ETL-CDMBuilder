@@ -48,7 +48,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
 
          return conceptKey == null
           ? new List<LookupValue> { new LookupValue { ConceptId = 0 } }
-          : mapper.Map(vocabulary, field.Key, conceptKey, reader.GetDateTime(field.EventDate));
+          : mapper.Map(vocabulary, field.Key, conceptKey, reader.GetDateTime(field.EventDate), field.IgnoreCase);
       }
 
       private static List<LookupValue> GetValues(Vocabulary vocabulary, Field field, IDataRecord reader, IEnumerable<Mapper> m)
@@ -68,7 +68,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
 
          return conceptKey == null
             ? new List<LookupValue>()
-            : mapper.Map(vocabulary, field.Key, conceptKey, reader.GetDateTime(field.EventDate));
+            : mapper.Map(vocabulary, field.Key, conceptKey, reader.GetDateTime(field.EventDate), field.IgnoreCase);
       }
 
       public int? GetTypeId(Field field, IDataRecord reader)
@@ -84,7 +84,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
             return field.DefaultTypeId;
          }
 
-         var typeIds = mapper.Map(null, field.Key, reader.GetString(field.Key), reader.GetDateTime(field.EventDate));
+         var typeIds = mapper.Map(null, field.Key, reader.GetString(field.Key), reader.GetDateTime(field.EventDate), field.IgnoreCase);
 
          if (typeIds.Count == 0)
             return null;

@@ -15,11 +15,11 @@ namespace org.ohdsi.cdm.framework.core.Definitions
 
       public Field[] Fields { get; set; }
 
-      public List<LookupValue> Map(Vocabulary vocabulary, string key, string source, DateTime eventDate)
+      public List<LookupValue> Map(Vocabulary vocabulary, string key, string source, DateTime eventDate, bool ignoreCase)
       {
          if (!string.IsNullOrEmpty(Lookup))
          {
-            return vocabulary.Lookup(source, Lookup, eventDate);
+            return vocabulary.Lookup(source, Lookup, eventDate, ignoreCase);
          }
 
          if (!string.IsNullOrEmpty(File))

@@ -104,6 +104,12 @@
     <Content Include="PremierV5\Lookups\Condition.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="PremierV5\Lookups\ObservationSourceMDC.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="PremierV5\Lookups\ObservationMDC.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="PremierV5\Lookups\ObservationICD10.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -25,6 +26,10 @@ namespace org.ohdsi.cdm.framework.core.Base
       private readonly int chunkId;
       private readonly Func<IPersonBuilder> createPersonBuilder;
       private readonly string prefix;
+      //private readonly PerformanceCounter networkBytesSent;
+      //private readonly PerformanceCounter networkBytesReceived;
+      private readonly PerformanceCounter cpuCounter;
+      private readonly PerformanceCounter ramCounter;
 
       public ChunkPart(int chunkId, Func<IPersonBuilder> createPersonBuilder, string prefix)
       {
@@ -33,11 +38,32 @@ namespace org.ohdsi.cdm.framework.core.Base
          this.prefix = prefix;
          this.personBuilders = new ConcurrentDictionary<long, Lazy<IPersonBuilder>>();
          this.chunk = new ChunkData(chunkId, int.Parse(prefix), 0, 0, 0, false);
+
+         //const string cn = "get connection string from WMI";
+         //networkBytesSent = new PerformanceCounter("Network Interface", "Bytes Sent/sec", cn);
+         //networkBytesReceived = new PerformanceCounter("Network Interface", "Bytes Received/sec", cn);
+
+         cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+         ramCounter = new PerformanceCounter("Memory", "Available MBytes");
+      }
+
+
+      private void LogResourceUsage()
+      {
+         //Logger.Write(chunkId, LogMessageTypes.Info,
+         //   string.Format("CPU: {0}% | RAM Available: {1}Mb | Sent: {2}Bytes Sent/sec | Received: {3}Bytes Received/sec",
+         //      cpuCounter.NextValue(), ramCounter.NextValue(), networkBytesSent.NextValue(), networkBytesReceived.NextValue()));
+
+         Logger.Write(chunkId, LogMessageTypes.Info,
+            string.Format("CPU: {0}% | RAM Available: {1}Mb", cpuCounter.NextValue(), ramCounter.NextValue()));
       }
 
       public void Load()
       {
-         Parallel.ForEach(Settings.Current.Building.SourceQueryDefinitions, qd =>
+         var timer = new Stopwatch();
+         timer.Start();
+
+         Parallel.ForEach(Settings.Current.Building.SourceQueryDefinitions, new ParallelOptions { MaxDegreeOfParallelism = 3 }, qd =>
          {
             if (qd.Providers != null) return;
             if (qd.Locations != null) return;
@@ -52,7 +78,19 @@ namespace org.ohdsi.cdm.framework.core.Base
             {
                PopulateData(qd, reader);
             }
+
          });
+         timer.Stop();
+
+         Logger.Write(chunkId, LogMessageTypes.Info,
+                  string.Format(prefix + ") loaded - {0} ms | {1} Mb", timer.ElapsedMilliseconds,
+                     (GC.GetTotalMemory(false) / 1024f) / 1024f));
+
+         //Logger.Write(chunkId, LogMessageTypes.Info,
+         //   "loaded subChunkId=" + prefix + " | " + timer.ElapsedMilliseconds +
+         //   " ms");
+
+         LogResourceUsage();
       }
 
       private void PopulateData(QueryDefinition queryDefinition, IDataReader reader)
@@ -237,11 +275,17 @@ namespace org.ohdsi.cdm.framework.core.Base
          timer.Stop();
 
          Logger.Write(chunkId, LogMessageTypes.Info,
-            "saved subChunkId=" + prefix + " | " + chunk.Persons.Count + " | " + timer.ElapsedMilliseconds +
+            "saved to S3 subChunkId=" + prefix + " | " + chunk.Persons.Count + " | " + timer.ElapsedMilliseconds +
             " ms");
+         LogResourceUsage();
+      }
 
+      public void Clean()
+      {
          chunk.Clean();
          chunk = null;
+         Logger.Write(chunkId, LogMessageTypes.Info, "Cleanup subChunkId=" + prefix);
+         LogResourceUsage();
       }
    }
 
@@ -381,41 +425,27 @@ namespace org.ohdsi.cdm.framework.core.Base
             {
                 var part = new ChunkPart(chunkId, createPersonBuilder, p);
 
-                var attempt = 0;
-                var loaded = false;
-                while (!loaded)
-                {
-                    try
-                    {
-                        attempt++;
-                        part.Load();
-                        loaded = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        if (attempt <= 10)
-                        {
-                            Logger.Write(chunkId, LogMessageTypes.Warning, "ChunkPart Load attempt=" + attempt + ") " + Logger.CreateExceptionString(ex));
-                            part = new ChunkPart(chunkId, createPersonBuilder, p);
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                }
-
+               LoadPart(part, p);
+               
                part.Build(vocabularyService);
-               part.Save();
+
+               SavePart(part, p);
             });
            
             dbChunk.ChunkLoaded(chunkId);
 
-            Logger.Write(chunkId, LogMessageTypes.Info, string.Format("Loaded - {0} ms", timer.ElapsedMilliseconds));
-            Logger.Write(chunkId, LogMessageTypes.Info, string.Format("Loaded - {0} Mb", (GC.GetTotalMemory(false) / 1024f) / 1024f));
+            Logger.Write(chunkId, LogMessageTypes.Info, string.Format("Loaded - {0} ms | {1} Mb", timer.ElapsedMilliseconds, (GC.GetTotalMemory(false) / 1024f) / 1024f));
             
-            ServicesManager.AddToSaveQueue(chunkId);
-            Logger.Write(null, LogMessageTypes.Debug, "AddToSaveQueue " + chunkId);
+            if (Settings.Current.Building.DestinationEngine.Database == Database.Redshift)
+            {
+               ServicesManager.AddToSaveQueue(chunkId);
+               Logger.Write(null, LogMessageTypes.Debug, "AddToSaveQueue " + chunkId);
+            }
+            else
+            {
+               dbChunk.ChunkComplete(chunkId);
+            }
+
             channelFactory.Close();
          }
          catch (Exception e)
@@ -424,6 +454,66 @@ namespace org.ohdsi.cdm.framework.core.Base
 
             throw;
          }
+      }
+
+      private void LoadPart(ChunkPart part, string p)
+      {
+         var loadAttempt = 0;
+         var loaded = false;
+         while (!loaded)
+         {
+            try
+            {
+               loadAttempt++;
+               part.Load();
+               loaded = true;
+              
+            }
+            catch (Exception ex)
+            {
+               if (loadAttempt <= 11)
+               {
+                  Logger.Write(chunkId, LogMessageTypes.Warning,
+                     p + ") load attempt=" + loadAttempt + ") " + Logger.CreateExceptionString(ex));
+                  part = new ChunkPart(chunkId, createPersonBuilder, p);
+               }
+               else
+               {
+                  throw;
+               }
+            }
+         }
+      }
+
+      private void SavePart(ChunkPart part, string p)
+      {
+         
+
+         var saveAttempt = 0;
+         var saved = false;
+         while (!saved)
+         {
+            try
+            {
+               saveAttempt++;
+               part.Save();
+               saved = true;
+            }
+            catch (Exception ex)
+            {
+               if (saveAttempt <= 11)
+               {
+                  Logger.Write(chunkId, LogMessageTypes.Warning,
+                     p + ") save attempt=" + saveAttempt + ") " + Logger.CreateExceptionString(ex));
+               }
+               else
+               {
+                  throw;
+               }
+            }
+         }
+
+         part.Clean();
       }
 
       #endregion

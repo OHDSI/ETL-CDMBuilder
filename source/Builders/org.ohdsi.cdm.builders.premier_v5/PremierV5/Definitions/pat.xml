@@ -47,7 +47,13 @@
      WHEN len(pat.ms_drg) = 1 THEN '00' + CAST(pat.ms_drg as varchar)
      WHEN len(pat.ms_drg) = 2 THEN '0' + CAST(pat.ms_drg as varchar)
      ELSE CAST(pat.ms_drg as varchar)
-     END AS ms_drg
+     END AS ms_drg,
+     case
+     when ms_drg_mdc = '0000' then '0'
+     else replace(replace(replace(ms_drg_mdc, '0000', ''), '000', ''), '00', '')
+     end as ms_drg_mdc_fixed,
+     ms_drg_mdc,
+     proj_wgt
      from {sc}.pat
      JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_SOURCE_VALUE
      left join {sc}.poorigin po on po.point_of_origin = pat.point_of_origin
@@ -191,6 +197,47 @@
          <Concept>
            <Fields>
              <Field defaultConceptId="40769091" defaultSource=" " defaultTypeId="38000281"/>
+           </Fields>
+         </Concept>
+       </Concepts>
+     </ObservationDefinition>
+
+     <ObservationDefinition>
+       <PersonId>medrec_key</PersonId>
+       <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+       <ProviderId>adm_phy</ProviderId>
+       <Concepts>
+         <Concept>
+           <IdRequired>true</IdRequired>
+           <ConceptIdMappers>
+             <Mapper>
+               <Lookup>PremierV5\Lookups\ObservationMDC.sql</Lookup>
+             </Mapper>
+           </ConceptIdMappers>
+           <SourceConceptIdMappers>
+             <Mapper>
+               <Lookup>PremierV5\Lookups\ObservationSourceMDC.sql</Lookup>
+             </Mapper>
+           </SourceConceptIdMappers>
+           <Fields>
+             <Field key="ms_drg_mdc_fixed" sourceKey="ms_drg_mdc" defaultTypeId="38000281"/>
+           </Fields>
+         </Concept>
+       </Concepts>
+     </ObservationDefinition>
+
+     <ObservationDefinition>
+       <Condition>{place_of_service_concept_id} = 9201</Condition>
+       <PersonId>medrec_key</PersonId>
+       <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+       <ProviderId>adm_phy</ProviderId>
+       <ValuesAsNumber>
+         <string>proj_wgt</string>
+       </ValuesAsNumber>
+       <Concepts>
+         <Concept>
+           <Fields>
+             <Field defaultConceptId="37392832" defaultSource=" " defaultTypeId="900000003"/>
            </Fields>
          </Concept>
        </Concepts>

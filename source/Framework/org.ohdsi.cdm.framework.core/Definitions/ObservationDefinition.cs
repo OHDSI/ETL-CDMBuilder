@@ -32,7 +32,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
       {
          if (Concepts.Length < 2)
             return new KeyValuePair<long?, string>(null, string.Empty);
-
+         
          var unitsConcepts = base.GetConcepts(Concepts[1], reader, null).ToList();
 
          if (unitsConcepts.Count > 0)

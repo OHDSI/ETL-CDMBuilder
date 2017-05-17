@@ -24,7 +24,7 @@ The SES portion of CEDM provides Socio-Economic Status for members with both med
 			'https://github.com/OHDSI/ETL-CDMBuilder/tree/master/man',
 			'{0}',
 			'{3}',
-			'V5.0',
+			'V5.0.1',
 			'{1}'
 		   );
 

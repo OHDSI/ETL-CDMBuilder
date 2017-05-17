@@ -89,7 +89,7 @@
                   </Mapper>
                </ConceptIdMappers>
                <Fields>
-                  <Field key="UNITS_SOURCE_VALUE" defaultTypeId="0"/>
+                  <Field key="UNITS_SOURCE_VALUE" defaultTypeId="0" ignoreCase="true"/>
                </Fields>
             </Concept>
          </Concepts>

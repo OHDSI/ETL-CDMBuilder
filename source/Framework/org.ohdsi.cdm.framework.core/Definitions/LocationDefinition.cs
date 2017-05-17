@@ -23,6 +23,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
             Id = id.Value,
             State = reader.GetString(State),
             SourceValue = reader.GetString(SourceValue),
+            County = reader.GetString(Country),
             Address1 = reader.GetString(Address1),
             Address2 = reader.GetString(Address2)
          };

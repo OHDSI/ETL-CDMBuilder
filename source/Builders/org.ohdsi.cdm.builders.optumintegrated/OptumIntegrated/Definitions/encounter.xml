@@ -1,0 +1,53 @@
+﻿<QueryDefinition>
+  <Query>
+    select
+    e.encid,
+    cast(replace(e.ptid, 'PT','') as bigint) as PersonId,
+    cast(replace(e.encid, 'E0000','') as bigint) as VisitOccurrenceId,
+    e.interaction_type,
+    e.interaction_date,
+    e.interaction_time,
+    ec.provid,
+    'oncology' source_type,
+    '' prov,
+    '' provcat,
+    '' pat_planid
+    from {sc}.encounter as e
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND e.ptid = ch.PERSON_SOURCE_VALUE
+    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = e.encid
+    LEFT JOIN {sc}.visit v on e.visitid = v.visitid
+    where v.visitid is null
+    and e.encid is not NULL and e.encid != ''
+    order by cast(replace(e.ptid, 'PT','') as bigint)
+  </Query>
+  <VisitOccurrence>
+    <VisitOccurrenceDefinition>
+      <Id>VisitOccurrenceId</Id>
+      <PersonId>PersonId</PersonId>
+      <StartDate>interaction_date</StartDate>
+      <EndDate>interaction_date</EndDate>
+      <StartTime>interaction_time</StartTime>
+      <EndTime>interaction_time</EndTime>
+      <ProviderId>provid</ProviderId>
+      <AdditionalFields>
+        <string>encid</string>
+        <string>source_type</string>
+        <string>prov</string>
+        <string>provcat</string>
+        <string>pat_planid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumIntegrated\Lookups\Visits.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="interaction_type" defaultTypeId="44818518"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </VisitOccurrenceDefinition>
+  </VisitOccurrence>
+</QueryDefinition>

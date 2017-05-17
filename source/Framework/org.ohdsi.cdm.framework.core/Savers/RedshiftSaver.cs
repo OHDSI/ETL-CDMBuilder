@@ -19,12 +19,22 @@ namespace org.ohdsi.cdm.framework.core.Savers
    {
       private AmazonS3Client currentClient;
       private string connectionString;
-
-
+      
       public override ISaver Create(string connectionString)
       {
+         var config = new AmazonS3Config
+         {
+            Timeout = TimeSpan.FromMinutes(60),
+            ReadWriteTimeout = TimeSpan.FromMinutes(60),
+            //BufferSize = 1024 * 64,
+            RegionEndpoint = Amazon.RegionEndpoint.USEast1,
+            ConnectionLimit = 256,
+            MaxErrorRetry = 20,
+            MaxIdleTime = 60 * 60 * 1000
+         };
+
          currentClient = new AmazonS3Client(Settings.Current.AwsAccessKeyId, Settings.Current.AwsSecretAccessKey,
-            Amazon.RegionEndpoint.USEast1);
+            config);
 
          this.connectionString = connectionString;
 

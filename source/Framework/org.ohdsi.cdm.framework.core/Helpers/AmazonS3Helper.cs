@@ -53,7 +53,7 @@ namespace org.ohdsi.cdm.framework.core.Helpers
                         {
                             csv.WriteField(((DateTime)value).ToString("yyyy-MM-dd"));
                         }
-                        else if (type == typeof(string) && value == null)
+                        else if (type == typeof(string) && (value == null || value is DBNull))
                         {
                             csv.WriteField('\0');
                         }

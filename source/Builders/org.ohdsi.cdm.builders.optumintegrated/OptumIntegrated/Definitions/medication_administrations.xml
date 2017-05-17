@@ -1,0 +1,74 @@
+﻿<QueryDefinition>
+  <Query>
+    select
+    m.encid,
+    cast(replace(m.ptid, 'PT','') as bigint) as PersonId,
+    cast(replace(m.encid, 'E0000','') as bigint) as VisitOccurrenceId,
+    case
+    when m.provid is null then ec.provid
+    else m.provid
+    end as provid,
+    m.order_date,
+    m.route,
+    m.dose_frequency,
+    m.strength,
+    m.strength_unit,
+    CASE
+    WHEN m.route = 'Oral' then 4128794
+    WHEN m.route = 'Intravenous' then 4112421
+    WHEN m.route = 'Other medication route' then 45956875
+    WHEN m.route =  'Other injection' then 45956875
+    WHEN m.route =  'Subcutaneous' then 4139962
+    WHEN m.route =  'Inhalation' then 45956874
+    WHEN m.route =  'Topical' then 4231622
+    WHEN m.route =  'Ophthalmic' then 4157760
+    WHEN m.route =  'Nasal' then 4128792
+    WHEN m.route =  'Rectal' then 4115462
+    WHEN m.route =  'Urinary tract' then 4233974
+    WHEN m.route =  'Vaginal' then 4136280
+    ELSE 0
+    END as route_concept_id,
+    m.quantity_of_dose,
+    m.ndc,
+    'oncology' source_type
+    from {sc}.medication_administrations as m
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND m.ptid = ch.PERSON_SOURCE_VALUE
+    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = m.encid
+    where ndc is not NULL
+    and m.encid is not NULL and m.encid != ''
+    order by cast(replace(m.ptid, 'PT','') as bigint)
+  </Query>
+  <DrugExposure>
+    <DrugExposureDefinition>
+      <PersonId>PersonId</PersonId>
+      <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
+      <StartDate>order_date</StartDate>
+      <ProviderId>provid</ProviderId>
+      <RouteConceptId>route_concept_id</RouteConceptId>
+      <RouteSourceValue>route</RouteSourceValue>
+      <DoseUnitSourceValue>strength_unit</DoseUnitSourceValue>
+      <Quantity>quantity_of_dose</Quantity>
+      <AdditionalFields>
+        <string>encid</string>
+        <string>source_type</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumIntegrated\Lookups\Drug.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumIntegrated\Lookups\DrugSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="ndc" defaultTypeId="38000180" />
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DrugExposureDefinition>
+  </DrugExposure>
+</QueryDefinition>

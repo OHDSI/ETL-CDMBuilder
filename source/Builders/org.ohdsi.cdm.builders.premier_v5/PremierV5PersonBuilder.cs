@@ -236,6 +236,14 @@ namespace org.ohdsi.cdm.builders.premier_v5
                                 Id =
                                    chunkData.KeyMasterOffset.ProcedureOccurrenceId
                              };
+
+                  if (entity.AdditionalFields != null && entity.AdditionalFields.ContainsKey("quantity") && !string.IsNullOrEmpty(entity.AdditionalFields["quantity"]))
+                  {
+                     int qty;
+                     int.TryParse(entity.AdditionalFields["quantity"], out qty);
+                     p.Quantity = qty;
+                  }
+
                   chunkData.AddData(p);
 
                   if (p.ProcedureCosts != null && p.ProcedureCosts.Count > 0)
@@ -509,7 +517,7 @@ namespace org.ohdsi.cdm.builders.premier_v5
             if (de.AdditionalFields != null &&
                 de.AdditionalFields.ContainsKey("serv_day")) // coming from PATBILL
             {
-               SetDateForPatbillEntity(de, visitOccurrence);
+               SetDate(de, visitOccurrence, de.AdditionalFields["serv_day"]);
             }
             else
             {
@@ -548,7 +556,7 @@ namespace org.ohdsi.cdm.builders.premier_v5
             if (drugExposure.AdditionalFields != null &&
              drugExposure.AdditionalFields.ContainsKey("serv_day")) // coming from PATBILL
             {
-               SetDateForPatbillEntity(drugExposure, visitOccurrence);
+               SetDate(drugExposure, visitOccurrence, drugExposure.AdditionalFields["serv_day"]);
 
                patbillEntities.Add(drugExposure);
             }
@@ -596,7 +604,7 @@ namespace org.ohdsi.cdm.builders.premier_v5
             if (conditionOccurrence.AdditionalFields != null &&
             conditionOccurrence.AdditionalFields.ContainsKey("serv_day")) // coming from PATBILL
             {
-               SetDateForPatbillEntity(conditionOccurrence, visitOccurrence);
+               SetDate(conditionOccurrence, visitOccurrence, conditionOccurrence.AdditionalFields["serv_day"]);
 
                patbillEntities.Add(conditionOccurrence);
             }
@@ -645,7 +653,12 @@ namespace org.ohdsi.cdm.builders.premier_v5
             if (procedureOccurrence.AdditionalFields != null &&
                 procedureOccurrence.AdditionalFields.ContainsKey("serv_day")) // coming from PATBILL
             {
-               SetDateForPatbillEntity(procedureOccurrence, visitOccurrence);
+               SetDate(procedureOccurrence, visitOccurrence, procedureOccurrence.AdditionalFields["serv_day"]);
+            }
+            else if (procedureOccurrence.AdditionalFields != null &&
+            procedureOccurrence.AdditionalFields.ContainsKey("proc_day"))
+            {
+               SetDate(procedureOccurrence, visitOccurrence, procedureOccurrence.AdditionalFields["proc_day"]);
             }
             else //the procedure is a CPT code or ICD9 procedure code
             {
@@ -801,7 +814,7 @@ namespace org.ohdsi.cdm.builders.premier_v5
             if (observation.AdditionalFields != null &&
             observation.AdditionalFields.ContainsKey("serv_day")) // coming from PATBILL
             {
-               SetDateForPatbillEntity(observation, visitOccurrence);
+               SetDate(observation, visitOccurrence, observation.AdditionalFields["serv_day"]);
 
                patbillEntities.Add(observation);
                
@@ -825,10 +838,10 @@ namespace org.ohdsi.cdm.builders.premier_v5
          }
       }
 
-      private static void SetDateForPatbillEntity(IEntity e, VisitOccurrence visitOccurrence)
+      private static void SetDate(IEntity e, VisitOccurrence visitOccurrence, string value)
       {
          int servDay;
-         int.TryParse(e.AdditionalFields["serv_day"], out servDay);
+         int.TryParse(value, out servDay);
 
          if (servDay == 0 || servDay == 1)
          {
@@ -844,21 +857,89 @@ namespace org.ohdsi.cdm.builders.premier_v5
          }
       }
 
+      private static IEnumerable<Measurement> HandleSurgeryMeasurements(IEnumerable<Measurement> measurements, Dictionary<long, VisitOccurrence> visitOccurrences)
+      {
+         foreach (var samePatKey in measurements.GroupBy(m => m.VisitOccurrenceId))
+         {
+            var sameDaySurgery = new Dictionary<string, List<Measurement>>();
+ 
+            foreach (var m in samePatKey)
+            {
+               var day = m.AdditionalFields.ContainsKey("proc_day") ? m.AdditionalFields["proc_day"] : m.AdditionalFields["serv_day"];
+               if(string.IsNullOrEmpty(day)) continue;
+               if (!m.VisitOccurrenceId.HasValue) continue;
+               if (!visitOccurrences.ContainsKey(m.VisitOccurrenceId.Value)) continue;
+
+               if(!sameDaySurgery.ContainsKey(day))
+                  sameDaySurgery.Add(day, new List<Measurement>());
+               
+               m.StartDate = m.StartDate.AddDays(int.Parse(day));
+               var visitOccurrence = visitOccurrences[m.VisitOccurrenceId.Value];
+               SetDate(m, visitOccurrence, day);
+
+               sameDaySurgery[day].Add(m);
+            }
+            
+            foreach (var surgeryDay in sameDaySurgery.Keys)
+            {
+               var icd = new Dictionary<string, Measurement>();
+               var totalMinutes = new HashSet<int>();
+               
+               foreach (var m in sameDaySurgery[surgeryDay])
+               {
+                  if (m.AdditionalFields.ContainsKey("icd_code"))
+                  {
+                     var icdcode = m.AdditionalFields["icd_code"];
+                     if (!string.IsNullOrEmpty(icdcode) && !icd.ContainsKey(icdcode))
+                     {
+                        icd.Add(icdcode, m);
+                     }
+                  }
+
+                  if (m.AdditionalFields.ContainsKey("quantity"))
+                  {
+                     int quantity;
+                     int.TryParse(m.AdditionalFields["quantity"], out quantity);
+                     var min = GetMinutes(m.AdditionalFields["std_chg_desc"]);
+                     totalMinutes.Add(quantity*min);
+                  }
+               }
+
+               foreach (var measurement in icd.Values)
+               {
+                  if (totalMinutes.Sum() <= 0) continue;
+                  measurement.ValueAsNumber = totalMinutes.Sum();
+
+                  yield return measurement;
+               }
+            }
+         }
+      }
+
       public override IEnumerable<Measurement> BuildMeasurement(Measurement[] measurements, Dictionary<long, VisitOccurrence> visitOccurrences,
          ObservationPeriod[] observationPeriods)
       {
          var uniqueEntities = new HashSet<Measurement>(new PatbillMeasurementComparer());
+         var surgeryEntities = new List<Measurement>();
          foreach (var m in measurements)
          {
             if (!m.VisitOccurrenceId.HasValue) continue;
             if (!visitOccurrences.ContainsKey(m.VisitOccurrenceId.Value)) continue;
-
+            
             var visitOccurrence = visitOccurrences[m.VisitOccurrenceId.Value];
+
+            if (m.TypeConceptId == 45754907)
+            {
+               m.StartDate = visitOccurrence.StartDate;
+               m.UnitConceptId = 8550;
+               surgeryEntities.Add(m);
+               continue;
+            }
 
             if (m.AdditionalFields != null &&
                 m.AdditionalFields.ContainsKey("serv_day")) // coming from PATBILL
             {
-               SetDateForPatbillEntity(m, visitOccurrence);
+               SetDate(m, visitOccurrence, m.AdditionalFields["serv_day"]);
             }
             else
             {
@@ -868,7 +949,15 @@ namespace org.ohdsi.cdm.builders.premier_v5
             uniqueEntities.Add(m);
          }
 
-         return uniqueEntities;
+         foreach (var surgeryMeasurement in HandleSurgeryMeasurements(surgeryEntities, visitOccurrences))
+         {
+            yield return surgeryMeasurement;
+         }
+
+         foreach (var measurement in uniqueEntities)
+         {
+            yield return measurement;
+         }
       }
 
 
@@ -947,6 +1036,46 @@ namespace org.ohdsi.cdm.builders.premier_v5
       private static IEnumerable<VisitOccurrence> CleanVisitOccurrences(IEnumerable<VisitOccurrence> visitOccurrences)
       {
          return visitOccurrences.Where(visitOccurrence => visitOccurrence.StartDate.Year >= 1999);
+      }
+
+      public static int GetMinutes(string description)
+      {
+         if (string.IsNullOrEmpty(description)) return 0;
+
+         var words = description.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+         string hr = null;
+         string min = null;
+
+         for (int i = 0; i < words.Count(); i++)
+         {
+            if (string.Equals("hr", words[i], StringComparison.InvariantCultureIgnoreCase))
+            {
+               hr = words[i - 1];
+            }
+            else if (string.Equals("min", words[i], StringComparison.InvariantCultureIgnoreCase))
+            {
+               min = words[i - 1];
+            }
+         }
+
+         int totalMinutes = 0;
+         if (!string.IsNullOrEmpty(hr))
+         {
+            int h;
+            if (int.TryParse(hr, out h))
+               totalMinutes = 60 * h;
+            else
+               totalMinutes = 60;
+         }
+
+         if (!string.IsNullOrEmpty(min))
+         {
+            int m;
+            if (int.TryParse(min, out m))
+               totalMinutes += m;
+         }
+
+         return totalMinutes;
       }
 
    }

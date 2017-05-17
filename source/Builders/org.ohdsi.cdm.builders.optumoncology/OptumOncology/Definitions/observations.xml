@@ -2,28 +2,31 @@
   <Query>
     select
     cast(replace(o.ptid, 'PT','') as bigint) as PersonId,
-    cast(replace(o.encid, 'E0000','') as bigint) as VisitOccurrenceId,
+    case
+    when o.encid = '' or o.encid is null then NULL
+    else cast(replace(o.encid, 'E0000','') as bigint)
+    end as VisitOccurrenceId,
     o.obs_type,
     o.obs_date,
     o.obs_time,
     o.obs_unit,
     ec.provid,
-    o.obs_result as test_result,
+    o.obsresult as test_result,
     'observations' as source,
     CASE
-    WHEN lower(o.obs_result) = 'few' THEN 	45878239
-    WHEN lower(o.obs_result) = 'np' THEN 	45878582
-    WHEN lower(o.obs_result) = 'none' THEN 	45878582
-    WHEN lower(o.obs_result) = 'none seen' THEN 	45878582
-    WHEN lower(o.obs_result) = 'none see' THEN 	45878582
-    WHEN lower(o.obs_result) = 'negative' THEN 	45878583
-    WHEN lower(o.obs_result) = 'abnormal' THEN 	45878745
-    WHEN lower(o.obs_result) = 'present' THEN 	45879438
-    WHEN lower(o.obs_result) = 'pos' THEN 	45879438
-    WHEN lower(o.obs_result) = 'rare' THEN 	45880295
-    WHEN lower(o.obs_result) = 'trace' THEN 	45881796
-    WHEN lower(o.obs_result) = 'positive' THEN 	45884084
-    WHEN lower(o.obs_result) = 'absent' THEN 	45884086
+    WHEN lower(o.obsresult) = 'few' THEN 	45878239
+    WHEN lower(o.obsresult) = 'np' THEN 	45878582
+    WHEN lower(o.obsresult) = 'none' THEN 	45878582
+    WHEN lower(o.obsresult) = 'none seen' THEN 	45878582
+    WHEN lower(o.obsresult) = 'none see' THEN 	45878582
+    WHEN lower(o.obsresult) = 'negative' THEN 	45878583
+    WHEN lower(o.obsresult) = 'abnormal' THEN 	45878745
+    WHEN lower(o.obsresult) = 'present' THEN 	45879438
+    WHEN lower(o.obsresult) = 'pos' THEN 	45879438
+    WHEN lower(o.obsresult) = 'rare' THEN 	45880295
+    WHEN lower(o.obsresult) = 'trace' THEN 	45881796
+    WHEN lower(o.obsresult) = 'positive' THEN 	45884084
+    WHEN lower(o.obsresult) = 'absent' THEN 	45884086
     ELSE NULL
     END AS ValueAsConceptId,
     CASE
@@ -106,7 +109,7 @@
             </Mapper>
           </ConceptIdMappers>
           <Fields>
-            <Field key="obs_unit" defaultTypeId="0"/>
+            <Field key="obs_unit" defaultTypeId="0" ignoreCase="true"/>
           </Fields>
         </Concept>
       </Concepts>

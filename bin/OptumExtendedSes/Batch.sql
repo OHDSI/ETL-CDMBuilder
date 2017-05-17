@@ -4,7 +4,7 @@ SELECT Patid, MIN(YRDOB) MIN_DOB, MAX(Yrdob) AS MAX_DOB, MIN(GDR_CD) AS MIN_SEX,
   GROUP BY PATID 
 ) 
 
-SELECT DISTINCT --{0} 
+SELECT DISTINCT {0} 
 	f.patid, f.patid
 FROM {sc}.MEMBER_DETAIL f
 	JOIN (		/*find person's last record - handles tie breakers*/

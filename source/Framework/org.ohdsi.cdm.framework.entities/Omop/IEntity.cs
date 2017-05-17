@@ -31,6 +31,7 @@ namespace org.ohdsi.cdm.framework.entities.Omop
 
       long? SourceConceptId { get; set; }
       string Domain { get; set; }
+      string SourceVocabularyId { get; set; }
 
       string LookupKey { get; set; }
    }

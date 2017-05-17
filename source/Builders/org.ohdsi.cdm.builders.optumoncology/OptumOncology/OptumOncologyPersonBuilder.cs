@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using org.ohdsi.cdm.framework.core;
 using org.ohdsi.cdm.framework.core.Base;
-using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.entities.Omop;
 
 
@@ -167,11 +165,12 @@ namespace org.ohdsi.cdm.builders.optumoncology
 
             visitOccurrences.Add(visitOccurrence.Id, visitOccurrence);
          }
-
+         
          var drugExposures =
             BuildDrugExposures(drugExposuresRaw.ToArray(), visitOccurrences, observationPeriods).ToArray();
          var conditionOccurrences =
             BuildConditionOccurrences(conditionOccurrencesRaw.ToArray(), visitOccurrences, observationPeriods).ToArray();
+         
          var procedureOccurrences =
             BuildProcedureOccurrences(procedureOccurrencesRaw.ToArray(), visitOccurrences, observationPeriods).ToArray();
          var observations = BuildObservations(observationsRaw.ToArray(), visitOccurrences, observationPeriods).ToArray();

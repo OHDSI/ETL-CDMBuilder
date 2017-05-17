@@ -101,6 +101,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
                 {
                    Builder.SetFrom(dataReader);
                 }
+
                 break;
              }
              catch (Exception e)

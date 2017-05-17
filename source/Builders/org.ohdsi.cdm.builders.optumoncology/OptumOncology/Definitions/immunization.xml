@@ -4,7 +4,7 @@
     cast(replace(i.ptid, 'PT','') as bigint) as PersonId,
     i.immunization_date,
     i.ndc
-    from {sc}.immunization as i
+    from {sc}.immunizations as i
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND i.ptid = ch.PERSON_SOURCE_VALUE
     where pt_reported = 'N' and ndc is not NULL
     order by cast(replace(i.ptid, 'PT','') as bigint)

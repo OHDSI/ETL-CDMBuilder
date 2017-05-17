@@ -3,7 +3,10 @@
     select
     d.encid,
     cast(replace(d.ptid, 'PT','') as bigint) as PersonId,
-    cast(replace(d.encid, 'E0000','') as bigint) as VisitOccurrenceId,
+    case
+    when d.encid = '' or d.encid is null then NULL
+    else cast(replace(d.encid, 'E0000','') as bigint)
+    end as VisitOccurrenceId,
     diag_date,
     case
     when primary_diagnosis = '1' then 44786627

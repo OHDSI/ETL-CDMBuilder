@@ -376,7 +376,7 @@ namespace org.ohdsi.cdm.builders.jmdc_v5
                                };
 
                      
-                     var result = vocabulary.Lookup(mes.SourceValue, @"JMDCv5\Lookups\JMDC-ICD10-MapsToValue.sql", DateTime.MinValue);
+                     var result = vocabulary.Lookup(mes.SourceValue, @"JMDCv5\Lookups\JMDC-ICD10-MapsToValue.sql", DateTime.MinValue, false);
                      long conceptId = 4181412;
 
                      if (result.Any() && result[0].ConceptId.HasValue && result[0].ConceptId > 0)
@@ -405,7 +405,7 @@ namespace org.ohdsi.cdm.builders.jmdc_v5
                         Id = chunkData.KeyMasterOffset.ObservationId
                      };
 
-                     var result = vocabulary.Lookup(obser.SourceValue, @"JMDCv5\Lookups\JMDC-ICD10-MapsToValue.sql", DateTime.MinValue);
+                     var result = vocabulary.Lookup(obser.SourceValue, @"JMDCv5\Lookups\JMDC-ICD10-MapsToValue.sql", DateTime.MinValue, false);
                      long conceptId = 4181412;
 
                      if (result.Any() && result[0].ConceptId.HasValue && result[0].ConceptId > 0)

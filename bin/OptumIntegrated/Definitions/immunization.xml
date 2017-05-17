@@ -1,0 +1,39 @@
+﻿<QueryDefinition>
+  <Query>
+    select
+    cast(replace(i.ptid, 'PT','') as bigint) as PersonId,
+    i.immunization_date,
+    i.ndc,
+    'oncology' source_type
+    from {sc}.immunizations as i
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND i.ptid = ch.PERSON_SOURCE_VALUE
+    where pt_reported = 'N' and ndc is not NULL
+    order by cast(replace(i.ptid, 'PT','') as bigint)
+  </Query>
+  <DrugExposure>
+    <DrugExposureDefinition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>immunization_date</StartDate>
+      <AdditionalFields>
+        <string>source_type</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumIntegrated\Lookups\Drug.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumIntegrated\Lookups\DrugSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="ndc" defaultTypeId="43542358" />
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DrugExposureDefinition>
+  </DrugExposure>
+</QueryDefinition>

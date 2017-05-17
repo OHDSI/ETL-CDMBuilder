@@ -19,6 +19,9 @@ namespace org.ohdsi.cdm.framework.core.Definitions
       [XmlAttribute("eventDate")]
       public string EventDate { get; set; }
 
+      [XmlAttribute("ignoreCase")]
+      public bool IgnoreCase { get; set; }
+      
       [XmlIgnore]
       public int? DefaultTypeId { get; set; }
 

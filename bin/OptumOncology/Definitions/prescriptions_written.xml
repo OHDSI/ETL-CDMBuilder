@@ -24,7 +24,7 @@
     WHEN p.route =  'Vaginal' then 4136280
     ELSE 0
     END as route_concept_id,
-    isnull(p.strength, '') + ';' + isnull(p.strength_unit, '') + ';' + isnull(p.dosage_form, '') + ';' + isnull(p.dosefreq, '') as dose_unit_source_value,
+    isnull(p.strength, '') + ';' + isnull(p.strength_unit, '') + ';' + isnull(p.dosage_form, '') + ';' + isnull(p.dose_frequency, '') as dose_unit_source_value,
     p.ndc
     from {sc}.prescriptions_written as p
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND p.ptid = ch.PERSON_SOURCE_VALUE

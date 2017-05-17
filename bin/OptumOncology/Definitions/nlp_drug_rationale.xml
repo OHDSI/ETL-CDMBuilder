@@ -3,7 +3,10 @@
     select
     cast(replace(ptid, 'PT','') as bigint) as PersonId,
     note_date,
-    cast(replace(encid, 'E0000','') as bigint) as VisitOccurrenceId,
+    case
+    when encid = '' or encid is null then NULL
+    else cast(replace(encid, 'E0000','') as bigint)
+    end as VisitOccurrenceId,
     drug_name,
     reason_general
     from {sc}.nlp_drug_rationale

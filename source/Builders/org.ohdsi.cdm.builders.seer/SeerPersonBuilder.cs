@@ -78,13 +78,13 @@ namespace org.ohdsi.cdm.builders.seer
                {
                   death.CauseSource = record.AdditionalFields["value"];
                   var result9 = vocabulary.Lookup(death.CauseSource, @"SEER\Lookups\DeathICD9.sql",
-                     DateTime.MinValue);
+                     DateTime.MinValue, false);
 
                   if (result9.Any())
                      death.CauseConceptId = result9[0].ConceptId;
 
                   var result9source = vocabulary.Lookup(death.CauseSource,
-                     @"SEER\Lookups\DeathICD9Source.sql", DateTime.MinValue);
+                     @"SEER\Lookups\DeathICD9Source.sql", DateTime.MinValue, false);
 
                   if (result9source.Any())
                      death.SourceConceptId = result9source[0].ConceptId;
@@ -102,13 +102,13 @@ namespace org.ohdsi.cdm.builders.seer
                {
                   death.CauseSource = record.AdditionalFields["value"];
                   var result10 = vocabulary.Lookup(death.CauseSource, @"SEER\Lookups\DeathICD10.sql",
-                     DateTime.MinValue);
+                     DateTime.MinValue, false);
 
                   if (result10.Any())
                      death.CauseConceptId = result10[0].ConceptId;
 
                   var result10source = vocabulary.Lookup(death.CauseSource,
-                     @"SEER\Lookups\DeathICD10Source.sql", DateTime.MinValue);
+                     @"SEER\Lookups\DeathICD10Source.sql", DateTime.MinValue, false);
 
                   if (result10source.Any())
                      death.SourceConceptId = result10source[0].ConceptId;
@@ -185,7 +185,7 @@ namespace org.ohdsi.cdm.builders.seer
             return;
 
          string value = srctable + "_" + name;
-         var result = vocabulary.Lookup(value.ToLower(), @"SEER\Lookups\Observation.sql", DateTime.MinValue);
+         var result = vocabulary.Lookup(value.ToLower(), @"SEER\Lookups\Observation.sql", DateTime.MinValue, false);
          if (result.Any() && result[0].ConceptId.HasValue)
          {
             obser.SourceValue = value;

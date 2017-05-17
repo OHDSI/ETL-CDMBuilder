@@ -5,7 +5,7 @@
     n.biomarker,
     n.note_date,
     isnull(n.biomarker_status, '') + ';' + isnull(n.variation_detail, '') + ';' + isnull(n.biomarker, '') as VALUE_AS_STRING
-    from {sc}.nlp_biomarker n
+    from {sc}.nlp_biomarkers n
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND n.ptid = ch.PERSON_SOURCE_VALUE
     order by cast(replace(n.ptid, 'PT','') as bigint)
   </Query>

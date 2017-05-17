@@ -22,7 +22,7 @@
     END as route_concept_id,
     p.route,
     p.ndc
-    from {sc}.patient_reported_meds as p
+    from {sc}.patient_reported_medications as p
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND p.ptid = ch.PERSON_SOURCE_VALUE
     where ndc is not NULL
     order by cast(replace(p.ptid, 'PT','') as bigint)

@@ -50,9 +50,9 @@ namespace org.ohdsi.cdm.framework.entities.DataReaders.v5
             case 7:
                return visitEnumerator.Current.TypeConceptId;
             case 8:
-               return visitEnumerator.Current.ProviderId;
+               return visitEnumerator.Current.ProviderId == 0 ? null : visitEnumerator.Current.ProviderId;
             case 9:
-               return visitEnumerator.Current.CareSiteId;
+               return visitEnumerator.Current.CareSiteId == 0 ? null : visitEnumerator.Current.CareSiteId;
             case 10:
                return visitEnumerator.Current.SourceValue;
             case 11:

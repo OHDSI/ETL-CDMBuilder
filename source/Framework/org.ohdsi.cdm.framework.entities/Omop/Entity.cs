@@ -28,6 +28,7 @@ namespace org.ohdsi.cdm.framework.entities.Omop
       // CDM v5 props
       public long? SourceConceptId { get; set; }
       public string Domain { get; set; }
+      public string SourceVocabularyId { get; set; }
 
       public string LookupKey { get; set; }
 
@@ -89,6 +90,7 @@ namespace org.ohdsi.cdm.framework.entities.Omop
          ValidEndDate = ent.ValidEndDate;
          SourceConceptId = ent.SourceConceptId;
          Domain = ent.Domain;
+         SourceVocabularyId = ent.SourceVocabularyId;
          LookupKey = ent.LookupKey;
       }
    }

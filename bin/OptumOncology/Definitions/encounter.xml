@@ -12,7 +12,7 @@
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND e.ptid = ch.PERSON_SOURCE_VALUE
     LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = e.encid
     LEFT JOIN {sc}.visit v on e.visitid = v.visitid
-    where v.visitid is null
+    where v.visitid is null and e.encid is not NULL and e.encid != ''
     order by cast(replace(e.ptid, 'PT','') as bigint)
   </Query>
   <VisitOccurrence>

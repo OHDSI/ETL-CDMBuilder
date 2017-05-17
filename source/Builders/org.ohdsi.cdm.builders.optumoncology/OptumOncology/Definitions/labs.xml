@@ -2,7 +2,10 @@
   <Query>
     select
     cast(replace(l.ptid, 'PT','') as bigint) as PersonId,
-    cast(replace(l.encid, 'E0000','') as bigint) as VisitOccurrenceId,
+    case
+    when l.encid = '' or l.encid is null then NULL
+    else cast(replace(l.encid, 'E0000','') as bigint)
+    end as VisitOccurrenceId,
     ec.provid,
     test_name,
     result_date,
@@ -71,7 +74,7 @@
             </Mapper>
           </ConceptIdMappers>
           <Fields>
-            <Field key="result_unit" defaultTypeId="0"/>
+            <Field key="result_unit" defaultTypeId="0" ignoreCase="true"/>
           </Fields>
         </Concept>
       </Concepts>

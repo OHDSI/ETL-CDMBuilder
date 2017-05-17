@@ -5,19 +5,19 @@ namespace org.ohdsi.cdm.framework.shared.Enums
 {
    public enum Vendors
    {
-      [CDMVersion(CDMVersions.v5)]
+      [CDMVersion(CDMVersions.v501)]
       [Folder("TruvenV5")]
       [Description("Truven CCAE v5")]
       [CDMSource("CdmSourceCCAE.sql")]
       Truven_CCAE = 3,
 
-      [CDMVersion(CDMVersions.v5)]
+      [CDMVersion(CDMVersions.v501)]
       [Folder("TruvenV5")]
       [Description("Truven MDCR v5")]
       [CDMSource("CdmSourceMDCR.sql")]
       Truven_MDCR = 4,
 
-      [CDMVersion(CDMVersions.v5)]
+      [CDMVersion(CDMVersions.v501)]
       [Folder("TruvenV5")]
       [BatchFile("BatchMDCD.sql")]
       [Description("Truven MDCD v5")]
@@ -50,13 +50,13 @@ namespace org.ohdsi.cdm.framework.shared.Enums
       [Description("SEER v5")]
       SEER = 16,
 
-      [CDMVersion(CDMVersions.v5)]
+      [CDMVersion(CDMVersions.v501)]
       [Folder("OptumExtendedSes")]
       [Description("Optum Extended SES v5")]
       [CDMSource("CdmSourceSES.sql")]
       OptumExtendedSES = 29,
 
-      [CDMVersion(CDMVersions.v5)]
+      [CDMVersion(CDMVersions.v501)]
       [Folder("OptumExtendedSes")]
       [Description("Optum Extended DOD v5")]
       [CDMSource("CdmSourceDOD.sql")]
@@ -65,7 +65,17 @@ namespace org.ohdsi.cdm.framework.shared.Enums
       [CDMVersion(CDMVersions.v5)]
       [Folder("OptumOncology")]
       [Description("Optum Oncology v5")]
-      OptumOncology = 23
+      OptumOncology = 23,
+
+      [CDMVersion(CDMVersions.v5)]
+      [Folder("OptumIntegrated")]
+      [Description("Optum Integrated v5")]
+      OptumIntegrated = 12,
+
+      [CDMVersion(CDMVersions.v5)]
+      [Folder("HCUP")]
+      [Description("HCUP v5")]
+      HCUPv5 = 26
    }
 }
 

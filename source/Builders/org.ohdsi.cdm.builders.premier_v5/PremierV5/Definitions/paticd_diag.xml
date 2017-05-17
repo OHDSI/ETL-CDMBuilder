@@ -13,6 +13,12 @@
      when pat.i_o_ind = 'O' and icd.icd_pri_sec = 'A' then 4203942
      else 0
      end as condition_type_concept_id,
+     icd.ICD_POA,
+     case
+     when icd.ICD_POA = 'W' then 46236988
+     when icd.ICD_POA = 'Y' then 46236988
+     else 0
+     end as condition_status_concept_id,
      pat.pat_key,
      icd.icd_code source_value,
      case
@@ -50,6 +56,11 @@
               </SourceConceptIdMappers>
                <Fields>
                   <Field key="source_value" typeId="condition_type_concept_id"/>
+               </Fields>
+            </Concept>
+            <Concept>
+               <Fields>
+                  <Field conceptId="condition_status_concept_id" sourceKey="ICD_POA"/>
                </Fields>
             </Concept>
          </Concepts>

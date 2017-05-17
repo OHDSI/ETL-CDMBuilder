@@ -21,7 +21,9 @@
      end as procedure_type_concept_id,
      icd.icd_code,
      pat.adm_phy,
-     icd.icd_version
+     icd.icd_version,
+     icd.proc_day,
+     'paticd_proc' as source
      from {sc}.pat pat
      JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_SOURCE_VALUE
      join {sc}.paticd_proc icd on pat.pat_key = icd.pat_key
@@ -82,6 +84,9 @@
          <PersonId>medrec_key</PersonId>
          <VisitOccurrenceId>pat_key</VisitOccurrenceId>
          <ProviderId>adm_phy</ProviderId>
+         <AdditionalFields>
+           <string>proc_day</string>
+         </AdditionalFields>
          <Concepts>
             <Concept>
                <IdRequired>true</IdRequired>
@@ -191,4 +196,23 @@
       </Concepts>
     </DeviceExposureDefinition>
   </DeviceExposure>
+   <Measurement>
+     <MeasurementDefinition>
+       <PersonId>medrec_key</PersonId>
+       <VisitOccurrenceId>pat_key</VisitOccurrenceId>
+       <ProviderId>adm_phy</ProviderId>
+       <AdditionalFields>
+         <string>source</string>
+         <string>proc_day</string>
+         <string>icd_code</string>
+       </AdditionalFields>
+       <Concepts>
+         <Concept>
+           <Fields>
+             <Field defaultConceptId="3016562" defaultSource=" " defaultTypeId="45754907"/>
+           </Fields>
+         </Concept>
+       </Concepts>
+     </MeasurementDefinition>
+   </Measurement>
 </QueryDefinition>

@@ -120,6 +120,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
                            ValidEndDate = lookupValue.ValidEndDate,
                            SourceConceptId = sourceConceptId.ConceptId.HasValue ? sourceConceptId.ConceptId.Value : 0,
                            Domain = lookupValue.Domain,
+                           SourceVocabularyId = lookupValue.SourceVocabularyId,
                            LookupKey = reader.GetString(LookupKey)
                         };
                      }

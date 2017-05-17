@@ -113,16 +113,16 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
             var hixServer = ConfigurationManager.AppSettings["hixServer"];
             if (string.IsNullOrWhiteSpace(hixServer))
-                hixServer = "rndusrdhit01";
+                hixServer = "";
             var hixDb = ConfigurationManager.AppSettings["hixDatabase"];
             if (string.IsNullOrWhiteSpace(hixDb))
-                hixDb = "HIX";
+                hixDb = "";
             var hixPort = ConfigurationManager.AppSettings["hixPort"];
             if (string.IsNullOrWhiteSpace(hixPort))
                 hixPort = "1433";
             var hixUser = ConfigurationManager.AppSettings["hixUser"];
             if (string.IsNullOrWhiteSpace(hixUser))
-                hixUser = "hix_reader";
+                hixUser = "";
             var hixPass = ConfigurationManager.AppSettings["hixPassword"];
 
             var runCost = ConfigurationManager.AppSettings["runCostAnalysis"];

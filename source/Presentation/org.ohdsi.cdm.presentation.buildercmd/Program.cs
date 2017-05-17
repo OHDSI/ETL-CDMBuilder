@@ -57,10 +57,10 @@ namespace org.ohdsi.cdm.presentation.buildercmd
                         AchillesFolder = @"c:\temp\achillesJson",
                         AwsAccessKeyId = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID"),
                         AwsSecretAccessKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY"),
-                        HixServer = @"hix.c9noqp7vjybh.us-east-1.rds.amazonaws.com",
-                        HixDatabase = "HIX",
+                        HixServer = @"",
+                        HixDatabase = "",
                         HixPort = 1433,
-                        HixUser = "hix_reader"
+                        HixUser = ""
                     };
                 }
             }

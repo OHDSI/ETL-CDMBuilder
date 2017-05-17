@@ -29,8 +29,17 @@
     END AS CLAIM_TYPE,
     m.pos,m.prov,m.provcat,
     m.diag1,m.diag2,m.diag3,m.diag4,m.diag5,
-    m.proc1,m.proc2,m.proc3,m.proc_cd,
-    m.coins,m.copay,m.deduct,
+    m.diag6,m.diag7,m.diag8,m.diag9,m.diag10,
+    m.diag11,m.diag12,m.diag13,m.diag14,m.diag15,
+    m.diag16,m.diag17,m.diag18,m.diag19,m.diag20,
+    m.diag21,m.diag22,m.diag23,m.diag24,m.diag25,
+    m.proc1,m.proc2,m.proc3,m.proc4,m.proc5,
+    m.proc6,m.proc7,m.proc8,m.proc9,m.proc10,
+    m.proc11,m.proc12,m.proc13,m.proc14,m.proc15,
+    m.proc16,m.proc17,m.proc18,m.proc19,m.proc20,
+    m.proc21,m.proc22,m.proc23,m.proc24,m.proc25,
+    m.proc_cd,
+    m.coins,m.copay,m.deduct, m.charge,
     m.std_cost,
     dstatus,
     CASE
@@ -51,6 +60,7 @@
     END as ProviderIdKey,
     NULL as amt_cob_sav,
     m.coins + m.deduct total_paid,
+    m.poa,
     m.ndc,
     m.Pat_PlanId,
     m.ICD_FLAG,
@@ -87,6 +97,7 @@
         <string>diag1</string>
         <string>Pat_PlanId</string>
         <string>Units</string>
+        <string>poa</string>
       </AdditionalFields>
       <Concepts>
         <Concept>
@@ -95,6 +106,11 @@
               <Lookup>OptumExtendedSes\Lookups\DrugRx.sql</Lookup>
             </Mapper>
           </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumExtendedSes\Lookups\DrugSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
           <Fields>
             <Field key="NDC" defaultTypeId="0" eventDate="VISIT_START_DATE"/>
             <Field key="NDC_SOURCE_VALUE_9" sourceKey="NDC" defaultTypeId="0" eventDate="VISIT_START_DATE"/>
@@ -135,6 +151,7 @@
         <string>VISIT_END_DATE</string>
         <string>ICD_FLAG</string>
         <string>Units</string>
+        <string>poa</string>
       </AdditionalFields>
       <Concepts>
         <Concept>
@@ -149,11 +166,31 @@
             </Mapper>
           </SourceConceptIdMappers>
           <Fields>
-            <Field key="diag1" defaultTypeId="1" isNullable="true"/>
-            <Field key="diag2" defaultTypeId="2" isNullable="true"/>
-            <Field key="diag3" defaultTypeId="3" isNullable="true"/>
-            <Field key="diag4" defaultTypeId="4" isNullable="true"/>
-            <Field key="diag5" defaultTypeId="5" isNullable="true"/>
+            <Field key="diag1" defaultTypeId="0" isNullable="true"/>
+            <Field key="diag2" defaultTypeId="1" isNullable="true"/>
+            <Field key="diag3" defaultTypeId="2" isNullable="true"/>
+            <Field key="diag4" defaultTypeId="3" isNullable="true"/>
+            <Field key="diag5" defaultTypeId="4" isNullable="true"/>
+            <Field key="diag6" defaultTypeId="5" isNullable="true"/>
+            <Field key="diag7" defaultTypeId="6" isNullable="true"/>
+            <Field key="diag8" defaultTypeId="7" isNullable="true"/>
+            <Field key="diag9" defaultTypeId="8" isNullable="true"/>
+            <Field key="diag10" defaultTypeId="9" isNullable="true"/>
+            <Field key="diag11" defaultTypeId="10" isNullable="true"/>
+            <Field key="diag12" defaultTypeId="11" isNullable="true"/>
+            <Field key="diag13" defaultTypeId="12" isNullable="true"/>
+            <Field key="diag14" defaultTypeId="13" isNullable="true"/>
+            <Field key="diag15" defaultTypeId="14" isNullable="true"/>
+            <Field key="diag16" defaultTypeId="15" isNullable="true"/>
+            <Field key="diag17" defaultTypeId="16" isNullable="true"/>
+            <Field key="diag18" defaultTypeId="17" isNullable="true"/>
+            <Field key="diag19" defaultTypeId="18" isNullable="true"/>
+            <Field key="diag20" defaultTypeId="19" isNullable="true"/>
+            <Field key="diag21" defaultTypeId="20" isNullable="true"/>
+            <Field key="diag22" defaultTypeId="21" isNullable="true"/>
+            <Field key="diag23" defaultTypeId="22" isNullable="true"/>
+            <Field key="diag24" defaultTypeId="23" isNullable="true"/>
+            <Field key="diag25" defaultTypeId="24" isNullable="true"/>
           </Fields>
         </Concept>
       </Concepts>
@@ -171,6 +208,7 @@
         <string>VISIT_END_DATE</string>
         <string>ICD_FLAG</string>
         <string>Units</string>
+        <string>poa</string>
       </AdditionalFields>
       <Concepts>
         <Concept>
@@ -185,11 +223,31 @@
             </Mapper>
           </SourceConceptIdMappers>
           <Fields>
-            <Field key="diag1" defaultTypeId="1" isNullable="true"/>
-            <Field key="diag2" defaultTypeId="2" isNullable="true"/>
-            <Field key="diag3" defaultTypeId="3" isNullable="true"/>
-            <Field key="diag4" defaultTypeId="4" isNullable="true"/>
-            <Field key="diag5" defaultTypeId="5" isNullable="true"/>
+            <Field key="diag1" defaultTypeId="0" isNullable="true"/>
+            <Field key="diag2" defaultTypeId="1" isNullable="true"/>
+            <Field key="diag3" defaultTypeId="2" isNullable="true"/>
+            <Field key="diag4" defaultTypeId="3" isNullable="true"/>
+            <Field key="diag5" defaultTypeId="4" isNullable="true"/>
+            <Field key="diag6" defaultTypeId="5" isNullable="true"/>
+            <Field key="diag7" defaultTypeId="6" isNullable="true"/>
+            <Field key="diag8" defaultTypeId="7" isNullable="true"/>
+            <Field key="diag9" defaultTypeId="8" isNullable="true"/>
+            <Field key="diag10" defaultTypeId="9" isNullable="true"/>
+            <Field key="diag11" defaultTypeId="10" isNullable="true"/>
+            <Field key="diag12" defaultTypeId="11" isNullable="true"/>
+            <Field key="diag13" defaultTypeId="12" isNullable="true"/>
+            <Field key="diag14" defaultTypeId="13" isNullable="true"/>
+            <Field key="diag15" defaultTypeId="14" isNullable="true"/>
+            <Field key="diag16" defaultTypeId="15" isNullable="true"/>
+            <Field key="diag17" defaultTypeId="16" isNullable="true"/>
+            <Field key="diag18" defaultTypeId="17" isNullable="true"/>
+            <Field key="diag19" defaultTypeId="18" isNullable="true"/>
+            <Field key="diag20" defaultTypeId="19" isNullable="true"/>
+            <Field key="diag21" defaultTypeId="20" isNullable="true"/>
+            <Field key="diag22" defaultTypeId="21" isNullable="true"/>
+            <Field key="diag23" defaultTypeId="22" isNullable="true"/>
+            <Field key="diag24" defaultTypeId="23" isNullable="true"/>
+            <Field key="diag25" defaultTypeId="24" isNullable="true"/>
           </Fields>
         </Concept>
       </Concepts>
@@ -212,6 +270,7 @@
         <string>diag1</string>
         <string>Pat_PlanId</string>
         <string>Units</string>
+        <string>poa</string>
       </AdditionalFields>
       <Concepts>
         <Concept>
@@ -226,10 +285,34 @@
             </Mapper>
           </SourceConceptIdMappers>
           <Fields>
+            <Field key="proc_cd" defaultTypeId="4" isNullable="true"/>
+            
             <Field key="proc1" defaultTypeId="1"/>
             <Field key="proc2" defaultTypeId="2"/>
             <Field key="proc3" defaultTypeId="3"/>
-            <Field key="proc_cd" defaultTypeId="4" isNullable="true"/>
+            
+            <Field key="proc4" defaultTypeId="4"/>
+            <Field key="proc5" defaultTypeId="5"/>
+            <Field key="proc6" defaultTypeId="6"/>
+            <Field key="proc7" defaultTypeId="7"/>
+            <Field key="proc8" defaultTypeId="8"/>
+            <Field key="proc9" defaultTypeId="9"/>
+            <Field key="proc10" defaultTypeId="10"/>
+            <Field key="proc11" defaultTypeId="11"/>
+            <Field key="proc12" defaultTypeId="12"/>
+            <Field key="proc13" defaultTypeId="13"/>
+            <Field key="proc14" defaultTypeId="14"/>
+            <Field key="proc15" defaultTypeId="15"/>
+            <Field key="proc16" defaultTypeId="16"/>
+            <Field key="proc17" defaultTypeId="17"/>
+            <Field key="proc18" defaultTypeId="18"/>
+            <Field key="proc19" defaultTypeId="19"/>
+            <Field key="proc20" defaultTypeId="20"/>
+            <Field key="proc21" defaultTypeId="21"/>
+            <Field key="proc22" defaultTypeId="22"/>
+            <Field key="proc23" defaultTypeId="23"/>
+            <Field key="proc24" defaultTypeId="24"/>
+            <Field key="proc25" defaultTypeId="25"/>
           </Fields>
         </Concept>
       </Concepts>
@@ -251,6 +334,7 @@
         <string>diag1</string>
         <string>Pat_PlanId</string>
         <string>Units</string>
+        <string>poa</string>
       </AdditionalFields>
       <Concepts>
         <Concept>
@@ -265,10 +349,34 @@
             </Mapper>
           </SourceConceptIdMappers>
           <Fields>
+            <Field key="proc_cd" defaultTypeId="4" isNullable="true"/>
             <Field key="proc1" defaultTypeId="1"/>
             <Field key="proc2" defaultTypeId="2"/>
             <Field key="proc3" defaultTypeId="3"/>
-            <Field key="proc_cd" defaultTypeId="4" isNullable="true"/>
+
+            <Field key="proc4" defaultTypeId="4"/>
+            <Field key="proc5" defaultTypeId="5"/>
+            <Field key="proc6" defaultTypeId="6"/>
+            <Field key="proc7" defaultTypeId="7"/>
+            <Field key="proc8" defaultTypeId="8"/>
+            <Field key="proc9" defaultTypeId="9"/>
+            <Field key="proc10" defaultTypeId="10"/>
+            <Field key="proc11" defaultTypeId="11"/>
+            <Field key="proc12" defaultTypeId="12"/>
+            <Field key="proc13" defaultTypeId="13"/>
+            <Field key="proc14" defaultTypeId="14"/>
+            <Field key="proc15" defaultTypeId="15"/>
+            <Field key="proc16" defaultTypeId="16"/>
+            <Field key="proc17" defaultTypeId="17"/>
+            <Field key="proc18" defaultTypeId="18"/>
+            <Field key="proc19" defaultTypeId="19"/>
+            <Field key="proc20" defaultTypeId="20"/>
+            <Field key="proc21" defaultTypeId="21"/>
+            <Field key="proc22" defaultTypeId="22"/>
+            <Field key="proc23" defaultTypeId="23"/>
+            <Field key="proc24" defaultTypeId="24"/>
+            <Field key="proc25" defaultTypeId="25"/>
+            
           </Fields>
         </Concept>
       </Concepts>
@@ -282,6 +390,9 @@
       <ValuesAsNumber>
         <string>Units</string>
       </ValuesAsNumber>
+      <AdditionalFields>
+        <string>poa</string>
+      </AdditionalFields>
       <Concepts>
         <Concept>
           <ConceptIdMappers>
@@ -303,14 +414,15 @@
   </Observation>
   <ProcedureCost>
     <ProcedureCostDefinition>
+      <PaidByCoordinationBenefits>charge</PaidByCoordinationBenefits>
       <PaidCopay>copay</PaidCopay>
       <PaidCoinsurance>coins</PaidCoinsurance>
       <PaidTowardDeductible>deduct</PaidTowardDeductible>
-      <PaidByCoordinationBenefits>amt_cob_sav</PaidByCoordinationBenefits>
       <TotalPaid>std_cost</TotalPaid>
       <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
       <AdditionalFields>
         <string>Pat_PlanId</string>
+        <string>charge</string>
       </AdditionalFields>
       <Concepts>
         <Concept>
@@ -351,7 +463,7 @@
       <PaidCopay>COPAY</PaidCopay>
       <PaidCoinsurance>COINS</PaidCoinsurance>
       <PaidTowardDeductible>DEDUCT</PaidTowardDeductible>
-      <PaidByCoordinationBenefits>AMT_COB_SAV</PaidByCoordinationBenefits>
+      <PaidByCoordinationBenefits>charge</PaidByCoordinationBenefits>
       <TotalPaid>STD_COST</TotalPaid>
       <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
     </VisitCostDefinition>
@@ -380,6 +492,26 @@
             <Field key="diag3" defaultTypeId="38003567"/>
             <Field key="diag4" defaultTypeId="38003567"/>
             <Field key="diag5" defaultTypeId="38003567"/>
+            <Field key="diag6" defaultTypeId="38003567"/>
+            <Field key="diag7" defaultTypeId="38003567"/>
+            <Field key="diag8" defaultTypeId="38003567"/>
+            <Field key="diag9" defaultTypeId="38003567"/>
+            <Field key="diag10" defaultTypeId="38003567"/>
+            <Field key="diag11" defaultTypeId="38003567"/>
+            <Field key="diag12" defaultTypeId="38003567"/>
+            <Field key="diag13" defaultTypeId="38003567"/>
+            <Field key="diag14" defaultTypeId="38003567"/>
+            <Field key="diag15" defaultTypeId="38003567"/>
+            <Field key="diag16" defaultTypeId="38003567"/>
+            <Field key="diag17" defaultTypeId="38003567"/>
+            <Field key="diag18" defaultTypeId="38003567"/>
+            <Field key="diag19" defaultTypeId="38003567"/>
+            <Field key="diag20" defaultTypeId="38003567"/>
+            <Field key="diag21" defaultTypeId="38003567"/>
+            <Field key="diag22" defaultTypeId="38003567"/>
+            <Field key="diag23" defaultTypeId="38003567"/>
+            <Field key="diag24" defaultTypeId="38003567"/>
+            <Field key="diag25" defaultTypeId="38003567"/>
           </Fields>
         </Concept>
         <!--<Concept>
@@ -417,6 +549,26 @@
             <Field key="diag3" defaultTypeId="38003567"/>
             <Field key="diag4" defaultTypeId="38003567"/>
             <Field key="diag5" defaultTypeId="38003567"/>
+            <Field key="diag6" defaultTypeId="38003567"/>
+            <Field key="diag7" defaultTypeId="38003567"/>
+            <Field key="diag8" defaultTypeId="38003567"/>
+            <Field key="diag9" defaultTypeId="38003567"/>
+            <Field key="diag10" defaultTypeId="38003567"/>
+            <Field key="diag11" defaultTypeId="38003567"/>
+            <Field key="diag12" defaultTypeId="38003567"/>
+            <Field key="diag13" defaultTypeId="38003567"/>
+            <Field key="diag14" defaultTypeId="38003567"/>
+            <Field key="diag15" defaultTypeId="38003567"/>
+            <Field key="diag16" defaultTypeId="38003567"/>
+            <Field key="diag17" defaultTypeId="38003567"/>
+            <Field key="diag18" defaultTypeId="38003567"/>
+            <Field key="diag19" defaultTypeId="38003567"/>
+            <Field key="diag20" defaultTypeId="38003567"/>
+            <Field key="diag21" defaultTypeId="38003567"/>
+            <Field key="diag22" defaultTypeId="38003567"/>
+            <Field key="diag23" defaultTypeId="38003567"/>
+            <Field key="diag24" defaultTypeId="38003567"/>
+            <Field key="diag25" defaultTypeId="38003567"/>
           </Fields>
         </Concept>
         <!--<Concept>

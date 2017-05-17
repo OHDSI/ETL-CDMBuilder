@@ -531,18 +531,18 @@ namespace org.ohdsi.cdm.builders.truven_v5
             if (isCCAE)
             {
                result = medicalRecords[vo.SourceRecordGuid].Where(e => e.ConceptId == vo.ConceptId)
-                                                        .OrderBy(e => DateTime.Parse(e.AdditionalFields["start"]))
+                                                        .OrderBy(e => DateTime.ParseExact(e.AdditionalFields["start"], "dd/MM/yyyy", CultureInfo.InvariantCulture))
                                                         .ThenBy(e => string.IsNullOrEmpty(e.AdditionalFields["provid"]) ? 0 : int.Parse(e.AdditionalFields["provid"]))
-                                                        .ThenBy(e => DateTime.Parse(e.AdditionalFields["end"]))
+                                                        .ThenBy(e => DateTime.ParseExact(e.AdditionalFields["end"], "dd/MM/yyyy", CultureInfo.InvariantCulture))
                                                         .ThenBy(e => string.IsNullOrEmpty(e.AdditionalFields["stdprov"]) ? 0 : int.Parse(e.AdditionalFields["stdprov"]))
                                                         .First();
             }
             else
             {
                result = medicalRecords[vo.SourceRecordGuid].Where(e => e.ConceptId == vo.ConceptId)
-                                                        .OrderBy(e => DateTime.Parse(e.AdditionalFields["start"]))
+                                                        .OrderBy(e => DateTime.ParseExact(e.AdditionalFields["start"], "dd/MM/yyyy", CultureInfo.InvariantCulture))
                                                         .ThenBy(e => e.AdditionalFields["provid"].ToLower())
-                                                        .ThenBy(e => DateTime.Parse(e.AdditionalFields["end"]))
+                                                        .ThenBy(e => DateTime.ParseExact(e.AdditionalFields["end"], "dd/MM/yyyy", CultureInfo.InvariantCulture))
                                                         .ThenBy(e => string.IsNullOrEmpty(e.AdditionalFields["stdprov"]) ? 0 : int.Parse(e.AdditionalFields["stdprov"]))
                                                         .First();
             }
@@ -552,8 +552,8 @@ namespace org.ohdsi.cdm.builders.truven_v5
             if (isCCAE)
             {
                result = medicalRecords[vo.SourceRecordGuid].Where(e => e.ConceptId == vo.ConceptId)
-                                                        .OrderBy(e => DateTime.Parse(e.AdditionalFields["start"]))
-                                                        .ThenBy(e => DateTime.Parse(e.AdditionalFields["end"]))
+                                                        .OrderBy(e => DateTime.ParseExact(e.AdditionalFields["start"], "dd/MM/yyyy", CultureInfo.InvariantCulture))
+                                                        .ThenBy(e => DateTime.ParseExact(e.AdditionalFields["end"], "dd/MM/yyyy", CultureInfo.InvariantCulture))
                                                         .ThenBy(e => string.IsNullOrEmpty(e.AdditionalFields["provid"]) ? 0 : int.Parse(e.AdditionalFields["provid"]))
                                                         .ThenBy(e => string.IsNullOrEmpty(e.AdditionalFields["stdprov"]) ? 0 : int.Parse(e.AdditionalFields["stdprov"]))
                                                         .First();
@@ -561,8 +561,8 @@ namespace org.ohdsi.cdm.builders.truven_v5
             else
             {
                result = medicalRecords[vo.SourceRecordGuid].Where(e => e.ConceptId == vo.ConceptId)
-                                                        .OrderBy(e => DateTime.Parse(e.AdditionalFields["start"]))
-                                                        .ThenBy(e => DateTime.Parse(e.AdditionalFields["end"]))
+                                                        .OrderBy(e => DateTime.ParseExact(e.AdditionalFields["start"], "dd/MM/yyyy", CultureInfo.InvariantCulture))
+                                                        .ThenBy(e => DateTime.ParseExact(e.AdditionalFields["end"], "dd/MM/yyyy", CultureInfo.InvariantCulture))
                                                         .ThenBy(e => e.AdditionalFields["provid"].ToLower())
                                                         .ThenBy(e => string.IsNullOrEmpty(e.AdditionalFields["stdprov"]) ? 0 : int.Parse(e.AdditionalFields["stdprov"]))
                                                         .First();
@@ -722,7 +722,32 @@ namespace org.ohdsi.cdm.builders.truven_v5
       public override IEnumerable<Observation> BuildObservations(Observation[] observations, Dictionary<long, VisitOccurrence> visitOccurrences,
          ObservationPeriod[] observationPeriods)
       {
-         return observations;
+         var dstatusObservations = new HashSet<Observation>();
+         var otherObservations = new List<Observation>();
+         foreach (var o in observations)
+         {
+            if (o.ConceptId == 4202605 && o.TypeConceptId == 38000280)
+               dstatusObservations.Add(o);
+            else
+               otherObservations.Add(o);
+         }
+
+         foreach (var dsObservation in JoinVisitOccurrences(dstatusObservations))
+         {
+            if(!dsObservation.VisitOccurrenceId.HasValue) continue;
+
+            var visitOccurrence = visitOccurrences[dsObservation.VisitOccurrenceId.Value];
+
+            dsObservation.StartDate = visitOccurrence.EndDate.Value;
+            dsObservation.VisitOccurrenceId = visitOccurrence.Id;
+
+            yield return dsObservation;
+         }
+
+         foreach (var o in otherObservations)
+         {
+            yield return o;
+         }
       }
 
       /// <summary>
@@ -772,9 +797,18 @@ namespace org.ohdsi.cdm.builders.truven_v5
          foreach (var procedureOccurrence in procedureOccurrences)
          {
             procedureOccurrence.Id = chunkData.KeyMasterOffset.ProcedureOccurrenceId;
+            if (!IsCpt4(procedureOccurrence.SourceValue))
+            {
+               procedureOccurrence.ModifierConceptId = 0;
+            }
          }
 
          var observations = BuildObservations(observationsRaw.ToArray(), visitOccurrences, observationPeriods).ToArray();
+         foreach (var o in observations)
+         {
+            o.Id = chunkData.KeyMasterOffset.ObservationId;
+         }
+
          var drugExposures = BuildDrugExposure(drugExposuresRaw, procedureOccurrences, visitOccurrences, observationPeriods).ToArray();
          var measurements = BuildMeasurement(measurementsRaw.ToArray(), visitOccurrences, observationPeriods).ToArray();
          var deviceExposure = BuildDeviceExposure(deviceExposureRaw.ToArray(), visitOccurrences, observationPeriods).ToArray();
@@ -803,8 +837,34 @@ namespace org.ohdsi.cdm.builders.truven_v5
             death = CleanUpDeath(conditionOccurrences, death);
             death = CleanUpDeath(procedureOccurrences, death);
             death = CleanUpDeath(measurements, death);
-            death = CleanUpDeath(observations, death);
+            death = CleanUpDeath(observations.Where(o => o.ConceptId != 900000010), death);
             death = CleanUpDeath(deviceExposure, death);
+         }
+
+         foreach (var cost in visitCosts)
+         {
+            chunkData.AddData(new Cost
+            {
+               CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+               CurrencyConceptId = cost.CurrencyConceptId.Value,
+               TotalCharge = null,
+               TotalCost = null,
+
+               PayerPlanPeriodId = cost.PayerPlanPeriodId,
+
+               PaidPatientCopay = cost.PaidCopay,
+               PaidPatientCoinsurance = cost.PaidCoinsurance,
+               PaidPatientDeductible = cost.PaidTowardDeductible,
+               PaidByPrimary = cost.PaidByCoordinationBenefits,
+
+               TotalPaid = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible + cost.PaidByPayer + cost.PaidByCoordinationBenefits,
+               PaidByPatient = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible,
+               PaidByPayer = cost.PaidByPayer,
+
+               Domain = "Visit",
+               TypeId = 0,
+               EventId = cost.Id
+            }, EntityType.Cost);
          }
 
          // push built entities to ChunkBuilder for further save to CDM database
@@ -819,6 +879,381 @@ namespace org.ohdsi.cdm.builders.truven_v5
             observations,
             measurements,
             visitOccurrences.Values.ToArray(), visitCosts, new Cohort[0], deviceExposure, devicCosts);
+      }
+
+      public override void AddToChunk(string domain, IEnumerable<IEntity> entities)
+      {
+         foreach (var entity in entities)
+         {
+            var entityDomain = entity.Domain;
+            if (string.IsNullOrEmpty(entityDomain))
+            {
+               entityDomain = domain;
+            }
+
+
+            switch (entityDomain)
+            {
+               case "Condition":
+                  var obs = entity as Observation;
+                  if (obs == null || obs.ValueAsNumber == 1)
+                  {
+                     var cond = entity as ConditionOccurrence ??
+                                new ConditionOccurrence(entity)
+                                {
+                                   Id = chunkData.KeyMasterOffset.ConditionOccurrenceId
+                                };
+                     conditionForEra.Add(cond);
+                     chunkData.AddData(cond);
+                  }
+                  break;
+
+               case "Measurement":
+                   var mes = entity as Measurement ??
+                            new Measurement(entity) {Id = chunkData.KeyMasterOffset.MeasurementId};
+                  chunkData.AddData(mes);
+                  if (mes.MeasurementCost != null && mes.MeasurementCost.Count > 0)
+                  {
+                     foreach (var cost in mes.MeasurementCost)
+                     {
+                        chunkData.AddData(new Cost
+                        {
+                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                           CurrencyConceptId = cost.CurrencyConceptId.Value,
+                           TotalCharge = null,
+                           TotalCost = null,
+                           RevenueCodeConceptId = cost.RevenueCodeConceptId,
+                           RevenueCodeSourceValue = cost.RevenueCodeSourceValue,
+
+                           PayerPlanPeriodId = cost.PayerPlanPeriodId,
+
+                           PaidPatientCopay = cost.PaidCopay,
+                           PaidPatientCoinsurance = cost.PaidCoinsurance,
+                           PaidPatientDeductible = cost.PaidTowardDeductible,
+                           PaidByPrimary = cost.PaidByCoordinationBenefits,
+
+                           TotalPaid = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible + cost.PaidByPayer + cost.PaidByCoordinationBenefits,
+                           PaidByPatient = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible,
+                           PaidByPayer = cost.PaidByPayer,
+
+                           Domain = entityDomain,
+                           TypeId = 0,
+                           EventId = mes.Id
+                        }, EntityType.Cost);
+                     }
+                  }
+                  break;
+
+               case "Meas Value":
+                  var mv = entity as Measurement ??
+                           new Measurement(entity) {Id = chunkData.KeyMasterOffset.MeasurementId};
+                  chunkData.AddData(mv);
+                  if (mv.MeasurementCost != null && mv.MeasurementCost.Count > 0)
+                  {
+                     foreach (var mc in mv.MeasurementCost)
+                     {
+                        chunkData.AddData(new Cost
+                        {
+                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                           CurrencyConceptId = mc.CurrencyConceptId.Value,
+                           TotalCharge = null,
+                           TotalCost = null,
+                           RevenueCodeConceptId = mc.RevenueCodeConceptId,
+                           RevenueCodeSourceValue = mc.RevenueCodeSourceValue,
+                           PayerPlanPeriodId = mc.PayerPlanPeriodId,
+                           PaidPatientCopay = mc.PaidCopay,
+                           PaidPatientCoinsurance = mc.PaidCoinsurance,
+                           PaidPatientDeductible = mc.PaidTowardDeductible,
+                           PaidByPrimary = mc.PaidByCoordinationBenefits,
+                           TotalPaid = mc.PaidCopay + mc.PaidCoinsurance + mc.PaidTowardDeductible + mc.PaidByPayer + mc.PaidByCoordinationBenefits,
+                           PaidByPatient = mc.PaidCopay + mc.PaidCoinsurance + mc.PaidTowardDeductible,
+                           PaidByPayer = mc.PaidByPayer,
+                           Domain = entityDomain,
+                           TypeId = 0,
+                           EventId = mv.Id
+                        }, EntityType.Cost);
+                     }
+                  }
+                  break;
+
+               case "Observation":
+                   var obser = entity as Observation ??
+                              new Observation(entity) {Id = chunkData.KeyMasterOffset.ObservationId};
+                  chunkData.AddData(obser);
+                  if (obser.ObservationCost != null && obser.ObservationCost.Count > 0)
+                  {
+                     foreach (var cost in obser.ObservationCost)
+                     {
+                        chunkData.AddData(new Cost
+                        {
+                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                           CurrencyConceptId = cost.CurrencyConceptId.Value,
+                           TotalCharge = null,
+                           TotalCost = null,
+                           RevenueCodeConceptId = cost.RevenueCodeConceptId,
+                           RevenueCodeSourceValue = cost.RevenueCodeSourceValue,
+
+                           PayerPlanPeriodId = cost.PayerPlanPeriodId,
+
+                           PaidPatientCopay = cost.PaidCopay,
+                           PaidPatientCoinsurance = cost.PaidCoinsurance,
+                           PaidPatientDeductible = cost.PaidTowardDeductible,
+                           PaidByPrimary = cost.PaidByCoordinationBenefits,
+
+                           TotalPaid = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible + cost.PaidByPayer + cost.PaidByCoordinationBenefits,
+                           PaidByPatient = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible,
+                           PaidByPayer = cost.PaidByPayer,
+
+                           Domain = entityDomain,
+                           TypeId = 0,
+                           EventId = obser.Id
+                        }, EntityType.Cost);
+                     }
+                  }
+                  break;
+
+               case "Procedure":
+                  var p = entity as ProcedureOccurrence ??
+                             new ProcedureOccurrence(entity)
+                             {
+                                Id =
+                                   chunkData.KeyMasterOffset.ProcedureOccurrenceId
+                             };
+
+                  if (!IsCpt4(p.SourceValue))
+                  {
+                     p.ModifierConceptId = 0;
+                  }
+
+                  
+                  bool costDataExists = false;
+                  if (p.ProcedureCosts != null && p.ProcedureCosts.Count > 0)
+                  {
+                     foreach (var cost in p.ProcedureCosts)
+                     {
+                        if (cost.PaidCopay == 0 && cost.PaidCoinsurance == 0 && cost.PaidTowardDeductible == 0 &&
+                         cost.PaidByPayer == 0)
+                           continue;
+
+                        costDataExists = true;
+                        chunkData.AddData(new Cost
+                        {
+                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                           CurrencyConceptId = cost.CurrencyConceptId,
+                           TotalCharge = null,
+                           TotalCost = null,
+                           RevenueCodeConceptId = cost.RevenueCodeConceptId,
+                           RevenueCodeSourceValue = cost.RevenueCodeSourceValue,
+
+                           PayerPlanPeriodId = cost.PayerPlanPeriodId,
+
+                           PaidPatientCopay = cost.PaidCopay,
+                           PaidPatientCoinsurance = cost.PaidCoinsurance,
+                           PaidPatientDeductible = cost.PaidTowardDeductible,
+                           PaidByPrimary = cost.PaidByCoordinationBenefits,
+
+                           TotalPaid = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible + cost.PaidByPayer + cost.PaidByCoordinationBenefits,
+                           PaidByPatient = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible,
+                           PaidByPayer = cost.PaidByPayer,
+                           
+                           Domain = entityDomain,
+                           TypeId = 0,
+                           EventId = p.Id
+                        }, EntityType.Cost);
+                     }
+
+                  }
+
+                  if (costDataExists || !string.IsNullOrEmpty(p.SourceValue))
+                     chunkData.AddData(p);
+                  break;
+
+               case "Device":
+                  var dev = entity as DeviceExposure ??
+                            new DeviceExposure(entity)
+                            {
+                               Id = chunkData.KeyMasterOffset.DeviceExposureId
+                            };
+                  chunkData.AddData(dev);
+                  if (dev.DeviceCosts != null && dev.DeviceCosts.Count > 0)
+                  {
+                     foreach (var cost in dev.DeviceCosts)
+                     {
+                        chunkData.AddData(new Cost
+                        {
+                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                           CurrencyConceptId = cost.CurrencyConceptId.Value,
+                           TotalCharge = null,
+                           TotalCost = null,
+                           RevenueCodeConceptId = cost.RevenueCodeConceptId,
+                           RevenueCodeSourceValue = cost.RevenueCodeSourceValue,
+
+                           PayerPlanPeriodId = cost.PayerPlanPeriodId,
+
+                           PaidPatientCopay = cost.PaidCopay,
+                           PaidPatientCoinsurance = cost.PaidCoinsurance,
+                           PaidPatientDeductible = cost.PaidTowardDeductible,
+                           PaidByPrimary = cost.PaidByCoordinationBenefits,
+
+                           TotalPaid = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible + cost.PaidByPayer + cost.PaidByCoordinationBenefits,
+                           PaidByPatient = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible,
+                           PaidByPayer = cost.PaidByPayer,
+
+                           Domain = entityDomain,
+                           TypeId = 0,
+                           EventId = dev.Id
+                        }, EntityType.Cost);
+                     }
+                  }
+                  break;
+
+               case "Drug":
+                  var drg = entity as DrugExposure ??
+                            new DrugExposure(entity)
+                            {
+                               Id = chunkData.KeyMasterOffset.DrugExposureId,
+                               GetEraConceptIdsCall = vocabulary.LookupIngredientLevel
+                            };
+
+                  drugForEra.Add(drg);
+                  chunkData.AddData(drg);
+
+                  if (drg.DrugCost != null)
+                  {
+                     chunkData.AddData(new Cost
+                     {
+                        CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                        CurrencyConceptId = drg.DrugCost.CurrencyConceptId.Value,
+                        TotalCharge = null,
+                        TotalCost = null,
+                        RevenueCodeConceptId = drg.DrugCost.RevenueCodeConceptId,
+                        RevenueCodeSourceValue = drg.DrugCost.RevenueCodeSourceValue,
+
+                        PayerPlanPeriodId = drg.DrugCost.PayerPlanPeriodId,
+
+                        PaidPatientCopay = drg.DrugCost.PaidCopay,
+                        PaidPatientCoinsurance = drg.DrugCost.PaidCoinsurance,
+                        PaidPatientDeductible = drg.DrugCost.PaidTowardDeductible,
+                        PaidByPrimary = drg.DrugCost.PaidByCoordinationBenefits,
+
+                        TotalPaid = drg.DrugCost.PaidCopay + drg.DrugCost.PaidCoinsurance + drg.DrugCost.PaidTowardDeductible + drg.DrugCost.PaidByPayer + drg.DrugCost.PaidByCoordinationBenefits,
+                        PaidByPatient = drg.DrugCost.PaidCopay + drg.DrugCost.PaidCoinsurance + drg.DrugCost.PaidTowardDeductible,
+                        PaidByPayer = drg.DrugCost.PaidByPayer,
+
+                        PaidIngredientCost = drg.DrugCost.IngredientCost,
+                        PaidDispensingFee = drg.DrugCost.DispensingFee,
+                        
+                        Domain = entityDomain,
+                        TypeId = 0,
+                        EventId = drg.Id
+                     }, EntityType.Cost);
+                  }
+                  break;
+
+            }
+
+            //HIX-823
+            if (domain == "Procedure" && entityDomain != "Procedure")
+            {
+               var po = (ProcedureOccurrence)entity;
+               po.ConceptId = 0;
+
+               bool costDataExists = false;
+               if (po.ProcedureCosts != null && po.ProcedureCosts.Count > 0)
+               {
+                  foreach (var cost in po.ProcedureCosts)
+                  {
+                     if (cost.PaidCopay == 0 && cost.PaidCoinsurance == 0 && cost.PaidTowardDeductible == 0 &&
+                         cost.PaidByPayer == 0)
+                        continue;
+
+                     costDataExists = true;
+
+                     chunkData.AddData(new Cost
+                     {
+                        CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                        CurrencyConceptId = cost.CurrencyConceptId,
+                        TotalCharge = null,
+                        TotalCost = null,
+                        RevenueCodeConceptId = cost.RevenueCodeConceptId,
+                        RevenueCodeSourceValue = cost.RevenueCodeSourceValue,
+
+                        PayerPlanPeriodId = cost.PayerPlanPeriodId,
+
+                        PaidPatientCopay = cost.PaidCopay,
+                        PaidPatientCoinsurance = cost.PaidCoinsurance,
+                        PaidPatientDeductible = cost.PaidTowardDeductible,
+                        PaidByPrimary = cost.PaidByCoordinationBenefits,
+
+                        TotalPaid = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible + cost.PaidByPayer + cost.PaidByCoordinationBenefits,
+                        PaidByPatient = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible,
+                        PaidByPayer = cost.PaidByPayer,
+
+                        Domain = entityDomain,
+                        TypeId = 0,
+                        EventId = po.Id
+                     }, EntityType.Cost);
+                  }
+               }
+
+               if (costDataExists || !string.IsNullOrEmpty(po.SourceValue))
+                  chunkData.AddData(po);
+            }
+
+            if (domain == "Observation" && entityDomain != "Observation")
+            {
+               var o = (Observation)entity;
+               o.ConceptId = 0;
+
+               bool costDataExists = false;
+               if (o.ObservationCost != null && o.ObservationCost.Count > 0)
+               {
+                  foreach (var cost in o.ObservationCost)
+                  {
+                     if (cost.PaidCopay == 0 && cost.PaidCoinsurance == 0 && cost.PaidTowardDeductible == 0 &&
+                         cost.PaidByPayer == 0)
+                        continue;
+
+                     costDataExists = true;
+
+                     chunkData.AddData(new Cost
+                     {
+                        CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                        CurrencyConceptId = cost.CurrencyConceptId.Value,
+                        TotalCharge = null,
+                        TotalCost = null,
+                        RevenueCodeConceptId = cost.RevenueCodeConceptId,
+                        RevenueCodeSourceValue = cost.RevenueCodeSourceValue,
+
+                        PayerPlanPeriodId = cost.PayerPlanPeriodId,
+
+                        PaidPatientCopay = cost.PaidCopay,
+                        PaidPatientCoinsurance = cost.PaidCoinsurance,
+                        PaidPatientDeductible = cost.PaidTowardDeductible,
+                        PaidByPrimary = cost.PaidByCoordinationBenefits,
+
+                        TotalPaid = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible + cost.PaidByPayer + cost.PaidByCoordinationBenefits,
+                        PaidByPatient = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible,
+                        PaidByPayer = cost.PaidByPayer,
+
+                        Domain = entityDomain,
+                        TypeId = 0,
+                        EventId = o.Id
+                     }, EntityType.Cost);
+                  }
+               }
+
+               if (costDataExists || !string.IsNullOrEmpty(o.SourceValue))
+                  chunkData.AddData(o);
+            }
+         }
+      }
+
+      private static bool IsCpt4(string code)
+      {
+         if (string.IsNullOrEmpty(code))
+            return false;
+         return code.Length == 5 && char.IsDigit(code[0]);
       }
 
       private static Death CleanUpDeath(IEnumerable<IEntity> items, Death death)
@@ -1062,8 +1497,10 @@ namespace org.ohdsi.cdm.builders.truven_v5
 
                if (period == null) continue;
 
-               visitOccurrence.AdditionalFields.Add("start", visitOccurrence.StartDate.ToString(CultureInfo.InvariantCulture));
-               visitOccurrence.AdditionalFields.Add("end", visitOccurrence.EndDate.Value.ToString(CultureInfo.InvariantCulture));
+               visitOccurrence.AdditionalFields.Add("start", visitOccurrence.StartDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture));
+               visitOccurrence.AdditionalFields.Add("end", visitOccurrence.EndDate.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture));
+
+               //Logger.Write(Chunk.ChunkId, LogMessageTypes.Debug, "xxxx 1 " + visitOccurrence.PersonId + " " + visitOccurrence.SourceValue + " " + visitOccurrence.AdditionalFields["start"] + " " + visitOccurrence.AdditionalFields["end"]);
                yield return visitOccurrence;
                continue;
             }
@@ -1089,8 +1526,9 @@ namespace org.ohdsi.cdm.builders.truven_v5
             if (visitOccurrence.EndDate > observationPeriod.EndDate)
                visitOccurrence.EndDate = observationPeriod.EndDate;
 
-            visitOccurrence.AdditionalFields.Add("start", visitOccurrence.StartDate.ToString(CultureInfo.InvariantCulture));
-            visitOccurrence.AdditionalFields.Add("end", visitOccurrence.EndDate.Value.ToString(CultureInfo.InvariantCulture));
+            visitOccurrence.AdditionalFields.Add("start", visitOccurrence.StartDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture));
+            visitOccurrence.AdditionalFields.Add("end", visitOccurrence.EndDate.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture));
+            //Logger.Write(Chunk.ChunkId, LogMessageTypes.Debug, "xxxx 2 " + visitOccurrence.PersonId + " " + visitOccurrence.SourceValue + " " + visitOccurrence.AdditionalFields["start"] + " " + visitOccurrence.AdditionalFields["end"]);
 
             yield return visitOccurrence;
          }

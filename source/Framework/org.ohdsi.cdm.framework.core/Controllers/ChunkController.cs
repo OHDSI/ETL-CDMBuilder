@@ -93,7 +93,8 @@ namespace org.ohdsi.cdm.framework.core.Controllers
                   chunkIds.Add(chunkId);
 
                   //TMP
-                  //AddSubChunks(chunkId, chunk);
+                  if (Settings.Current.Building.SourceEngine.Database == Database.MSSQL)
+                     AddSubChunks(chunkId, chunk);
 
                   chunks.AddRange(chunk.Select(c => new ChunkRecord { Id = chunkId, PersonId = Convert.ToInt64(c.Key), PersonSource = c.Value }));
                   var chunkSizeOnS3 = 0;
@@ -273,7 +274,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
             }
 
             var id = reader[0].ToString().Trim();
-            var source = reader[1].ToString().Trim();
+            var source = reader[1].ToString().Trim(); // ? replace to reader[1].ToString(), without Trim()
 
             batch.Add(new KeyValuePair<string, string>(id, source));
          }

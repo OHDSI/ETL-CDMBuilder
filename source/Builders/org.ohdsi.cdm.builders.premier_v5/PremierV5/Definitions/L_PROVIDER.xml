@@ -25,7 +25,7 @@
                   </Mapper>
                </ConceptIdMappers>
                <Fields>
-                  <Field key="speciality_source_value"/>
+                  <Field key="speciality_source_value" ignoreCase="true"/>
                </Fields>
             </Concept>
          </Concepts>

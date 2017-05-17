@@ -10,6 +10,7 @@
      r.ndc				AS DRUG_SOURCE_VALUE,
      r.copay,
      r.std_cost,
+     r.charge,
      r.deduct,
      r.dispfee,
      r.avgwhlsl,
@@ -43,6 +44,7 @@
      SUM(DISPFEE)				AS DISPENSING_FEE,
      SUM(avgwhlsl)				AS AVERAGE_WHOLESALE_PRICE,
      SUM(STD_COST)				AS TOTAL_PAID,
+     SUM(CHARGE)				AS TOTAL_CHARGE,
      ROUND(SUM(QUANTITY),0)	AS QUANTITY,
      CASE
      WHEN MAX(MAIL_IND) = 'Y' THEN '38000176'
@@ -86,6 +88,11 @@
                      <Lookup>OptumExtendedSes\Lookups\DrugRx.sql</Lookup>
                   </Mapper>
                </ConceptIdMappers>
+              <SourceConceptIdMappers>
+                <Mapper>
+                  <Lookup>OptumExtendedSes\Lookups\DrugSource.sql</Lookup>
+                </Mapper>
+              </SourceConceptIdMappers>
                <Fields>
                   <Field key="DRUG_SOURCE_VALUE" typeId="DRUG_TYPE_CONCEPT_ID" eventDate="DRUG_EXPOSURE_START_DATE"/>
                   <Field key="DRUG_SOURCE_VALUE_9" sourceKey="DRUG_SOURCE_VALUE" typeId="DRUG_TYPE_CONCEPT_ID" eventDate="DRUG_EXPOSURE_START_DATE"/>
@@ -100,10 +107,11 @@
          <PaidTowardDeductible>PAID_TOWARD_DEDUCTIBLE</PaidTowardDeductible>
          <TotalPaid>TOTAL_PAID</TotalPaid>
          <DispensingFee>DISPENSING_FEE</DispensingFee>
-         <AverageWholesalePrice>AVERAGE_WHOLESALE_PRICE</AverageWholesalePrice>
          <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+         <PaidByCoordinationBenefits>TOTAL_CHARGE</PaidByCoordinationBenefits>
          <AdditionalFields>
            <string>Pat_PlanId</string>
+           <string>TOTAL_CHARGE</string>
          </AdditionalFields>
       </DrugCostDefinition>
    </DrugCost>

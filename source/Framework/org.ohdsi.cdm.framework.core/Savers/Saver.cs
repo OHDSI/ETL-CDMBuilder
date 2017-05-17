@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using org.ohdsi.cdm.framework.data.DbLayer;
 using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.entities.DataReaders;
@@ -107,20 +108,24 @@ namespace org.ohdsi.cdm.framework.core.Savers
 
       public void Save(ChunkData chunk)
       {
+         SaveSync(chunk);
+      }
+
+      private void SaveSync(ChunkData chunk)
+      {
          try
          {
             UpdateOffset(chunk.KeyMasterOffset);
 
             Write(chunk.ChunkId, chunk.SubChunkId, new v5.PersonDataReader(chunk.Persons.ToList()), "PERSON");
-            Write(chunk.ChunkId, chunk.SubChunkId, new v5.ObservationPeriodDataReader(chunk.ObservationPeriods.ToList(), chunk.KeyMasterOffset), "OBSERVATION_PERIOD");
+            Write(chunk.ChunkId, chunk.SubChunkId, new v5.ObservationPeriodDataReader(chunk.ObservationPeriods.ToList(), chunk.KeyMasterOffset), "OBSERVATION_PERIOD"); 
             Write(chunk.ChunkId, chunk.SubChunkId, new v5.PayerPlanPeriodDataReader(chunk.PayerPlanPeriods.ToList(), chunk.KeyMasterOffset), "PAYER_PLAN_PERIOD");
-            Write(chunk.ChunkId, chunk.SubChunkId, new v5.ConditionOccurrenceDataReader(chunk.ConditionOccurrences.ToList(), chunk.KeyMasterOffset), "CONDITION_OCCURRENCE");
-            Write(chunk.ChunkId, chunk.SubChunkId, new v5.DeathDataReader(chunk.Deaths.ToList()), "DEATH");
+            Write(chunk.ChunkId, chunk.SubChunkId, new v5.DeathDataReader(chunk.Deaths.ToList()), "DEATH"); 
             Write(chunk.ChunkId, chunk.SubChunkId, new v5.DrugExposureDataReader(chunk.DrugExposures.ToList(), chunk.KeyMasterOffset), "DRUG_EXPOSURE");
             Write(chunk.ChunkId, chunk.SubChunkId, new v5.ObservationDataReader(chunk.Observations.ToList(), chunk.KeyMasterOffset), "OBSERVATION");
             Write(chunk.ChunkId, chunk.SubChunkId, new v5.VisitOccurrenceDataReader(chunk.VisitOccurrences.ToList(), chunk.KeyMasterOffset), "VISIT_OCCURRENCE");
             Write(chunk.ChunkId, chunk.SubChunkId, new v5.ProcedureOccurrenceDataReader(chunk.ProcedureOccurrences.ToList(), chunk.KeyMasterOffset), "PROCEDURE_OCCURRENCE");
-            
+
             Write(chunk.ChunkId, chunk.SubChunkId, new v5.DrugEraDataReader(chunk.DrugEra.ToList(), chunk.KeyMasterOffset), "DRUG_ERA");
             Write(chunk.ChunkId, chunk.SubChunkId, new v5.ConditionEraDataReader(chunk.ConditionEra.ToList(), chunk.KeyMasterOffset), "CONDITION_ERA");
             Write(chunk.ChunkId, chunk.SubChunkId, new v5.DeviceExposureDataReader(chunk.DeviceExposure.ToList(), chunk.KeyMasterOffset), "DEVICE_EXPOSURE");
@@ -129,6 +134,8 @@ namespace org.ohdsi.cdm.framework.core.Savers
 
             if (Settings.Current.Building.CDM == CDMVersions.v5)
             {
+               Write(chunk.ChunkId, chunk.SubChunkId, new v5.ConditionOccurrenceDataReader(chunk.ConditionOccurrences.ToList(), chunk.KeyMasterOffset), "CONDITION_OCCURRENCE");
+
                Write(chunk.ChunkId, chunk.SubChunkId, new v5.DrugCostDataReader(chunk.DrugCost.ToList(), chunk.KeyMasterOffset), "DRUG_COST");
                Write(chunk.ChunkId, chunk.SubChunkId, new v5.DeviceCostDataReader(chunk.DeviceCost.ToList(), chunk.KeyMasterOffset), "DEVICE_COST");
                Write(chunk.ChunkId, chunk.SubChunkId, new v5.ProcedureCostDataReader(chunk.ProcedureCost.ToList(), chunk.KeyMasterOffset), "PROCEDURE_COST");
@@ -136,6 +143,7 @@ namespace org.ohdsi.cdm.framework.core.Savers
             }
             else if (Settings.Current.Building.CDM == CDMVersions.v501)
             {
+               Write(chunk.ChunkId, chunk.SubChunkId, new v5.ConditionOccurrenceDataReader2(chunk.ConditionOccurrences.ToList(), chunk.KeyMasterOffset), "CONDITION_OCCURRENCE");
                Write(chunk.ChunkId, chunk.SubChunkId, new v5.CostDataReader(chunk.Cost.ToList(), chunk.KeyMasterOffset), "COST");
             }
 
@@ -149,7 +157,137 @@ namespace org.ohdsi.cdm.framework.core.Savers
             throw;
          }
       }
-      
+
+      private void SaveAsync(ChunkData chunk)
+      {
+         try
+         {
+            UpdateOffset(chunk.KeyMasterOffset);
+
+            var tasks = new List<Task>();
+
+            tasks.Add(
+               Task.Run(
+                  () => Write(chunk.ChunkId, chunk.SubChunkId, new v5.PersonDataReader(chunk.Persons.ToList()), "PERSON")));
+            tasks.Add(
+               Task.Run(
+                  () =>
+                     Write(chunk.ChunkId, chunk.SubChunkId,
+                        new v5.ObservationPeriodDataReader(chunk.ObservationPeriods.ToList(), chunk.KeyMasterOffset),
+                        "OBSERVATION_PERIOD")));
+            tasks.Add(
+               Task.Run(
+                  () =>
+                     Write(chunk.ChunkId, chunk.SubChunkId,
+                        new v5.PayerPlanPeriodDataReader(chunk.PayerPlanPeriods.ToList(), chunk.KeyMasterOffset),
+                        "PAYER_PLAN_PERIOD")));
+            tasks.Add(
+               Task.Run(() => Write(chunk.ChunkId, chunk.SubChunkId, new v5.DeathDataReader(chunk.Deaths.ToList()), "DEATH")));
+            tasks.Add(
+               Task.Run(
+                  () =>
+                     Write(chunk.ChunkId, chunk.SubChunkId,
+                        new v5.DrugExposureDataReader(chunk.DrugExposures.ToList(), chunk.KeyMasterOffset), "DRUG_EXPOSURE")));
+            tasks.Add(
+               Task.Run(
+                  () =>
+                     Write(chunk.ChunkId, chunk.SubChunkId,
+                        new v5.ObservationDataReader(chunk.Observations.ToList(), chunk.KeyMasterOffset), "OBSERVATION")));
+            tasks.Add(
+               Task.Run(
+                  () =>
+                     Write(chunk.ChunkId, chunk.SubChunkId,
+                        new v5.VisitOccurrenceDataReader(chunk.VisitOccurrences.ToList(), chunk.KeyMasterOffset),
+                        "VISIT_OCCURRENCE")));
+            tasks.Add(
+               Task.Run(
+                  () =>
+                     Write(chunk.ChunkId, chunk.SubChunkId,
+                        new v5.ProcedureOccurrenceDataReader(chunk.ProcedureOccurrences.ToList(), chunk.KeyMasterOffset),
+                        "PROCEDURE_OCCURRENCE")));
+
+            tasks.Add(
+               Task.Run(
+                  () =>
+                     Write(chunk.ChunkId, chunk.SubChunkId,
+                        new v5.DrugEraDataReader(chunk.DrugEra.ToList(), chunk.KeyMasterOffset), "DRUG_ERA")));
+            tasks.Add(
+               Task.Run(
+                  () =>
+                     Write(chunk.ChunkId, chunk.SubChunkId,
+                        new v5.ConditionEraDataReader(chunk.ConditionEra.ToList(), chunk.KeyMasterOffset), "CONDITION_ERA")));
+            tasks.Add(
+               Task.Run(
+                  () =>
+                     Write(chunk.ChunkId, chunk.SubChunkId,
+                        new v5.DeviceExposureDataReader(chunk.DeviceExposure.ToList(), chunk.KeyMasterOffset),
+                        "DEVICE_EXPOSURE")));
+            tasks.Add(
+               Task.Run(
+                  () =>
+                     Write(chunk.ChunkId, chunk.SubChunkId,
+                        new v5.MeasurementDataReader(chunk.Measurements.ToList(), chunk.KeyMasterOffset), "MEASUREMENT")));
+            tasks.Add(
+               Task.Run(() => Write(chunk.ChunkId, chunk.SubChunkId, new v5.CohortDataReader(chunk.Cohort.ToList()), "COHORT")));
+
+            if (Settings.Current.Building.CDM == CDMVersions.v5)
+            {
+               tasks.Add(
+                  Task.Run(
+                     () =>
+                        Write(chunk.ChunkId, chunk.SubChunkId,
+                           new v5.ConditionOccurrenceDataReader(chunk.ConditionOccurrences.ToList(), chunk.KeyMasterOffset),
+                           "CONDITION_OCCURRENCE")));
+
+               tasks.Add(
+                  Task.Run(
+                     () =>
+                        Write(chunk.ChunkId, chunk.SubChunkId,
+                           new v5.DrugCostDataReader(chunk.DrugCost.ToList(), chunk.KeyMasterOffset), "DRUG_COST")));
+               tasks.Add(
+                  Task.Run(
+                     () =>
+                        Write(chunk.ChunkId, chunk.SubChunkId,
+                           new v5.DeviceCostDataReader(chunk.DeviceCost.ToList(), chunk.KeyMasterOffset), "DEVICE_COST")));
+               tasks.Add(
+                  Task.Run(
+                     () =>
+                        Write(chunk.ChunkId, chunk.SubChunkId,
+                           new v5.ProcedureCostDataReader(chunk.ProcedureCost.ToList(), chunk.KeyMasterOffset),
+                           "PROCEDURE_COST")));
+               tasks.Add(
+                  Task.Run(
+                     () =>
+                        Write(chunk.ChunkId, chunk.SubChunkId,
+                           new v5.VisitCostDataReader(chunk.VisitCost.ToList(), chunk.KeyMasterOffset), "VISIT_COST")));
+            }
+            else if (Settings.Current.Building.CDM == CDMVersions.v501)
+            {
+               tasks.Add(
+                  Task.Run(
+                     () =>
+                        Write(chunk.ChunkId, chunk.SubChunkId,
+                           new v5.ConditionOccurrenceDataReader2(chunk.ConditionOccurrences.ToList(), chunk.KeyMasterOffset),
+                           "CONDITION_OCCURRENCE")));
+               tasks.Add(
+                  Task.Run(
+                     () =>
+                        Write(chunk.ChunkId, chunk.SubChunkId,
+                           new v5.CostDataReader(chunk.Cost.ToList(), chunk.KeyMasterOffset), "COST")));
+            }
+
+            Task.WaitAll(tasks.ToArray());
+            Commit();
+         }
+         catch (Exception e)
+         {
+            Logger.WriteError(chunk.ChunkId, e);
+            Rollback();
+            Logger.Write(chunk.ChunkId, LogMessageTypes.Debug, "Rollback - Complete");
+            throw;
+         }
+      }
+
       public virtual void SaveEntityLookup(List<Location> location, List<Organization> organization,
          List<CareSite> careSite, List<Provider> provider)
       {

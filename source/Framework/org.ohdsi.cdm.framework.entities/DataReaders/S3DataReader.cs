@@ -40,6 +40,7 @@ namespace org.ohdsi.cdm.framework.entities.DataReaders
          {
              Timeout = TimeSpan.FromMinutes(60),
              ReadWriteTimeout = TimeSpan.FromMinutes(60),
+             //BufferSize = 1024 * 64,
              RegionEndpoint = Amazon.RegionEndpoint.USEast1,
              ConnectionLimit = 256,
              MaxErrorRetry = 20,

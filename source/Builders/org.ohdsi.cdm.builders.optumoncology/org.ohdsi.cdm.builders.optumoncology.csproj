@@ -32,7 +32,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\build\</OutputPath>
-	<IntermediateOutputPath>..\..\obj\</IntermediateOutputPath>
+    <IntermediateOutputPath>..\..\obj\</IntermediateOutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -41,7 +41,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>..\..\build\</OutputPath>
-	<IntermediateOutputPath>..\..\obj\</IntermediateOutputPath>
+    <IntermediateOutputPath>..\..\obj\</IntermediateOutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -203,6 +203,10 @@
     <ProjectReference Include="..\..\Framework\org.ohdsi.cdm.framework.entities\org.ohdsi.cdm.framework.entities.csproj">
       <Project>{5625a098-2ed8-46f1-a60b-146fd7449da3}</Project>
       <Name>org.ohdsi.cdm.framework.entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\org.ohdsi.cdm.framework.shared\org.ohdsi.cdm.framework.shared.csproj">
+      <Project>{eb712de3-e0a1-4aec-aa0f-ad54cee01c68}</Project>
+      <Name>org.ohdsi.cdm.framework.shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

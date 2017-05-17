@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Text.RegularExpressions;
 using org.ohdsi.cdm.builders.cprd_v5;
+using org.ohdsi.cdm.builders.hcup;
 using org.ohdsi.cdm.builders.jmdc_v5;
 using org.ohdsi.cdm.builders.optumextendedses;
 using org.ohdsi.cdm.builders.optumoncology;
@@ -14,6 +15,7 @@ using org.ohdsi.cdm.framework.core.Controllers;
 using org.ohdsi.cdm.framework.data.DbLayer;
 using org.ohdsi.cdm.framework.shared.Enums;
 using org.ohdsi.cdm.builders.eras_v5;
+using org.ohdsi.cdm.builders.optumintegrated;
 
 namespace org.ohdsi.cdm.presentation.builderprocess
 {
@@ -156,6 +158,12 @@ namespace org.ohdsi.cdm.presentation.builderprocess
 
             case Vendors.OptumOncology:
                return new OptumOncologyPersonBuilder();
+
+            case Vendors.OptumIntegrated:
+               return new OptumIntegratedPersonBuilder();
+
+            case Vendors.HCUPv5:
+               return new HcupPersonBuilder();
 
          }
 

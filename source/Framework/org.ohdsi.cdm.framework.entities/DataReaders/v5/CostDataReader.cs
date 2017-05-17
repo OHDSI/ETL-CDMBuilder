@@ -43,6 +43,7 @@ namespace org.ohdsi.cdm.framework.entities.DataReaders.v5
                switch (enumerator.Current.Domain)
                {
                   case "Measurement":
+                  case "Meas Value":
                      return enumerator.Current.EventId + offset.MeasurementOffset;
                   case "Observation":
                      return enumerator.Current.EventId + offset.ObservationOffset;
@@ -52,8 +53,10 @@ namespace org.ohdsi.cdm.framework.entities.DataReaders.v5
                      return enumerator.Current.EventId + offset.DeviceExposureOffset;
                   case "Drug":
                      return enumerator.Current.EventId + offset.DrugExposureOffset;
+                  case "Visit":
+                     return enumerator.Current.EventId + offset.VisitOccurrenceOffset;
                }
-               throw new Exception("Cost Domain not exists");
+               return 0;
             }
 
             case 2:

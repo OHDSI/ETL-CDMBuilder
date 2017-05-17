@@ -48,9 +48,9 @@ namespace org.ohdsi.cdm.framework.entities.DataReaders.v5
             case 8:
                return personEnumerator.Current.LocationId;
             case 9:
-               return personEnumerator.Current.ProviderId;
+               return personEnumerator.Current.ProviderId == 0 ? null : personEnumerator.Current.ProviderId;
             case 10:
-               return personEnumerator.Current.CareSiteId;
+               return personEnumerator.Current.CareSiteId == 0 ? null : personEnumerator.Current.CareSiteId;
             case 11:
                return personEnumerator.Current.PersonSourceValue;
             case 12:

@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TOptumSESPersonBuilder.cs" />
+    <Compile Include="TParseSurgeryTime.cs" />
     <Compile Include="TSeerPersonBuilder.cs" />
     <Compile Include="TDynamicQuery.cs" />
     <Compile Include="TCodeValidator.cs" />
@@ -102,6 +103,10 @@
     <ProjectReference Include="..\..\Builders\org.ohdsi.cdm.builders.optumextendedses\org.ohdsi.cdm.builders.optumextendedses.csproj">
       <Project>{779e5e00-9218-4f0b-ac3d-5b70a6ebd886}</Project>
       <Name>org.ohdsi.cdm.builders.optumextendedses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Builders\org.ohdsi.cdm.builders.premier_v5\org.ohdsi.cdm.builders.premier_v5.csproj">
+      <Project>{903bda72-e40c-4a3f-8ebb-b990c7164c81}</Project>
+      <Name>org.ohdsi.cdm.builders.premier_v5</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Builders\org.ohdsi.cdm.builders.seer\org.ohdsi.cdm.builders.seer.csproj">
       <Project>{febf609b-c70b-4fb2-b0cd-b48601db2964}</Project>

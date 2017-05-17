@@ -74,7 +74,7 @@
          <FamilySource>Family</FamilySource>
       </PayerPlanPeriodDefinition>
    </PayerPlanPeriods>
-  <Observation>
+   <Observation>
     <ObservationDefinition>
       <IsUnique>true</IsUnique>
       <PersonId>ENROLID</PersonId>

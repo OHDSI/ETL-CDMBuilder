@@ -3,14 +3,17 @@
     select
     m.encid,
     cast(replace(m.ptid, 'PT','') as bigint) as PersonId,
-    cast(replace(m.encid, 'E0000','') as bigint) as VisitOccurrenceId,
+    case
+    when m.encid = '' or m.encid is null then NULL
+    else cast(replace(m.encid, 'E0000','') as bigint)
+    end as VisitOccurrenceId,
     case
     when m.provid is null then ec.provid
     else m.provid
     end as provid,
     m.order_date,
     m.route,
-    m.dosefreq,
+    m.dose_frequency,
     m.strength,
     m.strength_unit,
     CASE

@@ -58,11 +58,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AWSSDK.Core.3.3.5\lib\net45\AWSSDK.Core.dll</HintPath>
+      <HintPath>..\..\packages\AWSSDK.Core.3.3.13.4\lib\net45\AWSSDK.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AWSSDK.S3.3.3.4\lib\net45\AWSSDK.S3.dll</HintPath>
+      <HintPath>..\..\packages\AWSSDK.S3.3.3.6\lib\net45\AWSSDK.S3.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="CsvHelper, Version=3.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
@@ -88,6 +88,7 @@
     <Compile Include="DataReaders\v5\CohortDataReader.cs" />
     <Compile Include="DataReaders\v5\ConditionEraDataReader.cs" />
     <Compile Include="DataReaders\v5\ConditionOccurrenceDataReader.cs" />
+    <Compile Include="DataReaders\v5\ConditionOccurrenceDataReader2.cs" />
     <Compile Include="DataReaders\v5\CostDataReader.cs" />
     <Compile Include="DataReaders\v5\DeviceCostDataReader.cs" />
     <Compile Include="DataReaders\v5\DeviceExposureDataReader.cs" />

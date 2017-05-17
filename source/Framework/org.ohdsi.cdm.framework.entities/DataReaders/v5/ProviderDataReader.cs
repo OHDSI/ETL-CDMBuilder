@@ -47,7 +47,7 @@ namespace org.ohdsi.cdm.framework.entities.DataReaders.v5
                return enumerator.Current.ConceptId; //SPECIALTY_CONCEPT_ID
 
             case 5:
-               return enumerator.Current.CareSiteId;
+               return enumerator.Current.CareSiteId == 0 ? null : enumerator.Current.CareSiteId;
 
             case 6:
                return enumerator.Current.YearOfBirth;

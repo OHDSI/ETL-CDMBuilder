@@ -24,7 +24,7 @@ This retrospective claims analysis utilized data from the Truven Health MarketSc
 			'http://www.ohdsi.org/web/wiki/doku.php?id=documentation:example_etls',
 			'{0}',
 			'{3}',
-			'V5.0',
+			'V5.0.1',
 			'{1}'
 		   );
 

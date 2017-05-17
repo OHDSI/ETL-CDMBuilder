@@ -122,8 +122,6 @@ namespace org.ohdsi.cdm.framework.core.Common.Services
                  SaveSet(setIndex.Value);
                  dbAvailableOnS3.SetSaved(Settings.Current.Building.Id.Value, setIndex.Value);
                  Logger.Write(null, LogMessageTypes.Debug, "sss EndSaveChunkTask index - " + setIndex);
-
-
               }
            }
            catch (Exception ex)
@@ -146,57 +144,59 @@ namespace org.ohdsi.cdm.framework.core.Common.Services
             var timer = new Stopwatch();
             timer.Start();
 
-            using (
-               var connection =
-                  SqlConnectionHelper.OpenOdbcConnection(Settings.Current.Building.DestinationConnectionString))
-            using (var transaction = connection.BeginTransaction())
-            {
-                try
-                {
-                   
-                   SaveTable(connection, transaction, setIndex, "PERSON");
-                   SaveTable(connection, transaction, setIndex, "OBSERVATION_PERIOD");
-                   SaveTable(connection, transaction, setIndex, "PAYER_PLAN_PERIOD");
-                   SaveTable(connection, transaction, setIndex, "CONDITION_OCCURRENCE");
-                   SaveTable(connection, transaction, setIndex, "DEATH");
-                   SaveTable(connection, transaction, setIndex, "DRUG_EXPOSURE");
-                   SaveTable(connection, transaction, setIndex, "OBSERVATION");
-                   SaveTable(connection, transaction, setIndex, "VISIT_OCCURRENCE");
-                   SaveTable(connection, transaction, setIndex, "PROCEDURE_OCCURRENCE");
-                   
-                   SaveTable(connection, transaction, setIndex, "DRUG_ERA");
-                   SaveTable(connection, transaction, setIndex, "CONDITION_ERA");
-                   SaveTable(connection, transaction, setIndex, "DEVICE_EXPOSURE");
-                   SaveTable(connection, transaction, setIndex, "MEASUREMENT");
-                   SaveTable(connection, transaction, setIndex, "COHORT");
+           
+              using (
+                 var connection =
+                    SqlConnectionHelper.OpenOdbcConnection(Settings.Current.Building.DestinationConnectionString))
+              using (var transaction = connection.BeginTransaction())
+              {
+                 try
+                 {
 
-                   if (Settings.Current.Building.CDM == CDMVersions.v5)
-                   {
-                      SaveTable(connection, transaction, setIndex, "DRUG_COST");
-                      SaveTable(connection, transaction, setIndex, "DEVICE_COST");
-                      SaveTable(connection, transaction, setIndex, "VISIT_COST");
-                      SaveTable(connection, transaction, setIndex, "PROCEDURE_COST");
-                   }
-                   else if (Settings.Current.Building.CDM == CDMVersions.v501)
-                   {
-                      SaveTable(connection, transaction, setIndex, "COST");
-                   }
+                    SaveTable(connection, transaction, setIndex, "PERSON");
+                    SaveTable(connection, transaction, setIndex, "OBSERVATION_PERIOD");
+                    SaveTable(connection, transaction, setIndex, "PAYER_PLAN_PERIOD");
+                    SaveTable(connection, transaction, setIndex, "CONDITION_OCCURRENCE");
+                    SaveTable(connection, transaction, setIndex, "DEATH");
+                    SaveTable(connection, transaction, setIndex, "DRUG_EXPOSURE");
+                    SaveTable(connection, transaction, setIndex, "OBSERVATION");
+                    SaveTable(connection, transaction, setIndex, "VISIT_OCCURRENCE");
+                    SaveTable(connection, transaction, setIndex, "PROCEDURE_OCCURRENCE");
+
+                    SaveTable(connection, transaction, setIndex, "DRUG_ERA");
+                    SaveTable(connection, transaction, setIndex, "CONDITION_ERA");
+                    SaveTable(connection, transaction, setIndex, "DEVICE_EXPOSURE");
+                    SaveTable(connection, transaction, setIndex, "MEASUREMENT");
+                    SaveTable(connection, transaction, setIndex, "COHORT");
+
+                    if (Settings.Current.Building.CDM == CDMVersions.v5)
+                    {
+                       SaveTable(connection, transaction, setIndex, "DRUG_COST");
+                       SaveTable(connection, transaction, setIndex, "DEVICE_COST");
+                       SaveTable(connection, transaction, setIndex, "VISIT_COST");
+                       SaveTable(connection, transaction, setIndex, "PROCEDURE_COST");
+                    }
+                    else if (Settings.Current.Building.CDM == CDMVersions.v501)
+                    {
+                       SaveTable(connection, transaction, setIndex, "COST");
+                    }
 
 
-                   transaction.Commit();
-                }
-                catch (Exception e)
-                {
+                    transaction.Commit();
+                 }
+                 catch (Exception e)
+                 {
                     foreach (var chunkId in chunkIds)
                     {
-                        Logger.WriteError(chunkId, e);
-                        transaction.Rollback();
-                        Logger.Write(chunkId, LogMessageTypes.Debug, "Rollback - Complete");
+                       Logger.WriteError(chunkId, e);
+                       transaction.Rollback();
+                       Logger.Write(chunkId, LogMessageTypes.Debug, "Rollback - Complete");
                     }
-                }
-            }
-
-            var dbChunk = new DbChunk(Settings.Current.Building.BuilderConnectionString);
+                 }
+              }
+           
+           
+           var dbChunk = new DbChunk(Settings.Current.Building.BuilderConnectionString);
             foreach (var chunkId in chunkIds)
                 dbChunk.ChunkComplete(chunkId);
             timer.Stop();

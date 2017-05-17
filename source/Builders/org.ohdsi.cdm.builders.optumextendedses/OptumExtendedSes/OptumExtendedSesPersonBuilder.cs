@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using org.ohdsi.cdm.framework.core.Base;
 using org.ohdsi.cdm.framework.entities.Omop;
+using org.ohdsi.cdm.framework.shared.Enums;
 using org.ohdsi.cdm.framework.shared.Extensions;
 using org.ohdsi.cdm.framework.shared.Validators;
 
@@ -40,6 +41,8 @@ namespace org.ohdsi.cdm.builders.optumextendedses
 
       public IEnumerable<VisitOccurrence> GetIPClaims(IEnumerable<VisitOccurrence> visitOccurrences)
       {
+         var visits = new List<VisitOccurrence>();
+
          foreach (var ipGroup in visitOccurrences.GroupBy(vo => vo.AdditionalFields["pat_planid"]))
          {
             var ipVisits = new List<VisitOccurrence>();
@@ -70,15 +73,32 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                   }
                }
 
-               if (!rawVisits.ContainsKey(claim.SourceRecordGuid))
-                  rawVisits.Add(claim.SourceRecordGuid, claim);
-
                ipVisits.Add(claim);
             }
 
-            foreach (var ipVisit in ipVisits)
+            visits.AddRange(ipVisits);
+         }
+
+         foreach (var groupStartDate in visits.GroupBy(vo => vo.StartDate))
+         {
+            foreach (var groupEndDate in groupStartDate.GroupBy(vo => vo.EndDate))
             {
-               yield return ipVisit;
+
+               var visit =
+                  groupEndDate.OrderBy(c => c.AdditionalFields["prov"]).ThenBy(c => c.AdditionalFields["provcat"])
+                     .FirstOrDefault();
+
+               foreach (var vo in groupEndDate)
+               {
+                  if (!rawVisits.ContainsKey(vo.SourceRecordGuid))
+                     rawVisits.Add(vo.SourceRecordGuid, visit);
+
+                  if (vo.VisitCosts == null) continue;
+
+                  visit.VisitCosts.AddRange(vo.VisitCosts);
+               }
+
+               yield return visit;
             }
          }
       }
@@ -180,59 +200,38 @@ namespace org.ohdsi.cdm.builders.optumextendedses
 
       private VisitOccurrence GetVisitOccurrence(IEntity ent)
       {
+         VisitOccurrence vo = null;
          if (rawVisits.ContainsKey(ent.SourceRecordGuid))
-            return rawVisits[ent.SourceRecordGuid];
+            vo = rawVisits[ent.SourceRecordGuid];
 
-         return null;
+         if (vo != null && vo.Id == 0)
+         {
+            foreach (var visitOccurrence in rawVisits.Values)
+            {
+               if (visitOccurrence.Id > 0 && visitOccurrence.StartDate == vo.StartDate &&
+                   visitOccurrence.EndDate == vo.EndDate && visitOccurrence.ConceptId == vo.ConceptId)
+               {
+                  return visitOccurrence;
+               }
+            }
+         }
+
+         return vo;
       }
 
 
       private static int GetConditionTypeConceptId(int position, long visitTypeId)
       {
+         if (position > 14)
+            position = 14;
+
          if (visitTypeId == 9201)
          {
-            switch (position)
-            {
-               case 1:
-                  return 38000200;
-
-               case 2:
-                  return 38000201;
-
-               case 3:
-                  return 38000202;
-
-               case 4:
-                  return 38000203;
-
-               case 5:
-                  return 38000204;
-
-               default:
-                  return 0;
-            }
+            return 38000200 + position;
          }
 
-         switch (position)
-         {
-            case 1:
-               return 38000230;
 
-            case 2:
-               return 38000231;
-
-            case 3:
-               return 38000232;
-
-            case 4:
-               return 38000233;
-
-            case 5:
-               return 38000234;
-
-            default:
-               return 0;
-         }
+         return 38000230 + position;
       }
 
       private static int GetProcedureTypeConceptId(int position, long visitTypeId)
@@ -241,6 +240,9 @@ namespace org.ohdsi.cdm.builders.optumextendedses
          {
             switch (position)
             {
+               case 0:
+                  return 38000254;
+
                case 1:
                   return 38000251;
 
@@ -253,13 +255,49 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                case 4:
                   return 38000254;
 
+               case 5:
+                  return 38000255;
+
+               case 6:
+                  return 38000256;
+
+               case 7:
+                  return 38000257;
+
+               case 8:
+                  return 38000258;
+
+               case 9:
+                  return 38000259;
+
+               case 10:
+                  return 38000260;
+
+               case 11:
+                  return 38000261;
+
+               case 12:
+                  return 38000262;
+
+               case 13:
+                  return 38000263;
+
+               case 14:
+                  return 38000264;
+
+               case 15:
+                  return 38000265;
+
                default:
-                  return 0;
+                  return 38000265;
             }
          }
 
          switch (position)
          {
+            case 0:
+               return 38000272;
+
             case 1:
                return 38000269;
 
@@ -272,16 +310,20 @@ namespace org.ohdsi.cdm.builders.optumextendedses
             case 4:
                return 38000272;
 
+            case 5:
+               return 38000273;
 
+            
             default:
-               return 0;
+               return 38000274;
          }
       }
 
       private string GetProviderKey(VisitOccurrence visitOccurrence, IEntity entity,
-                                           Dictionary<DateTime, Dictionary<string, List<IEntity>>>
-                                              dateClaimTypeDictionary)
+         Dictionary<DateTime, Dictionary<string, List<IEntity>>>
+            dateClaimTypeDictionary)
       {
+
          var claimType = visitOccurrence.SourceValue;
 
          if (!dateClaimTypeDictionary[entity.StartDate].ContainsKey(claimType))
@@ -296,43 +338,45 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                .ThenBy(c => DateTime.Parse(c.AdditionalFields["visit_end_date"]))
                .ThenBy(c => c.AdditionalFields["provcat"])
                .FirstOrDefault();
-               
-               if(cl != null)
-                 return cl.ProviderKey;
+
+            if (cl != null)
+               return cl.ProviderKey;
          }
 
          if (claimType.ToUpper() == "ER")
          {
             var prov =
-               dateClaimTypeDictionary[entity.StartDate][claimType].Where(c => c.VisitOccurrenceId == entity.VisitOccurrenceId)
-                                                                   .OrderBy(c => DateTime.Parse(c.AdditionalFields["visit_start_date"]))
-                                                                   .ThenBy(c => DateTime.Parse(c.AdditionalFields["visit_end_date"]))
-                                                                   .ThenBy(c => c.AdditionalFields["prov"])
-                                                                   .ThenBy(c => c.AdditionalFields["provcat"])
-                                                                   .FirstOrDefault();
+               dateClaimTypeDictionary[entity.StartDate][claimType].Where(
+                  c => c.VisitOccurrenceId == entity.VisitOccurrenceId)
+                  .OrderBy(c => DateTime.Parse(c.AdditionalFields["visit_start_date"]))
+                  .ThenBy(c => DateTime.Parse(c.AdditionalFields["visit_end_date"]))
+                  .ThenBy(c => c.AdditionalFields["prov"])
+                  .ThenBy(c => c.AdditionalFields["provcat"])
+                  .FirstOrDefault();
 
             if (prov != null) return prov.ProviderKey;
          }
 
-         
-                var cl2 = dateClaimTypeDictionary[entity.StartDate][claimType].OrderBy(c => DateTime.Parse(c.AdditionalFields["visit_start_date"]))
-                                                                      .ThenBy(c => DateTime.Parse(c.AdditionalFields["visit_end_date"]))
-                                                                      .ThenBy(c => c.AdditionalFields["prov"])
-                                                                      .ThenBy(c => c.AdditionalFields["provcat"])
-                                                                      .FirstOrDefault();
 
-          if(cl2 != null)
-          {
-              entity.ProviderKey = cl2.ProviderKey;
-              return cl2.ProviderKey;
-          }
+         var cl2 =
+            dateClaimTypeDictionary[entity.StartDate][claimType].OrderBy(
+               c => DateTime.Parse(c.AdditionalFields["visit_start_date"]))
+               .ThenBy(c => DateTime.Parse(c.AdditionalFields["visit_end_date"]))
+               .ThenBy(c => c.AdditionalFields["prov"])
+               .ThenBy(c => c.AdditionalFields["provcat"])
+               .FirstOrDefault();
 
-          return "";                                         
+         if (cl2 != null)
+         {
+            entity.ProviderKey = cl2.ProviderKey;
+            return cl2.ProviderKey;
+         }
 
+         return "";
       }
 
-      private static void AddToDateClaimTypeDictionary(Dictionary<DateTime, Dictionary<string, List<IEntity>>> entities,
-                                                       IEntity entity, VisitOccurrence visitOccurrence)
+      private void AddToDateClaimTypeDictionary(Dictionary<DateTime, Dictionary<string, List<IEntity>>> entities,
+         IEntity entity, VisitOccurrence visitOccurrence)
       {
          if (!entities.ContainsKey(entity.StartDate))
             entities.Add(entity.StartDate, new Dictionary<string, List<IEntity>>());
@@ -342,7 +386,8 @@ namespace org.ohdsi.cdm.builders.optumextendedses
             entities[entity.StartDate][claimType] = new List<IEntity>();
 
          if (DateTime.Parse(entity.AdditionalFields["visit_end_date"]) > visitOccurrence.EndDate.Value)
-            entity.AdditionalFields["visit_end_date"] = visitOccurrence.EndDate.Value.ToString(CultureInfo.InvariantCulture);
+            entity.AdditionalFields["visit_end_date"] =
+               visitOccurrence.EndDate.Value.ToString(CultureInfo.InvariantCulture);
 
          entities[entity.StartDate][claimType].Add(entity);
       }
@@ -387,6 +432,12 @@ namespace org.ohdsi.cdm.builders.optumextendedses
             }
             
             conditionOccurrence.EndDate = null;
+
+            if (!conditionOccurrence.AdditionalFields.ContainsKey("position"))
+               conditionOccurrence.AdditionalFields.Add("position", conditionOccurrence.TypeConceptId.ToString());
+            
+            SetStatusConceptId(conditionOccurrence, conditionOccurrence.TypeConceptId.Value);
+
             conditionOccurrence.TypeConceptId = GetConditionTypeConceptId(conditionOccurrence.TypeConceptId.Value, visitOccurrence.ConceptId);
 
             AddToDateClaimTypeDictionary(dateClaimTypeDictionary, conditionOccurrence, visitOccurrence);
@@ -400,12 +451,15 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                {
                   foreach (var sameConcept in sameSource.GroupBy(c => c.ConceptId))
                   {
-                     var conditionOccurrence = sameConcept.OrderBy(c => c.TypeConceptId).ToList()[0];
+                     var conditionOccurrence =
+                        sameConcept.OrderBy(c => c.TypeConceptId).ToList()[0];
 
                      //if (!CodeValidator.IsValidIcd(conditionOccurrence.SourceValue, GetIcdVersion(conditionOccurrence))) continue;
 
-                     conditionOccurrence.ProviderKey = GetProviderKey(vo[conditionOccurrence.VisitOccurrenceId.Value],
-                                                                      conditionOccurrence, dateClaimTypeDictionary);
+                     conditionOccurrence.ProviderKey = GetProviderKey(
+                        vo[conditionOccurrence.VisitOccurrenceId.Value],
+                        conditionOccurrence, dateClaimTypeDictionary);
+
                      result.Add(conditionOccurrence);
                   }
                }
@@ -413,6 +467,34 @@ namespace org.ohdsi.cdm.builders.optumextendedses
          }
 
          return base.BuildConditionOccurrences(result.ToArray(), vo, op);
+      }
+
+      private void SetStatusConceptId(ConditionOccurrence conditionOccurrence, int position)
+      {
+         if (conditionOccurrence.AdditionalFields == null || !conditionOccurrence.AdditionalFields.ContainsKey("poa") ||
+             string.IsNullOrEmpty(conditionOccurrence.AdditionalFields["poa"])) return;
+
+         var poa = conditionOccurrence.AdditionalFields["poa"].Split(new[] {'.'});
+
+         if (poa.Length > position)
+         {
+            conditionOccurrence.StatusSourceValue = poa[position];
+
+            switch (conditionOccurrence.StatusSourceValue.ToLower())
+            {
+               case "w":
+                  conditionOccurrence.StatusConceptId = 46236988;
+                  break;
+
+               case "y":
+                  conditionOccurrence.StatusConceptId = 46236988;
+                  break;
+
+               default:
+                  conditionOccurrence.StatusConceptId = 0;
+                  break;
+            }
+         }
       }
 
       private IEnumerable<ProcedureOccurrence> BuildProceduresCd(IEnumerable<ProcedureOccurrence> procedureOccurrences,
@@ -532,27 +614,6 @@ namespace org.ohdsi.cdm.builders.optumextendedses
          }
 
          return base.BuildProcedureOccurrences(result.ToArray(), visitOccurrences, observationPeriods);
-      }
-
-      public override IEnumerable<ProcedureCost> BuildProcedureCosts(ProcedureOccurrence[] procedureOccurrences)
-      {
-         // Don't put ICD9 procedure for PROC1-PROC3 in this table
-         // proc1   TypeId = 38000251, 38000269
-         // proc2   TypeId = 38000252, 38000270
-         // proc3   TypeId = 38000253, 38000271
-         // proc_cd TypeId = 38000254, 38000272
-         foreach (var procedureOccurrence in procedureOccurrences)
-         {
-            if (procedureOccurrence.TypeConceptId != 38000254 && procedureOccurrence.TypeConceptId != 38000272) continue;
-
-            foreach (var procedureCost in procedureOccurrence.ProcedureCosts)
-            {
-               //TOTAL_OUT_OF_POCKET = COINS + DEDUCT
-               procedureCost.TotalOutOfPocket = procedureCost.PaidCoinsurance + procedureCost.PaidTowardDeductible;
-               procedureCost.Id = procedureOccurrence.Id;
-               yield return procedureCost;
-            }
-         }
       }
 
       private static Death CleanUpDeath(IEnumerable<IEntity> items, Death death)
@@ -864,6 +925,7 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                                 {
                                    Id = chunkData.KeyMasterOffset.ConditionOccurrenceId
                                 };
+
                      conditionForEra.Add(cond);
                      chunkData.AddData(cond);
                   }
@@ -878,7 +940,7 @@ namespace org.ohdsi.cdm.builders.optumextendedses
 
                   if (!mes.ValueAsConceptId.HasValue)
                   {
-                     var result = vocabulary.Lookup(mes.SourceValue, @"OptumExtendedSes\Lookups\SourcetoValue.sql", DateTime.MinValue);
+                     var result = vocabulary.Lookup(mes.SourceValue, @"OptumExtendedSes\Lookups\SourcetoValue.sql", DateTime.MinValue, false);
                      mes.ValueAsConceptId = result.Any() ? result[0].ConceptId : 0;
                   }
 
@@ -896,10 +958,65 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                   }
 
                   chunkData.AddData(mes);
+
+                  if (mes.MeasurementCost != null && mes.MeasurementCost.Count > 0)
+                  {
+                     foreach (var mc in mes.MeasurementCost)
+                     {
+                        chunkData.AddData(new Cost
+                        {
+                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                           CurrencyConceptId = mc.CurrencyConceptId.Value,
+
+                           TotalCharge = mc.PaidByCoordinationBenefits,
+                           PaidByPatient = mc.PaidCoinsurance + mc.PaidTowardDeductible,
+                           PaidPatientCopay = mc.PaidCopay,
+                           PaidPatientCoinsurance = mc.PaidCoinsurance,
+                           PaidPatientDeductible = mc.PaidTowardDeductible,
+                           PaidDispensingFee = mc.DispensingFee,
+                           AmountAllowed = mc.TotalPaid,
+                           PayerPlanPeriodId = mc.PayerPlanPeriodId,
+                           RevenueCodeConceptId = mc.RevenueCodeConceptId,
+                           RevenueCodeSourceValue = mc.RevenueCodeSourceValue,
+
+                           Domain = entityDomain,
+                           TypeId = 0,
+                           EventId = mes.Id
+                        }, EntityType.Cost);
+                     }
+                  }
                   break;
 
                case "Meas Value":
-                  chunkData.AddData(entity as Measurement ?? new Measurement(entity) { Id = chunkData.KeyMasterOffset.MeasurementId });
+                  var mv = entity as Measurement ??
+                           new Measurement(entity) {Id = chunkData.KeyMasterOffset.MeasurementId};
+                  chunkData.AddData(mv);
+                  if (mv.MeasurementCost != null && mv.MeasurementCost.Count > 0)
+                  {
+                     foreach (var mc in mv.MeasurementCost)
+                     {
+                        chunkData.AddData(new Cost
+                        {
+                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                           CurrencyConceptId = mc.CurrencyConceptId.Value,
+
+                           TotalCharge = mc.PaidByCoordinationBenefits,
+                           PaidByPatient = mc.PaidCoinsurance + mc.PaidTowardDeductible,
+                           PaidPatientCopay = mc.PaidCopay,
+                           PaidPatientCoinsurance = mc.PaidCoinsurance,
+                           PaidPatientDeductible = mc.PaidTowardDeductible,
+                           PaidDispensingFee = mc.DispensingFee,
+                           AmountAllowed = mc.TotalPaid,
+                           PayerPlanPeriodId = mc.PayerPlanPeriodId,
+                           RevenueCodeConceptId = mc.RevenueCodeConceptId,
+                           RevenueCodeSourceValue = mc.RevenueCodeSourceValue,
+
+                           Domain = entityDomain,
+                           TypeId = 0,
+                           EventId = mv.Id
+                        }, EntityType.Cost);
+                     }
+                  }
                   break;
 
                case "Observation":
@@ -918,16 +1035,71 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                   }
 
                   chunkData.AddData(o);
+
+                  if (o.ObservationCost != null && o.ObservationCost.Count > 0)
+                  {
+                     foreach (var oc in o.ObservationCost)
+                     {
+                        chunkData.AddData(new Cost
+                        {
+                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                           CurrencyConceptId = oc.CurrencyConceptId.Value,
+
+                           TotalCharge = oc.PaidByCoordinationBenefits,
+                           PaidByPatient = oc.PaidCoinsurance + oc.PaidTowardDeductible,
+                           PaidPatientCopay = oc.PaidCopay,
+                           PaidPatientCoinsurance = oc.PaidCoinsurance,
+                           PaidPatientDeductible = oc.PaidTowardDeductible,
+                           PaidDispensingFee = oc.DispensingFee,
+                           AmountAllowed = oc.TotalPaid,
+                           PayerPlanPeriodId = oc.PayerPlanPeriodId,
+                           RevenueCodeConceptId = oc.RevenueCodeConceptId,
+                           RevenueCodeSourceValue = oc.RevenueCodeSourceValue,
+
+                           Domain = entityDomain,
+                           TypeId = 0,
+                           EventId = o.Id
+                        }, EntityType.Cost);
+                     }
+                  }
                   break;
 
                case "Procedure":
-                  chunkData.AddData(entity as ProcedureOccurrence ??
-                                                                  new ProcedureOccurrence(entity)
-                                                                  {
-                                                                     Id =
-                                                                        chunkData.KeyMasterOffset
-                                                                           .ProcedureOccurrenceId
-                                                                  });
+                  var p = entity as ProcedureOccurrence ??
+                             new ProcedureOccurrence(entity)
+                             {
+                                Id =
+                                   chunkData.KeyMasterOffset.ProcedureOccurrenceId
+                             };
+
+                  chunkData.AddData(p);
+
+                  if (p.ProcedureCosts != null && p.ProcedureCosts.Count > 0)
+                  {
+                     foreach (var pc in p.ProcedureCosts)
+                     {
+                        chunkData.AddData(new Cost
+                        {
+                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                           CurrencyConceptId = pc.CurrencyConceptId,
+
+                           TotalCharge = pc.PaidByCoordinationBenefits,
+                           PaidByPatient = pc.PaidCoinsurance + pc.PaidTowardDeductible,
+                           PaidPatientCopay = pc.PaidCopay,
+                           PaidPatientCoinsurance = pc.PaidCoinsurance,
+                           PaidPatientDeductible = pc.PaidTowardDeductible,
+                           AmountAllowed = pc.TotalPaid,
+                           PayerPlanPeriodId = pc.PayerPlanPeriodId,
+                           RevenueCodeConceptId = pc.RevenueCodeConceptId,
+                           RevenueCodeSourceValue = pc.RevenueCodeSourceValue,
+
+                           Domain = entityDomain,
+                           TypeId = 0,
+                           EventId = p.Id
+                        }, EntityType.Cost);
+                     }
+
+                  }
                   break;
 
                case "Device":
@@ -943,7 +1115,31 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                   }
 
                   chunkData.AddData(dev);
-                  
+                  if (dev.DeviceCosts != null && dev.DeviceCosts.Count > 0)
+                  {
+                     foreach (var dc in dev.DeviceCosts)
+                     {
+                        chunkData.AddData(new Cost
+                        {
+                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                           CurrencyConceptId = dc.CurrencyConceptId.Value,
+
+                           TotalCharge = dc.PaidByCoordinationBenefits,
+                           PaidByPatient = dc.PaidCoinsurance + dc.PaidTowardDeductible,
+                           PaidPatientCopay = dc.PaidCopay,
+                           PaidPatientCoinsurance = dc.PaidCoinsurance,
+                           PaidPatientDeductible = dc.PaidTowardDeductible,
+                           AmountAllowed = dc.TotalPaid,
+                           PayerPlanPeriodId = dc.PayerPlanPeriodId,
+                           RevenueCodeConceptId = dc.RevenueCodeConceptId,
+                           RevenueCodeSourceValue = dc.RevenueCodeSourceValue,
+
+                           Domain = entityDomain,
+                           TypeId = 0,
+                           EventId = dev.Id
+                        }, EntityType.Cost);
+                     }
+                  }
                   break;
 
                case "Drug":
@@ -972,6 +1168,30 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                   drg.EndDate = null;
                   drugForEra.Add(drg);
                   chunkData.AddData(drg);
+
+                  if (drg.DrugCost != null)
+                  {
+                     chunkData.AddData(new Cost
+                     {
+                        CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
+                        CurrencyConceptId = drg.DrugCost.CurrencyConceptId.Value,
+
+                        TotalCharge = drg.DrugCost.PaidByCoordinationBenefits,
+                        //PaidByPatient = drg.DrugCost.PaidCoinsurance + drg.DrugCost.PaidTowardDeductible,
+                        PaidPatientCopay = drg.DrugCost.PaidCopay,
+                        PaidPatientCoinsurance = drg.DrugCost.PaidCoinsurance,
+                        PaidPatientDeductible = drg.DrugCost.PaidTowardDeductible,
+                        PaidDispensingFee = drg.DrugCost.DispensingFee,
+                        AmountAllowed = drg.DrugCost.TotalPaid,
+                        PayerPlanPeriodId = drg.DrugCost.PayerPlanPeriodId,
+                        RevenueCodeConceptId = drg.DrugCost.RevenueCodeConceptId,
+                        RevenueCodeSourceValue = drg.DrugCost.RevenueCodeSourceValue,
+
+                        Domain = entityDomain,
+                        TypeId = 0,
+                        EventId = drg.Id
+                     }, EntityType.Cost);
+                  }
                   break;
 
             }
@@ -1007,6 +1227,9 @@ namespace org.ohdsi.cdm.builders.optumextendedses
          person.LocationId = vocabulary.LookupLocation(person.LocationSourceValue) ?? 0;
 
          if (person.GenderConceptId == 8551) //UNKNOWN
+            return null;
+
+         if (person.YearOfBirth < 1900) //UNKNOWN
             return null;
          
          return person;

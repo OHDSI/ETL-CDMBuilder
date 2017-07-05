@@ -1,0 +1,57 @@
+*******************************************************************************
+* VOCABULARY CHANGE
+*******************************************************************************
+1) SOURCE_TO_CONCEPT_MAP Changes
+
+--Review and update to JNJ_PMR_COST_CHRG_CD
+
+--JNJ_JMDC_DRUGS - improved drug mapping
+
+*******************************************************************************
+* JMDC
+*******************************************************************************
+1) Improved drug mapping in the SOURCE_TO_CONCEPT_MAP
+
+Data Notes:
+--Moving forward the "AMOUNT_OF_VISCERAL_FAT" column will no longer be provided 
+by the vendor
+--We noticed cases where individuals died however still had records, the vendor
+responded that it is either an error or a family follow-up post death to "apply
+for an allowance".
+
+*******************************************************************************
+* PREMIER
+*******************************************************************************
+1)HIX-1293
+Our previous builder was not handling ethnicity and race appropriately and 
+subjects were being dropped when missing certain values.  This caused
+some patients to be dropped from the builder.  The issue has been tested and
+resolved.  
+
+*******************************************************************************
+* OPTUM Integrated
+*******************************************************************************
+1)New CDM!  Integrated has claims data as well as EHR data.  The builder uses a
+a combination of our Optum Oncology Builder (EHR portion) and Optum Extended.
+
+Document can be found here:
+https://github.com/OHDSI/ETL-CDMBuilder/tree/master/man/OPTUM_INTEGRATED
+
+*******************************************************************************
+* OPTUM EHR Only (Optum Integrated)
+*******************************************************************************
+1)Reran on updated data.
+
+*******************************************************************************
+* OPTUM Extended DOD
+*******************************************************************************
+1)HIX-1318
+Patch to add the FAMILY_ID into PAYER_PLAN_PERIOD.  Not in BUILDER.
+
+*******************************************************************************
+* Admin
+*******************************************************************************
+1)HIX-1277
+Since we are still using an older version of the Vocabulary (20161218) there 
+were some drugs of interest that were not mapped to the proper ingredient.  These
+were patched.

@@ -1,0 +1,55 @@
+*******************************************************************************
+* VOCABULARY CHANGE
+*******************************************************************************
+In this release Janssen will go from OMOP Vocabulary 20161218 to OMOP Vocabulary
+20170503.  Here are some points for your consideration in this Vocab change.
+
+1) We noticed 1179 concepts are changing domains:
+https://github.com/OHDSI/Vocabulary-v5.0/issues/130
+
+The most notable change is Anemia and concepts related to 
+anemia are moving from CONDITION_OCCURRENCE to MEASUREMENT.
+
+2)  There are some ICD9/10 codes that do not have a mapping in this Vocabulary.
+https://github.com/OHDSI/Vocabulary-v5.0/issues/88
+
+Here are the top 10 ICD9/10 that are missing concepts (the full list can be 
+found in the issue linked above):
+SOURCE_CODE	CONCEPT_NAME								VOCABULARY_ID	PERSON_COUNT
+739.1		Nonallopathic lesions, cervical region		ICD9CM			3809231
+739.3		Nonallopathic lesions, lumbar region		ICD9CM			3424667
+739.2		Nonallopathic lesions, thoracic region		ICD9CM			2834185
+V15.82		Personal history of tobacco use				ICD9CM			1368536
+739.4		Nonallopathic lesions, sacral region		ICD9CM			1291748
+739.5		Nonallopathic lesions, pelvic region		ICD9CM			692887
+655.83		Other known or suspected fetal abnormality, 
+			not elsewhere classified, affecting management 
+			of mother, antepartum condition or 
+			complication								ICD9CM			480460
+V58.11		Encounter for antineoplastic chemotherapy	ICD9CM			358861
+R20.2		Paresthesia of skin							ICD10CM			266957
+739.6		Nonallopathic lesions, lower extremities	ICD9CM			253889
+
+3) There the top condition source codes that lacked a CONCEPT_ID before but now have a mapping.
+
+SOURCE_CODE	VOCABULARY_ID	SOURCE_CONCEPT_NAME								PERSON_COUNT
+585.9		ICD9CM			Chronic kidney disease, unspecified				1210392
+571.5		ICD9CM			Cirrhosis of liver without mention of alcohol	1132966
+995.2		ICD9CM			Unspecified adverse effect of unspecified drug, 
+							medicinal and biological substance				666386
+707.12		ICD9CM			Ulcer of calf									237525
+526.4		ICD9CM			Inflammatory conditions of jaw					88910
+27.36		ICD9CM			Circadian rhythm sleep disorder, 
+							shift work type									65251
+752.2		ICD9CM			Doubling of uterus								34119
+758.7		ICD9CM			Klinefelter's syndrome							32061
+692.83		ICD9CM			Dermatitis due to metals						23990
+728.1		ICD9CM			Calcification and ossification, unspecified		23277
+
+
+4)  This is still a problem within this Vocabulary, source code HEP C linked to a
+HEP B CONCEPT_ID.
+https://github.com/OHDSI/Vocabulary-v5.0/issues/93
+
+5)  Issue remaining with some of the ICD10s in Crohn's & Diverticulosis:
+https://github.com/OHDSI/Vocabulary-v5.0/issues/122

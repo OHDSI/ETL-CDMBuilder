@@ -53,3 +53,11 @@ https://github.com/OHDSI/Vocabulary-v5.0/issues/93
 
 5)  Issue remaining with some of the ICD10s in Crohn's & Diverticulosis:
 https://github.com/OHDSI/Vocabulary-v5.0/issues/122
+
+6)  The NDC Vocabulary is a date centric vocabulary.  However we have noticed in the
+NDC dates provided to OMOP Vocabulary are often a bit more narrow than when the drug
+is actually prescribed.  We use a large claims database to help push out the dates 
+appropriately which means more NDCs should get mapped to standard concepts. 
+
+Read more here
+https://github.com/OHDSI/Vocabulary-v5.0/issues/81

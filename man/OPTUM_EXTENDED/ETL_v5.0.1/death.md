@@ -46,12 +46,8 @@ Key conventions:
 | Discharge Status | 42           | EXPIRED – PLACE UNKNOWN (HOSPICE)       | [38003566](http://www.ohdsi.org/web/atlas/#/concept/38003566)        |
 
 
-<<<<<<< HEAD
-**Mapping ICD10s from TEMP_MEDICAL to DEATH_TYPE_CONCEPT_ID**
-=======
-**Mapping ICD10s from TEMP_MEDICAL to DEATH_TYPE_CONCEPT_ID    **
->>>>>>> eaf41da802f9e11590a0ed0d0caeed5c76975b7c
-    
+
+**Mapping ICD10s from TEMP_MEDICAL to DEATH_TYPE_CONCEPT_ID**    
 
 | SOURCE_CODE | SOURCE_CONCEPT_ID | SOURCE_CODE_DESCRIPTION                                                                                                                                                                                                  | SOURCE_VOCABULARY_ID | SOURCE_DOMAIN_ID | SOURCE_CONCEPT_CLASS_ID | Death Type Concept ID |
 |-------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|------------------|-------------------------|-----------------------|

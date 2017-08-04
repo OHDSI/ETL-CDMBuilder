@@ -40,7 +40,7 @@ SOURCE_CODE	VOCABULARY_ID	SOURCE_CONCEPT_NAME								PERSON_COUNT
 707.12		ICD9CM			Ulcer of calf								237525
 526.4		ICD9CM			Inflammatory conditions of jaw						88910
 27.36		ICD9CM			Circadian rhythm sleep disorder, 
-							shift work type									65251
+							shift work type						65251
 752.2		ICD9CM			Doubling of uterus							34119
 758.7		ICD9CM			Klinefelter's syndrome							32061
 692.83		ICD9CM			Dermatitis due to metals						23990

@@ -266,17 +266,17 @@ AND TARGET_STANDARD_CONCEPT ='S'
 
 AND TARGET_INVALID_REASON IS NULL
 
-AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier')
+AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier','ICD10PCS Hierarchy')
 ```
 
 ### From Other Procedure Fields
 
 ```
-WHERE SOURCE_VOCABULARY_ID IN ('HCPCS','CPT4')
+WHERE SOURCE_VOCABULARY_ID IN ('HCPCS','CPT4','ICD9Proc','ICD10PCS')
 AND
 TARGET_STANDARD_CONCEPT ='S'
 AND TARGET_INVALID_REASON IS NULL
-AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier')
+AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier','ICD10PCS Hierarchy')
 ```
 
 ## Concept Type Id Mapping Filters
@@ -390,23 +390,53 @@ if (ICD_FLAG == '9')
 }
 else if (ICD_FLAG == '10')
 {
-  filter = "WHERE SOURCE_VOCABULARY_ID IN ('ICD10PCS','HCPCS','CPT4') AND TARGET_VOCABULARY_ID IN ('ICD10PCS','HCPCS','CPT4') AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier')";
+  filter = "WHERE SOURCE_VOCABULARY_ID IN ('ICD10PCS','HCPCS','CPT4') AND TARGET_VOCABULARY_ID IN ('ICD10PCS','HCPCS','CPT4') AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier','ICD10PCS Hierarchy')";
 }
 ```
 
 ### From Other Procedure Fields
 
 ```
-filter = "WHERE SOURCE_VOCABULARY_ID IN ('HCPCS','CPT4') AND TARGET_VOCABULARY_ID IN ('HCPCS','CPT4') AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier')";
+filter = "WHERE SOURCE_VOCABULARY_ID IN ('HCPCS','CPT4','ICD9Proc','ICD10PCS') AND TARGET_VOCABULARY_ID IN ('HCPCS','CPT4',') AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier','ICD10PCS Hierarchy')";
 ```
 
 ## Payer Source Logic
-Combine in the following order: BUS, ASO, PRODUCT, and CDHP:<br>[W] BUS<br>[Y] ASO<br>[X] PRODUCT<br>[Z] CDHP<br>Or [W] + [Y] + [X] + [Z]<br><br>For [W] Take BUS as is, if NULL set to empty string ''<br><br>If ASO = Y replace [Y] with '(ASO)'<br><br>ELSE replace [Y] with ''<br><br>If PRODUCT = 'HMO' replace [X] with 'Health Maint Org'<br>If PRODUCT = 'PPO' replace [X] with 'Preferred Provider Org'<br>If PRODUCT = 'EPO' replace [X] with 'Exclusive Provider Org'<br>If PRODUCT = 'IND' replace [X] with 'Indemnity'<br>If PRODUCT = 'POS' replace [X] with 'Point of Service'<br>If PRODUCT = 'ALL' replace [X] with 'National Ancillaries, All Prod'<br>If PRODUCT = 'UNK' replace [X] with 'Unknown'<br>If PRODUCT = 'OTH' replace [X]  with 'Other'<br>IF PRODUCT = NULL then replace [X] with ''<br>Else [X] = PRODUCT<br>If CDHP = 1 replace [Z] with '(HRA)'.<br>If CDHP = 2 replace [Z] with '(HSA)'.<br>IF CDHP IS NULL then ''<br>Else [Z] = ''
+Combine in the following order: BUS, ASO, PRODUCT, and CDHP:
+```
+[W] BUS
+[Y] ASO
+[X] PRODUCT
+[Z] CDHP
+Or [W] + [Y] + [X] + [Z]
+
+For [W] Take BUS as is, if NULL set to empty string ''
+
+IF ASO = Y replace [Y] with '(ASO)'
+
+ELSE replace [Y] with ''
+
+If PRODUCT = 'HMO' replace [X] with 'Health Maint Org'
+If PRODUCT = 'PPO' replace [X] with 'Preferred Provider Org'
+If PRODUCT = 'EPO' replace [X] with 'Exclusive Provider Org'
+If PRODUCT = 'IND' replace [X] with 'Indemnity'
+If PRODUCT = 'POS' replace [X] with 'Point of Service'
+If PRODUCT = 'ALL' replace [X] with 'National Ancillaries, All Prod'
+If PRODUCT = 'UNK' replace [X] with 'Unknown'
+If PRODUCT = 'OTH' replace [X]  with 'Other'
+IF PRODUCT = NULL then replace [X] with ''
+Else [X] = PRODUCT
+If CDHP = 1 replace [Z] with '(HRA)'.
+If CDHP = 2 replace [Z] with '(HSA)'.
+IF CDHP IS NULL then ''
+Else [Z] = ''
+```
 
 ## POA to CONDITION_STATUS_CONCEPT_ID
 
 The POA field in **TEMP_MEDICAL** is a period-delimited string that looks like this: 
-```Y.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U```
+```
+Y.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U
+```
 
 There is a POA character value that corresponds for each slot of the DIAG codes (DIAG1-DIAG25), but this string must be split on period (".") in order to get this array of POA values. Here's a C#-like code snippet using the above sample POA.
 

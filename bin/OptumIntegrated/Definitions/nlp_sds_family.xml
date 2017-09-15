@@ -2,8 +2,10 @@
   <Query>
     select
     cast(replace(n.ptid, 'PT','') as bigint) as PersonId,
-    cast(replace(n.encid, 'E0000','') as bigint) as VisitOccurrenceId,
-    ec.provid,
+    case
+    when n.encid = '' or n.encid is null then NULL
+    else cast(replace(n.encid, 'E0000','') as bigint)
+    end as VisitOccurrenceId,
     n.note_date,
     n.sds_term,
     isnull(n.sds_term, '') + ';' +
@@ -13,8 +15,6 @@
     'oncology' source_type
     from {sc}.nlp_sds_family n
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND n.ptid = ch.PERSON_SOURCE_VALUE
-    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = n.encid
-    where n.encid is not NULL and n.encid != ''
     order by cast(replace(n.ptid, 'PT','') as bigint)
   </Query>
   <Observation>
@@ -22,7 +22,6 @@
       <PersonId>PersonId</PersonId>
       <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
       <StartDate>note_date</StartDate>
-      <ProviderId>provid</ProviderId>
       <ValuesAsString>
         <string>VALUE_AS_STRING</string>
       </ValuesAsString>

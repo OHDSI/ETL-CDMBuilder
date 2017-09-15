@@ -26,7 +26,7 @@
      else 44818713   end as  PROCEDURE_TYPE_CONCEPT_ID,
      b.spno as visit_occurrence_id,
      b.pconsult,
-     ';' + b.pconsult ProviderIdKey
+     b.tretspef + ';' + b.pconsult ProviderIdKey
      from {sc}.HES_procedures_epi a
      JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND a.patid = ch.PERSON_ID
      join {sc}.hes_episodes b on a.patid=b.patid and a.epikey=b.epikey

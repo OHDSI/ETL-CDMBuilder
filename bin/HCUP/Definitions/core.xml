@@ -1,7 +1,9 @@
 ﻿<QueryDefinition>
   <Query>
+    with a as
+    (
     SELECT
-    isnull(cast(key_nis as bigint), [key]) as [key],
+    cast(cast(key_nis as varchar) + cast(year as varchar) as bigint) as [key],
     female,
     case
     when female = 1 then 'female'
@@ -68,9 +70,83 @@
     1 as fake
 
     FROM {sc}.CORE
-    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND isnull(cast(key_nis as bigint), [key]) = ch.PERSON_ID
-    where ([key] is not null or key_nis is not null) and (age >= 0 or (age = 0 and ageday &lt; 0))
-    order by isnull(cast(key_nis as bigint), [key])
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND key_nis = cast(ch.PERSON_SOURCE_VALUE as bigint)
+    where key_nis is not null and (age >= 0 or (age = 0 and ageday &lt; 0)) and cast(cast(key_nis as varchar) + cast(year as varchar) as bigint) = ch.PERSON_ID
+    union
+    SELECT
+    cast(cast([key] as varchar) + cast(year as varchar) as bigint) as [key],
+    female,
+    case
+    when female = 1 then 'female'
+    when female = 0 then 'male'
+    else '0'
+    end as gender,
+    age,
+    ageday,
+    race,
+    case
+    when race=1 then 8527
+    when race=2 then 8516
+    when race=3 then 8522
+    when race=4 then 8557
+    when race=5 then 8657
+    when race=6 then 0
+    else 0
+    end as race_concept_id,
+    case
+    when race=3 then 38003563
+    else 0
+    end as ethnicity_concept_id,
+    case
+    when race=3 then race
+    else NULL
+    end as ethnicity_source_value,
+    age_neonate,
+
+    44814724 as period_type_concept_id,
+    9201 as visit_concept_id,
+    year,
+    amonth,
+    aweekend,
+    los,
+    hospid,
+
+    dx1, dx2, dx3, dx4, dx5,
+    dx6, dx7, dx8, dx9, dx10,
+    dx11, dx12, dx13, dx14, dx15,
+    dx16, dx17, dx18, dx19, dx20,
+    dx21, dx22, dx23, dx24, dx25,
+
+    ecode1,
+    ecode2,
+    ecode3,
+    ecode4,
+
+    died,
+
+    pr1, pr2, pr3, pr4, pr5,
+    pr6, pr7, pr8, pr9, pr10,
+    pr11, pr12, pr13, pr14, pr15,
+
+
+    prday1, prday2, prday3, prday4, prday5,
+    prday6, prday7, prday8, prday9, prday10,
+    prday11, prday12, prday13, prday14, prday15,
+
+    drg,
+
+    discwt,
+
+    CAST((CAST(year AS VARCHAR) + '-01' + '-01') AS DATE) as start_date,
+    1 as fake
+
+    FROM {sc}.CORE
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND [key] = cast(ch.PERSON_SOURCE_VALUE as bigint)
+    where [key] is not null and (age >= 0 or (age = 0 and ageday &lt; 0)) and cast(cast([key] as varchar) + cast(year as varchar) as bigint) = ch.PERSON_ID
+    )
+
+    select * from a
+    order by [key]
   </Query>
   <Persons>
     <PersonDefinition>
@@ -94,9 +170,10 @@
       </AdditionalFields>
     </PersonDefinition>
   </Persons>
-  
+
   <VisitOccurrence>
     <VisitOccurrenceDefinition>
+      <Id>key</Id>
       <PersonId>key</PersonId>
       <StartDate>start_date</StartDate>
       <EndDate>start_date</EndDate>
@@ -118,6 +195,7 @@
 
   <ConditionOccurrence>
     <ConditionOccurrenceDefinition>
+      <VisitOccurrenceId>key</VisitOccurrenceId>
       <PersonId>key</PersonId>
       <StartDate>start_date</StartDate>
       <Concepts>
@@ -168,10 +246,11 @@
       </Concepts>
     </ConditionOccurrenceDefinition>
   </ConditionOccurrence>
-  
+
   <Observation>
     <ObservationDefinition>
       <Condition>{fake} = 0</Condition>
+      <VisitOccurrenceId>key</VisitOccurrenceId>
       <PersonId>key</PersonId>
       <StartDate>start_date</StartDate>
       <Concepts>
@@ -188,6 +267,7 @@
       </Concepts>
     </ObservationDefinition>
     <ObservationDefinition>
+      <VisitOccurrenceId>key</VisitOccurrenceId>
       <PersonId>key</PersonId>
       <StartDate>start_date</StartDate>
       <ValuesAsNumber>
@@ -202,6 +282,7 @@
       </Concepts>
     </ObservationDefinition>
     <ObservationDefinition>
+      <VisitOccurrenceId>key</VisitOccurrenceId>
       <PersonId>key</PersonId>
       <StartDate>start_date</StartDate>
       <Concepts>
@@ -242,6 +323,7 @@
 
   <ProcedureOccurrence>
     <ProcedureOccurrenceDefinition>
+      <VisitOccurrenceId>key</VisitOccurrenceId>
       <PersonId>key</PersonId>
       <StartDate>start_date</StartDate>
       <AdditionalFields>
@@ -250,19 +332,19 @@
         <string>prday3</string>
         <string>prday4</string>
         <string>prday5</string>
-      
+
         <string>prday6</string>
         <string>prday7</string>
         <string>prday8</string>
         <string>prday9</string>
         <string>prday10</string>
-      
+
         <string>prday11</string>
         <string>prday12</string>
         <string>prday13</string>
         <string>prday14</string>
         <string>prday15</string>
-      
+
         <string>los</string>
       </AdditionalFields>
       <Concepts>
@@ -283,13 +365,13 @@
             <Field key="PR3" defaultTypeId="2"/>
             <Field key="PR4" defaultTypeId="3"/>
             <Field key="PR5" defaultTypeId="4"/>
-            
+
             <Field key="PR6" defaultTypeId="5"/>
             <Field key="PR7" defaultTypeId="6"/>
             <Field key="PR8" defaultTypeId="7"/>
             <Field key="PR9" defaultTypeId="8"/>
             <Field key="PR10" defaultTypeId="9"/>
-            
+
             <Field key="PR11" defaultTypeId="10"/>
             <Field key="PR12" defaultTypeId="11"/>
             <Field key="PR13" defaultTypeId="12"/>

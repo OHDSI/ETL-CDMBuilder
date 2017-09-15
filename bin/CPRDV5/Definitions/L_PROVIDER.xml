@@ -5,12 +5,14 @@
      cast(Right(cast(staffid as varchar), 3) as int) as CARE_SITE_ID,
      cast(staffid as varchar) as PROVIDER_SOURCE_VALUE,
      cast(ISNULL(role, 0) as varchar) as SPECIALTY_SOURCE_VALUE,
+     cast(ISNULL(role, 0) as varchar) as SPECIALTY_SOURCE_KEY,
      ISNULL(gender, 0) as gender
-     from {sc}.Staff
+     from dbo.Staff
      union
      (select record_count+5000000000 as PROVIDER_ID,
      CARE_SITE_ID,
      PROVIDER_SOURCE_VALUE,
+     SPECIALTY_SOURCE_KEY,
      SPECIALTY_SOURCE_VALUE,
      0 as gender
      from
@@ -23,20 +25,23 @@
      null as DEA,
      cast(null as int) as CARE_SITE_ID,
      a.pconsult as PROVIDER_SOURCE_VALUE,
-     ISNULL(a.tretspef, '0') as SPECIALTY_SOURCE_VALUE
+     a.tretspef as SPECIALTY_SOURCE_VALUE,
+     case
+     when a.tretspef = '&amp;' then NULL
+     else a.tretspef
+     end as SPECIALTY_SOURCE_KEY
      from (select *
      from
      (select *, row_number() over (partition by pconsult order by count_spec desc) as prov_count
      from
      (select pconsult, tretspef, count(patid) as count_spec
-     from {sc}.HES_episodes a
+     from dbo.HES_episodes a
      where pconsult != '&amp;'
      group by pconsult, tretspef) a) b
      where prov_count=1
      ) a
      ) b
      ) c)
-
    </Query>
    <Providers>
       <ProviderDefinition>
@@ -52,7 +57,7 @@
                   </Mapper>
                </ConceptIdMappers>
                <Fields>
-                  <Field key="SPECIALTY_SOURCE_VALUE" defaultConceptId="0"/>
+                  <Field key="SPECIALTY_SOURCE_KEY" sourceKey="SPECIALTY_SOURCE_VALUE" defaultConceptId="38004514"/>
                </Fields>
             </Concept>
          </Concepts>

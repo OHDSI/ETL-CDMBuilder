@@ -7,7 +7,7 @@
     when encid = '' or encid is null then NULL
     else cast(replace(encid, 'E0000','') as bigint)
     end as VisitOccurrenceId,
-    drug_name,
+    substring(drug_name, 1, 250) as drug_name,
     reason_general
     from {sc}.nlp_drug_rationale
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND ptid = ch.PERSON_SOURCE_VALUE

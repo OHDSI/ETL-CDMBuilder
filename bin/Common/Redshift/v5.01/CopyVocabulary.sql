@@ -22,7 +22,7 @@ CREATE TABLE {sc}.concept
 	valid_end_date DATE NOT NULL,
 	invalid_reason VARCHAR(1)
 )
-DISTSTYLE EVEN;
+DISTSTYLE ALL;
 
 
 CREATE TABLE {sc}.concept_ancestor
@@ -32,7 +32,7 @@ CREATE TABLE {sc}.concept_ancestor
 	min_levels_of_separation INTEGER NOT NULL,
 	max_levels_of_separation INTEGER NOT NULL
 )
-DISTSTYLE EVEN;
+DISTSTYLE ALL;
 
 CREATE TABLE {sc}.concept_class
 (
@@ -40,7 +40,7 @@ CREATE TABLE {sc}.concept_class
 	concept_class_name VARCHAR(255) NOT NULL,
 	concept_class_concept_id INTEGER NOT NULL
 )
-DISTSTYLE EVEN;
+DISTSTYLE ALL;
 
 CREATE TABLE {sc}.concept_relationship
 (
@@ -51,7 +51,7 @@ CREATE TABLE {sc}.concept_relationship
 	valid_end_date DATE NOT NULL,
 	invalid_reason VARCHAR(1)
 )
-DISTSTYLE EVEN;
+DISTSTYLE ALL;
 
 CREATE TABLE {sc}.concept_synonym
 (
@@ -59,7 +59,7 @@ CREATE TABLE {sc}.concept_synonym
 	concept_synonym_name VARCHAR(1000) NOT NULL,
 	language_concept_id INTEGER NOT NULL
 )
-DISTSTYLE EVEN;
+DISTSTYLE ALL;
 
 CREATE TABLE {sc}.domain
 (
@@ -67,7 +67,7 @@ CREATE TABLE {sc}.domain
 	domain_name VARCHAR(255) NOT NULL,
 	domain_concept_id INTEGER NOT NULL
 )
-DISTSTYLE EVEN;
+DISTSTYLE ALL;
 
 CREATE TABLE {sc}.drug_strength
 (
@@ -84,7 +84,7 @@ CREATE TABLE {sc}.drug_strength
 	valid_end_date DATE NOT NULL,
 	invalid_reason VARCHAR(1)
 )
-DISTSTYLE EVEN;
+DISTSTYLE ALL;
 
 CREATE TABLE {sc}.relationship
 (
@@ -95,7 +95,7 @@ CREATE TABLE {sc}.relationship
 	reverse_relationship_id VARCHAR(20) NOT NULL,
 	relationship_concept_id INTEGER NOT NULL
 )
-DISTSTYLE EVEN;
+DISTSTYLE ALL;
 
 CREATE TABLE {sc}.source_to_concept_map
 (
@@ -109,7 +109,7 @@ CREATE TABLE {sc}.source_to_concept_map
 	valid_end_date DATE NOT NULL,
 	invalid_reason VARCHAR(1)
 )
-DISTSTYLE EVEN;
+DISTSTYLE ALL;
 
 CREATE TABLE {sc}.vocabulary
 (
@@ -119,7 +119,7 @@ CREATE TABLE {sc}.vocabulary
 	vocabulary_version VARCHAR(255),
 	vocabulary_concept_id INTEGER NOT NULL
 )
-DISTSTYLE EVEN;
+DISTSTYLE ALL;
 
 
 

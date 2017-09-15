@@ -1,3 +1,3 @@
 ﻿SELECT distinct concept_name, concept_id
 FROM {sc}.concept
-where domain_id='Unit' and vocabulary_id='UCUM'
+where lower(domain_id)='unit' and lower(vocabulary_id)='ucum'

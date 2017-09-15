@@ -91,7 +91,7 @@
     <ConditionOccurrenceDefinition>
       <Condition>{DXVER} = 9</Condition>
       <PersonId>ENROLID</PersonId>
-      <StartDate>ADMDATE</StartDate>
+      <StartDate>SVCDATE</StartDate>
       <ProviderIdKey>ProviderIdKey</ProviderIdKey>
       <AdditionalFields>
         <string>priority</string>
@@ -127,7 +127,7 @@
     <ConditionOccurrenceDefinition>
       <Condition>{DXVER} = 0</Condition>
       <PersonId>ENROLID</PersonId>
-      <StartDate>ADMDATE</StartDate>
+      <StartDate>SVCDATE</StartDate>
       <ProviderIdKey>ProviderIdKey</ProviderIdKey>
       <AdditionalFields>
         <string>priority</string>
@@ -187,7 +187,6 @@
   </DrugExposure>
   <ProcedureOccurrence>
     <ProcedureOccurrenceDefinition>
-      <Condition>{PROCTYP} = 9</Condition>
       <PersonId>ENROLID</PersonId>
       <StartDate>SVCDATE</StartDate>
       <EndDate>TSVCDAT</EndDate>
@@ -227,41 +226,6 @@
           </ConceptIdMappers>
           <Fields>
             <Field key="PROCMOD"/>
-          </Fields>
-        </Concept>
-      </Concepts>
-    </ProcedureOccurrenceDefinition>
-    <ProcedureOccurrenceDefinition>
-      <Condition>{PROCTYP} = 0</Condition>
-      <PersonId>ENROLID</PersonId>
-      <StartDate>SVCDATE</StartDate>
-      <EndDate>TSVCDAT</EndDate>
-      <ProviderIdKey>ProviderIdKey</ProviderIdKey>
-      <AdditionalFields>
-        <string>priority</string>
-        <string>FACHDID</string>
-        <string>CASEID</string>
-        <string>YEAR</string>
-        <string>DX1</string>
-        <string>PROVID</string>
-        <string>STDPROV</string>
-        <string>PROCTYP</string>
-      </AdditionalFields>
-      <Concepts>
-        <Concept>
-          <!--<IdRequired>true</IdRequired>-->
-          <ConceptIdMappers>
-            <Mapper>
-              <Lookup>TruvenV5\Lookups\Procedure_ICD10.sql</Lookup>
-            </Mapper>
-          </ConceptIdMappers>
-          <SourceConceptIdMappers>
-            <Mapper>
-              <Lookup>TruvenV5\Lookups\ProcedureSource_ICD10.sql</Lookup>
-            </Mapper>
-          </SourceConceptIdMappers>
-          <Fields>
-            <Field key="PROC1" defaultTypeId="1" isNullable="true"/>
           </Fields>
         </Concept>
       </Concepts>

@@ -1,6 +1,23 @@
 ﻿<QueryDefinition>
   <Query>
-    with a as
+    with e_p as
+    (
+    SELECT encid
+    ,ep.provid
+    ,provider_role
+    ,specialty
+    ,case when lower(provider_role) = 'attending' then 0 else 1 end as is_attending
+    ,ROW_NUMBER() OVER(partition by encid ORDER BY case when lower(provider_role) = 'attending' then 0 else 1 end, provider_role, specialty) sort_index
+    FROM {sc}.encounter_provider ep
+    join {sc}.provider p on p.provid = ep.provid
+    ),
+    e_p_filtered as
+    (
+    select encid, provid
+    from e_p
+    where sort_index = 1
+    ),
+    a as
     (
     select
     cast(replace(v.ptid, 'PT','') as bigint) as PersonId,
@@ -18,7 +35,7 @@
     from {sc}.visit v
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND v.ptid = ch.PERSON_SOURCE_VALUE
     join {sc}.encounter e on v.visitid = e.visitid
-    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = e.encid
+    LEFT JOIN e_p_filtered as ec ON ec.encid = e.encid
     where e.encid is not NULL and e.encid != ''
     )
 

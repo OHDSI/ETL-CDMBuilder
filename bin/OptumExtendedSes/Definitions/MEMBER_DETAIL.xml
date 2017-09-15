@@ -18,6 +18,8 @@
     <Variable name="location" database="ses">DIVISION as Location</Variable>
     <Variable name="location" database="dod">STATE as Location</Variable>
 
+    <Variable name="familysource" database="ses">NULL as familysource</Variable>
+    <Variable name="familysource" database="dod">family_id as familysource</Variable>
   </Variables>
   <Query>
     with a as
@@ -38,6 +40,7 @@
     {race},
     {ethnicity},
     {location},
+    {familysource},
     COALESCE(bus,'') + ' ' bus,
     CASE
     WHEN ASO = 'Y' THEN '(ASO) '
@@ -92,6 +95,7 @@
       <EndDate>eligend</EndDate>
       <PayerSource>PayerSource</PayerSource>
       <PlanSource>PAT_PLANID</PlanSource>
+      <FamilySourceValue>familysource</FamilySourceValue>
     </PayerPlanPeriodDefinition>
   </PayerPlanPeriods>
 </QueryDefinition>

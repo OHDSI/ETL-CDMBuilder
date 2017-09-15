@@ -1,8 +1,18 @@
 ﻿<QueryDefinition>
    <Query>
-     select provid, specialty
+     SELECT provid, specialty
+     FROM (
+     select
+     provid,
+     specialty,
+     prim_spec_ind,
+     row_number() over (
+     partition by provid, specialty
+     order by prim_spec_ind desc
+     ) ordinal
      from {sc}.provider
-     where prim_spec_ind = 1
+     ) P
+     WHERE P.ordinal = 1
    </Query>
    <Providers>
       <ProviderDefinition>
@@ -16,7 +26,7 @@
                   </Mapper>
                </ConceptIdMappers>
                <Fields>
-                  <Field key="specialty"/>
+                  <Field key="specialty" ignoreCase="true"/>
                </Fields>
             </Concept>
          </Concepts>

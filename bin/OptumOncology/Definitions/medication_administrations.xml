@@ -7,10 +7,7 @@
     when m.encid = '' or m.encid is null then NULL
     else cast(replace(m.encid, 'E0000','') as bigint)
     end as VisitOccurrenceId,
-    case
-    when m.provid is null then ec.provid
-    else m.provid
-    end as provid,
+    m.provid,
     m.order_date,
     m.route,
     m.dose_frequency,
@@ -35,7 +32,6 @@
     m.ndc
     from {sc}.medication_administrations as m
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND m.ptid = ch.PERSON_SOURCE_VALUE
-    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = m.encid
     where ndc is not NULL
     order by cast(replace(m.ptid, 'PT','') as bigint)
   </Query>

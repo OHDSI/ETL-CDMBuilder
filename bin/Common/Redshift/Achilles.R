@@ -10,10 +10,10 @@ install.packages("fastmatch", repos=c("http://rstudio.org/_packages", "http://cr
 if (Sys.getenv("JAVA_HOME")!="")
   Sys.setenv(JAVA_HOME="")
 
-install_github("OHDSI/SqlRender")
+install_github("alondhe/SqlRender")
 install_github("OHDSI/DatabaseConnector")
 #install_github("OHDSI/Achilles")
-install_github(repo = "OHDSI/Achilles", ref = "1.3.0")
+install_github(repo = "OHDSI/Achilles")
 library(Achilles)
 library(SqlRender)
 
@@ -50,6 +50,12 @@ outputRoot <- "{achillesJsonFolder}" # need to put a root folder for JSON file e
 runCostAnalysis <- {runCostAnalysis} # this should be a parameter in the wrapper or UI
 cdmVersion <- "{cdmVersion}" # this should be a parameter in the wrapper or UI
 resultsDatabaseSchema <- "{resultsSchema}" ### edited to use ohdsi_results as location to write to
+
+# override runCostAnalysis to FALSE if version is 5.0.1, Achilles can't run cost analysis yet for 5.0.1
+if (cdmVersion == '5.0.1')
+{
+	runCostAnalysis <- FALSE
+}
 
 jsonPath <- paste0(outputRoot, "/", paste(db, loadId, sep = "_", collapse = ""))
 unlink(x = jsonPath, recursive = TRUE, force = TRUE) 

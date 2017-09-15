@@ -8,10 +8,7 @@
     else cast(replace(p.encid, 'E0000','') as bigint)
     end as VisitOccurrenceId,
     proc_date,
-    case
-    when p.provid_perform is null then ec.provid
-    else p.provid_perform
-    end as provid,
+    p.provid_perform as provid,
     case
     when proc_code_type IN ('CPT4', 'HCPCS', 'ICD9', 'ICD10') then proc_code
     else NULL
@@ -27,7 +24,6 @@
 
     from {sc}.procedure as p
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND p.ptid = ch.PERSON_SOURCE_VALUE
-    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = p.encid
 
     where proc_code is not NULL
     order by cast(replace(p.ptid, 'PT','') as bigint)

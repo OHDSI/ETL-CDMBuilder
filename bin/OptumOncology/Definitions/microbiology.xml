@@ -9,12 +9,10 @@
     m.collect_date,
     m.collect_time,
     m.specimen_source,
-    ec.provid,
     m.organism
 
     from {sc}.microbiology m
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND m.ptid = ch.PERSON_SOURCE_VALUE
-    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = m.encid
     order by cast(replace(m.ptid, 'PT','') as bigint)
   </Query>
   <Observation>
@@ -23,7 +21,6 @@
       <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
       <StartDate>collect_date</StartDate>
       <Time>collect_time</Time>
-      <ProviderId>provid</ProviderId>
       <ValuesAsString>
         <string>organism</string>
       </ValuesAsString>

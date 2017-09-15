@@ -1,7 +1,7 @@
 ﻿<QueryDefinition>
    <Query>
      select distinct
-     pat.medrec_key,
+     cast(pat.medrec_key as bigint),
      pat.disc_date as procedure_date,
      case
      when pat.i_o_ind = 'I' then 38000249

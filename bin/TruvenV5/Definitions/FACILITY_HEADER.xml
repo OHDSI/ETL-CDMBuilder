@@ -170,7 +170,6 @@
   </DrugExposure>
   <ProcedureOccurrence>
     <ProcedureOccurrenceDefinition>
-      <Condition>{PROCTYP} = 9</Condition>
       <PersonId>ENROLID</PersonId>
       <StartDate>SVCDATE</StartDate>
       <ProviderIdKey>ProviderIdKey</ProviderIdKey>
@@ -194,44 +193,6 @@
           <SourceConceptIdMappers>
             <Mapper>
               <Lookup>TruvenV5\Lookups\ProcedureSource.sql</Lookup>
-            </Mapper>
-          </SourceConceptIdMappers>
-          <Fields>
-            <Field key="PROC1" defaultTypeId="2"/>
-            <Field key="PROC2" defaultTypeId="3"/>
-            <Field key="PROC3" defaultTypeId="4"/>
-            <Field key="PROC4" defaultTypeId="5"/>
-            <Field key="PROC5" defaultTypeId="6"/>
-            <Field key="PROC6" defaultTypeId="7"/>
-          </Fields>
-        </Concept>
-      </Concepts>
-    </ProcedureOccurrenceDefinition>
-    <ProcedureOccurrenceDefinition>
-      <Condition>{PROCTYP} = 0</Condition>
-      <PersonId>ENROLID</PersonId>
-      <StartDate>SVCDATE</StartDate>
-      <ProviderIdKey>ProviderIdKey</ProviderIdKey>
-      <AdditionalFields>
-        <string>FACHDID</string>
-        <string>YEAR</string>
-        <string>priority</string>
-        <string>DX1</string>
-        <string>PROVID</string>
-        <string>STDPROV</string>
-        <string>PROCTYP</string>
-      </AdditionalFields>
-      <Concepts>
-        <Concept>
-          <!--<IdRequired>true</IdRequired>-->
-          <ConceptIdMappers>
-            <Mapper>
-              <Lookup>TruvenV5\Lookups\Procedure_ICD10.sql</Lookup>
-            </Mapper>
-          </ConceptIdMappers>
-          <SourceConceptIdMappers>
-            <Mapper>
-              <Lookup>TruvenV5\Lookups\ProcedureSource_ICD10.sql</Lookup>
             </Mapper>
           </SourceConceptIdMappers>
           <Fields>

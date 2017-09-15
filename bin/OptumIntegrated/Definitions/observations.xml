@@ -2,12 +2,14 @@
   <Query>
     select
     cast(replace(o.ptid, 'PT','') as bigint) as PersonId,
-    cast(replace(o.encid, 'E0000','') as bigint) as VisitOccurrenceId,
+    case
+    when o.encid = '' or o.encid is null then NULL
+    else cast(replace(o.encid, 'E0000','') as bigint)
+    end as VisitOccurrenceId,
     o.obs_type,
     o.obs_date,
     o.obs_time,
     o.obs_unit,
-    ec.provid,
     o.obsresult as test_result,
     'observations' as source,
     CASE
@@ -35,8 +37,6 @@
     'oncology' source_type
     from {sc}.observations o
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND o.ptid = ch.PERSON_SOURCE_VALUE
-    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = o.encid
-    where o.encid is not NULL and o.encid != ''
     order by cast(replace(o.ptid, 'PT','') as bigint)
   </Query>
   <!--<Measurement>
@@ -45,7 +45,6 @@
       <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
       <StartDate>obs_date</StartDate>
       <Time>obs_time</Time>
-      <ProviderId>provid</ProviderId>
       <ValueSourceValue>test_result</ValueSourceValue>
       <AdditionalFields>
         <string>test_result</string>
@@ -83,7 +82,6 @@
       <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
       <StartDate>obs_date</StartDate>
       <Time>obs_time</Time>
-      <ProviderId>provid</ProviderId>
       <ValueSourceValue>test_result</ValueSourceValue>
       <ValueAsConceptId>ValueAsConceptId</ValueAsConceptId>
       <AdditionalFields>

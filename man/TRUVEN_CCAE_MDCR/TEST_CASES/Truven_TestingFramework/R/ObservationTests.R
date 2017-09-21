@@ -52,5 +52,14 @@ createObservationTests <- function () {
   add_enrollment_detail(enrolid=patient$enrolid, dtend = '2012-12-31', dtstart = '2012-01-01')
   add_health_risk_assessment(enrolid = patient$enrolid, survdate = '2012-03-14', cgtpkamt = '2')
   expect_observation(person_id = patient$person_id, observation_source_value = 'CGTPKAMT', value_as_number = '2', observation_date = '2012-03-14', value_as_string = '1 pack per day or more')
+  
+  #This will test HIX-1299
+  patient <- createPatient()
+  encounter <- createEncounter()  
+  declareTest("Patient answered 1 for question FLU_SHOT, drug_exposure record created", source_pid = patient$enrolid, cdm_pid = patient$person_id)
+  add_enrollment_detail(enrolid=patient$enrolid, dtend = '2012-12-31', dtstart = '2012-01-01')
+  add_health_risk_assessment(enrolid = patient$enrolid, survdate = '2012-05-25', flu_shot = '1')
+  expect_drug_exposure(person_id = patient$person_id, drug_exposure_end_date = NULL, drug_concept_id = '4214838')
+  
   }
 }

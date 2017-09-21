@@ -21,7 +21,7 @@ createConditionOccurrenceTests <- function () {
   declareTest("Patient has diagnosis in dx4 field in inpatient_services, condition_type_concept_id = 38000187", source_pid = patient$enrolid, cdm_pid = patient$person_id)
   add_enrollment_detail(enrolid=patient$enrolid, dtend = '2012-12-31', dtstart = '2012-01-01')
   add_inpatient_services(enrolid = patient$enrolid, svcdate = '2012-07-23', tsvcdat = '2012-07-23', dx4='57411', dxver='9')
-  expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = '195587', condition_type_concept_id = '38000187')
+  expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = '195587', condition_type_concept_id = '38000187', condition_start_date = '2012-07-23')
   
   patient <- createPatient()
   encounter <- createEncounter()
@@ -100,3 +100,14 @@ createConditionOccurrenceTests <- function () {
     expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = '4053838', condition_type_concept_id = '38000215')
   }
 }
+
+  #This will test HIX-1274
+  patient <- createPatient()
+  encounter <- createEncounter()
+  declareTest("Patient has two IP records in inpatient_services with svcdate = condition_start_date", source_pid = patient$enrolid, cdm_pid = patient$person_id)
+  add_enrollment_detail(enrolid=patient$enrolid, dtend = '2012-12-31', dtstart = '2012-01-01')
+  add_inpatient_services(enrolid = patient$enrolid, svcdate = '2012-07-01', tsvcdat = '2012-07-01', dx4='57411', dxver='9')
+  add_inpatient_services(enrolid = patient$enrolid, svcdate = '2012-07-02', tsvcdat = '2012-07-02', dx4='57411', dxver='9')
+  expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = '195587', condition_type_concept_id = '38000187', condition_start_date = '2012-07-01')
+  expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = '195587', condition_type_concept_id = '38000187', condition_start_date = '2012-07-02')
+  

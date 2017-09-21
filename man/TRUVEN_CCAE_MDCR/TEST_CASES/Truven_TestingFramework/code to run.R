@@ -5,9 +5,9 @@
 
 source('main.R')
 
-#Sys.setenv(truvenType = "CCAE");
+Sys.setenv(truvenType = "CCAE");
 #Sys.setenv(truvenType = "MDCR");
-Sys.setenv(truvenType = "MDCD");
+#Sys.setenv(truvenType = "MDCD");
 
 # STEP 2: Run the getSource function to source the proper framework based on the variable set above and then set defaults
 

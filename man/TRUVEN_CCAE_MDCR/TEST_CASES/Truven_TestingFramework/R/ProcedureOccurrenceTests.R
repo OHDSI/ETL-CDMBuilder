@@ -91,4 +91,12 @@ createProcedureOccurrenceTests <- function () {
   add_outpatient_services(enrolid = patient$enrolid, proc1 = 'S9368', svcdate = '2012-05-03', tsvcdat = '2012-05-03')
   expect_observation(person_id = patient$person_id, observation_concept_id = '2721503', observation_date = '2012-05-03')
   
+  #Test case to address issue HIX-1255
+  patient <- createPatient()
+  encounter <- createEncounter()
+  declareTest("Patient has an ICD10PCS value in inpatient_admissions field PPROC, PPROC is correctly mapped and a procedure_occurrence record created", source_pid = patient$enrolid, cdm_pid = patient$person_id)
+  add_enrollment_detail(enrolid=patient$enrolid, dtend = '2012-12-31', dtstart = '2012-01-01')
+  add_inpatient_admissions(caseid = encounter$caseid, enrolid = patient$enrolid, pproc = 'DB025ZZ', year = '2012', admdate = '2012-05-30', disdate = '2012-06-05')
+  expect_procedure_occurrence(person_id = patient$person_id, procedure_concept_id = '2789746', procedure_date = '2012-06-05')
+  
 }

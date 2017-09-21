@@ -1,11 +1,12 @@
 createCostTests <- function () {
   
+  #This will test HIX-1319
   patient <- createPatient()
   encounter <- createEncounter()
-  declareTest("Patient has values in ingcost and and dispfee", source_pid = patient$enrolid, cdm_pid = patient$person_id)
+  declareTest("Patient has values in ingcost, dispfee and AWP", source_pid = patient$enrolid, cdm_pid = patient$person_id)
   add_enrollment_detail(enrolid=patient$enrolid, dtend = '2012-12-31', dtstart = '2012-01-01')
-  add_drug_claims(enrolid = patient$enrolid, copay = '20', ndcnum = '00378510501', svcdate = '2012-02-09', ingcost = '50', dispfee = '25')
-  expect_cost(cost_domain_id = 'Drug', paid_patient_copay = '20', paid_ingredient_cost = '50', paid_dispensing_fee = '25')
+  add_drug_claims(enrolid = patient$enrolid, copay = '20', ndcnum = '00378510501', svcdate = '2012-02-09', ingcost = '50', dispfee = '25', awp = '20')
+  expect_cost(cost_domain_id = 'Drug', paid_patient_copay = '20', paid_ingredient_cost = '50', paid_dispensing_fee = '25', total_cost = '20')
   
   patient <- createPatient()
   encounter <- createEncounter()

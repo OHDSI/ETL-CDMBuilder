@@ -11,7 +11,9 @@ YEAR + KEY/KEY_NIS.
 *******************************************************************************
 * CPRD
 *******************************************************************************
-1) We have been notified by CPRD that we are to remove all HES data from our 
+1) Data update - 6 more months.
+
+2) We have been notified by CPRD that we are to remove all HES data from our 
 environment.  As a result we will be purging this data from the current CDM by 
 rerunning it without the HES data within the raw.  All previous copies of CPRD 
 will need to be deleted.  HES data is available from CPRD through ISAC approval.

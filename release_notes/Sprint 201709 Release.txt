@@ -1,0 +1,17 @@
+*******************************************************************************
+* HCUP
+*******************************************************************************
+1) Data update - one more year.
+
+2) HIX-1339
+This was our first run of HCUP in ETL BUILDER instead of Martijns JCDMBUILDER.  
+There was a bug when KEY_NIS were unique, so the person source key is now 
+YEAR + KEY/KEY_NIS.
+
+*******************************************************************************
+* CPRD
+*******************************************************************************
+1) We have been notified by CPRD that we are to remove all HES data from our 
+environment.  As a result we will be purging this data from the current CDM by 
+rerunning it without the HES data within the raw.  All previous copies of CPRD 
+will need to be deleted.  HES data is available from CPRD through ISAC approval.

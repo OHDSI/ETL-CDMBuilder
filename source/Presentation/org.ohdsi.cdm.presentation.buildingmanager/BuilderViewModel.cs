@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using org.ohdsi.cdm.framework.core;
 using org.ohdsi.cdm.framework.core.Controllers;
+using org.ohdsi.cdm.framework.shared.Attributes;
 using org.ohdsi.cdm.framework.shared.Enums;
 using org.ohdsi.cdm.framework.shared.Extensions;
 
@@ -21,6 +22,7 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
       private string destination;
       private string apsConnectionString;
       private bool storeToAPS;
+      private bool autoSettings;
       private string source;
       private Vendors vendor;
       private string saver;
@@ -117,6 +119,7 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
                if (this.PropertyChanged != null)
                {
                   this.PropertyChanged(this, new PropertyChangedEventArgs("Vendor"));
+                  SetVendorDefaultSettings();
                }
             }
          }
@@ -181,6 +184,22 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
                if (this.PropertyChanged != null)
                {
                   this.PropertyChanged(this, new PropertyChangedEventArgs("APSConnectionString"));
+               }
+            }
+         }
+      }
+
+      public bool AutoSettings
+      {
+         get { return autoSettings; }
+         set
+         {
+            if (value != this.autoSettings)
+            {
+               this.autoSettings = value;
+               if (this.PropertyChanged != null)
+               {
+                  this.PropertyChanged(this, new PropertyChangedEventArgs("AutoSettings"));
                }
             }
          }
@@ -447,8 +466,8 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
             
             if (BuildingStarted)
             {
-               return string.Format("{0} from {1}", buildingController.GetCompleteChunksCount,
-                  buildingController.GetChunksCount);
+               return string.Format("{0} from {1}", buildingController.CompleteChunksCount,
+                  buildingController.ChunksCount);
             }
 
 
@@ -1079,21 +1098,24 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
 
          Settings.Initialize(Builder, Environment.MachineName);
          
-         if (!Settings.Current.Builder.IsNew)
-         {
-            BatchSize = Settings.Current.Builder.BatchSize;
-            MaxDegreeOfParallelism = Settings.Current.Builder.MaxDegreeOfParallelism;
-         }
-
          if (Settings.Current.Building.Id.HasValue)
          {
+            Batches = Settings.Current.Building.Batches;
+            BatchSize = Settings.Current.Building.BatchSize;
+            
             Source = Settings.Current.Building.RawSourceConnectionString;
             Destination = Settings.Current.Building.RawDestinationConnectionString;
             Vocabulary = Settings.Current.Building.RawVocabularyConnectionString;
             Vendor = Settings.Current.Building.Vendor;
          }
 
+         if (Settings.Current.Builder.Id.HasValue)
+         {
+            MaxDegreeOfParallelism = Settings.Current.Builder.MaxDegreeOfParallelism;
+         }
+
          StoreToAPS = Settings.Current.StoreToAPS;
+         AutoSettings = Settings.Current.AutoSettings;
          APSConnectionString = Settings.Current.APSConnectionString;
          
          timer.Elapsed += OnTimer;
@@ -1111,9 +1133,7 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
       private void SetDefaultSettings()
       {
          ConfigurationManager.RefreshSection("connectionStrings");
-         BatchSize = Convert.ToInt32(ConfigurationManager.AppSettings["BatchSize"]);
-         Batches = Convert.ToInt32(ConfigurationManager.AppSettings["Batches"]);
-         MaxDegreeOfParallelism = Convert.ToInt32(ConfigurationManager.AppSettings["MaxDegreeOfParallelism"]);
+         
          Source = ConfigurationManager.ConnectionStrings["Source"].ConnectionString;
          Destination = ConfigurationManager.ConnectionStrings["Destination"].ConnectionString;
          Vocabulary = ConfigurationManager.ConnectionStrings["Vocabulary"].ConnectionString;
@@ -1121,9 +1141,17 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
 
          Saver = "Db";
          Vendor = Vendors.Truven_CCAE;
-
+         
          ButtonEnabled = true;
          SettingUnlocked = true;
+         SetVendorDefaultSettings();
+      }
+
+      private void SetVendorDefaultSettings()
+      {
+         Batches = Vendor.GetAttribute<NumOfChunks>().Value;
+         BatchSize = Vendor.GetAttribute<ChunkSize>().Value;
+         MaxDegreeOfParallelism = Vendor.GetAttribute<MaxDegreeOfParallelism>().Value; 
       }
 
       private void UpdateState()
@@ -1181,6 +1209,7 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
 
             this.PropertyChanged(this, new PropertyChangedEventArgs("APSConnectionString"));
             this.PropertyChanged(this, new PropertyChangedEventArgs("StoreToAPS"));
+            this.PropertyChanged(this, new PropertyChangedEventArgs("AutoSettings"));
          }
       }
 
@@ -1223,6 +1252,8 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
                Destination = Settings.Current.Building.RawDestinationConnectionString;
                Vocabulary = Settings.Current.Building.RawVocabularyConnectionString;
                Vendor = Settings.Current.Building.Vendor;
+
+               BatchSize = Settings.Current.Building.Batches;
             }
          }
       }
@@ -1246,10 +1277,10 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
 
       private void UpdateSettings()
       {
-         Settings.Current.Builder.BatchSize = BatchSize;
          Settings.Current.Builder.MaxDegreeOfParallelism = MaxDegreeOfParallelism;
          Settings.Current.Builder.Folder = AppDomain.CurrentDomain.BaseDirectory;
 
+         Settings.Current.Building.BatchSize = BatchSize;
          Settings.Current.Building.RawSourceConnectionString = Source;
          Settings.Current.Building.RawDestinationConnectionString = Destination;
          Settings.Current.Building.RawVocabularyConnectionString = Vocabulary;

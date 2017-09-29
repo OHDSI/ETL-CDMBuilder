@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.entities.Omop;
@@ -41,12 +42,6 @@ namespace org.ohdsi.cdm.framework.core.Definitions
             locationId = Vocabulary.LookupLocation(locationSourceValue);
          }
 
-         var observationPeriodGap = 32;
-         if(!string.IsNullOrEmpty(ObservationPeriodGap))
-         {
-            observationPeriodGap = int.Parse(ObservationPeriodGap);
-         }
-
          var genderSource = reader.GetString(Gender);
          var genderConceptId = Vocabulary.LookupGender(genderSource);
 
@@ -56,16 +51,16 @@ namespace org.ohdsi.cdm.framework.core.Definitions
             Dictionary<string, string> additionalFields = null;
             if (AdditionalFields != null)
             {
-               additionalFields = new Dictionary<string, string>(AdditionalFields.Length);
+               additionalFields = new Dictionary<string, string>(AdditionalFields.Length, StringComparer.OrdinalIgnoreCase);
                foreach (var additionalField in AdditionalFields)
                {
-                  additionalFields.Add(additionalField.ToLower(), reader.GetString(additionalField));
+                  additionalFields.Add(additionalField, reader.GetString(additionalField));
                }
             }
 
             yield return new Person
                             {
-                               ObservationPeriodGap = observationPeriodGap,
+                               ObservationPeriodGap = reader.GetInt(ObservationPeriodGap) ?? 32,
                                AdditionalFields = additionalFields,
                                PersonId = personId.Value,
                                StartDate = reader.GetDateTime(StartDate),

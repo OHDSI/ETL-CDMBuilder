@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using org.ohdsi.cdm.framework.core.Base;
 using org.ohdsi.cdm.framework.entities.Omop;
-using org.ohdsi.cdm.framework.shared.Enums;
 using org.ohdsi.cdm.framework.shared.Extensions;
 using org.ohdsi.cdm.framework.shared.Validators;
 
@@ -43,10 +42,10 @@ namespace org.ohdsi.cdm.builders.optumextendedses
       {
          var visits = new List<VisitOccurrence>();
 
-         foreach (var ipGroup in visitOccurrences.GroupBy(vo => vo.AdditionalFields["pat_planid"]))
+         //foreach (var ipGroup in visitOccurrences.GroupBy(vo => vo.AdditionalFields["pat_planid"]))
          {
             var ipVisits = new List<VisitOccurrence>();
-            foreach (var claim in ipGroup.Where(vo => vo.ConceptId == 9201).OrderBy(vo => vo.StartDate).ThenBy(vo => vo.EndDate))//IP - 9201
+            foreach (var claim in visitOccurrences.Where(vo => vo.ConceptId == 9201).OrderBy(vo => vo.StartDate).ThenBy(vo => vo.EndDate))//IP - 9201
             {
                if (ipVisits.Count > 0)
                {
@@ -159,9 +158,9 @@ namespace org.ohdsi.cdm.builders.optumextendedses
          }
 
          // collapse claims with the same FST_DT in ER table as one unique ER visit
-         foreach (var patplanidGroup in erVisits.GroupBy(vo => vo.AdditionalFields["pat_planid"]))
+         //foreach (var patplanidGroup in erVisits.GroupBy(vo => vo.AdditionalFields["pat_planid"]))
          {
-            foreach (var erGroup in patplanidGroup.GroupBy(v => v.StartDate))
+            foreach (var erGroup in erVisits.GroupBy(v => v.StartDate))
             {
                var visit = erGroup.First();
                visit.EndDate = erGroup.Max(v => v.EndDate);
@@ -176,9 +175,9 @@ namespace org.ohdsi.cdm.builders.optumextendedses
             }
          }
 
-         foreach (var patplanidGroup in opVisits.GroupBy(vo => vo.AdditionalFields["pat_planid"]))
+         //foreach (var patplanidGroup in opVisits.GroupBy(vo => vo.AdditionalFields["pat_planid"]))
          {
-            foreach (var opGroup in patplanidGroup.GroupBy(v => v.StartDate))
+            foreach (var opGroup in opVisits.GroupBy(v => v.StartDate))
             {
                foreach (var opGroup1 in opGroup.GroupBy(v => v.AdditionalFields["prov"]))
                {
@@ -227,11 +226,11 @@ namespace org.ohdsi.cdm.builders.optumextendedses
 
          if (visitTypeId == 9201)
          {
-            return 38000200 + position;
+            return 38000199 + position;
          }
 
 
-         return 38000230 + position;
+         return 38000229 + position;
       }
 
       private static int GetProcedureTypeConceptId(int position, long visitTypeId)
@@ -509,9 +508,8 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                {
                   foreach (var sameConcept in sameSource.GroupBy(p => p.ConceptId))
                   {
-                     //VISIT_OCCURRENCE_ID,PROCEDURE_SOURCE_VALUE,PROCEDURE_DATE,DIAG1, PROV and PROVCAT
-                     var procedureOccurrence = sameConcept.OrderBy(c => c.AdditionalFields["diag1"])
-                                                         .ThenBy(c => c.AdditionalFields["prov"])
+                     //VISIT_OCCURRENCE_ID,PROCEDURE_SOURCE_VALUE,PROCEDURE_DATE, PROV and PROVCAT
+                     var procedureOccurrence = sameConcept.OrderBy(c => c.AdditionalFields["prov"])
                                                          .ThenBy(c => c.AdditionalFields["provcat"]).First();
 
                      procedureOccurrence.ProcedureCosts.Clear();
@@ -534,8 +532,8 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                {
                   foreach (var sameConcept in sameSource.GroupBy(p => p.ConceptId))
                   {
-                     //visit_occurrence_id, procedure_source_value, poistion and DIAG1, then pick the first one and assign RELEVANT_CONDITION_CONCEPT_ID
-                     var procedureOccurrence = sameConcept.OrderBy(p => p.TypeConceptId).ThenBy(p => p.AdditionalFields["diag1"]).First();
+                     //visit_occurrence_id, procedure_source_value, poistion then pick the first one and assign RELEVANT_CONDITION_CONCEPT_ID
+                     var procedureOccurrence = sameConcept.OrderBy(p => p.TypeConceptId).First();
                      procedureOccurrence.ProviderKey =
                         GetProviderKey(visitOccurrences[procedureOccurrence.VisitOccurrenceId.Value],
                                        procedureOccurrence,
@@ -904,6 +902,119 @@ namespace org.ohdsi.cdm.builders.optumextendedses
             visitOccurrences.Values.ToArray(), visitCosts, new Cohort[0], deviceExposure, devicCosts);
       }
 
+      protected override void SetPayerPlanPeriodId(PayerPlanPeriod[] payerPlanPeriods, DrugExposure[] drugExposures,
+         ProcedureOccurrence[] procedureOccurrences, VisitOccurrence[] visitOccurrences, DeviceExposure[] deviceExposure)
+      {
+         if (!payerPlanPeriods.Any()) return;
+
+         foreach (var de in drugExposures)
+         {
+            if (de.DrugCost == null) continue;
+            foreach (var planPeriod in payerPlanPeriods)
+            {
+               if (de.StartDate.Between(planPeriod.StartDate, planPeriod.EndDate.Value) && de.AdditionalFields["pat_planid"] == planPeriod.PlanSourceValue)
+               {
+                  de.DrugCost.PayerPlanPeriodId = planPeriod.Id;
+                  break;
+               }
+            }
+         }
+
+         foreach (var po in procedureOccurrences)
+         {
+            if (po.ProcedureCosts == null) continue;
+            foreach (var planPeriod in payerPlanPeriods)
+            {
+               if (po.StartDate.Between(planPeriod.StartDate, planPeriod.EndDate.Value) && po.AdditionalFields["pat_planid"] == planPeriod.PlanSourceValue)
+               {
+                  foreach (var procedureCost in po.ProcedureCosts)
+                  {
+                     procedureCost.PayerPlanPeriodId = planPeriod.Id;
+                  }
+
+                  break;
+               }
+            }
+         }
+
+         foreach (var vo in visitOccurrences)
+         {
+            if (vo.VisitCosts == null) continue;
+            foreach (var planPeriod in payerPlanPeriods)
+            {
+               if (vo.StartDate.Between(planPeriod.StartDate, planPeriod.EndDate.Value) && vo.AdditionalFields["pat_planid"] == planPeriod.PlanSourceValue)
+               {
+                  foreach (var visitCost in vo.VisitCosts)
+                  {
+                     visitCost.PayerPlanPeriodId = planPeriod.Id;
+                  }
+
+                  break;
+               }
+            }
+         }
+
+         foreach (var de in deviceExposure)
+         {
+            if (de.DeviceCosts == null) continue;
+            foreach (var planPeriod in payerPlanPeriods)
+            {
+               if (de.StartDate.Between(planPeriod.StartDate, planPeriod.EndDate.Value) && de.AdditionalFields["pat_planid"] == planPeriod.PlanSourceValue)
+               {
+                  foreach (var deviceCost in de.DeviceCosts)
+                  {
+                     deviceCost.PayerPlanPeriodId = planPeriod.Id;
+                  }
+
+                  break;
+               }
+            }
+         }
+      }
+
+      private static Func<ICostV5, Cost> CostV5ToV51_MesObser(string domain)
+      {
+         return v5 => new Cost
+         {
+            CurrencyConceptId = v5.CurrencyConceptId,
+
+            TotalCharge = v5.PaidByCoordinationBenefits,
+            PaidByPatient = v5.PaidCoinsurance + v5.PaidTowardDeductible,
+            PaidPatientCopay = v5.PaidCopay,
+            PaidPatientCoinsurance = v5.PaidCoinsurance,
+            PaidPatientDeductible = v5.PaidTowardDeductible,
+            PaidDispensingFee = v5.DispensingFee,
+            AmountAllowed = v5.TotalPaid,
+            PayerPlanPeriodId = v5.PayerPlanPeriodId,
+            RevenueCodeConceptId = v5.RevenueCodeConceptId,
+            RevenueCodeSourceValue = v5.RevenueCodeSourceValue,
+
+            Domain = domain,
+            TypeId = 0
+         };
+      }
+
+      private static Func<ICostV5, Cost> CostV5ToV51_ProcDev(string domain)
+      {
+         return v5 => new Cost
+         {
+            CurrencyConceptId = v5.CurrencyConceptId,
+
+            TotalCharge = v5.PaidByCoordinationBenefits,
+            PaidByPatient = v5.PaidCoinsurance + v5.PaidTowardDeductible,
+            PaidPatientCopay = v5.PaidCopay,
+            PaidPatientCoinsurance = v5.PaidCoinsurance,
+            PaidPatientDeductible = v5.PaidTowardDeductible,
+            AmountAllowed = v5.TotalPaid,
+            PayerPlanPeriodId = v5.PayerPlanPeriodId,
+            RevenueCodeConceptId = v5.RevenueCodeConceptId,
+            RevenueCodeSourceValue = v5.RevenueCodeSourceValue,
+
+            Domain = domain,
+            TypeId = 0
+         };
+      }
+
       public override void AddToChunk(string domain, IEnumerable<IEntity> entities)
       {
          foreach (var entity in entities)
@@ -959,64 +1070,14 @@ namespace org.ohdsi.cdm.builders.optumextendedses
 
                   chunkData.AddData(mes);
 
-                  if (mes.MeasurementCost != null && mes.MeasurementCost.Count > 0)
-                  {
-                     foreach (var mc in mes.MeasurementCost)
-                     {
-                        chunkData.AddData(new Cost
-                        {
-                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                           CurrencyConceptId = mc.CurrencyConceptId.Value,
-
-                           TotalCharge = mc.PaidByCoordinationBenefits,
-                           PaidByPatient = mc.PaidCoinsurance + mc.PaidTowardDeductible,
-                           PaidPatientCopay = mc.PaidCopay,
-                           PaidPatientCoinsurance = mc.PaidCoinsurance,
-                           PaidPatientDeductible = mc.PaidTowardDeductible,
-                           PaidDispensingFee = mc.DispensingFee,
-                           AmountAllowed = mc.TotalPaid,
-                           PayerPlanPeriodId = mc.PayerPlanPeriodId,
-                           RevenueCodeConceptId = mc.RevenueCodeConceptId,
-                           RevenueCodeSourceValue = mc.RevenueCodeSourceValue,
-
-                           Domain = entityDomain,
-                           TypeId = 0,
-                           EventId = mes.Id
-                        }, EntityType.Cost);
-                     }
-                  }
+                  AddCost(entity, CostV5ToV51_MesObser("Measurement"));
                   break;
 
                case "Meas Value":
                   var mv = entity as Measurement ??
                            new Measurement(entity) {Id = chunkData.KeyMasterOffset.MeasurementId};
                   chunkData.AddData(mv);
-                  if (mv.MeasurementCost != null && mv.MeasurementCost.Count > 0)
-                  {
-                     foreach (var mc in mv.MeasurementCost)
-                     {
-                        chunkData.AddData(new Cost
-                        {
-                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                           CurrencyConceptId = mc.CurrencyConceptId.Value,
-
-                           TotalCharge = mc.PaidByCoordinationBenefits,
-                           PaidByPatient = mc.PaidCoinsurance + mc.PaidTowardDeductible,
-                           PaidPatientCopay = mc.PaidCopay,
-                           PaidPatientCoinsurance = mc.PaidCoinsurance,
-                           PaidPatientDeductible = mc.PaidTowardDeductible,
-                           PaidDispensingFee = mc.DispensingFee,
-                           AmountAllowed = mc.TotalPaid,
-                           PayerPlanPeriodId = mc.PayerPlanPeriodId,
-                           RevenueCodeConceptId = mc.RevenueCodeConceptId,
-                           RevenueCodeSourceValue = mc.RevenueCodeSourceValue,
-
-                           Domain = entityDomain,
-                           TypeId = 0,
-                           EventId = mv.Id
-                        }, EntityType.Cost);
-                     }
-                  }
+                  AddCost(entity, CostV5ToV51_MesObser("Measurement"));
                   break;
 
                case "Observation":
@@ -1035,33 +1096,7 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                   }
 
                   chunkData.AddData(o);
-
-                  if (o.ObservationCost != null && o.ObservationCost.Count > 0)
-                  {
-                     foreach (var oc in o.ObservationCost)
-                     {
-                        chunkData.AddData(new Cost
-                        {
-                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                           CurrencyConceptId = oc.CurrencyConceptId.Value,
-
-                           TotalCharge = oc.PaidByCoordinationBenefits,
-                           PaidByPatient = oc.PaidCoinsurance + oc.PaidTowardDeductible,
-                           PaidPatientCopay = oc.PaidCopay,
-                           PaidPatientCoinsurance = oc.PaidCoinsurance,
-                           PaidPatientDeductible = oc.PaidTowardDeductible,
-                           PaidDispensingFee = oc.DispensingFee,
-                           AmountAllowed = oc.TotalPaid,
-                           PayerPlanPeriodId = oc.PayerPlanPeriodId,
-                           RevenueCodeConceptId = oc.RevenueCodeConceptId,
-                           RevenueCodeSourceValue = oc.RevenueCodeSourceValue,
-
-                           Domain = entityDomain,
-                           TypeId = 0,
-                           EventId = o.Id
-                        }, EntityType.Cost);
-                     }
-                  }
+                  AddCost(entity, CostV5ToV51_MesObser("Observation"));
                   break;
 
                case "Procedure":
@@ -1073,33 +1108,7 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                              };
 
                   chunkData.AddData(p);
-
-                  if (p.ProcedureCosts != null && p.ProcedureCosts.Count > 0)
-                  {
-                     foreach (var pc in p.ProcedureCosts)
-                     {
-                        chunkData.AddData(new Cost
-                        {
-                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                           CurrencyConceptId = pc.CurrencyConceptId,
-
-                           TotalCharge = pc.PaidByCoordinationBenefits,
-                           PaidByPatient = pc.PaidCoinsurance + pc.PaidTowardDeductible,
-                           PaidPatientCopay = pc.PaidCopay,
-                           PaidPatientCoinsurance = pc.PaidCoinsurance,
-                           PaidPatientDeductible = pc.PaidTowardDeductible,
-                           AmountAllowed = pc.TotalPaid,
-                           PayerPlanPeriodId = pc.PayerPlanPeriodId,
-                           RevenueCodeConceptId = pc.RevenueCodeConceptId,
-                           RevenueCodeSourceValue = pc.RevenueCodeSourceValue,
-
-                           Domain = entityDomain,
-                           TypeId = 0,
-                           EventId = p.Id
-                        }, EntityType.Cost);
-                     }
-
-                  }
+                  AddCost(entity, CostV5ToV51_ProcDev("Procedure"));
                   break;
 
                case "Device":
@@ -1115,31 +1124,7 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                   }
 
                   chunkData.AddData(dev);
-                  if (dev.DeviceCosts != null && dev.DeviceCosts.Count > 0)
-                  {
-                     foreach (var dc in dev.DeviceCosts)
-                     {
-                        chunkData.AddData(new Cost
-                        {
-                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                           CurrencyConceptId = dc.CurrencyConceptId.Value,
-
-                           TotalCharge = dc.PaidByCoordinationBenefits,
-                           PaidByPatient = dc.PaidCoinsurance + dc.PaidTowardDeductible,
-                           PaidPatientCopay = dc.PaidCopay,
-                           PaidPatientCoinsurance = dc.PaidCoinsurance,
-                           PaidPatientDeductible = dc.PaidTowardDeductible,
-                           AmountAllowed = dc.TotalPaid,
-                           PayerPlanPeriodId = dc.PayerPlanPeriodId,
-                           RevenueCodeConceptId = dc.RevenueCodeConceptId,
-                           RevenueCodeSourceValue = dc.RevenueCodeSourceValue,
-
-                           Domain = entityDomain,
-                           TypeId = 0,
-                           EventId = dev.Id
-                        }, EntityType.Cost);
-                     }
-                  }
+                  AddCost(entity, CostV5ToV51_ProcDev("Device"));
                   break;
 
                case "Drug":
@@ -1171,10 +1156,9 @@ namespace org.ohdsi.cdm.builders.optumextendedses
 
                   if (drg.DrugCost != null)
                   {
-                     chunkData.AddData(new Cost
+                     AddCost(entity, v5 => new Cost
                      {
-                        CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                        CurrencyConceptId = drg.DrugCost.CurrencyConceptId.Value,
+                        CurrencyConceptId = drg.DrugCost.CurrencyConceptId,
 
                         TotalCharge = drg.DrugCost.PaidByCoordinationBenefits,
                         //PaidByPatient = drg.DrugCost.PaidCoinsurance + drg.DrugCost.PaidTowardDeductible,
@@ -1188,31 +1172,11 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                         RevenueCodeSourceValue = drg.DrugCost.RevenueCodeSourceValue,
 
                         Domain = entityDomain,
-                        TypeId = 0,
-                        EventId = drg.Id
-                     }, EntityType.Cost);
+                        TypeId = 0
+                     });
                   }
                   break;
 
-            }
-
-            //HIX-823
-            if (domain == "Procedure" && entityDomain != "Procedure")
-            {
-               // only for proc_cd
-               if (entity.TypeConceptId == 38000272 || entity.TypeConceptId == 38000254)
-               {
-                  var po = (ProcedureOccurrence) entity;
-                  po.ConceptId = 0;
-                  chunkData.AddData(po);
-               }
-            }
-
-            if (domain == "Observation" && entityDomain != "Observation")
-            {
-               var o = (Observation)entity;
-               o.ConceptId = 0;
-               chunkData.AddData(o);
             }
          }
       }

@@ -106,9 +106,17 @@ namespace org.ohdsi.cdm.framework.core.Lookups
             {
                yield return l;
             }
-            else if (eventDate.Value.Between(l.ValidStartDate, l.ValidEndDate))
+            else 
             {
-               yield return l;
+               if (eventDate.Value.Between(l.ValidStartDate, l.ValidEndDate))
+               {
+                  yield return l;
+               }
+               else
+               {
+                  l.ConceptId = 0;
+                  yield return l;
+               }
             }
          }
       }

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using org.ohdsi.cdm.framework.core;
 using org.ohdsi.cdm.framework.core.Base;
 using org.ohdsi.cdm.framework.entities.Omop;
+using org.ohdsi.cdm.framework.shared.Enums;
 using org.ohdsi.cdm.framework.shared.Extensions;
 
 namespace org.ohdsi.cdm.builders.cprd_v5
@@ -32,14 +34,24 @@ namespace org.ohdsi.cdm.builders.cprd_v5
          var deviceExposure = BuildDeviceExposure(deviceExposureRaw.ToArray(), visitOccurrences, observationPeriods).ToArray();
          var conditionOccurrences = Cleanup(BuildConditionOccurrences(conditionOccurrencesRaw.ToArray(), visitOccurrences, observationPeriods), cohort).ToArray();
          var procedureOccurrences = Cleanup(BuildProcedureOccurrences(procedureOccurrencesRaw.ToArray(), visitOccurrences, observationPeriods), cohort).ToArray();
+
          var observations = Cleanup(BuildObservations(observationsRaw.ToArray(), visitOccurrences, observationPeriods), cohort).ToArray();
          var measurements = Cleanup(BuildMeasurement(measurementsRaw.ToArray(), visitOccurrences, observationPeriods), cohort).ToArray();
-
+         
          // set corresponding PlanPeriodIds to drug exposure entities and procedure occurrence entities
          SetPayerPlanPeriodId(payerPlanPeriods, drugExposures, procedureOccurrences, visitOccurrences.Values.ToArray(), new DeviceExposure[] { });
 
          // set corresponding ProviderIds
          SetProviderIds(drugExposures, providers);
+
+         foreach (var e in conditionOccurrences.Where(e => !string.IsNullOrEmpty(e.ProviderKey)))
+         {
+            if (providers.ContainsKey(e.ProviderKey.ToLower()))
+            {
+               e.ProviderId = providers[e.ProviderKey.ToLower()];
+            }
+         }
+
          SetProviderIds(conditionOccurrences, providers);
          SetProviderIds(procedureOccurrences, providers);
          SetProviderIds(observations, providers);
@@ -60,6 +72,26 @@ namespace org.ohdsi.cdm.builders.cprd_v5
             CleanupObservations(observations, measurements, conditionOccurrences, procedureOccurrences).ToArray(),
             measurements,
             visitOccurrences.Values.ToArray(), new VisitCost[0], cohort, deviceExposure, new DeviceCost[0]);
+      }
+
+      public override Person BuildPerson(List<Person> records)
+      {
+         if (records == null || records.Count == 0) return null;
+
+         var ordered = records.OrderByDescending(p => p.StartDate);
+         var person = ordered.Take(1).First();
+         person.StartDate = ordered.Take(1).Last().StartDate;
+
+         var gender =
+            records.GroupBy(p => p.GenderConceptId).OrderByDescending(gp => gp.Count()).Take(1).First().First();
+         var race = records.GroupBy(p => p.RaceConceptId).OrderByDescending(gp => gp.Count()).Take(1).First().First();
+
+         person.GenderConceptId = gender.GenderConceptId;
+         person.GenderSourceValue = gender.GenderSourceValue;
+         person.RaceConceptId = race.RaceConceptId;
+         person.RaceSourceValue = race.RaceSourceValue;
+
+         return person;
       }
 
       private static IEnumerable<Observation> CleanupObservations(Observation[] observations,
@@ -117,7 +149,8 @@ namespace org.ohdsi.cdm.builders.cprd_v5
          foreach (var observation in observations)
          {
             // exclude observations for person without observation periods
-            if (!observationPeriods.Any()) continue;
+            if (!observationPeriods.Any())
+               continue;
 
             if (observation.AdditionalFields != null && observation.AdditionalFields.ContainsKey("value_as_string"))
             {
@@ -164,6 +197,7 @@ namespace org.ohdsi.cdm.builders.cprd_v5
             }
             else if (observation.StartDate.Between(observationPeriods[0].StartDate, observationPeriods[0].EndDate.Value))
             {
+
                // set to NULL VisitOccurrenceId for not existing VisitOccurrenceIds
                if (observation.VisitOccurrenceId != null &&
                    !visitOccurrences.ContainsKey(observation.VisitOccurrenceId.Value))

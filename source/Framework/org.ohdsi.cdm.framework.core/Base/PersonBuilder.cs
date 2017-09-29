@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using org.ohdsi.cdm.framework.core.Helpers;
@@ -42,11 +43,113 @@ namespace org.ohdsi.cdm.framework.core.Base
       protected readonly List<ConditionOccurrence> conditionForEra = new List<ConditionOccurrence>();
 
       public ConcurrentDictionary<string, bool> ProviderKeys { get; set; }
+      
 
       #endregion
 
 
       #region Methods
+
+      public bool AddCost(IEntity entity, Func<ICostV5, Cost> createCost)
+      {
+         // TMP
+         var costDataExists = false;
+         if (entity == null) return false;
+
+         switch (entity.GeEntityType())
+         {
+            case EntityType.DrugExposure:
+            {
+               var de = (DrugExposure)entity;
+
+               if (de.DrugCost != null)
+               {
+                  costDataExists |= AddCost(createCost, de, de.DrugCost);
+               }
+
+               break;
+            }
+
+            case EntityType.ProcedureOccurrence:
+            {
+               var p = (ProcedureOccurrence)entity;
+               if (p.ProcedureCosts != null && p.ProcedureCosts.Count > 0)
+               {
+                  foreach (var pc in p.ProcedureCosts)
+                  {
+                     costDataExists |= AddCost(createCost, p, pc);
+                  }
+               }
+               break;
+            }
+
+
+            case EntityType.Observation:
+            {
+               var o = (Observation)entity;
+               if (o.ObservationCost != null && o.ObservationCost.Count > 0)
+               {
+                  foreach (var oc in o.ObservationCost)
+                  {
+                     costDataExists |= AddCost(createCost, o, oc);
+                  }
+               }
+               break;
+            }
+
+            case EntityType.VisitOccurrence:
+            {
+               var vo = (VisitOccurrence)entity;
+               if (vo.VisitCosts != null && vo.VisitCosts.Count > 0)
+               {
+                  foreach (var vc in vo.VisitCosts)
+                  {
+                     costDataExists |= AddCost(createCost, vo, vc);
+                  }
+               }
+               break;
+            }
+
+            case EntityType.Measurement:
+            {
+               var m = (Measurement)entity;
+               if (m.MeasurementCost != null && m.MeasurementCost.Count > 0)
+               {
+                  foreach (var mc in m.MeasurementCost)
+                  {
+                     costDataExists |= AddCost(createCost, m, mc);
+                  }
+               }
+               break;
+            }
+
+            case EntityType.DeviceExposure:
+            {
+               var d = (DeviceExposure)entity;
+               if (d.DeviceCosts != null && d.DeviceCosts.Count > 0)
+               {
+                  foreach (var dc in d.DeviceCosts)
+                  {
+                     costDataExists |= AddCost(createCost, d, dc);
+                  }
+               }
+               break;
+            }
+         }
+
+         return costDataExists;
+      }
+
+      private bool AddCost(Func<ICostV5, Cost> createCost, IEntity entity, ICostV5 entityCost)
+      {
+         if (entityCost == null) return false;
+
+         var cost = createCost(entityCost);
+         cost.CostId = chunkData.KeyMasterOffset.VisitCostId;
+         cost.EventId = entity.Id;
+         
+         return chunkData.AddCostData(cost);
+      }
 
       public PersonBuilder()
       {
@@ -215,8 +318,8 @@ namespace org.ohdsi.cdm.framework.core.Base
          {
             foreach (var e in records.Where(e => !string.IsNullOrEmpty(e.ProviderKey)))
             {
-               if (providers.ContainsKey(e.ProviderKey.ToLower()))
-                  e.ProviderId = providers[e.ProviderKey.ToLower()];
+               if (providers.ContainsKey(e.ProviderKey))
+                  e.ProviderId = providers[e.ProviderKey];
             }
          }
       }

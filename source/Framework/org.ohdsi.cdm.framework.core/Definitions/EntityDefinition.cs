@@ -60,11 +60,11 @@ namespace org.ohdsi.cdm.framework.core.Definitions
             Dictionary<string, string> additionalFields = null;
             if (AdditionalFields != null)
             {
-               additionalFields = new Dictionary<string, string>(AdditionalFields.Length);
+               additionalFields = new Dictionary<string, string>(AdditionalFields.Length, StringComparer.OrdinalIgnoreCase);
                foreach (var additionalField in AdditionalFields)
                {
                   //additionalFields.Add(String.Intern(additionalField.ToLower()), reader.GetString(additionalField));
-                  additionalFields.Add(additionalField.ToLower(), reader.GetString(additionalField));
+                  additionalFields.Add(additionalField, reader.GetString(additionalField));
                }
             }
 

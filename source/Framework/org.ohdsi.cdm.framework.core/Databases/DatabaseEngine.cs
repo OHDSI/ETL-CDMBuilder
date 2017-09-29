@@ -51,17 +51,17 @@ namespace org.ohdsi.cdm.framework.core.Databases
          throw new NotImplementedException();
       }
 
-      public virtual IChunkBuilder GetChunkBuilder(int chunkId, Func<IPersonBuilder> createPersonBuilder, int subChunkSize)
+      public virtual IChunkBuilder GetChunkBuilder(int chunkId, Func<IPersonBuilder> createPersonBuilder)
       {
-         var dbChunk = new DbChunk(Settings.Current.Building.BuilderConnectionString);
-         var subChunks = new List<ChunkData>();
-         foreach (var subChunkRecord in dbChunk.GetSubChunks(chunkId))
-         {
-            subChunks.Add(new ChunkData(chunkId, subChunkRecord.Index, subChunkRecord.Count, subChunkRecord.MinPersonId,
-                  subChunkRecord.MaxPersonId, subChunkRecord.Saved));
-         }
+         //var dbChunk = new DbChunk(Settings.Current.Building.BuilderConnectionString);
+         //var subChunks = new List<ChunkData>();
+         //foreach (var subChunkRecord in dbChunk.GetSubChunks(chunkId))
+         //{
+         //   subChunks.Add(new ChunkData(chunkId, subChunkRecord.Index, subChunkRecord.Count, subChunkRecord.MinPersonId,
+         //         subChunkRecord.MaxPersonId, subChunkRecord.Saved));
+         //}
 
-         return new ChunkBuilder(chunkId, createPersonBuilder, subChunkSize, subChunks);
+         return new ChunkBuilder(chunkId, createPersonBuilder);
       }
 
       public static IDatabaseEngine GetEngine(OdbcConnection cn)

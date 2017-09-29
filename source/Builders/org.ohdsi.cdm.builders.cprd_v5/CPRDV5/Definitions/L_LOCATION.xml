@@ -18,6 +18,7 @@
      end as
      LOCATION_SOURCE_VALUE
      from {sc}.practice
+     where region is not null
    </Query>
    <Locations>
       <LocationDefinition>

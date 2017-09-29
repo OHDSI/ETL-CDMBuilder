@@ -39,7 +39,7 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
          return null;
       }
 
-      public int Create(string sourceConnectionString, string destinationConnectionString, string vocabularyConnectionString, Vendors vendor)
+      public int Create(string sourceConnectionString, string destinationConnectionString, string vocabularyConnectionString, Vendors vendor, int batchSize)
       {
          using (var connection = SqlConnectionHelper.OpenMSSQLConnection(connectionString))
          {
@@ -47,12 +47,14 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
                                  "([SourceConnectionString] " +
                                  ",[DestinationConnectionString] " +
                                  ",[VocabularyConnectionString] " +
-                                 ",[Vendor]) " +
+                                 ",[Vendor] " +
+                                 ",[BatchSize]) " +
                                  "VALUES " +
                                  "(@sourceConnectionString " +
                                  ",@destinationConnectionString " +
                                  ",@vocabularyConnectionString " +
-                                 ",@vendor);Select Scope_Identity();";
+                                 ",@vendor " +
+                                 ",@batchSize);Select Scope_Identity();";
 
             using (var cmd = new SqlCommand(query, connection))
             {
@@ -68,13 +70,16 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
                cmd.Parameters.Add("@vendor", SqlDbType.VarChar);
                cmd.Parameters["@vendor"].Value = vendor.ToString();
 
+               cmd.Parameters.Add("@batchSize", SqlDbType.Int);
+               cmd.Parameters["@batchSize"].Value = batchSize;
+
                cmd.CommandTimeout = 30000;
                return Convert.ToInt32(cmd.ExecuteScalar());
             }
          }
       }
 
-      public void Update(int buildingId, string sourceConnectionString, string destinationConnectionString, string vocabularyConnectionString, Vendors vendor)
+      public void Update(int buildingId, string sourceConnectionString, string destinationConnectionString, string vocabularyConnectionString, Vendors vendor, int batchSize)
       {
          using (var connection = SqlConnectionHelper.OpenMSSQLConnection(connectionString))
          {
@@ -83,6 +88,7 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
                                  ",[DestinationConnectionString] = @destinationConnectionString " +
                                  ",[VocabularyConnectionString] = @vocabularyConnectionString " +
                                  ",[Vendor] = @vendor " +
+                                 ",[BatchSize] = @batchSize " +
                                  "WHERE BuildingId = @buildingId";
 
             using (var cmd = new SqlCommand(query, connection))
@@ -101,6 +107,9 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
 
                cmd.Parameters.Add("@vendor", SqlDbType.VarChar);
                cmd.Parameters["@vendor"].Value = vendor.ToString();
+
+               cmd.Parameters.Add("@batchSize", SqlDbType.Int);
+               cmd.Parameters["@batchSize"].Value = batchSize;
 
                cmd.CommandTimeout = 30000;
                cmd.ExecuteScalar();
@@ -127,6 +136,7 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
                               ",[SourceConnectionString] " +
                               ",[DestinationConnectionString] " +
                               ",[Vendor] " +
+                              ",[BatchSize] " +
                               "FROM [dbo].[BuildingSettings] ORDER BY BuildingId DESC";
 
          using (var connection = SqlConnectionHelper.OpenMSSQLConnection(connectionString))
@@ -152,6 +162,7 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
                               ",[DestinationConnectionString] " +
                               ",[VocabularyConnectionString] " +
                               ",[Vendor] " +
+                              ",[BatchSize] " +
                               "FROM [dbo].[BuildingSettings] where BuildingId = {0}";
 
          using (var connection = SqlConnectionHelper.OpenMSSQLConnection(connectionString))

@@ -22,23 +22,6 @@ namespace org.ohdsi.cdm.framework.core.Definitions
       public string DoseUnitSourceValue { get; set; }
       public string StopReason { get; set; }
 
-      private decimal? GetQuantity(IDataRecord reader)
-      {
-         if (string.IsNullOrEmpty(Quantity))
-            return null;
-
-         var q = reader.GetString(Quantity);
-
-         if (string.IsNullOrEmpty(q))
-            return null;
-
-         decimal quantity;
-         if (decimal.TryParse(q, out quantity))
-            return quantity;
-
-         return null;
-      }
-
       public override IEnumerable<IEntity> GetConcepts(Concept concept, IDataRecord reader, KeyMasterOffset keyOffset)
       {
          long? relevantConditionConceptId = 0;
@@ -66,27 +49,13 @@ namespace org.ohdsi.cdm.framework.core.Definitions
                   endDate = reader.GetDateTime(EndDate);
             }
 
-            var refillString = reader.GetString(Refill);
-
-            int? refill = null;
-
-            if (!string.IsNullOrEmpty(refillString))
-            {
-               int refillValue;
-
-               // in Optum Refill looks like: 01, 02...
-               int.TryParse(refillString, out refillValue);
-
-               refill = refillValue;
-            }
-
             yield return new DrugExposure(e)
                             {
                                Id = keyOffset.DrugExposureId,
-                               Refills = refill,
+                               Refills = reader.GetInt(Refill),
                                DaysSupply = reader.GetInt(DaysSupply),
                                CalculatedDaysSupply = calculatedDaysSupply,
-                               Quantity = GetQuantity(reader),
+                               Quantity = reader.GetDecimal(Quantity),
                                Sig = reader.GetString(Sig),
                                RelevantConditionConceptId = relevantConditionConceptId,
                                EndDate = endDate == DateTime.MinValue ? null : endDate,

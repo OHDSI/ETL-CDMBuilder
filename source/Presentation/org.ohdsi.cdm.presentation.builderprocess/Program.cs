@@ -21,21 +21,23 @@ namespace org.ohdsi.cdm.presentation.builderprocess
 {
    class Program
    {
-      private static int subChunkSize;
       static void Main(string[] inputArgs)
       {
          if (inputArgs.Length > 0)
          {
             var args = string.Join(" ", inputArgs);
             var builderConnectionString = Regex.Match(args, @"(?s)(?<=\<cs\>).*?(?=\<\/cs\>)", RegexOptions.IgnoreCase).Value;
-            var awsAccessKeyId = Regex.Match(args, @"(?s)(?<=\<keyid\>).*?(?=\<\/keyid\>)", RegexOptions.IgnoreCase).Value;
-            var awsSecretAccessKey = Regex.Match(args, @"(?s)(?<=\<accesskey\>).*?(?=\<\/accesskey\>)", RegexOptions.IgnoreCase).Value;
+            var s3awsAccessKeyId = Regex.Match(args, @"(?s)(?<=\<s3keyid\>).*?(?=\<\/s3keyid\>)", RegexOptions.IgnoreCase).Value;
+            var s3awsSecretAccessKey = Regex.Match(args, @"(?s)(?<=\<s3accesskey\>).*?(?=\<\/s3accesskey\>)", RegexOptions.IgnoreCase).Value;
+            var ec2awsAccessKeyId = Regex.Match(args, @"(?s)(?<=\<ec2keyid\>).*?(?=\<\/ec2keyid\>)", RegexOptions.IgnoreCase).Value;
+            var ec2awsSecretAccessKey = Regex.Match(args, @"(?s)(?<=\<ec2accesskey\>).*?(?=\<\/ec2accesskey\>)", RegexOptions.IgnoreCase).Value;
             var bucket = Regex.Match(args, @"(?s)(?<=\<bucket\>).*?(?=\<\/bucket\>)", RegexOptions.IgnoreCase).Value;
-            subChunkSize = int.Parse(Regex.Match(args, @"(?s)(?<=\<SubChunkSize\>).*?(?=\<\/SubChunkSize\>)", RegexOptions.IgnoreCase).Value);
-
+            
             Settings.Initialize(builderConnectionString, Environment.MachineName);
-            Settings.Current.AwsAccessKeyId = awsAccessKeyId;
-            Settings.Current.AwsSecretAccessKey = awsSecretAccessKey;
+            Settings.Current.S3AwsAccessKeyId = s3awsAccessKeyId;
+            Settings.Current.S3AwsSecretAccessKey = s3awsSecretAccessKey;
+            Settings.Current.Ec2AwsAccessKeyId = ec2awsAccessKeyId;
+            Settings.Current.Ec2AwsSecretAccessKey = ec2awsSecretAccessKey;
             Settings.Current.Bucket = bucket;
          }
          else
@@ -59,10 +61,16 @@ namespace org.ohdsi.cdm.presentation.builderprocess
          }
       }
 
+      private static bool GetRandomBoolean()
+      {
+         return new Random().Next(100) % 2 == 0;
+      }
+
       private static void Build(BuilderController builderController)
       {
          var dbChunk = new DbChunk(Settings.Current.Building.BuilderConnectionString);
          int? chunkId = null;
+
          while (true)
          {
             try
@@ -81,12 +89,12 @@ namespace org.ohdsi.cdm.presentation.builderprocess
                    builderController.Builder.State == BuilderState.Idle)
                   continue;
 
-               chunkId = dbChunk.TakeChunk(Settings.Current.Building.Id.Value, Settings.Current.Builder.Id.Value);
+               chunkId = dbChunk.TakeChunk(Settings.Current.Building.Id.Value, Settings.Current.Builder.Id.Value, GetRandomBoolean());
                if (!chunkId.HasValue) break;
 
                 var attempt = 0;
                 var processing = false;
-                var chunk = Settings.Current.Building.SourceEngine.GetChunkBuilder(chunkId.Value, CreatePersonBuilder, subChunkSize);
+                var chunk = Settings.Current.Building.SourceEngine.GetChunkBuilder(chunkId.Value, CreatePersonBuilder);
                 while (!processing)
                 {
 
@@ -101,7 +109,7 @@ namespace org.ohdsi.cdm.presentation.builderprocess
                         if (attempt <= 3)
                         {
                             Logger.Write(chunkId, LogMessageTypes.Warning, "chunk.Process attempt=" + attempt + ") " + Logger.CreateExceptionString(ex));
-                            chunk = Settings.Current.Building.SourceEngine.GetChunkBuilder(chunkId.Value, CreatePersonBuilder, subChunkSize);
+                            chunk = Settings.Current.Building.SourceEngine.GetChunkBuilder(chunkId.Value, CreatePersonBuilder);
                         }
                         else
                         {

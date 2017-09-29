@@ -9,8 +9,12 @@ namespace org.ohdsi.cdm.framework.core
    {
       private string apsConnectionString;
       private bool storeToAPS;
-      private string awsAccessKeyId;
-      private string awsSecretAccessKey;
+      private bool autoSettings;
+      private string s3awsAccessKeyId;
+      private string s3awsSecretAccessKey;
+
+      private string ec2awsAccessKeyId;
+      private string ec2awsSecretAccessKey;
       private string bucket;
       private int? subChunkSize;
 
@@ -149,29 +153,53 @@ namespace org.ohdsi.cdm.framework.core
                }));
          }
       }
-
-      public string AwsAccessKeyId
+      
+      public string S3AwsAccessKeyId
       {
          get
          {
-            if (!string.IsNullOrEmpty(awsAccessKeyId))
-               return awsAccessKeyId;
+            if (!string.IsNullOrEmpty(s3awsAccessKeyId))
+               return s3awsAccessKeyId;
 
-            return ConfigurationManager.AppSettings["aws_access_key_id"];
+            return ConfigurationManager.AppSettings["s3_aws_access_key_id"];
          }
-         set { awsAccessKeyId = value; }
+         set { s3awsAccessKeyId = value; }
       }
 
-      public string AwsSecretAccessKey
+      public string S3AwsSecretAccessKey
       {
          get
          {
-            if (!string.IsNullOrEmpty(awsSecretAccessKey))
-               return awsSecretAccessKey;
+            if (!string.IsNullOrEmpty(s3awsSecretAccessKey))
+               return s3awsSecretAccessKey;
 
-            return ConfigurationManager.AppSettings["aws_secret_access_key"];
+            return ConfigurationManager.AppSettings["s3_aws_secret_access_key"];
          }
-         set { awsSecretAccessKey = value; }
+         set { s3awsSecretAccessKey = value; }
+      }
+
+      public string Ec2AwsAccessKeyId
+      {
+         get
+         {
+            if (!string.IsNullOrEmpty(ec2awsAccessKeyId))
+               return ec2awsAccessKeyId;
+
+            return ConfigurationManager.AppSettings["ec2_aws_access_key_id"];
+         }
+         set { ec2awsAccessKeyId = value; }
+      }
+
+      public string Ec2AwsSecretAccessKey
+      {
+         get
+         {
+            if (!string.IsNullOrEmpty(ec2awsSecretAccessKey))
+               return ec2awsSecretAccessKey;
+
+            return ConfigurationManager.AppSettings["ec2_aws_secret_access_key"];
+         }
+         set { ec2awsSecretAccessKey = value; }
       }
 
       public string Bucket
@@ -204,6 +232,12 @@ namespace org.ohdsi.cdm.framework.core
          get { return false; }
       }
 
+      public bool AutoSettings
+      {
+         //get { return bool.Parse(ConfigurationManager.AppSettings["AutoSettings"]); }
+         get { return true; }
+      }
+      
       public string APSConnectionString
       {
          get

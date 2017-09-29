@@ -144,6 +144,23 @@ namespace org.ohdsi.cdm.builders.optumoncology
          return items.Any(item => item.StartDate > death.StartDate.AddDays(30)) ? null : death;
       }
 
+      protected void SetProviderIds<T>(IEnumerable<T> inputRecords, Dictionary<long, VisitOccurrence> visits) where T : class, IEntity
+      {
+         var records = inputRecords as T[] ?? inputRecords.ToArray();
+         if (inputRecords == null || !records.Any()) return;
+
+         if (visits.Count > 0)
+         {
+            foreach (var e in records.Where(e => !e.ProviderId.HasValue))
+            {
+               if (!e.VisitOccurrenceId.HasValue) continue;
+
+               if (visits.ContainsKey(e.VisitOccurrenceId.Value))
+                  e.ProviderId = visits[e.VisitOccurrenceId.Value].ProviderId;
+            }
+         }
+      }
+
       public override void Build(Dictionary<string, long> providers)
       {
          var person = BuildPerson(personRecords.ToList());
@@ -187,6 +204,13 @@ namespace org.ohdsi.cdm.builders.optumoncology
          SetProviderIds(conditionOccurrences, providers);
          SetProviderIds(procedureOccurrences, providers);
          SetProviderIds(observations, providers);
+
+         SetProviderIds(drugExposures, visitOccurrences);
+         SetProviderIds(conditionOccurrences, visitOccurrences);
+         SetProviderIds(measurements, visitOccurrences);
+         SetProviderIds(procedureOccurrences, visitOccurrences);
+         SetProviderIds(deviceExposure, visitOccurrences);
+         SetProviderIds(observations, visitOccurrences);
 
          var death = BuildDeath(deathRecords.ToArray(), visitOccurrences, observationPeriods);
          var drugCosts = BuildDrugCosts(drugExposures).ToArray();

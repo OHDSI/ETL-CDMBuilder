@@ -201,7 +201,6 @@
   </DrugExposure>
   <ProcedureOccurrence>
     <ProcedureOccurrenceDefinition>
-      <Condition>{PROCTYP} = 9</Condition>
       <PersonId>ENROLID</PersonId>
       <StartDate>ADMDATE</StartDate>
       <AdditionalFields>
@@ -245,55 +244,9 @@
         </Concept>
       </Concepts>
     </ProcedureOccurrenceDefinition>
-    <ProcedureOccurrenceDefinition>
-      <Condition>{PROCTYP} = 0</Condition>
-      <PersonId>ENROLID</PersonId>
-      <StartDate>ADMDATE</StartDate>
-      <AdditionalFields>
-        <string>CASEID</string>
-        <string>YEAR</string>
-        <string>priority</string>
-        <string>PDX</string>
-        <string>PROCTYP</string>
-      </AdditionalFields>
-      <Concepts>
-        <Concept>
-          <!--<IdRequired>true</IdRequired>-->
-          <ConceptIdMappers>
-            <Mapper>
-              <Lookup>TruvenV5\Lookups\Procedure_ICD10.sql</Lookup>
-            </Mapper>
-          </ConceptIdMappers>
-          <SourceConceptIdMappers>
-            <Mapper>
-              <Lookup>TruvenV5\Lookups\ProcedureSource_ICD10.sql</Lookup>
-            </Mapper>
-          </SourceConceptIdMappers>
-          <Fields>
-            <Field key="PPROC" defaultTypeId="1"/>
-            <Field key="PROC1" defaultTypeId="2"/>
-            <Field key="PROC2" defaultTypeId="3"/>
-            <Field key="PROC3" defaultTypeId="4"/>
-            <Field key="PROC4" defaultTypeId="5"/>
-            <Field key="PROC5" defaultTypeId="6"/>
-            <Field key="PROC6" defaultTypeId="7"/>
-            <Field key="PROC7" defaultTypeId="8"/>
-            <Field key="PROC8" defaultTypeId="9"/>
-            <Field key="PROC9" defaultTypeId="10"/>
-            <Field key="PROC10" defaultTypeId="11"/>
-            <Field key="PROC11" defaultTypeId="12"/>
-            <Field key="PROC12" defaultTypeId="13"/>
-            <Field key="PROC13" defaultTypeId="14"/>
-            <Field key="PROC14" defaultTypeId="15"/>
-            <Field key="PROC15" defaultTypeId="16"/>
-          </Fields>
-        </Concept>
-      </Concepts>
-    </ProcedureOccurrenceDefinition>
   </ProcedureOccurrence>
   <Death>
     <DeathDefinition>
-      <Condition>{DXVER} = 9</Condition>
       <PersonId>ENROLID</PersonId>
       <StartDate>DISDATE</StartDate>
       <Died>DIED</Died>
@@ -312,49 +265,6 @@
           <ConceptIdMappers>
             <Mapper>
               <Lookup>TruvenV5\Lookups\DeathCodes.sql</Lookup>
-            </Mapper>
-          </ConceptIdMappers>
-          <Fields>
-            <Field key="PDX" defaultTypeId="38003567"/>
-            <Field key="DX1" defaultTypeId="38003567"/>
-            <Field key="DX2" defaultTypeId="38003567"/>
-            <Field key="DX3" defaultTypeId="38003567"/>
-            <Field key="DX4" defaultTypeId="38003567"/>
-            <Field key="DX5" defaultTypeId="38003567"/>
-            <Field key="DX6" defaultTypeId="38003567"/>
-            <Field key="DX7" defaultTypeId="38003567"/>
-            <Field key="DX8" defaultTypeId="38003567"/>
-            <Field key="DX9" defaultTypeId="38003567"/>
-            <Field key="DX10" defaultTypeId="38003567"/>
-            <Field key="DX11" defaultTypeId="38003567"/>
-            <Field key="DX12" defaultTypeId="38003567"/>
-            <Field key="DX13" defaultTypeId="38003567"/>
-            <Field key="DX14" defaultTypeId="38003567"/>
-            <Field key="DX15" defaultTypeId="38003567"/>
-          </Fields>
-        </Concept>
-      </Concepts>
-    </DeathDefinition>
-    <DeathDefinition>
-      <Condition>{DXVER} = 0</Condition>
-      <PersonId>ENROLID</PersonId>
-      <StartDate>DISDATE</StartDate>
-      <Died>DIED</Died>
-      <AdditionalFields>
-        <string>CASEID</string>
-        <string>YEAR</string>
-        <string>priority</string>
-      </AdditionalFields>
-      <Concepts>
-        <Concept>
-          <Fields>
-            <Field key="DSTATUS" defaultConceptId="1" defaultTypeId="38003566"/>
-          </Fields>
-        </Concept>
-        <Concept>
-          <ConceptIdMappers>
-            <Mapper>
-              <Lookup>TruvenV5\Lookups\DeathCodes_ICD10.sql</Lookup>
             </Mapper>
           </ConceptIdMappers>
           <Fields>

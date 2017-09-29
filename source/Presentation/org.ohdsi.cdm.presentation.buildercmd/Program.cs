@@ -55,8 +55,10 @@ namespace org.ohdsi.cdm.presentation.buildercmd
                         CdmSchema = "cdm",
                         AchillesSchema = "cdm",
                         AchillesFolder = @"c:\temp\achillesJson",
-                        AwsAccessKeyId = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID"),
-                        AwsSecretAccessKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY"),
+                        S3AwsAccessKeyId = Environment.GetEnvironmentVariable("s3_aws_access_key_id"),
+                        S3AwsSecretAccessKey = Environment.GetEnvironmentVariable("s3_aws_secret_access_key"),
+                        Ec2AwsAccessKeyId = Environment.GetEnvironmentVariable("ec2_aws_access_key_id"),
+                        Ec2AwsSecretAccessKey = Environment.GetEnvironmentVariable("ec2_aws_secret_access_key"),
                         HixServer = @"",
                         HixDatabase = "",
                         HixPort = 1433,
@@ -89,11 +91,17 @@ namespace org.ohdsi.cdm.presentation.buildercmd
             [Option('n', "builderscount", HelpText = "Number of concurrent CDM Builders on one server", Required = false)]
             public int BuildersCount { get; set; }
 
-            [Option('a', "awsaccesskeyid", HelpText = "AWS Access Key Id", Required = false)]
-            public string AwsAccessKeyId { get; set; }
+            [Option('a', "s3awsaccesskeyid", HelpText = "S3 AWS Access Key Id", Required = false)]
+            public string S3AwsAccessKeyId { get; set; }
 
-            [Option('e', "awssecretaccesskey", HelpText = "AWS Secret Access Key", Required = false)]
-            public string AwsSecretAccessKey { get; set; }
+            [Option('e', "s3awssecretaccesskey", HelpText = "S3 AWS Secret Access Key", Required = false)]
+            public string S3AwsSecretAccessKey { get; set; }
+
+            [Option("ec2awsaccesskeyid", HelpText = "EC2 AWS Access Key Id", Required = false)]
+            public string Ec2AwsAccessKeyId { get; set; }
+
+            [Option("ec2awssecretaccesskey", HelpText = "EC2 AWS Secret Access Key", Required = false)]
+            public string Ec2AwsSecretAccessKey { get; set; }
 
             [Option('l', "loadid", HelpText = "CDM Build Load Id (from HIX database)", Required = false)]
             public int LoadId { get; set; }
@@ -259,7 +267,7 @@ namespace org.ohdsi.cdm.presentation.buildercmd
             if (Settings.Current.Builder.IsNew)
             {
                 if (opt.ChunkSize != default(int))
-                    Settings.Current.Builder.BatchSize = opt.ChunkSize;
+                   Settings.Current.Building.BatchSize = opt.ChunkSize;
                 if (opt.BuildersCount != default(int))
                     Settings.Current.Builder.MaxDegreeOfParallelism = opt.BuildersCount;
             }
@@ -267,7 +275,7 @@ namespace org.ohdsi.cdm.presentation.buildercmd
             if (!Settings.Current.Building.Id.HasValue)
             {
                 if (opt.ChunkSize != default(int))
-                    Settings.Current.Builder.BatchSize = opt.ChunkSize;
+                   Settings.Current.Building.BatchSize = opt.ChunkSize;
                 if (opt.BuildersCount != default(int))
                     Settings.Current.Builder.MaxDegreeOfParallelism = opt.BuildersCount;
 
@@ -290,15 +298,20 @@ namespace org.ohdsi.cdm.presentation.buildercmd
                     || ConfigurationManager.AppSettings["loadId"] == "0")
                     ConfigurationManager.AppSettings["loadId"] = Options.Default.LoadId.ToString();
 
-                if (!string.IsNullOrWhiteSpace(opt.AwsAccessKeyId))
-                    Settings.Current.AwsAccessKeyId = opt.AwsAccessKeyId;
-                if (string.IsNullOrWhiteSpace(Settings.Current.AwsAccessKeyId))
-                    Settings.Current.AwsAccessKeyId = Options.Default.AwsAccessKeyId;
+                if (!string.IsNullOrWhiteSpace(opt.S3AwsAccessKeyId))
+                   Settings.Current.S3AwsAccessKeyId = opt.S3AwsAccessKeyId;
+                if (string.IsNullOrWhiteSpace(Settings.Current.S3AwsAccessKeyId))
+                   Settings.Current.S3AwsAccessKeyId = Options.Default.S3AwsAccessKeyId;
 
-                if (!string.IsNullOrWhiteSpace(opt.AwsSecretAccessKey))
-                    Settings.Current.AwsSecretAccessKey = opt.AwsSecretAccessKey;
-                if (string.IsNullOrWhiteSpace(Settings.Current.AwsSecretAccessKey))
-                    Settings.Current.AwsSecretAccessKey = Options.Default.AwsSecretAccessKey;
+                if (!string.IsNullOrWhiteSpace(opt.S3AwsSecretAccessKey))
+                   Settings.Current.S3AwsSecretAccessKey = opt.S3AwsSecretAccessKey;
+                if (string.IsNullOrWhiteSpace(Settings.Current.S3AwsSecretAccessKey))
+                   Settings.Current.S3AwsSecretAccessKey = Options.Default.S3AwsSecretAccessKey;
+
+                if (!string.IsNullOrWhiteSpace(opt.Ec2AwsSecretAccessKey))
+                   Settings.Current.Ec2AwsSecretAccessKey = opt.Ec2AwsSecretAccessKey;
+                if (string.IsNullOrWhiteSpace(Settings.Current.Ec2AwsSecretAccessKey))
+                   Settings.Current.Ec2AwsSecretAccessKey = Options.Default.Ec2AwsSecretAccessKey;
 
                 if (string.IsNullOrWhiteSpace(opt.HixServer))
                     ConfigurationManager.AppSettings["hixServer"] = Options.Default.HixServer;
@@ -328,11 +341,17 @@ namespace org.ohdsi.cdm.presentation.buildercmd
 
                 if (config.AppSettings != null && config.AppSettings.Settings != null)
                 {
-                    if (config.AppSettings.Settings["aws_access_key_id"] != null)
-                        Settings.Current.AwsAccessKeyId = config.AppSettings.Settings["aws_access_key_id"].Value;
+                    if (config.AppSettings.Settings["s3_aws_access_key_id"] != null)
+                        Settings.Current.S3AwsAccessKeyId = config.AppSettings.Settings["s3_aws_access_key_id"].Value;
 
-                    if (config.AppSettings.Settings["aws_secret_access_key"] != null)
-                        Settings.Current.AwsSecretAccessKey = config.AppSettings.Settings["aws_secret_access_key"].Value;
+                    if (config.AppSettings.Settings["s3_aws_secret_access_key"] != null)
+                        Settings.Current.S3AwsSecretAccessKey = config.AppSettings.Settings["s3_aws_secret_access_key"].Value;
+
+                    if (config.AppSettings.Settings["ec2_aws_access_key_id"] != null)
+                       Settings.Current.Ec2AwsAccessKeyId = config.AppSettings.Settings["ec2_aws_access_key_id"].Value;
+
+                    if (config.AppSettings.Settings["ec2_aws_secret_access_key"] != null)
+                       Settings.Current.Ec2AwsSecretAccessKey = config.AppSettings.Settings["ec2_aws_secret_access_key"].Value;
 
                     if (config.AppSettings.Settings["bucket"] != null)
                         Settings.Current.Bucket = config.AppSettings.Settings["bucket"].Value;
@@ -374,7 +393,7 @@ namespace org.ohdsi.cdm.presentation.buildercmd
             if (Settings.Current.Builder.MaxDegreeOfParallelism < 1)
                 throw new ArgumentException("MaxDegreeOfParallelism must be greater than zero");
 
-            if (Settings.Current.Builder.BatchSize < 1)
+            if (Settings.Current.Building.BatchSize < 1)
                 throw new ArgumentException("BatchSize must be greater than zero");
 
             if (Settings.Current != null && Settings.Current.Building != null && Settings.Current.Building.DestinationEngine.Database == Database.Redshift)
@@ -382,11 +401,17 @@ namespace org.ohdsi.cdm.presentation.buildercmd
                 if (string.IsNullOrWhiteSpace(Settings.Current.Bucket))
                     throw new ArgumentException("S3 Bucket is not set");
 
-                if (string.IsNullOrWhiteSpace(Settings.Current.AwsAccessKeyId))
-                    throw new ArgumentException("AWS Access Key Id is not set");
+                if (string.IsNullOrWhiteSpace(Settings.Current.S3AwsAccessKeyId))
+                    throw new ArgumentException("S3 AWS Access Key Id is not set");
 
-                if (string.IsNullOrWhiteSpace(Settings.Current.AwsSecretAccessKey))
-                    throw new ArgumentException("AWS Secret Access Key is not set");
+                if (string.IsNullOrWhiteSpace(Settings.Current.S3AwsSecretAccessKey))
+                    throw new ArgumentException("S3 AWS Secret Access Key is not set");
+
+                if (string.IsNullOrWhiteSpace(Settings.Current.Ec2AwsAccessKeyId))
+                   throw new ArgumentException("EC2 AWS Access Key Id is not set");
+
+                if (string.IsNullOrWhiteSpace(Settings.Current.Ec2AwsSecretAccessKey))
+                   throw new ArgumentException("EC2 AWS Secret Access Key is not set");
             }
         }
 
@@ -396,7 +421,7 @@ namespace org.ohdsi.cdm.presentation.buildercmd
             Trace.WriteLine("BuilderId = " + Settings.Current.Builder.Id);
             Trace.WriteLine("BuildingId = " + Settings.Current.Building.Id);
             Trace.WriteLine(string.Empty);
-            Trace.WriteLine("BatchSize = " + Settings.Current.Builder.BatchSize);
+            Trace.WriteLine("BatchSize = " + Settings.Current.Building.BatchSize);
             Trace.WriteLine("MaxDegreeOfParallelism = " + Settings.Current.Builder.MaxDegreeOfParallelism);
             Trace.WriteLine(string.Format("Folder = '{0}'", Settings.Current.Builder.Folder));
             Trace.WriteLine(string.Empty);
@@ -406,8 +431,10 @@ namespace org.ohdsi.cdm.presentation.buildercmd
             Trace.WriteLine(string.Empty);
             Trace.WriteLine("Vocabulary = " + Settings.Current.Building.RawVocabularyConnectionString);
             Trace.WriteLine(string.Empty);
-            Trace.WriteLine("AWS Key = " + Settings.Current.AwsAccessKeyId);
-            Trace.WriteLine("AWS Secret Key = " + Settings.Current.AwsSecretAccessKey);
+            Trace.WriteLine("EC2 AWS Key = " + Settings.Current.Ec2AwsAccessKeyId);
+            Trace.WriteLine("EC2 AWS Secret Key = " + Settings.Current.Ec2AwsSecretAccessKey);
+            Trace.WriteLine("S3 AWS Key = " + Settings.Current.S3AwsAccessKeyId);
+            Trace.WriteLine("S3 AWS Secret Key = " + Settings.Current.S3AwsSecretAccessKey);
             Trace.WriteLine("S3 Bucket = " + Settings.Current.Bucket);
             Trace.WriteLine(string.Empty);
             Trace.WriteLine("Vendor = " + Settings.Current.Building.Vendor);

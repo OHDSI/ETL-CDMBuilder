@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Odbc;
 using System.IO;
@@ -27,18 +28,39 @@ namespace org.ohdsi.cdm.framework.core.Lookups
 
       public virtual void Load()
       {
-         lookup.Clear();
-         var sql = File.ReadAllText(sqlFileDestination);
-         sql = sql.Replace("{sc}", schemaName);
-         using (var connection = SqlConnectionHelper.OpenOdbcConnection(connectionString))
-         using (var command = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
-         using(var reader = command.ExecuteReader(CommandBehavior.SequentialAccess))
+         string sql = string.Empty;
+         try
          {
-            while (reader.Read())
+            lookup.Clear();
+
+            var sourceToStandard = File.ReadAllText(Path.Combine(Settings.Current.Builder.Folder, @"Common\Lookups\Source_to_Standard.sql"));
+            var sourceToSource = File.ReadAllText(Path.Combine(Settings.Current.Builder.Folder, @"Common\Lookups\Source_to_Source.sql"));
+            var mapsToValue = File.ReadAllText(Path.Combine(Settings.Current.Builder.Folder, @"Common\Lookups\Maps_to_Value.sql"));
+
+            sql = File.ReadAllText(sqlFileDestination);
+
+            sql = sql.Replace("{Source_to_Standard}", sourceToStandard);
+            sql = sql.Replace("{Source_to_Source}", sourceToSource);
+            sql = sql.Replace("{Maps_to_Value}", mapsToValue);
+
+            sql = sql.Replace("{sc}", schemaName);
+            using (var connection = SqlConnectionHelper.OpenOdbcConnection(connectionString))
+            using (var command = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
+            using (var reader = command.ExecuteReader(CommandBehavior.SequentialAccess))
             {
-               AddRecord(reader);
+               while (reader.Read())
+               {
+                  AddRecord(reader);
+               }
             }
          }
+         catch (Exception)
+         {
+            Logger.WriteWarning("Lookup error [file]: " + sqlFileDestination);
+            Logger.WriteWarning("Lookup error [query]: " + sql);
+            throw;
+         }
+         
       }
 
       public virtual void AddRecord(IDataReader reader)

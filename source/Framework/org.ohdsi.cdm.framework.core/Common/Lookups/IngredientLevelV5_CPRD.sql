@@ -6,6 +6,6 @@ FROM {sc}.CONCEPT C1
             ON ca.DESCENDANT_CONCEPT_ID = c1.CONCEPT_ID 
       JOIN {sc}.CONCEPT c2 
             ON c2.CONCEPT_ID = ca.ANCESTOR_CONCEPT_ID 
-            AND c2.VOCABULARY_ID in ('RxNorm', 'Multilex') 
-            and c2.concept_class_id='Ingredient' 
-WHERE c1.VOCABULARY_ID in ('RxNorm', 'Multilex') 
+            AND lower(c2.VOCABULARY_ID) in ('rxnorm', 'multilex') 
+            and lower(c2.concept_class_id)='ingredient' 
+WHERE lower(c1.VOCABULARY_ID) in ('rxnorm', 'multilex') 

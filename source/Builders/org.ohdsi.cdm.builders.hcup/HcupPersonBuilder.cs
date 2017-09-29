@@ -224,8 +224,8 @@ namespace org.ohdsi.cdm.builders.hcup
          {
             buildPerson.YearOfBirth = observationPeriods[0].StartDate.Year;
          }
-         else if (personRecords.ToArray()[0].AdditionalFields["ageday"] == null &&
-                  personRecords.ToArray()[0].AdditionalFields["age_neonate"] != "1" && ageday < 0)
+         else if ((personRecords.ToArray()[0].AdditionalFields["ageday"] == null &&
+                  personRecords.ToArray()[0].AdditionalFields["age_neonate"] != "1") || ageday < 0)
          {
             var dateOfBirth = observationPeriods[0].StartDate.AddDays(-180);
             buildPerson.YearOfBirth = dateOfBirth.Year;

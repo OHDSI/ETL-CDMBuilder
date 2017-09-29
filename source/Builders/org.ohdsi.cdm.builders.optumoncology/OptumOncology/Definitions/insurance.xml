@@ -6,13 +6,11 @@
     when i.encid = '' or i.encid is null then NULL
     else cast(replace(i.encid, 'E0000','') as bigint)
     end as VisitOccurrenceId,
-    ec.provid,
     i.ins_type,
     i.insurance_date,
     i.insurance_time
     from {sc}.insurance i
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND i.ptid = ch.PERSON_SOURCE_VALUE
-    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = i.encid
     order by cast(replace(i.ptid, 'PT','') as bigint)
   </Query>
   <Observation>
@@ -21,7 +19,6 @@
       <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
       <StartDate>insurance_date</StartDate>
       <Time>insurance_time</Time>
-      <ProviderId>provid</ProviderId>
       <ValuesAsString>
         <string>ins_type</string>
       </ValuesAsString>

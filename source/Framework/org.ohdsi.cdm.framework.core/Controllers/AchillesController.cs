@@ -14,7 +14,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 {
     public class AchillesController
     {
-        private const int timeout = 12 * 60 * 60 * 1000; // 12 hour timeout
+        private const int timeout = 72 * 60 * 60 * 1000; // 72 hour timeout
         private string script;
         private string rscriptPath;
 
@@ -109,20 +109,20 @@ namespace org.ohdsi.cdm.framework.core.Controllers
             var db = odbcConnection["database"].ToString();
             var src = Settings.Current.Building.Vendor.ToString();
 
-            var loadId = ConfigurationManager.AppSettings["loadId"];
+            var loadId = Settings.Current.Building.LoadId;
 
             var hixServer = ConfigurationManager.AppSettings["hixServer"];
             if (string.IsNullOrWhiteSpace(hixServer))
-                hixServer = "";
+                hixServer = "rndusrdhit01";
             var hixDb = ConfigurationManager.AppSettings["hixDatabase"];
             if (string.IsNullOrWhiteSpace(hixDb))
-                hixDb = "";
+                hixDb = "HIX";
             var hixPort = ConfigurationManager.AppSettings["hixPort"];
             if (string.IsNullOrWhiteSpace(hixPort))
                 hixPort = "1433";
             var hixUser = ConfigurationManager.AppSettings["hixUser"];
             if (string.IsNullOrWhiteSpace(hixUser))
-                hixUser = "";
+                hixUser = "hix_reader";
             var hixPass = ConfigurationManager.AppSettings["hixPassword"];
 
             var runCost = ConfigurationManager.AppSettings["runCostAnalysis"];
@@ -131,7 +131,8 @@ namespace org.ohdsi.cdm.framework.core.Controllers
             else
                 runCost = runCost.Trim().ToUpper();
 
-            var cdmV = Settings.Current.Building.CDM == CDMVersions.v5 ? "5" : string.Empty;
+            
+            var cdmV = Settings.Current.Building.CDM == CDMVersions.v501 ? "5.0.1" : "5";
             var resSchema = ConfigurationManager.AppSettings["resultsSchema"];
             if (string.IsNullOrWhiteSpace(resSchema))
                 resSchema = "cdm";
@@ -145,7 +146,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
                 {"rsDbName", db},
                 {"sourceName", src},
                 {"achillesJsonFolder", jsonPath},
-                {"loadId", loadId},
+                {"loadId", loadId.ToString()},
                 {"runCostAnalysis", runCost},
                 {"cdmVersion", cdmV},
                 {"resultsSchema", resSchema},

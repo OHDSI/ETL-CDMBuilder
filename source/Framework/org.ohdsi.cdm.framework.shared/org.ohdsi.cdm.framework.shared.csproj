@@ -35,7 +35,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\build\</OutputPath>
-	<IntermediateOutputPath>..\..\obj\</IntermediateOutputPath>
+    <IntermediateOutputPath>..\..\obj\</IntermediateOutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -45,7 +45,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>..\..\build\</OutputPath>
-	<IntermediateOutputPath>..\..\obj\</IntermediateOutputPath>
+    <IntermediateOutputPath>..\..\obj\</IntermediateOutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -63,6 +63,9 @@
   <ItemGroup>
     <Compile Include="Attributes\BatchFileAttribute.cs" />
     <Compile Include="Attributes\CDMSourceAttribute.cs" />
+    <Compile Include="Attributes\ChunkSize.cs" />
+    <Compile Include="Attributes\MaxDegreeOfParallelism.cs" />
+    <Compile Include="Attributes\NumOfChunks.cs" />
     <Compile Include="Attributes\IngredientLevelFileAttribute.cs" />
     <Compile Include="Attributes\FolderAttribute.cs" />
     <Compile Include="Attributes\CDMVersionAttribute.cs" />

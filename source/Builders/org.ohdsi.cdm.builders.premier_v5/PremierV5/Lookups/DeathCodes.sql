@@ -1,8 +1,5 @@
-﻿select '761.6', 1 union
-select '798', 1 union
-select '798.0', 1 union
-select '798.1', 1 union
-select '798.2', 1 union
-select '798.9', 1 union
-select 'E913.1', 1 union
-select 'E978', 1
+﻿{Source_to_Standard}
+
+SELECT SOURCE_CODE, 1
+FROM CTE_VOCAB_MAP 
+WHERE SOURCE_VOCABULARY_ID = 'JNJ_DEATH'

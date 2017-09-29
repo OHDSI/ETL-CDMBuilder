@@ -1,7 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.entities.Omop;
+using org.ohdsi.cdm.framework.shared.Enums;
 
 namespace org.ohdsi.cdm.framework.core.Base
 {
@@ -39,6 +41,7 @@ namespace org.ohdsi.cdm.framework.core.Base
       IEnumerable<DeviceCost> BuildDeviceCosts(DeviceExposure[] deviceExposure);
 
       ConcurrentDictionary<string, bool> ProviderKeys { get; }
-   
+      bool AddCost(IEntity data, Func<ICostV5, Cost> createCost);
+
    }
 }

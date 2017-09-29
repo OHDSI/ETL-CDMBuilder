@@ -3,10 +3,14 @@ using org.ohdsi.cdm.framework.shared.Enums;
 
 namespace org.ohdsi.cdm.framework.entities.Omop
 {
-   public class VisitCost : VisitOccurrence, IEquatable<VisitCost>
+   public class VisitCost : VisitOccurrence, IEquatable<VisitCost>, ICostV5
    {
       public long VisitCostId { get; set; }
-      public long? CurrencyConceptId { get; set; }
+      public string DiseaseClassLookupKey { get; set; }
+      public decimal? IngredientCost { get; set; }
+      public decimal? DispensingFee { get; set; }
+      public decimal? AverageWholesalePrice { get; set; }
+      public long CurrencyConceptId { get; set; }
 
       public decimal? PaidCopay { get; set; }
       public decimal? PaidCoinsurance { get; set; }
@@ -17,7 +21,11 @@ namespace org.ohdsi.cdm.framework.entities.Omop
       public decimal? TotalPaid { get; set; }
 
       public long? PayerPlanPeriodId { get; set; }
-      
+      public long? DiseaseClassConceptId { get; set; }
+      public long? RevenueCodeConceptId { get; set; }
+      public string DiseaseClassSourceValue { get; set; }
+      public string RevenueCodeSourceValue { get; set; }
+
       public VisitCost(VisitOccurrence ent)
          : base(ent)
       {
@@ -56,6 +64,36 @@ namespace org.ohdsi.cdm.framework.entities.Omop
       public override EntityType GeEntityType()
       {
          return EntityType.VisitCost;
+      }
+
+      public Cost CreateCost(long costId)
+      {
+         //truven
+         return new Cost
+         {
+            CostId = costId,
+            CurrencyConceptId = CurrencyConceptId,
+            TotalCharge = null,
+            TotalCost = null,
+
+            PayerPlanPeriodId = PayerPlanPeriodId,
+
+            PaidPatientCopay = PaidCopay,
+            PaidPatientCoinsurance = PaidCoinsurance,
+            PaidPatientDeductible = PaidTowardDeductible,
+            PaidByPrimary = PaidByCoordinationBenefits,
+
+            TotalPaid =
+               PaidCopay + PaidCoinsurance + PaidTowardDeductible + PaidByPayer +
+               PaidByCoordinationBenefits,
+
+            PaidByPatient = PaidCopay + PaidCoinsurance + PaidTowardDeductible,
+            PaidByPayer = PaidByPayer,
+
+            Domain = "Visit",
+            TypeId = 0,
+            EventId = Id
+         };
       }
    }
 }

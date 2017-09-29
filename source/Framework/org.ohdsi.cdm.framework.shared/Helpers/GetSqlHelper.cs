@@ -13,6 +13,7 @@ namespace org.ohdsi.cdm.framework.shared.Helpers
          {
             case Database.MSSQL:
                query = query.Replace(schemaName + ".procedure", schemaName + ".[procedure]");
+               query = query.Replace("chr(", "char(");
                break;
             case Database.Redshift:
                foreach (Match match in Regex.Matches(query, @"\[(.*?)\]", RegexOptions.IgnoreCase))

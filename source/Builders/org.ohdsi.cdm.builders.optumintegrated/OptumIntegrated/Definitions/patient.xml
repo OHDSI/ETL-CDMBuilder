@@ -25,9 +25,9 @@
     end as EthnicityConceptId,
     region + '_' + division as location_source_value,
     provid_pcp,
-    CONVERT(date, SUBSTRING(first_month_active, 5, 2) + '/01/' + SUBSTRING(first_month_active, 1, 4)) clin_start_date,
+    CAST(SUBSTRING(first_month_active, 5, 2) + '/01/' + SUBSTRING(first_month_active, 1, 4) AS DATE) clin_start_date,
     first_month_active,
-    DATEADD(DAY, -1, DATEADD(MONTH, 1, CONVERT(date, SUBSTRING(last_month_active, 5, 2) + '/01/' + SUBSTRING(last_month_active, 1, 4)))) clin_end_date,
+    DATEADD(DAY, -1, DATEADD(MONTH, 1, CAST(SUBSTRING(last_month_active, 5, 2) + '/01/' + SUBSTRING(last_month_active, 1, 4) as DATE))) clin_end_date,
     last_month_active,
     substring(date_of_death, 1, 4) + '-' + substring(date_of_death, 5, 2) + '-01' as date_of_death,
     case
@@ -77,7 +77,8 @@
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND md.ptid = ch.PERSON_SOURCE_VALUE
     )
 
-    select *, LTRIM(bus) + LTRIM(aso) +  LTRIM(product) + LTRIM(cdhp) as PayerSource,
+    select md.ptid,elig_start_date,elig_end_date,bus,aso,product,cdhp,pat_planid,personid,gender,yearofbirth,race,raceconceptid,ethnicity,ethnicityconceptid,location_source_value,provid_pcp,clin_start_date,first_month_active,clin_end_date,last_month_active,date_of_death,died,cause_source_value,
+    LTRIM(bus) + LTRIM(aso) +  LTRIM(product) + LTRIM(cdhp) as PayerSource,
     38000280 as PeriodTypeConceptId,
     CASE
     WHEN DATEDIFF(d, clin_start_date, elig_start_date) &lt; 0 THEN clin_start_date

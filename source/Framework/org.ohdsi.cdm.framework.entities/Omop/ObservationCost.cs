@@ -3,7 +3,7 @@ using org.ohdsi.cdm.framework.shared.Enums;
 
 namespace org.ohdsi.cdm.framework.entities.Omop
 {
-   public class ObservationCost : Observation, IEquatable<ObservationCost>
+   public class ObservationCost : Observation, IEquatable<ObservationCost>, ICostV5
    {
       public decimal? PaidCopay { get; set; }
       public decimal? PaidCoinsurance { get; set; }
@@ -17,11 +17,14 @@ namespace org.ohdsi.cdm.framework.entities.Omop
       public decimal? AverageWholesalePrice { get; set; }
 
       public long? PayerPlanPeriodId { get; set; }
+      public long? DiseaseClassConceptId { get; set; }
 
 
       // CDM v5 props
-      public long? CurrencyConceptId { get; set; }
+      public string DiseaseClassLookupKey { get; set; }
+      public long CurrencyConceptId { get; set; }
       public long? RevenueCodeConceptId { get; set; }
+      public string DiseaseClassSourceValue { get; set; }
       public string RevenueCodeSourceValue { get; set; }
 
       public ObservationCost(Observation ent)
@@ -68,6 +71,34 @@ namespace org.ohdsi.cdm.framework.entities.Omop
       public override EntityType GeEntityType()
       {
          return EntityType.ObservationCost;
+      }
+
+      public Cost CreateCost(long costId)
+      {
+         return new Cost
+         {
+            CostId = costId,
+            CurrencyConceptId = CurrencyConceptId,
+            TotalCharge = null,
+            TotalCost = null,
+            RevenueCodeConceptId = RevenueCodeConceptId,
+            RevenueCodeSourceValue = RevenueCodeSourceValue,
+
+            PayerPlanPeriodId = PayerPlanPeriodId,
+
+            PaidPatientCopay = PaidCopay,
+            PaidPatientCoinsurance = PaidCoinsurance,
+            PaidPatientDeductible = PaidTowardDeductible,
+            PaidByPrimary = PaidByCoordinationBenefits,
+
+            TotalPaid = PaidCopay + PaidCoinsurance + PaidTowardDeductible + PaidByPayer + PaidByCoordinationBenefits,
+            PaidByPatient = PaidCopay + PaidCoinsurance + PaidTowardDeductible,
+            PaidByPayer = PaidByPayer,
+
+            Domain = "Observation",
+            TypeId = 0,
+            EventId = Id
+         };
       }
    }
 }

@@ -16,7 +16,7 @@
     ELSE 38000180
     END AS drug_type_concept_id,
     [Administered amount] AS quantity,
-    CASE WHEN [Physician ID] IS NULL THEN
+    CASE WHEN [Physician ID] IS NULL or LEN([Physician ID]) = 0 THEN
     CAST('1' + RIGHT([Institution ID], LEN([Institution ID]) - 1) AS BIGINT)
     ELSE
     CAST('2' + RIGHT([Physician ID], LEN([Physician ID]) - 1) AS BIGINT)

@@ -14,7 +14,7 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
          this.connectionString = connectionString;
       }
 
-      public void Create(int buildingId)
+      public void Recreate(int buildingId)
       {
          const string query = "DELETE FROM KeyOffset WHERE BuildingId = {0} " +
                               "INSERT INTO KeyOffset (BuildingId, VisitOccurrence, PayerPlanPeriod, DrugExposure, ProcedureOccurrence, DeviceExposure, ConditionOccurrence, Measurement, Observation, ObservationPeriod, VisitCost, ProcedureCost, DeviceCost, DrugEra, ConditionEra) " +

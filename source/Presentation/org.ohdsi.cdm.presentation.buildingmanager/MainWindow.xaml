@@ -162,16 +162,16 @@
                                     <TextBlock Width="133" Text="Vendor:"/>
                                     <ComboBox x:Name="cmbVendor" ItemsSource="{Binding Source={StaticResource vendors}}" SelectedValue="{Binding Vendor}"  DisplayMemberPath="Description" SelectedValuePath="Value" Width="133" IsReadOnly="True" Margin="7,0"/>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <StackPanel Orientation="Horizontal" Margin="0,5" IsEnabled="{Binding AutoSettings}">
                                     <TextBlock Text="Number of batches:" Width="133"/>
                                     <TextBox Width="133" Margin="7,0" Text="{Binding Batches}"/>
-                                    <TextBlock Text="Use 0 for full database" FontStyle="Italic" Foreground="DimGray" Width="133"/>
+                                    <TextBlock Text="Use 0 for full database" FontStyle="Italic" Foreground="DimGray" Width="133" />
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <StackPanel Orientation="Horizontal" Margin="0,5" IsEnabled="{Binding AutoSettings}">
                                     <TextBlock Text="Batch size:" Width="133"/>
                                     <TextBox Width="133" Margin="7,0" Text="{Binding BatchSize}"/>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                <StackPanel Orientation="Horizontal" Margin="0,5" IsEnabled="{Binding AutoSettings}">
                                     <TextBlock Text="MaxDegreeOfParallelism:" Width="133"/>
                                     <TextBox Width="133" Margin="7,0" Text="{Binding MaxDegreeOfParallelism}"/>
                                 </StackPanel>

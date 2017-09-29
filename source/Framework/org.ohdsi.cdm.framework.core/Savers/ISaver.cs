@@ -13,6 +13,7 @@ namespace org.ohdsi.cdm.framework.core.Savers
       void SaveEntityLookup(List<Location> location, List<Organization> organization, List<CareSite> careSite, List<Provider> provider);
       void AddChunk(List<ChunkRecord> chunk, int index);
       void Write(int? chunkId, int?subChunkId, IDataReader reader, string tableName);
+      void Write(ChunkData chunk, string table);
       void Commit();
       void Rollback();
       void CopyVocabulary();

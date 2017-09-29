@@ -1,3 +1,3 @@
-﻿SELECT DISTINCT {0} cast(replace(ptid, 'PT','') as bigint) AS person_id, ptid
+﻿SELECT DISTINCT {0} cast(replace(lower(ptid), 'pt','') as bigint) AS person_id, ptid
 FROM {sc}.patient
-order by ptid
+order by 1

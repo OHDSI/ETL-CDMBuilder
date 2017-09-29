@@ -8,6 +8,7 @@ using Amazon.S3;
 using Amazon.S3.Util;
 using org.ohdsi.cdm.framework.core.Common.Services;
 using org.ohdsi.cdm.framework.core.Helpers;
+using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.entities.DataReaders;
 using org.ohdsi.cdm.framework.entities.Omop;
 using org.ohdsi.cdm.framework.shared.Enums;
@@ -28,17 +29,44 @@ namespace org.ohdsi.cdm.framework.core.Savers
             ReadWriteTimeout = TimeSpan.FromMinutes(60),
             //BufferSize = 1024 * 64,
             RegionEndpoint = Amazon.RegionEndpoint.USEast1,
+            //UseAccelerateEndpoint = true,
             ConnectionLimit = 256,
             MaxErrorRetry = 20,
             MaxIdleTime = 60 * 60 * 1000
          };
 
-         currentClient = new AmazonS3Client(Settings.Current.AwsAccessKeyId, Settings.Current.AwsSecretAccessKey,
+         currentClient = new AmazonS3Client(Settings.Current.S3AwsAccessKeyId, Settings.Current.S3AwsSecretAccessKey,
             config);
 
          this.connectionString = connectionString;
 
          return this;
+      }
+
+      public override void Write(ChunkData chunk, string table)
+      {
+         var attempt = 0;
+         var copied = false;
+         while (!copied)
+         {
+            try
+            {
+               attempt++;
+               Write(chunk.ChunkId, chunk.SubChunkId, CreateDataReader(chunk, table), table);
+               copied = true;
+            }
+            catch (Exception e)
+            {
+               if (attempt <= 5)
+               {
+                  Logger.Write(chunk.ChunkId, LogMessageTypes.Warning, "MoveToS3 attempt=" + attempt + ") | " + table + " | " + Logger.CreateExceptionString(e));
+               }
+               else
+               {
+                  throw;
+               }
+            }
+         }
       }
 
       public override void Write(int? chunkId, int? subChunkId, IDataReader reader, string tableName)
@@ -48,12 +76,12 @@ namespace org.ohdsi.cdm.framework.core.Savers
 
          if (!tableName.ToLower().StartsWith("_chunks"))
          {
-            bucket = bucket + "/" + "cdm";
+            bucket = bucket + "/" + Settings.Current.Building.DestinationSchemaName;
          }
 
          if (chunkId.HasValue)
          {
-            bucket = bucket + "/" + "chunks-set";
+            bucket = bucket + "/" + "sets";
          }
 
          var fileName = MoveToS3(currentClient, bucket, chunkId, subChunkId, reader, tableName);
@@ -91,15 +119,16 @@ namespace org.ohdsi.cdm.framework.core.Savers
          using (
             var c =
                new OdbcCommand(
-                  string.Format(query, schemaName, tableName, bucket, fileName, Settings.Current.AwsAccessKeyId,
-                     Settings.Current.AwsSecretAccessKey), connection, transaction))
+                  string.Format(query, schemaName, tableName, bucket, fileName, Settings.Current.S3AwsAccessKeyId,
+                     Settings.Current.S3AwsSecretAccessKey), connection, transaction))
          {
             c.CommandTimeout = 999999999;
             c.ExecuteNonQuery();
          }
       }
 
-      private static string MoveToS3(AmazonS3Client s3Client, string bucket, int? chunkId, int? subChunkId, IDataReader reader,
+      private static string MoveToS3(AmazonS3Client s3Client, string bucket, int? chunkId, int? subChunkId,
+         IDataReader reader,
          string tableName)
       {
          var folder = tableName;
@@ -118,29 +147,8 @@ namespace org.ohdsi.cdm.framework.core.Savers
             AmazonS3Helper.CreateBucket(s3Client, Settings.Current.Bucket);
          }
 
-         var attempt = 0;
-         var copied = false;
-         while (!copied)
-         {
-             try
-             {
-                 attempt++;
-                 AmazonS3Helper.CopyFile(s3Client, bucket, fileName, reader, tableName);
-                 copied = true;
-             }
-             catch (Exception e)
-             {
-                 if (attempt <= 3)
-                 {
-                     Logger.Write(chunkId, LogMessageTypes.Warning, "MoveToS3 attempt=" + attempt + ") " + Logger.CreateExceptionString(e));
-                 }
-                 else
-                 {
-                     throw;
-                 }
-             }
-         }
-         
+         AmazonS3Helper.CopyFile(s3Client, bucket, fileName, reader, tableName);
+
          return fileName;
       }
 

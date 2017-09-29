@@ -17,31 +17,31 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
             this.connectionString = connectionString;
         }
 
-        public void AddSubChunk(int chunkId, int index, long minPersonId, long maxPersonId, int personCount)
-        {
-           const string query =
-              "INSERT INTO SubChunk ([ChunkId],[Index],[MinPersonId],[MaxPersonId],[PersonCount]) VALUES (@chunkId,@index,@minPersonId,@maxPersonId,@personCount);";
-           using (var connection = SqlConnectionHelper.OpenMSSQLConnection(connectionString))
-           using (var cmd = new SqlCommand(query, connection) { CommandTimeout = 0 })
-           {
-              cmd.Parameters.Add("@chunkId", SqlDbType.Int);
-              cmd.Parameters["@chunkId"].Value = chunkId;
+        //public void AddSubChunk(int chunkId, int index, long minPersonId, long maxPersonId, int personCount)
+        //{
+        //   const string query =
+        //      "INSERT INTO SubChunk ([ChunkId],[Index],[MinPersonId],[MaxPersonId],[PersonCount]) VALUES (@chunkId,@index,@minPersonId,@maxPersonId,@personCount);";
+        //   using (var connection = SqlConnectionHelper.OpenMSSQLConnection(connectionString))
+        //   using (var cmd = new SqlCommand(query, connection) { CommandTimeout = 0 })
+        //   {
+        //      cmd.Parameters.Add("@chunkId", SqlDbType.Int);
+        //      cmd.Parameters["@chunkId"].Value = chunkId;
 
-              cmd.Parameters.Add("@index", SqlDbType.Int);
-              cmd.Parameters["@index"].Value = index;
+        //      cmd.Parameters.Add("@index", SqlDbType.Int);
+        //      cmd.Parameters["@index"].Value = index;
 
-              cmd.Parameters.Add("@minPersonId", SqlDbType.BigInt);
-              cmd.Parameters["@minPersonId"].Value = minPersonId;
+        //      cmd.Parameters.Add("@minPersonId", SqlDbType.BigInt);
+        //      cmd.Parameters["@minPersonId"].Value = minPersonId;
 
-              cmd.Parameters.Add("@maxPersonId", SqlDbType.BigInt);
-              cmd.Parameters["@maxPersonId"].Value = maxPersonId;
+        //      cmd.Parameters.Add("@maxPersonId", SqlDbType.BigInt);
+        //      cmd.Parameters["@maxPersonId"].Value = maxPersonId;
 
-              cmd.Parameters.Add("@personCount", SqlDbType.Int);
-              cmd.Parameters["@personCount"].Value = personCount;
+        //      cmd.Parameters.Add("@personCount", SqlDbType.Int);
+        //      cmd.Parameters["@personCount"].Value = personCount;
 
-              cmd.ExecuteNonQuery();
-           }
-        }
+        //      cmd.ExecuteNonQuery();
+        //   }
+        //}
 
         public int AddChunk(int buildingId)
         {
@@ -251,43 +251,44 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
            }
         }
 
-        public IEnumerable<SubChunkRecord> GetSubChunks(int chunkId)
-        {
-           using (var connection = SqlConnectionHelper.OpenMSSQLConnection(connectionString))
-           {
-              var query = string.Format("SELECT [Index],[MinPersonId],[MaxPersonId],[PersonCount],[Saved] FROM [SubChunk] where [ChunkId] = {0}", chunkId);
+        //public IEnumerable<SubChunkRecord> GetSubChunks(int chunkId)
+        //{
+        //   using (var connection = SqlConnectionHelper.OpenMSSQLConnection(connectionString))
+        //   {
+        //      var query = string.Format("SELECT [Index],[MinPersonId],[MaxPersonId],[PersonCount],[Saved] FROM [SubChunk] where [ChunkId] = {0}", chunkId);
 
-              using (var cmd = new SqlCommand(query, connection) { CommandTimeout = 0 })
-              {
-                 using (var reader = cmd.ExecuteReader())
-                 {
-                    while (reader.Read())
-                    {
-                       yield return
-                          new SubChunkRecord
-                          {
-                             ChunkId = chunkId,
-                             Index = reader.GetInt("Index").Value,
-                             MinPersonId = reader.GetLong("MinPersonId").Value,
-                             MaxPersonId = reader.GetLong("MaxPersonId").Value,
-                             Count = reader.GetInt("PersonCount").Value,
-                             Saved = reader.GetString("Saved") == "1"
-                          };
-                    }
-                 }
-              }
-           }
-        }
+        //      using (var cmd = new SqlCommand(query, connection) { CommandTimeout = 0 })
+        //      {
+        //         using (var reader = cmd.ExecuteReader())
+        //         {
+        //            while (reader.Read())
+        //            {
+        //               yield return
+        //                  new SubChunkRecord
+        //                  {
+        //                     ChunkId = chunkId,
+        //                     Index = reader.GetInt("Index").Value,
+        //                     MinPersonId = reader.GetLong("MinPersonId").Value,
+        //                     MaxPersonId = reader.GetLong("MaxPersonId").Value,
+        //                     Count = reader.GetInt("PersonCount").Value,
+        //                     Saved = reader.GetString("Saved") == "1"
+        //                  };
+        //            }
+        //         }
+        //      }
+        //   }
+        //}
 
-        public int? TakeChunk(int buildingId, int builderId)
+        public int? TakeChunk(int buildingId, int builderId, bool orderByDesc)
         {
             int? chunkId = null;
             using (var connection = SqlConnectionHelper.OpenMSSQLConnection(connectionString))
             using (var transaction = connection.BeginTransaction())
             {
+                var orderBy = orderByDesc ? " ORDER BY 1 DESC" : "";
                 var query =
-                   string.Format("SELECT TOP 1 Id FROM Chunk with (updlock) WHERE BuildingId = {0} AND Started is null",
-                                 buildingId);
+                   string.Format("SELECT TOP 1 Id FROM Chunk with (updlock) WHERE BuildingId = {0} AND Started is null{1}",
+                                 buildingId, orderBy);
 
                 using (var cmd = new SqlCommand(query, connection, transaction) { CommandTimeout = 0 })
                 {

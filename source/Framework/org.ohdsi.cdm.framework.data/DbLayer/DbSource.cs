@@ -44,6 +44,21 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
          }
       }
 
+      public void GrantAccessToChunkTable()
+      {
+         var query = string.Format("grant all on table {0}._chunks to rhealth_etl, rhealth_sa with grant option;",
+            schemaName);
+
+         using (var connection = SqlConnectionHelper.OpenOdbcConnection(connectionString))
+         {
+            using (var command = new OdbcCommand(query, connection))
+            {
+               command.CommandTimeout = 0;
+               command.ExecuteNonQuery();
+            }
+         }
+      }
+
       public void CreateIndexesChunkTable()
       {
          var query = File.ReadAllText(Path.Combine(folder, "CreateIndexesChunkTable.sql"));

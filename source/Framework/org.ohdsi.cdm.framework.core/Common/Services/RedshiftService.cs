@@ -19,7 +19,16 @@ namespace org.ohdsi.cdm.framework.core.Common.Services
         private static Dictionary<int, int> chunksIndexes;
 
         private BackgroundWorker saver;
-        private const int SIZE_OF_SET = 1;
+        //private const int SIZE_OF_SET = 3;
+
+       private int SizeOfSet
+       {
+          get
+          {
+             return Settings.Current.Building.BatchSize >= 1000 * 1000 ? 3 : 10;
+             //return 10;
+          }
+       }
         
         public void Start()
         {
@@ -27,7 +36,7 @@ namespace org.ohdsi.cdm.framework.core.Common.Services
 
             indexSize.Clear();
             var dbChunk = new DbChunk(Settings.Current.Building.BuilderConnectionString);
-            chunksIndexes = dbChunk.SplitChunks(Settings.Current.Building.Id.Value, SIZE_OF_SET);
+            chunksIndexes = dbChunk.SplitChunks(Settings.Current.Building.Id.Value, SizeOfSet);
             
             foreach (var index in chunksIndexes.Values)
             {
@@ -111,7 +120,7 @@ namespace org.ohdsi.cdm.framework.core.Common.Services
                     return;
                  }
 
-                 var setIndex = dbAvailableOnS3.GetCompletedSetIndex(Settings.Current.Building.Id.Value, SIZE_OF_SET);
+                 var setIndex = dbAvailableOnS3.GetCompletedSetIndex(Settings.Current.Building.Id.Value, SizeOfSet);
                  if (!setIndex.HasValue)
                  {
                     Thread.Sleep(1000);
@@ -203,35 +212,66 @@ namespace org.ohdsi.cdm.framework.core.Common.Services
             Logger.Write(null, LogMessageTypes.Info, string.Format("Save - {0} ms", timer.ElapsedMilliseconds));
         }
 
-        private static void SaveTable(OdbcConnection connection, OdbcTransaction transaction, int setIndex,
+       private static void SaveTable(OdbcConnection connection, OdbcTransaction transaction, int setIndex,
           string tableName)
-        {
-            var timer = new Stopwatch();
-            timer.Start();
-            Logger.Write(null, LogMessageTypes.Debug, string.Format("*** START index - {0}; table - {1}", setIndex, tableName));
-           var bucket = string.Format("{0}/{1}/{2}/{3}", Settings.Current.Bucket, Settings.Current.Building.Vendor,
-              Settings.Current.Building.Id, "cdm");
-            
-            var fileName = string.Format(@"{0}/{1}/{2}", "chunks-set", setIndex, tableName + ".txt.gz");
-            tableName = string.Format("{0}.{1}", Settings.Current.Building.DestinationSchemaName, tableName);
+       {
+          var attempt = 0;
+          var saved = false;
+          while (!saved)
+          {
+             try
+             {
+                attempt++;
+                var timer = new Stopwatch();
+                timer.Start();
+                Logger.Write(null, LogMessageTypes.Debug,
+                   string.Format("*** START index - {0}; table - {1}", setIndex, tableName));
+                var bucket = string.Format("{0}/{1}/{2}/{3}", Settings.Current.Bucket, Settings.Current.Building.Vendor,
+                   Settings.Current.Building.Id, Settings.Current.Building.DestinationSchemaName);
 
-            const string query = @"copy {0} from 's3://{1}/{2}' " +
-                                 @"credentials 'aws_access_key_id={3};aws_secret_access_key={4}' " +
-                                 @"IGNOREBLANKLINES " +
-                                 @"DELIMITER '\t' " +
-                                 @"NULL AS '\000' " +
-                                 @"csv quote as '`' " +
-                                 @"GZIP";
+                var fileName = string.Format(@"{0}/{1}/{2}", "sets", setIndex, tableName + ".txt.gz");
+                tableName = string.Format("{0}.{1}", Settings.Current.Building.DestinationSchemaName, tableName);
 
-            using (var c = new OdbcCommand(string.Format(query, tableName, bucket, fileName, Settings.Current.AwsAccessKeyId, Settings.Current.AwsSecretAccessKey), connection, transaction))
-            {
-                c.CommandTimeout = 999999999;
-                c.ExecuteNonQuery();
-            }
+                const string query = @"copy {0} from 's3://{1}/{2}' " +
+                                     @"credentials 'aws_access_key_id={3};aws_secret_access_key={4}' " +
+                                     @"IGNOREBLANKLINES " +
+                                     @"DELIMITER '\t' " +
+                                     @"NULL AS '\000' " +
+                                     @"csv quote as '`' " +
+                                     @"GZIP";
 
-            timer.Stop();
-            Logger.Write(null, LogMessageTypes.Debug, string.Format("*** END index - {0}; table - {1}, time={2}ms", setIndex, tableName, timer.ElapsedMilliseconds));
-        }
-      
+                using (
+                   var c =
+                      new OdbcCommand(
+                         string.Format(query, tableName, bucket, fileName, Settings.Current.S3AwsAccessKeyId,
+                            Settings.Current.S3AwsSecretAccessKey), connection, transaction))
+                {
+                   c.CommandTimeout = 999999999;
+                   c.ExecuteNonQuery();
+                }
+
+                timer.Stop();
+                Logger.Write(null, LogMessageTypes.Debug,
+                   string.Format("*** END index - {0}; table - {1}, time={2}ms", setIndex, tableName,
+                      timer.ElapsedMilliseconds));
+
+                saved = true;
+             }
+             catch (Exception ex)
+             {
+                if (attempt <= 3)
+                {
+                   Logger.Write(null, LogMessageTypes.Warning, string.Format("*** SAVE failed,  index - {0}; table - {1}, attempt={2}; Error= {3}", setIndex, tableName,
+                      attempt, Logger.CreateExceptionString(ex) ));
+                }
+                else
+                {
+                   throw;
+                }
+             }
+
+          }
+       }
+
     }
 }

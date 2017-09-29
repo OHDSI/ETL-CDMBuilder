@@ -2,7 +2,7 @@
   <Query>
     SELECT
     CAST(RIGHT([Member ID], LEN([Member ID]) - 1) AS BIGINT) AS person_id,
-    CAST(CAST([Month and year of health chechups] AS VARCHAR(6)) + '15' AS DATE) AS observation_date,
+    CAST(CAST([Month and year of health checkups] AS VARCHAR(6)) + '15' AS DATE) AS observation_date,
     --value_as_number
     [BMI],
     [Amount of visceral fat] as Amount_of_visceral_fat,

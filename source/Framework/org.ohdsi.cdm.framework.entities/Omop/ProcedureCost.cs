@@ -3,7 +3,7 @@ using org.ohdsi.cdm.framework.shared.Enums;
 
 namespace org.ohdsi.cdm.framework.entities.Omop
 {
-   public class ProcedureCost : ProcedureOccurrence, IEquatable<ProcedureCost>
+   public class ProcedureCost : ProcedureOccurrence, IEquatable<ProcedureCost>, ICostV5
    {
       public long ProcedureCostId { get; set; }
 
@@ -23,6 +23,9 @@ namespace org.ohdsi.cdm.framework.entities.Omop
       public string RevenueCodeSourceValue { get; set; }
 
       public string DiseaseClassLookupKey { get; set; }
+      public decimal? IngredientCost { get; set; }
+      public decimal? DispensingFee { get; set; }
+      public decimal? AverageWholesalePrice { get; set; }
 
       // CDM v5 props
       public long CurrencyConceptId { get; set; }
@@ -73,6 +76,34 @@ namespace org.ohdsi.cdm.framework.entities.Omop
       public override EntityType GeEntityType()
       {
          return EntityType.ProcedureCost;
+      }
+
+      public Cost CreateCost(long costId)
+      {
+         return new Cost
+         {
+            CostId = costId,
+            CurrencyConceptId = CurrencyConceptId,
+            TotalCharge = null,
+            TotalCost = null,
+            RevenueCodeConceptId = RevenueCodeConceptId,
+            RevenueCodeSourceValue = RevenueCodeSourceValue,
+
+            PayerPlanPeriodId = PayerPlanPeriodId,
+
+            PaidPatientCopay = PaidCopay,
+            PaidPatientCoinsurance = PaidCoinsurance,
+            PaidPatientDeductible = PaidTowardDeductible,
+            PaidByPrimary = PaidByCoordinationBenefits,
+
+            TotalPaid = PaidCopay + PaidCoinsurance + PaidTowardDeductible + PaidByPayer + PaidByCoordinationBenefits,
+            PaidByPatient = PaidCopay + PaidCoinsurance + PaidTowardDeductible,
+            PaidByPayer = PaidByPayer,
+
+            Domain = "Procedure",
+            TypeId = 0,
+            EventId = Id
+         };
       }
    }
 }

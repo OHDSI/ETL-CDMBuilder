@@ -66,7 +66,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
 
          return new ObservationCost(observation)
                    {
-                      CurrencyConceptId = reader.GetLong(CurrencyConceptId),
+                      CurrencyConceptId = reader.GetLong(CurrencyConceptId) ?? 0,
                       PaidCopay = paidCopay,
                       PaidCoinsurance = paidCoinsurance,
                       PaidTowardDeductible = paidTowardDeductible,

@@ -1,7 +1,8 @@
 ﻿namespace org.ohdsi.cdm.framework.entities.Omop
 {
-   public class Cost : Entity
+   public class Cost //: Entity
    {
+      public string Domain { get; set; }
       public long CostId { get; set; }
       public long EventId { get; set; }
 

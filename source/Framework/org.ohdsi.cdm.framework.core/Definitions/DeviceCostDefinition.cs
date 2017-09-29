@@ -74,7 +74,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
                       PaidByCoordinationBenefits = reader.GetDecimal(PaidByCoordinationBenefits),
                       TotalPaid = reader.GetDecimal(TotalPaid),
                       TotalOutOfPocket = totalOutOfPocket,
-                      CurrencyConceptId = reader.GetLong(CurrencyConceptId),
+                      CurrencyConceptId = reader.GetLong(CurrencyConceptId) ?? 0,
                       RevenueCodeConceptId = revenueCodeConceptId,
                       RevenueCodeSourceValue = revenueCodeSource,
                    };

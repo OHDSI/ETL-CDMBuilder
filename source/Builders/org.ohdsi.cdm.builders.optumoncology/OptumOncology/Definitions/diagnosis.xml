@@ -12,7 +12,6 @@
     when primary_diagnosis = '1' then 44786627
     else  44786629
     end as TypeId,
-    ec.provid,
     diagnosis_cd,
     case
     when diagnosis_cd_type IN ('ICD9') then diagnosis_cd
@@ -36,7 +35,6 @@
     end as unknown
     from {sc}.diagnosis as d
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND d.ptid = ch.PERSON_SOURCE_VALUE
-    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = d.encid
     where DIAGNOSIS_STATUS = 'Diagnosis of'
     order by cast(replace(d.ptid, 'PT','') as bigint)
   </Query>
@@ -45,7 +43,6 @@
       <PersonId>PersonId</PersonId>
       <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
       <StartDate>diag_date</StartDate>
-      <ProviderId>provid</ProviderId>
       <AdditionalFields>
         <string>encid</string>
       </AdditionalFields>
@@ -72,7 +69,6 @@
       <PersonId>PersonId</PersonId>
       <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
       <StartDate>diag_date</StartDate>
-      <ProviderId>provid</ProviderId>
       <AdditionalFields>
         <string>encid</string>
       </AdditionalFields>
@@ -99,7 +95,6 @@
       <PersonId>PersonId</PersonId>
       <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
       <StartDate>diag_date</StartDate>
-      <ProviderId>provid</ProviderId>
       <AdditionalFields>
         <string>encid</string>
       </AdditionalFields>
@@ -127,7 +122,6 @@
       <PersonId>PersonId</PersonId>
       <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
       <StartDate>diag_date</StartDate>
-      <ProviderId>provid</ProviderId>
       <AdditionalFields>
         <string>encid</string>
       </AdditionalFields>

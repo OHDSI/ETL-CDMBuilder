@@ -33,7 +33,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
             get { return chunkController.AllChunksStarted(); }
         }
 
-        public int GetChunksCount
+        public int ChunksCount
         {
             get
             {
@@ -44,7 +44,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
             }
         }
 
-        public int GetCompleteChunksCount
+        public int CompleteChunksCount
         {
             get
             {
@@ -52,10 +52,10 @@ namespace org.ohdsi.cdm.framework.core.Controllers
             }
         }
 
-       public long TotalPersonCount
-       {
-          get { return chunkController.TotalPersonCount; }
-       }
+       //public long TotalPersonCount
+       //{
+       //   get { return chunkController.TotalPersonCount; }
+       //}
        #endregion
 
         #region Constructor
@@ -198,7 +198,15 @@ namespace org.ohdsi.cdm.framework.core.Controllers
             PerformAction(chunkController.CreateChunks);
         }
 
-        public void CopyVocabulary()
+       public void ClenupChunks()
+       {
+          if (Settings.Current.Building.DestinationEngine.Database == Database.Redshift)
+          {
+             PerformAction(chunkController.ClenupChunks);
+          }
+       }
+
+       public void CopyVocabulary()
         {
             PerformAction(() =>
             {
@@ -245,8 +253,10 @@ namespace org.ohdsi.cdm.framework.core.Controllers
                     {
                         var arguments =
                            string.Format(@"<{0}>{1}</{0}>", "cs", Settings.Current.Building.BuilderConnectionString) +
-                           string.Format(@"<{0}>{1}</{0}>", "keyid", Settings.Current.AwsAccessKeyId) +
-                           string.Format(@"<{0}>{1}</{0}>", "accesskey", Settings.Current.AwsSecretAccessKey) +
+                           string.Format(@"<{0}>{1}</{0}>", "s3keyid", Settings.Current.S3AwsAccessKeyId) +
+                           string.Format(@"<{0}>{1}</{0}>", "s3accesskey", Settings.Current.S3AwsSecretAccessKey) +
+                           string.Format(@"<{0}>{1}</{0}>", "ec2keyid", Settings.Current.Ec2AwsAccessKeyId) +
+                           string.Format(@"<{0}>{1}</{0}>", "ec2accesskey", Settings.Current.Ec2AwsSecretAccessKey) +
                            string.Format(@"<{0}>{1}</{0}>", "SubChunkSize", Settings.Current.SubChunkSize) +
                            string.Format(@"<{0}>{1}</{0}>", "bucket", Settings.Current.Bucket);
 

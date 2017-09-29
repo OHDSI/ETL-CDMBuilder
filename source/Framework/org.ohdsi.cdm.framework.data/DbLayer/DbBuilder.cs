@@ -166,10 +166,10 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
          }
       }
 
-      public int CreateSettings(string machineName, string folder, int maxDegreeOfParallelism, int batchSize, string version)
+      public int CreateSettings(string machineName, string folder, int maxDegreeOfParallelism, string version)
       {
-         var query = "INSERT INTO [Builder] ([Dsn],[Folder],[MaxDegreeOfParallelism],[BatchSize], [Version]) VALUES ('{0}','{1}',{2},{3},'{4}');Select Scope_Identity();";
-         query = string.Format(query, machineName, folder, maxDegreeOfParallelism, batchSize, version);
+         var query = "INSERT INTO [Builder] ([Dsn],[Folder],[BatchSize], [MaxDegreeOfParallelism], [Version]) VALUES ('{0}','{1}',{2},{3},'{4}');Select Scope_Identity();";
+         query = string.Format(query, machineName, folder, 0, maxDegreeOfParallelism, version);
          using (var connection = SqlConnectionHelper.OpenMSSQLConnection(connectionString))
          {
             using (var cmd = new SqlCommand(query, connection))
@@ -180,13 +180,12 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
          }
       }
 
-      public void UpdateSettings(int builderId, string machineName, int buildingId, string folder, int maxDegreeOfParallelism, int batchSize, string version)
+      public void UpdateSettings(int builderId, string machineName, int buildingId, string folder, int maxDegreeOfParallelism, string version)
       {
          const string query = "UPDATE [dbo].[Builder] " +
                               "SET [Folder] = @folder " +
                               ",[MaxDegreeOfParallelism] = @maxDegreeOfParallelism " +
                               ",[BuildingId] = @buildingId " +
-                              ",[BatchSize] = @batchSize " +
                               ",[Version] = @version " +
                               "WHERE [Id] = @builderId";
 
@@ -205,9 +204,6 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
 
                cmd.Parameters.Add("@maxDegreeOfParallelism", SqlDbType.VarChar);
                cmd.Parameters["@maxDegreeOfParallelism"].Value = maxDegreeOfParallelism;
-
-               cmd.Parameters.Add("@batchSize", SqlDbType.VarChar);
-               cmd.Parameters["@batchSize"].Value = batchSize;
 
                cmd.Parameters.Add("@buildingId", SqlDbType.Int);
                cmd.Parameters["@buildingId"].Value = buildingId;

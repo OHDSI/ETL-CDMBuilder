@@ -141,17 +141,8 @@
     <Content Include="TruvenV5\Lookups\DeathDRG.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TruvenV5\Lookups\DeathCodes_ICD10.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="TruvenV5\Lookups\Modifier.sql">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TruvenV5\Lookups\ProcedureSource_ICD10.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TruvenV5\Lookups\Procedure_ICD10.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TruvenV5\Lookups\LabSource.sql">

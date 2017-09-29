@@ -14,10 +14,10 @@ INSERT INTO {sc}.CDM_SOURCE
            ,VOCABULARY_VERSION)
      VALUES
            (
-		   'Optum Oncology',
-		   'OptumOncology',
+		   'Optum EHR Only',
+		   'Optum EHR Only',
 		   'Janssen R&D',
-		    '',
+		    'Optum’s Integrated Claims-Clinical Dataset combines adjudicated claims from Optum Clinformatics Extended DataMart along with Humedica’s Electronic Health Record data for the same patients, this makes it both a claims database and a medical records database.  The population is primarily representative of US commercial claims patients (0-65 years old) with some Medicare (65+ years old) however ages are capped at 90 years.  However this version only uses the EHR data portion of the data and ignores the claims portion.  The medical record data includes clinical information, inclusive of prescriptions as prescribed and administered, lab results, vital signs, body measurements, diagnoses, procedures, and information derived from clinical Notes using Natural Language Processing. [For further information link to RWE site for Optum Integrated.](https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F4c6c9253-7625-4055-b33e-6fda9b1bc57e.xml)',
 			'https://jnj.sharepoint.com/sites/PHM-GCSP-RND/RWE/Pages/DataSourceDetails.aspx?DataSourceItem=36',
 			'http://www.ohdsi.org/web/wiki/doku.php?id=documentation:example_etls',
 			'{0}',

@@ -144,7 +144,7 @@ namespace org.ohdsi.cdm.framework.core.Helpers
                  {
                     if (string.IsNullOrEmpty(entry.Key)) continue;
                     // remove only chunk data
-                    if (!entry.Key.Contains("chunks-set"))
+                    if (!entry.Key.Contains("sets"))
                        continue;
 
                     containsObjectsToDelete = true;

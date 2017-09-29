@@ -21,6 +21,6 @@ namespace org.ohdsi.cdm.framework.core.Databases
 
       IDataReader ReadChunkData(IDbConnection conn, IDbCommand cmd, QueryDefinition qd, int chunkId, string prefix);
 
-      IChunkBuilder GetChunkBuilder(int chunkId, Func<IPersonBuilder> createPersonBuilder, int subChunkSize);
+      IChunkBuilder GetChunkBuilder(int chunkId, Func<IPersonBuilder> createPersonBuilder);
    }
 }

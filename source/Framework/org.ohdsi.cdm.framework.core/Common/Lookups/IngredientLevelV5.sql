@@ -3,8 +3,8 @@
 FROM {sc}.CONCEPT C
 JOIN CONCEPT_ANCESTOR CA
 	ON CA.ancestor_concept_id = C.concept_id
-	and c.vocabulary_id = 'RxNorm'
-	and c.concept_class_id = 'Ingredient'
-	and invalid_reason is null
+	and lower(c.vocabulary_id) = 'rxnorm'
+	and lower(c.concept_class_id) = 'ingredient'
+	and (invalid_reason is null or invalid_reason = '')
 JOIN {sc}.CONCEPT A
 	ON CA.descendant_CONCEPT_ID = A.CONCEPT_ID

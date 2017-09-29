@@ -80,8 +80,8 @@ namespace org.ohdsi.cdm.framework.core.Databases
           //if (qd.FieldHeaders == null)
           //    RestoreMetadataFromS3(qd, folder);
          
-          return new S3DataReader(Settings.Current.Bucket, folder, Settings.Current.AwsAccessKeyId,
-             Settings.Current.AwsSecretAccessKey, chunkId, qd.FileName, qd.FieldHeaders, prefix, (m) => Logger.Write(chunkId, LogMessageTypes.Debug, m));
+          return new S3DataReader(Settings.Current.Bucket, folder, Settings.Current.S3AwsAccessKeyId,
+             Settings.Current.S3AwsSecretAccessKey, chunkId, qd.FileName, qd.FieldHeaders, prefix, (m) => Logger.Write(chunkId, LogMessageTypes.Debug, m));
       }
 
       //public static void RestoreMetadataFromS3(QueryDefinition queryDefinition, string folder)
@@ -90,7 +90,7 @@ namespace org.ohdsi.cdm.framework.core.Databases
 
       //    var metadataKey = string.Format("{0}/metadata/{1}", folder, queryDefinition.FileName + ".txt");
 
-      //    using (var client = new AmazonS3Client(Settings.Current.AwsAccessKeyId, Settings.Current.AwsSecretAccessKey, Amazon.RegionEndpoint.USEast1))
+      //    using (var client = new AmazonS3Client(Settings.Current.S3AwsAccessKeyId, Settings.Current.S3AwsSecretAccessKey, Amazon.RegionEndpoint.USEast1))
       //    using (var stream = new MemoryStream())
       //    using (var sr = new StreamReader(stream))
       //    {
@@ -117,7 +117,7 @@ namespace org.ohdsi.cdm.framework.core.Databases
       //    }
       //}
 
-      public override IChunkBuilder GetChunkBuilder(int chunkId, Func<IPersonBuilder> createPersonBuilder, int subChunkSize)
+      public override IChunkBuilder GetChunkBuilder(int chunkId, Func<IPersonBuilder> createPersonBuilder)
       {
          return new ChunkBuilder2(chunkId, createPersonBuilder);
       }

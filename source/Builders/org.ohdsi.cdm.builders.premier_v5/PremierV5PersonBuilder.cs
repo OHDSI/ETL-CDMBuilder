@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using org.ohdsi.cdm.framework.core.Base;
 using org.ohdsi.cdm.framework.entities.Omop;
-using org.ohdsi.cdm.framework.shared.Enums;
 
 namespace org.ohdsi.cdm.builders.premier_v5
 {
@@ -112,11 +111,6 @@ namespace org.ohdsi.cdm.builders.premier_v5
          // set corresponding ProviderIds
          SetPayerPlanPeriodId(payerPlanPeriods, drugExposures, procedureOccurrences, visitOccurrences.Values.ToArray(), deviceExposure);
 
-         //var drugCosts = BuildDrugCosts(drugExposures).ToArray();
-         //var procedureCosts = BuildProcedureCosts(procedureOccurrences).ToArray();
-         //var devicCosts = BuildDeviceCosts(deviceExposure).ToArray();
-         //var visitCosts = BuildVisitCosts(visitOccurrences.Values.ToArray()).ToArray();
-
          // push built entities to ChunkBuilder for further save to CDM database
          AddToChunk(person, death,
             observationPeriods,
@@ -161,72 +155,21 @@ namespace org.ohdsi.cdm.builders.premier_v5
                   var mes = entity as Measurement ??
                             new Measurement(entity) {Id = chunkData.KeyMasterOffset.MeasurementId};
                   chunkData.AddData(mes);
-                  if (mes.MeasurementCost != null && mes.MeasurementCost.Count > 0)
-                  {
-                     foreach (var mc in mes.MeasurementCost)
-                     {
-                        chunkData.AddData(new Cost
-                        {
-                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                           CurrencyConceptId = mc.CurrencyConceptId.Value,
-                           TotalCharge = mc.TotalPaid,
-                           TotalCost = mc.PaidByPayer,
-                           RevenueCodeConceptId = mc.RevenueCodeConceptId,
-                           RevenueCodeSourceValue = mc.RevenueCodeSourceValue,
-                           Domain = entityDomain,
-                           TypeId = 0,
-                           EventId = mes.Id
-                        }, EntityType.Cost);
-                     }
-                  }
+                  AddCost(entity, CostV5ToV51("Measurement"));
                   break;
 
                case "Meas Value":
                   var mv = entity as Measurement ??
                            new Measurement(entity) {Id = chunkData.KeyMasterOffset.MeasurementId};
                   chunkData.AddData(mv);
-                  if (mv.MeasurementCost != null && mv.MeasurementCost.Count > 0)
-                  {
-                     foreach (var mc in mv.MeasurementCost)
-                     {
-                        chunkData.AddData(new Cost
-                        {
-                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                           CurrencyConceptId = mc.CurrencyConceptId.Value,
-                           TotalCharge = mc.TotalPaid,
-                           TotalCost = mc.PaidByPayer,
-                           RevenueCodeConceptId = mc.RevenueCodeConceptId,
-                           RevenueCodeSourceValue = mc.RevenueCodeSourceValue,
-                           Domain = entityDomain,
-                           TypeId = 0,
-                           EventId = mv.Id
-                        }, EntityType.Cost);
-                     }
-                  }
+                  AddCost(entity, CostV5ToV51("Measurement"));
                   break;
 
                case "Observation":
                   var obser = entity as Observation ??
                               new Observation(entity) {Id = chunkData.KeyMasterOffset.ObservationId};
                   chunkData.AddData(obser);
-                  if (obser.ObservationCost != null && obser.ObservationCost.Count > 0)
-                  {
-                     foreach (var oc in obser.ObservationCost)
-                     {
-                        chunkData.AddData(new Cost
-                        {
-                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                           CurrencyConceptId = oc.CurrencyConceptId.Value,
-                           TotalCharge = oc.TotalPaid,
-                           TotalCost = oc.PaidByPayer,
-                           RevenueCodeConceptId = oc.RevenueCodeConceptId,
-                           RevenueCodeSourceValue = oc.RevenueCodeSourceValue,
-                           Domain = entityDomain,
-                           TypeId = 0,
-                           EventId = obser.Id
-                        }, EntityType.Cost);
-                     }
-                  }
+                  AddCost(entity, CostV5ToV51("Observation"));
                   break;
 
                case "Procedure":
@@ -245,26 +188,7 @@ namespace org.ohdsi.cdm.builders.premier_v5
                   }
 
                   chunkData.AddData(p);
-
-                  if (p.ProcedureCosts != null && p.ProcedureCosts.Count > 0)
-                  {
-                     foreach (var pc in p.ProcedureCosts)
-                     {
-                        chunkData.AddData(new Cost
-                        {
-                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                           CurrencyConceptId = pc.CurrencyConceptId,
-                           TotalCharge = pc.TotalPaid,
-                           TotalCost = pc.PaidByPayer,
-                           RevenueCodeConceptId = pc.RevenueCodeConceptId,
-                           RevenueCodeSourceValue = pc.RevenueCodeSourceValue,
-                           Domain = entityDomain,
-                           TypeId = 0,
-                           EventId = p.Id
-                        }, EntityType.Cost);
-                     }
-
-                  }
+                  AddCost(entity, CostV5ToV51("Procedure"));
                   break;
 
                case "Device":
@@ -274,24 +198,7 @@ namespace org.ohdsi.cdm.builders.premier_v5
                                Id = chunkData.KeyMasterOffset.DeviceExposureId
                             };
                   chunkData.AddData(dev);
-                  if (dev.DeviceCosts != null && dev.DeviceCosts.Count > 0)
-                  {
-                     foreach (var dc in dev.DeviceCosts)
-                     {
-                        chunkData.AddData(new Cost
-                        {
-                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                           CurrencyConceptId = dc.CurrencyConceptId.Value,
-                           TotalCharge = dc.TotalPaid,
-                           TotalCost = dc.PaidByPayer,
-                           RevenueCodeConceptId = dc.RevenueCodeConceptId,
-                           RevenueCodeSourceValue = dc.RevenueCodeSourceValue,
-                           Domain = entityDomain,
-                           TypeId = 0,
-                           EventId = dev.Id
-                        }, EntityType.Cost);
-                     }
-                  }
+                  AddCost(entity, CostV5ToV51("Device"));
                   break;
 
                case "Drug":
@@ -304,43 +211,25 @@ namespace org.ohdsi.cdm.builders.premier_v5
 
                   drugForEra.Add(drg);
                   chunkData.AddData(drg);
-
-                  if (drg.DrugCost != null)
-                  {
-                     chunkData.AddData(new Cost
-                     {
-                        CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                        CurrencyConceptId = drg.DrugCost.CurrencyConceptId.Value,
-                        TotalCharge = drg.DrugCost.TotalPaid,
-                        TotalCost = drg.DrugCost.PaidByPayer,
-                        RevenueCodeConceptId = drg.DrugCost.RevenueCodeConceptId,
-                        RevenueCodeSourceValue = drg.DrugCost.RevenueCodeSourceValue,
-                        Domain = entityDomain,
-                        TypeId = 0,
-                        EventId = drg.Id
-                     }, EntityType.Cost);
-                  }
-
+                  AddCost(entity, CostV5ToV51("Drug"));
                   break;
 
             }
-
-            //HIX-823
-            if (domain == "Procedure" && entityDomain != "Procedure")
-            {
-               var po = (ProcedureOccurrence)entity;
-               po.ConceptId = 0;
-               chunkData.AddData(po);
-            }
-
-            if (domain == "Observation" && entityDomain != "Observation")
-            {
-               var o = (Observation)entity;
-               o.ConceptId = 0;
-               chunkData.AddData(o);
-            }
-
          }
+      }
+
+      private static Func<ICostV5, Cost> CostV5ToV51(string domain)
+      {
+         return v5 => new Cost
+         {
+            CurrencyConceptId = v5.CurrencyConceptId,
+            TotalCharge = v5.TotalPaid,
+            TotalCost = v5.PaidByPayer,
+            RevenueCodeConceptId = v5.RevenueCodeConceptId,
+            RevenueCodeSourceValue = v5.RevenueCodeSourceValue,
+            Domain = domain,
+            TypeId = 0
+         };
       }
 
       public override bool Excluded(Person person, IEnumerable<ObservationPeriod> periods)
@@ -376,19 +265,25 @@ namespace org.ohdsi.cdm.builders.premier_v5
          person.YearOfBirth = maxYearOfBirth;
 
          //take the maximum value of race for people that have multiple values 
-         var race = records.OrderBy(p => p.RaceSourceValue).ThenBy(p => p.EthnicitySourceValue).First();
+         var race = records.GroupBy(r => r.RaceSourceValue)
+            .OrderByDescending(g => g.Count())
+            .First().First();
+
+         var ethnicity = records.GroupBy(r => r.EthnicitySourceValue)
+            .OrderByDescending(g => g.Count())
+            .First().First();
 
          person.GenderConceptId = gender.GenderConceptId;
          person.GenderSourceValue = gender.GenderSourceValue;
          person.RaceConceptId = race.RaceConceptId;
          person.RaceSourceValue = race.RaceSourceValue;
-         person.EthnicitySourceValue = race.EthnicitySourceValue;
-         person.EthnicityConceptId = race.EthnicityConceptId;
+         person.EthnicitySourceValue = ethnicity.EthnicitySourceValue;
+         person.EthnicityConceptId = ethnicity.EthnicityConceptId;
 
-         //Person has ethnicity value, but no race value
-         if (person.EthnicityConceptId.HasValue && person.EthnicityConceptId > 0 &&
-             (!person.RaceConceptId.HasValue || person.RaceConceptId == 0))
-            return null;
+         ////Person has ethnicity value, but no race value
+         //if (person.EthnicityConceptId.HasValue && person.EthnicityConceptId > 0 &&
+         //    (!person.RaceConceptId.HasValue || person.RaceConceptId == 0))
+         //   return null;
 
          if (person.GenderConceptId == 8551) //UNKNOWN
             return null;

@@ -4,8 +4,6 @@ using System.Globalization;
 using System.Linq;
 using org.ohdsi.cdm.framework.core;
 using org.ohdsi.cdm.framework.core.Base;
-using org.ohdsi.cdm.framework.core.Common.Services;
-using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.entities.Omop;
 using org.ohdsi.cdm.framework.shared.Enums;
 using org.ohdsi.cdm.framework.shared.Extensions;
@@ -272,10 +270,16 @@ namespace org.ohdsi.cdm.builders.truven_v5
                   var visitOccurrence = vo[co.VisitOccurrenceId.Value];
 
                   co.EndDate = null;
-                  co.StartDate = visitOccurrence.StartDate;
+
+                  if (co.AdditionalFields["priority"] != "1") // HIX-1274
+                  {
+                     co.StartDate = visitOccurrence.StartDate;
+                  }
 
                   co.TypeConceptId = GetConditionTypeConceptId(co, visitOccurrence.ConceptId);
                   co.ProviderKey = GetProviderKey(visitOccurrence);
+
+                  
                   //co.SourceConceptId = co.ConceptId;
 
                   result.Add(co);
@@ -843,28 +847,7 @@ namespace org.ohdsi.cdm.builders.truven_v5
 
          foreach (var cost in visitCosts)
          {
-            chunkData.AddData(new Cost
-            {
-               CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-               CurrencyConceptId = cost.CurrencyConceptId.Value,
-               TotalCharge = null,
-               TotalCost = null,
-
-               PayerPlanPeriodId = cost.PayerPlanPeriodId,
-
-               PaidPatientCopay = cost.PaidCopay,
-               PaidPatientCoinsurance = cost.PaidCoinsurance,
-               PaidPatientDeductible = cost.PaidTowardDeductible,
-               PaidByPrimary = cost.PaidByCoordinationBenefits,
-
-               TotalPaid = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible + cost.PaidByPayer + cost.PaidByCoordinationBenefits,
-               PaidByPatient = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible,
-               PaidByPayer = cost.PaidByPayer,
-
-               Domain = "Visit",
-               TypeId = 0,
-               EventId = cost.Id
-            }, EntityType.Cost);
+            chunkData.AddCostData(cost.CreateCost(chunkData.KeyMasterOffset.VisitCostId));
          }
 
          // push built entities to ChunkBuilder for further save to CDM database
@@ -891,7 +874,6 @@ namespace org.ohdsi.cdm.builders.truven_v5
                entityDomain = domain;
             }
 
-
             switch (entityDomain)
             {
                case "Condition":
@@ -903,6 +885,12 @@ namespace org.ohdsi.cdm.builders.truven_v5
                                 {
                                    Id = chunkData.KeyMasterOffset.ConditionOccurrenceId
                                 };
+
+                     if (cond.TypeConceptId == 44786633 || cond.TypeConceptId == 44786634) //HRA
+                     {
+                        cond.EndDate = null; //HIX-1299
+                     }
+
                      conditionForEra.Add(cond);
                      chunkData.AddData(cond);
                   }
@@ -912,104 +900,22 @@ namespace org.ohdsi.cdm.builders.truven_v5
                    var mes = entity as Measurement ??
                             new Measurement(entity) {Id = chunkData.KeyMasterOffset.MeasurementId};
                   chunkData.AddData(mes);
-                  if (mes.MeasurementCost != null && mes.MeasurementCost.Count > 0)
-                  {
-                     foreach (var cost in mes.MeasurementCost)
-                     {
-                        chunkData.AddData(new Cost
-                        {
-                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                           CurrencyConceptId = cost.CurrencyConceptId.Value,
-                           TotalCharge = null,
-                           TotalCost = null,
-                           RevenueCodeConceptId = cost.RevenueCodeConceptId,
-                           RevenueCodeSourceValue = cost.RevenueCodeSourceValue,
-
-                           PayerPlanPeriodId = cost.PayerPlanPeriodId,
-
-                           PaidPatientCopay = cost.PaidCopay,
-                           PaidPatientCoinsurance = cost.PaidCoinsurance,
-                           PaidPatientDeductible = cost.PaidTowardDeductible,
-                           PaidByPrimary = cost.PaidByCoordinationBenefits,
-
-                           TotalPaid = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible + cost.PaidByPayer + cost.PaidByCoordinationBenefits,
-                           PaidByPatient = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible,
-                           PaidByPayer = cost.PaidByPayer,
-
-                           Domain = entityDomain,
-                           TypeId = 0,
-                           EventId = mes.Id
-                        }, EntityType.Cost);
-                     }
-                  }
+                  AddCost(entity, CostV5ToV51("Measurement"));
                   break;
 
                case "Meas Value":
                   var mv = entity as Measurement ??
                            new Measurement(entity) {Id = chunkData.KeyMasterOffset.MeasurementId};
                   chunkData.AddData(mv);
-                  if (mv.MeasurementCost != null && mv.MeasurementCost.Count > 0)
-                  {
-                     foreach (var mc in mv.MeasurementCost)
-                     {
-                        chunkData.AddData(new Cost
-                        {
-                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                           CurrencyConceptId = mc.CurrencyConceptId.Value,
-                           TotalCharge = null,
-                           TotalCost = null,
-                           RevenueCodeConceptId = mc.RevenueCodeConceptId,
-                           RevenueCodeSourceValue = mc.RevenueCodeSourceValue,
-                           PayerPlanPeriodId = mc.PayerPlanPeriodId,
-                           PaidPatientCopay = mc.PaidCopay,
-                           PaidPatientCoinsurance = mc.PaidCoinsurance,
-                           PaidPatientDeductible = mc.PaidTowardDeductible,
-                           PaidByPrimary = mc.PaidByCoordinationBenefits,
-                           TotalPaid = mc.PaidCopay + mc.PaidCoinsurance + mc.PaidTowardDeductible + mc.PaidByPayer + mc.PaidByCoordinationBenefits,
-                           PaidByPatient = mc.PaidCopay + mc.PaidCoinsurance + mc.PaidTowardDeductible,
-                           PaidByPayer = mc.PaidByPayer,
-                           Domain = entityDomain,
-                           TypeId = 0,
-                           EventId = mv.Id
-                        }, EntityType.Cost);
-                     }
-                  }
+
+                  AddCost(entity, CostV5ToV51("Measurement"));
                   break;
 
                case "Observation":
                    var obser = entity as Observation ??
                               new Observation(entity) {Id = chunkData.KeyMasterOffset.ObservationId};
                   chunkData.AddData(obser);
-                  if (obser.ObservationCost != null && obser.ObservationCost.Count > 0)
-                  {
-                     foreach (var cost in obser.ObservationCost)
-                     {
-                        chunkData.AddData(new Cost
-                        {
-                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                           CurrencyConceptId = cost.CurrencyConceptId.Value,
-                           TotalCharge = null,
-                           TotalCost = null,
-                           RevenueCodeConceptId = cost.RevenueCodeConceptId,
-                           RevenueCodeSourceValue = cost.RevenueCodeSourceValue,
-
-                           PayerPlanPeriodId = cost.PayerPlanPeriodId,
-
-                           PaidPatientCopay = cost.PaidCopay,
-                           PaidPatientCoinsurance = cost.PaidCoinsurance,
-                           PaidPatientDeductible = cost.PaidTowardDeductible,
-                           PaidByPrimary = cost.PaidByCoordinationBenefits,
-
-                           TotalPaid = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible + cost.PaidByPayer + cost.PaidByCoordinationBenefits,
-                           PaidByPatient = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible,
-                           PaidByPayer = cost.PaidByPayer,
-
-                           Domain = entityDomain,
-                           TypeId = 0,
-                           EventId = obser.Id
-                        }, EntityType.Cost);
-                     }
-                  }
+                  AddCost(entity, CostV5ToV51("Observation"));
                   break;
 
                case "Procedure":
@@ -1025,45 +931,7 @@ namespace org.ohdsi.cdm.builders.truven_v5
                      p.ModifierConceptId = 0;
                   }
 
-                  
-                  bool costDataExists = false;
-                  if (p.ProcedureCosts != null && p.ProcedureCosts.Count > 0)
-                  {
-                     foreach (var cost in p.ProcedureCosts)
-                     {
-                        if (cost.PaidCopay == 0 && cost.PaidCoinsurance == 0 && cost.PaidTowardDeductible == 0 &&
-                         cost.PaidByPayer == 0)
-                           continue;
-
-                        costDataExists = true;
-                        chunkData.AddData(new Cost
-                        {
-                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                           CurrencyConceptId = cost.CurrencyConceptId,
-                           TotalCharge = null,
-                           TotalCost = null,
-                           RevenueCodeConceptId = cost.RevenueCodeConceptId,
-                           RevenueCodeSourceValue = cost.RevenueCodeSourceValue,
-
-                           PayerPlanPeriodId = cost.PayerPlanPeriodId,
-
-                           PaidPatientCopay = cost.PaidCopay,
-                           PaidPatientCoinsurance = cost.PaidCoinsurance,
-                           PaidPatientDeductible = cost.PaidTowardDeductible,
-                           PaidByPrimary = cost.PaidByCoordinationBenefits,
-
-                           TotalPaid = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible + cost.PaidByPayer + cost.PaidByCoordinationBenefits,
-                           PaidByPatient = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible,
-                           PaidByPayer = cost.PaidByPayer,
-                           
-                           Domain = entityDomain,
-                           TypeId = 0,
-                           EventId = p.Id
-                        }, EntityType.Cost);
-                     }
-
-                  }
-
+                  var costDataExists = AddCost(entity, CostV5ToV51("Procedure"));
                   if (costDataExists || !string.IsNullOrEmpty(p.SourceValue))
                      chunkData.AddData(p);
                   break;
@@ -1075,36 +943,7 @@ namespace org.ohdsi.cdm.builders.truven_v5
                                Id = chunkData.KeyMasterOffset.DeviceExposureId
                             };
                   chunkData.AddData(dev);
-                  if (dev.DeviceCosts != null && dev.DeviceCosts.Count > 0)
-                  {
-                     foreach (var cost in dev.DeviceCosts)
-                     {
-                        chunkData.AddData(new Cost
-                        {
-                           CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                           CurrencyConceptId = cost.CurrencyConceptId.Value,
-                           TotalCharge = null,
-                           TotalCost = null,
-                           RevenueCodeConceptId = cost.RevenueCodeConceptId,
-                           RevenueCodeSourceValue = cost.RevenueCodeSourceValue,
-
-                           PayerPlanPeriodId = cost.PayerPlanPeriodId,
-
-                           PaidPatientCopay = cost.PaidCopay,
-                           PaidPatientCoinsurance = cost.PaidCoinsurance,
-                           PaidPatientDeductible = cost.PaidTowardDeductible,
-                           PaidByPrimary = cost.PaidByCoordinationBenefits,
-
-                           TotalPaid = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible + cost.PaidByPayer + cost.PaidByCoordinationBenefits,
-                           PaidByPatient = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible,
-                           PaidByPayer = cost.PaidByPayer,
-
-                           Domain = entityDomain,
-                           TypeId = 0,
-                           EventId = dev.Id
-                        }, EntityType.Cost);
-                     }
-                  }
+                  AddCost(entity, CostV5ToV51("Device"));
                   break;
 
                case "Drug":
@@ -1115,138 +954,51 @@ namespace org.ohdsi.cdm.builders.truven_v5
                                GetEraConceptIdsCall = vocabulary.LookupIngredientLevel
                             };
 
+                  if (drg.TypeConceptId == 44786633 || drg.TypeConceptId == 44786634) //HRA
+                  {
+                     drg.EndDate = null; //HIX-1299
+                  }
+
                   drugForEra.Add(drg);
                   chunkData.AddData(drg);
 
-                  if (drg.DrugCost != null)
-                  {
-                     chunkData.AddData(new Cost
-                     {
-                        CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                        CurrencyConceptId = drg.DrugCost.CurrencyConceptId.Value,
-                        TotalCharge = null,
-                        TotalCost = null,
-                        RevenueCodeConceptId = drg.DrugCost.RevenueCodeConceptId,
-                        RevenueCodeSourceValue = drg.DrugCost.RevenueCodeSourceValue,
-
-                        PayerPlanPeriodId = drg.DrugCost.PayerPlanPeriodId,
-
-                        PaidPatientCopay = drg.DrugCost.PaidCopay,
-                        PaidPatientCoinsurance = drg.DrugCost.PaidCoinsurance,
-                        PaidPatientDeductible = drg.DrugCost.PaidTowardDeductible,
-                        PaidByPrimary = drg.DrugCost.PaidByCoordinationBenefits,
-
-                        TotalPaid = drg.DrugCost.PaidCopay + drg.DrugCost.PaidCoinsurance + drg.DrugCost.PaidTowardDeductible + drg.DrugCost.PaidByPayer + drg.DrugCost.PaidByCoordinationBenefits,
-                        PaidByPatient = drg.DrugCost.PaidCopay + drg.DrugCost.PaidCoinsurance + drg.DrugCost.PaidTowardDeductible,
-                        PaidByPayer = drg.DrugCost.PaidByPayer,
-
-                        PaidIngredientCost = drg.DrugCost.IngredientCost,
-                        PaidDispensingFee = drg.DrugCost.DispensingFee,
-                        
-                        Domain = entityDomain,
-                        TypeId = 0,
-                        EventId = drg.Id
-                     }, EntityType.Cost);
-                  }
+                  AddCost(entity, CostV5ToV51("Drug"));
+                  
                   break;
 
             }
-
-            //HIX-823
-            if (domain == "Procedure" && entityDomain != "Procedure")
-            {
-               var po = (ProcedureOccurrence)entity;
-               po.ConceptId = 0;
-
-               bool costDataExists = false;
-               if (po.ProcedureCosts != null && po.ProcedureCosts.Count > 0)
-               {
-                  foreach (var cost in po.ProcedureCosts)
-                  {
-                     if (cost.PaidCopay == 0 && cost.PaidCoinsurance == 0 && cost.PaidTowardDeductible == 0 &&
-                         cost.PaidByPayer == 0)
-                        continue;
-
-                     costDataExists = true;
-
-                     chunkData.AddData(new Cost
-                     {
-                        CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                        CurrencyConceptId = cost.CurrencyConceptId,
-                        TotalCharge = null,
-                        TotalCost = null,
-                        RevenueCodeConceptId = cost.RevenueCodeConceptId,
-                        RevenueCodeSourceValue = cost.RevenueCodeSourceValue,
-
-                        PayerPlanPeriodId = cost.PayerPlanPeriodId,
-
-                        PaidPatientCopay = cost.PaidCopay,
-                        PaidPatientCoinsurance = cost.PaidCoinsurance,
-                        PaidPatientDeductible = cost.PaidTowardDeductible,
-                        PaidByPrimary = cost.PaidByCoordinationBenefits,
-
-                        TotalPaid = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible + cost.PaidByPayer + cost.PaidByCoordinationBenefits,
-                        PaidByPatient = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible,
-                        PaidByPayer = cost.PaidByPayer,
-
-                        Domain = entityDomain,
-                        TypeId = 0,
-                        EventId = po.Id
-                     }, EntityType.Cost);
-                  }
-               }
-
-               if (costDataExists || !string.IsNullOrEmpty(po.SourceValue))
-                  chunkData.AddData(po);
-            }
-
-            if (domain == "Observation" && entityDomain != "Observation")
-            {
-               var o = (Observation)entity;
-               o.ConceptId = 0;
-
-               bool costDataExists = false;
-               if (o.ObservationCost != null && o.ObservationCost.Count > 0)
-               {
-                  foreach (var cost in o.ObservationCost)
-                  {
-                     if (cost.PaidCopay == 0 && cost.PaidCoinsurance == 0 && cost.PaidTowardDeductible == 0 &&
-                         cost.PaidByPayer == 0)
-                        continue;
-
-                     costDataExists = true;
-
-                     chunkData.AddData(new Cost
-                     {
-                        CostId = chunkData.KeyMasterOffset.VisitCostId, //tmp
-                        CurrencyConceptId = cost.CurrencyConceptId.Value,
-                        TotalCharge = null,
-                        TotalCost = null,
-                        RevenueCodeConceptId = cost.RevenueCodeConceptId,
-                        RevenueCodeSourceValue = cost.RevenueCodeSourceValue,
-
-                        PayerPlanPeriodId = cost.PayerPlanPeriodId,
-
-                        PaidPatientCopay = cost.PaidCopay,
-                        PaidPatientCoinsurance = cost.PaidCoinsurance,
-                        PaidPatientDeductible = cost.PaidTowardDeductible,
-                        PaidByPrimary = cost.PaidByCoordinationBenefits,
-
-                        TotalPaid = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible + cost.PaidByPayer + cost.PaidByCoordinationBenefits,
-                        PaidByPatient = cost.PaidCopay + cost.PaidCoinsurance + cost.PaidTowardDeductible,
-                        PaidByPayer = cost.PaidByPayer,
-
-                        Domain = entityDomain,
-                        TypeId = 0,
-                        EventId = o.Id
-                     }, EntityType.Cost);
-                  }
-               }
-
-               if (costDataExists || !string.IsNullOrEmpty(o.SourceValue))
-                  chunkData.AddData(o);
-            }
          }
+      }
+
+      private static Func<ICostV5, Cost> CostV5ToV51(string domain)
+      {
+         return v5 => new Cost
+         {
+            CurrencyConceptId = v5.CurrencyConceptId,
+            TotalCharge = null,
+            TotalCost = v5.AverageWholesalePrice,
+            RevenueCodeConceptId = v5.RevenueCodeConceptId,
+            RevenueCodeSourceValue = v5.RevenueCodeSourceValue,
+
+            PayerPlanPeriodId = v5.PayerPlanPeriodId,
+
+            PaidPatientCopay = v5.PaidCopay,
+            PaidPatientCoinsurance = v5.PaidCoinsurance,
+            PaidPatientDeductible = v5.PaidTowardDeductible,
+            PaidByPrimary = v5.PaidByCoordinationBenefits,
+
+            TotalPaid =
+               v5.PaidCopay + v5.PaidCoinsurance + v5.PaidTowardDeductible + v5.PaidByPayer +
+               v5.PaidByCoordinationBenefits,
+            PaidByPatient = v5.PaidCopay + v5.PaidCoinsurance + v5.PaidTowardDeductible,
+            PaidByPayer = v5.PaidByPayer,
+
+            PaidIngredientCost = v5.IngredientCost,
+            PaidDispensingFee = v5.DispensingFee,
+
+            Domain = domain,
+            TypeId = 0
+         };
       }
 
       private static bool IsCpt4(string code)

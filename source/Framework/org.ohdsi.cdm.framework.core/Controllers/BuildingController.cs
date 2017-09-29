@@ -4,6 +4,8 @@ using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Threading;
+using Amazon.EC2;
+using Amazon.EC2.Model;
 using org.ohdsi.cdm.framework.core.Common.Services;
 using org.ohdsi.cdm.framework.data.DbLayer;
 using org.ohdsi.cdm.framework.entities.Builder;
@@ -28,14 +30,14 @@ namespace org.ohdsi.cdm.framework.core.Controllers
          get { return builderController.Builder; }
       }
 
-      public int GetChunksCount
+      public int ChunksCount
       {
-         get { return builderController.GetChunksCount; }
+         get { return builderController.ChunksCount; }
       }
 
-      public int GetCompleteChunksCount
+      public int CompleteChunksCount
       {
-         get { return builderController.GetCompleteChunksCount; }
+         get { return builderController.CompleteChunksCount; }
       }
 
       public IEnumerable<string> GetOtherBuilderInfo
@@ -71,7 +73,8 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
       public void Stop()
       {
-         builderController.UpdateState(BuilderState.Stopping);
+         if(builderController.Builder.State != BuilderState.Stopped)
+            builderController.UpdateState(BuilderState.Stopping);
       }
 
       private void TryToStop()
@@ -101,9 +104,14 @@ namespace org.ohdsi.cdm.framework.core.Controllers
                CreateChunks();
             }
 
-            Build();
+            var complete = Build();
 
-            if (Settings.Current.Builder.IsLead && builderController.AllChunksComplete)
+            if (!Settings.Current.Builder.IsLead)
+            {
+               StopEC2Instance();
+            }
+
+            if (Settings.Current.Builder.IsLead && complete)
             {
                FillPostBuildTables();
                CopyVocabulary();
@@ -112,6 +120,8 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
                if (Builder.State == BuilderState.Running)
                   builderController.UpdateState(BuilderState.Stopped);
+
+               StopEC2Instance();
             }
 
             if (Builder.State == BuilderState.Running)
@@ -119,6 +129,22 @@ namespace org.ohdsi.cdm.framework.core.Controllers
                if (!Settings.Current.Builder.IsLead && Building.ChunksCreated && builderController.AllChunksStarted)
                   builderController.UpdateState(BuilderState.Stopped);
             }
+         }
+      }
+
+      private static void StopEC2Instance()
+      {
+         try
+         {
+            using (var ec2Client = new AmazonEC2Client(Settings.Current.Ec2AwsAccessKeyId, Settings.Current.Ec2AwsSecretAccessKey,
+               Amazon.RegionEndpoint.USEast1))
+            {
+               ec2Client.StopInstances(
+               new StopInstancesRequest(new List<string> { Amazon.Util.EC2InstanceMetadata.InstanceId }));
+            }
+         }
+         catch (Exception e)
+         {
          }
       }
 
@@ -155,11 +181,12 @@ namespace org.ohdsi.cdm.framework.core.Controllers
          UpdateDate("CreateChunksEnd");
       }
 
-      private void Build()
+      private bool Build()
       {
-         if (!Settings.Current.Builder.IsLead && !Building.LookupCreated) return;
-         if (Building.BuildingComplete) return;
-         if (Builder.State == BuilderState.Error) return;
+         var allChunksComplete = false;
+         if (!Settings.Current.Builder.IsLead && !Building.LookupCreated) return false;
+         if (Building.BuildingComplete) return false;
+         if (Builder.State == BuilderState.Error) return false;
 
          using (
             var vocabHost = ServicesManager.CreateServiceHost<VocabularyService>(typeof (IVocabularyService),
@@ -187,24 +214,38 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
                builderController.Build();
 
-               while (!builderController.AllChunksComplete)
+               while ((Settings.Current.Builder.IsLead && !builderController.AllChunksComplete) ||
+                      (!Settings.Current.Builder.IsLead && !builderController.AllChunksStarted))
                {
                   if (Builder.State == BuilderState.Error)
                      break;
 
                   Thread.Sleep(1000);
                }
-
+               
                if (Builder.State != BuilderState.Error)
                {
-                  UpdateDate("BuildingEnd");
-                  //AddMetric(Metrics.BuildTimestamp, Building.BuildingStart, Building.BuildingEnd, null);
+                  if (builderController.AllChunksComplete)
+                  {
+                     allChunksComplete = true;
+                     UpdateDate("BuildingEnd");
+                     builderController.ClenupChunks();
+                     //AddMetric(Metrics.BuildTimestamp, Building.BuildingStart, Building.BuildingEnd, null);
+                     
+                     AddMetric(Metrics.BuildTimestamp, "",
+                        Building.BuildingEnd.Value.Subtract(Building.BuildingStart.Value).TotalMinutes,
+                        Building.BuildingEnd);
 
-                  var elapsedMilliseconds = Building.BuildingEnd.Value.Subtract(Building.BuildingStart.Value).TotalMilliseconds;
-                  var timePerPatient = elapsedMilliseconds / builderController.TotalPersonCount;
+                     if (builderController.CompleteChunksCount > 0 && Settings.Current.Building.BatchSize > 0)
+                     {
+                        var elapsedMilliseconds =
+                           Building.BuildingEnd.Value.Subtract(Building.BuildingStart.Value).TotalMilliseconds;
+                        var timePerPatient = elapsedMilliseconds/
+                                             (builderController.CompleteChunksCount*Settings.Current.Building.BatchSize);
 
-                  AddMetric(Metrics.BuildTimestamp, "", Building.BuildingEnd.Value.Subtract(Building.BuildingStart.Value).TotalMinutes, Building.BuildingEnd);
-                  AddMetric(Metrics.TimePerPatient, null, null, timePerPatient);
+                        AddMetric(Metrics.TimePerPatient, null, null, timePerPatient);
+                     }
+                  }
                }
                
                ServicesManager.StopSaver();
@@ -213,6 +254,8 @@ namespace org.ohdsi.cdm.framework.core.Controllers
                redshiftHost.Close();
             }
          }
+
+         return allChunksComplete;
       }
 
       private void CopyVocabulary()
@@ -231,7 +274,6 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
       private void FillPostBuildTables()
       {
-
          var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.DestinationSchemaName);
 
          if (!string.IsNullOrEmpty(Settings.Current.Building.CdmSourceScript))
@@ -266,8 +308,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
       private static void AddMetric(Metrics metric, DateTime? start, DateTime? end, double? valueAsNumber)
       {
-         int loadId;
-         int.TryParse(ConfigurationManager.AppSettings["loadId"], out loadId);
+         var loadId = Settings.Current.Building.LoadId;
          string cdmProcessingConnectionStrings = null;
          if (ConfigurationManager.ConnectionStrings["CDM_Processing"] != null)
             cdmProcessingConnectionStrings = ConfigurationManager.ConnectionStrings["CDM_Processing"].ConnectionString;
@@ -299,18 +340,16 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
       public static void AddMetric(Metrics metric, string valueAsString, double? valueAsNumber, DateTime? valueAsDateTime)
       {
-         int loadId;
-         int.TryParse(ConfigurationManager.AppSettings["loadId"], out loadId);
          string cdmProcessingConnectionStrings = null;
          if (ConfigurationManager.ConnectionStrings["CDM_Processing"] != null)
             cdmProcessingConnectionStrings = ConfigurationManager.ConnectionStrings["CDM_Processing"].ConnectionString;
 
-         if (loadId <= 0 || string.IsNullOrEmpty(cdmProcessingConnectionStrings))
+         if (Settings.Current.Building.LoadId <= 0 || string.IsNullOrEmpty(cdmProcessingConnectionStrings))
             return;
 
          var dbProcessing = new DBProcessing(cdmProcessingConnectionStrings);
 
-         dbProcessing.InsertMetric(loadId, metric, valueAsString, valueAsNumber, valueAsDateTime);
+         dbProcessing.InsertMetric(Settings.Current.Building.LoadId, metric, valueAsString, valueAsNumber, valueAsDateTime);
       }
 
       private DateTime? UpdateDate(string fieldName)

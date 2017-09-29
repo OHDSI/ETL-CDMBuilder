@@ -87,7 +87,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
                defaultConceptId = conceptField.DefaultConceptId.Value;
             }
 
-            if (specialtyConceptIds.Count > 0)
+            if (specialtyConceptIds.Count > 0 && specialtyConceptIds[0].ConceptId != 0)
             {
                specialtyConcept = specialtyConceptIds[0].ConceptId;
             }
@@ -99,8 +99,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
                   CareSiteId = reader.GetInt(CareSiteId) ?? 0,
                   ConceptId = specialtyConcept.HasValue ? specialtyConcept.Value : defaultConceptId,
                   ProviderSourceValue = reader.GetString(ProviderSourceValue),
-                  SourceValue =
-                     string.IsNullOrEmpty(conceptField.SourceKey) ? source : reader.GetString(conceptField.SourceKey),
+                  SourceValue = source,
                   Name = reader.GetString(Name),
                   YearOfBirth = reader.GetInt(YearOfBirth),
                   GenderConceptId = genderConceptId,

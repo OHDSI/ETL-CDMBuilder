@@ -57,6 +57,7 @@ namespace org.ohdsi.cdm.framework.entities.DataReaders
             Timeout = TimeSpan.FromMinutes(30),
             ReadWriteTimeout = TimeSpan.FromMinutes(30),
             RegionEndpoint = Amazon.RegionEndpoint.USEast1,
+            //UseAccelerateEndpoint = true,
             ConnectionLimit = 256,
             MaxErrorRetry = 20,
             MaxIdleTime = 30 * 60 * 1000
@@ -144,7 +145,7 @@ namespace org.ohdsi.cdm.framework.entities.DataReaders
       {
          get
          {
-            return enumerator.Current == null ? null : enumerator.Current[fieldHeaders[name.ToLower()]];
+            return enumerator.Current == null ? null : enumerator.Current[fieldHeaders[name]];
          }
       }
 
@@ -381,6 +382,7 @@ namespace org.ohdsi.cdm.framework.entities.DataReaders
             Timeout = TimeSpan.FromMinutes(30),
             ReadWriteTimeout = TimeSpan.FromMinutes(30),
             RegionEndpoint = Amazon.RegionEndpoint.USEast1,
+            //UseAccelerateEndpoint = true,
             ConnectionLimit = 256,
             MaxErrorRetry = 20,
             MaxIdleTime = 30 * 60 * 1000
@@ -418,7 +420,7 @@ namespace org.ohdsi.cdm.framework.entities.DataReaders
       {
          get
          {
-            return enumerator.Current == null ? null : enumerator.Current[fieldHeaders[name.ToLower()]];
+            return enumerator.Current == null ? null : enumerator.Current[fieldHeaders[name]];
          }
       }
 

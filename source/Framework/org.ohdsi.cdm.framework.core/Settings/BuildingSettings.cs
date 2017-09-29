@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -41,10 +42,27 @@ namespace org.ohdsi.cdm.framework.core
       public string SourceReleaseDate { get; private set; }
 
       public int Batches { get; set; }
+      public int BatchSize { get; set; }
       public SaveType SaveType { get; set; }
 
       public string BatchScript { get; private set; }
       public string CohortDefinitionScript { get; private set; }
+
+      public int LoadId
+      {
+         get
+         {
+            if (DestinationSchemaName.StartsWith("cdm_"))
+            {
+               var loadIdValue = DestinationSchemaName.Replace("cdm_", "");
+               int loadId;
+               if (int.TryParse(loadIdValue, out loadId))
+                  return loadId;
+            }
+
+            return int.Parse(ConfigurationManager.AppSettings["loadId"]);
+         }
+      }
 
       public string SourceConnectionString
       {
@@ -169,7 +187,8 @@ namespace org.ohdsi.cdm.framework.core
          RawVocabularyConnectionString = reader.GetString("VocabularyConnectionString");
          RawSourceConnectionString = reader.GetString("SourceConnectionString");
          RawDestinationConnectionString = reader.GetString("DestinationConnectionString");
-
+         BatchSize = reader.GetInt("BatchSize") ?? 1000;
+         
          Vendor = (Vendors)Enum.Parse(typeof(Vendors), reader.GetString("Vendor"));
 
          SetVendorSettings();
@@ -201,6 +220,7 @@ namespace org.ohdsi.cdm.framework.core
             ? "CdmSource.sql"
             : Vendor.GetAttribute<CDMSourceAttribute>().Value;
 
+         
          if (File.Exists(Path.Combine(vendorFolder, batch)))
          {
              BatchScript = File.ReadAllText(Path.Combine(vendorFolder, batch));
@@ -260,12 +280,12 @@ namespace org.ohdsi.cdm.framework.core
          {
             Id = id;
             dbBuildingSettings.Update(Id.Value, RawSourceConnectionString, RawDestinationConnectionString,
-               RawVocabularyConnectionString, Vendor);
+               RawVocabularyConnectionString, Vendor, BatchSize);
          }
          else
          {
             Id = dbBuildingSettings.Create(RawSourceConnectionString, RawDestinationConnectionString,
-               RawVocabularyConnectionString, Vendor);
+               RawVocabularyConnectionString, Vendor, BatchSize);
          }
 
          SetVendorSettings();

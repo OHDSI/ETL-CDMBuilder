@@ -34,26 +34,9 @@ namespace org.ohdsi.cdm.framework.entities.Builder
       public long MinPersonId { get; private set; }
       public long MaxPersonId { get; private set; }
 
-      private readonly int size;
-      private int readyPersonCount;
-
-      public bool RadyToSave
-      {
-         get { return readyPersonCount == size; }
-      }
-
-      public void PersonWasBuilt()
-      {
-         readyPersonCount++;
-      }
       
-      public ChunkData(int chunkId, int subChunkId, int size, long minPersonId, long maxPersonId, bool saved)
+      public ChunkData(int chunkId, int subChunkId)
       {
-         this.size = size;
-         MinPersonId = minPersonId;
-         MaxPersonId = maxPersonId;
-         Saved = saved;
-
          ChunkId = chunkId;
          SubChunkId = subChunkId;
          
@@ -103,6 +86,17 @@ namespace org.ohdsi.cdm.framework.entities.Builder
          Cost = null;
       }
 
+      public bool AddCostData(Cost cost)
+      {
+         if (cost == null) 
+            return false;
+         if (cost.PaidPatientCopay == 0 && cost.PaidPatientCoinsurance == 0 && cost.PaidPatientDeductible == 0 &&
+             cost.PaidByPayer == 0)
+            return false;
+
+         Cost.Enqueue(cost);
+         return true;
+      }
 
       public void AddData(IEntity data, EntityType entityType)
       {
@@ -192,11 +186,11 @@ namespace org.ohdsi.cdm.framework.entities.Builder
                break;
             }
 
-            case EntityType.Cost:
-            {
-               Cost.Enqueue((Cost)data);
-               break;
-            }
+            //case EntityType.Cost:
+            //{
+               
+            //   break;
+            //}
 
             case EntityType.ProcedureCost:
             {

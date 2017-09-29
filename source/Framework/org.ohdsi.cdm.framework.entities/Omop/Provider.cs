@@ -24,6 +24,13 @@
          if (!string.IsNullOrEmpty(SourceValue))
             source = SourceValue.TrimStart('0');
 
+        //source - SPECIALTY_SOURCE_VALUE
+
+         //PROVIDER_SOURCE_VALUE	SPECIALTY_SOURCE_VALUE
+         //   T88888	250
+
+         //      250;T88888
+
          return (source ?? "") + ";" + (ProviderSourceValue ?? "");
       }
    }

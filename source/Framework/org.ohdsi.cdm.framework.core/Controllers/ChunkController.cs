@@ -24,7 +24,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
       private readonly DbChunk dbChunk;
       private readonly DbSource dbSource;
 
-      public long TotalPersonCount { get; private set; }
+      //public long TotalPersonCount { get; private set; }
 
       public ChunkController()
       {
@@ -40,43 +40,48 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
       
 
-      private void AddSubChunks(int chunkId, IEnumerable<KeyValuePair<string, string>> chunk)
+      //private void AddSubChunks(int chunkId, IEnumerable<KeyValuePair<string, string>> chunk)
+      //{
+      //   var subChunkSize = Settings.Current.SubChunkSize;
+      //   var count = 0;
+      //   var min = long.MaxValue;
+      //   var max = long.MinValue;
+      //   var subChunkIndex = 0;
+
+      //   foreach (var personId in chunk.OrderBy(c => Convert.ToInt64(c.Key)).Select(c => Convert.ToInt64(c.Key)))
+      //   {
+      //      if (min > personId)
+      //         min = personId;
+
+      //      if (max < personId)
+      //         max = personId;
+
+      //      count++;
+
+      //      if (count == subChunkSize)
+      //      {
+      //         dbChunk.AddSubChunk(chunkId, subChunkIndex, min, max, count);
+      //         count = 0;
+      //         min = long.MaxValue;
+      //         max = long.MinValue;
+      //         subChunkIndex++;
+      //      }
+      //   }
+
+      //   if(count > 0)
+      //      dbChunk.AddSubChunk(chunkId, subChunkIndex, min, max, count);
+      //}
+
+      public void ClenupChunks()
       {
-         var subChunkSize = Settings.Current.SubChunkSize;
-         var count = 0;
-         var min = long.MaxValue;
-         var max = long.MinValue;
-         var subChunkIndex = 0;
-
-         foreach (var personId in chunk.OrderBy(c => Convert.ToInt64(c.Key)).Select(c => Convert.ToInt64(c.Key)))
-         {
-            if (min > personId)
-               min = personId;
-
-            if (max < personId)
-               max = personId;
-
-            count++;
-
-            if (count == subChunkSize)
-            {
-               dbChunk.AddSubChunk(chunkId, subChunkIndex, min, max, count);
-               count = 0;
-               min = long.MaxValue;
-               max = long.MinValue;
-               subChunkIndex++;
-            }
-         }
-
-         if(count > 0)
-            dbChunk.AddSubChunk(chunkId, subChunkIndex, min, max, count);
+         dbSource.DropChunkTable();
       }
 
       public void CreateChunks()
       {
-          TotalPersonCount = 0;
+          //TotalPersonCount = 0;
           var chunkIds = new List<int>();
-          dbKeyOffset.Create(Settings.Current.Building.Id.Value);
+          dbKeyOffset.Recreate(Settings.Current.Building.Id.Value);
           dbChunk.ClearChunks(Settings.Current.Building.Id.Value);
           dbSource.CreateChunkTable();
           int i = 0;
@@ -85,28 +90,28 @@ namespace org.ohdsi.cdm.framework.core.Controllers
           using (var saver = Settings.Current.Building.SourceEngine.GetSaver().Create(Settings.Current.Building.SourceConnectionString))
           {
               var chunks = new List<ChunkRecord>();
-              foreach (var chunk in GetPersonKeys(Settings.Current.Builder.BatchSize))
+              foreach (var chunk in GetPersonKeys(Settings.Current.Building.BatchSize))
               {
-                  TotalPersonCount = TotalPersonCount + chunk.Count;
+                  //TotalPersonCount = TotalPersonCount + chunk.Count;
 
                   var chunkId = dbChunk.AddChunk(Settings.Current.Building.Id.Value);
                   chunkIds.Add(chunkId);
 
                   //TMP
-                  if (Settings.Current.Building.SourceEngine.Database == Database.MSSQL)
-                     AddSubChunks(chunkId, chunk);
+                  //if (Settings.Current.Building.SourceEngine.Database == Database.MSSQL)
+                  //   AddSubChunks(chunkId, chunk);
 
                   chunks.AddRange(chunk.Select(c => new ChunkRecord { Id = chunkId, PersonId = Convert.ToInt64(c.Key), PersonSource = c.Value }));
                   var chunkSizeOnS3 = 0;
-                  if (Settings.Current.Builder.BatchSize >= 10000 && Settings.Current.Builder.BatchSize < 500000)
+                  if (Settings.Current.Building.BatchSize >= 10000 && Settings.Current.Building.BatchSize < 500000)
                       chunkSizeOnS3 = 200;
-                  else if (Settings.Current.Builder.BatchSize >= 500000 && Settings.Current.Builder.BatchSize < 2000000)
+                  else if (Settings.Current.Building.BatchSize >= 500000 && Settings.Current.Building.BatchSize < 2000000)
                       chunkSizeOnS3 = 20;
-                  else if (Settings.Current.Builder.BatchSize >= 2000000)
+                  else if (Settings.Current.Building.BatchSize >= 2000000)
                       chunkSizeOnS3 = 2;
 
                   if (Settings.Current.Building.SourceEngine.Database == Database.Redshift &&
-                      Settings.Current.Builder.BatchSize >= 10000 && i == chunkSizeOnS3)
+                      Settings.Current.Building.BatchSize >= 10000 && i == chunkSizeOnS3)
                   {
                       saver.AddChunk(chunks, k);
                       chunks.Clear();
@@ -125,7 +130,17 @@ namespace org.ohdsi.cdm.framework.core.Controllers
           dbSource.CreateIndexesChunkTable();
 
          if (Settings.Current.Building.SourceEngine.Database == Database.Redshift)
-             MoveChunkDataToS3(chunkIds);
+         {
+            MoveChunkDataToS3(chunkIds);
+            try
+            {
+               dbSource.GrantAccessToChunkTable();
+            }
+            catch (Exception e)
+            {
+               Logger.Write(null, LogMessageTypes.Warning, "GrantAccessToChunkTable " + Logger.CreateExceptionString(e));
+            }
+         }
       }
 
       private static void MoveChunkDataToS3(IEnumerable<int> chunkIds)
@@ -135,7 +150,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
          Parallel.ForEach(chunkIds, new ParallelOptions { MaxDegreeOfParallelism = 2 }, cId =>
         {
             var chunkId = cId;
-            Parallel.ForEach(Settings.Current.Building.SourceQueryDefinitions, queryDefinition =>
+            Parallel.ForEach(Settings.Current.Building.SourceQueryDefinitions, new ParallelOptions { MaxDegreeOfParallelism = 5 }, queryDefinition =>
             {
                 try
                 {
@@ -172,8 +187,8 @@ namespace org.ohdsi.cdm.framework.core.Controllers
                                                     personIdField, //1
                                                     sql, //2
                                                     fileName, //3
-                                                    Settings.Current.AwsAccessKeyId, //4
-                                                    Settings.Current.AwsSecretAccessKey); //5
+                                                    Settings.Current.S3AwsAccessKeyId, //4
+                                                    Settings.Current.S3AwsSecretAccessKey); //5
 
                     using (var connection = SqlConnectionHelper.OpenOdbcConnection(Settings.Current.Building.SourceConnectionString))
                     using (var c = new OdbcCommand(unloadQuery, connection))
@@ -218,7 +233,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
                csv.NextRecord();
                writer.Flush();
                
-               using (var client = new AmazonS3Client(Settings.Current.AwsAccessKeyId, Settings.Current.AwsSecretAccessKey, Amazon.RegionEndpoint.USEast1))
+               using (var client = new AmazonS3Client(Settings.Current.S3AwsAccessKeyId, Settings.Current.S3AwsSecretAccessKey, Amazon.RegionEndpoint.USEast1))
                using (var directoryTransferUtility = new TransferUtility(client))
                {
                   directoryTransferUtility.Upload(new TransferUtilityUploadRequest
@@ -290,6 +305,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
       public void ResetChunks()
       {
          dbChunk.ResetChunks(Settings.Current.Building.Id.Value);
+         dbKeyOffset.Recreate(Settings.Current.Building.Id.Value);
       }
    }
 }

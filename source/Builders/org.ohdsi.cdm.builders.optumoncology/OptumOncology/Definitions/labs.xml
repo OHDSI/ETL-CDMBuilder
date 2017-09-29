@@ -6,7 +6,6 @@
     when l.encid = '' or l.encid is null then NULL
     else cast(replace(l.encid, 'E0000','') as bigint)
     end as VisitOccurrenceId,
-    ec.provid,
     test_name,
     result_date,
     result_time,
@@ -39,14 +38,12 @@
     normal_range
     from {sc}.labs l
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND l.ptid = ch.PERSON_SOURCE_VALUE
-    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = l.encid
     order by cast(replace(l.ptid, 'PT','') as bigint)
   </Query>
   <Measurement>
     <MeasurementDefinition>
       <PersonId>PersonId</PersonId>
       <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
-      <ProviderId>provid</ProviderId>
       <StartDate>result_date</StartDate>
       <Time>result_time</Time>
       <OperatorConceptId>OperatorConceptId</OperatorConceptId>

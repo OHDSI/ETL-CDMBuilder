@@ -10,7 +10,6 @@
     o.obs_date,
     o.obs_time,
     o.obs_unit,
-    ec.provid,
     o.obsresult as test_result,
     'observations' as source,
     CASE
@@ -37,7 +36,6 @@
     END AS Observation
     from {sc}.observations o
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND o.ptid = ch.PERSON_SOURCE_VALUE
-    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = o.encid
     order by cast(replace(o.ptid, 'PT','') as bigint)
   </Query>
   <!--<Measurement>
@@ -46,7 +44,6 @@
       <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
       <StartDate>obs_date</StartDate>
       <Time>obs_time</Time>
-      <ProviderId>provid</ProviderId>
       <ValueSourceValue>test_result</ValueSourceValue>
       <AdditionalFields>
         <string>test_result</string>
@@ -84,7 +81,6 @@
       <VisitOccurrenceId>VisitOccurrenceId</VisitOccurrenceId>
       <StartDate>obs_date</StartDate>
       <Time>obs_time</Time>
-      <ProviderId>provid</ProviderId>
       <ValueSourceValue>test_result</ValueSourceValue>
       <ValueAsConceptId>ValueAsConceptId</ValueAsConceptId>
       <AdditionalFields>

@@ -17,7 +17,7 @@ INSERT INTO {sc}.CDM_SOURCE
 		   'Premier',
 		   'Premier',
 		   'Janssen R&D',
-		   'Premier is a US hospital database that houses data on the inpatient and outpatient visits of 119 million people from 619 hospitals since 1999. The data represent 1 in 5 inpatient hospital stays in the US. It is a visit-centric, billing database where each visit is linked with a unique billing record. The process by which Premier is transformed to the patient-centric OMOP CDM is described in detail by Makadia and Ryan (2014) here: http://www.ncbi.nlm.nih.gov/pmc/articles/PMC4371500/. Premier is not an insurance claims database.',
+		   'Premier Healthcare Database (PHD) is a nationally representative all-payer US hospital database that houses data on the inpatient and outpatient visits from non-profit, non-governmental and community and teaching hospitals and health systems. The data represent 1 in 5 inpatient hospital stays in the US.  It is a visit-centric, billing database where each visit is linked with a unique billing record. The database contains information on medications, laboratory and diagnostic procedures, and diagnoses with day of service for medications and procedures.  [For further information link to RWE site for Premier.](https://catalog.rwe.jnj.com/index#jnjexplore?dataSetUri=%2Fdataset%2F27adc862-0a6d-48cd-abe9-6aec4c303b29.xml)',
 			'http://hicoe.jnj.com/DataSources/Premier',
 			'http://www.ohdsi.org/web/wiki/doku.php?id=documentation:example_etls',
 			'{0}',

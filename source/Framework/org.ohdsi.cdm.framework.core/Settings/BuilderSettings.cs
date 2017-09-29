@@ -17,7 +17,7 @@ namespace org.ohdsi.cdm.framework.core
 
       public int? BuildingId { get; set; }
       public int MaxDegreeOfParallelism { get; set; }
-      public int BatchSize { get; set; }
+      //public int BatchSize { get; set; }
       public string Folder { get; set; }
       public string MachineName { get; private set; }
       
@@ -26,7 +26,7 @@ namespace org.ohdsi.cdm.framework.core
 
       public string Version
       {
-         get { return "1.9.0.18"; }
+         get { return "1.9.0.34"; }
       }
       #endregion
 
@@ -45,7 +45,6 @@ namespace org.ohdsi.cdm.framework.core
 
          BuildingId = reader.GetInt("BuildingId");
          MaxDegreeOfParallelism = reader.GetInt("MaxDegreeOfParallelism").Value;
-         BatchSize = reader.GetInt("BatchSize").Value;
          Folder = reader.GetString("Folder");
          IsNew = false;
       }
@@ -59,14 +58,14 @@ namespace org.ohdsi.cdm.framework.core
 
          if (!Id.HasValue)
          {
-            Id = dbBuilder.CreateSettings(MachineName, Folder, MaxDegreeOfParallelism, BatchSize, Version);
+            Id = dbBuilder.CreateSettings(MachineName, Folder, 1, Version);
             IsNew = true;
          }
       }
 
       public void Save()
       {
-         dbBuilder.UpdateSettings(Id.Value, MachineName, BuildingId.Value, Folder, MaxDegreeOfParallelism, BatchSize, Version);
+         dbBuilder.UpdateSettings(Id.Value, MachineName, BuildingId.Value, Folder, MaxDegreeOfParallelism, Version);
          IsLead = dbBuilder.IsLead(Id.Value, BuildingId.Value);
       }
       #endregion

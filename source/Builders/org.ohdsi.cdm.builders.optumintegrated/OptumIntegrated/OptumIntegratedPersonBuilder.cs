@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using org.ohdsi.cdm.framework.core;
 using org.ohdsi.cdm.framework.core.Base;
 using org.ohdsi.cdm.framework.entities.Omop;
+using org.ohdsi.cdm.framework.shared.Enums;
 using org.ohdsi.cdm.framework.shared.Extensions;
 
 
@@ -779,9 +781,17 @@ namespace org.ohdsi.cdm.builders.optumintegrated
          return items.Any(item => item.StartDate > death.StartDate.AddDays(30)) ? null : death;
       }
 
-      public IEnumerable<VisitOccurrence> GetIPClaims(IEnumerable<VisitOccurrence> visitOccurrences)
+      public IEnumerable<VisitOccurrence> GetIPClaims(VisitOccurrence[] visitOccurrences)
       {
-         foreach (var ipGroup in visitOccurrences.Where(vo => vo.AdditionalFields != null && vo.AdditionalFields.ContainsKey("pat_planid")).GroupBy(vo => vo.AdditionalFields["pat_planid"]))
+         foreach (var vo in visitOccurrences.Where(vo => !vo.IdUndefined && vo.ConceptId == 9201))
+         {
+            if (!rawVisits.ContainsKey(vo.SourceRecordGuid))
+               rawVisits.Add(vo.SourceRecordGuid, vo);
+
+            yield return vo;
+         }
+
+         foreach (var ipGroup in visitOccurrences.Where(vo => vo.IdUndefined && vo.AdditionalFields != null && vo.AdditionalFields.ContainsKey("pat_planid")).GroupBy(vo => vo.AdditionalFields["pat_planid"]))
          {
             var ipVisits = new List<VisitOccurrence>();
             foreach (var claim in ipGroup.Where(vo => vo.ConceptId == 9201).OrderBy(vo => vo.StartDate).ThenBy(vo => vo.EndDate))//IP - 9201
@@ -850,7 +860,7 @@ namespace org.ohdsi.cdm.builders.optumintegrated
       {
          var visitOccurrences = CleanVisitOccurrences(rawVisitOccurrences, observationPeriods).ToList();
 
-         var ipVisits = GetIPClaims(visitOccurrences).ToList();
+         var ipVisits = GetIPClaims(visitOccurrences.ToArray()).ToList();
          var erVisits = new List<VisitOccurrence>();
          var opVisits = new List<VisitOccurrence>();
 
@@ -976,7 +986,9 @@ namespace org.ohdsi.cdm.builders.optumintegrated
                visitOccurrence.Id = chunkData.KeyMasterOffset.VisitOccurrenceId;
                visitOccurrence.IdUndefined = false;
             }
-            visitOccurrences.Add(visitOccurrence.Id, visitOccurrence);
+
+            if (!visitOccurrences.ContainsKey(visitOccurrence.Id))
+               visitOccurrences.Add(visitOccurrence.Id, visitOccurrence);
          }
 
          var conditionOccurrences = BuildConditionOccurrences(conditionOccurrencesRaw.ToArray(), visitOccurrences, observationPeriods).ToArray();
@@ -1016,6 +1028,13 @@ namespace org.ohdsi.cdm.builders.optumintegrated
          SetProviderIds(procedureOccurrences, providers);
          SetProviderIds(observations, providers);
 
+         SetProviderIds(drugExposures, visitOccurrences);
+         SetProviderIds(conditionOccurrences, visitOccurrences);
+         SetProviderIds(measurements, visitOccurrences);
+         SetProviderIds(procedureOccurrences, visitOccurrences);
+         SetProviderIds(deviceExposure, visitOccurrences);
+         SetProviderIds(observations, visitOccurrences);
+
          var death = BuildDeath(deathRecords.ToArray(), visitOccurrences, observationPeriods);
 
          if (death != null && person.YearOfBirth.HasValue && person.YearOfBirth.Value > 0 &&
@@ -1050,6 +1069,23 @@ namespace org.ohdsi.cdm.builders.optumintegrated
             observations,
             measurements,
             visitOccurrences.Values.ToArray(), visitCosts, new Cohort[0], deviceExposure, devicCosts);
+      }
+
+      protected void SetProviderIds<T>(IEnumerable<T> inputRecords, Dictionary<long, VisitOccurrence> visits) where T : class, IEntity
+      {
+         var records = inputRecords as T[] ?? inputRecords.ToArray();
+         if (inputRecords == null || !records.Any()) return;
+
+         if (visits.Count > 0)
+         {
+            foreach (var e in records.Where(e => !e.ProviderId.HasValue))
+            {
+               if (!e.VisitOccurrenceId.HasValue) continue;
+               
+               if (visits.ContainsKey(e.VisitOccurrenceId.Value))
+                  e.ProviderId = visits[e.VisitOccurrenceId.Value].ProviderId;
+            }
+         }
       }
       
       public override void AddToChunk(string domain, IEnumerable<IEntity> entities)
@@ -1088,6 +1124,13 @@ namespace org.ohdsi.cdm.builders.optumintegrated
                      mes.ValueSourceValue = entity.AdditionalFields["test_result"];
                   }
 
+                  if (entity.AdditionalFields != null && entity.AdditionalFields.ContainsKey("units"))
+                  {
+                     decimal valueAsNumber;
+                     if(decimal.TryParse(entity.AdditionalFields["units"], out valueAsNumber))
+                        mes.ValueAsNumber = valueAsNumber;
+                  }
+
                   if (mes.TypeConceptId != 44786627 && mes.TypeConceptId != 44786629)
                      mes.TypeConceptId = 45754907;
 
@@ -1103,6 +1146,13 @@ namespace org.ohdsi.cdm.builders.optumintegrated
                      m.ValueSourceValue = entity.AdditionalFields["test_result"];
                   }
 
+                  if (entity.AdditionalFields != null && entity.AdditionalFields.ContainsKey("units"))
+                  {
+                     decimal valueAsNumber;
+                     if (decimal.TryParse(entity.AdditionalFields["units"], out valueAsNumber))
+                        m.ValueAsNumber = valueAsNumber;
+                  }
+
                   if (m.TypeConceptId != 44786627 && m.TypeConceptId != 44786629)
                      m.TypeConceptId = 45754907;
 
@@ -1111,7 +1161,17 @@ namespace org.ohdsi.cdm.builders.optumintegrated
                   break;
 
                case "Observation":
-                  chunkData.AddData(entity as Observation ?? new Observation(entity) { Id = chunkData.KeyMasterOffset.ObservationId });
+                  var o = entity as Observation ??
+                          new Observation(entity) {Id = chunkData.KeyMasterOffset.ObservationId};
+
+                  if (entity.AdditionalFields != null && entity.AdditionalFields.ContainsKey("units"))
+                  {
+                     decimal valueAsNumber;
+                     if (decimal.TryParse(entity.AdditionalFields["units"], out valueAsNumber))
+                        o.ValueAsNumber = valueAsNumber;
+                  }
+
+                  chunkData.AddData(o);
                   break;
 
                case "Procedure":
@@ -1154,21 +1214,6 @@ namespace org.ohdsi.cdm.builders.optumintegrated
                   chunkData.AddData(drg);
                   break;
 
-            }
-
-            //HIX-823
-            if (domain == "Procedure" && entityDomain != "Procedure")
-            {
-               var po = (ProcedureOccurrence)entity;
-               po.ConceptId = 0;
-               chunkData.AddData(po);
-            }
-
-            if (domain == "Observation" && entityDomain != "Observation")
-            {
-               var o = (Observation)entity;
-               o.ConceptId = 0;
-               chunkData.AddData(o);
             }
          }
       }

@@ -30,7 +30,7 @@
      cast(a.enttype as varchar) +'-' + '1'  as observation_source_value,
      case
      when a.data1_date is not null then cast(a.data1_date as varchar)
-     when l1.code is null and data1lkup is null then a.data1
+     when (l1.code is null) and (data1lkup is null or data1lkup = '') then a.data1
      when data1lkup = 'Medical Dictionary' then m.description
      when data1lkup = 'Product Dictionary' then p.productname
      else l1.text end as value_as_string,
@@ -53,7 +53,7 @@
      cast(a.enttype as varchar) + '-' + '2' as observation_source_value,
      case
      when a.data2_date is not null then cast(a.data2_date as varchar)
-     when l1.code is null and data2lkup is null then a.data2
+     when (l1.code is null) and (data2lkup is null or data2lkup = '') then a.data2
      when data2lkup='Medical Dictionary' then m.description
      when data2lkup='Product Dictionary' then p.productname
      else l1.text
@@ -68,7 +68,7 @@
      LEFT JOIN {sc}.[Lookup] l1 on a.data2 = cast(l1.code as varchar) and lt1.lookup_type_id  = l1.lookup_type_id
      LEFT JOIN {sc}.Medical m on a.data2 = cast(m.medcode as varchar)
      LEFT JOIN {sc}.Product p on a.data2 = cast(p.prodcode as varchar)
-     where (a.data2 is not null or a.data2_date is not null) and enttype != 372 and (data2lkup is null or (data2lkup is not null and data2lkup != 'SUM'))
+     where (a.data2 is not null or a.data2_date is not null) and enttype != 372 and ((data2lkup is null or data2lkup = '') or (data2lkup is not null and data2lkup != 'SUM'))
 
      union all
      select
@@ -77,7 +77,7 @@
      cast(a.enttype as varchar) + '-' + '3' as observation_source_value,
      case
      when a.data3_date is not null then cast(a.data3_date as varchar)
-     when l1.code is null and data3lkup is null then a.data3
+     when (l1.code is null) and (data3lkup is null or data3lkup = '') then a.data3
      when data3lkup = 'Medical Dictionary' then m.description
      when data3lkup = 'Product Dictionary' then p.productname
      else l1.text end as value_as_string,
@@ -91,7 +91,7 @@
      LEFT JOIN {sc}.[Lookup] l1 on a.data3 = cast(l1.code as varchar) and lt1.lookup_type_id  = l1.lookup_type_id
      LEFT JOIN {sc}.Medical m on a.data3 = cast(m.medcode as varchar)
      LEFT JOIN {sc}.Product p on a.data3 = cast(p.prodcode as varchar)
-     where (a.data3 is not null or a.data3_date is not null) and enttype != 372 and (data3lkup is null or (data3lkup is not null and data3lkup != 'SUM'))
+     where (a.data3 is not null or a.data3_date is not null) and enttype != 372 and ((data3lkup is null or data3lkup = '') or (data3lkup is not null and data3lkup != 'SUM'))
 
      union all
      select
@@ -100,7 +100,7 @@
      cast(a.enttype as varchar) + '-' + '4'  as observation_source_value,
      case
      when a.data4_date is not null then cast(a.data4_date as varchar)
-     when l1.code is null and data4lkup is null then a.data4
+     when (l1.code is null) and (data4lkup is null or data4lkup = '') then a.data4
      when data4lkup = 'Medical Dictionary' then m.description
      when data4lkup = 'Product Dictionary' then p.productname
      else l1.text end as value_as_string,
@@ -114,7 +114,7 @@
      LEFT JOIN {sc}.[Lookup] l1 on a.data4 = cast(l1.code as varchar) and lt1.lookup_type_id  = l1.lookup_type_id
      LEFT JOIN {sc}.Medical m on a.data4 = cast(m.medcode as varchar)
      LEFT JOIN {sc}.Product p on a.data4 = cast(p.prodcode as varchar)
-     where (a.data4 is not null or a.data4_date is not null) and enttype != 372 and (data4lkup is null or (data4lkup is not null and data4lkup != 'SUM'))
+     where (a.data4 is not null or a.data4_date is not null) and enttype != 372 and ((data4lkup is null or data4lkup = '') or (data4lkup is not null and data4lkup != 'SUM'))
 
      union all
      select
@@ -123,7 +123,7 @@
      cast(a.enttype as varchar) + '-' + '5'  as observation_source_value,
      case
      when a.data5_date is not null then cast(a.data5_date as varchar)
-     when l1.code is null and data5lkup is null then a.data5
+     when (l1.code is null) and (data5lkup is null or data5lkup = '') then a.data5
      when data5lkup = 'Medical Dictionary' then m.description
      when data5lkup = 'Product Dictionary' then p.productname
      else l1.text end as value_as_string,
@@ -137,7 +137,7 @@
      LEFT JOIN {sc}.[Lookup] l1 on a.data5 = cast(l1.code as varchar) and lt1.lookup_type_id  = l1.lookup_type_id
      LEFT JOIN {sc}.Medical m on a.data5 = cast(m.medcode as varchar)
      LEFT JOIN {sc}.Product p on a.data5 = cast(p.prodcode as varchar)
-     where (a.data5 is not null or a.data5_date is not null) and enttype != 372 and (data5lkup is null or (data5lkup is not null and data5lkup != 'SUM'))
+     where (a.data5 is not null or a.data5_date is not null) and enttype != 372 and ((data5lkup is null or data5lkup = '') or (data5lkup is not null and data5lkup != 'SUM'))
 
      union all
      select
@@ -146,7 +146,7 @@
      cast(a.enttype as varchar) + '-' + '6'  as observation_source_value,
      case
      when a.data6_date is not null then cast(a.data6_date as varchar)
-     when l1.code is null and data6lkup is null then a.data6
+     when (l1.code is null) and (data6lkup is null or data6lkup = '') then a.data6
      when data6lkup = 'Medical Dictionary' then m.description
      when data6lkup = 'Product Dictionary' then p.productname
      else l1.text end as value_as_string,
@@ -160,7 +160,7 @@
      LEFT JOIN {sc}.[Lookup] l1 on a.data6 = cast(l1.code as varchar) and lt1.lookup_type_id  = l1.lookup_type_id
      LEFT JOIN {sc}.Medical m on a.data6 = cast(m.medcode as varchar)
      LEFT JOIN {sc}.Product p on a.data6 = cast(p.prodcode as varchar)
-     where (a.data6 is not null or a.data6_date is not null) and enttype != 372 and (data6lkup is null or (data6lkup is not null and data6lkup != 'SUM'))
+     where (a.data6 is not null or a.data6_date is not null) and enttype != 372 and ((data6lkup is null or data6lkup = '') or (data6lkup is not null and data6lkup != 'SUM'))
 
      union all
      select
@@ -169,7 +169,7 @@
      cast(a.enttype as varchar) + '-' + '7'  as observation_source_value,
      case
      when a.data7_date is not null then cast(a.data7_date as varchar)
-     when l1.code is null and data7lkup is null then a.data7
+     when (l1.code is null) and (data7lkup is null or data7lkup = '') then a.data7
      when data7lkup = 'Medical Dictionary' then m.description
      when data7lkup = 'Product Dictionary' then p.productname
      else l1.text end as value_as_string,
@@ -181,7 +181,7 @@
      LEFT JOIN {sc}.[Lookup] l1 on a.data7 = cast(l1.code as varchar) and lt1.lookup_type_id  = l1.lookup_type_id
      LEFT JOIN {sc}.Medical m on a.data7 = cast(m.medcode as varchar)
      LEFT JOIN {sc}.Product p on a.data7 = cast(p.prodcode as varchar)
-     where (a.data7 is not null or a.data7_date is not null) and enttype != 372 and (data7lkup is null or (data7lkup is not null and data7lkup != 'SUM'))
+     where (a.data7 is not null or a.data7_date is not null) and enttype != 372 and ((data7lkup is null or data7lkup = '') or (data7lkup is not null and data7lkup != 'SUM'))
 
 
      union all

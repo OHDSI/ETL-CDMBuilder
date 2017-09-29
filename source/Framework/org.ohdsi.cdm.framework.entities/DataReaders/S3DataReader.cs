@@ -42,6 +42,7 @@ namespace org.ohdsi.cdm.framework.entities.DataReaders
              ReadWriteTimeout = TimeSpan.FromMinutes(60),
              //BufferSize = 1024 * 64,
              RegionEndpoint = Amazon.RegionEndpoint.USEast1,
+             //UseAccelerateEndpoint = true,
              ConnectionLimit = 256,
              MaxErrorRetry = 20,
              MaxIdleTime = 60 * 60 * 1000
@@ -160,7 +161,7 @@ namespace org.ohdsi.cdm.framework.entities.DataReaders
       {
          get
          {
-            return enumerator.Current == null ? null : enumerator.Current[fieldHeaders[name.ToLower()]];
+            return enumerator.Current == null ? null : enumerator.Current[fieldHeaders[name]];
          }
       }
 

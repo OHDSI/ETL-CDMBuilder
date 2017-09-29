@@ -17,11 +17,7 @@ INSERT INTO {sc}.CDM_SOURCE
 		   'CPRD',
 		   'CPRD',
 		   'Janssen R&D',
-		   'The CPRD database consists of data collected from UK primary care for all ages.  This include conditions, observations, measurements, procedures that the general practitioner is made aware of in additional to any prescriptions made by the general practitioner.  The data are not recorded for the purpose of research.  Studies using the 2011 CPRD data have shown the CPRD population age/gender generally follow the same trend seen in the 2011 UK census [1] and another study has shown that ethnicity is generally representative of the UK population [2].  However, there may be issues with geography representation within the database [3].  In 2004 and incentive known as the Quality and Outcome framework was introduced to encourage GPs to record certain data and this can be seen in the data with large jumps in certain concept recording frequency after 2004.  In addition to primary care, there are also linked secondary care records for a small number of people.  Some validation checks are performed by the data provider.
-[1] Herrett, Emily, et al. "Data resource profile: clinical practice research datalink (CPRD)." International journal of epidemiology 44.3 (2015): 827-836.
-[2] Mathur, Rohini, et al. "Completeness and usability of ethnicity data in UK-based primary care and hospital databases." Journal of public health 36.4 (2014): 684-692.
-[3] Campbell J, Dedman DJ, Eaton SC, Gallagher AM, Williams TJ. Is the GPRD GOLD population comparable to the UK population? Pharmacoepidemiol Drug Saf 2013;22(Suppl 1):280.
-',
+		   'The Clinical Practice Research Datalink (CPRD) is a governmental, not-for-profit research service, jointly funded by the NHS National Institute for Health Research (NIHR) and the Medicines and Healthcare products Regulatory Agency (MHRA), a part of the Department of Health, United Kingdom (UK).  CPRD consists of data collected from UK primary care for all ages.  This includes conditions, observations, measurements, and procedures that the general practitioner is made aware of in additional to any prescriptions as prescribed by the general practitioner.  In addition to primary care, there are also linked secondary care records for a small number of people. [For further information link to RWE site for CPRD.](https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2Fe3d6a6b5-a712-456f-9418-31b9c4f4c4fb.xml)',
 			'',
 			'http://www.ohdsi.org/web/wiki/doku.php?id=documentation:example_etls',
 			'{0}',

@@ -76,5 +76,45 @@ createVisitOccurrenceTests <- function()
   expect_no_visit_occurrence(person_id = patient$person_id, visit_start_date = "2014-03-06")
   expect_no_visit_occurrence(person_id = patient$person_id, visit_start_date = "2014-03-07")
   
-  declareTest("Visit from Drug Exposure")
+  # Prevent duplicates when an encounter has multiple providers tied to an encounter
+  patient <- createPatient();
+  declareTest(description="Visit with multiple providers - use the ATTENDING provider_role", source_pid = patient$ptid, cdm_pid = patient$person_id)
+  provider1 <- createProvider();
+  provider2 <- createProvider();
+  encounter <- createEncounter();
+  visitId <- sequencer$nextSequence();
+
+  add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male', first_month_active = '200701', last_month_active = '201501')
+  add_member_detail(ptid = patient$ptid, pat_planid = patient$pat_planid, eligeff = '2010-01-01', eligend = '2015-10-31')
+  add_diagnosis(ptid=patient$ptid, diagnosis_cd = '2724', diag_date = "2014-03-07", diagnosis_status = 'Diagnosis of', diagnosis_cd_type = 'ICD9', encid = encounter$encid);
+  add_visit(ptid=patient$ptid, visitid = visitId, visit_start_date = "2014-03-05", visit_end_date = "2014-03-10")
+  add_encounter(ptid=patient$ptid, encid = encounter$encid, visitid = visitId, interaction_date = "2014-03-07")
+  add_provider(provid = provider1$provid, specialty = "Emergency Medicine", prim_spec_ind = "0");
+  add_provider(provid = provider2$provid, specialty = "Cardiology", prim_spec_ind = "0");
+  add_encounter_provider(encid = encounter$encid, provid=provider1$provid, provider_role = "Attending")
+  add_encounter_provider(encid = encounter$encid, provid=provider2$provid, provider_role = "Billing")
+  
+  expect_count_visit_occurrence(rowCount = 1, person_id = patient$person_id, provider_id = provider1$provid);
+  expect_no_visit_occurrence(person_id = patient$person_id, provider_id = provider2$provid)
+
+  # If there is > 1 provider and none are marked as 'ATTENDING', sort by the role & speciality and pick the first
+  patient <- createPatient();
+  declareTest(description="Visit with multiple providers - none with provider_role == Attending ", source_pid = patient$ptid, cdm_pid = patient$person_id)
+  provider1 <- createProvider();
+  provider2 <- createProvider();
+  encounter <- createEncounter();
+  visitId <- sequencer$nextSequence();
+  
+  add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male', first_month_active = '200701', last_month_active = '201501')
+  add_member_detail(ptid = patient$ptid, pat_planid = patient$pat_planid, eligeff = '2010-01-01', eligend = '2015-10-31')
+  add_diagnosis(ptid=patient$ptid, diagnosis_cd = '2724', diag_date = "2014-03-07", diagnosis_status = 'Diagnosis of', diagnosis_cd_type = 'ICD9', encid = encounter$encid);
+  add_visit(ptid=patient$ptid, visitid = visitId, visit_start_date = "2014-03-05", visit_end_date = "2014-03-10")
+  add_encounter(ptid=patient$ptid, encid = encounter$encid, visitid = visitId, interaction_date = "2014-03-07")
+  add_provider(provid = provider1$provid, specialty = "Emergency Medicine", prim_spec_ind = "0");
+  add_provider(provid = provider2$provid, specialty = "Cardiology", prim_spec_ind = "0");
+  add_encounter_provider(encid = encounter$encid, provid=provider1$provid, provider_role = "SCHEDULING")
+  add_encounter_provider(encid = encounter$encid, provid=provider2$provid, provider_role = "ADMITTING")
+  
+  expect_count_visit_occurrence(rowCount = 1, person_id = patient$person_id, provider_id = provider2$provid);
+  expect_no_visit_occurrence(person_id = patient$person_id, provider_id = provider1$provid)
 }

@@ -1,5 +1,16 @@
 createMeasurementTests <- function()
 {
+  patient <- createPatient()
+  claim <- createClaim()
+  declareTest("Patient has lab_result with 0 rslt_nbr and string rslt_txt",
+              source_pid = patient$patid, cdm_pid = patient$person_id)
+  add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
+                    gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
+  add_lab_results(labclmid = claim$clmid, pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', 
+                  loinc_cd = '22962-5', proc_cd = '87517', rslt_nbr = 0.00, rslt_txt = 'STUFF')
+  expect_measurement(person_id = patient$person_id, measurement_source_value = '22962-5')
+  
+  
   patient <- createPatient();
   claim <- createClaim();
   declareTest("Patient has lab_result with both loinc_cd and proc_cd values that map to a Measurement record based on loinc_cd", 

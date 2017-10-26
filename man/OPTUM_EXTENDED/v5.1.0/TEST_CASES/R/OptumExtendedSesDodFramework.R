@@ -1,4 +1,3 @@
-frameworkContext <- new.env(parent = emptyenv())
 initFramework <- function() {
   insertDf <- data.frame(table = character(), sql = character(), stringsAsFactors = FALSE)
   insertDf[nrow(insertDf) + 1,] <- c('@nativeDatabaseSchema.lab_results', 'TRUNCATE TABLE @nativeDatabaseSchema.lab_results;')
@@ -315,7 +314,7 @@ initFramework <- function() {
 
 
 
-initFramework()
+#initFramework()
 
 generateInsertSql <- function()
 {
@@ -326,6 +325,12 @@ generateInsertSql <- function()
   })
   insertSql
 }
+
+generateTestSql <- function()
+{
+  testSql
+}
+
 
 declareTest <- function(description, source_pid = NULL, cdm_pid = NULL) {
   testId <- 0

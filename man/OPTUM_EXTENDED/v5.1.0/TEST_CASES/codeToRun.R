@@ -29,7 +29,7 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(dbms = dbms, ser
 
 connection <- DatabaseConnector::connect(connectionDetails = connectionDetails)
 
-insertSql <- SqlRender::translateSql(SqlRender::renderSql(paste(getInsertSql(connectionDetails), sep = "", collapse = "\n"),
+insertSql <- SqlRender::translateSql(SqlRender::renderSql(paste(generateInsertSql(), sep = "", collapse = "\n"),
                                     nativeDatabaseSchema = nativeDatabaseSchema)$sql,
                           targetDialect = connectionDetails$dbms)$sql
 
@@ -42,7 +42,7 @@ DatabaseConnector::executeSql(connection, insertSql)
 # RUN TESTS
 #=============================
 
-testSql <- SqlRender::translateSql(SqlRender::renderSql(paste(getTestSql(connectionDetails), collapse = "\n"),
+testSql <- SqlRender::translateSql(SqlRender::renderSql(paste(generateTestSql(), collapse = "\n"),
                                   cdmDatabaseSchema = cdmDatabaseSchema)$sql,
                         targetDialect = connectionDetails$dbms)$sql
 DatabaseConnector::executeSql(connection, testSql)

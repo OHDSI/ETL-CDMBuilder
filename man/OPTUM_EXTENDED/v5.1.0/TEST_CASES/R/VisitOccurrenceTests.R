@@ -10,11 +10,11 @@ createVisitOccurrenceTests <- function()
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid*1000, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01', rvnu_cd = '0100', pos = '20',
                      pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678')
-  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1)
+  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1, clmid = claim$clmid)
   
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01', rvnu_cd = '0100', pos = '20',
                      pat_planid = patient$patid*1000, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678')
-  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1)
+  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1, clmid = claim$clmid)
   expect_count_visit_occurrence(rowCount = 1, person_id = patient$patid, visit_concept_id = 9201)
   
   
@@ -26,7 +26,7 @@ createVisitOccurrenceTests <- function()
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01', rvnu_cd = '0100', pos = '20',
                      pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678')
-  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1)
+  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1, clmid = claim$clmid)
   expect_visit_occurrence(person_id = patient$person_id, visit_concept_id = 9201)
 
   
@@ -38,7 +38,7 @@ createVisitOccurrenceTests <- function()
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01',
                      pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678')
-  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1)
+  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1, clmid = claim$clmid)
   expect_visit_occurrence(person_id = patient$person_id, visit_concept_id = 9202)
 
 
@@ -50,7 +50,7 @@ createVisitOccurrenceTests <- function()
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01', rvnu_cd = '0981', pos = '23',
                      pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678')
-  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1)
+  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1, clmid = claim$clmid)
   expect_visit_occurrence(person_id = patient$person_id, visit_concept_id = 9203)
 
 
@@ -62,7 +62,7 @@ createVisitOccurrenceTests <- function()
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01', rvnu_cd = '0100', pos = '13',
                      pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678')
-  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1)
+  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1, clmid = claim$clmid)
   expect_visit_occurrence(person_id = patient$person_id, visit_concept_id = 42898160)
 
 
@@ -74,6 +74,6 @@ createVisitOccurrenceTests <- function()
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2009-07-01',
                      pat_planid = patient$patid, patid = patient$patid, fst_dt = '2009-07-01', prov = '111111', provcat = '5678')
-  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1)
+  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1, clmid = claim$clmid)
   expect_no_visit_occurrence(person_id = patient$person_id)
 }

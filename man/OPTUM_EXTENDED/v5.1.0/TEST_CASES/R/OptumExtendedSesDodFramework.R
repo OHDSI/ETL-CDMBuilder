@@ -18,7 +18,7 @@ initFramework <- function() {
   testSql <- c()
   testSql <- c(testSql, "IF OBJECT_ID('@cdmDatabaseSchema.test_results', 'U') IS NOT NULL DROP TABLE @cdmDatabaseSchema.test_results;")
   testSql <- c(testSql, '')
-  testSql <- c(testSql, "CREATE TABLE @cdmDatabaseSchema.test_results (id INT, description VARCHAR(512), test VARCHAR(256), status VARCHAR(5));")
+  testSql <- c(testSql, "CREATE TABLE @cdmDatabaseSchema.test_results (id INT, description VARCHAR(512), test VARCHAR(256), source_pid VARCHAR(50), cdm_pid int, status VARCHAR(5));")
   testSql <- c(testSql, '')
   assign('testSql', testSql, envir = globalenv())
   assign('testId', 1, envir = globalenv())
@@ -326,15 +326,9 @@ generateInsertSql <- function()
   insertSql
 }
 
-generateTestSql <- function()
-{
-  testSql
-}
-
-
 declareTest <- function(description, source_pid = NULL, cdm_pid = NULL) {
   testId <- 0
-  if (exists('testId', where = globalenv()) && get('testId'))
+  if (exists('testId', where = globalenv()))
   {
     testId <- get('testId', envir = globalenv())  
   }
@@ -345,13 +339,20 @@ declareTest <- function(description, source_pid = NULL, cdm_pid = NULL) {
   assign('testNewExpected', TRUE, envir = globalenv()) 
   
   assign('source_pid', source_pid, envir = globalenv())
-  assign('cdm_pid', source_pid, envir = globalenv())
+  assign('cdm_pid', cdm_pid, envir = globalenv())
+  
+  groupItemIndex <- 0
+  if (exists('groupItemIndex', where = globalenv()))
+  {
+    groupItemIndex <- get("groupItemIndex", envir = globalenv())
+  }
+  assign('groupItemIndex', groupItemIndex + 1, envir = globalenv())
 }
 
 declareTestGroup <- function(groupName) 
 {
   groupIndex <- 0
-  if (exists('groupIndex', where = globalenv()) && get('groupIndex'))
+  if (exists('groupIndex', where = globalenv()))
   {
     groupIndex <- get("groupIndex", envir = globalenv())
   }
@@ -4241,8 +4242,22 @@ add__pos_episode_visit <- function(episode_id, patid, dt_start, dt_end, visit_ty
   invisible(statement)
 }
 
+getExpectStatement <- function(domain, table)
+{
+  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", 
+                      get("testId", envir = globalenv()), " AS id, '", 
+                      get("testDescription", envir = globalenv()), 
+                      "' AS description, 'Expect @domain' AS test,", 
+                      get("source_pid", envir = globalenv()), " AS source_id, ",
+                      get("cdm_pid", envir = globalenv()), " AS cdm_pid, ",
+                      "CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.@table WHERE")
+  statement <- gsub(pattern = "@domain", replacement = domain, x = statement)
+  statement <- gsub(pattern = "@table", replacement = table, x = statement)
+  return(statement)
+}
+
 expect_measurement <- function(measurement_id, person_id, measurement_concept_id, measurement_date, measurement_datetime, measurement_type_concept_id, operator_concept_id, value_as_number, value_as_concept_id, unit_concept_id, range_low, range_high, provider_id, visit_occurrence_id, measurement_source_value, measurement_source_concept_id, unit_source_value, value_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect measurement' AS test, CASE WHEN(SELECT COUNT(*) FROM measurement WHERE")
+  statement <- getExpectStatement(domain = "measurement", table = "measurement")
   first <- TRUE
   if (!missing(measurement_id)) {
     if (first) {
@@ -4528,7 +4543,8 @@ expect_measurement <- function(measurement_id, person_id, measurement_concept_id
 }
 
 expect_condition_occurrence <- function(condition_occurrence_id, person_id, condition_concept_id, condition_start_date, condition_start_datetime, condition_end_date, condition_end_datetime, condition_type_concept_id, stop_reason, provider_id, visit_occurrence_id, condition_source_value, condition_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect condition_occurrence' AS test, CASE WHEN(SELECT COUNT(*) FROM condition_occurrence WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect condition_occurrence' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.condition_occurrence WHERE")
+  statement <- getExpectStatement(domain = "condition", table = "condition_occurrence")
   first <- TRUE
   if (!missing(condition_occurrence_id)) {
     if (first) {
@@ -4739,7 +4755,8 @@ expect_condition_occurrence <- function(condition_occurrence_id, person_id, cond
 }
 
 expect_location <- function(location_id, address_1, address_2, city, state, zip, county, location_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect location' AS test, CASE WHEN(SELECT COUNT(*) FROM location WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect location' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.location WHERE")
+  statement <- getExpectStatement(domain = "location", table = "location")
   first <- TRUE
   if (!missing(location_id)) {
     if (first) {
@@ -4875,7 +4892,8 @@ expect_location <- function(location_id, address_1, address_2, city, state, zip,
 }
 
 expect_person <- function(person_id, person_source_value, gender_concept_id, gender_source_value, year_of_birth, month_of_birth, day_of_birth, race_concept_id, ethnicity_concept_id, birth_datetime, location_id, provider_id, care_site_id, gender_source_concept_id, race_source_value, race_source_concept_id, ethnicity_source_value, ethnicity_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect person' AS test, CASE WHEN(SELECT COUNT(*) FROM person WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect person' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.person WHERE")
+  statement <- getExpectStatement(domain = "person", table = "person")
   first <- TRUE
   if (!missing(person_id)) {
     if (first) {
@@ -5161,7 +5179,8 @@ expect_person <- function(person_id, person_source_value, gender_concept_id, gen
 }
 
 expect_payer_plan_period <- function(payer_plan_period_id, person_id, payer_plan_period_start_date, payer_plan_period_end_date, payer_source_value, plan_source_value, family_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect payer_plan_period' AS test, CASE WHEN(SELECT COUNT(*) FROM payer_plan_period WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect payer_plan_period' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.payer_plan_period WHERE")
+  statement <- getExpectStatement(domain = "payer_plan_period", table = "payer_plan_period")
   first <- TRUE
   if (!missing(payer_plan_period_id)) {
     if (first) {
@@ -5282,7 +5301,8 @@ expect_payer_plan_period <- function(payer_plan_period_id, person_id, payer_plan
 }
 
 expect_cost <- function(cost_id, cost_event_id, cost_domain_id, cost_type_concept_id, currency_concept_id, total_charge, total_cost, total_paid, paid_by_payer, paid_by_patient, paid_patient_copay, paid_patient_coinsurance, paid_patient_deductible, paid_by_primary, paid_ingredient_cost, paid_dispensing_fee, payer_plan_period_id, amount_allowed, revenue_code_concept_id, revenue_code_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cost' AS test, CASE WHEN(SELECT COUNT(*) FROM cost WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cost' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.cost WHERE")
+  statement <- getExpectStatement(domain = "cost", table = "cost")
   first <- TRUE
   if (!missing(cost_id)) {
     if (first) {
@@ -5598,7 +5618,8 @@ expect_cost <- function(cost_id, cost_event_id, cost_domain_id, cost_type_concep
 }
 
 expect_observation_period <- function(observation_period_id, person_id, observation_period_start_date, observation_period_start_datetime, observation_period_end_date, observation_period_end_datetime, period_type_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect observation_period' AS test, CASE WHEN(SELECT COUNT(*) FROM observation_period WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect observation_period' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.observation_period WHERE")
+  statement <- getExpectStatement(domain = "observation_period", table = "observation_period")
   first <- TRUE
   if (!missing(observation_period_id)) {
     if (first) {
@@ -5719,7 +5740,8 @@ expect_observation_period <- function(observation_period_id, person_id, observat
 }
 
 expect_care_site <- function(care_site_id, care_site_name, place_of_service_concept_id, location_id, care_site_source_value, place_of_service_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect care_site' AS test, CASE WHEN(SELECT COUNT(*) FROM care_site WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect care_site' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.care_site WHERE")
+  statement <- getExpectStatement(domain = "care_site", table = "care_site")
   first <- TRUE
   if (!missing(care_site_id)) {
     if (first) {
@@ -5825,7 +5847,8 @@ expect_care_site <- function(care_site_id, care_site_name, place_of_service_conc
 }
 
 expect_visit_occurrence <- function(visit_occurrence_id, person_id, visit_concept_id, visit_start_date, visit_start_datetime, visit_end_date, visit_end_datetime, visit_type_concept_id, provider_id, care_site_id, visit_source_value, visit_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect visit_occurrence' AS test, CASE WHEN(SELECT COUNT(*) FROM visit_occurrence WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect visit_occurrence' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.visit_occurrence WHERE")
+  statement <- getExpectStatement(domain = "visit_occurrence", table = "visit_occurrence")
   first <- TRUE
   if (!missing(visit_occurrence_id)) {
     if (first) {
@@ -6021,7 +6044,8 @@ expect_visit_occurrence <- function(visit_occurrence_id, person_id, visit_concep
 }
 
 expect_provider <- function(provider_id, npi, dea, specialty_concept_id, provider_name, care_site_id, year_of_birth, gender_concept_id, provider_source_value, specialty_source_value, specialty_source_concept_id, gender_source_value, gender_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect provider' AS test, CASE WHEN(SELECT COUNT(*) FROM provider WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect provider' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.provider WHERE")
+  statement <- getExpectStatement(domain = "provider", table = "provider")
   first <- TRUE
   if (!missing(provider_id)) {
     if (first) {
@@ -6232,7 +6256,8 @@ expect_provider <- function(provider_id, npi, dea, specialty_concept_id, provide
 }
 
 expect_death <- function(person_id, death_date, death_datetime, death_type_concept_id, cause_concept_id, cause_source_value, cause_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect death' AS test, CASE WHEN(SELECT COUNT(*) FROM death WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect death' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.death WHERE")
+  statement <- getExpectStatement(domain = "death", table = "death")  
   first <- TRUE
   if (!missing(person_id)) {
     if (first) {
@@ -6353,7 +6378,8 @@ expect_death <- function(person_id, death_date, death_datetime, death_type_conce
 }
 
 expect_drug_exposure <- function(drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_start_datetime, drug_exposure_end_date, drug_exposure_end_datetime, drug_type_concept_id, stop_reason, refills, quantity, days_supply, sig, route_concept_id, effective_drug_dose, dose_unit_concept_id, lot_number, provider_id, visit_occurrence_id, drug_source_value, drug_source_concept_id, route_source_value, dose_unit_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect drug_exposure' AS test, CASE WHEN(SELECT COUNT(*) FROM drug_exposure WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect drug_exposure' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.drug_exposure WHERE")
+  statement <- getExpectStatement(domain = "drug_exposure", table = "drug_exposure")
   first <- TRUE
   if (!missing(drug_exposure_id)) {
     if (first) {
@@ -6714,7 +6740,8 @@ expect_drug_exposure <- function(drug_exposure_id, person_id, drug_concept_id, d
 }
 
 expect_device_exposure <- function(device_exposure_id, person_id, device_concept_id, device_exposure_start_date, device_exposure_start_datetime, device_exposure_end_date, device_exposure_end_datetime, device_type_concept_id, unique_device_id, quantity, provider_id, visit_occurrence_id, device_source_value, device_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect device_exposure' AS test, CASE WHEN(SELECT COUNT(*) FROM device_exposure WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect device_exposure' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.device_exposure WHERE")
+  statement <- getExpectStatement(domain = "device_exposure", table = "device_exposure")
   first <- TRUE
   if (!missing(device_exposure_id)) {
     if (first) {
@@ -6940,7 +6967,8 @@ expect_device_exposure <- function(device_exposure_id, person_id, device_concept
 }
 
 expect_procedure_occurrence <- function(procedure_occurrence_id, person_id, procedure_concept_id, procedure_date, procedure_type_concept_id, modifier_concept_id, quantity, provider_id, visit_occurrence_id, procedure_source_value, procedure_source_concept_id, qualifier_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect procedure_occurrence' AS test, CASE WHEN(SELECT COUNT(*) FROM procedure_occurrence WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect procedure_occurrence' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.procedure_occurrence WHERE")
+  statement <- getExpectStatement(domain = "procedure_occurrence", table = "procedure_occurrence")
   first <- TRUE
   if (!missing(procedure_occurrence_id)) {
     if (first) {
@@ -7136,7 +7164,8 @@ expect_procedure_occurrence <- function(procedure_occurrence_id, person_id, proc
 }
 
 expect_observation <- function(observation_id, person_id, observation_concept_id, observation_date, observation_datetime, observation_type_concept_id, value_as_number, value_as_string, value_as_concept_id, qualifier_concept_id, unit_concept_id, provider_id, visit_occurrence_id, observation_source_value, observation_source_concept_id, unit_source_value, qualifier_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect observation' AS test, CASE WHEN(SELECT COUNT(*) FROM observation WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect observation' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.observation WHERE")
+  statement <- getExpectStatement(domain = "observation", table = "observation")
   first <- TRUE
   if (!missing(observation_id)) {
     if (first) {
@@ -7407,7 +7436,8 @@ expect_observation <- function(observation_id, person_id, observation_concept_id
 }
 
 expect_note <- function(note_id, person_id, note_date, note_datetime, note_type_concept_id, note_text, provider_id, visit_occurrence_id, note_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect note' AS test, CASE WHEN(SELECT COUNT(*) FROM note WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect note' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.note WHERE")
+  statement <- getExpectStatement(domain = "note", table = "note")
   first <- TRUE
   if (!missing(note_id)) {
     if (first) {
@@ -7558,7 +7588,8 @@ expect_note <- function(note_id, person_id, note_date, note_datetime, note_type_
 }
 
 expect_specimen <- function(specimen_id, person_id, specimen_concept_id, specimen_type_concept_id, specimen_date, specimen_datetime, quantity, unit_concept_id, anatomic_site_concept_id, disease_status_concept_id, specimen_source_id, specimen_source_value, unit_source_value, anatomic_site_source_value, disease_status_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect specimen' AS test, CASE WHEN(SELECT COUNT(*) FROM specimen WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect specimen' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.specimen WHERE")
+  statement <- getExpectStatement(domain = "specimen", table = "specimen")
   first <- TRUE
   if (!missing(specimen_id)) {
     if (first) {
@@ -7799,7 +7830,8 @@ expect_specimen <- function(specimen_id, person_id, specimen_concept_id, specime
 }
 
 expect_fact_relationship <- function(domain_concept_id_1, fact_id_1, domain_concept_id_2, fact_id_2, relationship_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect fact_relationship' AS test, CASE WHEN(SELECT COUNT(*) FROM fact_relationship WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect fact_relationship' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.fact_relationship WHERE")
+  statement <- getExpectStatement(domain = "fact_relationship", table = "fact_relationship")
   first <- TRUE
   if (!missing(domain_concept_id_1)) {
     if (first) {
@@ -7890,7 +7922,8 @@ expect_fact_relationship <- function(domain_concept_id_1, fact_id_1, domain_conc
 }
 
 expect_drug_era <- function(drug_era_id, person_id, drug_concept_id, drug_era_start_date, drug_era_end_date, drug_exposure_count, gap_days) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect drug_era' AS test, CASE WHEN(SELECT COUNT(*) FROM drug_era WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect drug_era' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.drug_era WHERE")
+  statement <- getExpectStatement(domain = "drug_era", table = "drug_era")
   first <- TRUE
   if (!missing(drug_era_id)) {
     if (first) {
@@ -8011,7 +8044,8 @@ expect_drug_era <- function(drug_era_id, person_id, drug_concept_id, drug_era_st
 }
 
 expect_dose_era <- function(dose_era_id, person_id, drug_concept_id, unit_concept_id, dose_value, dose_era_start_date, dose_era_end_date) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect dose_era' AS test, CASE WHEN(SELECT COUNT(*) FROM dose_era WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect dose_era' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.dose_era WHERE")
+  statement <- getExpectStatement(domain = "dose_era", table = "dose_era")
   first <- TRUE
   if (!missing(dose_era_id)) {
     if (first) {
@@ -8132,7 +8166,8 @@ expect_dose_era <- function(dose_era_id, person_id, drug_concept_id, unit_concep
 }
 
 expect_condition_era <- function(condition_era_id, person_id, condition_concept_id, condition_era_start_date, condition_era_end_date, condition_occurrence_count) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect condition_era' AS test, CASE WHEN(SELECT COUNT(*) FROM condition_era WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect condition_era' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.condition_era WHERE")
+  statement <- getExpectStatement(domain = "condition_era", table = "condition_era")
   first <- TRUE
   if (!missing(condition_era_id)) {
     if (first) {
@@ -8238,7 +8273,8 @@ expect_condition_era <- function(condition_era_id, person_id, condition_concept_
 }
 
 expect_cdm_source <- function(cdm_source_name, cdm_source_abbreviation, cdm_holder, source_description, source_documentation_reference, cdm_etl_reference, source_release_date, cdm_release_date, cdm_version, vocabulary_version) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cdm_source' AS test, CASE WHEN(SELECT COUNT(*) FROM cdm_source WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cdm_source' AS test, CASE WHEN(SELECT COUNT(*) FROM cdm_source WHERE")
+  statement <- getExpectStatement(domain = "cdm_source", table = "cdm_source")
   first <- TRUE
   if (!missing(cdm_source_name)) {
     if (first) {
@@ -8404,8 +8440,8 @@ expect_cdm_source <- function(cdm_source_name, cdm_source_abbreviation, cdm_hold
 }
 
 expect_cohort <- function(cohort_definition_id, subject_id, cohort_start_date, cohort_end_date) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort WHERE")
-  first <- TRUE
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort WHERE")
+  first <- TRUEstatement <- getExpectStatement(domain = "cohort", table = "cohort")
   if (!missing(cohort_definition_id)) {
     if (first) {
       first <- FALSE
@@ -8480,7 +8516,8 @@ expect_cohort <- function(cohort_definition_id, subject_id, cohort_start_date, c
 }
 
 expect_cohort_definition <- function(cohort_definition_id, cohort_definition_name, cohort_definition_description, definition_type_concept_id, cohort_definition_syntax, subject_concept_id, cohort_instantiation_date) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort_definition' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort_definition WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort_definition' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort_definition WHERE")
+  statement <- getExpectStatement(domain = "cohort_definition", table = "cohort_definition")
   first <- TRUE
   if (!missing(cohort_definition_id)) {
     if (first) {
@@ -8601,7 +8638,8 @@ expect_cohort_definition <- function(cohort_definition_id, cohort_definition_nam
 }
 
 expect_cohort_attribute <- function(cohort_definition_id, cohort_start_date, cohort_end_date, subject_id, attribute_definition_id, value_as_number, value_as_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort_attribute' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort_attribute WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort_attribute' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort_attribute WHERE")
+  statement <- getExpectStatement(domain = "cohort_attribute", table = "cohort_attribute")
   first <- TRUE
   if (!missing(cohort_definition_id)) {
     if (first) {
@@ -8722,7 +8760,8 @@ expect_cohort_attribute <- function(cohort_definition_id, cohort_start_date, coh
 }
 
 expect_attribute_definition <- function(attribute_definition_id, attribute_name, attribute_description, attribute_type_concept_id, attribute_syntax) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect attribute_definition' AS test, CASE WHEN(SELECT COUNT(*) FROM attribute_definition WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect attribute_definition' AS test, CASE WHEN(SELECT COUNT(*) FROM attribute_definition WHERE")
+  statement <- getExpectStatement(domain = "attribute_definition", table = "attribute_definition")
   first <- TRUE
   if (!missing(attribute_definition_id)) {
     if (first) {
@@ -8813,7 +8852,8 @@ expect_attribute_definition <- function(attribute_definition_id, attribute_name,
 }
 
 expect_no_measurement <- function(measurement_id, person_id, measurement_concept_id, measurement_date, measurement_datetime, measurement_type_concept_id, operator_concept_id, value_as_number, value_as_concept_id, unit_concept_id, range_low, range_high, provider_id, visit_occurrence_id, measurement_source_value, measurement_source_concept_id, unit_source_value, value_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect measurement' AS test, CASE WHEN(SELECT COUNT(*) FROM measurement WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect measurement' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.measurement WHERE")
+  statement <- getExpectStatement(domain = "measurement", table = "measurement")
   first <- TRUE
   if (!missing(measurement_id)) {
     if (first) {
@@ -9099,7 +9139,8 @@ expect_no_measurement <- function(measurement_id, person_id, measurement_concept
 }
 
 expect_no_condition_occurrence <- function(condition_occurrence_id, person_id, condition_concept_id, condition_start_date, condition_start_datetime, condition_end_date, condition_end_datetime, condition_type_concept_id, stop_reason, provider_id, visit_occurrence_id, condition_source_value, condition_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect condition_occurrence' AS test, CASE WHEN(SELECT COUNT(*) FROM condition_occurrence WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect condition_occurrence' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.condition_occurrence WHERE")
+  statement <- getExpectStatement(domain = "condition_occurrence", table = "condition_occurrence")
   first <- TRUE
   if (!missing(condition_occurrence_id)) {
     if (first) {
@@ -9310,7 +9351,8 @@ expect_no_condition_occurrence <- function(condition_occurrence_id, person_id, c
 }
 
 expect_no_location <- function(location_id, address_1, address_2, city, state, zip, county, location_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect location' AS test, CASE WHEN(SELECT COUNT(*) FROM location WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect location' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.location WHERE")
+  statement <- getExpectStatement(domain = "location", table = "location")
   first <- TRUE
   if (!missing(location_id)) {
     if (first) {
@@ -9446,7 +9488,8 @@ expect_no_location <- function(location_id, address_1, address_2, city, state, z
 }
 
 expect_no_person <- function(person_id, person_source_value, gender_concept_id, gender_source_value, year_of_birth, month_of_birth, day_of_birth, race_concept_id, ethnicity_concept_id, birth_datetime, location_id, provider_id, care_site_id, gender_source_concept_id, race_source_value, race_source_concept_id, ethnicity_source_value, ethnicity_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect person' AS test, CASE WHEN(SELECT COUNT(*) FROM person WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect person' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.person WHERE")
+  statement <- getExpectStatement(domain = "person", table = "person")
   first <- TRUE
   if (!missing(person_id)) {
     if (first) {
@@ -9732,7 +9775,8 @@ expect_no_person <- function(person_id, person_source_value, gender_concept_id, 
 }
 
 expect_no_payer_plan_period <- function(payer_plan_period_id, person_id, payer_plan_period_start_date, payer_plan_period_end_date, payer_source_value, plan_source_value, family_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect payer_plan_period' AS test, CASE WHEN(SELECT COUNT(*) FROM payer_plan_period WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect payer_plan_period' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.payer_plan_period WHERE")
+  statement <- getExpectStatement(domain = "payer_plan_period", table = "payer_plan_period")
   first <- TRUE
   if (!missing(payer_plan_period_id)) {
     if (first) {
@@ -9853,7 +9897,8 @@ expect_no_payer_plan_period <- function(payer_plan_period_id, person_id, payer_p
 }
 
 expect_no_cost <- function(cost_id, cost_event_id, cost_domain_id, cost_type_concept_id, currency_concept_id, total_charge, total_cost, total_paid, paid_by_payer, paid_by_patient, paid_patient_copay, paid_patient_coinsurance, paid_patient_deductible, paid_by_primary, paid_ingredient_cost, paid_dispensing_fee, payer_plan_period_id, amount_allowed, revenue_code_concept_id, revenue_code_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cost' AS test, CASE WHEN(SELECT COUNT(*) FROM cost WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cost' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.cost WHERE")
+  statement <- getExpectStatement(domain = "cost", table = "cost")
   first <- TRUE
   if (!missing(cost_id)) {
     if (first) {
@@ -10169,7 +10214,8 @@ expect_no_cost <- function(cost_id, cost_event_id, cost_domain_id, cost_type_con
 }
 
 expect_no_observation_period <- function(observation_period_id, person_id, observation_period_start_date, observation_period_start_datetime, observation_period_end_date, observation_period_end_datetime, period_type_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect observation_period' AS test, CASE WHEN(SELECT COUNT(*) FROM observation_period WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect observation_period' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.observation_period WHERE")
+  statement <- getExpectStatement(domain = "observation_period", table = "observation_period")
   first <- TRUE
   if (!missing(observation_period_id)) {
     if (first) {
@@ -10290,7 +10336,8 @@ expect_no_observation_period <- function(observation_period_id, person_id, obser
 }
 
 expect_no_care_site <- function(care_site_id, care_site_name, place_of_service_concept_id, location_id, care_site_source_value, place_of_service_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect care_site' AS test, CASE WHEN(SELECT COUNT(*) FROM care_site WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect care_site' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.care_site WHERE")
+  statement <- getExpectStatement(domain = "care_site", table = "care_site")
   first <- TRUE
   if (!missing(care_site_id)) {
     if (first) {
@@ -10396,7 +10443,8 @@ expect_no_care_site <- function(care_site_id, care_site_name, place_of_service_c
 }
 
 expect_no_visit_occurrence <- function(visit_occurrence_id, person_id, visit_concept_id, visit_start_date, visit_start_datetime, visit_end_date, visit_end_datetime, visit_type_concept_id, provider_id, care_site_id, visit_source_value, visit_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect visit_occurrence' AS test, CASE WHEN(SELECT COUNT(*) FROM visit_occurrence WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect visit_occurrence' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.visit_occurrence WHERE")
+  statement <- getExpectStatement(domain = "visit_occurrence", table = "visit_occurrence")
   first <- TRUE
   if (!missing(visit_occurrence_id)) {
     if (first) {
@@ -10592,7 +10640,8 @@ expect_no_visit_occurrence <- function(visit_occurrence_id, person_id, visit_con
 }
 
 expect_no_provider <- function(provider_id, npi, dea, specialty_concept_id, provider_name, care_site_id, year_of_birth, gender_concept_id, provider_source_value, specialty_source_value, specialty_source_concept_id, gender_source_value, gender_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect provider' AS test, CASE WHEN(SELECT COUNT(*) FROM provider WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect provider' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.provider WHERE")
+  statement <- getExpectStatement(domain = "provider", table = "provider")
   first <- TRUE
   if (!missing(provider_id)) {
     if (first) {
@@ -10803,7 +10852,8 @@ expect_no_provider <- function(provider_id, npi, dea, specialty_concept_id, prov
 }
 
 expect_no_death <- function(person_id, death_date, death_datetime, death_type_concept_id, cause_concept_id, cause_source_value, cause_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect death' AS test, CASE WHEN(SELECT COUNT(*) FROM death WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect death' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.death WHERE")
+  statement <- getExpectStatement(domain = "death", table = "death")
   first <- TRUE
   if (!missing(person_id)) {
     if (first) {
@@ -10924,7 +10974,8 @@ expect_no_death <- function(person_id, death_date, death_datetime, death_type_co
 }
 
 expect_no_drug_exposure <- function(drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_start_datetime, drug_exposure_end_date, drug_exposure_end_datetime, drug_type_concept_id, stop_reason, refills, quantity, days_supply, sig, route_concept_id, effective_drug_dose, dose_unit_concept_id, lot_number, provider_id, visit_occurrence_id, drug_source_value, drug_source_concept_id, route_source_value, dose_unit_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect drug_exposure' AS test, CASE WHEN(SELECT COUNT(*) FROM drug_exposure WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect drug_exposure' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.drug_exposure WHERE")
+  statement <- getExpectStatement(domain = "drug_exposure", table = "drug_exposure")
   first <- TRUE
   if (!missing(drug_exposure_id)) {
     if (first) {
@@ -11285,7 +11336,8 @@ expect_no_drug_exposure <- function(drug_exposure_id, person_id, drug_concept_id
 }
 
 expect_no_device_exposure <- function(device_exposure_id, person_id, device_concept_id, device_exposure_start_date, device_exposure_start_datetime, device_exposure_end_date, device_exposure_end_datetime, device_type_concept_id, unique_device_id, quantity, provider_id, visit_occurrence_id, device_source_value, device_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect device_exposure' AS test, CASE WHEN(SELECT COUNT(*) FROM device_exposure WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect device_exposure' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.device_exposure WHERE")
+  statement <- getExpectStatement(domain = "device_exposure", table = "device_exposure")
   first <- TRUE
   if (!missing(device_exposure_id)) {
     if (first) {
@@ -11511,7 +11563,8 @@ expect_no_device_exposure <- function(device_exposure_id, person_id, device_conc
 }
 
 expect_no_procedure_occurrence <- function(procedure_occurrence_id, person_id, procedure_concept_id, procedure_date, procedure_type_concept_id, modifier_concept_id, quantity, provider_id, visit_occurrence_id, procedure_source_value, procedure_source_concept_id, qualifier_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect procedure_occurrence' AS test, CASE WHEN(SELECT COUNT(*) FROM procedure_occurrence WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect procedure_occurrence' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.procedure_occurrence WHERE")
+  statement <- getExpectStatement(domain = "procedure_occurrence", table = "procedure_occurrence")
   first <- TRUE
   if (!missing(procedure_occurrence_id)) {
     if (first) {
@@ -11707,7 +11760,8 @@ expect_no_procedure_occurrence <- function(procedure_occurrence_id, person_id, p
 }
 
 expect_no_observation <- function(observation_id, person_id, observation_concept_id, observation_date, observation_datetime, observation_type_concept_id, value_as_number, value_as_string, value_as_concept_id, qualifier_concept_id, unit_concept_id, provider_id, visit_occurrence_id, observation_source_value, observation_source_concept_id, unit_source_value, qualifier_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect observation' AS test, CASE WHEN(SELECT COUNT(*) FROM observation WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect observation' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.observation WHERE")
+  statement <- getExpectStatement(domain = "observation", table = "observation")
   first <- TRUE
   if (!missing(observation_id)) {
     if (first) {
@@ -11978,7 +12032,8 @@ expect_no_observation <- function(observation_id, person_id, observation_concept
 }
 
 expect_no_note <- function(note_id, person_id, note_date, note_datetime, note_type_concept_id, note_text, provider_id, visit_occurrence_id, note_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect note' AS test, CASE WHEN(SELECT COUNT(*) FROM note WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect note' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.note WHERE")
+  statement <- getExpectStatement(domain = "note", table = "note")
   first <- TRUE
   if (!missing(note_id)) {
     if (first) {
@@ -12129,7 +12184,8 @@ expect_no_note <- function(note_id, person_id, note_date, note_datetime, note_ty
 }
 
 expect_no_specimen <- function(specimen_id, person_id, specimen_concept_id, specimen_type_concept_id, specimen_date, specimen_datetime, quantity, unit_concept_id, anatomic_site_concept_id, disease_status_concept_id, specimen_source_id, specimen_source_value, unit_source_value, anatomic_site_source_value, disease_status_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect specimen' AS test, CASE WHEN(SELECT COUNT(*) FROM specimen WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect specimen' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.specimen WHERE")
+  statement <- getExpectStatement(domain = "specimen", table = "specimen")
   first <- TRUE
   if (!missing(specimen_id)) {
     if (first) {
@@ -12370,7 +12426,8 @@ expect_no_specimen <- function(specimen_id, person_id, specimen_concept_id, spec
 }
 
 expect_no_fact_relationship <- function(domain_concept_id_1, fact_id_1, domain_concept_id_2, fact_id_2, relationship_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect fact_relationship' AS test, CASE WHEN(SELECT COUNT(*) FROM fact_relationship WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect fact_relationship' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.fact_relationship WHERE")
+  statement <- getExpectStatement(domain = "fact_relationship", table = "fact_relationship")
   first <- TRUE
   if (!missing(domain_concept_id_1)) {
     if (first) {
@@ -12461,7 +12518,8 @@ expect_no_fact_relationship <- function(domain_concept_id_1, fact_id_1, domain_c
 }
 
 expect_no_drug_era <- function(drug_era_id, person_id, drug_concept_id, drug_era_start_date, drug_era_end_date, drug_exposure_count, gap_days) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect drug_era' AS test, CASE WHEN(SELECT COUNT(*) FROM drug_era WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect drug_era' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.drug_era WHERE")
+  statement <- getExpectStatement(domain = "drug_era", table = "drug_era")
   first <- TRUE
   if (!missing(drug_era_id)) {
     if (first) {
@@ -12582,7 +12640,8 @@ expect_no_drug_era <- function(drug_era_id, person_id, drug_concept_id, drug_era
 }
 
 expect_no_dose_era <- function(dose_era_id, person_id, drug_concept_id, unit_concept_id, dose_value, dose_era_start_date, dose_era_end_date) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect dose_era' AS test, CASE WHEN(SELECT COUNT(*) FROM dose_era WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect dose_era' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.dose_era WHERE")
+  statement <- getExpectStatement(domain = "dose_era", table = "dose_era")
   first <- TRUE
   if (!missing(dose_era_id)) {
     if (first) {
@@ -12703,7 +12762,8 @@ expect_no_dose_era <- function(dose_era_id, person_id, drug_concept_id, unit_con
 }
 
 expect_no_condition_era <- function(condition_era_id, person_id, condition_concept_id, condition_era_start_date, condition_era_end_date, condition_occurrence_count) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect condition_era' AS test, CASE WHEN(SELECT COUNT(*) FROM condition_era WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect condition_era' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.condition_era WHERE")
+  statement <- getExpectStatement(domain = "condition_era", table = "condition_era")
   first <- TRUE
   if (!missing(condition_era_id)) {
     if (first) {
@@ -12809,7 +12869,8 @@ expect_no_condition_era <- function(condition_era_id, person_id, condition_conce
 }
 
 expect_no_cdm_source <- function(cdm_source_name, cdm_source_abbreviation, cdm_holder, source_description, source_documentation_reference, cdm_etl_reference, source_release_date, cdm_release_date, cdm_version, vocabulary_version) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cdm_source' AS test, CASE WHEN(SELECT COUNT(*) FROM cdm_source WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cdm_source' AS test, CASE WHEN(SELECT COUNT(*) FROM cdm_source WHERE")
+  statement <- getExpectStatement(domain = "cdm_source", table = "cdm_source")
   first <- TRUE
   if (!missing(cdm_source_name)) {
     if (first) {
@@ -12975,7 +13036,8 @@ expect_no_cdm_source <- function(cdm_source_name, cdm_source_abbreviation, cdm_h
 }
 
 expect_no_cohort <- function(cohort_definition_id, subject_id, cohort_start_date, cohort_end_date) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort WHERE")
+  statement <- getExpectStatement(domain = "cohort", table = "cohort")
   first <- TRUE
   if (!missing(cohort_definition_id)) {
     if (first) {
@@ -13051,7 +13113,8 @@ expect_no_cohort <- function(cohort_definition_id, subject_id, cohort_start_date
 }
 
 expect_no_cohort_definition <- function(cohort_definition_id, cohort_definition_name, cohort_definition_description, definition_type_concept_id, cohort_definition_syntax, subject_concept_id, cohort_instantiation_date) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort_definition' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort_definition WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort_definition' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort_definition WHERE")
+  statement <- getExpectStatement(domain = "cohort_definition", table = "cohort_definition")
   first <- TRUE
   if (!missing(cohort_definition_id)) {
     if (first) {
@@ -13172,7 +13235,8 @@ expect_no_cohort_definition <- function(cohort_definition_id, cohort_definition_
 }
 
 expect_no_cohort_attribute <- function(cohort_definition_id, cohort_start_date, cohort_end_date, subject_id, attribute_definition_id, value_as_number, value_as_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort_attribute' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort_attribute WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort_attribute' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort_attribute WHERE")
+  statement <- getExpectStatement(domain = "cohort_attribute", table = "cohort_attribute")
   first <- TRUE
   if (!missing(cohort_definition_id)) {
     if (first) {
@@ -13293,7 +13357,8 @@ expect_no_cohort_attribute <- function(cohort_definition_id, cohort_start_date, 
 }
 
 expect_no_attribute_definition <- function(attribute_definition_id, attribute_name, attribute_description, attribute_type_concept_id, attribute_syntax) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect attribute_definition' AS test, CASE WHEN(SELECT COUNT(*) FROM attribute_definition WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect attribute_definition' AS test, CASE WHEN(SELECT COUNT(*) FROM attribute_definition WHERE")
+  statement <- getExpectStatement(domain = "attribute_definition", table = "attribute_definition")
   first <- TRUE
   if (!missing(attribute_definition_id)) {
     if (first) {
@@ -13384,7 +13449,8 @@ expect_no_attribute_definition <- function(attribute_definition_id, attribute_na
 }
 
 expect_count_measurement <- function(rowCount, measurement_id, person_id, measurement_concept_id, measurement_date, measurement_datetime, measurement_type_concept_id, operator_concept_id, value_as_number, value_as_concept_id, unit_concept_id, range_low, range_high, provider_id, visit_occurrence_id, measurement_source_value, measurement_source_concept_id, unit_source_value, value_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect measurement' AS test, CASE WHEN(SELECT COUNT(*) FROM measurement WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect measurement' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.measurement WHERE")
+  statement <- getExpectStatement(domain = "measurement", table = "measurement")
   first <- TRUE
   if (!missing(measurement_id)) {
     if (first) {
@@ -13670,7 +13736,8 @@ expect_count_measurement <- function(rowCount, measurement_id, person_id, measur
 }
 
 expect_count_condition_occurrence <- function(rowCount, condition_occurrence_id, person_id, condition_concept_id, condition_start_date, condition_start_datetime, condition_end_date, condition_end_datetime, condition_type_concept_id, stop_reason, provider_id, visit_occurrence_id, condition_source_value, condition_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect condition_occurrence' AS test, CASE WHEN(SELECT COUNT(*) FROM condition_occurrence WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect condition_occurrence' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.condition_occurrence WHERE")
+  statement <- getExpectStatement(domain = "condition_occurrence", table = "condition_occurrence")
   first <- TRUE
   if (!missing(condition_occurrence_id)) {
     if (first) {
@@ -13881,7 +13948,8 @@ expect_count_condition_occurrence <- function(rowCount, condition_occurrence_id,
 }
 
 expect_count_location <- function(rowCount, location_id, address_1, address_2, city, state, zip, county, location_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect location' AS test, CASE WHEN(SELECT COUNT(*) FROM location WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect location' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.location WHERE")
+  statement <- getExpectStatement(domain = "location", table = "location")
   first <- TRUE
   if (!missing(location_id)) {
     if (first) {
@@ -14017,7 +14085,8 @@ expect_count_location <- function(rowCount, location_id, address_1, address_2, c
 }
 
 expect_count_person <- function(rowCount, person_id, person_source_value, gender_concept_id, gender_source_value, year_of_birth, month_of_birth, day_of_birth, race_concept_id, ethnicity_concept_id, birth_datetime, location_id, provider_id, care_site_id, gender_source_concept_id, race_source_value, race_source_concept_id, ethnicity_source_value, ethnicity_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect person' AS test, CASE WHEN(SELECT COUNT(*) FROM person WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect person' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.person WHERE")
+  statement <- getExpectStatement(domain = "person", table = "person")
   first <- TRUE
   if (!missing(person_id)) {
     if (first) {
@@ -14303,7 +14372,8 @@ expect_count_person <- function(rowCount, person_id, person_source_value, gender
 }
 
 expect_count_payer_plan_period <- function(rowCount, payer_plan_period_id, person_id, payer_plan_period_start_date, payer_plan_period_end_date, payer_source_value, plan_source_value, family_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect payer_plan_period' AS test, CASE WHEN(SELECT COUNT(*) FROM payer_plan_period WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect payer_plan_period' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.payer_plan_period WHERE")
+  statement <- getExpectStatement(domain = "payer_plan_period", table = "payer_plan_period")
   first <- TRUE
   if (!missing(payer_plan_period_id)) {
     if (first) {
@@ -14424,7 +14494,8 @@ expect_count_payer_plan_period <- function(rowCount, payer_plan_period_id, perso
 }
 
 expect_count_cost <- function(rowCount, cost_id, cost_event_id, cost_domain_id, cost_type_concept_id, currency_concept_id, total_charge, total_cost, total_paid, paid_by_payer, paid_by_patient, paid_patient_copay, paid_patient_coinsurance, paid_patient_deductible, paid_by_primary, paid_ingredient_cost, paid_dispensing_fee, payer_plan_period_id, amount_allowed, revenue_code_concept_id, revenue_code_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cost' AS test, CASE WHEN(SELECT COUNT(*) FROM cost WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cost' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.cost WHERE")
+  statement <- getExpectStatement(domain = "cost", table = "cost")
   first <- TRUE
   if (!missing(cost_id)) {
     if (first) {
@@ -14740,7 +14811,8 @@ expect_count_cost <- function(rowCount, cost_id, cost_event_id, cost_domain_id, 
 }
 
 expect_count_observation_period <- function(rowCount, observation_period_id, person_id, observation_period_start_date, observation_period_start_datetime, observation_period_end_date, observation_period_end_datetime, period_type_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect observation_period' AS test, CASE WHEN(SELECT COUNT(*) FROM observation_period WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect observation_period' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.observation_period WHERE")
+  statement <- getExpectStatement(domain = "observation_period", table = "observation_period")
   first <- TRUE
   if (!missing(observation_period_id)) {
     if (first) {
@@ -14861,7 +14933,8 @@ expect_count_observation_period <- function(rowCount, observation_period_id, per
 }
 
 expect_count_care_site <- function(rowCount, care_site_id, care_site_name, place_of_service_concept_id, location_id, care_site_source_value, place_of_service_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect care_site' AS test, CASE WHEN(SELECT COUNT(*) FROM care_site WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect care_site' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.care_site WHERE")
+  statement <- getExpectStatement(domain = "care_site", table = "care_site")
   first <- TRUE
   if (!missing(care_site_id)) {
     if (first) {
@@ -14967,7 +15040,8 @@ expect_count_care_site <- function(rowCount, care_site_id, care_site_name, place
 }
 
 expect_count_visit_occurrence <- function(rowCount, visit_occurrence_id, person_id, visit_concept_id, visit_start_date, visit_start_datetime, visit_end_date, visit_end_datetime, visit_type_concept_id, provider_id, care_site_id, visit_source_value, visit_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect visit_occurrence' AS test, CASE WHEN(SELECT COUNT(*) FROM visit_occurrence WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect visit_occurrence' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.visit_occurrence WHERE")
+  statement <- getExpectStatement(domain = "visit_occurrence", table = "visit_occurrence")
   first <- TRUE
   if (!missing(visit_occurrence_id)) {
     if (first) {
@@ -15163,7 +15237,8 @@ expect_count_visit_occurrence <- function(rowCount, visit_occurrence_id, person_
 }
 
 expect_count_provider <- function(rowCount, provider_id, npi, dea, specialty_concept_id, provider_name, care_site_id, year_of_birth, gender_concept_id, provider_source_value, specialty_source_value, specialty_source_concept_id, gender_source_value, gender_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect provider' AS test, CASE WHEN(SELECT COUNT(*) FROM provider WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect provider' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.provider WHERE")
+  statement <- getExpectStatement(domain = "provider", table = "provider")
   first <- TRUE
   if (!missing(provider_id)) {
     if (first) {
@@ -15374,7 +15449,8 @@ expect_count_provider <- function(rowCount, provider_id, npi, dea, specialty_con
 }
 
 expect_count_death <- function(rowCount, person_id, death_date, death_datetime, death_type_concept_id, cause_concept_id, cause_source_value, cause_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect death' AS test, CASE WHEN(SELECT COUNT(*) FROM death WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect death' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.death WHERE")
+  statement <- getExpectStatement(domain = "death", table = "death")
   first <- TRUE
   if (!missing(person_id)) {
     if (first) {
@@ -15495,7 +15571,8 @@ expect_count_death <- function(rowCount, person_id, death_date, death_datetime, 
 }
 
 expect_count_drug_exposure <- function(rowCount, drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_start_datetime, drug_exposure_end_date, drug_exposure_end_datetime, drug_type_concept_id, stop_reason, refills, quantity, days_supply, sig, route_concept_id, effective_drug_dose, dose_unit_concept_id, lot_number, provider_id, visit_occurrence_id, drug_source_value, drug_source_concept_id, route_source_value, dose_unit_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect drug_exposure' AS test, CASE WHEN(SELECT COUNT(*) FROM drug_exposure WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect drug_exposure' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.drug_exposure WHERE")
+  statement <- getExpectStatement(domain = "drug_exposure", table = "drug_exposure")
   first <- TRUE
   if (!missing(drug_exposure_id)) {
     if (first) {
@@ -15856,7 +15933,8 @@ expect_count_drug_exposure <- function(rowCount, drug_exposure_id, person_id, dr
 }
 
 expect_count_device_exposure <- function(rowCount, device_exposure_id, person_id, device_concept_id, device_exposure_start_date, device_exposure_start_datetime, device_exposure_end_date, device_exposure_end_datetime, device_type_concept_id, unique_device_id, quantity, provider_id, visit_occurrence_id, device_source_value, device_source_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect device_exposure' AS test, CASE WHEN(SELECT COUNT(*) FROM device_exposure WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect device_exposure' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.device_exposure WHERE")
+  statement <- getExpectStatement(domain = "device_exposure", table = "device_exposure")
   first <- TRUE
   if (!missing(device_exposure_id)) {
     if (first) {
@@ -16082,7 +16160,8 @@ expect_count_device_exposure <- function(rowCount, device_exposure_id, person_id
 }
 
 expect_count_procedure_occurrence <- function(rowCount, procedure_occurrence_id, person_id, procedure_concept_id, procedure_date, procedure_type_concept_id, modifier_concept_id, quantity, provider_id, visit_occurrence_id, procedure_source_value, procedure_source_concept_id, qualifier_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect procedure_occurrence' AS test, CASE WHEN(SELECT COUNT(*) FROM procedure_occurrence WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect procedure_occurrence' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.procedure_occurrence WHERE")
+  statement <- getExpectStatement(domain = "procedure_occurrence", table = "procedure_occurrence")
   first <- TRUE
   if (!missing(procedure_occurrence_id)) {
     if (first) {
@@ -16278,7 +16357,8 @@ expect_count_procedure_occurrence <- function(rowCount, procedure_occurrence_id,
 }
 
 expect_count_observation <- function(rowCount, observation_id, person_id, observation_concept_id, observation_date, observation_datetime, observation_type_concept_id, value_as_number, value_as_string, value_as_concept_id, qualifier_concept_id, unit_concept_id, provider_id, visit_occurrence_id, observation_source_value, observation_source_concept_id, unit_source_value, qualifier_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect observation' AS test, CASE WHEN(SELECT COUNT(*) FROM observation WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect observation' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.observation WHERE")
+  statement <- getExpectStatement(domain = "observation", table = "observation")
   first <- TRUE
   if (!missing(observation_id)) {
     if (first) {
@@ -16549,7 +16629,8 @@ expect_count_observation <- function(rowCount, observation_id, person_id, observ
 }
 
 expect_count_note <- function(rowCount, note_id, person_id, note_date, note_datetime, note_type_concept_id, note_text, provider_id, visit_occurrence_id, note_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect note' AS test, CASE WHEN(SELECT COUNT(*) FROM note WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect note' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.note WHERE")
+  statement <- getExpectStatement(domain = "note", table = "note")
   first <- TRUE
   if (!missing(note_id)) {
     if (first) {
@@ -16700,7 +16781,8 @@ expect_count_note <- function(rowCount, note_id, person_id, note_date, note_date
 }
 
 expect_count_specimen <- function(rowCount, specimen_id, person_id, specimen_concept_id, specimen_type_concept_id, specimen_date, specimen_datetime, quantity, unit_concept_id, anatomic_site_concept_id, disease_status_concept_id, specimen_source_id, specimen_source_value, unit_source_value, anatomic_site_source_value, disease_status_source_value) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect specimen' AS test, CASE WHEN(SELECT COUNT(*) FROM specimen WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect specimen' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.specimen WHERE")
+  statement <- getExpectStatement(domain = "specimen", table = "specimen")
   first <- TRUE
   if (!missing(specimen_id)) {
     if (first) {
@@ -16941,7 +17023,8 @@ expect_count_specimen <- function(rowCount, specimen_id, person_id, specimen_con
 }
 
 expect_count_fact_relationship <- function(rowCount, domain_concept_id_1, fact_id_1, domain_concept_id_2, fact_id_2, relationship_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect fact_relationship' AS test, CASE WHEN(SELECT COUNT(*) FROM fact_relationship WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect fact_relationship' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.fact_relationship WHERE")
+  statement <- getExpectStatement(domain = "fact_relationship", table = "fact_relationship")
   first <- TRUE
   if (!missing(domain_concept_id_1)) {
     if (first) {
@@ -17032,7 +17115,8 @@ expect_count_fact_relationship <- function(rowCount, domain_concept_id_1, fact_i
 }
 
 expect_count_drug_era <- function(rowCount, drug_era_id, person_id, drug_concept_id, drug_era_start_date, drug_era_end_date, drug_exposure_count, gap_days) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect drug_era' AS test, CASE WHEN(SELECT COUNT(*) FROM drug_era WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect drug_era' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.drug_era WHERE")
+  statement <- getExpectStatement(domain = "drug_era", table = "drug_era")
   first <- TRUE
   if (!missing(drug_era_id)) {
     if (first) {
@@ -17153,7 +17237,8 @@ expect_count_drug_era <- function(rowCount, drug_era_id, person_id, drug_concept
 }
 
 expect_count_dose_era <- function(rowCount, dose_era_id, person_id, drug_concept_id, unit_concept_id, dose_value, dose_era_start_date, dose_era_end_date) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect dose_era' AS test, CASE WHEN(SELECT COUNT(*) FROM dose_era WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect dose_era' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.dose_era WHERE")
+  statement <- getExpectStatement(domain = "dose_era", table = "dose_era")
   first <- TRUE
   if (!missing(dose_era_id)) {
     if (first) {
@@ -17274,7 +17359,8 @@ expect_count_dose_era <- function(rowCount, dose_era_id, person_id, drug_concept
 }
 
 expect_count_condition_era <- function(rowCount, condition_era_id, person_id, condition_concept_id, condition_era_start_date, condition_era_end_date, condition_occurrence_count) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect condition_era' AS test, CASE WHEN(SELECT COUNT(*) FROM condition_era WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect condition_era' AS test, CASE WHEN(SELECT COUNT(*) from @cdmDatabaseSchema.condition_era WHERE")
+  statement <- getExpectStatement(domain = "condition_era", table = "condition_era")
   first <- TRUE
   if (!missing(condition_era_id)) {
     if (first) {
@@ -17380,7 +17466,8 @@ expect_count_condition_era <- function(rowCount, condition_era_id, person_id, co
 }
 
 expect_count_cdm_source <- function(rowCount, cdm_source_name, cdm_source_abbreviation, cdm_holder, source_description, source_documentation_reference, cdm_etl_reference, source_release_date, cdm_release_date, cdm_version, vocabulary_version) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cdm_source' AS test, CASE WHEN(SELECT COUNT(*) FROM cdm_source WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cdm_source' AS test, CASE WHEN(SELECT COUNT(*) FROM cdm_source WHERE")
+  statement <- getExpectStatement(domain = "cdm_source", table = "cdm_source")
   first <- TRUE
   if (!missing(cdm_source_name)) {
     if (first) {
@@ -17546,7 +17633,8 @@ expect_count_cdm_source <- function(rowCount, cdm_source_name, cdm_source_abbrev
 }
 
 expect_count_cohort <- function(rowCount, cohort_definition_id, subject_id, cohort_start_date, cohort_end_date) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort WHERE")
+  statement <- getExpectStatement(domain = "cohort", table = "cohort")
   first <- TRUE
   if (!missing(cohort_definition_id)) {
     if (first) {
@@ -17622,7 +17710,8 @@ expect_count_cohort <- function(rowCount, cohort_definition_id, subject_id, coho
 }
 
 expect_count_cohort_definition <- function(rowCount, cohort_definition_id, cohort_definition_name, cohort_definition_description, definition_type_concept_id, cohort_definition_syntax, subject_concept_id, cohort_instantiation_date) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort_definition' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort_definition WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort_definition' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort_definition WHERE")
+  statement <- getExpectStatement(domain = "cohort_definition", table = "cohort_definition")
   first <- TRUE
   if (!missing(cohort_definition_id)) {
     if (first) {
@@ -17743,7 +17832,8 @@ expect_count_cohort_definition <- function(rowCount, cohort_definition_id, cohor
 }
 
 expect_count_cohort_attribute <- function(rowCount, cohort_definition_id, cohort_start_date, cohort_end_date, subject_id, attribute_definition_id, value_as_number, value_as_concept_id) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort_attribute' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort_attribute WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect cohort_attribute' AS test, CASE WHEN(SELECT COUNT(*) FROM cohort_attribute WHERE")
+  statement <- getExpectStatement(domain = "cohort_attribute", table = "cohort_attribute")
   first <- TRUE
   if (!missing(cohort_definition_id)) {
     if (first) {
@@ -17864,7 +17954,8 @@ expect_count_cohort_attribute <- function(rowCount, cohort_definition_id, cohort
 }
 
 expect_count_attribute_definition <- function(rowCount, attribute_definition_id, attribute_name, attribute_description, attribute_type_concept_id, attribute_syntax) {
-  statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect attribute_definition' AS test, CASE WHEN(SELECT COUNT(*) FROM attribute_definition WHERE")
+  #statement <- paste0("INSERT INTO @cdmDatabaseSchema.test_results SELECT ", get("testId", envir = globalenv()), " AS id, '", get("testDescription", envir = globalenv()), "' AS description, 'Expect attribute_definition' AS test, CASE WHEN(SELECT COUNT(*) FROM attribute_definition WHERE")
+  statement <- getExpectStatement(domain = "attribute_definition", table = "attribute_definition")
   first <- TRUE
   if (!missing(attribute_definition_id)) {
     if (first) {
@@ -17955,7 +18046,7 @@ expect_count_attribute_definition <- function(rowCount, attribute_definition_id,
 }
 
 lookup_measurement <- function(fetchField, measurement_id, person_id, measurement_concept_id, measurement_date, measurement_datetime, measurement_type_concept_id, operator_concept_id, value_as_number, value_as_concept_id, unit_concept_id, range_low, range_high, provider_id, visit_occurrence_id, measurement_source_value, measurement_source_concept_id, unit_source_value, value_source_value) {
-  statement <- paste0('SELECT ', fetchField , ' FROM measurement WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.measurement WHERE')
   first <- TRUE
   if (!missing(measurement_id)) {
     if (first) {
@@ -18232,7 +18323,7 @@ lookup_measurement <- function(fetchField, measurement_id, person_id, measuremen
 }
 
 lookup_condition_occurrence <- function(fetchField, condition_occurrence_id, person_id, condition_concept_id, condition_start_date, condition_start_datetime, condition_end_date, condition_end_datetime, condition_type_concept_id, stop_reason, provider_id, visit_occurrence_id, condition_source_value, condition_source_concept_id) {
-  statement <- paste0('SELECT ', fetchField , ' FROM condition_occurrence WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.condition_occurrence WHERE')
   first <- TRUE
   if (!missing(condition_occurrence_id)) {
     if (first) {
@@ -18434,7 +18525,7 @@ lookup_condition_occurrence <- function(fetchField, condition_occurrence_id, per
 }
 
 lookup_location <- function(fetchField, location_id, address_1, address_2, city, state, zip, county, location_source_value) {
-  statement <- paste0('SELECT ', fetchField , ' FROM location WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.location WHERE')
   first <- TRUE
   if (!missing(location_id)) {
     if (first) {
@@ -18561,7 +18652,7 @@ lookup_location <- function(fetchField, location_id, address_1, address_2, city,
 }
 
 lookup_person <- function(fetchField, person_id, person_source_value, gender_concept_id, gender_source_value, year_of_birth, month_of_birth, day_of_birth, race_concept_id, ethnicity_concept_id, birth_datetime, location_id, provider_id, care_site_id, gender_source_concept_id, race_source_value, race_source_concept_id, ethnicity_source_value, ethnicity_source_concept_id) {
-  statement <- paste0('SELECT ', fetchField , ' FROM person WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.person WHERE')
   first <- TRUE
   if (!missing(person_id)) {
     if (first) {
@@ -18838,7 +18929,7 @@ lookup_person <- function(fetchField, person_id, person_source_value, gender_con
 }
 
 lookup_payer_plan_period <- function(fetchField, payer_plan_period_id, person_id, payer_plan_period_start_date, payer_plan_period_end_date, payer_source_value, plan_source_value, family_source_value) {
-  statement <- paste0('SELECT ', fetchField , ' FROM payer_plan_period WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.payer_plan_period WHERE')
   first <- TRUE
   if (!missing(payer_plan_period_id)) {
     if (first) {
@@ -18950,7 +19041,7 @@ lookup_payer_plan_period <- function(fetchField, payer_plan_period_id, person_id
 }
 
 lookup_cost <- function(fetchField, cost_id, cost_event_id, cost_domain_id, cost_type_concept_id, currency_concept_id, total_charge, total_cost, total_paid, paid_by_payer, paid_by_patient, paid_patient_copay, paid_patient_coinsurance, paid_patient_deductible, paid_by_primary, paid_ingredient_cost, paid_dispensing_fee, payer_plan_period_id, amount_allowed, revenue_code_concept_id, revenue_code_source_value) {
-  statement <- paste0('SELECT ', fetchField , ' FROM cost WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.cost WHERE')
   first <- TRUE
   if (!missing(cost_id)) {
     if (first) {
@@ -19257,7 +19348,7 @@ lookup_cost <- function(fetchField, cost_id, cost_event_id, cost_domain_id, cost
 }
 
 lookup_observation_period <- function(fetchField, observation_period_id, person_id, observation_period_start_date, observation_period_start_datetime, observation_period_end_date, observation_period_end_datetime, period_type_concept_id) {
-  statement <- paste0('SELECT ', fetchField , ' FROM observation_period WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.observation_period WHERE')
   first <- TRUE
   if (!missing(observation_period_id)) {
     if (first) {
@@ -19369,7 +19460,7 @@ lookup_observation_period <- function(fetchField, observation_period_id, person_
 }
 
 lookup_care_site <- function(fetchField, care_site_id, care_site_name, place_of_service_concept_id, location_id, care_site_source_value, place_of_service_source_value) {
-  statement <- paste0('SELECT ', fetchField , ' FROM care_site WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.care_site WHERE')
   first <- TRUE
   if (!missing(care_site_id)) {
     if (first) {
@@ -19466,7 +19557,7 @@ lookup_care_site <- function(fetchField, care_site_id, care_site_name, place_of_
 }
 
 lookup_visit_occurrence <- function(fetchField, visit_occurrence_id, person_id, visit_concept_id, visit_start_date, visit_start_datetime, visit_end_date, visit_end_datetime, visit_type_concept_id, provider_id, care_site_id, visit_source_value, visit_source_concept_id) {
-  statement <- paste0('SELECT ', fetchField , ' FROM visit_occurrence WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.visit_occurrence WHERE')
   first <- TRUE
   if (!missing(visit_occurrence_id)) {
     if (first) {
@@ -19653,7 +19744,7 @@ lookup_visit_occurrence <- function(fetchField, visit_occurrence_id, person_id, 
 }
 
 lookup_provider <- function(fetchField, provider_id, npi, dea, specialty_concept_id, provider_name, care_site_id, year_of_birth, gender_concept_id, provider_source_value, specialty_source_value, specialty_source_concept_id, gender_source_value, gender_source_concept_id) {
-  statement <- paste0('SELECT ', fetchField , ' FROM provider WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.provider WHERE')
   first <- TRUE
   if (!missing(provider_id)) {
     if (first) {
@@ -19855,7 +19946,7 @@ lookup_provider <- function(fetchField, provider_id, npi, dea, specialty_concept
 }
 
 lookup_death <- function(fetchField, person_id, death_date, death_datetime, death_type_concept_id, cause_concept_id, cause_source_value, cause_source_concept_id) {
-  statement <- paste0('SELECT ', fetchField , ' FROM death WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.death WHERE')
   first <- TRUE
   if (!missing(person_id)) {
     if (first) {
@@ -19967,7 +20058,7 @@ lookup_death <- function(fetchField, person_id, death_date, death_datetime, deat
 }
 
 lookup_drug_exposure <- function(fetchField, drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_start_datetime, drug_exposure_end_date, drug_exposure_end_datetime, drug_type_concept_id, stop_reason, refills, quantity, days_supply, sig, route_concept_id, effective_drug_dose, dose_unit_concept_id, lot_number, provider_id, visit_occurrence_id, drug_source_value, drug_source_concept_id, route_source_value, dose_unit_source_value) {
-  statement <- paste0('SELECT ', fetchField , ' FROM drug_exposure WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.drug_exposure WHERE')
   first <- TRUE
   if (!missing(drug_exposure_id)) {
     if (first) {
@@ -20319,7 +20410,7 @@ lookup_drug_exposure <- function(fetchField, drug_exposure_id, person_id, drug_c
 }
 
 lookup_device_exposure <- function(fetchField, device_exposure_id, person_id, device_concept_id, device_exposure_start_date, device_exposure_start_datetime, device_exposure_end_date, device_exposure_end_datetime, device_type_concept_id, unique_device_id, quantity, provider_id, visit_occurrence_id, device_source_value, device_source_concept_id) {
-  statement <- paste0('SELECT ', fetchField , ' FROM device_exposure WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.device_exposure WHERE')
   first <- TRUE
   if (!missing(device_exposure_id)) {
     if (first) {
@@ -20536,7 +20627,7 @@ lookup_device_exposure <- function(fetchField, device_exposure_id, person_id, de
 }
 
 lookup_procedure_occurrence <- function(fetchField, procedure_occurrence_id, person_id, procedure_concept_id, procedure_date, procedure_type_concept_id, modifier_concept_id, quantity, provider_id, visit_occurrence_id, procedure_source_value, procedure_source_concept_id, qualifier_source_value) {
-  statement <- paste0('SELECT ', fetchField , ' FROM procedure_occurrence WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.procedure_occurrence WHERE')
   first <- TRUE
   if (!missing(procedure_occurrence_id)) {
     if (first) {
@@ -20723,7 +20814,7 @@ lookup_procedure_occurrence <- function(fetchField, procedure_occurrence_id, per
 }
 
 lookup_observation <- function(fetchField, observation_id, person_id, observation_concept_id, observation_date, observation_datetime, observation_type_concept_id, value_as_number, value_as_string, value_as_concept_id, qualifier_concept_id, unit_concept_id, provider_id, visit_occurrence_id, observation_source_value, observation_source_concept_id, unit_source_value, qualifier_source_value) {
-  statement <- paste0('SELECT ', fetchField , ' FROM observation WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.observation WHERE')
   first <- TRUE
   if (!missing(observation_id)) {
     if (first) {
@@ -20985,7 +21076,7 @@ lookup_observation <- function(fetchField, observation_id, person_id, observatio
 }
 
 lookup_note <- function(fetchField, note_id, person_id, note_date, note_datetime, note_type_concept_id, note_text, provider_id, visit_occurrence_id, note_source_value) {
-  statement <- paste0('SELECT ', fetchField , ' FROM note WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.note WHERE')
   first <- TRUE
   if (!missing(note_id)) {
     if (first) {
@@ -21127,7 +21218,7 @@ lookup_note <- function(fetchField, note_id, person_id, note_date, note_datetime
 }
 
 lookup_specimen <- function(fetchField, specimen_id, person_id, specimen_concept_id, specimen_type_concept_id, specimen_date, specimen_datetime, quantity, unit_concept_id, anatomic_site_concept_id, disease_status_concept_id, specimen_source_id, specimen_source_value, unit_source_value, anatomic_site_source_value, disease_status_source_value) {
-  statement <- paste0('SELECT ', fetchField , ' FROM specimen WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.specimen WHERE')
   first <- TRUE
   if (!missing(specimen_id)) {
     if (first) {
@@ -21359,7 +21450,7 @@ lookup_specimen <- function(fetchField, specimen_id, person_id, specimen_concept
 }
 
 lookup_fact_relationship <- function(fetchField, domain_concept_id_1, fact_id_1, domain_concept_id_2, fact_id_2, relationship_concept_id) {
-  statement <- paste0('SELECT ', fetchField , ' FROM fact_relationship WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.fact_relationship WHERE')
   first <- TRUE
   if (!missing(domain_concept_id_1)) {
     if (first) {
@@ -21441,7 +21532,7 @@ lookup_fact_relationship <- function(fetchField, domain_concept_id_1, fact_id_1,
 }
 
 lookup_drug_era <- function(fetchField, drug_era_id, person_id, drug_concept_id, drug_era_start_date, drug_era_end_date, drug_exposure_count, gap_days) {
-  statement <- paste0('SELECT ', fetchField , ' FROM drug_era WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.drug_era WHERE')
   first <- TRUE
   if (!missing(drug_era_id)) {
     if (first) {
@@ -21553,7 +21644,7 @@ lookup_drug_era <- function(fetchField, drug_era_id, person_id, drug_concept_id,
 }
 
 lookup_dose_era <- function(fetchField, dose_era_id, person_id, drug_concept_id, unit_concept_id, dose_value, dose_era_start_date, dose_era_end_date) {
-  statement <- paste0('SELECT ', fetchField , ' FROM dose_era WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.dose_era WHERE')
   first <- TRUE
   if (!missing(dose_era_id)) {
     if (first) {
@@ -21665,7 +21756,7 @@ lookup_dose_era <- function(fetchField, dose_era_id, person_id, drug_concept_id,
 }
 
 lookup_condition_era <- function(fetchField, condition_era_id, person_id, condition_concept_id, condition_era_start_date, condition_era_end_date, condition_occurrence_count) {
-  statement <- paste0('SELECT ', fetchField , ' FROM condition_era WHERE')
+  statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.condition_era WHERE')
   first <- TRUE
   if (!missing(condition_era_id)) {
     if (first) {
@@ -21762,7 +21853,7 @@ lookup_condition_era <- function(fetchField, condition_era_id, person_id, condit
 }
 
 lookup_cdm_source <- function(fetchField, cdm_source_name, cdm_source_abbreviation, cdm_holder, source_description, source_documentation_reference, cdm_etl_reference, source_release_date, cdm_release_date, cdm_version, vocabulary_version) {
-  statement <- paste0('SELECT ', fetchField , ' FROM cdm_source WHERE')
+  statement <- paste0('SELECT ', fetchField , ' FROM @cdmDatabaseSchema.cdm_source WHERE')
   first <- TRUE
   if (!missing(cdm_source_name)) {
     if (first) {
@@ -21919,7 +22010,7 @@ lookup_cdm_source <- function(fetchField, cdm_source_name, cdm_source_abbreviati
 }
 
 lookup_cohort <- function(fetchField, cohort_definition_id, subject_id, cohort_start_date, cohort_end_date) {
-  statement <- paste0('SELECT ', fetchField , ' FROM cohort WHERE')
+  statement <- paste0('SELECT ', fetchField , ' FROM @cdmDatabaseSchema.cohort WHERE')
   first <- TRUE
   if (!missing(cohort_definition_id)) {
     if (first) {
@@ -21986,7 +22077,7 @@ lookup_cohort <- function(fetchField, cohort_definition_id, subject_id, cohort_s
 }
 
 lookup_cohort_definition <- function(fetchField, cohort_definition_id, cohort_definition_name, cohort_definition_description, definition_type_concept_id, cohort_definition_syntax, subject_concept_id, cohort_instantiation_date) {
-  statement <- paste0('SELECT ', fetchField , ' FROM cohort_definition WHERE')
+  statement <- paste0('SELECT ', fetchField , ' FROM @cdmDatabaseSchema.cohort_definition WHERE')
   first <- TRUE
   if (!missing(cohort_definition_id)) {
     if (first) {
@@ -22098,7 +22189,7 @@ lookup_cohort_definition <- function(fetchField, cohort_definition_id, cohort_de
 }
 
 lookup_cohort_attribute <- function(fetchField, cohort_definition_id, cohort_start_date, cohort_end_date, subject_id, attribute_definition_id, value_as_number, value_as_concept_id) {
-  statement <- paste0('SELECT ', fetchField , ' FROM cohort_attribute WHERE')
+  statement <- paste0('SELECT ', fetchField , ' FROM @cdmDatabaseSchema.cohort_attribute WHERE')
   first <- TRUE
   if (!missing(cohort_definition_id)) {
     if (first) {
@@ -22210,7 +22301,7 @@ lookup_cohort_attribute <- function(fetchField, cohort_definition_id, cohort_sta
 }
 
 lookup_attribute_definition <- function(fetchField, attribute_definition_id, attribute_name, attribute_description, attribute_type_concept_id, attribute_syntax) {
-  statement <- paste0('SELECT ', fetchField , ' FROM attribute_definition WHERE')
+  statement <- paste0('SELECT ', fetchField , ' FROM @cdmDatabaseSchema.attribute_definition WHERE')
   first <- TRUE
   if (!missing(attribute_definition_id)) {
     if (first) {

@@ -139,12 +139,12 @@ createMeasurementTests <- function()
   
   patient <- createPatient()
   claim <- createClaim()
-  abnormal <- 'H'
+  result_text <- 'H'
   declareTest(paste0("Patient has ", result_text, " abnormal code"), source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_lab_results(labclmid = claim$clmid, fst_dt = '2013-07-01', pat_planid = patient$patid, patid = patient$patid, loinc_cd = '22962-5', 
-                  rslt_nbr = 1000, abnl_cd = abnormal)
+                  rslt_nbr = 1000, abnl_cd = result_text)
   expect_measurement(person_id = patient$person_id, value_as_concept_id = 4328749)
   
   
@@ -161,12 +161,12 @@ createMeasurementTests <- function()
   
   patient <- createPatient()
   claim <- createClaim()
-  abnormal <- 'N'
+  result_text <- 'N'
   declareTest(paste0("Patient has ", result_text, " abnormal code"), source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_lab_results(labclmid = claim$clmid, fst_dt = '2013-07-01', pat_planid = patient$patid, patid = patient$patid, loinc_cd = '22962-5', 
-                  rslt_nbr = 1000, abnl_cd = abnormal)
+                  rslt_nbr = 1000, abnl_cd = result_text)
   expect_measurement(person_id = patient$person_id, value_as_concept_id = 4069590)
   
   
@@ -184,7 +184,7 @@ createMeasurementTests <- function()
   patient <- createPatient()
   claim <- createClaim()
   abnormal <- 'A'
-  declareTest(paste0("Patient has ", result_text, " abnormal code"), source_pid = patient$patid, cdm_pid = patient$person_id)
+  declareTest(paste0("Patient has ", abnormal, " abnormal code"), source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_lab_results(labclmid = claim$clmid, fst_dt = '2013-07-01', pat_planid = patient$patid, patid = patient$patid, loinc_cd = '22962-5', 
@@ -195,7 +195,7 @@ createMeasurementTests <- function()
   patient <- createPatient()
   claim <- createClaim()
   abnormal <- 'AB'
-  declareTest(paste0("Patient has ", result_text, " abnormal code"))
+  declareTest(paste0("Patient has ", abnormal, " abnormal code"), source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_lab_results(labclmid = claim$clmid, fst_dt = '2013-07-01', pat_planid = patient$patid, patid = patient$patid, loinc_cd = '22962-5', 

@@ -2,7 +2,7 @@ createCostTests <- function()
 {
   patient <- createPatient()
   claim <- createClaim()
-  declareTest("Patient has drug cost")
+  declareTest("Patient has drug cost", source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_rx_claims(patid = patient$patid, pat_planid = patient$patid, clmid = claim$clmid, ndc = '55111067101', fill_dt = '2013-10-01', 
@@ -14,7 +14,7 @@ createCostTests <- function()
   
   patient <- createPatient()
   claim <- createClaim()
-  declareTest("Patient has procedure cost")
+  declareTest("Patient has procedure cost", source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', proc_cd = '92928', lst_dt = '2013-07-01',

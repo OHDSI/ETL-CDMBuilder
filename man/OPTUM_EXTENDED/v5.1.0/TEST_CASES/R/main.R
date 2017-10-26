@@ -10,7 +10,8 @@ getSequence <- function (startValue = 1) {
   }
   return (counterInstance)
 }
-
+sequencer <- getSequence()
+                         
 createPatient <- function() {
   personId = sequencer$nextSequence()
   return (list(patid = personId, person_id = personId))
@@ -35,8 +36,6 @@ testInit <- function() {
   initFramework()
   createTests()
 }
-
-sequencer <- getSequence()
 
 .onLoad <- function(libname, pkgname) {
   initFramework()

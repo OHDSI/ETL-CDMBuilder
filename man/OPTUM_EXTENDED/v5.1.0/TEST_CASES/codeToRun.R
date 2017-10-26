@@ -10,8 +10,8 @@ Sys.setenv(extendedType = "dod")
 
 library(OptumExtendedSesDodTesting)
 
-nativeDatabaseSchema <- "cdm_testing_optumdod.native"
-cdmDatabaseSchema <- "cdm_testing_optumdod.cdm"
+nativeDatabaseSchema <- "cdm_testing_optumdod_native.dbo"
+cdmDatabaseSchema <- "cdm_testing_optumdod.dbo"
 
 ## Set Environment variables before running
 user <- Sys.getenv("cdmUser")
@@ -29,11 +29,12 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(dbms = dbms, ser
 
 connection <- DatabaseConnector::connect(connectionDetails = connectionDetails)
 
-insertSql <- SqlRender::translateSql(SqlRender::renderSql(paste(generateInsertSql(), sep = "", collapse = "\n"),
+sql <- SqlRender::translateSql(SqlRender::renderSql(paste(insertDf$sql, sep = "", collapse = "\n"),
                                     nativeDatabaseSchema = nativeDatabaseSchema)$sql,
                           targetDialect = connectionDetails$dbms)$sql
 
-DatabaseConnector::executeSql(connection, insertSql)
+DatabaseConnector::executeSql(connection = connection, sql = sql)
+DatabaseConnector::disconnect(connection = connection)
 
 #RUN CDM BUILDER (not part of this package)
 #=============================
@@ -42,20 +43,25 @@ DatabaseConnector::executeSql(connection, insertSql)
 # RUN TESTS
 #=============================
 
-testSql <- SqlRender::translateSql(SqlRender::renderSql(paste(generateTestSql(), collapse = "\n"),
+connection <- DatabaseConnector::connect(connectionDetails = connectionDetails)
+
+sql <- SqlRender::translateSql(SqlRender::renderSql(paste(lapply(testSql, paste0, ";"), collapse = "\n"),
                                   cdmDatabaseSchema = cdmDatabaseSchema)$sql,
                         targetDialect = connectionDetails$dbms)$sql
-DatabaseConnector::executeSql(connection, testSql)
-
+DatabaseConnector::executeSql(connection = connection, sql = sql)
+DatabaseConnector::disconnect(connection = connection)
 
 # VIEW TEST RESULTS
 #=============================
+
+connection <- DatabaseConnector::connect(connectionDetails = connectionDetails)
 
 DatabaseConnector::querySql(connection, 
                             SqlRender::renderSql("SELECT status, count(*) FROM @cdmDatabaseSchema.test_results group by status", cdmDatabaseSchema = cdmDatabaseSchema)$sql)
 DatabaseConnector::querySql(connection, 
                             SqlRender::renderSql("SELECT * FROM @cdmDatabaseSchema.test_results where status = 'FAIL'", cdmDatabaseSchema = cdmDatabaseSchema)$sql)
 
+DatabaseConnector::disconnect(connection = connection)
 
 
 

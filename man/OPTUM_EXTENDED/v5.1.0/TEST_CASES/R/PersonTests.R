@@ -58,7 +58,9 @@ createPersonTests <- function()
   declareTest("Month of birth test: Month should be mapped", source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'MCR', eligeff = '2010-03-01', eligend = '2012-12-31',
                     gdr_cd = 'M', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 2010)
-  expect_person(person_id = patient$person_id, month_of_birth = 10)
+  add_member_detail(aso = 'N', bus = 'MCR', eligeff = '2017-03-01', eligend = '2017-12-31',
+                    gdr_cd = 'M', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 2010)
+  expect_person(person_id = patient$person_id, month_of_birth = 3)
   
   patient <- createPatient()
   declareTest("Month of birth test: Month should NOT be mapped", source_pid = patient$patid, cdm_pid = patient$person_id)
@@ -70,7 +72,9 @@ createPersonTests <- function()
   declareTest("Day of birth test: Day should be mapped", source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'MCR', eligeff = '2010-03-01', eligend = '2012-12-31',
                     gdr_cd = 'M', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 2010)
-  expect_person(person_id = patient$person_id, day_of_birth = 3)
+  add_member_detail(aso = 'N', bus = 'MCR', eligeff = '2017-03-01', eligend = '2017-12-31',
+                    gdr_cd = 'M', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 2010)
+  expect_person(person_id = patient$person_id, day_of_birth = 1)
   
   patient <- createPatient()
   declareTest("Day of birth test: Day should NOT be mapped", source_pid = patient$patid, cdm_pid = patient$person_id)

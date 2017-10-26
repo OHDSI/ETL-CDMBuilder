@@ -44,7 +44,7 @@ createConditionOccurrenceTests <- function()
 
   
   patient <- createPatient()
-  clmid <- createClaim()
+  claim <- createClaim()
   declareTest("Patient has medical records which have some valid and invalid formatted DIAG codes.", source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
@@ -59,7 +59,7 @@ createConditionOccurrenceTests <- function()
 
   
   patient <- createPatient()
-  clmid <- createClaim()
+  claim <- createClaim()
   declareTest("Patient has a series of 3 inpatient visits with same dates and diagnoses in separate records.", source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
@@ -80,7 +80,7 @@ createConditionOccurrenceTests <- function()
 
 
   patient <- createPatient()
-  clmid <- createClaim()
+  claim <- createClaim()
   declareTest("Creates two Condition Occurrences from a single Medical row that specifies an ICD9 code that has multiple SNOMED mappings.", source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
@@ -94,7 +94,7 @@ createConditionOccurrenceTests <- function()
   
   
   patient <- createPatient()
-  clmid <- createClaim()
+  claim <- createClaim()
   declareTest("Tests ICD10 CM vs International", source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)

@@ -5,13 +5,13 @@ detach("package:OptumExtendedSesDodTesting", unload = TRUE)
 
 ## Set Extended Type ("ses" for SES, "dod" for DOD)
 
-Sys.setenv(extendedType = "ses")
-#Sys.setenv(extendedType = "dod")
+#Sys.setenv(extendedType = "ses")
+Sys.setenv(extendedType = "dod")
 
 library(OptumExtendedSesDodTesting)
 
-sourceDatabaseSchema <- "scratch_cdm_testing"
-cdmDatabaseSchema <- "scratch_cdm_results"
+nativeDatabaseSchema <- "cdm_testing_optumdod.native"
+cdmDatabaseSchema <- "cdm_testing_optumdod.cdm"
 
 ## Set Environment variables before running
 user <- Sys.getenv("cdmUser")
@@ -30,7 +30,7 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(dbms = dbms, ser
 connection <- DatabaseConnector::connect(connectionDetails = connectionDetails)
 
 insertSql <- SqlRender::translateSql(SqlRender::renderSql(paste(getInsertSql(connectionDetails), sep = "", collapse = "\n"),
-                                    sourceDatabaseSchema = sourceDatabaseSchema)$sql,
+                                    nativeDatabaseSchema = nativeDatabaseSchema)$sql,
                           targetDialect = connectionDetails$dbms)$sql
 
 DatabaseConnector::executeSql(connection, insertSql)

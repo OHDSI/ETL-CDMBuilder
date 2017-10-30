@@ -1,0 +1,154 @@
+*******************************************************************************
+* VOCABULARY CHANGE
+*******************************************************************************
+ be found on our internal Epi site.
+https://jnj.sharepoint.com/teams/epi/_layouts/15/guestaccess.aspx?guestaccesstoken=ho9NdH02pvip7oqAqKzMyj6vdiNlIyimFvxyFx9TUYE%3d&docid=2_00b3bb483c5aa4ca2bf18d5c2d69beccf&rev=1
+
+2) A summary of changes by how they play out in raw data can be found on our internal Epi site.
+https://jnj.sharepoint.com/teams/epi/_layouts/15/guestaccess.aspx?guestaccesstoken=4L0OuV8kH%2fozdF1HokUn3QHbZQOlpk1J54clUSu6ApQ%3d&docid=2_0f59b00c78b17494c81c79cfd5417af02&rev=1
+
+2A)  Anemia has gone back to the condition domain.
+https://github.com/OHDSI/Vocabulary-v5.0/issues/129
+
+
+2B) 30K concepts changed domain.  The largest impact ones according to CCAE are:
+
+	40766642 Measurement ->	Observation	Are you considering quitting smoking during the next 6 months [PhenX]	
+	439777	 Measurement ->	Condition	Anemia	
+	40482801 Measurement ->	Condition	Type II diabetes mellitus uncontrolled	
+	436659	 Measurement ->	Condition	Iron deficiency anemia	
+	434169	 Measurement ->	Condition	Abnormal findings on diagnostic imaging of breast	
+	40766928 Measurement ->	Observation	Do you now smoke cigarettes, as of 1 month ago [PhenX]	
+	436230	 Measurement ->	Condition	Blood chemistry abnormal	
+	443961	 Measurement ->	Condition	Anemia of chronic renal failure	
+	320536	 Measurement ->	Condition	Electrocardiogram abnormal	
+	3012697	 Measurement ->	Observation	History of Tobacco use	
+
+	
+2C) Of the source codes that either got a new mapping or whose mappings were deprecated, the ten to impact CCAE most are:
+
+	SOURCE_CODE	OLD_TARGET_CONCEPT_ID	NEW_TARGET_CONCEPT_ID	CONCEPT_NAME
+	77052		2211809			0			Computer-aided detection (computer algorithm analysis of digital image data for lesion detection) with further review for interpretation, with or without digitization of film radiographic images; screening mammography (List separately in addition to code 
+	97001		2314262			0			Physical therapy evaluation
+	77057		2211814			0			Screening mammography, bilateral (2-view film study of each breast)
+	77051		2211808			0			Computer-aided detection (computer algorithm analysis of digital image data for lesion detection) with further review for interpretation, with or without digitization of film radiographic images; diagnostic mammography (List separately in addition to code
+	90669		2213447			0			Pneumococcal conjugate vaccine, 7 valent, for intramuscular use
+	73510		2211473			0			Radiologic examination, hip, unilateral; complete, minimum of 2 views
+	97002		2314263			0			Physical therapy re-evaluation
+	62311		2110622			0			Injection(s), of diagnostic or therapeutic substance(s) (including anesthetic, antispasmodic, opioid, steroid, other solution), not including neurolytic substances, including needle or catheter placement, includes contrast for localization when performed,
+	90645		2213431			0			Hemophilus influenza b vaccine (Hib), HbOC conjugate (4 dose schedule), for intramuscular use
+
+	
+2D) Of the source codes that received a new concept mapping when they were previously mapped to zero, the ten to impact CCAE most are:
+
+	CURRENT_LOCATION	SOURCE_CODE	SOURCE_VOCABULARY_ID	SOURCE_CONCEPT_NAME						NEW_TARGET_CONCEPT_ID	NEW_DOMAIN_ID	PERSON_COUNT
+	CONDITION_OCCURRENCE	V58.11		ICD9CM			Encounter for antineoplastic chemotherapy			37396891		Observation	4075657
+	CONDITION_OCCURRENCE	V15.82		ICD9CM			Personal history of tobacco use					43530634		Observation	2303911
+	CONDITION_OCCURRENCE	R20.2		ICD10CM			Paresthesia of skin						4236484			Condition	570788
+	CONDITION_OCCURRENCE	V58.1		ICD9CM			Encounter for antineoplastic chemotherapy and immunotherapy	4216752			Procedure	439557
+	CONDITION_OCCURRENCE	V58.12		ICD9CM			Encounter for antineoplastic immunotherapy			4274159			Procedure	439381
+	CONDITION_OCCURRENCE	H40.013		ICD10CM			Open angle with borderline findings, low risk, bilateral	4109420			Condition	292750
+	CONDITION_OCCURRENCE	G60.9		ICD10CM			Hereditary and idiopathic neuropathy, unspecified		375806			Condition	101194
+	CONDITION_OCCURRENCE	522.4		ICD9CM			Acute apical periodontitis of pulpal origin			37399393		Condition	86583
+	CONDITION_OCCURRENCE	H40.023		ICD10CM			Open angle with borderline findings, high risk, bilateral	4109420			Condition	56743
+
+	
+3) GRR Vocabulary (Global Reference Repository (IMS)) was dropped from the Vocab.
+Our IMS databases do not use us so the loss of this Vocabulary does not affect 
+Janssen.
+
+*******************************************************************************
+* CPRD
+*******************************************************************************
+1) No data change, just Vocabulary update.
+
+*******************************************************************************
+* HCUP
+*******************************************************************************
+1) No data change, just Vocabulary update.
+
+*******************************************************************************
+* JMDC
+*******************************************************************************
+1) Updated data and updated Vocabulary.  No bug fixes.
+
+*******************************************************************************
+* Optum EHR Only
+*******************************************************************************
+1) Updated data and updated Vocabulary.  No bug fixes.
+
+*******************************************************************************
+* Optum Integrated
+*******************************************************************************
+1) Updated data and updated Vocabulary.  No bug fixes.
+
+*******************************************************************************
+* Optum Extended DOD
+*******************************************************************************
+1) While there is updated data, Optum has also updated their raw data format.  
+We will reprocess the old data on the new Vocabulary while we test the updated
+CDM_BUILDER.
+
+2) HIX-1361
+VALUE_AS_NUMBER = 1 in the Measurement table when coming from a diagnosis
+claim.  To be removed.
+
+*******************************************************************************
+* Optum Extended SES
+*******************************************************************************
+1) While there is updated data, Optum has also updated their raw data format.  
+We will reprocess the old data on the new Vocabulary while we test the updated
+CDM_BUILDER.
+
+2) HIX-1361
+VALUE_AS_NUMBER = 1 in the Measurement table when coming from a diagnosis
+claim.  To be removed.
+
+*******************************************************************************
+* PREMIER
+*******************************************************************************
+1) Updated data and updated Vocabulary.  No bug fixes.
+
+*******************************************************************************
+* TRUVEN CCAE
+*******************************************************************************
+1) Updated data and updated Vocabulary. 
+
+2) HIX-1255
+ICD10PCs not being brought across properly.  This has been fixed.
+
+*******************************************************************************
+* TRUVEN MDCR
+*******************************************************************************
+1) Updated data and updated Vocabulary. 
+
+2) HIX-1255
+ICD10PCs not being brought across properly.  This has been fixed.
+
+3) HIX-1376
+DX9 not coming across, this has been fixed.
+
+*******************************************************************************
+* TRUVEN MDCD
+*******************************************************************************
+1) No data change but Vocabulary update.
+
+2) HIX-1255
+ICD10PCs not being brought across properly.  This has been fixed.
+
+3) HIX-1376
+DX9 not coming across, this has been fixed.
+
+4) HIX-1377
+Some Race and Ethnicity concepts weren't being populated properly.  Getting
+a 0 instead of a code.
+
+5) HIX-1378
+Diagnosis DX1 from Long Term Care not going to CONDITION_OCCURRENCE
+
+*******************************************************************************
+* ADMIN
+*******************************************************************************
+1) HIX-1366 
+Update Statistics on Cohort Table Nightly for all CDMs.
+

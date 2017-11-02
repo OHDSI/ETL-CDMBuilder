@@ -1,6 +1,6 @@
 *Common Data Model ETL Mapping Specification for Optum Extended SES & Extended DOD* 
-<br>*CDM Version = 5.0.1, Clinformatics Version = v7.0*
-<br>*Authors: Qianli Ma; Erica Voss, Chris Knoll, Ajit Londhe, Clair Blacketer (Janssen)*
+<br>*CDM Version = 5.2, Clinformatics Version = v7.1*
+<br>*Authors: Qianli Ma, PhD; Erica Voss, MPH; Chris Knoll; Ajit Londhe, MPH; Clair Blacketer, MPH*
 
 [Back to README](README.md)
 
@@ -22,12 +22,12 @@ enrollment period.
 
 |**Destination Field**|**Source Field**|**Applied Rule**|**Comment**|
 |---------------------|----------------|----------------|-----------|
-|LOCATION_ID|-|System generated.|-|
-|ADDRESS_1|-|NULL|-|
-|ADDRESS_2|-|NULL|-|	
-|CITY|-|NULL|-|
-|STATE|**DOD**: **MEMBER_DETAIL** STATE|Only available in DOD database, set to NULL for SES database|
-|ZIP|-|NULL|-|
-|COUNTY|-|NULL|-|
-|LOCATION_SOURCE_VALUE|**DOD**: **MEMBER_DETAIL** STATE; **SES**: DIVISION|-|In SES database use MEMBER_DETAIL.DIVISION and in DOD database use MEMBER_DETAIL.STATE|
+|LOCATION_ID| |System generated.| |
+|ADDRESS_1| | | |
+|ADDRESS_2| | | |	
+|CITY| | | |
+|STATE|**DOD, MEMBER_DETAIL**<br/>STATE|Only available in DOD database, set to NULL for SES database| |
+|ZIP| | | |
+|COUNTY| | | |
+|LOCATION_SOURCE_VALUE|**DOD, MEMBER_DETAIL**<br/>STATE<br/><br/>**SES, MEMBER_DETAIL**<br/>DIVISION| |In SES database use MEMBER_DETAIL.DIVISION and in DOD database use MEMBER_DETAIL.STATE|
 

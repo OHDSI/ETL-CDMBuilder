@@ -1,6 +1,6 @@
 *Common Data Model ETL Mapping Specification for Optum Extended SES & Extended DOD* 
-<br>*CDM Version = 5.0.1, Clinformatics Version = v7.0*
-<br>*Authors: Qianli Ma; Erica Voss, Chris Knoll, Ajit Londhe, Clair Blacketer (Janssen)*
+<br>*CDM Version = 5.2, Clinformatics Version = v7.1*
+<br>*Authors: Qianli Ma, PhD; Erica Voss, MPH; Chris Knoll; Ajit Londhe, MPH; Clair Blacketer, MPH*
 
 [Back to README](README.md)
 
@@ -39,8 +39,8 @@ which is 30 days.
 **Destination Field**|**Source Field**|**Applied Rule**|**Comment**
 :-----:|:-----:|:-----:|:-----:
 CONDITION_ERA_ID|-|System generated.| 
-PERSON_ID|**CONDITION_OCCURRENCE** PERSON_ID| | 
-CONDITION_CONCEPT_ID|**CONDITION_OCCURRENCE** CONDITION_CONCEPT_ID|Do not build CONDITION_ERAS where the CONDITION_OCCURRENCE.CONDITION_CONCEPT_ID is 0.| 
-CONDITION_ERA_START_DATE|**CONDITION_OCCURRENCE** min(CONDITION_START_DATE)|The start date for the condition era constructed from the individual instances of condition occurrences. It is the start date of the very first chronologically recorded instance of the condition.| 
-CONDITION_ERA_END_DATE|-|The end date for the condition era constructed from the individual instances of condition occurrences. It is the end date of the final continuously recorded instance of the condition. | 
-CONDITION_OCCURRENCE_COUNT|-|Sum up the number of CONDITION_OCCURRENCEs for this PERSON_ID and this CONCEPT_ID during the exposure window being built.| 
+PERSON_ID|**CONDITION_OCCURRENCE**<br/>PERSON_ID| | 
+CONDITION_CONCEPT_ID|**CONDITION_OCCURRENCE**<br/>CONDITION_CONCEPT_ID|Do not build CONDITION_ERAS where the CONDITION_OCCURRENCE.CONDITION_CONCEPT_ID is 0.| 
+CONDITION_ERA_START_DATE|**CONDITION_OCCURRENCE**<br/>CONDITION_START_DATE|Use min(CONDITION_START_DATE)<br/><br/>The start date for the condition era constructed from the individual instances of condition occurrences. It is the start date of the very first chronologically recorded instance of the condition.| 
+CONDITION_ERA_END_DATE| |The end date for the condition era constructed from the individual instances of condition occurrences. It is the end date of the final continuously recorded instance of the condition. | 
+CONDITION_OCCURRENCE_COUNT| |Sum up the number of CONDITION_OCCURRENCEs for this PERSON_ID and this CONCEPT_ID during the exposure window being built.| 

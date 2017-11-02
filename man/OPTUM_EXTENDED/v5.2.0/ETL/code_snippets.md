@@ -1,6 +1,6 @@
 *Common Data Model ETL Mapping Specification for Optum Extended SES & Extended DOD* 
-<br>*CDM Version = 5.0.1, Clinformatics Version = v7.0*
-<br>*Authors: Qianli Ma; Erica Voss, Chris Knoll, Ajit Londhe, Clair Blacketer (Janssen)*
+<br>*CDM Version = 5.2, Clinformatics Version = v7.1*
+<br>*Authors: Qianli Ma, PhD; Erica Voss, MPH; Chris Knoll; Ajit Londhe, MPH; Clair Blacketer, MPH*
 
 [Back to README](README.md)
 
@@ -56,29 +56,17 @@ TARGET_CONCEPT_CLASS_ID,
 
                      c2.INVALID_REASON AS TARGET_INVALID_REASON,
 c2.standard_concept AS TARGET_STANDARD_CONCEPT
-
        FROM source_to_concept_map stcm
-
               LEFT OUTER JOIN CONCEPT c1
-
                      ON c1.concept_id = stcm.source_concept_id
-
               LEFT OUTER JOIN CONCEPT c2
-
                      ON c2.CONCEPT_ID = stcm.target_concept_id
-
        WHERE stcm.INVALID_REASON IS NULL
-
 )
 
-SELECT *
-
-FROM CTE_VOCAB_MAP
-
+SELECT * FROM CTE_VOCAB_MAP
 /*EXAMPLE FILTERS*/
-
 WHERE SOURCE_VOCABULARY_ID IN ('ICD9CM')
-
 AND TARGET_VOCABULARY_ID IN ('ICD9CM')
 
 ```
@@ -221,9 +209,9 @@ WHERE SOURCE_CODE = 'V87.43'
 
 ## Concept Id Mapping Filters
   ### From Medical Claims' Diagnosis Fields
-      
+
+**DIAG, ICD_FLAG**
 ```
-**DIAG1-DIAG25:**
 WHERE
 AND TARGET_STANDARD_CONCEPT ='S'
 AND TARGET_INVALID_REASON IS NULL
@@ -241,42 +229,46 @@ END
 
 ### From Medical Claims' Procedure Fields
 
+**PROC_CD, PROC, ICD_FLAG**
+
 ```
-**PROC_CD,PROC1-PROC25:**
 
-If ICD_FLAG = 9
-
+if (ICD_FLAG = 9)
+{
+    filter = "WHERE SOURCE_VOCABULARY_ID IN ('ICD9Proc', 'HCPCS','CPT4')
+    TARGET_STANDARD_CONCEPT ='S'
+    AND TARGET_INVALID_REASON IS NULL
+    AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier')";
+}
 Filter when procedure code comes from PROC field:
 
-WHERE SOURCE_VOCABULARY_ID IN ('ICD9Proc', 'HCPCS','CPT4')
 
-TARGET_STANDARD_CONCEPT ='S'
+else if (ICD_FLAG = 10)
+{
+    filter = "WHERE SOURCE_VOCABULARY_ID IN ('ICD10PCS', 'HCPCS','CPT4')
+    AND TARGET_STANDARD_CONCEPT ='S'
+    AND TARGET_INVALID_REASON IS NULL
+    AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier','ICD10PCS Hierarchy')";
+}
 
-AND TARGET_INVALID_REASON IS NULL
 
-AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier')
-
-ELSE IF ICD_FLAG = 10
-
-Filter when procedure code comes from PROC field:
-
-WHERE SOURCE_VOCABULARY_ID IN ('ICD10PCS', 'HCPCS','CPT4')
-
-AND TARGET_STANDARD_CONCEPT ='S'
-
-AND TARGET_INVALID_REASON IS NULL
-
-AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier','ICD10PCS Hierarchy')
 ```
 
 ### From Other Procedure Fields
 
 ```
-WHERE SOURCE_VOCABULARY_ID IN ('HCPCS','CPT4','ICD9Proc','ICD10PCS')
-AND
-TARGET_STANDARD_CONCEPT ='S'
-AND TARGET_INVALID_REASON IS NULL
-AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier','ICD10PCS Hierarchy')
+filter = "WHERE SOURCE_VOCABULARY_ID IN ('HCPCS','CPT4','ICD9Proc','ICD10PCS') AND
+    TARGET_STANDARD_CONCEPT ='S'
+    AND TARGET_INVALID_REASON IS NULL
+    AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier','ICD10PCS Hierarchy')";
+```
+
+### From Lab Results LOINC_CD
+
+```
+filter = "WHERE SOURCE_VOCABULARY_ID = 'LOINC' AND TARGET_VOCABULARY_ID = 'LOINC'
+            AND TARGET_STANDARD_CONCEPT = 'S'
+            AND TARGET_INVALID_REASON IS NULL";
 ```
 
 ## Concept Type Id Mapping Filters
@@ -285,42 +277,42 @@ AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier','ICD10PCS H
        
 
 ```
-**DIAG1-DIAG25:**
+**DIAG, DIAG_POSITION**
 
 if (PLACE_OF_SERVICE_SOURCE_VALUE == 'IP')
 {
-  if DIAG1 then 38000200
-  else if DIAG2 then 38000201
-  else if DIAG3 then 38000202
-  else if DIAG4 then 38000203
-  else if DIAG5 then 38000204
-  else if DIAG6 then 38000205
-  else if DIAG7 then 38000206
-  else if DIAG8 then 38000207
-  else if DIAG9 then 38000208
-  else if DIAG10 then 38000209
-  else if DIAG11 then 38000210
-  else if DIAG12 then 38000211
-  else if DIAG13 then 38000212
-  else if DIAG14 then 38000213
+  if DIAG_POSITION = '01' then 38000200
+  else if DIAG_POSITION = '02' then 38000201
+  else if DIAG_POSITION = '03' then 38000202
+  else if DIAG_POSITION = '04' then 38000203
+  else if DIAG_POSITION = '05' then 38000204
+  else if DIAG_POSITION = '06' then 38000205
+  else if DIAG_POSITION = '07' then 38000206
+  else if DIAG_POSITION = '08' then 38000207
+  else if DIAG_POSITION = '09' then 38000208
+  else if DIAG_POSITION = '10' then 38000209
+  else if DIAG_POSITION = '11' then 38000210
+  else if DIAG_POSITION = '12' then 38000211
+  else if DIAG_POSITION = '13' then 38000212
+  else if DIAG_POSITION = '14' then 38000213
   else then 38000214
 }
 else
 {
-  if DIAG1 then 38000230
-  else if DIAG2 then 38000231
-  else if DIAG3 then 38000232
-  else if DIAG4 then 38000233
-  else if DIAG5 then 38000234
-  else if DIAG6 then 38000235
-  else if DIAG7 then 38000236
-  else if DIAG8 then 38000237
-  else if DIAG9 then 38000238
-  else if DIAG10 then 38000239
-  else if DIAG11 then 38000240
-  else if DIAG12 then 38000241
-  else if DIAG13 then 38000242
-  else if DIAG14 then 38000243
+  if DIAG_POSITION = '01' then 38000230
+  else if DIAG_POSITION = '02' then 38000231
+  else if DIAG_POSITION = '03' then 38000232
+  else if DIAG_POSITION = '04' then 38000233
+  else if DIAG_POSITION = '05' then 38000234
+  else if DIAG_POSITION = '06' then 38000235
+  else if DIAG_POSITION = '07' then 38000236
+  else if DIAG_POSITION = '08' then 38000237
+  else if DIAG_POSITION = '09' then 38000238
+  else if DIAG_POSITION = '10' then 38000239
+  else if DIAG_POSITION = '11' then 38000240
+  else if DIAG_POSITION = '12' then 38000241
+  else if DIAG_POSITION = '13' then 38000242
+  else if DIAG_POSITION = '14' then 38000243
   else then 38000244
 }
 
@@ -333,32 +325,32 @@ if (PLACE_OF_SERVICE_SOURCE_VALUE == 'IP')
 {
   if PROC_CD then 38000254;
   
-  if PROC1 then 38000251
-  else if PROC2 then 38000252
-  else if PROC3 then 38000253
-  else if PROC4 then 38000254
-  else if PROC5 then 38000255
-  else if PROC6 then 38000256
-  else if PROC7 then 38000257
-  else if PROC8 then 38000258
-  else if PROC9 then 38000259
-  else if PROC10 then 38000260
-  else if PROC11 then 38000261
-  else if PROC12 then 38000262
-  else if PROC13 then 38000263
-  else if PROC14 then 38000264
-  else if PROC15 then 38000265
+  if PROC_POSITION = '01' then 38000251
+  else if PROC_POSITION = '02' then 38000252
+  else if PROC_POSITION = '03' then 38000253
+  else if PROC_POSITION = '04' then 38000254
+  else if PROC_POSITION = '05' then 38000255
+  else if PROC_POSITION = '06' then 38000256
+  else if PROC_POSITION = '07' then 38000257
+  else if PROC_POSITION = '08' then 38000258
+  else if PROC_POSITION = '09' then 38000259
+  else if PROC_POSITION = '10' then 38000260
+  else if PROC_POSITION = '11' then 38000261
+  else if PROC_POSITION = '12' then 38000262
+  else if PROC_POSITION = '13' then 38000263
+  else if PROC_POSITION = '14' then 38000264
+  else if PROC_POSITION = '15' then 38000265
   else then 38000265;
 }
 else
 {
   if PROC_CD then 38000272;
   
-  if PROC1 then 38000269
-  else if PROC2 then 38000270
-  else if PROC3 then 38000271
-  else if PROC4 then 38000272
-  else if PROC5 then 38000273
+  if PROC_POSITION = '01' then 38000269
+  else if PROC_POSITION = '02' then 38000270
+  else if PROC_POSITION = '03' then 38000271
+  else if PROC_POSITION = '04' then 38000272
+  else if PROC_POSITION = '05' then 38000273
   else then 38000274;
 }
 
@@ -368,7 +360,7 @@ else
 
   ### From Medical Claims' Diagnosis Fields
 
-**DIAG1-DIAG25:**
+**DIAG**
 ```
 if (ICD_FLAG == '9') 
 {
@@ -382,7 +374,7 @@ else if (ICD_FLAG == '10')
 ```
 ### From Medical Claims' Procedure Fields
 
-**PROC_CD, PROC1-PROC25:**
+**PROC_CD, PROC**
 ```
 if (ICD_FLAG == '9') 
 {
@@ -397,7 +389,13 @@ else if (ICD_FLAG == '10')
 ### From Other Procedure Fields
 
 ```
-filter = "WHERE SOURCE_VOCABULARY_ID IN ('HCPCS','CPT4','ICD9Proc','ICD10PCS') AND TARGET_VOCABULARY_ID IN ('HCPCS','CPT4',') AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier','ICD10PCS Hierarchy')";
+filter = "WHERE SOURCE_VOCABULARY_ID IN ('HCPCS','CPT4','ICD9Proc','ICD10PCS') AND TARGET_VOCABULARY_ID IN ('HCPCS','CPT4') AND TARGET_CONCEPT_CLASS_ID NOT IN ('HCPCS Modifier','CPT4 Modifier','ICD10PCS Hierarchy')";
+```
+
+### From Lab Results LOINC_CD
+
+```
+filter = "WHERE SOURCE_VOCABULARY_ID = 'LOINC' AND TARGET_VOCABULARY_ID = 'LOINC'";
 ```
 
 ## Payer Source Logic
@@ -429,44 +427,4 @@ If CDHP = 1 replace [Z] with '(HRA)'.
 If CDHP = 2 replace [Z] with '(HSA)'.
 IF CDHP IS NULL then ''
 Else [Z] = ''
-```
-
-## POA to CONDITION_STATUS_CONCEPT_ID
-
-The POA field in **TEMP_MEDICAL** is a period-delimited string that looks like this: 
-```
-Y.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U.U
-```
-
-There is a POA character value that corresponds for each slot of the DIAG codes (DIAG1-DIAG25), but this string must be split on period (".") in order to get this array of POA values. Here's a C#-like code snippet using the above sample POA.
-
-```
-POA_split = POA.split('.').ToList();
-
-if (DIAG1) POA_value = POA_split[0]; // this would get 'Y'
-if (DIAG2) POA_value = POA_split[1]; // this and all subsequent DIAG codes would get 'U'
-if (DIAG3) POA_value = POA_split[2];
-if (DIAG4) POA_value = POA_split[3];
-if (DIAG5) POA_value = POA_split[4];
-if (DIAG6) POA_value = POA_split[5];
-if (DIAG7) POA_value = POA_split[6];
-if (DIAG8) POA_value = POA_split[7];
-if (DIAG9) POA_value = POA_split[8];
-if (DIAG10) POA_value = POA_split[9];
-if (DIAG11) POA_value = POA_split[10];
-if (DIAG12) POA_value = POA_split[11];
-if (DIAG13) POA_value = POA_split[12];
-if (DIAG14) POA_value = POA_split[13];
-if (DIAG15) POA_value = POA_split[14];
-if (DIAG16) POA_value = POA_split[15];
-if (DIAG17) POA_value = POA_split[16];
-if (DIAG18) POA_value = POA_split[17];
-if (DIAG19) POA_value = POA_split[18];
-if (DIAG20) POA_value = POA_split[19];
-if (DIAG21) POA_value = POA_split[20];
-if (DIAG22) POA_value = POA_split[21];
-if (DIAG23) POA_value = POA_split[22];
-if (DIAG24) POA_value = POA_split[23];
-if (DIAG25) POA_value = POA_split[24];
-
 ```

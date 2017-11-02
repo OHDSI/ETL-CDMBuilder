@@ -1,6 +1,6 @@
 *Common Data Model ETL Mapping Specification for Optum Extended SES & Extended DOD* 
-<br>*CDM Version = 5.0.1, Clinformatics Version = v7.0*
-<br>*Authors: Qianli Ma; Erica Voss, Chris Knoll, Ajit Londhe, Clair Blacketer (Janssen)*
+<br>*CDM Version = 5.2, Clinformatics Version = v7.1*
+<br>*Authors: Qianli Ma, PhD; Erica Voss, MPH; Chris Knoll; Ajit Londhe, MPH; Clair Blacketer, MPH*
 
 [Back to README](README.md)
 
@@ -23,14 +23,14 @@ SPECIMEN_ID|0| |
 PERSON_ID|0| | 
 SPECIMEN_CONCEPT_ID|0| | 
 SPECIMEN_TYPE_CONCEPT_ID|0| | 
-SPECIMEN_DATE|-|NULL| 
-SPECIMEN_TIME|-|NULL| 
-QUANTITY|-|NULL| 
+SPECIMEN_DATE| | | 
+SPECIMEN_TIME| | | 
+QUANTITY| | | 
 UNIT_CONCEPT_ID|0| | 
 ANATOMIC_SITE_CONCEPT_ID|0| | 
 DISEASE_STATUS_CONCEPT_ID|0| | 
 SPECIMEN_SOURCE_ID|0| | 
-SPECIMEN_SOURCE_VALUE|-|NULL| 
-UNIT_SOURCE_VALUE|-|NULL| 
-ANATOMIC_SITE_SOURCE_VALUE|-|NULL| 
-DISEASE_STATUS_SOURCE_VALUE|-|NULL| 
+SPECIMEN_SOURCE_VALUE| | | 
+UNIT_SOURCE_VALUE| | | 
+ANATOMIC_SITE_SOURCE_VALUE| | | 
+DISEASE_STATUS_SOURCE_VALUE| | | 

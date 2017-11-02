@@ -1,6 +1,6 @@
 *Common Data Model ETL Mapping Specification for Optum Extended SES & Extended DOD* 
-<br>*CDM Version = 5.0.1, Clinformatics Version = v7.0*
-<br>*Authors: Qianli Ma; Erica Voss, Chris Knoll, Ajit Londhe, Clair Blacketer (Janssen)*
+<br>*CDM Version = 5.2, Clinformatics Version = v7.1*
+<br>*Authors: Qianli Ma, PhD; Erica Voss, MPH; Chris Knoll; Ajit Londhe, MPH; Clair Blacketer, MPH*
 
 [Back to README](README.md)
 
@@ -36,6 +36,8 @@ following steps:
 
 **Destination Field**|**Source Field**|**Applied Rule**|**Comment**
 :-----:|:-----:|:-----:|:-----:
-OBSERVATION_PERIOD_ID|-|System generated.| 
+OBSERVATION_PERIOD_ID| |System generated.| 
 PERSON_ID|**MEMBER_DETAIL** PATID| | 
-OBSERVATION_PERIOD_START_DATE|**MEMBER_DETAIL** ELIGEFF|Minimum start date of a continuous enrollment period.|Revise ELIGEFF using the code above to match the start date of Optum data. 
+OBSERVATION_PERIOD_START_DATE|**MEMBER_DETAIL**<br/>ELIGEFF|Revise ELIGEFF using the code above to match the start date. <br/><br/>Use min(ELIGEFF)|
+OBSERVATION_PERIOD_END_DATE|**MEMBER_DETAIL**<br/>ELIGEND|Use max(ELIGEND)|
+PERIOD_TYPE_CONCEPT_ID|Use concept [44814722 (Period while enrolled in insurance)](http://www.ohdsi.org/web/atlas/#/concept/44814722)| |

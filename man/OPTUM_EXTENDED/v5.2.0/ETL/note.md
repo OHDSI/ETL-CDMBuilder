@@ -1,6 +1,6 @@
 *Common Data Model ETL Mapping Specification for Optum Extended SES & Extended DOD* 
-<br>*CDM Version = 5.0.1, Clinformatics Version = v7.0*
-<br>*Authors: Qianli Ma; Erica Voss, Chris Knoll, Ajit Londhe, Clair Blacketer (Janssen)*
+<br>*CDM Version = 5.2, Clinformatics Version = v7.1*
+<br>*Authors: Qianli Ma, PhD; Erica Voss, MPH; Chris Knoll; Ajit Londhe, MPH; Clair Blacketer, MPH*
 
 [Back to README](README.md)
 
@@ -21,11 +21,11 @@ captured.
 :-----:|:-----:|:-----:|:-----:
 NOTE_ID|0| | 
 PERSON_ID|0| | 
-NOTE_DATE|-|NULL| 
-NOTE_TIME|-|NULL| 
+NOTE_DATE| | | 
+NOTE_TIME| | | 
 NOTE_TYPE_CONCEPT_ID|0| | 
-NOTE_TEXT|-|NULL| 
+NOTE_TEXT| | | 
 PROVIDER_ID|0| | 
-NOTE_SOURCE_VALUE|-|NULL| 
+NOTE_SOURCE_VALUE| | | 
 VISIT_OCCURRENCE_ID|0| | 
   

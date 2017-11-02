@@ -1,6 +1,6 @@
 *Common Data Model ETL Mapping Specification for Optum Extended SES & Extended DOD* 
-<br>*CDM Version = 5.0.1, Clinformatics Version = v7.0*
-<br>*Authors: Qianli Ma; Erica Voss, Chris Knoll, Ajit Londhe, Clair Blacketer (Janssen)*
+<br>*CDM Version = 5.2, Clinformatics Version = v7.1*
+<br>*Authors: Qianli Ma, PhD; Erica Voss, MPH; Chris Knoll; Ajit Londhe, MPH; Clair Blacketer, MPH*
 
 [Back to README](README.md)
 
@@ -39,10 +39,10 @@ Consolidation is done through the following steps:
 
 **Destination Field**|**Source Field**|**Applied Rule**|**Comment**
 :-----:|:-----:|:-----:|:-----:
-PAYER_PLAN_PERIOD_ID|-|System generated.| 
+PAYER_PLAN_PERIOD_ID| |System generated.| 
 PERSON_ID|**MEMBER_DETAIL** PATID| | 
 PAYER_PLAN_PERIOD_START_DATE|**MEMBER_DETAIL** ELIGEFF|Minimum start date of a continuous enrollment in a plan.|Revise ELIGEFF using the code above to match the start date of Optum data.
 PAYER_PLAN_PERIOD_END_DATE|**MEMBER_DETAIL** ELIGEND|Maximum end date of a continuous enrollment in a plan.| 
 PAYER_SOURCE_VALUE|**MEMBER_DETAIL** BUS, ASO, PRODUCT, CDHP|[See Payer Source Logic](#payer-source-logic)|
 PLAN_SOURCE_VALUE|**MEDICAL_CLAIMS** PAT_PLANID||
-FAMILY_SOURCE_VALUE|-|NULL|
+FAMILY_SOURCE_VALUE| | |

@@ -1,6 +1,6 @@
 *Common Data Model ETL Mapping Specification for Optum Extended SES & Extended DOD* 
-<br>*CDM Version = 5.0.1, Clinformatics Version = v7.0*
-<br>*Authors: Qianli Ma; Erica Voss, Chris Knoll, Ajit Londhe, Clair Blacketer (Janssen)*
+<br>*CDM Version = 5.2, Clinformatics Version = v7.1*
+<br>*Authors: Qianli Ma, PhD; Erica Voss, MPH; Chris Knoll; Ajit Londhe, MPH; Clair Blacketer, MPH*
 
 [Back to README](README.md)
 
@@ -52,9 +52,9 @@ ON CA.descendant_CONCEPT_ID = A.CONCEPT_ID
 **Destination Field**|**Source Field**|**Applied Rule**|**Comment**
 :-----:|:-----:|:-----:|:-----:
 DRUG_ERA_ID|-|System generated.| 
-PERSON_ID|DRUG_EXPOSURE: <br>PERSON_ID| | 
-DRUG_CONCEPT_ID|DRUG_EXPOSURE: DRUG_CONCEPT_ID|Use the logic above to map to ingredient CONCEPT_ID and exclude records. | 
-DRUG_ERA_START_DATE|DRUG_EXPOSURE: min(DRUG_EXPOSURE_START_DATE)|The start date for the drug era constructed from the individual instances of drug exposures. It is the start date of the very first chronologically recorded instance of utilization of a drug.| 
-DRUG_ERA_END_DATE|DRUG_EXPOSURE: <br>max(DRUG_EXPOSURE_END_DATE)<br>|The end date for the drug era constructed from the individual instance of drug exposures. It is the end date of the final continuously recorded instance of utilization of a drug.| 
-DRUG_EXPOSURE_COUNT|-|Sum up the number of DRUG_EXPOSUREs for this PERSON_ID and this CONCEPT_ID during the exposure window being built.| 
-GAP_DAYS|-|Sum of the days in the drug_era that were not covered by a drug_exposure_record| 
+PERSON_ID|**DRUG_EXPOSURE**<br>PERSON_ID| | 
+DRUG_CONCEPT_ID|**DRUG_EXPOSURE**<br/>DRUG_CONCEPT_ID|Use the logic above to map to ingredient CONCEPT_ID and exclude records. | 
+DRUG_ERA_START_DATE|**DRUG_EXPOSURE**<br/>DRUG_EXPOSURE_START_DATE|Use min(DRUG_EXPOSURE_START_DATE)| 
+DRUG_ERA_END_DATE|**DRUG_EXPOSURE**<br>DRUG_EXPOSURE_END_DATE<br>|Use max(DRUG_EXPOSURE_END_DATE)| 
+DRUG_EXPOSURE_COUNT| |Sum up the number of DRUG_EXPOSURE records for this PERSON_ID and this CONCEPT_ID during the exposure window being built.| 
+GAP_DAYS| |Sum of the days in the drug_era that were not covered by a drug_exposure_record| 

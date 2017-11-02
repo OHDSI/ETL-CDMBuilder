@@ -1,6 +1,6 @@
 *Common Data Model ETL Mapping Specification for Optum Extended SES & Extended DOD* 
-<br>*CDM Version = 5.0.1, Clinformatics Version = v7.0*
-<br>*Authors: Qianli Ma; Erica Voss, Chris Knoll, Ajit Londhe, Clair Blacketer (Janssen)*
+<br>*CDM Version = 5.2, Clinformatics Version = v7.1*
+<br>*Authors: Qianli Ma, PhD; Erica Voss, MPH; Chris Knoll; Ajit Londhe, MPH; Clair Blacketer, MPH*
 
 [Back to README](README.md)
 
@@ -18,7 +18,7 @@ information sourced from Social Security Master File.
 
 Key conventions:
 
--   Starts from the **TEMP_MEDICAL** table generated throughout the
+-   Starts from the **MEDICAL_CLAIMS** table generated throughout the
     *VISIT_OCCURRENCE* creation.
 
 -   The date of death will be associated to the VISIT_END_DATE.
@@ -47,7 +47,7 @@ Key conventions:
 
 
 
-**Mapping ICD10s from TEMP_MEDICAL to DEATH_TYPE_CONCEPT_ID**    
+**Mapping ICD10s from MEDICAL_CLAIMS to DEATH_TYPE_CONCEPT_ID**    
 
 | SOURCE_CODE | SOURCE_CONCEPT_ID | SOURCE_CODE_DESCRIPTION                                                                                                                                                                                                  | SOURCE_VOCABULARY_ID | SOURCE_DOMAIN_ID | SOURCE_CONCEPT_CLASS_ID | Death Type Concept ID |
 |-------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|------------------|-------------------------|-----------------------|
@@ -239,9 +239,9 @@ WHERE CONCEPT_ID IN (
 
 **Destination Field**|**Source Field**|**Applied Rule**|**Comment**
 :-----:|:-----:|:-----:|:-----:
-PERSON_ID|**TEMP_MEDICAL** PATID/PAT_PLANID <br><br> (DOD only) <br><br> DEATH PATID/PAT_PLANID|At the row level we work with PAT_PLANID, but PATID is what is written to the CDM.| 
-DEATH_DATE|VISIT_OCCURRENCE VISIT_END_DATE <br><br> (DOD only): DEATH ymdod|DEATH Use the last day of the month| 
-DEATH_TYPE_CONCEPT_ID|Discharge status: **TEMP_MEDICAL**: DSTATUS <br><br> Condition: **TEMP_MEDICAL**: ICD_FLAG, DIAG1-DIAG25 <br><br> DRG: **TEMP_MEDICAL**: DRG Death status (DOD only): DEATH|**TEMP_MEDICAL**  (DSTATUS): - Priority 2 - [38003566](http://www.ohdsi.org/web/atlas/#/concept/38003566) **TEMP_MEDICAL** (DIAG1-DIAG25): - Priority 4 - [38003567](http://www.ohdsi.org/web/atlas/#/concept/38003567) <br><br> **TEMP_MEDICAL** (DRG): - Priority 3 - [38003568](http://www.ohdsi.org/web/atlas/#/concept/38003568) <br><br> **DEATH**: - Priority 1 - [38003569](http://www.ohdsi.org/web/atlas/#/concept/38003569)|These CONCEPT_IDs fall under VOCABULARY_ID = 'Death Type' in CONCEPT table. <br><br> The death type for social security data is not optimal and will update if a better code becomes available.
-CAUSE_OF_DEATH_CONCEPT_ID|-|0| 
-CAUSE_OF_DEATH_SOURCE_VALUE|NULL| | 
-CAUSE_SOURCE_CONCEPT_ID|-|0| 
+PERSON_ID|**MEDICAL_CLAIMS** PATID/PAT_PLANID <br><br> **(DOD only) DEATH**<br/> PATID/PAT_PLANID|At the row level we work with PAT_PLANID, but PATID is what is written to the CDM.| 
+DEATH_DATE|**VISIT_OCCURRENCE**<br/>VISIT_END_DATE <br><br>**(DOD only) DEATH**<br/> ymdod|DEATH Use the last day of the month| 
+DEATH_TYPE_CONCEPT_ID|Discharge status: **MEDICAL_CLAIMS**<br/>DSTATUS<br><br>Condition: **MED_DIAGNOSIS**<br/>ICD_FLAG, DIAG <br><br> DRG: **MEDICAL_CLAIMS** DRG<br/><br/>Death status:<br/> **DOD only**<br/> DEATH|**DOD only, DEATH**<br/>(Priority 1)<br/>Use concept [38003569](http://www.ohdsi.org/web/atlas/#/concept/38003569)<br/><br/>**MEDICAL_CLAIMS** (DSTATUS)<br/>(Priority 2)<br/>Use concept [38003566](http://www.ohdsi.org/web/atlas/#/concept/38003566)<br/><br/>**MEDICAL_CLAIMS**<br/>(DRG)<br/>(Priority 3)<br/>Use concept [38003568](http://www.ohdsi.org/web/atlas/#/concept/38003568)<br><br>**MED_DIAGNOSIS** (DIAG)<br/>(Priority 4)<br/>Use concept [38003567](http://www.ohdsi.org/web/atlas/#/concept/38003567) |These CONCEPT_IDs fall under VOCABULARY_ID = 'Death Type' in CONCEPT table. <br><br> The death type for social security data is not optimal and will update if a better code becomes available.
+CAUSE_OF_DEATH_CONCEPT_ID| |0| 
+CAUSE_OF_DEATH_SOURCE_VALUE| | | 
+CAUSE_SOURCE_CONCEPT_ID| |0| 

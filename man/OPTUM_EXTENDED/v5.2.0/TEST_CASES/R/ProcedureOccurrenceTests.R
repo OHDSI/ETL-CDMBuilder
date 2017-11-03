@@ -2,7 +2,7 @@ createProcedureOccurrenceTests <- function()
 {
   patient <- createPatient()
   claim <- createClaim()
-  declareTest("Patient has 2 medical records which have the same proc code listed in proc1-proc3, with repeated PROC_CD in both records.", 
+  declareTest("Patient has 2 medical records which have the same proc code listed in proc position 1-3, with repeated PROC_CD in both records.", 
               source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
@@ -65,7 +65,7 @@ createProcedureOccurrenceTests <- function()
   
   patient <- createPatient()
   claim <- createClaim()
-  declareTest("Patient has series of procedures within a visit that should use the VISIT_END for PROC1-3 or FST_DT for PROC_CD to determine the procedure date.", 
+  declareTest("Patient has series of procedures within a visit that should use the VISIT_END for PROC or FST_DT for PROC_CD to determine the procedure date.", 
               source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
@@ -102,7 +102,7 @@ createProcedureOccurrenceTests <- function()
   
   patient <- createPatient()
   claim <- createClaim()
-  declareTest("Patient has Medical records with a diag1-diag5 that maps to 2 SNOMED concepts, and single procedure.", 
+  declareTest("Patient has Medical records with a diag that maps to 2 SNOMED concepts, and single procedure.", 
               source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
@@ -117,7 +117,7 @@ createProcedureOccurrenceTests <- function()
   
   patient <- createPatient()
   claim <- createClaim()
-  declareTest("Patient has 2 medical records with 2 different procedures, but only 1 record has diag_1 specified.", 
+  declareTest("Patient has 2 medical records with 2 different procedures, but only 1 record has diag specified.", 
               source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
@@ -135,7 +135,7 @@ createProcedureOccurrenceTests <- function()
   
   patient <- createPatient()
   claim <- createClaim()
-  declareTest("Patient has diag1-25 source codes mapping to domain Procedure and visit_place_of_service of IP does not get mapped to Condition", 
+  declareTest("Patient has diag source codes mapping to domain Procedure and visit_place_of_service of IP does not get mapped to Condition", 
               source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
@@ -151,7 +151,7 @@ createProcedureOccurrenceTests <- function()
   
   patient <- createPatient()
   claim <- createClaim()
-  declareTest("Patient has diag1-25 source codes mapping to domain Procedure and visit_place_of_service of OP does not get mapped to Condition", 
+  declareTest("Patient has diag source codes mapping to domain Procedure and visit_place_of_service of OP does not get mapped to Condition", 
               source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)

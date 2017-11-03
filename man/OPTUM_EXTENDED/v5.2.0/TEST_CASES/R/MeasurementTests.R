@@ -50,7 +50,7 @@ createMeasurementTests <- function()
 
   patient <- createPatient()
   claim <- createClaim()
-  declareTest("Patient has diag1-25 source codes mapping to domain Measurement and visit_place_of_service of OP does not get mapped to Condition", 
+  declareTest("Patient has diag source codes mapping to domain Measurement and visit_place_of_service of OP does not get mapped to Condition", 
               source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)

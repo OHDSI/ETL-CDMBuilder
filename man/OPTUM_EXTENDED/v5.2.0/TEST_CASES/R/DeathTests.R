@@ -2,7 +2,7 @@ createDeathTests <- function()
 {
   patient <- createPatient()
   claim <- createClaim()
-  declareTest("Patient is indicated dead by diag1-diag5 ICD9.", source_pid = patient$patid, cdm_pid = patient$person_id)
+  declareTest("Patient is indicated dead by diag source code (ICD9CM).", source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01',

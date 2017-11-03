@@ -2,7 +2,7 @@ createDeviceExposureTests <- function()
 {
   patient <- createPatient()
   claim <- createClaim()
-  declareTest("Patient has diag1-25 source codes mapping to domain Device and visit_place_of_service of IP does not get mapped to Condition", source_pid = patient$patid, cdm_pid = patient$person_id)
+  declareTest("Patient has diag source codes mapping to domain Device and visit_place_of_service of IP does not get mapped to Condition", source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01', rvnu_cd = '0100', pos = '20',
@@ -15,7 +15,7 @@ createDeviceExposureTests <- function()
 
   patient <- createPatient()
   claim <- createClaim()
-  declareTest("Patient has diag1-5 source codes mapping to domain Device and visit_place_of_service of OP does not get mapped to Condition", source_pid = patient$patid, cdm_pid = patient$person_id)
+  declareTest("Patient has diag source codes mapping to domain Device and visit_place_of_service of OP does not get mapped to Condition", source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01',
@@ -28,7 +28,7 @@ createDeviceExposureTests <- function()
   
   patient <- createPatient()
   claim <- createClaim()
-  declareTest("Patient has proc1-25 source codes mapping to domain Device and visit_place_of_service of IP does not get mapped to Procedure", source_pid = patient$patid, cdm_pid = patient$person_id)
+  declareTest("Patient has proc source codes mapping to domain Device and visit_place_of_service of IP does not get mapped to Procedure", source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01', rvnu_cd = '0100', pos = '20',
@@ -41,7 +41,7 @@ createDeviceExposureTests <- function()
   
   patient <- createPatient()
   claim <- createClaim()
-  declareTest("Patient has proc1-3 source codes mapping to domain Device and visit_place_of_service of OP does not get mapped to Procedure", source_pid = patient$patid, cdm_pid = patient$person_id)
+  declareTest("Patient has proc source codes mapping to domain Device and visit_place_of_service of OP does not get mapped to Procedure", source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01',

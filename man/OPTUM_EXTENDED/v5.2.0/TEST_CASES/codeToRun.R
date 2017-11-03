@@ -5,8 +5,8 @@ detach("package:OptumExtendedSesDodTesting", unload = TRUE)
 
 ## Set Extended Type ("ses" for SES, "dod" for DOD)
 
-#Sys.setenv(extendedType = "ses")
-Sys.setenv(extendedType = "dod")
+Sys.setenv(extendedType = "ses")
+#Sys.setenv(extendedType = "dod")
 
 library(OptumExtendedSesDodTesting)
 

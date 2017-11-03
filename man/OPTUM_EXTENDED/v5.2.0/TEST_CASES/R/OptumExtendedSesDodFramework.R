@@ -7,13 +7,22 @@ initFramework <- function() {
   insertDf[nrow(insertDf) + 1,] <- c('@nativeDatabaseSchema.provider_bridge', 'TRUNCATE TABLE @nativeDatabaseSchema.provider_bridge;')
   insertDf[nrow(insertDf) + 1,] <- c('@nativeDatabaseSchema.provider', 'TRUNCATE TABLE @nativeDatabaseSchema.provider;')
   insertDf[nrow(insertDf) + 1,] <- c('@nativeDatabaseSchema.med_diagnosis', 'TRUNCATE TABLE @nativeDatabaseSchema.med_diagnosis;')
-  insertDf[nrow(insertDf) + 1,] <- c('@nativeDatabaseSchema.death', 'TRUNCATE TABLE @nativeDatabaseSchema.death;')
+  
   insertDf[nrow(insertDf) + 1,] <- c('@nativeDatabaseSchema.facility_detail', 'TRUNCATE TABLE @nativeDatabaseSchema.facility_detail;')
   insertDf[nrow(insertDf) + 1,] <- c('@nativeDatabaseSchema.rx_claims', 'TRUNCATE TABLE @nativeDatabaseSchema.rx_claims;')
   insertDf[nrow(insertDf) + 1,] <- c('@nativeDatabaseSchema.med_procedure', 'TRUNCATE TABLE @nativeDatabaseSchema.med_procedure;')
   insertDf[nrow(insertDf) + 1,] <- c('@nativeDatabaseSchema.inpatient_confinement', 'TRUNCATE TABLE @nativeDatabaseSchema.inpatient_confinement;')
   insertDf[nrow(insertDf) + 1,] <- c('@nativeDatabaseSchema.member', 'TRUNCATE TABLE @nativeDatabaseSchema.member;')
   insertDf[nrow(insertDf) + 1,] <- c('@nativeDatabaseSchema.hra', 'TRUNCATE TABLE @nativeDatabaseSchema.hra;')
+  
+  if (tolower(Sys.getenv("extendedType")) == "dod")
+  {
+    insertDf[nrow(insertDf) + 1,] <- c('@nativeDatabaseSchema.death', 'TRUNCATE TABLE @nativeDatabaseSchema.death;')
+  }
+  else if (tolower(Sys.getenv("extendedType")) == "ses")
+  {
+    insertDf[nrow(insertDf) + 1,] <- c('@nativeDatabaseSchema.ses', 'TRUNCATE TABLE @nativeDatabaseSchema.ses;')
+  }
   assign('insertDf', insertDf, envir = globalenv())
   testSql <- c()
   testSql <- c(testSql, "IF OBJECT_ID('@cdmDatabaseSchema.test_results', 'U') IS NOT NULL DROP TABLE @cdmDatabaseSchema.test_results;")
@@ -54,6 +63,7 @@ initFramework <- function() {
   defaults$health_exch <- '0'
   defaults$lis <- ' '
   defaults$state <- 'CA'
+  defaults$division <- "SOUTH ATLANTIC"
   defaults$extract_ym <- '201709'
   defaults$version <- '7.1'
   assign('member_detail', defaults, envir = defaultValues)
@@ -310,6 +320,19 @@ initFramework <- function() {
   defaults$dt_end <- '2017-06-30'
   defaults$visit_type <- 'ER'
   assign('_pos_episode_visit', defaults, envir = defaultValues)
+  
+  defaults <- list()
+  defaults$d_education_level_code <- "C"
+  defaults$d_fed_poverty_status_code <- "A"
+  defaults$d_home_ownership_code <- "1"
+  defaults$d_household_income_range_code <- "0"
+  defaults$d_networth_range_code <- "2"
+  defaults$d_occupation_type_code <- "U"
+  defaults$d_race_code <- "W "
+  defaults$num_adults <- "2"
+  defaults$version <- "6.0"
+  defaults$extract_ym <- "201606"
+  assign('ses', defaults, envir = defaultValues)
 }
 
 
@@ -360,6 +383,64 @@ declareTestGroup <- function(groupName)
   assign('currentGroup', groupName, envir = globalenv())
   assign('groupItemIndex', -1, envir = globalenv())
 }
+
+set_defaults_ses <- function(patid, d_education_level_code, d_fed_poverty_status_code, d_home_ownership_code, d_household_income_range_code, d_networth_range_code, d_occupation_type_code, d_race_code, child_age_0002_code, child_age_0305_code, child_age_0610_code, child_age_1115_code, child_age_1618_code, num_adults, num_child, version, extract_ym) {
+  defaults <- get('ses', envir = defaultValues)
+  if (!missing(patid)) {
+    defaults$patid <- patid
+  }
+  if (!missing(d_education_level_code)) {
+    defaults$d_education_level_code <- d_education_level_code
+  }
+  if (!missing(d_fed_poverty_status_code)) {
+    defaults$d_fed_poverty_status_code <- d_fed_poverty_status_code
+  }
+  if (!missing(d_home_ownership_code)) {
+    defaults$d_home_ownership_code <- d_home_ownership_code
+  }
+  if (!missing(d_household_income_range_code)) {
+    defaults$d_household_income_range_code <- d_household_income_range_code
+  }
+  if (!missing(d_networth_range_code)) {
+    defaults$d_networth_range_code <- d_networth_range_code
+  }
+  if (!missing(d_occupation_type_code)) {
+    defaults$d_occupation_type_code <- d_occupation_type_code
+  }
+  if (!missing(d_race_code)) {
+    defaults$d_race_code <- d_race_code
+  }
+  if (!missing(child_age_0002_code)) {
+    defaults$child_age_0002_code <- child_age_0002_code
+  }
+  if (!missing(child_age_0305_code)) {
+    defaults$child_age_0305_code <- child_age_0305_code
+  }
+  if (!missing(child_age_0610_code)) {
+    defaults$child_age_0610_code <- child_age_0610_code
+  }
+  if (!missing(child_age_1115_code)) {
+    defaults$child_age_1115_code <- child_age_1115_code
+  }
+  if (!missing(child_age_1618_code)) {
+    defaults$child_age_1618_code <- child_age_1618_code
+  }
+  if (!missing(num_adults)) {
+    defaults$num_adults <- num_adults
+  }
+  if (!missing(num_child)) {
+    defaults$num_child <- num_child
+  }
+  if (!missing(version)) {
+    defaults$version <- version
+  }
+  if (!missing(extract_ym)) {
+    defaults$extract_ym <- extract_ym
+  }
+  assign('ses', defaults, envir = defaultValues)
+  invisible(defaults)
+}
+
 
 set_defaults_lab_results <- function(patid, pat_planid, proc_cd, abnl_cd, anlytseq, fst_dt, hi_nrml, labclmid, loinc_cd, low_nrml, rslt_txt, rslt_nbr, rslt_unit_nm, source, tst_desc, tst_nbr, extract_ym, version) {
   defaults <- get('lab_results', envir = defaultValues)
@@ -1388,6 +1469,11 @@ set_defaults__pos_episode_visit <- function(episode_id, patid, dt_start, dt_end,
   invisible(defaults)
 }
 
+get_defaults_ses <- function() {
+  defaults <- get('ses', envir = defaultValues)
+  return(defaults)
+}
+
 get_defaults_lab_results <- function() {
   defaults <- get('lab_results', envir = defaultValues)
   return(defaults)
@@ -1486,6 +1572,122 @@ get_defaults__pos_episode_visit <- function() {
 get_defaults_stem_table <- function() {
   defaults <- get('stem_table', envir = defaultValues)
   return(defaults)
+}
+
+add_ses <- function(patid, d_education_level_code, d_fed_poverty_status_code, d_home_ownership_code, 
+                    d_household_income_range_code, d_networth_range_code, d_occupation_type_code, 
+                    d_race_code, num_adults, num_child, extract_ym, version) {
+  defaults <- get('ses', envir = defaultValues)
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(patid)) {
+    patid <- defaults$patid
+  }
+  if (!is.null(patid)) {
+    insertFields <- c(insertFields, "patid")
+    insertValues <- c(insertValues, patid)
+  }
+  
+  if (missing(d_education_level_code)) {
+    d_education_level_code <- defaults$d_education_level_code
+  }
+  if (!is.null(d_education_level_code)) {
+    insertFields <- c(insertFields, "d_education_level_code")
+    insertValues <- c(insertValues, d_education_level_code)
+  }
+  
+  if (missing(d_fed_poverty_status_code)) {
+    d_fed_poverty_status_code <- defaults$d_fed_poverty_status_code
+  }
+  if (!is.null(d_fed_poverty_status_code)) {
+    insertFields <- c(insertFields, "d_fed_poverty_status_code")
+    insertValues <- c(insertValues, d_fed_poverty_status_code)
+  }
+  
+  if (missing(d_home_ownership_code)) {
+    d_home_ownership_code <- defaults$d_home_ownership_code
+  }
+  if (!is.null(d_home_ownership_code)) {
+    insertFields <- c(insertFields, "d_home_ownership_code")
+    insertValues <- c(insertValues, d_home_ownership_code)
+  }
+  
+  if (missing(d_household_income_range_code)) {
+    d_household_income_range_code <- defaults$d_household_income_range_code
+  }
+  if (!is.null(d_household_income_range_code)) {
+    insertFields <- c(insertFields, "d_household_income_range_code")
+    insertValues <- c(insertValues, d_household_income_range_code)
+  }
+  
+  if (missing(d_networth_range_code)) {
+    d_networth_range_code <- defaults$d_networth_range_code
+  }
+  if (!is.null(d_networth_range_code)) {
+    insertFields <- c(insertFields, "d_networth_range_code")
+    insertValues <- c(insertValues, d_networth_range_code)
+  }
+  
+  if (missing(d_occupation_type_code)) {
+    d_occupation_type_code <- defaults$d_occupation_type_code
+  }
+  if (!is.null(d_occupation_type_code)) {
+    insertFields <- c(insertFields, "d_occupation_type_code")
+    insertValues <- c(insertValues, d_occupation_type_code)
+  }
+  
+  if (missing(d_race_code)) {
+    d_race_code <- defaults$d_race_code
+  }
+  if (!is.null(d_race_code)) {
+    insertFields <- c(insertFields, "d_race_code")
+    insertValues <- c(insertValues, d_race_code)
+  }
+  
+  if (missing(num_adults)) {
+    num_adults <- defaults$num_adults
+  }
+  if (!is.null(num_adults)) {
+    insertFields <- c(insertFields, "num_adults")
+    insertValues <- c(insertValues, num_adults)
+  }
+  
+  if (missing(num_child)) {
+    num_child <- defaults$num_child
+  }
+  if (!is.null(num_child)) {
+    insertFields <- c(insertFields, "num_child")
+    insertValues <- c(insertValues, num_child)
+  }
+  
+  if (missing(extract_ym)) {
+    extract_ym <- defaults$extract_ym
+  }
+  if (!is.null(extract_ym)) {
+    insertFields <- c(insertFields, "extract_ym")
+    insertValues <- c(insertValues, extract_ym)
+  }
+  
+  if (missing(version)) {
+    version <- defaults$version
+  }
+  if (!is.null(version)) {
+    insertFields <- c(insertFields, "version")
+    insertValues <- c(insertValues, version)
+  }
+  
+  if (exists('testNewAdded', where = globalenv()) && get('testNewAdded'))
+  {
+    assign('testNewAdded', FALSE, envir = globalenv())
+    id <- get('testId', envir = globalenv())
+    description <- get('testDescription', envir = globalenv())
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('ses', comment)
+  }
+  
+  statement <- paste0("INSERT INTO @nativeDatabaseSchema.ses (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('ses', statement)
+  invisible(statement)
 }
 
 add_lab_results <- function(patid, pat_planid, proc_cd, abnl_cd, anlytseq, fst_dt, hi_nrml, labclmid, loinc_cd, low_nrml, rslt_txt, rslt_nbr, rslt_unit_nm, source, tst_desc, tst_nbr, extract_ym, version) {
@@ -1649,7 +1851,7 @@ add_lab_results <- function(patid, pat_planid, proc_cd, abnl_cd, anlytseq, fst_d
   invisible(statement)
 }
 
-add_member_detail <- function(patid, gdr_cd, eligeff, eligend, yrdob, pat_planid, aso, bus, product, cdhp, family_id, group_nbr, health_exch, lis, state, extract_ym, version) {
+add_member_detail <- function(patid, gdr_cd, eligeff, eligend, yrdob, pat_planid, aso, bus, product, cdhp, family_id, group_nbr, health_exch, lis, state, division, extract_ym, version) {
   defaults <- get('member_detail', envir = defaultValues)
   insertFields <- c()
   insertValues <- c()
@@ -1771,6 +1973,14 @@ add_member_detail <- function(patid, gdr_cd, eligeff, eligend, yrdob, pat_planid
   if (!is.null(state)) {
     insertFields <- c(insertFields, "state")
     insertValues <- c(insertValues, state)
+  }
+  
+  if (missing(division)) {
+    division <- defaults$division
+  }
+  if (!is.null(division)) {
+    insertFields <- c(insertFields, "division")
+    insertValues <- c(insertValues, division)
   }
   
   if (missing(extract_ym)) {

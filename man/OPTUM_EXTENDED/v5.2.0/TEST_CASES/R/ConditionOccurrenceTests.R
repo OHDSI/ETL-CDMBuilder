@@ -27,7 +27,7 @@ createConditionOccurrenceTests <- function()
   
   patient <- createPatient()
   claim <- createClaim()
-  declareTest("Patient has 1 Medical Record with the same diag code listed in diag1-diag25", source_pid = patient$patid, cdm_pid = patient$person_id)
+  declareTest("Patient has 1 Medical Record with the same diag code listed in diag positions 1-25", source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', 

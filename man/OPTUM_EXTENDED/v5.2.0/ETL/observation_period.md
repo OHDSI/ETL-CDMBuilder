@@ -39,5 +39,7 @@ following steps:
 OBSERVATION_PERIOD_ID| |System generated.| 
 PERSON_ID|**MEMBER_DETAIL** PATID| | 
 OBSERVATION_PERIOD_START_DATE|**MEMBER_DETAIL**<br/>ELIGEFF|Revise ELIGEFF using the code above to match the start date. <br/><br/>Use min(ELIGEFF)|
+OBSERVATION_PERIOD_START_DATETIME|**MEMBER_DETAIL**<br/>ELIGEFF|Set time to 00:00:00<br/><br/>Revise ELIGEFF using the code above to match the start date. <br/><br/>Use min(ELIGEFF)|
 OBSERVATION_PERIOD_END_DATE|**MEMBER_DETAIL**<br/>ELIGEND|Use max(ELIGEND)|
+OBSERVATION_PERIOD_END_DATETIME|Set time to 00:00:00<br/><br/>**MEMBER_DETAIL**<br/>ELIGEND|Use max(ELIGEND)|
 PERIOD_TYPE_CONCEPT_ID|Use concept [44814722 (Period while enrolled in insurance)](http://www.ohdsi.org/web/atlas/#/concept/44814722)| |

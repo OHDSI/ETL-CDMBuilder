@@ -20,7 +20,9 @@ DEVICE_EXPOSURE_ID|-|System Generated|
 PERSON_ID|**MEDICAL_CLAIMS**<br>PATID / PAT_PLANID| | 
 DEVICE_CONCEPT_ID|**MED_PROCEDURE**<br>PROC<br/><br/>**MEDICAL_CLAIMS**<br/>PROC_CD<br/><br/>**MED_DIAGNOSIS**<br/>DIAG|**DIAG**<br>Use [Source to Standard Terminology](code_snippets.md#source-to-standard-terminology) and filter with [Concept Ids from Medical Claims Diagnosis Fields](code_snippets.md#from-medical-claims-diagnosis-fields)<br><br>**PROC**, **PROC_CD**<br>Use [Source to Standard Terminology](code_snippets.md#source-to-standard-terminology) and filter with [Concept Ids from Medical Claims Procedure Fields](code_snippets.md#from-medical-claims-procedure-fields)<br>| 
 DEVICE_EXPOSURE_START_DATE|**VISIT_OCCURRENCE**<br/>VISIT_END_DATE| | 
+DEVICE_EXPOSURE_START_DATETIME|Set time to 00:00:00<br/><br/>**VISIT_OCCURRENCE**<br/>VISIT_END_DATE| | 
 DEVICE_EXPOSURE_END_DATE| | | 
+DEVICE_EXPOSURE_END_DATETIME| | | 
 DEVICE_TYPE_CONCEPT_ID|**MED_PROCEDURE**<br>PROC<br/><br/>**MEDICAL_CLAIMS**<br/>PROC_CD<br/><br/>**MED_DIAGNOSIS**<br/>DIAG|**DIAG_POSITION**<br>Use [Concept Type Ids from Medical Claims Diagnosis Fields](code_snippets.md#from-medical-claims-diagnosis-fields-1)<br/><br/>**PROC_POSITION**, **PROC_CD**<br/>Use [Concept Type Ids from Medical Claims Procedure Fields](code_snippets.md#from-medical-claims-procedure-fields-1).| 
 UNIQUE_DEVICE_ID| | | 
 QUANTITY|0| | 

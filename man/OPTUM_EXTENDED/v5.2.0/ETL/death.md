@@ -240,7 +240,8 @@ WHERE CONCEPT_ID IN (
 **Destination Field**|**Source Field**|**Applied Rule**|**Comment**
 :-----:|:-----:|:-----:|:-----:
 PERSON_ID|**MEDICAL_CLAIMS** PATID/PAT_PLANID <br><br> **(DOD only) DEATH**<br/> PATID/PAT_PLANID|At the row level we work with PAT_PLANID, but PATID is what is written to the CDM.| 
-DEATH_DATE|**VISIT_OCCURRENCE**<br/>VISIT_END_DATE <br><br>**(DOD only) DEATH**<br/> ymdod|DEATH Use the last day of the month| 
+DEATH_DATE|**VISIT_OCCURRENCE**<br/>VISIT_END_DATE <br><br>**(DOD only) DEATH**<br/> ymdod|**(DOD only) DEATH**<br/> Use the last day of the month| 
+DEATH_DATETIME|Set time to 00:00:00<br/><br/>**VISIT_OCCURRENCE**<br/>VISIT_END_DATE <br><br>**(DOD only) DEATH**<br/> ymdod|**(DOD only) DEATH**<br/> Use the last day of the month| 
 DEATH_TYPE_CONCEPT_ID|Discharge status: **MEDICAL_CLAIMS**<br/>DSTATUS<br><br>Condition: **MED_DIAGNOSIS**<br/>ICD_FLAG, DIAG <br><br> DRG: **MEDICAL_CLAIMS** DRG<br/><br/>Death status:<br/> **DOD only**<br/> DEATH|**DOD only, DEATH**<br/>(Priority 1)<br/>Use concept [38003569](http://www.ohdsi.org/web/atlas/#/concept/38003569)<br/><br/>**MEDICAL_CLAIMS** (DSTATUS)<br/>(Priority 2)<br/>Use concept [38003566](http://www.ohdsi.org/web/atlas/#/concept/38003566)<br/><br/>**MEDICAL_CLAIMS**<br/>(DRG)<br/>(Priority 3)<br/>Use concept [38003568](http://www.ohdsi.org/web/atlas/#/concept/38003568)<br><br>**MED_DIAGNOSIS** (DIAG)<br/>(Priority 4)<br/>Use concept [38003567](http://www.ohdsi.org/web/atlas/#/concept/38003567) |These CONCEPT_IDs fall under VOCABULARY_ID = 'Death Type' in CONCEPT table. <br><br> The death type for social security data is not optimal and will update if a better code becomes available.
 CAUSE_OF_DEATH_CONCEPT_ID| |0| 
 CAUSE_OF_DEATH_SOURCE_VALUE| | | 

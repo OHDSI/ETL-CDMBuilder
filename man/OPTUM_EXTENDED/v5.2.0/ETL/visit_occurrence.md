@@ -73,11 +73,20 @@ The logic below will utilize the **MEDICAL_CLAIMS** table:
 
 **Destination Field**|**Source Field**|**Applied Rule**|**Comment**
 :-----:|:-----:|:-----:|:-----:
-VISIT_OCCURRENCE_ID|-|System generated.| 
-PERSON_ID|**MEDICAL_CLAIMS** PATID/PAT_PLANID|At the row level we work with PAT_PLANID, but PATID is what is written to the CDM.| 
-VISIT_START_DATE|**MEDICAL_CLAIMS** min(FST_DT)| | 
-VISIT_START_TIME| |NULL| 
-VISIT_END_DATE|**MEDICAL_CLAIMS** max(LST_DT)| | 
-VISIT_END_TIME|-|NULL| 
-VISIT_TYPE_CONCEPT_ID|-|Use concept [44818517 (Visit derived from encounter on claim)](http://www.ohdsi.org/web/atlas/#/concept/44818517)|
+VISIT_OCCURRENCE_ID| |System generated.| 
+PERSON_ID|**MEDICAL_CLAIMS**<br/>PATID/PAT_PLANID|At the row level we work with PAT_PLANID, but PATID is what is written to the CDM.| 
 VISIT_CONCEPT_ID|**MEDICAL_CLAIMS**<br/>POS, RVNU_CD, PROC_CD|Use the steps mentioned above to create PLACE_OF_SERVICE_SOURCE_VALUE, then map it to its associated CONCEPT_ID:<br>IP = 9201<br>OP = 9202<br>ER = 9203<br>LTC = 42898160|These CONCEPT_IDs fall under VOCABULARY_ID = 'Visit' in CONCEPT table.
+VISIT_START_DATE|**MEDICAL_CLAIMS**<br/>FST_DT| Use min(FST_DT) | 
+VISIT_START_DATETIME|Set time to 00:00:00<br/><br/>**MEDICAL_CLAIMS** FST_DT| Use min(FST_DT) | 
+VISIT_END_DATE|**MEDICAL_CLAIMS**<br/>LST_DT| Use min(LST_DT) | 
+VISIT_END_DATETIME|**MEDICAL_CLAIMS**<br/>LST_DT|Set time to 00:00:00<br/><br/>Use min(LST_DT) | 
+VISIT_TYPE_CONCEPT_ID| |Use concept [44818517 (Visit derived from encounter on claim)](http://www.ohdsi.org/web/atlas/#/concept/44818517)|
+PROVIDER_ID|**MEDICAL_CLAIMS**<br>PROV, PROVCAT|Map PROV and PROVCAT to PROVIDER_SOURCE_VALUE and SPECIALTY_SOURCE_VALUE in Provider table to extract its associated Provider ID. | 
+CARE_SITE_ID| | |
+VISIT_SOURCE_VALUE|PLACE_OF_SERVICE_SOURCE_VALUE| |
+VISIT_SOURCE_CONCEPT_ID|**MEDICAL_CLAIMS**<br/>POS, RVNU_CD, PROC_CD|Use the steps mentioned above to create PLACE_OF_SERVICE_SOURCE_VALUE, then map it to its associated CONCEPT_ID:<br>IP = 9201<br>OP = 9202<br>ER = 9203<br>LTC = 42898160|These CONCEPT_IDs fall under VOCABULARY_ID = 'Visit' in CONCEPT table.
+ADMITTING_SOURCE_CONCEPT_ID| | |
+ADMITTING_SOURCE_VALUE| | |
+DISCHARGE_TO_CONCEPT_ID| | |
+DISCHARGE_TO_SOURCE_VALUE| | |
+PRECEDING_VISIT_OCCURRENCE_ID| | |

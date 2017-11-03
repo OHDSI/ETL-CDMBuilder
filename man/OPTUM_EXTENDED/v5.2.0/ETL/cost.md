@@ -41,5 +41,7 @@ PAID_DISPENSING_FEE|**[DRUG]<br>RX_CLAIMS**<br>DISPFEE| Use sum(DISPFEE) |
 PAYER_PLAN_PERIOD_ID|**PAYER_PLAN_PERIOD**<br>PAYER_PLAN_PERIOD_ID|**[DRUG]**<br>Look up associated PAYER_PLAN_PERIOD_ID by PERSON_ID and DRUG_EXPOSURE_START_DATE AND PAT_PLANID.  If there no match, put NULL.<br><br>**[PROCEDURE]**<br>Lookup associated PAYER_PLAN_PERIOD_ID.  Look up by PERSON_ID and PROCEDURE_DATE.  If there no match, put NULL.<br><br>**[VISIT]**<br>Lookup associated PAYER_PLAN_PERIOD_ID.  Look up by PERSON_ID and VISIT_START_DATE.  If there no match, put NULL.| 
 AMOUNT_ALLOWED|**[DRUG]<br>RX_CLAIMS**, <br>**[PROCEDURE, VISIT]<br/>MEDICAL_CLAIMS**<br>STD_COST| **[DRUG] RX_CLAIMS**<br/> Use sum(STD_COST) | 
 REVENUE_CODE_CONCEPT_ID|**MEDICAL_CLAIMS**<br>RVNU_CD|Use [Source to Source](code_snippets.md#source-to-source) and filter with<br>```WHERE SOURCE_VOCABULARY_ID IN ('Revenue Code') AND TARGET_VOCABULARY_ID IN ('Revenue Code')```| 
-REVENUE_CODE_SOURCE_VALUE|**MEDICAL_CLAIMS**<br>RVNU_CD|```if RVNU_CD == '0000' then NULL``` | 
+REVENUE_CODE_SOURCE_VALUE|**MEDICAL_CLAIMS**<br>RVNU_CD|```if RVNU_CD == '0000' then NULL``` |
+DRG_CONCEPT_ID| | |
+DRG_SOURCE_VALUE| | |
 

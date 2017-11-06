@@ -83,7 +83,7 @@ Janssen.
 1) Updated data and updated Vocabulary.  No bug fixes.
 
 *******************************************************************************
-* Optum Extended DOD
+* Optum Extended DOD & Optum SES
 *******************************************************************************
 1) While there is updated data, Optum has also updated their raw data format.  
 We will reprocess the old data on the new Vocabulary while we test the updated
@@ -93,16 +93,28 @@ CDM_BUILDER.
 VALUE_AS_NUMBER = 1 in the Measurement table when coming from a diagnosis
 claim.  To be removed.
 
-*******************************************************************************
-* Optum Extended SES
-*******************************************************************************
-1) While there is updated data, Optum has also updated their raw data format.  
-We will reprocess the old data on the new Vocabulary while we test the updated
-CDM_BUILDER.
+3) HIX-1225
+Fixed Optum Multiple IP Visits per day for some patients
 
-2) HIX-1361
-VALUE_AS_NUMBER = 1 in the Measurement table when coming from a diagnosis
-claim.  To be removed.
+4) HIX-1364
+Adoption of Optum v7.1 where the raw data has been pivoted from wide tables to
+long ones.
+
+5) HIX-1382
+CONDITION_TYPE_CONCEPT_ID when diagnosis position >= 15 should be set to 
+38000244-Outpatient header - 15th position.
+
+6) HIX-1363
+VALUE_SOURCE_VALUE != VALUE_AS_NUMBER - logic has been updated to handle this
+more appropriately.
+
+7) HIX-1384
+Request to add household income, education level, home ownership, and 
+occupation type to the observation table.
+
+8) HIX-1385 / HIX-1387
+Ensuring case of a ICD9 / ICD10 code does not affect the mapping to a 
+standard concept (e.g. V92 vs v92).
 
 *******************************************************************************
 * PREMIER
@@ -151,6 +163,9 @@ Diagnosis DX1 from Long Term Care not going to CONDITION_OCCURRENCE
 *******************************************************************************
 1) HIX-1366 
 Update Statistics on Cohort Table Nightly for all CDMs.
+
+2) HIX-1381
+COHORT_DEFINITIN.COHORT_INSTANTIATION_DATE should now be COHORT_INITIATION_DATE.
 
 
 

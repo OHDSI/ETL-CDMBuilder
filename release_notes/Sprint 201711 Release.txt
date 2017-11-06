@@ -133,7 +133,7 @@ DX9 not coming across, this has been fixed.
 *******************************************************************************
 1) No data change but Vocabulary update.
 
-2) HIX-1255
+2) HIX-1255 / HIX-1371
 ICD10PCs not being brought across properly.  This has been fixed.
 
 3) HIX-1376
@@ -151,4 +151,6 @@ Diagnosis DX1 from Long Term Care not going to CONDITION_OCCURRENCE
 *******************************************************************************
 1) HIX-1366 
 Update Statistics on Cohort Table Nightly for all CDMs.
+
+
 

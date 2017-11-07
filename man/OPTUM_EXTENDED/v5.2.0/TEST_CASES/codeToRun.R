@@ -10,8 +10,8 @@ Sys.setenv(extendedType = "ses")
 
 library(OptumExtendedSesDodTesting)
 
-nativeDatabaseSchema <- "cdm_testing_optumdod_native.dbo"
-cdmDatabaseSchema <- "cdm_testing_optumdod.dbo"
+nativeDatabaseSchema <- "cdm_testing_optumses_native.dbo"
+cdmDatabaseSchema <- "cdm_testing_optumses.dbo"
 
 ## Set Environment variables before running
 user <- Sys.getenv("cdmUser")

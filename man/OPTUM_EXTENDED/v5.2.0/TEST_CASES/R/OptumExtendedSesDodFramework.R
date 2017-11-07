@@ -1967,20 +1967,28 @@ add_member_detail <- function(patid, gdr_cd, eligeff, eligend, yrdob, pat_planid
     insertValues <- c(insertValues, lis)
   }
   
-  if (missing(state)) {
-    state <- defaults$state
-  }
-  if (!is.null(state)) {
-    insertFields <- c(insertFields, "state")
-    insertValues <- c(insertValues, state)
+  
+  if (tolower(Sys.getenv("extendedType")) == "dod")
+  {
+    if (missing(state)) {
+      state <- defaults$state
+    }
+
+    if (!is.null(state)) {
+      insertFields <- c(insertFields, "state")
+      insertValues <- c(insertValues, state)
+    }
   }
   
-  if (missing(division)) {
-    division <- defaults$division
-  }
-  if (!is.null(division)) {
-    insertFields <- c(insertFields, "division")
-    insertValues <- c(insertValues, division)
+  if (tolower(Sys.getenv("extendedType")) == "ses")
+  {
+    if (missing(division)) {
+      division <- defaults$division
+    }
+    if (!is.null(division)) {
+      insertFields <- c(insertFields, "division")
+      insertValues <- c(insertValues, division)
+    }  
   }
   
   if (missing(extract_ym)) {
@@ -2602,9 +2610,10 @@ add_med_diagnosis <- function(patid, pat_planid, icd_flag, diag, clmid, diag_pos
   }
   
   if (missing(diag)) {
-    diag <- defaults$diag
+    diag <- tolower(defaults$diag)
   }
   if (!is.null(diag)) {
+    diag <- tolower(diag)
     insertFields <- c(insertFields, "diag")
     insertValues <- c(insertValues, diag)
   }
@@ -3175,9 +3184,10 @@ add_med_procedure <- function(patid, pat_planid, proc, clmid, icd_flag, proc_pos
   }
   
   if (missing(proc)) {
-    proc <- defaults$proc
+    proc <- tolower(defaults$proc)
   }
   if (!is.null(proc)) {
+    proc <- tolower(proc)
     insertFields <- c(insertFields, "[proc]")
     insertValues <- c(insertValues, proc)
   }

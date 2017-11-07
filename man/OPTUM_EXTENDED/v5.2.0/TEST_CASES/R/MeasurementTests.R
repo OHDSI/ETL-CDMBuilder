@@ -42,9 +42,9 @@ createMeasurementTests <- function()
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01', rvnu_cd = '0100', pos = '20',
                      pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678')
-  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "78322", clmid = claim$clmid, diag_position = 1)
-  expect_no_condition_occurrence(person_id = patient$person_id, condition_source_value = '78322')
-  expect_measurement(person_id = patient$person_id, measurement_source_value = '78322')
+  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "V8271", clmid = claim$clmid, diag_position = 1)
+  expect_no_condition_occurrence(person_id = patient$person_id, condition_source_value = 'V8271')
+  expect_measurement(person_id = patient$person_id, measurement_concept_id = 4237017)
   expect_visit_occurrence(person_id = patient$person_id, visit_concept_id = 9201)
 
 
@@ -56,9 +56,9 @@ createMeasurementTests <- function()
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01',
                      pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678')
-  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "78322", clmid = claim$clmid, diag_position = 1)
-  expect_no_condition_occurrence(person_id = patient$person_id, condition_source_value = '78322')
-  expect_measurement(person_id = patient$person_id, measurement_source_value = '78322')
+  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "V8271", clmid = claim$clmid, diag_position = 1)
+  expect_no_condition_occurrence(person_id = patient$person_id, condition_source_value = 'V8271')
+  expect_measurement(person_id = patient$person_id, measurement_concept_id = 4237017)
   expect_visit_occurrence(person_id = patient$person_id, visit_concept_id = 9202)
   
   
@@ -79,7 +79,7 @@ createMeasurementTests <- function()
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01',
                      pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678',
                      units = 1000)
-  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "78322", clmid = claim$clmid, diag_position = 1)
+  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "V8271", clmid = claim$clmid, diag_position = 1)
   expect_measurement(person_id = patient$person_id, value_as_number = NULL)
   
   

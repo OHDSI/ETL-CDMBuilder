@@ -100,9 +100,9 @@ createConditionOccurrenceTests <- function()
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01',
                      pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678')
-  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "10", diag = 'S112', 
+  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "10", diag = 'Z731', 
                     clmid = claim$clmid, diag_position = 1)
-  expect_condition_occurrence(person_id = patient$person_id, condition_source_value = 'S112', condition_concept_id = 4053597)
-  expect_no_condition_occurrence(person_id = patient$person_id, condition_source_value = 'S112', condition_concept_id = 4051128)
+  expect_condition_occurrence(person_id = patient$person_id, condition_source_value = 'Z731', condition_concept_id = 43020481)
+  expect_no_condition_occurrence(person_id = patient$person_id, condition_source_value = 'Z731', condition_concept_id = 4284848)
 
 }

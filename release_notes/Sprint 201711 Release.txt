@@ -1,7 +1,23 @@
 *******************************************************************************
 * VOCABULARY CHANGE
 *******************************************************************************
- be found on our internal Epi site.
+1) We want to adopt a new Vocab as we learned our last 20170503 had missing 
+associations between ingredients and drug clinical concepts.  Drugs
+where mapped to a standard concept however if you were leveraging the relationships
+between a ingredient and clinical drugs you may have not had a complete map.
+https://github.com/OHDSI/Vocabulary-v5.0/issues/136
+
+There were 26 JNJ within the list, however only 14 clinical drugs containing 
+ingredients norethindrone or ethinyl estradiol were affected.
+
+These ingredients were impacted the most (>50% of the records were lost):
+	ethynodiol,Magnesium Sulfate,dasabuvir,potassium sulfate,Norgestrel,lenvatinib,
+	ombitasvir,Methylprednisolone,acamprosate,levomefolate,adalimumab,bismuth subsalicylate,
+	linoleate,dienogest,insulin human, rDNA origin,dimethyl fumarate,varenicline,
+	iron protein succinylate,ferrous bisglycinate,paritaprevir,cabozantinib,Risedronate,
+	formic acid,Azithromycin,Mestranol,peginterferon beta-1a
+	
+A full list can be found on our internal Epi site.
 https://jnj.sharepoint.com/teams/epi/_layouts/15/guestaccess.aspx?guestaccesstoken=ho9NdH02pvip7oqAqKzMyj6vdiNlIyimFvxyFx9TUYE%3d&docid=2_00b3bb483c5aa4ca2bf18d5c2d69beccf&rev=1
 
 2) A summary of changes by how they play out in raw data can be found on our internal Epi site.

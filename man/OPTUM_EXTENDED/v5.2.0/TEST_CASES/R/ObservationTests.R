@@ -28,7 +28,7 @@ createObservationTests <- function()
     list(source = 3, value = "$50K-$59K"),
     list(source = 4, value = "$60K-$74K"),
     list(source = 5, value = "$75K-$99K"),
-    list(source = 6, value = "$100K")
+    list(source = 6, value = "$100K+")
   )
   
   for (h in household)
@@ -49,17 +49,17 @@ createObservationTests <- function()
     list(source = 1, value = "Probable Homeowner")
   )
   
-  for (o in ownership)
+  for (owner in ownership)
   {
     patient <- createPatient()
     claim <- createClaim()
-    declareTest(paste("Patient has home ownership code", o$source, sep = " "), 
+    declareTest(paste("Patient has home ownership code", owner$source, sep = " "), 
                 source_pid = patient$patid, cdm_pid = patient$person_id)
     add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                       gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
-    add_ses(patid = patient$patid, d_household_income_range_code = o$source)
-    expect_observation(person_id = patient$person_id, observation_concept_id = 4076206, value_as_number = o$source,
-                       value_as_string = o$value, observation_type_concept_id = 44814721)
+    add_ses(patid = patient$patid, d_home_ownership_code = owner$source)
+    expect_observation(person_id = patient$person_id, observation_concept_id = 4076206, value_as_number = owner$source,
+                       value_as_string = owner$value, observation_type_concept_id = 44814721)
   }
   
   occupation <- list(
@@ -70,16 +70,16 @@ createObservationTests <- function()
     list(source = 4, value = "Homemaker/Retired")
   )
   
-  for (o in occupation)
+  for (occ in occupation)
   {
     patient <- createPatient()
     claim <- createClaim()
-    declareTest(paste("Patient has occupation type code", o$source, sep = " "), 
+    declareTest(paste("Patient has occupation type code", occ$source, sep = " "), 
                 source_pid = patient$patid, cdm_pid = patient$person_id)
     add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                       gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
-    add_ses(patid = patient$patid, d_household_income_range_code = o$source)
-    expect_observation(person_id = patient$person_id, observation_concept_id = 4033543, value_as_string = o$value,
+    add_ses(patid = patient$patid, d_occupation_type_code = occ$source)
+    expect_observation(person_id = patient$person_id, observation_concept_id = 4033543, value_as_string = occ$value,
                        observation_type_concept_id = 44814721)
   }
   

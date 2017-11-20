@@ -502,7 +502,7 @@ set_defaults_lab_results <- function(patid, pat_planid, proc_cd, abnl_cd, anlyts
   invisible(defaults)
 }
 
-set_defaults_member_detail <- function(patid, gdr_cd, eligeff, eligend, yrdob, pat_planid, aso, bus, product, cdhp, family_id, group_nbr, health_exch, lis, state, extract_ym, version) {
+set_defaults_member_detail <- function(patid, gdr_cd, eligeff, eligend, yrdob, pat_planid, aso, bus, product, cdhp, family_id, group_nbr, health_exch, lis, division, state, extract_ym, version) {
   defaults <- get('member_detail', envir = defaultValues)
   if (!missing(patid)) {
     defaults$patid <- patid
@@ -546,8 +546,17 @@ set_defaults_member_detail <- function(patid, gdr_cd, eligeff, eligend, yrdob, p
   if (!missing(lis)) {
     defaults$lis <- lis
   }
-  if (!missing(state)) {
-    defaults$state <- state
+  if (tolower(Sys.getenv("extendedType")) == "ses")
+  {
+    if (!missing(division)) {
+      defaults$division <- division
+    }
+  }
+  if (tolower(Sys.getenv("extendedType")) == "dod")
+  {
+    if (!missing(state)) {
+      defaults$state <- state
+    }
   }
   if (!missing(extract_ym)) {
     defaults$extract_ym <- extract_ym

@@ -1,17 +1,20 @@
+### OPTUM EXTENDED DOD/SES TEST SCRIPT
+## For Optum Clinformatics DataMart v7.1 / OMOP CDM v5.2
+
 # Establish Extended Type and Connection strings
 #=============================
 
 detach("package:OptumExtendedSesDodTesting", unload = TRUE)
 
-## Set Extended Type ("ses" for SES, "dod" for DOD)
+## IMPORTANT: Set Extended Type ("ses" for SES, "dod" for DOD)
 
-Sys.setenv(extendedType = "ses")
-#Sys.setenv(extendedType = "dod")
+#Sys.setenv(extendedType = "ses")
+Sys.setenv(extendedType = "dod")
 
 library(OptumExtendedSesDodTesting)
 
-nativeDatabaseSchema <- "cdm_testing_optumses_native.dbo"
-cdmDatabaseSchema <- "cdm_testing_optumses.dbo"
+nativeDatabaseSchema <- "cdm_testing_optumdod_native.dbo" # specify your native schema
+cdmDatabaseSchema <- "cdm_testing_optumdod.dbo" # specify your cdm schema
 
 ## Set Environment variables before running
 user <- Sys.getenv("cdmUser")
@@ -57,9 +60,11 @@ DatabaseConnector::disconnect(connection = connection)
 connection <- DatabaseConnector::connect(connectionDetails = connectionDetails)
 
 DatabaseConnector::querySql(connection, 
-                            SqlRender::renderSql("SELECT status, count(*) FROM @cdmDatabaseSchema.test_results group by status", cdmDatabaseSchema = cdmDatabaseSchema)$sql)
+                            SqlRender::renderSql("SELECT status, count(*) FROM @cdmDatabaseSchema.test_results group by status", 
+                                                 cdmDatabaseSchema = cdmDatabaseSchema)$sql)
 DatabaseConnector::querySql(connection, 
-                            SqlRender::renderSql("SELECT * FROM @cdmDatabaseSchema.test_results where status = 'FAIL'", cdmDatabaseSchema = cdmDatabaseSchema)$sql)
+                            SqlRender::renderSql("SELECT * FROM @cdmDatabaseSchema.test_results where status = 'FAIL'", 
+                                                 cdmDatabaseSchema = cdmDatabaseSchema)$sql)
 
 DatabaseConnector::disconnect(connection = connection)
 

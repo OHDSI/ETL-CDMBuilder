@@ -18,10 +18,10 @@ createMeasurementTests <- function()
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_lab_results(labclmid = claim$clmid, pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', 
-                  loinc_cd = '22962-5', proc_cd = '87517', rslt_nbr = 111, rslt_txt = 'STUFF')
+                  loinc_cd = '22962-5', proc_cd = '87517', rslt_nbr = "111", rslt_txt = 'STUFF')
   expect_measurement(person_id = patient$person_id, measurement_source_value = '22962-5', 
-                     value_as_number = 111.0, 
-                     value_source_value = 111.000000)
+                     value_as_number = "111.0", 
+                     value_source_value = "111.000000")
   
   
   patient <- createPatient()

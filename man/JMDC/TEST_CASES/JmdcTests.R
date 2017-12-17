@@ -34,16 +34,24 @@ add_enrollment(member_id = "M000000202", month_and_year_of_entry = "201001", mon
 expect_observation_period(person_id = lookup_person("person_id", person_source_value = "M000000202"), observation_period_start_date = "20100101")
 
 declareTest(203, "Observation period start date with truncation")
-add_enrollment(member_id = "M000000203", month_and_year_of_entry = "199001", month_and_year_of_withdrawal = "201212")
+add_enrollment(member_id = "M000000203", month_and_year_of_entry = "199001", month_and_year_of_contract_start = "199001", month_and_year_of_withdrawal = "201212")
 expect_observation_period(person_id = 203, observation_period_start_date = "20050101") # From first claim in database
 
-declareTest(202, "Observation period end date without truncation")
+declareTest(204, "Observation period end date without truncation")
 add_enrollment(member_id = "M000000204", month_and_year_of_entry = "201001", month_and_year_of_withdrawal = "201212")
 expect_observation_period(person_id = 204, observation_period_end_date = "20121231")
 
-declareTest(203, "Observation period end date with truncation")
+declareTest(205, "Observation period end date with truncation")
 add_enrollment(member_id = "M000000205", month_and_year_of_entry = "201001", month_and_year_of_withdrawal = NULL)
 expect_observation_period(person_id = 205, observation_period_end_date = "20141231") # From last claim in database
+
+declareTest(206, "Observation period start date restricted by contract")
+add_enrollment(member_id = "M000000206", month_and_year_of_entry = "201001", month_and_year_of_contract_start = "201201", month_and_year_of_withdrawal = NULL)
+expect_observation_period(person_id = 206, observation_period_start_date = "20120101") 
+
+declareTest(207, "Observation period end date restricted by contract")
+add_enrollment(member_id = "M000000207", month_and_year_of_entry = "201001", month_and_year_of_contract_end = "201306", month_and_year_of_withdrawal = NULL)
+expect_observation_period(person_id = 207, observation_period_end_date = "20130630") 
 
 
 # Care site ------------------------------------------------------------------
@@ -463,7 +471,7 @@ expect_measurement(person_id = 1002, measurement_concept_id = 42869419, measurem
 
 declareTest(1003, "Measurement date")
 add_enrollment(member_id = "M000001003")
-add_health_checkups(member_id = "M000001003", month_and_year_of_health_chechups = "201001")
+add_health_checkups(member_id = "M000001003", month_and_year_of_health_checkups = "201001")
 expect_measurement(person_id = 1003, measurement_date = "2010-01-15")
 
 declareTest(1004, "Measurement value")
@@ -482,7 +490,7 @@ declareTest(1006, "Measurement from diagnosis")
 add_enrollment(member_id = "M000001006")
 add_claim(member_id = "M000001006", claim_id = "C000000001001")
 add_diagnosis(member_id = "M000001006", claim_id = "C000000001001", icd10_level4_code = "R824", type_of_claim = "out-patient") # Acetonuria
-expect_measurement(person_id = 1006, visit_occurrence_id = 1001, measurement_concept_id = 441968, value_as_concept_id = 4181412, measurement_type_concept_id = 38000215)
+expect_measurement(person_id = 1006, visit_occurrence_id = 1001, measurement_concept_id = 4042243, value_as_concept_id = 4181412, measurement_type_concept_id = 38000215)
 
 
 # Observation ------------------------------------------------------------------
@@ -525,59 +533,37 @@ expect_observation(person_id = 1106, visit_occurrence_id = 1106, observation_dat
 
 declareTest(1107, "Observation from checkup")
 add_enrollment(member_id = "M000001107")
-add_health_checkups(member_id = "M000001107", sleeping = 2, month_and_year_of_health_chechups = "201001")
+add_health_checkups(member_id = "M000001107", sleeping = 2, month_and_year_of_health_checkups = "201001")
 expect_observation(person_id = 1107, observation_date = "2010-01-15", observation_concept_id = 40764749, value_as_concept_id = 4188540)
 
 
-# Drug cost ------------------------------------------------------------------
+# Claim cost ------------------------------------------------------------------
 
-declareTest(1201, "Drug cost")
+declareTest(1201, "Claim cost")
 add_enrollment(member_id = "M000001201")
-add_claim(member_id = "M000001201", claim_id = "C000000001201")
-add_drug(member_id = "M000001201", claim_id = "C000000001201", actual_point = 123)
-expect_drug_cost(total_paid = 1230)
+add_claim(member_id = "M000001201", claim_id = "C000000001201", points = 123)
+expect_cost(cost_event_id = 1201, cost_domain_id = "Visit", cost_type_concept_id = 5031, currency_concept_id = 44818592, total_paid = 1230)
 
+# Generate SQL -------------------------------------------------------------------
 
-# Procedure cost ------------------------------------------------------------------
-
-declareTest(1301, "Procedure cost")
-add_enrollment(member_id = "M000001301")
-add_claim(member_id = "M000001301", claim_id = "C000000001301")
-add_procedure(member_id = "M000001301", claim_id = "C000000001301", actual_point = 123)
-expect_procedure_cost(total_paid = 1230)
-
+insertSql <- generateInsertSql(databaseSchema = "native.cdm_testing_jmdc")
+testSql <- generateTestSql(databaseSchema = "testing.cdm_testing_jmdc")
 write(insertSql, "insert.sql")
 write(testSql, "test.sql")
 
 
 # Execute tests ------------------------------------------------------------------
 library(DatabaseConnector)
-connectionDetails <- createConnectionDetails(user = "USER",
-                                             password = Sys.getenv("ABCDEFG"),
+connectionDetails <- createConnectionDetails(user = Sys.getenv("userRds"),
+                                             password = Sys.getenv("pwRds"),
                                              dbms = "sql server",
-                                             server = "12345")
+                                             server = Sys.getenv("serverRdsTesting"))
 connection <- connect(connectionDetails)
 
-executeSql(connection, "USE jmdc_test")
 executeSql(connection, paste(insertSql, collapse = "\n"))
 
-# Run CDM_builder. Note: settings 1265 vocab: Driver={SQL Server Native Client 11.0};Server=RNDUSRDHIT06;Database=Vocabulary_20160817;Uid=hix_reader;Pwd=reader1!;
+# Run CDM_builder
 
-executeSql(connection, "USE jmdc_cdm")
 executeSql(connection, paste(testSql, collapse = "\n"))
 
-querySql(connection, "SELECT * FROM test_results")
-querySql(connection, "SELECT * FROM test_results WHERE status = 'FAIL'")
-
-
-executeSql(connection, "USE jmdc_test")
-querySql(connection, "SELECT * FROM Diagnosis WHERE [Member ID] = 'M000000601'")
-
-executeSql(connection, "USE jmdc_cdm")
-querySql(connection, "SELECT * FROM visit_occurrence WHERE person_id = 414")
-
-
-executeSql(connection, "USE jmdc_cdm")
-querySql(connection, "SELECT * FROM drug_exposure WHERE person_id = 807")
-
-
+querySql(connection, "SELECT * FROM testing.cdm_testing_jmdc.test_results;")

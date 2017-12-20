@@ -1,0 +1,42 @@
+*******************************************************************************
+* VOCABULARY CHANGE
+*******************************************************************************
+1) Adopting a new Vocabulary per schedule.
+
+2) A summary of changes by how they play out in raw data can be found on our internal Epi site.
+https://jnj.sharepoint.com/teams/epi/Shared%20Documents/Epi%20Analytics/CDM/Sprint%20201712_Vocab_Mapping_Changes_20170920_to_20171201.xlsx?d=w6055849990f047b3abc90e3ff9e0c18e
+
+-Moving Domains
+--Of the 21,395 concepts that changed domains, only 524 come into play in a large claims DB.  Here are the top 10 concepts by use that changed:
+
+	CONCEPT_ID	OLD_DOMAIN_ID	NEW_DOMAIN_ID	CONCEPT_NAME	ROW_COUNT	PERSON_COUNT
+	40766642	Observation		Measurement		Are you considering quitting smoking during the next 6 months [PLCO]	19848986	3720554
+	40766928	Observation		Measurement		Do you now smoke cigarettes, as of 1 month ago [PhenX]	7761594	3196587
+	3012697		Observation		Measurement		History of Tobacco use	4650089	2119955
+	40767149	Observation		Measurement		How do you describe your current health [PhenX]	3836508	1415793
+	40769798	Observation		Measurement		Sigmoidoscopy or colonoscopy [PhenX]	1860640	846115
+	3025891		Observation		Measurement		Pathology report final diagnosis Narrative	1166239	670659
+	3049918		Observation		Measurement		MG Breast	1057178	489346
+	441488		Observation		Condition		Adverse reaction to substance	753195	471857
+	40766364	Observation		Measurement		How many cigarettes per day do, or did, you smoke [FTND]	646691	411434
+	438028		Observation		Condition		Poisoning by drug AND/OR medicinal substance	540383	312718
+
+--Many terms like "History of Tobacco use" and "Adverse reaction to food" moved domains.  If doing substance above research this might impact you (e.g. "Alcohol intoxication" was a observation and now is a condition)
+
+--New Maps
+--1,407 codes received new mapping or mapping was deprecated.  Here are the top 10 concepts by use that changed:
+
+	SOURCE_CODE	SOURCE_VOCABULARY_ID	SOURCE_CONCEPT_NAME	NEW_TARGET_CONCEPT_ID	CURRENT_CONCEPT_ID	ROW_COUNT	PERSON_COUNT
+	739.1		ICD9CM					Nonallopathic lesions, cervical region	4213540	75066	42720191	3809231
+	739.3		ICD9CM					Nonallopathic lesions, lumbar region	36713918	196794	34557102	3424667
+	739.2		ICD9CM					Nonallopathic lesions, thoracic region	36713926	81672	25127105	2834184
+	J7120		HCPCS					Ringers lactate infusion, up to 1000 cc	19135374	0	3155788	2451692
+	A9500		HCPCS					Technetium tc-99m sestamibi, diagnostic, per study dose	2615322	0	2382446	1936688
+	739.4		ICD9CM					Nonallopathic lesions, sacral region	36717682	135057	9975811	1291748
+	A9502		HCPCS					Technetium tc-99m tetrofosmin, diagnostic, per study dose	2615324	0	1445428	1199515
+	739.5		ICD9CM					Nonallopathic lesions, pelvic region	4187369	201117	5060878	692887
+	A9505		HCPCS					Thallium tl-201 thallous chloride, diagnostic, per millicurie	2615327	0	678444	569845
+	674345		NDC						scopolamine 1mg/3d TRANSDERMAL PATCH, EXTENDED RELEASE [transderm scop]	42902863	966010	758861	564611
+	
+--It looks like many HCPCs picked up some new maps like "paroxetine hydrochloride 20mg/1 ORAL TABLET, FILM COATED [paroxetine]" now gets mapped to a CONCEPT_ID where it was mapped to 0 before.
+

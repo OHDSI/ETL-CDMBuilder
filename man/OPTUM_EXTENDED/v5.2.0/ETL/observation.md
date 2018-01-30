@@ -13,11 +13,7 @@ person.
 
 Key conventions:
 
--   Optum Extended SES does include a Health Risk Assessment table
-    (**HRA**), but for the purposes of this document, we will not
-    include this data at this time due to the ambiguities of the
-    source data. Future versions may include it once clarifications on
-    the content of that table are made available by Optum.
+-   If OBSERVATION_SOURCE_VALUE = '000', then **do not include**.
 
 -   Only include records with OBSERVATION_DATE that fall within an
     *OBSERVATION_PERIOD*s.
@@ -35,7 +31,7 @@ VALUE_AS_NUMBER|**MEDICAL_CLAIMS**<br>UNITS<br><br>**LAB_RESULTS**<br/>RSLT_NBR<
 VALUE_AS_STRING|**SES (Extended SES Only)** d_household_income_range_code, d_education_level_code, d_home_ownership_code, d_occupation_type_code<br><br>**HRA**<br>Use [HRA Mappings](hra_mappings.md) |**d_household_income_range_code**<br/> 0 = Unknown<br/>1 = <$40K<br/>2 = $40K-$49K<br/>3 = $50K-$59K<br/>4 = $60K-$74K<br/>5 = $75K-$99K<br/>6 = $100K+<br/><br/>**d_education_level_code**<br/> A = Less than 12th Grade<br/>B = High School Diploma<br/>C = Less than Bachelor Degree<br/>D = Bachelor Degree Plus<br/>U =	Unknown<br/><br/>**d_home_ownership_code**<br/>1 = Probable Homeowner<br/>0 = Unknown<br/><br/>**d_occupation_type_code**<br/>1 = Manager/Owner/Professional<br/>2 = White Collar/Health/Civil Service/Military<br/>3 = Blue Collar<br/>4 = Homemaker/Retired<br/>U = Missing/Unknown|
 VALUE_AS_CONCEPT_ID|**LAB_RESULTS**<br>ABNL_CD<br>RSLT_TXT<br><br>**MED_DIAGNOSIS**<br>DIAG<br/><br/>**MED_PROCEDURE**<br/>PROC<br/><br/>**MEDICAL_CLAIMS**<br/>PROC_CD <br><br>**HRA**<br>Use [HRA Mappings](hra_mappings.md)|**LAB_RESULTS** <br>Follow logic given in MEASUREMENT table.<br><br>**MEDICAL_CLAIMS**<br>Use [Source to Maps to Value](code_snippets.md#source-to-maps-to-value) and point it at the SOURCE_CODE.  But only take the top TARGET_CONCEPT_ID because a few SOURCE_CODES can map to multiple TARGET_CONCEPT_ID.| 
 QUALIFIER_CONCEPT_ID| | |
-UNIT_CONCEPT_ID|**LAB_RESULTS**:<br>RSLT_UNIT_NM<br><br>**HRA**<br>Use [HRA Mappings](hra_mappings.md)|Use Vocab map [Source to Standard Terminology](code_snippets.md#source-to-standard-terminology) and filter with:<br>```WHERE SOURCE_VOCABULARY_ID IN ('UCUM') AND TARGET_VOCABULARY_ID IN ('UCUM') AND TARGET_INVALID_REASON IS NULL```| 
+UNIT_CONCEPT_ID|**LAB_RESULTS**:<br>RSLT_UNIT_NM<br><br>**HRA**<br>Use [HRA Mappings](hra_mappings.md)|Use Vocab map [Source to Standard Terminology](code_snippets.md#source-to-standard-terminology) and filter with:<br>```WHERE SOURCE_VOCABULARY_ID IN ('UCUM', 'JNJ_UNITS') AND TARGET_VOCABULARY_ID IN ('UCUM') AND TARGET_INVALID_REASON IS NULL```| 
 PROVIDER_ID|**MEDICAL_CLAIMS**<br/>PROV| |
 VISIT_OCCURRENCE_ID|**MEDICAL_CLAIMS**<br>VISIT_OCCURRENCE_ID| |Refer to logic in building VISIT_OCCURRENCE table for linking with VISIT_OCCURRENCE_ID
 OBSERVATION_SOURCE_VALUE|**MED_DIAGNOSIS**<br/>DIAG<br/><br/>**MED_PROCEDURE**<br/>PROC<br/><br/>**MEDICAL_CLAIMS**<br/>PROC_CD, DRG<br><br>**LAB_RESULTS**<br/>LOINC_CD, PROC_CD<br><br>**HRA**<br>Use [HRA Mappings](hra_mappings.md)|**LAB_RESULTS**: <br>The LOINC_CD or PROC_CD as it appears<br><br>**LAB_RESULTS** table and as was selected above (i.e. use the LOINC_CD first if possible).  <br>| 

@@ -1,3 +1,4 @@
+
 initFramework <- function() {
   insertDf <- data.frame(table = character(), sql = character(), stringsAsFactors = FALSE)
   insertDf[nrow(insertDf) + 1,] <- c('@nativeDatabaseSchema.lab_results', 'TRUNCATE TABLE @nativeDatabaseSchema.lab_results;')
@@ -274,6 +275,8 @@ initFramework <- function() {
   assign('lu_procedure', defaults, envir = defaultValues)
   
   defaults <- list()
+  defaults$h_bmi <- '25'
+  defaults$h_bsa <- '1.9'
   defaults$h_chronic_pain <- '0'
   defaults$h_height <- '64.00'
   defaults$h_smoking_status <- '3'
@@ -282,12 +285,16 @@ initFramework <- function() {
   defaults$isa10008 <- 'None of the time'
   defaults$isa1006 <- '0'
   defaults$isa13021 <- 'No'
+  defaults$isa13022 <- 'No Response'
   defaults$isa13023 <- 'No'
   defaults$isa13040 <- 'No'
   defaults$isa16010 <- 'Slightly'
+  defaults$isa16016 <- 'Almost Always'
+  defaults$isa16040 <- 'Unknown'
   defaults$isa17001 <- 'Never Used'
   defaults$isa17015 <- 'Never Used'
   defaults$isa17023 <- 'Never Used'
+  defaults$isa18015 <- 'Yes'
   defaults$isa19004 <- 'Good'
   defaults$isa19005 <- 'Good'
   defaults$isa20061 <- 'Married or Cohabiting'
@@ -308,6 +315,8 @@ initFramework <- function() {
   defaults$isa5018 <- 'No Response'
   defaults$isa7018 <- 'No'
   defaults$isa8016 <- '1-2'
+  defaults$isa9009 <- '1-2'
+  defaults$isa9063 <- 'Unknown'
   defaults$extract_ym <- '201709'
   defaults$version <- '7.1'
   assign('hra', defaults, envir = defaultValues)
@@ -3996,8 +4005,56 @@ add_lu_procedure <- function(category_dtl_cd, category_dtl_code_desc, category_g
   invisible(statement)
 }
 
-add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_status, h_weight, hra_compltd_dt, isa10008, isa1006, isa13021, isa13022, isa13023, isa13040, isa16010, isa16016, isa16040, isa17001, isa17015, isa17021, isa17023, isa18015, isa19004, isa19005, isa20061, isa20064, isa20069, isa20072, isa21001, isa21003, isa21009, isa21015, isa21020, isa21021, isa21025, isa3010, isa5001, isa5004, isa5010, isa5018, isa7018, isa8016, isa9009, isa9063, extract_ym, version) {
-  defaults <- get('hra', envir = defaultValues)
+add_hra <- function(patid, name, value, 
+                    h_bmi = NULL,
+                    h_bsa = NULL,
+                    h_chronic_pain = NULL,
+                    h_height = NULL,
+                    h_smoking_status = NULL,
+                    h_weight = NULL,
+                    hra_compltd_dt = NULL,
+                    isa10008 = NULL,
+                    isa1006 = NULL,
+                    isa13021 = NULL,
+                    isa13022 = NULL,
+                    isa13023 = NULL,
+                    isa13040 = NULL,
+                    isa16010 = NULL,
+                    isa16016 = NULL,
+                    isa16040 = NULL,
+                    isa17001 = NULL,
+                    isa17015 = NULL,
+                    isa17021 = NULL,
+                    isa17023 = NULL,
+                    isa18015 = NULL,
+                    isa19004 = NULL,
+                    isa19005 = NULL,
+                    isa20061 = NULL,
+                    isa20064 = NULL,
+                    isa20069 = NULL,
+                    isa20072 = NULL,
+                    isa21001 = NULL,
+                    isa21003 = NULL,
+                    isa21009 = NULL,
+                    isa21015 = NULL,
+                    isa21020 = NULL,
+                    isa21021 = NULL,
+                    isa21025 = NULL,
+                    isa3010 = NULL,
+                    isa5001 = NULL,
+                    isa5004 = NULL,
+                    isa5010 = NULL,
+                    isa5018 = NULL,
+                    isa7018 = NULL,
+                    isa8016 = NULL,
+                    isa9009 = NULL,
+                    isa9063 = NULL,
+                    extract_ym = NULL,
+                    version = NULL)                    
+{
+  defaults <- get('hra', envir = defaultValues)  
+  assign(name, defaults[name][[1]])
+
   insertFields <- c()
   insertValues <- c()
   if (missing(patid)) {
@@ -4008,7 +4065,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, patid)
   }
   
-  if (missing(h_bmi)) {
+  if (is.null(h_bmi)) {
     h_bmi <- defaults$h_bmi
   }
   if (!is.null(h_bmi)) {
@@ -4016,7 +4073,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, h_bmi)
   }
   
-  if (missing(h_bsa)) {
+  if (is.null(h_bsa)) {
     h_bsa <- defaults$h_bsa
   }
   if (!is.null(h_bsa)) {
@@ -4024,7 +4081,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, h_bsa)
   }
   
-  if (missing(h_chronic_pain)) {
+  if (is.null(h_chronic_pain)) {
     h_chronic_pain <- defaults$h_chronic_pain
   }
   if (!is.null(h_chronic_pain)) {
@@ -4032,7 +4089,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, h_chronic_pain)
   }
   
-  if (missing(h_height)) {
+  if (is.null(h_height)) {
     h_height <- defaults$h_height
   }
   if (!is.null(h_height)) {
@@ -4040,7 +4097,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, h_height)
   }
   
-  if (missing(h_smoking_status)) {
+  if (is.null(h_smoking_status)) {
     h_smoking_status <- defaults$h_smoking_status
   }
   if (!is.null(h_smoking_status)) {
@@ -4048,7 +4105,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, h_smoking_status)
   }
   
-  if (missing(h_weight)) {
+  if (is.null(h_weight)) {
     h_weight <- defaults$h_weight
   }
   if (!is.null(h_weight)) {
@@ -4056,7 +4113,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, h_weight)
   }
   
-  if (missing(hra_compltd_dt)) {
+  if (is.null(hra_compltd_dt)) {
     hra_compltd_dt <- defaults$hra_compltd_dt
   }
   if (!is.null(hra_compltd_dt)) {
@@ -4064,7 +4121,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, hra_compltd_dt)
   }
   
-  if (missing(isa10008)) {
+  if (is.null(isa10008)) {
     isa10008 <- defaults$isa10008
   }
   if (!is.null(isa10008)) {
@@ -4072,7 +4129,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa10008)
   }
   
-  if (missing(isa1006)) {
+  if (is.null(isa1006)) {
     isa1006 <- defaults$isa1006
   }
   if (!is.null(isa1006)) {
@@ -4080,7 +4137,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa1006)
   }
   
-  if (missing(isa13021)) {
+  if (is.null(isa13021)) {
     isa13021 <- defaults$isa13021
   }
   if (!is.null(isa13021)) {
@@ -4088,7 +4145,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa13021)
   }
   
-  if (missing(isa13022)) {
+  if (is.null(isa13022)) {
     isa13022 <- defaults$isa13022
   }
   if (!is.null(isa13022)) {
@@ -4096,7 +4153,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa13022)
   }
   
-  if (missing(isa13023)) {
+  if (is.null(isa13023)) {
     isa13023 <- defaults$isa13023
   }
   if (!is.null(isa13023)) {
@@ -4104,7 +4161,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa13023)
   }
   
-  if (missing(isa13040)) {
+  if (is.null(isa13040)) {
     isa13040 <- defaults$isa13040
   }
   if (!is.null(isa13040)) {
@@ -4112,7 +4169,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa13040)
   }
   
-  if (missing(isa16010)) {
+  if (is.null(isa16010)) {
     isa16010 <- defaults$isa16010
   }
   if (!is.null(isa16010)) {
@@ -4120,7 +4177,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa16010)
   }
   
-  if (missing(isa16016)) {
+  if (is.null(isa16016)) {
     isa16016 <- defaults$isa16016
   }
   if (!is.null(isa16016)) {
@@ -4128,7 +4185,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa16016)
   }
   
-  if (missing(isa16040)) {
+  if (is.null(isa16040)) {
     isa16040 <- defaults$isa16040
   }
   if (!is.null(isa16040)) {
@@ -4136,7 +4193,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa16040)
   }
   
-  if (missing(isa17001)) {
+  if (is.null(isa17001)) {
     isa17001 <- defaults$isa17001
   }
   if (!is.null(isa17001)) {
@@ -4144,7 +4201,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa17001)
   }
   
-  if (missing(isa17015)) {
+  if (is.null(isa17015)) {
     isa17015 <- defaults$isa17015
   }
   if (!is.null(isa17015)) {
@@ -4152,7 +4209,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa17015)
   }
   
-  if (missing(isa17021)) {
+  if (is.null(isa17021)) {
     isa17021 <- defaults$isa17021
   }
   if (!is.null(isa17021)) {
@@ -4160,7 +4217,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa17021)
   }
   
-  if (missing(isa17023)) {
+  if (is.null(isa17023)) {
     isa17023 <- defaults$isa17023
   }
   if (!is.null(isa17023)) {
@@ -4168,7 +4225,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa17023)
   }
   
-  if (missing(isa18015)) {
+  if (is.null(isa18015)) {
     isa18015 <- defaults$isa18015
   }
   if (!is.null(isa18015)) {
@@ -4176,7 +4233,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa18015)
   }
   
-  if (missing(isa19004)) {
+  if (is.null(isa19004)) {
     isa19004 <- defaults$isa19004
   }
   if (!is.null(isa19004)) {
@@ -4184,7 +4241,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa19004)
   }
   
-  if (missing(isa19005)) {
+  if (is.null(isa19005)) {
     isa19005 <- defaults$isa19005
   }
   if (!is.null(isa19005)) {
@@ -4192,7 +4249,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa19005)
   }
   
-  if (missing(isa20061)) {
+  if (is.null(isa20061)) {
     isa20061 <- defaults$isa20061
   }
   if (!is.null(isa20061)) {
@@ -4200,7 +4257,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa20061)
   }
   
-  if (missing(isa20064)) {
+  if (is.null(isa20064)) {
     isa20064 <- defaults$isa20064
   }
   if (!is.null(isa20064)) {
@@ -4208,7 +4265,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa20064)
   }
   
-  if (missing(isa20069)) {
+  if (is.null(isa20069)) {
     isa20069 <- defaults$isa20069
   }
   if (!is.null(isa20069)) {
@@ -4216,7 +4273,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa20069)
   }
   
-  if (missing(isa20072)) {
+  if (is.null(isa20072)) {
     isa20072 <- defaults$isa20072
   }
   if (!is.null(isa20072)) {
@@ -4224,7 +4281,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa20072)
   }
   
-  if (missing(isa21001)) {
+  if (is.null(isa21001)) {
     isa21001 <- defaults$isa21001
   }
   if (!is.null(isa21001)) {
@@ -4232,7 +4289,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa21001)
   }
   
-  if (missing(isa21003)) {
+  if (is.null(isa21003)) {
     isa21003 <- defaults$isa21003
   }
   if (!is.null(isa21003)) {
@@ -4240,7 +4297,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa21003)
   }
   
-  if (missing(isa21009)) {
+  if (is.null(isa21009)) {
     isa21009 <- defaults$isa21009
   }
   if (!is.null(isa21009)) {
@@ -4248,7 +4305,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa21009)
   }
   
-  if (missing(isa21015)) {
+  if (is.null(isa21015)) {
     isa21015 <- defaults$isa21015
   }
   if (!is.null(isa21015)) {
@@ -4256,7 +4313,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa21015)
   }
   
-  if (missing(isa21020)) {
+  if (is.null(isa21020)) {
     isa21020 <- defaults$isa21020
   }
   if (!is.null(isa21020)) {
@@ -4264,7 +4321,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa21020)
   }
   
-  if (missing(isa21021)) {
+  if (is.null(isa21021)) {
     isa21021 <- defaults$isa21021
   }
   if (!is.null(isa21021)) {
@@ -4272,7 +4329,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa21021)
   }
   
-  if (missing(isa21025)) {
+  if (is.null(isa21025)) {
     isa21025 <- defaults$isa21025
   }
   if (!is.null(isa21025)) {
@@ -4280,7 +4337,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa21025)
   }
   
-  if (missing(isa3010)) {
+  if (is.null(isa3010)) {
     isa3010 <- defaults$isa3010
   }
   if (!is.null(isa3010)) {
@@ -4288,7 +4345,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa3010)
   }
   
-  if (missing(isa5001)) {
+  if (is.null(isa5001)) {
     isa5001 <- defaults$isa5001
   }
   if (!is.null(isa5001)) {
@@ -4296,7 +4353,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa5001)
   }
   
-  if (missing(isa5004)) {
+  if (is.null(isa5004)) {
     isa5004 <- defaults$isa5004
   }
   if (!is.null(isa5004)) {
@@ -4304,7 +4361,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa5004)
   }
   
-  if (missing(isa5010)) {
+  if (is.null(isa5010)) {
     isa5010 <- defaults$isa5010
   }
   if (!is.null(isa5010)) {
@@ -4312,7 +4369,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa5010)
   }
   
-  if (missing(isa5018)) {
+  if (is.null(isa5018)) {
     isa5018 <- defaults$isa5018
   }
   if (!is.null(isa5018)) {
@@ -4320,7 +4377,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa5018)
   }
   
-  if (missing(isa7018)) {
+  if (is.null(isa7018)) {
     isa7018 <- defaults$isa7018
   }
   if (!is.null(isa7018)) {
@@ -4328,7 +4385,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa7018)
   }
   
-  if (missing(isa8016)) {
+  if (is.null(isa8016)) {
     isa8016 <- defaults$isa8016
   }
   if (!is.null(isa8016)) {
@@ -4336,7 +4393,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa8016)
   }
   
-  if (missing(isa9009)) {
+  if (is.null(isa9009)) {
     isa9009 <- defaults$isa9009
   }
   if (!is.null(isa9009)) {
@@ -4344,7 +4401,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa9009)
   }
   
-  if (missing(isa9063)) {
+  if (is.null(isa9063)) {
     isa9063 <- defaults$isa9063
   }
   if (!is.null(isa9063)) {
@@ -4352,7 +4409,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, isa9063)
   }
   
-  if (missing(extract_ym)) {
+  if (is.null(extract_ym)) {
     extract_ym <- defaults$extract_ym
   }
   if (!is.null(extract_ym)) {
@@ -4360,7 +4417,7 @@ add_hra <- function(patid, h_bmi, h_bsa, h_chronic_pain, h_height, h_smoking_sta
     insertValues <- c(insertValues, extract_ym)
   }
   
-  if (missing(version)) {
+  if (is.null(version)) {
     version <- defaults$version
   }
   if (!is.null(version)) {

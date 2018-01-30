@@ -123,4 +123,40 @@ createObservationTests <- function()
   expect_visit_occurrence(person_id = patient$person_id, visit_concept_id = 9202)
   expect_observation(person_id = patient$person_id, observation_source_value = 'E001')
 
+  
+  hraMappings <- read.csv(file = "inst/csv/hra_mappings.csv", header = TRUE)
+  
+  apply(X = hraMappings, MARGIN = 1, function(mapping)
+  {
+    patient <- createPatient()
+    claim <- createClaim()
+    fieldName <- as.character(tolower(mapping["HRA_FIELD"][[1]]))
+    declareTest(sprintf("Patient has HRA record: %s", fieldName),
+                source_pid = patient$patid, cdm_pid = patient$person_id)
+    add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
+                      gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
+    
+    defaults <- get_defaults_hra()
+    
+    add_hra(patid = patient$patid,
+            name = fieldName)
+
+   
+    if (mapping["DOMAIN_ID"] == "Measurement")
+    {
+      expect_measurement(person_id = patient$person_id,
+                         measurement_concept_id = mapping["CONCEPT_ID"],
+                         value_as_number = defaults[fieldName][[1]],
+                         value_source_value = defaults[fieldName][[1]],
+                         unit_concept_id = mapping["UNIT_CONCEPT_ID"],
+                         unit_source_value = mapping["UNIT_SOURCE_VALUE"])
+    }
+    else
+    {
+      expect_observation(person_id = patient$person_id, 
+                         observation_concept_id = mapping["CONCEPT_ID"],
+                         value_as_string = mapping["VALUE_AS_STRING_VALUE"])
+    }
+  })
+  
 }

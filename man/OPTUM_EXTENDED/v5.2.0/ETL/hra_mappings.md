@@ -1,5 +1,7 @@
 **For all HRA records, set observation_source_value / measurement_source_value to the column description provided by Optum's data dictionary**
 
+As the source values can exceed the 50 character max defined in the CDM, we suggest extending the field to 500 characters and truncating any excess characters.
+
 **HRA field**|**Domain**|**Concept Id**|**Type Concept Id**|**Value as Number**|**Value as String / Value Source Value**|**Unit Concept Id**|**Unit Source Value**|**Source Value**
 :-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
 H_BMI|Measurement|3038553|44786633| H_BMI | H_BMI |9531 | NULL|HEOR defined BMI 

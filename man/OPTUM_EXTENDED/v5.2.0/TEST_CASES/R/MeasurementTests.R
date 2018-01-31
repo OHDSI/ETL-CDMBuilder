@@ -68,7 +68,8 @@ createMeasurementTests <- function()
   declareTest("Patient has measurement value (sourced from lab_result rslt_nbr)", source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
-  add_lab_results(labclmid = claim$clmid, fst_dt = '2013-07-01', pat_planid = patient$patid, patid = patient$patid, loinc_cd = '22962-5', rslt_nbr = 1000)
+  add_lab_results(labclmid = claim$clmid, fst_dt = '2013-07-01', pat_planid = patient$patid, patid = patient$patid, loinc_cd = '22962-5', 
+                  rslt_nbr = 1000)
   expect_measurement(person_id = patient$person_id, value_as_number = 1000, measurement_concept_id = 3012939)
   
   
@@ -334,4 +335,47 @@ createMeasurementTests <- function()
                   rslt_nbr = 1000, low_nrml = 10, hi_nrml = 100)
   expect_measurement(person_id = patient$person_id, range_low = 10, range_high = 100)
   
+  jnjUnits <- read.delim(file = "inst/csv/jnj_units.txt", header = FALSE, sep = "\t")
+  colnames(jnjUnits) <- c("SOURCE_CODE", "SOURCE_CONCEPT_ID", "SOURCE_VOCABULARY_ID", "SOURCE_CODE_DESCRIPTION", 
+                          "TARGET_CONCEPT_ID", "TARGET_VOCABULARY_ID", "VALID_START_DATE", "VALID_END_DATE")
+  
+  
+  apply(X = jnjUnits, MARGIN = 1, function(jnjUnit)
+  {
+    patient <- createPatient()
+    claim <- createClaim()
+    declareTest(sprintf("JNJ Units: Patient has source unit: %s", jnjUnit["SOURCE_CODE"]), 
+                source_pid = patient$patid, cdm_pid = patient$person_id)
+    add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
+                      gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
+    add_lab_results(labclmid = claim$clmid, fst_dt = '2013-07-01', pat_planid = patient$patid, patid = patient$patid, loinc_cd = '22962-5', 
+                    rslt_nbr = 1000, rslt_unit_nm = jnjUnit["SOURCE_CODE"])
+    expect_measurement(person_id = patient$person_id, unit_concept_id = jnjUnit["TARGET_CONCEPT_ID"], unit_source_value = jnjUnit["SOURCE_CODE"])
+  })
+  
+  hraMappings <- read.csv(file = "inst/csv/hra_mappings.csv", header = TRUE)
+  
+  apply(X = hraMappings[hraMappings$DOMAIN_ID == "Measurement", ], MARGIN = 1, function(mapping)
+  {
+    patient <- createPatient()
+    claim <- createClaim()
+    fieldName <- as.character(tolower(mapping["HRA_FIELD"][[1]]))
+    declareTest(sprintf("Patient has HRA record: %s", fieldName),
+                source_pid = patient$patid, cdm_pid = patient$person_id)
+    add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
+                      gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
+    
+    defaults <- get_defaults_hra()
+    
+    add_hra(patid = patient$patid,
+            name = fieldName, hra_compltd_dt = '2012-12-31')
+    
+    expect_measurement(person_id = patient$person_id,
+                       measurement_concept_id = mapping["CONCEPT_ID"],
+                       value_as_number = defaults[fieldName][[1]],
+                       value_source_value = defaults[fieldName][[1]],
+                       unit_concept_id = mapping["UNIT_CONCEPT_ID"],
+                       unit_source_value = mapping["UNIT_SOURCE_VALUE"])
+  })
 }
+

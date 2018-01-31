@@ -126,7 +126,7 @@ createObservationTests <- function()
   
   hraMappings <- read.csv(file = "inst/csv/hra_mappings.csv", header = TRUE)
   
-  apply(X = hraMappings, MARGIN = 1, function(mapping)
+  apply(X = hraMappings[hraMappings$DOMAIN_ID == "Observation", ], MARGIN = 1, function(mapping)
   {
     patient <- createPatient()
     claim <- createClaim()
@@ -139,24 +139,17 @@ createObservationTests <- function()
     defaults <- get_defaults_hra()
     
     add_hra(patid = patient$patid,
-            name = fieldName)
+            name = fieldName, hra_compltd_dt = '2012-12-31')
 
-   
-    if (mapping["DOMAIN_ID"] == "Measurement")
-    {
-      expect_measurement(person_id = patient$person_id,
-                         measurement_concept_id = mapping["CONCEPT_ID"],
-                         value_as_number = defaults[fieldName][[1]],
-                         value_source_value = defaults[fieldName][[1]],
-                         unit_concept_id = mapping["UNIT_CONCEPT_ID"],
-                         unit_source_value = mapping["UNIT_SOURCE_VALUE"])
-    }
-    else
-    {
-      expect_observation(person_id = patient$person_id, 
+    expect_observation(person_id = patient$person_id, 
                          observation_concept_id = mapping["CONCEPT_ID"],
                          value_as_string = mapping["VALUE_AS_STRING_VALUE"])
-    }
   })
   
+  patient <- createPatient()
+  claim <- createClaim()
+  declareTest("Patient has observation source value of 000", 
+              source_pid = patient$patid, cdm_pid = patient$person_id)
+  add_lab_results(pat_planid = patient$patid, patid = patient$patid, loinc_cd = '000', fst_dt = '2013-07-01')
+  expect_no_observation(person_id = patient$person_id)
 }

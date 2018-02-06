@@ -40,3 +40,68 @@ https://jnj.sharepoint.com/teams/epi/Shared%20Documents/Epi%20Analytics/CDM/Spri
 	
 --It looks like many HCPCs picked up some new maps like "paroxetine hydrochloride 20mg/1 ORAL TABLET, FILM COATED [paroxetine]" now gets mapped to a CONCEPT_ID where it was mapped to 0 before.
 
+*******************************************************************************
+* OPTUM PANTHER
+*******************************************************************************
+1) HIX-1444
+Converted our Optum Oncology Builder to work on Optum Panther and converted
+to CDM v5.2.0.  
+
+*******************************************************************************
+* PREMIER
+*******************************************************************************
+1) HIX-1421
+Converted Premier to V5.2.0.
+
+Major changes:
+1) drug_exposure_end_date is now required, please set as drug_exposure_start_date.
+
+2) DRG information no longer moves to the observation table, now DRG information 
+moves to the cost table. Remove logic that moves DRG info the observation table, 
+replace with logic that moves DRG information to cost table. Note we’re only moving 
+info from pat.ms_drg and not from pat.ms_drg_mdc.
+
+3) Admitting and discharge information added to VISIT_OCCURRENCE table. Admitting 
+and discharge mapping is hardcoded for now.
+
+4) ER -> inpatient stay now captured with VISIT_OCCURRENCE.VISIT_CONCEPT_ID = 262
+
+5) Time (days) between visits captured in READMIT.TIME_FROM_PRIOR. Please use 
+TIME_FROM_PRIOR as the number of days between VISIT_OCCURRENCE.VISIT_END_DATE and 
+VISIT_OCCURRENCE.VISIT_START_DATE of subsequent visit. Anton Ivanov, please let me 
+know if this will compromise the Premier visit occurrence logic, which is tricky 
+to begin with.
+
+Minor changes:
+1) Adding _DATETIME columns
+2) Adding some new columns which will be set as NULL
+
+*******************************************************************************
+* CPRD
+*******************************************************************************
+
+
+*******************************************************************************
+* OPTUM EXTENDED SES / DOD
+*******************************************************************************
+
+*******************************************************************************
+* TRUVEN CCAE / MDCD / MDCR
+*******************************************************************************
+
+*******************************************************************************
+* CERNER
+*******************************************************************************
+
+*******************************************************************************
+* HCUP
+*******************************************************************************
+
+*******************************************************************************
+* IMS Australia / IMS France / IMS Germany
+*******************************************************************************
+1) Received updated CDMs from vendor.
+
+*******************************************************************************
+* JMDC
+*******************************************************************************

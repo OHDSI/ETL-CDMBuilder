@@ -79,23 +79,53 @@ Minor changes:
 *******************************************************************************
 * CPRD
 *******************************************************************************
-
+1) HIX-1413
+Converted CPRD to V5.2.0.
 
 *******************************************************************************
 * OPTUM EXTENDED SES / DOD
 *******************************************************************************
+1) HIX-1014
+Bringing in HRA data
+
+2) HIX-1394
+Eliminate '000' accidenatly adding to OBSERVATION from DRG
 
 *******************************************************************************
 * TRUVEN CCAE / MDCD / MDCR
 *******************************************************************************
+1) HIX-1183 / HIX-1419
+Case sensitivity issue with units and using JNJ_UNITS vocabulary when UCUM fails
+
+2) HIX-1433 / HIX-1430
+Adding DRUG_EXPOSURE_END_DATE for HRA drugs and when days supply is NULL
+
+3) HIX-1431
+DRUG Mapping
+
+4) HIX-1429
+Setting DISCHARGE_TO_CONCEPT_ID
+
+5) HIX-1418
+Sometimes weight padded with 0000
+
+6) HIX-1415
+Coverted TRUVENs to V5.2.0
+
 
 *******************************************************************************
 * CERNER
 *******************************************************************************
+1) Initial release of CERNER
 
 *******************************************************************************
 * HCUP
 *******************************************************************************
+1) HIX-1422
+Converted HCUP to V5.2.0.
+
+2) HIX-1417
+Drop people >110 years of age
 
 *******************************************************************************
 * IMS Australia / IMS France / IMS Germany
@@ -105,3 +135,5 @@ Minor changes:
 *******************************************************************************
 * JMDC
 *******************************************************************************
+1) Not using new data yet, vendor changed raw data so much that we could not
+adapt CDM_BUILDER in time.  Will release with updated data in future.

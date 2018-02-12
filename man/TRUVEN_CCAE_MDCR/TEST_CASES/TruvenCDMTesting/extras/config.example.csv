@@ -1,0 +1,2 @@
+dbms,user,pw,server,port,raw_db,raw,cdm_db,cdm
+"sql server","USER","PW","SERVER",1234,"RAW_DB","RAW","CDM_DB","CDM"

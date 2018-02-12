@@ -1,0 +1,16 @@
+Package: CernerTesting
+Type: Package
+Title: Cerner Healthfacts Test Cases
+Version: 0.1.0
+Author: Clair Blacketer, Jill Hardin, Laura Hester
+Maintainer: Clair Blacketer <mblacke@its.jnj.com>
+Description: This package is intended to create and run test cases for the Cerner Healthfacts CDM
+License: Apache License 2.0
+Encoding: UTF-8
+LazyData: true
+VignetteBuilder: knitr
+Imports: 
+  SqlRender, 
+  DatabaseConnector
+NeedsCompilation: no
+RoxygenNote: 6.0.1

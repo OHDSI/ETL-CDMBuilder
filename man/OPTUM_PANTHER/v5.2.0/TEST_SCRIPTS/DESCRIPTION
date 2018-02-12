@@ -1,0 +1,14 @@
+Package: OptumPantherTests
+Type: Package
+Title: Configures Test Cases for Optum Pan-Therapeutic EHR
+Version: 0.1.0
+Author: Anthony Sena
+Maintainer: Anthony Sena <asena5@its.jnj.com>
+Description: Executes test case inserts and validates results.
+License: None
+LazyData: TRUE
+Depends:
+    SqlRender,
+    DatabaseConnector
+Roxygen: list(wrap = TRUE)
+RoxygenNote: 5.2.0

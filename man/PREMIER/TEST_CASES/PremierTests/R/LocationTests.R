@@ -1,4 +1,0 @@
-createLocationTests <- function () {
-
-
-}

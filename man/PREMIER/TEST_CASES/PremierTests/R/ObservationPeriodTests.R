@@ -1,3 +1,0 @@
-createObservationPeriodTests <- function () {
-
-}

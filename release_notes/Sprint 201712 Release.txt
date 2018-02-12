@@ -1,0 +1,22 @@
+*******************************************************************************
+* Optum Extended SES
+*******************************************************************************
+1) HIX-1411
+Issue with underlying raw data where swapped keys in the lab data caused for a
+bad CDM build.
+
+*******************************************************************************
+* Optum Integrated & Optum EHR Only
+*******************************************************************************
+1) HIX-1365
+Retiring these CDMs this month
+
+*******************************************************************************
+* General Updates
+*******************************************************************************
+1) HIX-1372 & HIX-1390
+Properly populating the GAP_DAYs in DRUG_ERA.  The fix is implemented in BUILDER
+but will not appear in the data until rerun.
+
+2) HIX-1412
+Populated updated CDM definitions with the CDM_SOURCE table of the CDM.

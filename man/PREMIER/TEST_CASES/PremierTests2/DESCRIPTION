@@ -1,0 +1,14 @@
+Package: PremierTests
+Type: Package
+Title: Configures Test Cases for Premier
+Version: 0.1.0
+Author: Chris Knoll
+Maintainer: Chris Knoll <cknoll1@its.jnj.com>
+Description: Executes test case inserts and validates results.
+License: None
+LazyData: TRUE
+Depends:
+    SqlRender,
+    DatabaseConnector
+Roxygen: list(wrap = TRUE)
+RoxygenNote: 6.0.1

@@ -3,7 +3,7 @@ createDeviceExposureTests <- function () {
   # PATBILL.STD_CHG_CODE
   patient <- createPatient();
   visit <- createVisit();
-  declareTest(description="STD_CHG_CODE record to device_exposure table", source_pid=patient$medrec_key, cdm_pid = patient$person_id);
+  declareTest(description="STD_CHG_CODE record to device_exposure table", id = patient$person_id);
   add_pat(medrec_key   = patient$medrec_key,
           pat_key      = visit$pat_key,
           adm_date     = "2011-11-01",
@@ -20,7 +20,7 @@ createDeviceExposureTests <- function () {
   # PATICD_DIAG.ICD_CODE ICD10CM
   patient <- createPatient();
   visit <- createVisit();
-  declareTest(description="ICD10CM record from PATICD_DIAG to device_exposure table", source_pid=patient$medrec_key, cdm_pid = patient$person_id);
+  declareTest(description="ICD10CM record from PATICD_DIAG to device_exposure table", id = patient$person_id);
   add_pat(medrec_key   = patient$medrec_key,
           pat_key      = visit$pat_key,
           adm_date     = "2007-08-01",
@@ -40,7 +40,7 @@ createDeviceExposureTests <- function () {
   # PATICD_PROC.ICD_CODE ICD10CM
   patient <- createPatient();
   visit <- createVisit();
-  declareTest(description="ICD10CM record from PATICD_PROC to device_exposure table", source_pid=patient$medrec_key, cdm_pid = patient$person_id);
+  declareTest(description="ICD10CM record from PATICD_PROC to device_exposure table", id = patient$person_id);
   add_pat(medrec_key   = patient$medrec_key,
           pat_key      = visit$pat_key,
           adm_date     = "2004-03-01",
@@ -60,7 +60,7 @@ createDeviceExposureTests <- function () {
   # PATCPT.CPT_CODE HCPCS
   patient <- createPatient();
   visit <- createVisit();
-  declareTest(description="HCPCS record to device_exposure table", source_pid=patient$medrec_key, cdm_pid = patient$person_id);
+  declareTest(description="HCPCS record to device_exposure table", id = patient$person_id);
   add_pat(medrec_key   = patient$medrec_key,
           pat_key      = visit$pat_key,
           adm_date     = "2012-04-01",

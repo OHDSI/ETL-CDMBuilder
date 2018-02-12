@@ -11,4 +11,4 @@ Depends:
     SqlRender,
     DatabaseConnector
 Roxygen: list(wrap = TRUE)
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

@@ -3,7 +3,7 @@ createMeasurementTests <- function () {
   # PATCPT.CPT_CODE CPT4
   patient <- createPatient();
   visit <- createVisit();
-  declareTest(description="CPT4 record to measurement table", source_pid=patient$medrec_key, cdm_pid = patient$person_id);
+  declareTest(description="CPT4 record to measurement table", id = patient$person_id);
   add_pat(medrec_key   = patient$medrec_key,
           pat_key      = visit$pat_key,
           adm_date     = "2004-11-01",
@@ -22,7 +22,7 @@ createMeasurementTests <- function () {
   # PATCPT.CPT_CODE HCPCS
   patient <- createPatient();
   visit <- createVisit();
-  declareTest(description="HCPCS record to measurement table", source_pid=patient$medrec_key, cdm_pid = patient$person_id);
+  declareTest(description="HCPCS record to measurement table", id = patient$person_id);
   add_pat(medrec_key   = patient$medrec_key,
           pat_key      = visit$pat_key,
           adm_date     = "2012-08-01",
@@ -41,7 +41,7 @@ createMeasurementTests <- function () {
   # PATBILL.STD_CHG_CODE
   patient <- createPatient();
   visit <- createVisit();
-  declareTest(description="STD_CHG_CODE record to measurement table with date logic and source value", source_pid=patient$medrec_key, cdm_pid = patient$person_id);
+  declareTest(description="STD_CHG_CODE record to measurement table with date logic and source value", id = patient$person_id);
   add_pat(medrec_key   = patient$medrec_key,
           pat_key      = visit$pat_key,
           adm_date     = "2013-07-01",
@@ -57,14 +57,14 @@ createMeasurementTests <- function () {
               std_chg_desc = "SED RATE RBC AUTO");
   expect_measurement(person_id                = patient$person_id,
                      visit_occurrence_id      = visit$visit_occurrence_id,
-                     measurement_concept_id   = 3002864,
+                     measurement_concept_id   = 2212737,
                      measurement_date         = "2013-07-03",
                      measurement_source_value = "SED RATE RBC AUTO / SEDIMENTATION RATE")
 
   # PATICD_DIAG.ICD_CODE ICD9CM
   patient <- createPatient();
   visit <- createVisit();
-  declareTest(description="ICD9CM record from PATICD_DIAG to measurement table", source_pid=patient$medrec_key, cdm_pid = patient$person_id);
+  declareTest(description="ICD9CM record from PATICD_DIAG to measurement table", id = patient$person_id);
   add_pat(medrec_key   = patient$medrec_key,
           pat_key      = visit$pat_key,
           adm_date     = "2009-12-01",
@@ -73,18 +73,18 @@ createMeasurementTests <- function () {
   add_patbill(pat_key  = visit$pat_key,
               serv_day = 1);
   add_paticd_diag(pat_key     = visit$pat_key,
-                  icd_code    = "V85.42",
+                  icd_code    = "796.0",
                   icd_version = 9);
   expect_measurement(person_id                = patient$person_id,
                      visit_occurrence_id      = visit$visit_occurrence_id,
-                     measurement_concept_id   = 4060985,
+                     measurement_concept_id   = 4195512,
                      measurement_date         = "2009-12-01",
-                     measurement_source_value = "V85.42");
+                     measurement_source_value = "796.0");
 
   # PATICD_DIAG.ICD_CODE ICD10CM
   patient <- createPatient();
   visit <- createVisit();
-  declareTest(description="ICD10CM record from PATICD_DIAG to measurement table", source_pid=patient$medrec_key, cdm_pid = patient$person_id);
+  declareTest(description="ICD10CM record from PATICD_DIAG to measurement table", id = patient$person_id);
   add_pat(medrec_key   = patient$medrec_key,
           pat_key      = visit$pat_key,
           adm_date     = "2009-10-01",
@@ -93,19 +93,18 @@ createMeasurementTests <- function () {
   add_patbill(pat_key  = visit$pat_key,
               serv_day = 1);
   add_paticd_diag(pat_key     = visit$pat_key,
-                  icd_code    = "Z68.3",
+                  icd_code    = "Z01.83",
                   icd_version = 10);
   expect_measurement(person_id                = patient$person_id,
                      visit_occurrence_id      = visit$visit_occurrence_id,
-                     measurement_concept_id   = 4060985,
+                     measurement_concept_id   = 4258677,
                      measurement_date         = "2009-10-01",
-                     measurement_source_value = "Z68.3");
+                     measurement_source_value = "Z01.83");
 
   # procedure operation time tests
   patient <- createPatient();
   visit <- createVisit();
-  declareTest(description="PATICD_PROC record with procedure time",
-              source_pid=patient$medrec_key, cdm_pid = patient$person_id);
+  declareTest(description="PATICD_PROC record with procedure time", id = patient$person_id);
   add_pat(medrec_key   = patient$medrec_key,
           pat_key      = visit$pat_key,
           adm_date     = "2010-01-01",
@@ -162,8 +161,7 @@ createMeasurementTests <- function () {
 
   patient <- createPatient();
   visit <- createVisit();
-  declareTest(description="PATICD_PROC record, procedure time on wrong day, no measurement",
-              source_pid=patient$medrec_key, cdm_pid = patient$person_id);
+  declareTest(description="PATICD_PROC record, procedure time on wrong day, no measurement", id = patient$person_id);
   add_pat(medrec_key   = patient$medrec_key,
           pat_key      = visit$pat_key,
           adm_date     = "2010-01-01",
@@ -172,11 +170,11 @@ createMeasurementTests <- function () {
   add_patbill(pat_key      = visit$pat_key,
               serv_day     = 8,
               std_qty      = 1,
-              std_chg_code = as.numeric(Sys.getenv("std_chg_code_12"))); #OR MAJOR 2 HR 30 MIN, i.e. 1 * 150 MINS
+              std_chg_code = as.numeric(Sys.getenv("std_chg_code_10"))); #OR MAJOR 2 HR 30 MIN, i.e. 1 * 150 MINS
   add_patbill(pat_key      = visit$pat_key,
               serv_day     = 8,
               std_qty      = 4,
-              std_chg_code = as.numeric(Sys.getenv("std_chg_code_13"))); #OR MINOR ADDL 30 MIN, i.e. 4 * 30 MINS
+              std_chg_code = as.numeric(Sys.getenv("std_chg_code_11"))); #OR MINOR ADDL 30 MIN, i.e. 4 * 30 MINS
   add_paticd_proc(pat_key     = visit$pat_key,
                   proc_day    = 5,
                   icd_code    = "33.51",

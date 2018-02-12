@@ -1,9 +1,10 @@
-createDrugExposureTests <- function () {
+createDrugExposureTests <- function ()
+{
 
   # PATCPT.CPT_CODE HCPCS
   patient <- createPatient();
   visit <- createVisit();
-  declareTest(description="HCPCS record to drug_exposure table", source_pid=patient$medrec_key, cdm_pid = patient$person_id);
+  declareTest(description="HCPCS record to drug_exposure table", id = patient$person_id);
   add_pat(medrec_key   = patient$medrec_key,
           pat_key      = visit$pat_key,
           adm_date     = "2010-04-01",
@@ -22,7 +23,7 @@ createDrugExposureTests <- function () {
   # PATCPT.CPT_CODE CPT4
   patient <- createPatient();
   visit <- createVisit();
-  declareTest(description="CPT4 record to drug_exposure table", source_pid=patient$medrec_key, cdm_pid = patient$person_id);
+  declareTest(description="CPT4 record to drug_exposure table", id = patient$person_id);
   add_pat(medrec_key   = patient$medrec_key,
           pat_key      = visit$pat_key,
           adm_date     = "2010-06-01",
@@ -42,7 +43,7 @@ createDrugExposureTests <- function () {
   patient <- createPatient();
   visit1 <- createVisit();
   visit2 <- createVisit();
-  declareTest(description="STD_CHG_CODE record to drug_exposure table with date logic", source_pid=patient$medrec_key, cdm_pid = patient$person_id);
+  declareTest(description="STD_CHG_CODE record to drug_exposure table with date logic", id = patient$person_id);
   add_pat(medrec_key   = patient$medrec_key,
           pat_key      = visit1$pat_key,
           adm_date     = "2011-08-01",
@@ -62,7 +63,27 @@ createDrugExposureTests <- function () {
               serv_day     = 11);
   expect_drug_exposure(person_id                = patient$person_id,
                        visit_occurrence_id      = visit2$visit_occurrence_id,
-                       drug_concept_id          = 19045159,
+                       drug_concept_id          = 1100333,
                        drug_exposure_start_date = "2011-08-14")
+
+  # drug_exposure_end_date required
+  patient <- createPatient();
+  visit <- createVisit();
+  declareTest(description="drug_exposure_end_date required, set as drug_exposure_start_date", id = patient$person_id);
+  add_pat(medrec_key   = patient$medrec_key,
+          pat_key      = visit$pat_key,
+          adm_date     = "2010-04-01",
+          disc_date    = "2010-04-01",
+          disc_mon_seq = 1);
+  add_patbill(pat_key  = visit$pat_key,
+              serv_day = 1);
+  add_patcpt(pat_key  = visit$pat_key,
+             cpt_code = "J9310");
+  expect_drug_exposure(person_id                = patient$person_id,
+                       visit_occurrence_id      = visit$visit_occurrence_id,
+                       drug_concept_id          = 46275076,
+                       drug_exposure_start_date = "2010-04-01",
+                       drug_exposure_end_date   = "2010-04-01",
+                       drug_source_value        = "J9310");
 
 }

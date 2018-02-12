@@ -1,0 +1,174 @@
+source_code,source_code_description,freq
+NULL,NULL,9769557
+,,1784498
+Not Mapped,Not Mapped,344160
+Not a Medical Speciality,Not a Medical Speciality,297872
+Family/General Practice,Family/General Practice,130350
+Internal Medicine,Internal Medicine,113066
+Undefined / Unknown,Undefined / Unknown,63755
+Other,Other,63147
+Pediatrics,Pediatrics,59084
+Emergency/Trauma,Emergency/Trauma,39762
+Radiology,Radiology,36014
+DCPTEAM,DCPTEAM,35192
+Obstetrics and Gynecology,Obstetrics and Gynecology,32470
+"Surgery, General","Surgery, General",31648
+Anesthesiology,Anesthesiology,30697
+Orthopedics,Orthopedics,29336
+Cardiology,Cardiology,27532
+Psychiatry,Psychiatry,22023
+Radiologist,Radiologist,19661
+Neurology,Neurology,17930
+Gastroenterology,Gastroenterology,16592
+Ophthalmology,Ophthalmology,15056
+Urology,Urology,14215
+Family Practice,Family Practice,11336
+Student,Student,10230
+Otolaryngology,Otolaryngology,10085
+Gynecology,Gynecology,9751
+Obstetrics,Obstetrics,9522
+Hematology/Oncology,Hematology/Oncology,9318
+Pulmonology,Pulmonology,9007
+Dentistry,Dentistry,8667
+Surgeon,Surgeon,8127
+Physical Medicine and Rehabilitation,Physical Medicine and Rehabilitation,7831
+Surgical Specialty,Surgical Specialty,7516
+Podiatry,Podiatry,7176
+"Surgery, Neuro","Surgery, Neuro",7008
+"Orthopedics, Reconstructive","Orthopedics, Reconstructive",6710
+Hospitalist,Hospitalist,6510
+Dermatology,Dermatology,6256
+Health Care Provider,Health Care Provider,6084
+"Surgery, Cardiovascular","Surgery, Cardiovascular",6030
+Nephrology,Nephrology,5770
+"Surgery, Plastic","Surgery, Plastic",5411
+Oncology,Oncology,5388
+Resident,Resident,5052
+Pathology,Pathology,4658
+Nurse Practitioner,Nurse Practitioner,4398
+Physician's Assistant,Physician's Assistant,4228
+Pathologist,Pathologist,4196
+"Surgery, Maxillofacial","Surgery, Maxillofacial",4098
+Infectious Diseases,Infectious Diseases,3894
+General Medicine/Internal Medicine,General Medicine/Internal Medicine,3523
+Endocrinology,Endocrinology,3325
+Occupational Medicine,Occupational Medicine,3290
+"Radiology, Radiation Oncology","Radiology, Radiation Oncology",2850
+Allied Health Provider,Allied Health Provider,2775
+Rheumatology,Rheumatology,2636
+"Surgery, Vascular","Surgery, Vascular",2485
+Radiology Resident,Radiology Resident,2296
+Optometry,Optometry,2276
+Chiropractor,Chiropractor,2263
+Psychology,Psychology,2219
+"Surgery, Pediatric","Surgery, Pediatric",1949
+"Surgery, Cardiovascular/Thoracic","Surgery, Cardiovascular/Thoracic",1949
+Neonatology,Neonatology,1905
+Allergy and Immunology,Allergy and Immunology,1790
+"Pediatrics, Gastroenterology","Pediatrics, Gastroenterology",1740
+Alternative Health Provider,Alternative Health Provider,1612
+"Cardiology, Pediatric","Cardiology, Pediatric",1516
+Pathology Resident,Pathology Resident,1389
+"Anesthesiology, Pain Management","Anesthesiology, Pain Management",1384
+Pharmacist,Pharmacist,1221
+"Internal Medicine, Geriatric","Internal Medicine, Geriatric",1121
+Critical Care Medicine,Critical Care Medicine,986
+No Value / Undefined,No Value / Undefined,974
+Proxy,Proxy,965
+Hematology,Hematology,945
+"Surgery, Thoracic","Surgery, Thoracic",928
+Laboratory,Laboratory,890
+"Surgery, Urology","Surgery, Urology",822
+"Surgery, Colon & Rectal","Surgery, Colon & Rectal",685
+"Pediatrics, Critical Care","Pediatrics, Critical Care",647
+Midwife,Midwife,637
+Womens Health,Womens Health,600
+"Pathology, Anatomic And Clinical","Pathology, Anatomic And Clinical",590
+Sports Medicine,Sports Medicine,480
+Case Manager,Case Manager,453
+"Surgery, Ophthalmology","Surgery, Ophthalmology",438
+Registered Nurse,Registered Nurse,428
+"Pediatrics, Emergency Medicine","Pediatrics, Emergency Medicine",415
+"Pediatrics, Neurology","Pediatrics, Neurology",392
+"Pediatrics, Endocrinology","Pediatrics, Endocrinology",377
+"Psychiatry, Child/Adolescent","Psychiatry, Child/Adolescent",373
+Preventive Medicine,Preventive Medicine,357
+"Medical Genetics, Clinical Genetics - M.","Medical Genetics, Clinical Genetics - M.",345
+"Pediatrics, Neonatal-Perinatal Medicine","Pediatrics, Neonatal-Perinatal Medicine",341
+Certified Registered Nurse Anesthetist,Certified Registered Nurse Anesthetist,339
+"Anesthesiology, Pediatric","Anesthesiology, Pediatric",332
+Public Health,Public Health,324
+"Surgery, Trauma","Surgery, Trauma",292
+"Endocrinology, Metabolism","Endocrinology, Metabolism",289
+"Surgery, Transplantation","Surgery, Transplantation",270
+"Radiology, Pediatric Radiology","Radiology, Pediatric Radiology",259
+Behavior Health,Behavior Health,244
+"Pediatrics, Hematology-Oncology","Pediatrics, Hematology-Oncology",231
+Neurophysiology,Neurophysiology,220
+Palliative Medicine,Palliative Medicine,208
+Speech,Speech,199
+"Pediatrics, Infectious Diseases","Pediatrics, Infectious Diseases",190
+"Internal Medicine, Adolescent","Internal Medicine, Adolescent",188
+"Surgery, Oncology","Surgery, Oncology",185
+"Pediatrics, Allergy and Immunology","Pediatrics, Allergy and Immunology",180
+"Pediatrics, Adolescent Medicine","Pediatrics, Adolescent Medicine",177
+Nuclear Medicine,Nuclear Medicine,169
+"Pediatrics, Pulmonology","Pediatrics, Pulmonology",167
+"Surgery, Plastic Hand","Surgery, Plastic Hand",162
+"Obsterics & Gynecology, Gynecologic Onco","Obsterics & Gynecology, Gynecologic Onco",153
+Outreach Services,Outreach Services,152
+"Pediatrics, Nephrology","Pediatrics, Nephrology",151
+Care Team,Care Team,149
+Audiology,Audiology,146
+Osteopath,Osteopath,145
+"Pathology, Forensic","Pathology, Forensic",129
+"Pediatrics, Ophthalmology","Pediatrics, Ophthalmology",122
+"Endocrinology, Diabetes","Endocrinology, Diabetes",120
+Radiology Nuclear Med.,Radiology Nuclear Med.,119
+Perinatology,Perinatology,109
+"Endocrinology, Reproductive","Endocrinology, Reproductive",105
+"Radiology, Therapeutic","Radiology, Therapeutic",104
+"Obstetrics and Gynecology, Maternal-Feta","Obstetrics and Gynecology, Maternal-Feta",99
+"Radiology, Diagnostic","Radiology, Diagnostic",89
+"Transplantation, Other","Transplantation, Other",84
+"Surgery, Plastic within Head and Neck","Surgery, Plastic within Head and Neck",83
+Adolescent Behavior Health,Adolescent Behavior Health,80
+"Psychiatry, Addictive","Psychiatry, Addictive",74
+"Pediatrics, Orthopedics","Pediatrics, Orthopedics",72
+Orthodontics,Orthodontics,67
+Nutrition,Nutrition,48
+"Pediatrics, Nephology","Pediatrics, Nephology",40
+Dialysis,Dialysis,32
+"Pediatrics, Rheumatology","Pediatrics, Rheumatology",31
+"Internal Medicine, Pediatric","Internal Medicine, Pediatric",31
+Developmental Disabilities,Developmental Disabilities,26
+Polysomnography (Sleep Study),Polysomnography (Sleep Study),23
+"Cardiology, Interventional","Cardiology, Interventional",23
+"Surgery, Bariatric","Surgery, Bariatric",21
+"Transplantation, Renal","Transplantation, Renal",19
+Hepatology,Hepatology,19
+Wound Care,Wound Care,18
+"Transplantation, Liver","Transplantation, Liver",16
+"Pharmacology, Clinical","Pharmacology, Clinical",13
+Administrative Medicine,Administrative Medicine,13
+"Cardiology, Electrophysiology","Cardiology, Electrophysiology",12
+Veterinary,Veterinary,10
+"Pathology, Chemistry","Pathology, Chemistry",8
+Burn,Burn,8
+"Pathology, Immunology","Pathology, Immunology",7
+"Pathology, Hematology / Coagulation","Pathology, Hematology / Coagulation",7
+"Allergy and Immunology, Clinical & Labor","Allergy and Immunology, Clinical & Labor",7
+"Radiology, Vascular Interventional","Radiology, Vascular Interventional",5
+Spinal Cord Injury Medicine,Spinal Cord Injury Medicine,4
+"Pathology, Blood Bank / Transfusion","Pathology, Blood Bank / Transfusion",4
+"Not a Medical Specialty, Not Active","Not a Medical Specialty, Not Active",4
+Hyperbaric Medicine,Hyperbaric Medicine,4
+"Transplantation, Thoracic/Lung","Transplantation, Thoracic/Lung",3
+Phlebotomist,Phlebotomist,3
+Adult and Pediatric Clinic,Adult and Pediatric Clinic,3
+Proctology,Proctology,2
+"Pathology, Surgical","Pathology, Surgical",2
+"Pathology, Cytopathology","Pathology, Cytopathology",2
+Epidemiology,Epidemiology,2
+"Pathology, Radioisotopic","Pathology, Radioisotopic",1
+"Not a Medical Specialty, Obsolete","Not a Medical Specialty, Obsolete",1

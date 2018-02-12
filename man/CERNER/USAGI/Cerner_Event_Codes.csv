@@ -1,0 +1,649 @@
+frequency,event_code_id,event_code_desc
+408680008,226,Respiratory Rate
+404140393,121,Blood Pressure Diastolic
+394417637,132,Blood Pressure Systolic
+209199950,164,Heart Rate
+175265032,146,Mean Arterial Pressure
+157110479,340,Level of Consciousness
+153179898,237,Temperature (Route Not Specified)
+129850416,169,Heart Rate Monitored
+117025131,430,SPO2 (Saturation of peripheral oxygen)
+104080829,79,Pain Scale Score
+98187215,189,Pulse
+96914231,246,Temperature Oral
+94686838,207,Pulse Peripheral
+94426320,250,Temperature Skin
+87059341,80,Pain Scale Type
+84437114,287,Cough
+83968873,256,Weight
+82927259,339,Glasgow Coma Score
+82787493,394,O2 Saturation (SO2)
+76614822,178,Height
+70181421,281,Chief Complaint
+67938589,217,Pulse Radial Left
+66404649,218,Pulse Radial Right
+58221577,78,Numeric Pain Scale 0-10
+58028878,157,"BMI, Body Mass Index"
+55162022,201,Pulse Dorsalis Pedis Left
+52250462,202,Pulse Dorsalis Pedis Right
+51144948,71,Braden Scale for Predicting Pressure Ulcer Risk
+47206659,481,"Symptoms, Gastrointestinal"
+45307178,356,Carbon dioxide
+45066488,10,"Fall, History of"
+39927484,426,Pulse Oximetry
+39904096,458,Mode of Transfer
+36554073,251,Temperature Skin Lower Extremity
+35565841,489,"Symptoms, Pain"
+34691651,365,FiO2 (Fraction of Inspired Oxygen)
+34545989,159,"BSA, Body Surface Area"
+34182689,252,Temperature Skin Upper Extremity
+33033528,165,Heart Rate Apical
+30685642,487,"Symptoms, Neurological"
+29322716,364,ETCO2 (End Tidal CO2)
+28107870,742,Electrocardiogram
+26056545,483,"Symptoms, Genital"
+25760185,338,Advanced Directive
+21592301,82,Pregnancy Status
+19370647,238,Temperature Axillary
+18896013,269,"Weight, Daily Kilograms"
+17399821,418,PIP (Peak inspiratory pressure)
+17049242,253,Temperature Temporal Artery
+16509932,410,Peep (Positive End Expiratory Pressure)
+16472770,485,"Symptoms, Musculoskeletal"
+15938191,435,Tidal Volume
+15601427,436,Emergency Department Acuity
+13361977,279,"Weight, Pounds"
+13233464,343,Triage Notes
+12364274,266,"Weight, Clinical"
+11921977,122,Blood Pressure Diastolic Cuff
+11743791,75,FLACC Pain Scale (Face Legs Arms Cry Consolability Scale)
+11546144,182,"Height, Inches"
+11486989,254,Temperature Tympanic
+11096428,488,"Symptoms, Neuromuscular"
+11010007,288,Cough and Deep Breath
+10987807,123,Blood Pressure Diastolic Invasive
+10700642,134,Blood Pressure Systolic Invasive
+10669559,475,"Symptoms, Cardiovascular"
+10609413,133,Blood Pressure Systolic Cuff
+10373119,8,Fall Date/Time
+10324295,90,Alcohol Use
+10001229,750,Electrocardiogram Rhythm Strip
+9850951,77,NIPS Pain Scale (Neonatal/Infant Pain Scale)
+9675704,294,Diarrhea
+9217134,112,Tobacco Type
+8752555,455,Pain Symptom Date of Onset
+8681749,322,Vomiting
+8246919,302,Headache
+8091254,274,"Weight, Ideal"
+8055927,215,Pulse Posterior Tibial Right
+7872349,553,Braden Scale Mobility
+7800928,214,Pulse Posterior Tibial Left
+7569945,91,"Smoke, Exposure to Tobacco Smoke"
+7420008,205,Pulse Femoral Left
+7377744,632,Recent travel history
+7266554,120,Blood Pressure Central Venous
+6552230,314,Seizures
+6313667,194,Pulse Brachial Right
+6292045,300,Fever
+6278613,193,Pulse Brachial Left
+5969798,304,Muscle pain
+5907981,555,Braden Scale Nutrition
+5872275,95,Smoking History
+5806586,554,Braden Scale Moisture
+5617450,335,Vaccine Influenza Status
+5495551,64,Comfort Measures for Pain
+5492230,233,"Respiratory Rate, Post Treatment Respiratory Therapy"
+5423546,84,Alcohol Frequency
+5412000,1,Allergies
+5383242,234,"Respiratory Rate, Pre Treatment Respiratory Therapy"
+5245138,307,Nausea
+5227354,227,Respiratory Rate Total
+5103040,789,QRS Duration
+5079136,83,"Alcohol and/or Drug, Substance Use"
+5021178,474,"Symptoms, Cardiopulmonary"
+4965097,692,QT Interval
+4927979,282,Chief Complaint Emergency Department
+4879220,556,Braden Scale Sensory Perception
+4785860,199,Pulse Dorsalis Pedis (Foot)
+4628193,551,Braden Scale Activity
+4606535,818,Exposure to Other Communicable Disease
+4590453,552,Braden Scale Friction and Shear
+4495377,200,Pulse Dorsalis Pedis Bilateral
+4485879,316,Shortness of breath
+4471419,275,"Weight, Loss"
+4363743,743,Electrocardiogram 12-Lead
+4348575,65,Abdominal Flank Pain
+4334932,206,Pulse Femoral Right
+4253697,446,Clinical Findings
+4239513,265,"Weight, Change"
+4217464,114,Tobacco Use Packs/Day
+4208965,181,"Height, Feet"
+4207701,800,Heart Rhythm
+4072402,174,Heart Rate Pre Treatment
+4038399,210,Pulse Popliteal Right
+3964508,411,Peep / CPAP
+3936222,466,Observation
+3850747,113,Tobacco Use (Number of Years)
+3818791,171,Heart Rate Post Treatment
+3715218,312,Rash
+3630760,308,Nausea and Vomiting
+3515870,318,Sore Throat
+3460946,249,Temperature Rectal
+3392193,477,"Symptoms, Emergency Department"
+3371887,66,Chest Pain
+3182133,272,"Weight, Estimated"
+3128591,311,Night Sweats
+3087512,285,"Chills, Fever, or Night Sweats"
+2984604,283,Chills
+2980509,125,Blood Pressure Diastolic Sitting
+2979994,243,Temperature Humidification
+2965844,137,Blood Pressure Systolic Sitting
+2950264,372,HCO3
+2863451,342,Pulse Oximeter Oxygen Saturation
+2820494,801,Atrial Rhythm
+2759649,482,"Symptoms, General"
+2758662,404,"Partial Pressure Carbon Dioxide (PaCO2), Arterial"
+2753841,219,Pulse Sitting
+2698847,216,Pulse Radial (Lateral Wrist)
+2673440,180,"Height, Estimated"
+2638325,420,"Partial Pressure of Oxygen (PO2), Arterial"
+2564426,658,Travel within last 21 days
+2522083,341,Pediatric Coma Score
+2515614,634,Recent travel outside USA location
+2514202,357,Carbon dioxide Total (TCO2)
+2509194,412,"pH, Arterial"
+2492745,373,"HCO3, Arterial"
+2408944,328,Vaccine Influenza Inactivated
+2402535,268,"Weight, Daily Grams"
+2381551,802,Ventricular Rhythm
+2285469,389,"O2 Saturation %, Arterial (SaO2)"
+2208193,109,Tobacco Frequency Other
+2196956,135,Blood Pressure Systolic Pulmonary Artery
+2186314,124,Blood Pressure Diastolic Pulmonary Artery
+2145441,262,"Weight, Birth"
+2083059,236,"Respiratory Rate, Spontaneous"
+2073310,92,"Smoke, Lives with Someone Who Smokes"
+2008271,403,Partial Pressure Carbon Dioxide (PCO2)
+1974717,239,Temperature Bladder
+1916266,399,Oxygen %
+1837068,794,QRS Consistency
+1833687,419,Partial Pressure of Oxygen (PO2)
+1823372,291,Cough more than 3 weeks
+1797743,96,Smoking Packs/Day
+1786387,151,Mean Arterial Pressure Pulmonary
+1784738,666,Recent travel to West Africa
+1778425,245,Temperature Intravascular
+1770681,693,QT Corrected (QTc)
+1765437,267,"Weight, Daily"
+1732105,576,FLACC Pain Scale Activity
+1718429,579,FLACC Pain Scale Face
+1718282,346,Base Excess
+1707118,580,FLACC Pain Scale Legs
+1701645,168,Heart Rate Fetal
+1699400,578,FLACC Pain Scale Cry
+1690724,577,FLACC Pain Scale Consolability
+1674669,257,"Weight, Admit"
+1592300,630,International travel less than 6 months
+1581115,448,Clinical Impression
+1572876,820,Exposure to Tuberculosis
+1565749,659,Travel within last 30 days
+1529327,315,Seizures History of
+1502936,766,Culture Documentation
+1501670,490,Advanced Directive Additional Information
+1458468,301,Influenza Symptoms
+1457766,242,Temperature Esophageal
+1452290,127,Blood Pressure Diastolic Standing
+1432800,139,Blood Pressure Systolic Standing
+1425051,718,Gravida
+1410659,129,Blood Pressure Diastolic Supine
+1400905,141,Blood Pressure Systolic Supine
+1369322,337,Influenza Like Symptoms
+1362104,795,ST Segment
+1341062,333,Vaccine Influenza Previously Given
+1286615,190,Pulse Apical (Sternum)
+1277455,392,"O2 Saturation %, Venous (SV02)"
+1272321,296,"Diarrhea, Nausea, and Vomiting"
+1205836,457,Symptom Date of Onset
+1163218,284,"Chills, Cough, Fever or Night Sweats"
+1155059,158,"BMI, Body Mass Index Estimated"
+1151063,110,Tobacco Last Use
+1147787,764,Electrocardiogram Report
+1099676,271,"Weight, Daily Pounds"
+1082655,88,Alcohol Last Use
+1080056,89,Alcohol Quantity
+1054100,667,Travel within last 21 days with symptoms
+972014,382,Nasal Cannula O2
+959934,425,PSV (Pressure Support Ventilation)
+953238,299,Fainting History
+951269,241,Temperature Core
+915773,220,Pulse Standing
+912382,12,"Apgar 1 Minute, by History"
+894160,221,Pulse Supine
+887243,784,P to QRS Ratio
+886103,232,"Respiratory Rate, High"
+883415,115,Blood Pressure Arterial
+880753,68,Gastrointestinal Bleeding / Rectal Pain
+877048,408,"Partial Pressure Carbon Dioxide (PCO2), Venous"
+855382,461,"Mode of Transfer, Emergency Department"
+852589,464,"Mode of Transfer, Intrahospital"
+851251,375,"HCO3, Venous"
+849053,13,"Apgar 5 Minute, by History"
+848818,416,"pH, Venous"
+848653,209,Pulse Popliteal Left
+848366,480,"Symptoms, Eye"
+825827,192,Pulse Brachial (Elbow)
+793613,334,Vaccine Influenza Seasonal
+786147,424,"Partial Pressure of Oxygen (PO2), Venous"
+780062,104,"Smoking, Readiness to Quit"
+759861,351,Blood Gas Arterial
+743255,358,"Carbon dioxide Total, Arterial"
+739471,452,Chief Complaint Date of Onset
+738507,33,Back Pain - Lumbar (Lower Back)
+735492,186,"Length, Birth"
+713517,366,"FiO2 (Fraction of Inspired Oxygen), Arterial"
+703683,347,"Base Excess, Arterial"
+694408,273,"Weight, Gain"
+689389,145,Cerebral Perfusion Pressure (CPP)
+670578,493,Advanced Directive Type
+658555,280,"Weight, Pre-Pregnancy"
+655688,204,Pulse Femoral
+650547,160,"BSA, Body Surface Area Estimated"
+650499,641,Travel to African country
+639269,136,Blood Pressure Systolic Right
+628091,196,Pulse Carotid Left
+626897,187,Gestational Age
+619663,183,"Height, Measured"
+611451,197,Pulse Carotid Right
+598688,747,Electrocardiogram Interpretation
+594866,622,Family member travel history
+569001,270,"Weight, Daily Ounces"
+529410,350,BiPAP (BPAP Bilevel positive airway pressure)
+528530,175,Heart Rate Preop
+526200,67,General Pain
+522681,746,Electrocardiogram Date
+504503,608,Smoking Status
+503125,409,Peak Pressure
+493527,18,Apgar Respiratory Rate
+483444,657,Travel within last 14 days
+482852,69,Lower Extremity Pain
+474947,97,Smoking Years
+464859,16,Apgar Muscle Tone
+455917,15,Apgar Heart Rate
+452469,14,Apgar Color
+451684,895,Lung compliance dynamic
+451527,431,SPO2 (Saturation of peripheral oxygen) at rest
+450401,74,"CRIES Pain Scale(Crying,ReqO2,Inc Vitals,Expression,Sleeples"
+446052,486,"Symptoms, Nasal"
+404516,479,"Symptoms, Emergency Department Wound"
+404333,108,"Smoking, Willing to Quit"
+400975,476,"Symptoms, Ear"
+389369,453,Labor (Contraction) Date of Onset
+387825,260,"Weight, Admit Pounds"
+385096,621,Family member recent travel location
+379426,796,T Wave
+377498,331,Vaccine Influenza Live Trivalent
+375562,309,Nausea and Vomiting for 3 or more days
+374921,321,Tiredness
+369644,471,"Observation, Emergency Department"
+364201,17,Apgar Reflex Response
+363977,762,Time to Electrocardiogram Read
+363032,176,Heart Rate Standing
+362742,327,Vaccine Influenza History
+354537,614,Close contact with someone who traveled outside of country
+351023,177,Heart Rate Supine
+346771,656,Travel to West Africa within the last 21 days
+331920,362,CPAP (Continuous positive airway pressure)
+323559,679,Left Ventricular Ejection Fraction
+317343,896,Lung compliance static
+310032,615,Contact with confirmed Ebola patient
+299241,359,"Carbon dioxide Total, Venous"
+298997,244,Temperature Inspired Gas
+294630,398,Oximetry
+289548,384,O2 Content
+289261,590,NIPS Pain Scale State of Arousal
+284205,111,Tobacco Quit Years
+279924,451,Chest Pain Date of Onset
+279155,661,Admission Reason
+259849,588,NIPS Pain Scale Facial Expression
+259724,587,NIPS Pain Scale Cry
+259677,586,NIPS Pain Scale Breathing Patterns
+259643,585,NIPS Pain Scale Arms
+257002,589,NIPS Pain Scale Legs
+244295,484,"Symptoms, Mouth and Throat"
+242708,390,"O2 Saturation %, Arterial, Calculated"
+240493,664,Travel Symptoms
+234634,289,Cough Chronic
+228006,166,Heart Rate Apnea
+223668,749,Electrocardiogram Result
+222951,628,International travel in last month
+218249,72,CHEOPS Pain Scale (Childrens Hospital of Eastern Ontario)
+216585,546,Blood Pressure Systolic Right Arm
+215461,544,Blood Pressure Systolic Left Leg
+215453,534,Blood Pressure Diastolic Left Leg
+213581,537,Blood Pressure Diastolic Right Arm
+213050,542,Blood Pressure Systolic Left Arm
+213016,532,Blood Pressure Diastolic Left Arm
+212467,459,"Mode of Transfer, Admission"
+210954,548,Blood Pressure Systolic Right Leg
+209005,539,Blood Pressure Diastolic Right Leg
+204689,293,Cramps
+203199,213,Pulse Posterior Tibial (Ankle)
+201636,235,"Respiratory Rate, Preop"
+199326,402,PaO2 / FiO2 Ratio
+196088,225,Pulse Ulnar Right
+194168,9,Fall During This Admission
+192584,701,Left Ventricular Ejection Fraction Moderate to Severe
+189535,378,Methemoglobin %
+179423,715,Ectopic Pregnancies
+177860,247,Temperature Postop
+176883,379,"Methemoglobin %, Arterial"
+171411,224,Pulse Ulnar Left
+169556,633,Recent travel location
+166913,323,Vomiting for 3 days or more
+166228,248,Temperature Preop
+164691,172,Heart Rate Postop
+159365,414,"pH, Cord Blood"
+157503,651,Travel to or resided in foreign country
+154607,70,Upper Extremity Pain
+153578,170,Heart Rate Post Exercise
+149749,625,In or from a foreign country last 6 months
+147176,673,Ejection Fraction from Echocardiography
+147157,429,ScvO2 (Saturation of central venous oxygen)
+146183,11,Apgar Score
+143591,349,"Base Excess, Venous"
+142362,717,Full Term Pregnancies
+139600,702,Left Ventricular Ejection Fraction Interventions
+139009,727,Parity Abortion
+135369,786,PR Interval
+134979,805,Exposure to Chickenpox
+133882,741,Baseline Electrocardiogram
+133467,465,Level of Observation
+130329,735,Weeks Pregnant
+127834,798,U Wave
+126902,505,Apgar Heart Rate 5 Minute
+125193,319,Stomach Pain
+122800,511,Apgar Muscle Tone 5 Minute
+122780,499,Apgar Color 5 Minute
+122683,406,"Partial Pressure Carbon Dioxide (PCO2), Cord Blood"
+122041,745,Electrocardiogram and Rhythm Strip
+121162,816,Exposure to Measles
+118119,495,Apgar Color 1 Minute
+116304,393,"O2 Saturation %, Venous, Calculated"
+116000,669,Ejection Fraction
+114963,501,Apgar Heart Rate 1 Minute
+112625,326,Vaccine Influenza H1N1
+111815,617,Contact with someone who traveled to West Africa
+111617,763,Electrocardiogram Performed
+111107,507,Apgar Muscle Tone 1 Minute
+111013,228,"Respiratory Rate, Adult Trauma"
+108344,167,Heart Rate During Exercise
+107713,709,Eastern Cooperative Oncology Group (ECOG) /WHO/Zubrod Score
+105744,523,Apgar Respiratory Rate 5 Minute
+104016,348,"Base Excess, Cord Blood"
+103332,422,"Partial Pressure of Oxygen (PO2), Cord Blood"
+102982,81,RIPS Pain Scale (Riley Infant Pain Scale)
+101019,519,Apgar Respiratory Rate 1 Minute
+100495,631,Recent international travel
+98837,725,Length Labor 3rd Stage
+96652,363,Delta P
+91044,432,SPO2 (Saturation of peripheral oxygen) following exercise
+88226,421,"Partial Pressure of Oxygen (PO2), Capillary"
+86848,117,Blood Pressure Arterial Right
+86207,98,"Smoking, Attempt to Quit in Past"
+83691,405,"Partial Pressure Carbon Dioxide (PCO2), Capillary"
+82753,454,Leaking Date of Onset
+79750,152,Pulmonary Capillary Wedge Pressure (PCWP)
+78410,449,Clinical Impression - Swallow
+74806,517,Apgar Reflex Response 5 Minute
+73913,513,Apgar Reflex Response 1 Minute
+73220,173,Heart Rate Pre Exercise
+72105,368,"FiO2 (Fraction of Inspired Oxygen), Venous"
+72056,391,"O2 Saturation %, Capillary"
+72015,491,Advanced Directive Date
+71297,317,Shortness of breath in last 6 months
+71232,297,Earache
+69721,662,Travel within last 10 days
+66230,724,Length Labor 2nd Stage
+65897,815,Exposure to HIV
+64091,3,"Allergies, Seasonal"
+62931,208,Pulse Popliteal (Knee)
+62565,292,Coughing Blood
+60900,313,Rhinorrhea
+57421,361,Continuous Positive Air Pressure
+56796,598,Pregnancy Complications
+56307,367,"FiO2 (Fraction of Inspired Oxygen), Cord Blood"
+55508,255,Temperature Urine
+55279,635,Travel by air in last 6 months
+54823,711,Karnofsky Performance Score (KPS)
+54801,713,Cesaren Section Reason
+54281,258,"Weight, Admit Grams"
+53999,723,Length Labor 1st Stage
+53799,721,Induction of Labor
+52674,629,International travel in past 3 months
+51893,295,"Diarrhea, Constipation, Vomiting for 3 or more days"
+51376,371,FiO2 Ventilator alarm low
+51284,107,"Smoking, Unwilling to Quit"
+50180,370,FiO2 Ventilator alarm high
+49764,374,"HCO3, Capillary"
+49243,492,Advanced Directive Intent
+48760,529,Apgar Score 5 Minute
+48129,352,Blood Gas Venous
+47969,413,"pH, Capillary"
+46628,85,Alcohol Last Drink Date
+45940,2,"Allergies, Childhood Food/Environment"
+45632,812,Exposure to Hepatitis B
+42998,671,Ejection Fraction Date
+41650,732,Previous Cesaren Section
+41524,758,Stress Electrocardiogram
+40651,298,Fainting
+38810,385,"O2 Content, Arterial"
+38320,817,Exposure to Mumps
+37846,195,Pulse Carotid (Neck)
+37246,813,Exposure to Hepatitis C
+36587,344,Aerosol O2
+35996,733,Total Length Labor
+35572,811,Exposure to Hepatitis A
+34519,737,Gestational Age at Birth
+33857,222,Pulse Temporal
+33691,240,Temperature Brain
+32470,736,Gestational Age Days
+30433,388,O2 Hemoglobin %
+30172,582,"HCO3, Venous Cord"
+28967,606,Vomiting Frequency
+27890,116,Blood Pressure Arterial Left
+27851,105,"Smoking, Recently Quit"
+27146,678,Last Ejection Fraction
+26498,897,Mean airway pressure (MAP)
+26094,674,Ejection Fraction less than 40 Percent
+26090,353,Blood Gas Venous Cord Blood
+25871,469,"Observation, Behavioral"
+25626,387,O2 CT
+24781,680,Left Ventricular Ejection Fraction Collection Date
+24251,305,Muscle pain or cramps
+24188,103,"Smoking, Quit"
+23704,675,Ejection Fraction less than or equal to 35 Percent
+23146,739,Abnormal Electrocardiogram
+23060,401,"PaO2 (Arterial blood oxygen tension, partial pressure)"
+22781,754,Initial Electrocardiogram Interpretation
+22622,417,"pH, Venous Cord Blood"
+22074,780,Vital Capacity (VC)
+22054,904,Temperature Birth
+20427,775,Minute Volume (MV)
+19761,593,"Partial Pressure Carbon Dioxide (PCO2, PaCO2), Arterial Cord"
+19564,594,"Partial Pressure Carbon Dioxide (PCO2, PaCO2), Venous Cord"
+19432,819,Exposure to Syphilis
+19109,595,"pH, Arterial Cord Blood"
+18709,888,Expiratory positive airway pressure (EPAP)
+17805,597,"Partial Pressure of Oxygen (PO2), Venous Cord"
+17356,886,History of exposure to Tuberculosis
+17270,142,Blood Pressure Systolic Supine Right
+17188,119,Blood Pressure Bilateral Arms
+16584,681,Left Ventricular Ejection Fraction Comments
+16508,276,"Weight, Percent"
+16239,581,"HCO3, Arterial Cord"
+15894,525,Apgar Score 1 Minute
+15723,765,Electrocardiogram ST Elevation or Left Bundle Branch Block
+15693,100,"Smoking, Established Quit Date"
+15213,277,"Weight, Percent for Age"
+13963,188,"Length, Infant"
+13601,148,Mean Arterial Pressure Sitting Right
+13436,150,Mean Arterial Pressure Supine Right
+13340,140,Blood Pressure Systolic Standing Right
+13275,687,MUGA Ejection Fraction
+13163,862,Zika travel
+12924,128,Blood Pressure Diastolic Standing Right
+12700,596,"Partial Pressure of Oxygen (PO2), Arterial Cord"
+12578,87,Alcohol Last Drink Time
+12384,719,Gravida at Delivery
+12363,149,Mean Arterial Pressure Standing Right
+11825,698,Right Ventricular Ejection Fraction
+11340,263,"Weight, Birth Regained in 10-14 Days"
+10871,728,Parity Cesarean Delivery
+10863,889,Expiratory pressure (cmH2O)
+10798,198,Pulse Croup
+10603,714,Cesaren Section Type
+10128,710,Lansky Performance Score (Pediatric)
+9984,303,Lethargic
+9645,138,Blood Pressure Systolic Sitting Right
+9630,126,Blood Pressure Diastolic Sitting Right
+8998,722,Labor Duration
+8938,259,"Weight, Admit Ounces"
+8156,184,"Height, Percent"
+8139,332,Vaccine Influenza Nasal
+8138,147,Mean Arterial Pressure Right
+7152,369,FiO2 During Exercise
+7011,575,Diarrhea Frequency
+6990,526,Apgar Score 10 Minute
+5702,592,"O2 Saturation %, Venous Cord"
+5354,591,"O2 Saturation %, Arterial Cord"
+5270,726,Parity
+4997,130,Blood Pressure Diastolic Supine Right
+4987,191,Pulse Axillary
+4531,376,Mask O2
+4517,433,SPO2 (Saturation of peripheral oxygen) lowest with exercise
+4438,599,Rash Type
+4429,686,MUGA (Multi Gated Acquisition Scan)
+4421,185,"Height, Percent for Age"
+4319,229,"Respiratory Rate, Croup >10 kg"
+4281,738,24 Hour Electrocardiogram Holter Moniter
+4270,231,"Respiratory Rate, Croup 5.1 - 10 kg"
+4262,663,Travel transportation
+4094,106,"Smoking, Strong Withdrawal Symptoms"
+4073,456,Stroke Date of Onset
+3848,668,Travel to foreign country within past 3 weeks
+3540,377,Mask O2%
+3500,700,Discharge Disposition Emergency Department
+3441,902,Weaning vital capacity
+3176,290,Cough Frequent
+3152,478,"Symptoms, Emergency Department Delirium"
+2803,699,Discharge Disposition
+2739,538,Blood Pressure Diastolic Right Brachial
+2685,502,Apgar Heart Rate 10 Minute
+2639,386,"O2 Content, Venous"
+2407,496,Apgar Color 10 Minute
+2320,230,"Respiratory Rate, Croup 0 - 5 kg"
+2280,508,Apgar Muscle Tone 10 Minute
+1954,520,Apgar Respiratory Rate 10 Minute
+1937,99,"Smoking, Declining Motivation/Deprived"
+1768,7,"Allergies, Food Allergy Screen"
+1765,345,APRV (Airway pressure release ventilation BiVent)
+1682,623,Foreign travel date of return
+1675,514,Apgar Reflex Response 10 Minute
+1404,101,"Smoking, Lack of Support Quitting"
+1355,814,Exposure to Herpes Simplex
+1346,716,Forceps Delivery
+1267,286,Cold Symptoms
+1264,734,Vacuum Extractor Delivery
+1213,278,"Weight, Percent for Height"
+1134,640,Travel to Africa within the last 21 days
+1107,752,Exercise Electrocardiogram
+1075,102,"Smoking, Negative Mood/Depression Quit"
+1038,395,O2 Saturation (SO2) lowest with exercise
+965,602,RIPS Pain Scale Facial
+954,600,RIPS Pain Scale Body Movement
+932,603,RIPS Pain Scale Response to Movements / Touch
+917,601,RIPS Pain Scale Consolability
+839,223,Pulse Ulnar (Medial Wrist)
+752,439,Emergency Department Acuity III (12-18)
+750,211,Pulse Post Cath
+733,605,RIPS Pain Scale Verbal / Touch
+713,438,Emergency Department Acuity II (6-11)
+685,757,Signal Average Electrocardiogram
+662,604,RIPS Pain Scale Sleep
+657,706,Ejection Fraction greater than 40 Percent
+633,19,Back Pain - Cervical (Neck)
+585,873,History of exposure to Ebola
+585,143,Blood Pressure Systolic Ventricular Right
+571,645,Travel to Guinea/Liberia/Sierra Leone within past year
+571,653,Travel to Saudi Arabia/United Arab Emirates within past year
+549,381,MIPO (Maximal inspiratory pressure)
+541,131,Blood Pressure Diastolic Ventricular Right
+540,515,Apgar Reflex Response 15 Minute
+463,497,Apgar Color 15 Minute
+434,527,Apgar Score 15 Minute
+410,788,QRS Complex
+397,118,Blood Pressure Arterial Segmental
+396,503,Apgar Heart Rate 15 Minute
+395,509,Apgar Muscle Tone 15 Minute
+394,545,Blood Pressure Systolic Right Ankle
+391,541,Blood Pressure Systolic Left Ankle
+365,473,Severity of Illness
+354,744,Electrocardiogram 12-Lead Completed Date
+324,463,"Mode of Transfer, Infant"
+323,324,Vaccine Influenza age 3 years or older
+318,791,QTC Interval
+316,434,ST02 (Tissue oxygen saturation)
+312,558,CHEOPS Pain Scale Child Verbal
+296,521,Apgar Respiratory Rate 15 Minute
+279,866,Rash/viral illness since last menstrual period
+239,755,Pacemaker Electrocardiogram
+222,93,"Smoke, Parent or Significant Other Smokes"
+222,212,Pulse Post Phlebotomy
+221,179,"Height, Body Surface Area"
+213,574,Diarrhea and Vomiting
+208,676,Ejection Fraction Percent
+189,510,Apgar Muscle Tone 20 Minute
+188,619,Ebola both criteria met
+183,498,Apgar Color 20 Minute
+173,504,Apgar Heart Rate 20 Minute
+173,522,Apgar Respiratory Rate 20 Minute
+159,528,Apgar Score 20 Minute
+146,516,Apgar Reflex Response 20 Minute
+141,440,Emergency Department Acuity IV (19-27)
+108,610,Planned Pregnancy
+100,400,PaCO2 (Arterial partial pressure CO2)
+69,441,Emergency Department Acuity V (28-36)
+57,777,Peak Expiratory Flow Rate (PEFR)
+52,859,Zika Country
+48,703,Left Ventricular Ejection Fraction Moderate to Severe No
+38,685,Left Ventricular Ejection Fraction within the Last Year
+38,437,Emergency Department Acuity I (1-5)
+38,704,Left Ventricular Ejection Fraction Moderate to Severe Yes
+33,94,"Smoke, Parent or Significant Other Years"
+32,691,Regular Left Ventricular Ejection Fraction Exclusion Reason
+28,86,Alcohol Last Drink Date/Time
+27,683,Left Ventricular Ejection Fraction < 40 % on ACE or ARB
+27,903,Weaning rapid shallow breathing index
+25,611,African travel location
+25,901,Rapid shallow breathing index (RSBI)
+24,688,Reason for not performing Left Ventricular Ejection Fraction
+20,329,Vaccine Influenza less than age 2 years
+16,360,"Carbon dioxide, Venous"
+15,705,Ejection Fraction 30 to 40 Percent
+12,751,Electrocardiogram Rhythm Strip 1-3 Leads
+8,708,Left Ventricular Ejection Fraction During Hospitalization
+8,559,CHEOPS Pain Scale Cry
+8,770,Forced Expiratory Volume (FEV) during First Second
+6,533,Blood Pressure Diastolic Left Brachial
+5,560,CHEOPS Pain Scale Facial
+4,354,"CO Saturation %, Arterial"
+3,450,Bleeding Date of Onset
+3,415,"pH, Scalp"
+3,460,"Mode of Transfer, Discharge"
+2,563,CHEOPS Pain Scale Touch
+2,561,CHEOPS Pain Scale Legs
+2,562,CHEOPS Pain Scale Torso
+2,536,Blood Pressure Diastolic Right Ankle
+1,696,QT Interval Prolonged
+1,531,Blood Pressure Diastolic Left Ankle
+1,468,"Observation, Admission Emergency Department"

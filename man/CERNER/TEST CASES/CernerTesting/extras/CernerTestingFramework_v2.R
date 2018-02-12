@@ -1,0 +1,24171 @@
+frameworkContext <- new.env(parent = emptyenv());
+initFramework <- function() {
+  frameworkContext$groupIndex <- 0;
+  insertDf <- data.frame(table = character(), sql = character(), stringsAsFactors = FALSE)
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_admission_source', 'TRUNCATE TABLE hf_d_admission_source;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_admission_type', 'TRUNCATE TABLE hf_d_admission_type;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_anesthesia_type', 'TRUNCATE TABLE hf_d_anesthesia_type;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_antimicrobial', 'TRUNCATE TABLE hf_d_antimicrobial;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_asa_class', 'TRUNCATE TABLE hf_d_asa_class;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_cancel_reason', 'TRUNCATE TABLE hf_d_cancel_reason;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_caresetting', 'TRUNCATE TABLE hf_d_caresetting;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_collection_src_site', 'TRUNCATE TABLE hf_d_collection_src_site;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_collection_status', 'TRUNCATE TABLE hf_d_collection_status;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_compliance_status', 'TRUNCATE TABLE hf_d_compliance_status;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_date', 'TRUNCATE TABLE hf_d_date;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_diagnosis', 'TRUNCATE TABLE hf_d_diagnosis;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_diagnosis_type', 'TRUNCATE TABLE hf_d_diagnosis_type;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_diagnostic_grouping', 'TRUNCATE TABLE hf_d_diagnostic_grouping;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_dischg_disp', 'TRUNCATE TABLE hf_d_dischg_disp;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_discontinue_reason', 'TRUNCATE TABLE hf_d_discontinue_reason;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_event_class', 'TRUNCATE TABLE hf_d_event_class;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_event_code', 'TRUNCATE TABLE hf_d_event_code;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_event_reltn', 'TRUNCATE TABLE hf_d_event_reltn;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_event_source', 'TRUNCATE TABLE hf_d_event_source;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_formulary_type', 'TRUNCATE TABLE hf_d_formulary_type;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_frequency', 'TRUNCATE TABLE hf_d_frequency;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_hospital', 'TRUNCATE TABLE hf_d_hospital;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_interp_result', 'TRUNCATE TABLE hf_d_interp_result;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_isolate', 'TRUNCATE TABLE hf_d_isolate;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_lab_procedure', 'TRUNCATE TABLE hf_d_lab_procedure;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_lab_result_type', 'TRUNCATE TABLE hf_d_lab_result_type;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_manufacturer', 'TRUNCATE TABLE hf_d_manufacturer;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_med_order_status', 'TRUNCATE TABLE hf_d_med_order_status;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_med_product', 'TRUNCATE TABLE hf_d_med_product;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_med_reason', 'TRUNCATE TABLE hf_d_med_reason;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_medication', 'TRUNCATE TABLE hf_d_medication;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_mic_order_status', 'TRUNCATE TABLE hf_d_mic_order_status;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_micro_result_type', 'TRUNCATE TABLE hf_d_micro_result_type;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_normalcy', 'TRUNCATE TABLE hf_d_normalcy;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_normalcy_method', 'TRUNCATE TABLE hf_d_normalcy_method;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_order_stop_type', 'TRUNCATE TABLE hf_d_order_stop_type;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_order_type', 'TRUNCATE TABLE hf_d_order_type;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_patient', 'TRUNCATE TABLE hf_d_patient;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_patient_type', 'TRUNCATE TABLE hf_d_patient_type;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_payer', 'TRUNCATE TABLE hf_d_payer;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_physician', 'TRUNCATE TABLE hf_d_physician;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_present_on_admit', 'TRUNCATE TABLE hf_d_present_on_admit;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_procedure', 'TRUNCATE TABLE hf_d_procedure;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_procedure_modifier', 'TRUNCATE TABLE hf_d_procedure_modifier;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_reporting_priority', 'TRUNCATE TABLE hf_d_reporting_priority;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_result_indicator', 'TRUNCATE TABLE hf_d_result_indicator;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_result_type_proc', 'TRUNCATE TABLE hf_d_result_type_proc;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_route_admin', 'TRUNCATE TABLE hf_d_route_admin;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_surgical_case_level', 'TRUNCATE TABLE hf_d_surgical_case_level;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_surgical_procedure', 'TRUNCATE TABLE hf_d_surgical_procedure;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_surgical_specialty', 'TRUNCATE TABLE hf_d_surgical_specialty;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_test_type', 'TRUNCATE TABLE hf_d_test_type;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_unit', 'TRUNCATE TABLE hf_d_unit;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_d_wound_class', 'TRUNCATE TABLE hf_d_wound_class;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_f_clinical_event', 'TRUNCATE TABLE hf_f_clinical_event;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_f_diagnosis', 'TRUNCATE TABLE hf_f_diagnosis;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_f_enc_history', 'TRUNCATE TABLE hf_f_enc_history;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_f_encounter', 'TRUNCATE TABLE hf_f_encounter;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_f_implant_log', 'TRUNCATE TABLE hf_f_implant_log;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_f_lab_procedure', 'TRUNCATE TABLE hf_f_lab_procedure;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_f_med_history', 'TRUNCATE TABLE hf_f_med_history;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_f_medication', 'TRUNCATE TABLE hf_f_medication;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_f_micro_susceptibility', 'TRUNCATE TABLE hf_f_micro_susceptibility;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_f_microbiology', 'TRUNCATE TABLE hf_f_microbiology;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_f_procedure', 'TRUNCATE TABLE hf_f_procedure;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_f_surgical_case', 'TRUNCATE TABLE hf_f_surgical_case;')
+  insertDf[nrow(insertDf) + 1,] <- c('@source_schema.hf_f_surgical_procedure', 'TRUNCATE TABLE hf_f_surgical_procedure;')
+  frameworkContext$insertDf <- insertDf;
+  testSql <- c(testSql, "IF OBJECT_ID('test_results', 'U') IS NOT NULL DROP TABLE test_results;")
+  testSql <- c(testSql, '')
+  testSql <- c(testSql, "CREATE TABLE test_results (id INT, description VARCHAR(512), test VARCHAR(256), status VARCHAR(5));")
+  testSql <- c(testSql, '')
+  frameworkContext$testSql <- testSql;
+  frameworkContext$testId = 0;
+  frameworkContext$testDescription = '';
+
+  patient <- {}
+  patient$source_pid <- NULL
+  patient$cdm_pid <- NULL
+  frameworkContext$patient = patient;
+
+  frameworkContext$defaultValues = new.env(parent = emptyenv());
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_admission_source = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_admission_type = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_anesthesia_type = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$drug_classification <- "quinolones"
+  frameworkContext$defaultValues$hf_d_antimicrobial = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_asa_class = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_cancel_reason = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_caresetting = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_collection_src_site = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_collection_status = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_compliance_status = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$year <- "2012"
+  defaults$quarter <- "3"
+  defaults$month <- "12"
+  defaults$month_name <- "JUL"
+  defaults$day_number_in_month <- "22"
+  defaults$week_number_in_year <- "44"
+  defaults$day_of_week <- "WEDNESDAY"
+  defaults$day_number_of_week <- "1"
+  defaults$holiday_ind <- "0"
+  defaults$weekday_ind <- "1"
+  frameworkContext$defaultValues$hf_d_date = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$diagnosis_type <- "ICD10-CM"
+  frameworkContext$defaultValues$hf_d_diagnosis = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_diagnosis_type = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$mdc_code <- "99"
+  defaults$mdc_code_desc <- "Unknown/Invalid"
+  defaults$drg_code <- "999"
+  defaults$drg_code_desc <- "NULL"
+  defaults$drg_id <- "1999"
+  defaults$mdc_id <- "99"
+  defaults$drg_type <- "DRG"
+  frameworkContext$defaultValues$hf_d_diagnostic_grouping = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$beg_effective_dt_tm <- "1800-01-01.000000"
+  defaults$end_effective_dt_tm <- "2100-12-31.000000"
+  frameworkContext$defaultValues$hf_d_dischg_disp = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_discontinue_reason = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_event_class = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$event_code_display <- "Braden Scale"
+  defaults$event_code_group <- "Blood Gas Test"
+  defaults$event_code_category <- "Vital Sign"
+  frameworkContext$defaultValues$hf_d_event_code = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_event_reltn = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_event_source = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_formulary_type = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_frequency = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$census_region <- "South"
+  defaults$census_division <- "6"
+  defaults$bed_size_range <- "<5"
+  defaults$teaching_facility_ind <- "0"
+  defaults$cath_lab_full_ind <- "0"
+  defaults$cath_lab_diagnostic_ind <- "0"
+  defaults$urban_rural_status <- "Urban"
+  defaults$acute_status <- "Acute"
+  defaults$alt_health_system_id <- "79"
+  frameworkContext$defaultValues$hf_d_hospital = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_interp_result = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$isolate_type <- "Bacteria"
+  defaults$isolate_category <- "Salmonella"
+  defaults$isolate_rept_category <- "Salmonella"
+  frameworkContext$defaultValues$hf_d_isolate = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$lab_procedure_group <- "Allergy Test"
+  defaults$lab_super_group <- "General Test"
+  frameworkContext$defaultValues$hf_d_lab_procedure = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_lab_result_type = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_manufacturer = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_med_order_status = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$drug_code <- "d03770"
+  defaults$drug_desc <- "emollients, topical"
+  frameworkContext$defaultValues$hf_d_med_product = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_med_reason = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$brand_name <- "Ibuprofen"
+  defaults$generic_name <- "ibuprofen"
+  defaults$route_description <- "oral"
+  defaults$dose_form_description <- "tablet"
+  frameworkContext$defaultValues$hf_d_medication = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_mic_order_status = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$test_type <- "Microbiology"
+  frameworkContext$defaultValues$hf_d_micro_result_type = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_normalcy = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_normalcy_method = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_order_stop_type = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_order_type = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$race <- "Caucasian"
+  defaults$gender <- "Female"
+  defaults$marital_status <- "Single"
+  frameworkContext$defaultValues$hf_d_patient = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_patient_type = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_payer = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$medical_specialty <- "NULL"
+  frameworkContext$defaultValues$hf_d_physician = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_present_on_admit = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$procedure_type <- "ICD10-PCS"
+  defaults$procedure_code <- "043EECA7-F13"
+  defaults$procedure_description <- "CPT"
+  frameworkContext$defaultValues$hf_d_procedure = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_procedure_modifier = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_reporting_priority = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_result_indicator = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_result_type_proc = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_route_admin = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_surgical_case_level = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$order_type <- "Surgery"
+  frameworkContext$defaultValues$hf_d_surgical_procedure = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_surgical_specialty = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_test_type = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_unit = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  frameworkContext$defaultValues$hf_d_wound_class = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$encounter_id <- "634785782"
+  defaults$lab_procedure_id <- "23"
+  defaults$event_code_id <- "226"
+  defaults$event_class_id <- "15"
+  defaults$event_end_dt_tm <- "2010-02-19 14:44:00.000000"
+  defaults$event_end_dt_id <- "7285"
+  defaults$event_reltn_id <- "4"
+  defaults$event_start_dt_id <- "4019"
+  defaults$event_expiration_dt_id <- "4019"
+  defaults$event_normalcy_id <- "-1"
+  defaults$event_normalcy_method_id <- "-1"
+  defaults$performed_dt_id <- "4019"
+  defaults$performed_prsnl_id <- "-9"
+  defaults$result_normalcy_flg <- "0"
+  defaults$result_time_unit_id <- "250"
+  defaults$result_units_id <- "250"
+  defaults$result_value_dt_id <- "4019"
+  defaults$result_feasible_ind <- "0"
+  defaults$result_inaccurate_ind <- "0"
+  defaults$event_source_id <- "-1"
+  defaults$verified_dt_id <- "4019"
+  defaults$verified_prsnl_id <- "-9"
+  defaults$_extractyear <- "2014"
+  frameworkContext$defaultValues$hf_f_clinical_event = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$encounter_id <- "357148349"
+  defaults$diagnosis_id <- "7278"
+  defaults$diagnosis_priority <- "1"
+  defaults$diagnosis_type_id <- "83"
+  defaults$present_on_admit_id <- "6"
+  defaults$third_party_ind <- "0"
+  defaults$_extractyear <- "2014"
+  frameworkContext$defaultValues$hf_f_diagnosis = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$encounter_id <- "634785782"
+  defaults$patient_type_id <- "98"
+  defaults$caresetting_id <- "16"
+  defaults$begin_dt_tm <- "2014-01-08 12:00:00.000000"
+  defaults$end_dt_tm <- "2014-01-08 12:00:00.000000"
+  defaults$begin_dt_id <- "7739"
+  defaults$end_dt_id <- "7740"
+  defaults$_extractyear <- "2014"
+  frameworkContext$defaultValues$hf_f_enc_history = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$hospital_id <- "84"
+  defaults$admitting_physician_id <- "-1"
+  defaults$discharge_caresetting_id <- "16"
+  defaults$patient_type_id <- "98"
+  defaults$admitted_dt_id <- "4019"
+  defaults$discharged_dt_id <- "4019"
+  defaults$discharge_disposition_id <- "1"
+  defaults$diagnostic_grouping_id <- "1"
+  defaults$admission_source_id <- "1"
+  defaults$admission_type_id <- "6"
+  defaults$payer_id <- "22"
+  defaults$total_charges <- "0.000000"
+  defaults$billing_ind <- "1"
+  defaults$weight_unit_id <- "250"
+  defaults$discharged_dt_tm <- "2014-01-08.000000"
+  defaults$admitted_tm_valid_ind <- "1"
+  defaults$discharged_tm_valid_ind <- "1"
+  defaults$_extractyear <- "2014"
+  frameworkContext$defaultValues$hf_f_encounter = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$manufacturer_id <- "-9"
+  defaults$expiration_dt_id <- "4019"
+  defaults$surgical_case_id <- "6021842"
+  defaults$encounter_id <- "360742999"
+  defaults$_extractyear <- "2016"
+  frameworkContext$defaultValues$hf_f_implant_log = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$encounter_id <- "634818260"
+  defaults$detail_lab_procedure_id <- "39"
+  defaults$order_lab_procedure_id <- "526"
+  defaults$lab_order_caresetting_id <- "16"
+  defaults$reporting_priority_id <- "1"
+  defaults$lab_result_type_id <- "7"
+  defaults$result_indicator_id <- "8"
+  defaults$lab_ordered_dt_id <- "4019"
+  defaults$lab_drawn_dt_id <- "4019"
+  defaults$lab_received_dt_id <- "4019"
+  defaults$lab_completed_dt_id <- "4019"
+  defaults$lab_cancelled_dt_id <- "4019"
+  defaults$lab_verified_dt_id <- "4019"
+  defaults$date_result_id <- "4019.000000"
+  defaults$result_units_id <- "250.0"
+  defaults$lab_ordered_tm_vld_flg <- "1"
+  defaults$lab_drawn_tm_vld_flg <- "1"
+  defaults$lab_received_tm_vld_flg <- "1"
+  defaults$lab_completed_tm_vld_flg <- "1"
+  defaults$lab_cancelled_tm_vld_flg <- "0"
+  defaults$lab_verified_tm_vld_flg <- "1"
+  defaults$lab_performed_tm_vld_flg <- "1"
+  defaults$lab_performed_caresetting_id <- "174"
+  defaults$collection_source_id <- "522"
+  frameworkContext$defaultValues$hf_f_lab_procedure = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$encounter_id <- "634785782"
+  defaults$ordering_physician_id <- "-1"
+  defaults$med_history_flg <- "1"
+  defaults$req_start_dt_id <- "4019"
+  defaults$route_administration_id <- "57"
+  defaults$order_stop_type_id <- "4"
+  defaults$med_stopped_dt_id <- "4019"
+  defaults$frequency_id <- "111"
+  defaults$order_strength_units_id <- "250"
+  defaults$order_volume_units_id <- "250"
+  defaults$duration_unit_id <- "250"
+  defaults$next_dose_dt_id <- "4019"
+  defaults$infusion_rate_units_id <- "250"
+  defaults$med_reason_id <- "-1"
+  defaults$cancel_reason_id <- "-1"
+  defaults$dispensed_quantity_units_id <- "250"
+  defaults$compliance_status_id <- "-1"
+  defaults$med_entered_dt_id <- "7738"
+  defaults$med_entered_tm_vld_flg <- "1"
+  defaults$med_product_id <- "791"
+  defaults$_extractyear <- "2014"
+  frameworkContext$defaultValues$hf_f_med_history = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$encounter_id <- "120885265"
+  defaults$medication_id <- "14883"
+  defaults$med_dispensed_caresetting_id <- "174"
+  defaults$med_request_caresetting_id <- "174"
+  defaults$discontinue_reason_id <- "1"
+  defaults$route_administration_id <- "56"
+  defaults$formulary_type_id <- "1"
+  defaults$frequency_id <- "110"
+  defaults$order_stop_type_id <- "2"
+  defaults$order_type_id <- "4"
+  defaults$med_order_status_id <- "4"
+  defaults$med_started_dt_id <- "7187"
+  defaults$med_entered_dt_id <- "7187"
+  defaults$med_stopped_dt_id <- "4019"
+  defaults$med_discontinued_dt_id <- "4019"
+  defaults$total_dispensed_doses <- "0.0"
+  defaults$dose_quantity <- "1.0"
+  defaults$initial_dose_quantity <- "0.0"
+  defaults$dose_units_id <- "39"
+  defaults$charge_quantity <- "0.0"
+  defaults$credit_quantity <- "0.0"
+  defaults$infusion_rate <- "0.0"
+  defaults$infusion_time_units_id <- "250"
+  defaults$order_strength_units_id <- "174"
+  defaults$order_volume <- "1.0"
+  defaults$order_volume_units_id <- "162"
+  defaults$med_started_dt_tm <- "2011-05-22 08:42:00.000000"
+  defaults$med_started_tm_valid_flg <- "1"
+  defaults$med_entered_tm_valid_flg <- "1"
+  defaults$med_stopped_tm_valid_flg <- "1"
+  defaults$med_discontinued_tm_valid_flg <- "1"
+  defaults$_extractyear <- "2014"
+  frameworkContext$defaultValues$hf_f_medication = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$encounter_id <- "252004367"
+  defaults$order_lab_procedure_id <- "337"
+  defaults$test_type_id <- "1"
+  defaults$isolate_id <- "2211"
+  defaults$antimicrobial_id <- "87"
+  defaults$interp_result_id <- "8"
+  defaults$interp_perf_dt_id <- "4019"
+  defaults$interp_perf_tm_vld_flg <- "0"
+  defaults$interp_verf_dt_id <- "4019"
+  defaults$interp_verf_tm_vld_flg <- "1"
+  defaults$numeric_result <- "0"
+  defaults$numeric_result_perf_dt_id <- "4019"
+  defaults$numeric_result_perf_tm_vld_flg <- "0"
+  defaults$numeric_result_verf_dt_id <- "4019"
+  defaults$numeric_result_verf_tm_vld_flg <- "1"
+  defaults$result_units_id <- "250"
+  defaults$collection_source_id <- "411"
+  defaults$collection_site_id <- "522"
+  defaults$_extractyear <- "2014"
+  frameworkContext$defaultValues$hf_f_micro_susceptibility = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$encounter_id <- "633921645"
+  defaults$order_lab_procedure_id <- "76"
+  defaults$isolate_id <- "2521"
+  defaults$micro_order_caresetting_id <- "25"
+  defaults$micro_result_type_id <- "2"
+  defaults$result_type_procedure_id <- "24"
+  defaults$collection_source_id <- "29"
+  defaults$collection_site_id <- "522"
+  defaults$reporting_priority_id <- "1"
+  defaults$micro_order_status_id <- "3"
+  defaults$collection_status_id <- "14"
+  defaults$micro_lab_ordered_dt_id <- "7129"
+  defaults$micro_lab_drawn_dt_id <- "4019"
+  defaults$micro_lab_received_dt_id <- "4019"
+  defaults$micro_lab_completed_dt_id <- "4019"
+  defaults$micro_lab_cancelled_dt_id <- "4019"
+  defaults$first_report_entered_dt_id <- "4019"
+  defaults$last_report_updated_dt_id <- "4019"
+  defaults$total_report_updates <- "1"
+  defaults$micro_lab_drawn_tm_vld_flg <- "1"
+  defaults$micro_lab_received_tm_vld_flg <- "1"
+  defaults$micro_lab_complted_tm_vld_flg <- "1"
+  defaults$micro_lab_cancelled_tm_vld_flg <- "1"
+  defaults$first_rpt_entered_tm_vld_flg <- "0"
+  defaults$_extractyear <- "2013"
+  frameworkContext$defaultValues$hf_f_microbiology = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$encounter_id <- "552617023"
+  defaults$procedure_id <- "2616"
+  defaults$procedure_dt_id <- "4019"
+  defaults$procedure_priority <- "1"
+  defaults$third_party_ind <- "0"
+  defaults$_extractyear <- "2014"
+  frameworkContext$defaultValues$hf_f_procedure = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$encounter_id <- "403688293"
+  defaults$case_level_id <- "-9"
+  defaults$case_start_dt_id <- "4019"
+  defaults$case_stop_dt_id <- "4019"
+  defaults$case_duration <- "10"
+  defaults$scheduled_case_start_dt_id <- "4019"
+  defaults$scheduled_case_stop_dt_id <- "4019"
+  defaults$scheduled_case_duration <- "60"
+  defaults$case_specialty_id <- "-9"
+  defaults$case_completed_ind <- "1"
+  defaults$case_cancelled_dt_id <- "4019"
+  defaults$case_cancelled_reason_id <- "-1"
+  defaults$case_closing_start_dt_id <- "4019"
+  defaults$transport_requested_dt_id <- "4019"
+  defaults$operating_room_setup_dt_id <- "4019"
+  defaults$operating_room_ready_dt_id <- "4019"
+  defaults$patient_in_preop_hold_dt_id <- "4019"
+  defaults$patient_out_preop_hold_dt_id <- "4019"
+  defaults$preop_antibiotic_admin_dt_id <- "4019"
+  defaults$patient_out_oper_room_dt_id <- "4019"
+  defaults$anesthesia_start_dt_id <- "4019"
+  defaults$anesthesia_induct_dt_id <- "4019"
+  defaults$anesthesia_stop_dt_id <- "4019"
+  defaults$surgeon_in_oper_room_dt_id <- "4019"
+  defaults$patient_in_pacu_dt_id <- "4019"
+  defaults$patient_out_pacu_dt_id <- "4019"
+  defaults$patient_in_pacu_ii_dt_id <- "4019"
+  defaults$patient_out_pacu_ii_dt_id <- "4019"
+  defaults$patient_in_oper_room_dt_id <- "4019"
+  defaults$_extractyear <- "2013"
+  frameworkContext$defaultValues$hf_f_surgical_case = defaults;
+
+  defaults <- new.env(parent = emptyenv())
+  defaults$encounter_id <- "508089715"
+  defaults$surgical_procedure_id <- "-9"
+  defaults$wound_class_id <- "2"
+  defaults$asa_class_id <- "3"
+  defaults$procedure_specialty_id <- "17"
+  defaults$procedure_revision_ind <- "0"
+  defaults$procedure_modifier_01_id <- "-1"
+  defaults$procedure_modifier_02_id <- "-1"
+  defaults$procedure_modifier_03_id <- "-1"
+  defaults$procedure_duration <- "10"
+  defaults$procedure_start_dt_tm <- "2012-06-21 13:37:00.000000"
+  defaults$procedure_start_dt_id <- "7265"
+  defaults$procedure_stop_dt_id <- "7265"
+  defaults$primary_procedure_ind <- "1"
+  defaults$scheduled_procedure_duration <- "0"
+  defaults$procedure_completion_ind <- "1"
+  defaults$concurrent_procedure_ind <- "0"
+  defaults$anesthesia_type_id <- "7"
+  defaults$expected_case_level_id <- "-1"
+  defaults$case_level_id <- "9"
+  defaults$_extractyear <- "2014"
+  frameworkContext$defaultValues$hf_f_surgical_procedure = defaults;
+}
+
+declareTestGroup <- function(groupName) {
+  frameworkContext$groupIndex <- frameworkContext$groupIndex + 1 ;
+  frameworkContext$currentGroup <- {}
+
+  frameworkContext$currentGroup$groupName <- groupName;
+  frameworkContext$currentGroup$groupItemIndex <- -1;
+  sql <- c("",paste0("-- ", frameworkContext$groupIndex, ". ", groupName));
+  frameworkContext$testDescription = c(sql, frameworkContext$testDescription);
+}
+
+declareTest <- function(description, source_pid = NULL, cdm_pid = NULL) {
+  frameworkContext$testId = frameworkContext$testId + 1;
+  frameworkContext$testDescription = description;
+  frameworkContext$testNewAdded = TRUE;
+  frameworkContext$testNewExpected = TRUE;
+  frameworkContext$patient$source_pid = source_pid;
+  frameworkContext$patient$cdm_pid = cdm_pid;
+  if (is.null(frameworkContext$currentGroup)) {  
+    sql <- c(paste0("-- Test ", frameworkContext$testId, ": ", frameworkContext$testDescription));
+  } else {
+    frameworkContext$currentGroup$groupItemIndex = frameworkContext$currentGroup$groupItemIndex + 1;
+    sql <- c(paste0("-- ", frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription, " [Test ID: ", frameworkContext$testId, "]"));
+  }
+  frameworkContext$testDescription = c("--", sql, "--");
+}
+
+set_defaults_hf_d_admission_source <- function(admission_source_id, admission_source_code, admission_source_code_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_admission_source;
+  if (!missing(admission_source_id)) {
+    defaults$admission_source_id <- admission_source_id
+  }
+  if (!missing(admission_source_code)) {
+    defaults$admission_source_code <- admission_source_code
+  }
+  if (!missing(admission_source_code_desc)) {
+    defaults$admission_source_code_desc <- admission_source_code_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_admission_type <- function(admission_type_id, admission_type_code, admission_type_code_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_admission_type;
+  if (!missing(admission_type_id)) {
+    defaults$admission_type_id <- admission_type_id
+  }
+  if (!missing(admission_type_code)) {
+    defaults$admission_type_code <- admission_type_code
+  }
+  if (!missing(admission_type_code_desc)) {
+    defaults$admission_type_code_desc <- admission_type_code_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_anesthesia_type <- function(anesthesia_type_id, anesthesia_type_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_anesthesia_type;
+  if (!missing(anesthesia_type_id)) {
+    defaults$anesthesia_type_id <- anesthesia_type_id
+  }
+  if (!missing(anesthesia_type_desc)) {
+    defaults$anesthesia_type_desc <- anesthesia_type_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_antimicrobial <- function(antimicrobial_id, antimicrobial_dcode, antimicrobial_desc, drug_classification, antibiogram_class, antimicrobial_mnemonic, loinc_long, loinc_short) {
+  defaults <- frameworkContext$defaultValues$hf_d_antimicrobial;
+  if (!missing(antimicrobial_id)) {
+    defaults$antimicrobial_id <- antimicrobial_id
+  }
+  if (!missing(antimicrobial_dcode)) {
+    defaults$antimicrobial_dcode <- antimicrobial_dcode
+  }
+  if (!missing(antimicrobial_desc)) {
+    defaults$antimicrobial_desc <- antimicrobial_desc
+  }
+  if (!missing(drug_classification)) {
+    defaults$drug_classification <- drug_classification
+  }
+  if (!missing(antibiogram_class)) {
+    defaults$antibiogram_class <- antibiogram_class
+  }
+  if (!missing(antimicrobial_mnemonic)) {
+    defaults$antimicrobial_mnemonic <- antimicrobial_mnemonic
+  }
+  if (!missing(loinc_long)) {
+    defaults$loinc_long <- loinc_long
+  }
+  if (!missing(loinc_short)) {
+    defaults$loinc_short <- loinc_short
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_asa_class <- function(asa_class_id, asa_class_code, asa_class_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_asa_class;
+  if (!missing(asa_class_id)) {
+    defaults$asa_class_id <- asa_class_id
+  }
+  if (!missing(asa_class_code)) {
+    defaults$asa_class_code <- asa_class_code
+  }
+  if (!missing(asa_class_desc)) {
+    defaults$asa_class_desc <- asa_class_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_cancel_reason <- function(cancel_reason_id, cancel_reason_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_cancel_reason;
+  if (!missing(cancel_reason_id)) {
+    defaults$cancel_reason_id <- cancel_reason_id
+  }
+  if (!missing(cancel_reason_desc)) {
+    defaults$cancel_reason_desc <- cancel_reason_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_caresetting <- function(caresetting_id, caresetting_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_caresetting;
+  if (!missing(caresetting_id)) {
+    defaults$caresetting_id <- caresetting_id
+  }
+  if (!missing(caresetting_desc)) {
+    defaults$caresetting_desc <- caresetting_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_collection_src_site <- function(collection_source_site_id, snomed_code, collection_source_site_desc, source_type) {
+  defaults <- frameworkContext$defaultValues$hf_d_collection_src_site;
+  if (!missing(collection_source_site_id)) {
+    defaults$collection_source_site_id <- collection_source_site_id
+  }
+  if (!missing(snomed_code)) {
+    defaults$snomed_code <- snomed_code
+  }
+  if (!missing(collection_source_site_desc)) {
+    defaults$collection_source_site_desc <- collection_source_site_desc
+  }
+  if (!missing(source_type)) {
+    defaults$source_type <- source_type
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_collection_status <- function(collection_status_id, collection_status_code, collection_status_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_collection_status;
+  if (!missing(collection_status_id)) {
+    defaults$collection_status_id <- collection_status_id
+  }
+  if (!missing(collection_status_code)) {
+    defaults$collection_status_code <- collection_status_code
+  }
+  if (!missing(collection_status_desc)) {
+    defaults$collection_status_desc <- collection_status_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_compliance_status <- function(compliance_status_id, compliance_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_compliance_status;
+  if (!missing(compliance_status_id)) {
+    defaults$compliance_status_id <- compliance_status_id
+  }
+  if (!missing(compliance_desc)) {
+    defaults$compliance_desc <- compliance_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_date <- function(date_id, year, quarter, month, month_name, day_number_in_month, week_number_in_year, day_of_week, day_number_of_week, holiday_ind, weekday_ind) {
+  defaults <- frameworkContext$defaultValues$hf_d_date;
+  if (!missing(date_id)) {
+    defaults$date_id <- date_id
+  }
+  if (!missing(year)) {
+    defaults$year <- year
+  }
+  if (!missing(quarter)) {
+    defaults$quarter <- quarter
+  }
+  if (!missing(month)) {
+    defaults$month <- month
+  }
+  if (!missing(month_name)) {
+    defaults$month_name <- month_name
+  }
+  if (!missing(day_number_in_month)) {
+    defaults$day_number_in_month <- day_number_in_month
+  }
+  if (!missing(week_number_in_year)) {
+    defaults$week_number_in_year <- week_number_in_year
+  }
+  if (!missing(day_of_week)) {
+    defaults$day_of_week <- day_of_week
+  }
+  if (!missing(day_number_of_week)) {
+    defaults$day_number_of_week <- day_number_of_week
+  }
+  if (!missing(holiday_ind)) {
+    defaults$holiday_ind <- holiday_ind
+  }
+  if (!missing(weekday_ind)) {
+    defaults$weekday_ind <- weekday_ind
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_diagnosis <- function(diagnosis_id, diagnosis_type, diagnosis_code, diagnosis_description) {
+  defaults <- frameworkContext$defaultValues$hf_d_diagnosis;
+  if (!missing(diagnosis_id)) {
+    defaults$diagnosis_id <- diagnosis_id
+  }
+  if (!missing(diagnosis_type)) {
+    defaults$diagnosis_type <- diagnosis_type
+  }
+  if (!missing(diagnosis_code)) {
+    defaults$diagnosis_code <- diagnosis_code
+  }
+  if (!missing(diagnosis_description)) {
+    defaults$diagnosis_description <- diagnosis_description
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_diagnosis_type <- function(diagnosis_type_id, diagnosis_type_display) {
+  defaults <- frameworkContext$defaultValues$hf_d_diagnosis_type;
+  if (!missing(diagnosis_type_id)) {
+    defaults$diagnosis_type_id <- diagnosis_type_id
+  }
+  if (!missing(diagnosis_type_display)) {
+    defaults$diagnosis_type_display <- diagnosis_type_display
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_diagnostic_grouping <- function(diagnostic_grouping_id, mdc_code, mdc_code_desc, drg_code, drg_code_desc, drg_id, mdc_id, drg_type) {
+  defaults <- frameworkContext$defaultValues$hf_d_diagnostic_grouping;
+  if (!missing(diagnostic_grouping_id)) {
+    defaults$diagnostic_grouping_id <- diagnostic_grouping_id
+  }
+  if (!missing(mdc_code)) {
+    defaults$mdc_code <- mdc_code
+  }
+  if (!missing(mdc_code_desc)) {
+    defaults$mdc_code_desc <- mdc_code_desc
+  }
+  if (!missing(drg_code)) {
+    defaults$drg_code <- drg_code
+  }
+  if (!missing(drg_code_desc)) {
+    defaults$drg_code_desc <- drg_code_desc
+  }
+  if (!missing(drg_id)) {
+    defaults$drg_id <- drg_id
+  }
+  if (!missing(mdc_id)) {
+    defaults$mdc_id <- mdc_id
+  }
+  if (!missing(drg_type)) {
+    defaults$drg_type <- drg_type
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_dischg_disp <- function(dischg_disp_id, dischg_disp_code, dischg_disp_code_desc, beg_effective_dt_tm, end_effective_dt_tm) {
+  defaults <- frameworkContext$defaultValues$hf_d_dischg_disp;
+  if (!missing(dischg_disp_id)) {
+    defaults$dischg_disp_id <- dischg_disp_id
+  }
+  if (!missing(dischg_disp_code)) {
+    defaults$dischg_disp_code <- dischg_disp_code
+  }
+  if (!missing(dischg_disp_code_desc)) {
+    defaults$dischg_disp_code_desc <- dischg_disp_code_desc
+  }
+  if (!missing(beg_effective_dt_tm)) {
+    defaults$beg_effective_dt_tm <- beg_effective_dt_tm
+  }
+  if (!missing(end_effective_dt_tm)) {
+    defaults$end_effective_dt_tm <- end_effective_dt_tm
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_discontinue_reason <- function(discontinue_reason_id, discontinue_reason_code, discontinue_reason_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_discontinue_reason;
+  if (!missing(discontinue_reason_id)) {
+    defaults$discontinue_reason_id <- discontinue_reason_id
+  }
+  if (!missing(discontinue_reason_code)) {
+    defaults$discontinue_reason_code <- discontinue_reason_code
+  }
+  if (!missing(discontinue_reason_desc)) {
+    defaults$discontinue_reason_desc <- discontinue_reason_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_event_class <- function(event_class_id, event_class_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_event_class;
+  if (!missing(event_class_id)) {
+    defaults$event_class_id <- event_class_id
+  }
+  if (!missing(event_class_desc)) {
+    defaults$event_class_desc <- event_class_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_event_code <- function(event_code_id, event_code_desc, event_code_display, event_code_group, event_code_category) {
+  defaults <- frameworkContext$defaultValues$hf_d_event_code;
+  if (!missing(event_code_id)) {
+    defaults$event_code_id <- event_code_id
+  }
+  if (!missing(event_code_desc)) {
+    defaults$event_code_desc <- event_code_desc
+  }
+  if (!missing(event_code_display)) {
+    defaults$event_code_display <- event_code_display
+  }
+  if (!missing(event_code_group)) {
+    defaults$event_code_group <- event_code_group
+  }
+  if (!missing(event_code_category)) {
+    defaults$event_code_category <- event_code_category
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_event_reltn <- function(event_reltn_id, event_reltn_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_event_reltn;
+  if (!missing(event_reltn_id)) {
+    defaults$event_reltn_id <- event_reltn_id
+  }
+  if (!missing(event_reltn_desc)) {
+    defaults$event_reltn_desc <- event_reltn_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_event_source <- function(event_source_id, event_source_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_event_source;
+  if (!missing(event_source_id)) {
+    defaults$event_source_id <- event_source_id
+  }
+  if (!missing(event_source_desc)) {
+    defaults$event_source_desc <- event_source_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_formulary_type <- function(formulary_type_id, formulary_type_code, formulary_type_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_formulary_type;
+  if (!missing(formulary_type_id)) {
+    defaults$formulary_type_id <- formulary_type_id
+  }
+  if (!missing(formulary_type_code)) {
+    defaults$formulary_type_code <- formulary_type_code
+  }
+  if (!missing(formulary_type_desc)) {
+    defaults$formulary_type_desc <- formulary_type_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_frequency <- function(frequency_id, frequency_disp, frequency_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_frequency;
+  if (!missing(frequency_id)) {
+    defaults$frequency_id <- frequency_id
+  }
+  if (!missing(frequency_disp)) {
+    defaults$frequency_disp <- frequency_disp
+  }
+  if (!missing(frequency_desc)) {
+    defaults$frequency_desc <- frequency_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_hospital <- function(hospital_id, census_region, census_division, bed_size_range, teaching_facility_ind, cath_lab_full_ind, cath_lab_diagnostic_ind, urban_rural_status, acute_status, alt_hospital_id, alt_health_system_id) {
+  defaults <- frameworkContext$defaultValues$hf_d_hospital;
+  if (!missing(hospital_id)) {
+    defaults$hospital_id <- hospital_id
+  }
+  if (!missing(census_region)) {
+    defaults$census_region <- census_region
+  }
+  if (!missing(census_division)) {
+    defaults$census_division <- census_division
+  }
+  if (!missing(bed_size_range)) {
+    defaults$bed_size_range <- bed_size_range
+  }
+  if (!missing(teaching_facility_ind)) {
+    defaults$teaching_facility_ind <- teaching_facility_ind
+  }
+  if (!missing(cath_lab_full_ind)) {
+    defaults$cath_lab_full_ind <- cath_lab_full_ind
+  }
+  if (!missing(cath_lab_diagnostic_ind)) {
+    defaults$cath_lab_diagnostic_ind <- cath_lab_diagnostic_ind
+  }
+  if (!missing(urban_rural_status)) {
+    defaults$urban_rural_status <- urban_rural_status
+  }
+  if (!missing(acute_status)) {
+    defaults$acute_status <- acute_status
+  }
+  if (!missing(alt_hospital_id)) {
+    defaults$alt_hospital_id <- alt_hospital_id
+  }
+  if (!missing(alt_health_system_id)) {
+    defaults$alt_health_system_id <- alt_health_system_id
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_interp_result <- function(interp_result_id, interp_result_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_interp_result;
+  if (!missing(interp_result_id)) {
+    defaults$interp_result_id <- interp_result_id
+  }
+  if (!missing(interp_result_desc)) {
+    defaults$interp_result_desc <- interp_result_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_isolate <- function(isolate_id, isolate_name, isolate_type, isolate_category, isolate_group, isolate_rept_category, phin_loinc_code, alt_loinc_code, snomed_code, snomedct_code) {
+  defaults <- frameworkContext$defaultValues$hf_d_isolate;
+  if (!missing(isolate_id)) {
+    defaults$isolate_id <- isolate_id
+  }
+  if (!missing(isolate_name)) {
+    defaults$isolate_name <- isolate_name
+  }
+  if (!missing(isolate_type)) {
+    defaults$isolate_type <- isolate_type
+  }
+  if (!missing(isolate_category)) {
+    defaults$isolate_category <- isolate_category
+  }
+  if (!missing(isolate_group)) {
+    defaults$isolate_group <- isolate_group
+  }
+  if (!missing(isolate_rept_category)) {
+    defaults$isolate_rept_category <- isolate_rept_category
+  }
+  if (!missing(phin_loinc_code)) {
+    defaults$phin_loinc_code <- phin_loinc_code
+  }
+  if (!missing(alt_loinc_code)) {
+    defaults$alt_loinc_code <- alt_loinc_code
+  }
+  if (!missing(snomed_code)) {
+    defaults$snomed_code <- snomed_code
+  }
+  if (!missing(snomedct_code)) {
+    defaults$snomedct_code <- snomedct_code
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_lab_procedure <- function(lab_procedure_id, lab_procedure_mnemonic, lab_procedure_name, lab_procedure_group, lab_super_group, loinc_code, loinc_ind, loinc_long, loinc_short) {
+  defaults <- frameworkContext$defaultValues$hf_d_lab_procedure;
+  if (!missing(lab_procedure_id)) {
+    defaults$lab_procedure_id <- lab_procedure_id
+  }
+  if (!missing(lab_procedure_mnemonic)) {
+    defaults$lab_procedure_mnemonic <- lab_procedure_mnemonic
+  }
+  if (!missing(lab_procedure_name)) {
+    defaults$lab_procedure_name <- lab_procedure_name
+  }
+  if (!missing(lab_procedure_group)) {
+    defaults$lab_procedure_group <- lab_procedure_group
+  }
+  if (!missing(lab_super_group)) {
+    defaults$lab_super_group <- lab_super_group
+  }
+  if (!missing(loinc_code)) {
+    defaults$loinc_code <- loinc_code
+  }
+  if (!missing(loinc_ind)) {
+    defaults$loinc_ind <- loinc_ind
+  }
+  if (!missing(loinc_long)) {
+    defaults$loinc_long <- loinc_long
+  }
+  if (!missing(loinc_short)) {
+    defaults$loinc_short <- loinc_short
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_lab_result_type <- function(lab_result_type_id, lab_result_type_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_lab_result_type;
+  if (!missing(lab_result_type_id)) {
+    defaults$lab_result_type_id <- lab_result_type_id
+  }
+  if (!missing(lab_result_type_desc)) {
+    defaults$lab_result_type_desc <- lab_result_type_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_manufacturer <- function(manufacturer_id, manufacturer_name, manufacturer_alt_name) {
+  defaults <- frameworkContext$defaultValues$hf_d_manufacturer;
+  if (!missing(manufacturer_id)) {
+    defaults$manufacturer_id <- manufacturer_id
+  }
+  if (!missing(manufacturer_name)) {
+    defaults$manufacturer_name <- manufacturer_name
+  }
+  if (!missing(manufacturer_alt_name)) {
+    defaults$manufacturer_alt_name <- manufacturer_alt_name
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_med_order_status <- function(med_order_status_id, med_order_status_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_med_order_status;
+  if (!missing(med_order_status_id)) {
+    defaults$med_order_status_id <- med_order_status_id
+  }
+  if (!missing(med_order_status_desc)) {
+    defaults$med_order_status_desc <- med_order_status_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_med_product <- function(med_product_id, drug_code, drug_mnemonic_code, drug_desc, drug_mnemonic_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_med_product;
+  if (!missing(med_product_id)) {
+    defaults$med_product_id <- med_product_id
+  }
+  if (!missing(drug_code)) {
+    defaults$drug_code <- drug_code
+  }
+  if (!missing(drug_mnemonic_code)) {
+    defaults$drug_mnemonic_code <- drug_mnemonic_code
+  }
+  if (!missing(drug_desc)) {
+    defaults$drug_desc <- drug_desc
+  }
+  if (!missing(drug_mnemonic_desc)) {
+    defaults$drug_mnemonic_desc <- drug_mnemonic_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_med_reason <- function(med_reason_id, med_reason_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_med_reason;
+  if (!missing(med_reason_id)) {
+    defaults$med_reason_id <- med_reason_id
+  }
+  if (!missing(med_reason_desc)) {
+    defaults$med_reason_desc <- med_reason_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_medication <- function(medication_id, ndc_code, brand_name, generic_name, product_strength_description, route_description, dose_form_description, obsolete_dt_tm) {
+  defaults <- frameworkContext$defaultValues$hf_d_medication;
+  if (!missing(medication_id)) {
+    defaults$medication_id <- medication_id
+  }
+  if (!missing(ndc_code)) {
+    defaults$ndc_code <- ndc_code
+  }
+  if (!missing(brand_name)) {
+    defaults$brand_name <- brand_name
+  }
+  if (!missing(generic_name)) {
+    defaults$generic_name <- generic_name
+  }
+  if (!missing(product_strength_description)) {
+    defaults$product_strength_description <- product_strength_description
+  }
+  if (!missing(route_description)) {
+    defaults$route_description <- route_description
+  }
+  if (!missing(dose_form_description)) {
+    defaults$dose_form_description <- dose_form_description
+  }
+  if (!missing(obsolete_dt_tm)) {
+    defaults$obsolete_dt_tm <- obsolete_dt_tm
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_mic_order_status <- function(micro_order_status_id, micro_order_status_code, micro_order_status_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_mic_order_status;
+  if (!missing(micro_order_status_id)) {
+    defaults$micro_order_status_id <- micro_order_status_id
+  }
+  if (!missing(micro_order_status_code)) {
+    defaults$micro_order_status_code <- micro_order_status_code
+  }
+  if (!missing(micro_order_status_desc)) {
+    defaults$micro_order_status_desc <- micro_order_status_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_micro_result_type <- function(micro_result_type_id, test_type, micro_result_type_code, micro_result_type_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_micro_result_type;
+  if (!missing(micro_result_type_id)) {
+    defaults$micro_result_type_id <- micro_result_type_id
+  }
+  if (!missing(test_type)) {
+    defaults$test_type <- test_type
+  }
+  if (!missing(micro_result_type_code)) {
+    defaults$micro_result_type_code <- micro_result_type_code
+  }
+  if (!missing(micro_result_type_desc)) {
+    defaults$micro_result_type_desc <- micro_result_type_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_normalcy <- function(normalcy_id, normalcy_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_normalcy;
+  if (!missing(normalcy_id)) {
+    defaults$normalcy_id <- normalcy_id
+  }
+  if (!missing(normalcy_desc)) {
+    defaults$normalcy_desc <- normalcy_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_normalcy_method <- function(normalcy_method_id, normalcy_method_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_normalcy_method;
+  if (!missing(normalcy_method_id)) {
+    defaults$normalcy_method_id <- normalcy_method_id
+  }
+  if (!missing(normalcy_method_desc)) {
+    defaults$normalcy_method_desc <- normalcy_method_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_order_stop_type <- function(order_stop_type_id, order_stop_type_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_order_stop_type;
+  if (!missing(order_stop_type_id)) {
+    defaults$order_stop_type_id <- order_stop_type_id
+  }
+  if (!missing(order_stop_type_desc)) {
+    defaults$order_stop_type_desc <- order_stop_type_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_order_type <- function(order_type_id, order_type_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_order_type;
+  if (!missing(order_type_id)) {
+    defaults$order_type_id <- order_type_id
+  }
+  if (!missing(order_type_desc)) {
+    defaults$order_type_desc <- order_type_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_patient <- function(patient_id, patient_sk, race, gender, marital_status) {
+  defaults <- frameworkContext$defaultValues$hf_d_patient;
+  if (!missing(patient_id)) {
+    defaults$patient_id <- patient_id
+  }
+  if (!missing(patient_sk)) {
+    defaults$patient_sk <- patient_sk
+  }
+  if (!missing(race)) {
+    defaults$race <- race
+  }
+  if (!missing(gender)) {
+    defaults$gender <- gender
+  }
+  if (!missing(marital_status)) {
+    defaults$marital_status <- marital_status
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_patient_type <- function(patient_type_id, patient_type_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_patient_type;
+  if (!missing(patient_type_id)) {
+    defaults$patient_type_id <- patient_type_id
+  }
+  if (!missing(patient_type_desc)) {
+    defaults$patient_type_desc <- patient_type_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_payer <- function(payer_id, payer_code, payer_code_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_payer;
+  if (!missing(payer_id)) {
+    defaults$payer_id <- payer_id
+  }
+  if (!missing(payer_code)) {
+    defaults$payer_code <- payer_code
+  }
+  if (!missing(payer_code_desc)) {
+    defaults$payer_code_desc <- payer_code_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_physician <- function(physician_id, medical_specialty) {
+  defaults <- frameworkContext$defaultValues$hf_d_physician;
+  if (!missing(physician_id)) {
+    defaults$physician_id <- physician_id
+  }
+  if (!missing(medical_specialty)) {
+    defaults$medical_specialty <- medical_specialty
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_present_on_admit <- function(present_on_admit_id, present_on_admit_code, present_on_admit_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_present_on_admit;
+  if (!missing(present_on_admit_id)) {
+    defaults$present_on_admit_id <- present_on_admit_id
+  }
+  if (!missing(present_on_admit_code)) {
+    defaults$present_on_admit_code <- present_on_admit_code
+  }
+  if (!missing(present_on_admit_desc)) {
+    defaults$present_on_admit_desc <- present_on_admit_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_procedure <- function(procedure_id, procedure_type, procedure_code, procedure_description) {
+  defaults <- frameworkContext$defaultValues$hf_d_procedure;
+  if (!missing(procedure_id)) {
+    defaults$procedure_id <- procedure_id
+  }
+  if (!missing(procedure_type)) {
+    defaults$procedure_type <- procedure_type
+  }
+  if (!missing(procedure_code)) {
+    defaults$procedure_code <- procedure_code
+  }
+  if (!missing(procedure_description)) {
+    defaults$procedure_description <- procedure_description
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_procedure_modifier <- function(procedure_modifier_id, procedure_modifier_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_procedure_modifier;
+  if (!missing(procedure_modifier_id)) {
+    defaults$procedure_modifier_id <- procedure_modifier_id
+  }
+  if (!missing(procedure_modifier_desc)) {
+    defaults$procedure_modifier_desc <- procedure_modifier_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_reporting_priority <- function(reporting_priority_id, reporting_priority_code, reporting_priority_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_reporting_priority;
+  if (!missing(reporting_priority_id)) {
+    defaults$reporting_priority_id <- reporting_priority_id
+  }
+  if (!missing(reporting_priority_code)) {
+    defaults$reporting_priority_code <- reporting_priority_code
+  }
+  if (!missing(reporting_priority_desc)) {
+    defaults$reporting_priority_desc <- reporting_priority_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_result_indicator <- function(result_indicator_id, result_indicator_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_result_indicator;
+  if (!missing(result_indicator_id)) {
+    defaults$result_indicator_id <- result_indicator_id
+  }
+  if (!missing(result_indicator_desc)) {
+    defaults$result_indicator_desc <- result_indicator_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_result_type_proc <- function(result_type_proc_id, result_type_proc_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_result_type_proc;
+  if (!missing(result_type_proc_id)) {
+    defaults$result_type_proc_id <- result_type_proc_id
+  }
+  if (!missing(result_type_proc_desc)) {
+    defaults$result_type_proc_desc <- result_type_proc_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_route_admin <- function(route_admin_id, route_admin_display, route_admin_description) {
+  defaults <- frameworkContext$defaultValues$hf_d_route_admin;
+  if (!missing(route_admin_id)) {
+    defaults$route_admin_id <- route_admin_id
+  }
+  if (!missing(route_admin_display)) {
+    defaults$route_admin_display <- route_admin_display
+  }
+  if (!missing(route_admin_description)) {
+    defaults$route_admin_description <- route_admin_description
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_surgical_case_level <- function(surgical_case_level_id, surgical_case_level_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_surgical_case_level;
+  if (!missing(surgical_case_level_id)) {
+    defaults$surgical_case_level_id <- surgical_case_level_id
+  }
+  if (!missing(surgical_case_level_desc)) {
+    defaults$surgical_case_level_desc <- surgical_case_level_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_surgical_procedure <- function(surgical_procedure_id, surgical_procedure_desc, order_type, order_specialty, anatomic_site, surgical_procedure_device, icd9_code, icd9_desc, revision_ind) {
+  defaults <- frameworkContext$defaultValues$hf_d_surgical_procedure;
+  if (!missing(surgical_procedure_id)) {
+    defaults$surgical_procedure_id <- surgical_procedure_id
+  }
+  if (!missing(surgical_procedure_desc)) {
+    defaults$surgical_procedure_desc <- surgical_procedure_desc
+  }
+  if (!missing(order_type)) {
+    defaults$order_type <- order_type
+  }
+  if (!missing(order_specialty)) {
+    defaults$order_specialty <- order_specialty
+  }
+  if (!missing(anatomic_site)) {
+    defaults$anatomic_site <- anatomic_site
+  }
+  if (!missing(surgical_procedure_device)) {
+    defaults$surgical_procedure_device <- surgical_procedure_device
+  }
+  if (!missing(icd9_code)) {
+    defaults$icd9_code <- icd9_code
+  }
+  if (!missing(icd9_desc)) {
+    defaults$icd9_desc <- icd9_desc
+  }
+  if (!missing(revision_ind)) {
+    defaults$revision_ind <- revision_ind
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_surgical_specialty <- function(surgical_specialty_id, surgical_specialty_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_surgical_specialty;
+  if (!missing(surgical_specialty_id)) {
+    defaults$surgical_specialty_id <- surgical_specialty_id
+  }
+  if (!missing(surgical_specialty_desc)) {
+    defaults$surgical_specialty_desc <- surgical_specialty_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_test_type <- function(test_type_id, test_type_mnemonic, test_type_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_test_type;
+  if (!missing(test_type_id)) {
+    defaults$test_type_id <- test_type_id
+  }
+  if (!missing(test_type_mnemonic)) {
+    defaults$test_type_mnemonic <- test_type_mnemonic
+  }
+  if (!missing(test_type_desc)) {
+    defaults$test_type_desc <- test_type_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_unit <- function(unit_id, unit_display, unit_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_unit;
+  if (!missing(unit_id)) {
+    defaults$unit_id <- unit_id
+  }
+  if (!missing(unit_display)) {
+    defaults$unit_display <- unit_display
+  }
+  if (!missing(unit_desc)) {
+    defaults$unit_desc <- unit_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_d_wound_class <- function(wound_class_id, wound_class_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_wound_class;
+  if (!missing(wound_class_id)) {
+    defaults$wound_class_id <- wound_class_id
+  }
+  if (!missing(wound_class_desc)) {
+    defaults$wound_class_desc <- wound_class_desc
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_f_clinical_event <- function(encounter_id, accession_nbr, lab_procedure_id, critical_high, critical_low, event_code_id, event_class_id, event_end_dt_tm, event_end_dt_id, event_reltn_id, event_start_dt_tm, event_start_dt_id, event_expiration_dt_tm, event_expiration_dt_id, event_normalcy_id, event_normalcy_method_id, normal_high, normal_low, performed_dt_tm, performed_dt_id, performed_prsnl_id, result_normalcy_flg, result_time_unit_id, result_units_id, result_value_dt_tm, result_value_dt_id, result_value_num, result_feasible_ind, result_inaccurate_ind, event_source_id, verified_dt_tm, verified_dt_id, verified_prsnl_id, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_clinical_event;
+  if (!missing(encounter_id)) {
+    defaults$encounter_id <- encounter_id
+  }
+  if (!missing(accession_nbr)) {
+    defaults$accession_nbr <- accession_nbr
+  }
+  if (!missing(lab_procedure_id)) {
+    defaults$lab_procedure_id <- lab_procedure_id
+  }
+  if (!missing(critical_high)) {
+    defaults$critical_high <- critical_high
+  }
+  if (!missing(critical_low)) {
+    defaults$critical_low <- critical_low
+  }
+  if (!missing(event_code_id)) {
+    defaults$event_code_id <- event_code_id
+  }
+  if (!missing(event_class_id)) {
+    defaults$event_class_id <- event_class_id
+  }
+  if (!missing(event_end_dt_tm)) {
+    defaults$event_end_dt_tm <- event_end_dt_tm
+  }
+  if (!missing(event_end_dt_id)) {
+    defaults$event_end_dt_id <- event_end_dt_id
+  }
+  if (!missing(event_reltn_id)) {
+    defaults$event_reltn_id <- event_reltn_id
+  }
+  if (!missing(event_start_dt_tm)) {
+    defaults$event_start_dt_tm <- event_start_dt_tm
+  }
+  if (!missing(event_start_dt_id)) {
+    defaults$event_start_dt_id <- event_start_dt_id
+  }
+  if (!missing(event_expiration_dt_tm)) {
+    defaults$event_expiration_dt_tm <- event_expiration_dt_tm
+  }
+  if (!missing(event_expiration_dt_id)) {
+    defaults$event_expiration_dt_id <- event_expiration_dt_id
+  }
+  if (!missing(event_normalcy_id)) {
+    defaults$event_normalcy_id <- event_normalcy_id
+  }
+  if (!missing(event_normalcy_method_id)) {
+    defaults$event_normalcy_method_id <- event_normalcy_method_id
+  }
+  if (!missing(normal_high)) {
+    defaults$normal_high <- normal_high
+  }
+  if (!missing(normal_low)) {
+    defaults$normal_low <- normal_low
+  }
+  if (!missing(performed_dt_tm)) {
+    defaults$performed_dt_tm <- performed_dt_tm
+  }
+  if (!missing(performed_dt_id)) {
+    defaults$performed_dt_id <- performed_dt_id
+  }
+  if (!missing(performed_prsnl_id)) {
+    defaults$performed_prsnl_id <- performed_prsnl_id
+  }
+  if (!missing(result_normalcy_flg)) {
+    defaults$result_normalcy_flg <- result_normalcy_flg
+  }
+  if (!missing(result_time_unit_id)) {
+    defaults$result_time_unit_id <- result_time_unit_id
+  }
+  if (!missing(result_units_id)) {
+    defaults$result_units_id <- result_units_id
+  }
+  if (!missing(result_value_dt_tm)) {
+    defaults$result_value_dt_tm <- result_value_dt_tm
+  }
+  if (!missing(result_value_dt_id)) {
+    defaults$result_value_dt_id <- result_value_dt_id
+  }
+  if (!missing(result_value_num)) {
+    defaults$result_value_num <- result_value_num
+  }
+  if (!missing(result_feasible_ind)) {
+    defaults$result_feasible_ind <- result_feasible_ind
+  }
+  if (!missing(result_inaccurate_ind)) {
+    defaults$result_inaccurate_ind <- result_inaccurate_ind
+  }
+  if (!missing(event_source_id)) {
+    defaults$event_source_id <- event_source_id
+  }
+  if (!missing(verified_dt_tm)) {
+    defaults$verified_dt_tm <- verified_dt_tm
+  }
+  if (!missing(verified_dt_id)) {
+    defaults$verified_dt_id <- verified_dt_id
+  }
+  if (!missing(verified_prsnl_id)) {
+    defaults$verified_prsnl_id <- verified_prsnl_id
+  }
+  if (!missing(_extractyear)) {
+    defaults$_extractyear <- _extractyear
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_f_diagnosis <- function(encounter_id, diagnosis_id, diagnosis_priority, diagnosis_type_id, present_on_admit_id, third_party_ind, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_diagnosis;
+  if (!missing(encounter_id)) {
+    defaults$encounter_id <- encounter_id
+  }
+  if (!missing(diagnosis_id)) {
+    defaults$diagnosis_id <- diagnosis_id
+  }
+  if (!missing(diagnosis_priority)) {
+    defaults$diagnosis_priority <- diagnosis_priority
+  }
+  if (!missing(diagnosis_type_id)) {
+    defaults$diagnosis_type_id <- diagnosis_type_id
+  }
+  if (!missing(present_on_admit_id)) {
+    defaults$present_on_admit_id <- present_on_admit_id
+  }
+  if (!missing(third_party_ind)) {
+    defaults$third_party_ind <- third_party_ind
+  }
+  if (!missing(_extractyear)) {
+    defaults$_extractyear <- _extractyear
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_f_enc_history <- function(encounter_id, patient_type_id, caresetting_id, begin_dt_tm, end_dt_tm, begin_dt_id, end_dt_id, estimate_ind, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_enc_history;
+  if (!missing(encounter_id)) {
+    defaults$encounter_id <- encounter_id
+  }
+  if (!missing(patient_type_id)) {
+    defaults$patient_type_id <- patient_type_id
+  }
+  if (!missing(caresetting_id)) {
+    defaults$caresetting_id <- caresetting_id
+  }
+  if (!missing(begin_dt_tm)) {
+    defaults$begin_dt_tm <- begin_dt_tm
+  }
+  if (!missing(end_dt_tm)) {
+    defaults$end_dt_tm <- end_dt_tm
+  }
+  if (!missing(begin_dt_id)) {
+    defaults$begin_dt_id <- begin_dt_id
+  }
+  if (!missing(end_dt_id)) {
+    defaults$end_dt_id <- end_dt_id
+  }
+  if (!missing(estimate_ind)) {
+    defaults$estimate_ind <- estimate_ind
+  }
+  if (!missing(_extractyear)) {
+    defaults$_extractyear <- _extractyear
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_f_encounter <- function(encounter_id, hospital_id, admitting_physician_id, discharge_caresetting_id, patient_id, patient_type_id, admitted_dt_id, discharged_dt_id, discharge_disposition_id, diagnostic_grouping_id, admission_source_id, admission_type_id, payer_id, age_in_years, age_in_months, age_in_weeks, age_in_days, age_in_hours, total_charges, billing_ind, weight, weight_unit_id, admitted_dt_tm, discharged_dt_tm, admitted_tm_valid_ind, discharged_tm_valid_ind, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_encounter;
+  if (!missing(encounter_id)) {
+    defaults$encounter_id <- encounter_id
+  }
+  if (!missing(hospital_id)) {
+    defaults$hospital_id <- hospital_id
+  }
+  if (!missing(admitting_physician_id)) {
+    defaults$admitting_physician_id <- admitting_physician_id
+  }
+  if (!missing(discharge_caresetting_id)) {
+    defaults$discharge_caresetting_id <- discharge_caresetting_id
+  }
+  if (!missing(patient_id)) {
+    defaults$patient_id <- patient_id
+  }
+  if (!missing(patient_type_id)) {
+    defaults$patient_type_id <- patient_type_id
+  }
+  if (!missing(admitted_dt_id)) {
+    defaults$admitted_dt_id <- admitted_dt_id
+  }
+  if (!missing(discharged_dt_id)) {
+    defaults$discharged_dt_id <- discharged_dt_id
+  }
+  if (!missing(discharge_disposition_id)) {
+    defaults$discharge_disposition_id <- discharge_disposition_id
+  }
+  if (!missing(diagnostic_grouping_id)) {
+    defaults$diagnostic_grouping_id <- diagnostic_grouping_id
+  }
+  if (!missing(admission_source_id)) {
+    defaults$admission_source_id <- admission_source_id
+  }
+  if (!missing(admission_type_id)) {
+    defaults$admission_type_id <- admission_type_id
+  }
+  if (!missing(payer_id)) {
+    defaults$payer_id <- payer_id
+  }
+  if (!missing(age_in_years)) {
+    defaults$age_in_years <- age_in_years
+  }
+  if (!missing(age_in_months)) {
+    defaults$age_in_months <- age_in_months
+  }
+  if (!missing(age_in_weeks)) {
+    defaults$age_in_weeks <- age_in_weeks
+  }
+  if (!missing(age_in_days)) {
+    defaults$age_in_days <- age_in_days
+  }
+  if (!missing(age_in_hours)) {
+    defaults$age_in_hours <- age_in_hours
+  }
+  if (!missing(total_charges)) {
+    defaults$total_charges <- total_charges
+  }
+  if (!missing(billing_ind)) {
+    defaults$billing_ind <- billing_ind
+  }
+  if (!missing(weight)) {
+    defaults$weight <- weight
+  }
+  if (!missing(weight_unit_id)) {
+    defaults$weight_unit_id <- weight_unit_id
+  }
+  if (!missing(admitted_dt_tm)) {
+    defaults$admitted_dt_tm <- admitted_dt_tm
+  }
+  if (!missing(discharged_dt_tm)) {
+    defaults$discharged_dt_tm <- discharged_dt_tm
+  }
+  if (!missing(admitted_tm_valid_ind)) {
+    defaults$admitted_tm_valid_ind <- admitted_tm_valid_ind
+  }
+  if (!missing(discharged_tm_valid_ind)) {
+    defaults$discharged_tm_valid_ind <- discharged_tm_valid_ind
+  }
+  if (!missing(_extractyear)) {
+    defaults$_extractyear <- _extractyear
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_f_implant_log <- function(manufacturer_id, expiration_dt_tm, expiration_dt_id, surgical_case_id, encounter_id, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_implant_log;
+  if (!missing(manufacturer_id)) {
+    defaults$manufacturer_id <- manufacturer_id
+  }
+  if (!missing(expiration_dt_tm)) {
+    defaults$expiration_dt_tm <- expiration_dt_tm
+  }
+  if (!missing(expiration_dt_id)) {
+    defaults$expiration_dt_id <- expiration_dt_id
+  }
+  if (!missing(surgical_case_id)) {
+    defaults$surgical_case_id <- surgical_case_id
+  }
+  if (!missing(encounter_id)) {
+    defaults$encounter_id <- encounter_id
+  }
+  if (!missing(_extractyear)) {
+    defaults$_extractyear <- _extractyear
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_f_lab_procedure <- function(encounter_id, detail_lab_procedure_id, order_lab_procedure_id, ordering_physician_id, lab_order_caresetting_id, reporting_priority_id, lab_result_type_id, result_indicator_id, lab_ordered_dt_id, lab_drawn_dt_id, lab_received_dt_id, lab_completed_dt_id, lab_cancelled_dt_id, lab_performed_dt_id, lab_verified_dt_id, accession, date_result_id, numeric_result, result_units_id, normal_range_low, normal_range_high, lab_ordered_dt_tm, lab_drawn_dt_tm, lab_received_dt_tm, lab_completed_dt_tm, lab_cancelled_dt_tm, lab_performed_dt_tm, lab_verified_dt_tm, lab_ordered_tm_vld_flg, lab_drawn_tm_vld_flg, lab_received_tm_vld_flg, lab_completed_tm_vld_flg, lab_cancelled_tm_vld_flg, lab_verified_tm_vld_flg, lab_performed_tm_vld_flg, lab_performed_caresetting_id, collection_source_id, collection_method_id, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_lab_procedure;
+  if (!missing(encounter_id)) {
+    defaults$encounter_id <- encounter_id
+  }
+  if (!missing(detail_lab_procedure_id)) {
+    defaults$detail_lab_procedure_id <- detail_lab_procedure_id
+  }
+  if (!missing(order_lab_procedure_id)) {
+    defaults$order_lab_procedure_id <- order_lab_procedure_id
+  }
+  if (!missing(ordering_physician_id)) {
+    defaults$ordering_physician_id <- ordering_physician_id
+  }
+  if (!missing(lab_order_caresetting_id)) {
+    defaults$lab_order_caresetting_id <- lab_order_caresetting_id
+  }
+  if (!missing(reporting_priority_id)) {
+    defaults$reporting_priority_id <- reporting_priority_id
+  }
+  if (!missing(lab_result_type_id)) {
+    defaults$lab_result_type_id <- lab_result_type_id
+  }
+  if (!missing(result_indicator_id)) {
+    defaults$result_indicator_id <- result_indicator_id
+  }
+  if (!missing(lab_ordered_dt_id)) {
+    defaults$lab_ordered_dt_id <- lab_ordered_dt_id
+  }
+  if (!missing(lab_drawn_dt_id)) {
+    defaults$lab_drawn_dt_id <- lab_drawn_dt_id
+  }
+  if (!missing(lab_received_dt_id)) {
+    defaults$lab_received_dt_id <- lab_received_dt_id
+  }
+  if (!missing(lab_completed_dt_id)) {
+    defaults$lab_completed_dt_id <- lab_completed_dt_id
+  }
+  if (!missing(lab_cancelled_dt_id)) {
+    defaults$lab_cancelled_dt_id <- lab_cancelled_dt_id
+  }
+  if (!missing(lab_performed_dt_id)) {
+    defaults$lab_performed_dt_id <- lab_performed_dt_id
+  }
+  if (!missing(lab_verified_dt_id)) {
+    defaults$lab_verified_dt_id <- lab_verified_dt_id
+  }
+  if (!missing(accession)) {
+    defaults$accession <- accession
+  }
+  if (!missing(date_result_id)) {
+    defaults$date_result_id <- date_result_id
+  }
+  if (!missing(numeric_result)) {
+    defaults$numeric_result <- numeric_result
+  }
+  if (!missing(result_units_id)) {
+    defaults$result_units_id <- result_units_id
+  }
+  if (!missing(normal_range_low)) {
+    defaults$normal_range_low <- normal_range_low
+  }
+  if (!missing(normal_range_high)) {
+    defaults$normal_range_high <- normal_range_high
+  }
+  if (!missing(lab_ordered_dt_tm)) {
+    defaults$lab_ordered_dt_tm <- lab_ordered_dt_tm
+  }
+  if (!missing(lab_drawn_dt_tm)) {
+    defaults$lab_drawn_dt_tm <- lab_drawn_dt_tm
+  }
+  if (!missing(lab_received_dt_tm)) {
+    defaults$lab_received_dt_tm <- lab_received_dt_tm
+  }
+  if (!missing(lab_completed_dt_tm)) {
+    defaults$lab_completed_dt_tm <- lab_completed_dt_tm
+  }
+  if (!missing(lab_cancelled_dt_tm)) {
+    defaults$lab_cancelled_dt_tm <- lab_cancelled_dt_tm
+  }
+  if (!missing(lab_performed_dt_tm)) {
+    defaults$lab_performed_dt_tm <- lab_performed_dt_tm
+  }
+  if (!missing(lab_verified_dt_tm)) {
+    defaults$lab_verified_dt_tm <- lab_verified_dt_tm
+  }
+  if (!missing(lab_ordered_tm_vld_flg)) {
+    defaults$lab_ordered_tm_vld_flg <- lab_ordered_tm_vld_flg
+  }
+  if (!missing(lab_drawn_tm_vld_flg)) {
+    defaults$lab_drawn_tm_vld_flg <- lab_drawn_tm_vld_flg
+  }
+  if (!missing(lab_received_tm_vld_flg)) {
+    defaults$lab_received_tm_vld_flg <- lab_received_tm_vld_flg
+  }
+  if (!missing(lab_completed_tm_vld_flg)) {
+    defaults$lab_completed_tm_vld_flg <- lab_completed_tm_vld_flg
+  }
+  if (!missing(lab_cancelled_tm_vld_flg)) {
+    defaults$lab_cancelled_tm_vld_flg <- lab_cancelled_tm_vld_flg
+  }
+  if (!missing(lab_verified_tm_vld_flg)) {
+    defaults$lab_verified_tm_vld_flg <- lab_verified_tm_vld_flg
+  }
+  if (!missing(lab_performed_tm_vld_flg)) {
+    defaults$lab_performed_tm_vld_flg <- lab_performed_tm_vld_flg
+  }
+  if (!missing(lab_performed_caresetting_id)) {
+    defaults$lab_performed_caresetting_id <- lab_performed_caresetting_id
+  }
+  if (!missing(collection_source_id)) {
+    defaults$collection_source_id <- collection_source_id
+  }
+  if (!missing(collection_method_id)) {
+    defaults$collection_method_id <- collection_method_id
+  }
+  if (!missing(_extractyear)) {
+    defaults$_extractyear <- _extractyear
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_f_med_history <- function(encounter_id, ordering_physician_id, med_history_flg, req_start_dt_tm, req_start_dt_id, req_start_tm_vld_flg, prn_ind, route_administration_id, order_stop_type_id, med_stopped_dt_tm, med_stopped_dt_id, med_stopped_tm_vld_flg, frequency_id, collected_ind, order_strength, order_strength_units_id, order_volume, order_volume_units_id, total_dispensed_doses, duration, duration_unit_id, next_dose_dt_tm, next_dose_dt_id, next_dose_tm_vld_flg, infusion_rate, infusion_rate_units_id, med_reason_id, cancel_reason_id, dispensed_quantity, dispensed_quantity_units_id, compliance_status_id, med_entered_dt_tm, med_entered_dt_id, med_entered_tm_vld_flg, med_product_id, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_med_history;
+  if (!missing(encounter_id)) {
+    defaults$encounter_id <- encounter_id
+  }
+  if (!missing(ordering_physician_id)) {
+    defaults$ordering_physician_id <- ordering_physician_id
+  }
+  if (!missing(med_history_flg)) {
+    defaults$med_history_flg <- med_history_flg
+  }
+  if (!missing(req_start_dt_tm)) {
+    defaults$req_start_dt_tm <- req_start_dt_tm
+  }
+  if (!missing(req_start_dt_id)) {
+    defaults$req_start_dt_id <- req_start_dt_id
+  }
+  if (!missing(req_start_tm_vld_flg)) {
+    defaults$req_start_tm_vld_flg <- req_start_tm_vld_flg
+  }
+  if (!missing(prn_ind)) {
+    defaults$prn_ind <- prn_ind
+  }
+  if (!missing(route_administration_id)) {
+    defaults$route_administration_id <- route_administration_id
+  }
+  if (!missing(order_stop_type_id)) {
+    defaults$order_stop_type_id <- order_stop_type_id
+  }
+  if (!missing(med_stopped_dt_tm)) {
+    defaults$med_stopped_dt_tm <- med_stopped_dt_tm
+  }
+  if (!missing(med_stopped_dt_id)) {
+    defaults$med_stopped_dt_id <- med_stopped_dt_id
+  }
+  if (!missing(med_stopped_tm_vld_flg)) {
+    defaults$med_stopped_tm_vld_flg <- med_stopped_tm_vld_flg
+  }
+  if (!missing(frequency_id)) {
+    defaults$frequency_id <- frequency_id
+  }
+  if (!missing(collected_ind)) {
+    defaults$collected_ind <- collected_ind
+  }
+  if (!missing(order_strength)) {
+    defaults$order_strength <- order_strength
+  }
+  if (!missing(order_strength_units_id)) {
+    defaults$order_strength_units_id <- order_strength_units_id
+  }
+  if (!missing(order_volume)) {
+    defaults$order_volume <- order_volume
+  }
+  if (!missing(order_volume_units_id)) {
+    defaults$order_volume_units_id <- order_volume_units_id
+  }
+  if (!missing(total_dispensed_doses)) {
+    defaults$total_dispensed_doses <- total_dispensed_doses
+  }
+  if (!missing(duration)) {
+    defaults$duration <- duration
+  }
+  if (!missing(duration_unit_id)) {
+    defaults$duration_unit_id <- duration_unit_id
+  }
+  if (!missing(next_dose_dt_tm)) {
+    defaults$next_dose_dt_tm <- next_dose_dt_tm
+  }
+  if (!missing(next_dose_dt_id)) {
+    defaults$next_dose_dt_id <- next_dose_dt_id
+  }
+  if (!missing(next_dose_tm_vld_flg)) {
+    defaults$next_dose_tm_vld_flg <- next_dose_tm_vld_flg
+  }
+  if (!missing(infusion_rate)) {
+    defaults$infusion_rate <- infusion_rate
+  }
+  if (!missing(infusion_rate_units_id)) {
+    defaults$infusion_rate_units_id <- infusion_rate_units_id
+  }
+  if (!missing(med_reason_id)) {
+    defaults$med_reason_id <- med_reason_id
+  }
+  if (!missing(cancel_reason_id)) {
+    defaults$cancel_reason_id <- cancel_reason_id
+  }
+  if (!missing(dispensed_quantity)) {
+    defaults$dispensed_quantity <- dispensed_quantity
+  }
+  if (!missing(dispensed_quantity_units_id)) {
+    defaults$dispensed_quantity_units_id <- dispensed_quantity_units_id
+  }
+  if (!missing(compliance_status_id)) {
+    defaults$compliance_status_id <- compliance_status_id
+  }
+  if (!missing(med_entered_dt_tm)) {
+    defaults$med_entered_dt_tm <- med_entered_dt_tm
+  }
+  if (!missing(med_entered_dt_id)) {
+    defaults$med_entered_dt_id <- med_entered_dt_id
+  }
+  if (!missing(med_entered_tm_vld_flg)) {
+    defaults$med_entered_tm_vld_flg <- med_entered_tm_vld_flg
+  }
+  if (!missing(med_product_id)) {
+    defaults$med_product_id <- med_product_id
+  }
+  if (!missing(_extractyear)) {
+    defaults$_extractyear <- _extractyear
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_f_medication <- function(encounter_id, medication_id, ordering_physician_id, med_dispensed_caresetting_id, med_request_caresetting_id, discontinue_reason_id, route_administration_id, formulary_type_id, frequency_id, order_stop_type_id, order_type_id, med_order_status_id, med_started_dt_id, med_entered_dt_id, med_stopped_dt_id, med_discontinued_dt_id, order_no, total_dispensed_doses, dose_quantity, initial_dose_quantity, dose_units_id, charge_quantity, credit_quantity, infusion_rate, infusion_time, infusion_time_units_id, order_strength, order_strength_units_id, order_volume, order_volume_units_id, total_volume, unit_cost, unit_price, med_started_dt_tm, med_entered_dt_tm, med_stopped_dt_tm, med_discontinued_dt_tm, med_started_tm_valid_flg, med_entered_tm_valid_flg, med_stopped_tm_valid_flg, med_discontinued_tm_valid_flg, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_medication;
+  if (!missing(encounter_id)) {
+    defaults$encounter_id <- encounter_id
+  }
+  if (!missing(medication_id)) {
+    defaults$medication_id <- medication_id
+  }
+  if (!missing(ordering_physician_id)) {
+    defaults$ordering_physician_id <- ordering_physician_id
+  }
+  if (!missing(med_dispensed_caresetting_id)) {
+    defaults$med_dispensed_caresetting_id <- med_dispensed_caresetting_id
+  }
+  if (!missing(med_request_caresetting_id)) {
+    defaults$med_request_caresetting_id <- med_request_caresetting_id
+  }
+  if (!missing(discontinue_reason_id)) {
+    defaults$discontinue_reason_id <- discontinue_reason_id
+  }
+  if (!missing(route_administration_id)) {
+    defaults$route_administration_id <- route_administration_id
+  }
+  if (!missing(formulary_type_id)) {
+    defaults$formulary_type_id <- formulary_type_id
+  }
+  if (!missing(frequency_id)) {
+    defaults$frequency_id <- frequency_id
+  }
+  if (!missing(order_stop_type_id)) {
+    defaults$order_stop_type_id <- order_stop_type_id
+  }
+  if (!missing(order_type_id)) {
+    defaults$order_type_id <- order_type_id
+  }
+  if (!missing(med_order_status_id)) {
+    defaults$med_order_status_id <- med_order_status_id
+  }
+  if (!missing(med_started_dt_id)) {
+    defaults$med_started_dt_id <- med_started_dt_id
+  }
+  if (!missing(med_entered_dt_id)) {
+    defaults$med_entered_dt_id <- med_entered_dt_id
+  }
+  if (!missing(med_stopped_dt_id)) {
+    defaults$med_stopped_dt_id <- med_stopped_dt_id
+  }
+  if (!missing(med_discontinued_dt_id)) {
+    defaults$med_discontinued_dt_id <- med_discontinued_dt_id
+  }
+  if (!missing(order_no)) {
+    defaults$order_no <- order_no
+  }
+  if (!missing(total_dispensed_doses)) {
+    defaults$total_dispensed_doses <- total_dispensed_doses
+  }
+  if (!missing(dose_quantity)) {
+    defaults$dose_quantity <- dose_quantity
+  }
+  if (!missing(initial_dose_quantity)) {
+    defaults$initial_dose_quantity <- initial_dose_quantity
+  }
+  if (!missing(dose_units_id)) {
+    defaults$dose_units_id <- dose_units_id
+  }
+  if (!missing(charge_quantity)) {
+    defaults$charge_quantity <- charge_quantity
+  }
+  if (!missing(credit_quantity)) {
+    defaults$credit_quantity <- credit_quantity
+  }
+  if (!missing(infusion_rate)) {
+    defaults$infusion_rate <- infusion_rate
+  }
+  if (!missing(infusion_time)) {
+    defaults$infusion_time <- infusion_time
+  }
+  if (!missing(infusion_time_units_id)) {
+    defaults$infusion_time_units_id <- infusion_time_units_id
+  }
+  if (!missing(order_strength)) {
+    defaults$order_strength <- order_strength
+  }
+  if (!missing(order_strength_units_id)) {
+    defaults$order_strength_units_id <- order_strength_units_id
+  }
+  if (!missing(order_volume)) {
+    defaults$order_volume <- order_volume
+  }
+  if (!missing(order_volume_units_id)) {
+    defaults$order_volume_units_id <- order_volume_units_id
+  }
+  if (!missing(total_volume)) {
+    defaults$total_volume <- total_volume
+  }
+  if (!missing(unit_cost)) {
+    defaults$unit_cost <- unit_cost
+  }
+  if (!missing(unit_price)) {
+    defaults$unit_price <- unit_price
+  }
+  if (!missing(med_started_dt_tm)) {
+    defaults$med_started_dt_tm <- med_started_dt_tm
+  }
+  if (!missing(med_entered_dt_tm)) {
+    defaults$med_entered_dt_tm <- med_entered_dt_tm
+  }
+  if (!missing(med_stopped_dt_tm)) {
+    defaults$med_stopped_dt_tm <- med_stopped_dt_tm
+  }
+  if (!missing(med_discontinued_dt_tm)) {
+    defaults$med_discontinued_dt_tm <- med_discontinued_dt_tm
+  }
+  if (!missing(med_started_tm_valid_flg)) {
+    defaults$med_started_tm_valid_flg <- med_started_tm_valid_flg
+  }
+  if (!missing(med_entered_tm_valid_flg)) {
+    defaults$med_entered_tm_valid_flg <- med_entered_tm_valid_flg
+  }
+  if (!missing(med_stopped_tm_valid_flg)) {
+    defaults$med_stopped_tm_valid_flg <- med_stopped_tm_valid_flg
+  }
+  if (!missing(med_discontinued_tm_valid_flg)) {
+    defaults$med_discontinued_tm_valid_flg <- med_discontinued_tm_valid_flg
+  }
+  if (!missing(_extractyear)) {
+    defaults$_extractyear <- _extractyear
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_f_micro_susceptibility <- function(encounter_id, order_lab_procedure_id, test_type_id, isolate_id, antimicrobial_id, interp_result_id, interp_perf_dt_id, interp_perf_dt_tm, interp_perf_tm_vld_flg, interp_verf_dt_id, interp_verf_dt_tm, interp_verf_tm_vld_flg, accession, numeric_result, numeric_result_perf_dt_id, numeric_result_perf_dt_tm, numeric_result_perf_tm_vld_flg, numeric_result_verf_dt_id, numeric_result_verf_dt_tm, numeric_result_verf_tm_vld_flg, result_units_id, collection_source_id, collection_site_id, collection_method_id, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_micro_susceptibility;
+  if (!missing(encounter_id)) {
+    defaults$encounter_id <- encounter_id
+  }
+  if (!missing(order_lab_procedure_id)) {
+    defaults$order_lab_procedure_id <- order_lab_procedure_id
+  }
+  if (!missing(test_type_id)) {
+    defaults$test_type_id <- test_type_id
+  }
+  if (!missing(isolate_id)) {
+    defaults$isolate_id <- isolate_id
+  }
+  if (!missing(antimicrobial_id)) {
+    defaults$antimicrobial_id <- antimicrobial_id
+  }
+  if (!missing(interp_result_id)) {
+    defaults$interp_result_id <- interp_result_id
+  }
+  if (!missing(interp_perf_dt_id)) {
+    defaults$interp_perf_dt_id <- interp_perf_dt_id
+  }
+  if (!missing(interp_perf_dt_tm)) {
+    defaults$interp_perf_dt_tm <- interp_perf_dt_tm
+  }
+  if (!missing(interp_perf_tm_vld_flg)) {
+    defaults$interp_perf_tm_vld_flg <- interp_perf_tm_vld_flg
+  }
+  if (!missing(interp_verf_dt_id)) {
+    defaults$interp_verf_dt_id <- interp_verf_dt_id
+  }
+  if (!missing(interp_verf_dt_tm)) {
+    defaults$interp_verf_dt_tm <- interp_verf_dt_tm
+  }
+  if (!missing(interp_verf_tm_vld_flg)) {
+    defaults$interp_verf_tm_vld_flg <- interp_verf_tm_vld_flg
+  }
+  if (!missing(accession)) {
+    defaults$accession <- accession
+  }
+  if (!missing(numeric_result)) {
+    defaults$numeric_result <- numeric_result
+  }
+  if (!missing(numeric_result_perf_dt_id)) {
+    defaults$numeric_result_perf_dt_id <- numeric_result_perf_dt_id
+  }
+  if (!missing(numeric_result_perf_dt_tm)) {
+    defaults$numeric_result_perf_dt_tm <- numeric_result_perf_dt_tm
+  }
+  if (!missing(numeric_result_perf_tm_vld_flg)) {
+    defaults$numeric_result_perf_tm_vld_flg <- numeric_result_perf_tm_vld_flg
+  }
+  if (!missing(numeric_result_verf_dt_id)) {
+    defaults$numeric_result_verf_dt_id <- numeric_result_verf_dt_id
+  }
+  if (!missing(numeric_result_verf_dt_tm)) {
+    defaults$numeric_result_verf_dt_tm <- numeric_result_verf_dt_tm
+  }
+  if (!missing(numeric_result_verf_tm_vld_flg)) {
+    defaults$numeric_result_verf_tm_vld_flg <- numeric_result_verf_tm_vld_flg
+  }
+  if (!missing(result_units_id)) {
+    defaults$result_units_id <- result_units_id
+  }
+  if (!missing(collection_source_id)) {
+    defaults$collection_source_id <- collection_source_id
+  }
+  if (!missing(collection_site_id)) {
+    defaults$collection_site_id <- collection_site_id
+  }
+  if (!missing(collection_method_id)) {
+    defaults$collection_method_id <- collection_method_id
+  }
+  if (!missing(_extractyear)) {
+    defaults$_extractyear <- _extractyear
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_f_microbiology <- function(encounter_id, order_lab_procedure_id, isolate_id, ordering_physician_id, micro_order_caresetting_id, micro_result_type_id, result_type_procedure_id, collection_source_id, collection_site_id, reporting_priority_id, micro_order_status_id, collection_status_id, micro_lab_ordered_dt_id, micro_lab_drawn_dt_id, micro_lab_received_dt_id, micro_lab_completed_dt_id, micro_lab_cancelled_dt_id, first_report_entered_dt_id, last_report_updated_dt_id, accession, false_positive_ind, total_report_updates, micro_lab_ordered_dt_tm, micro_lab_drawn_dt_tm, micro_lab_received_dt_tm, micro_lab_completed_dt_tm, micro_lab_cancelled_dt_tm, first_report_entered_dt_tm, last_report_updated_dt_tm, micro_lab_ordered_tm_vld_flg, micro_lab_drawn_tm_vld_flg, micro_lab_received_tm_vld_flg, micro_lab_complted_tm_vld_flg, micro_lab_cancelled_tm_vld_flg, first_rpt_entered_tm_vld_flg, last_rpt_updated_tm_vld_flg, collection_method_id, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_microbiology;
+  if (!missing(encounter_id)) {
+    defaults$encounter_id <- encounter_id
+  }
+  if (!missing(order_lab_procedure_id)) {
+    defaults$order_lab_procedure_id <- order_lab_procedure_id
+  }
+  if (!missing(isolate_id)) {
+    defaults$isolate_id <- isolate_id
+  }
+  if (!missing(ordering_physician_id)) {
+    defaults$ordering_physician_id <- ordering_physician_id
+  }
+  if (!missing(micro_order_caresetting_id)) {
+    defaults$micro_order_caresetting_id <- micro_order_caresetting_id
+  }
+  if (!missing(micro_result_type_id)) {
+    defaults$micro_result_type_id <- micro_result_type_id
+  }
+  if (!missing(result_type_procedure_id)) {
+    defaults$result_type_procedure_id <- result_type_procedure_id
+  }
+  if (!missing(collection_source_id)) {
+    defaults$collection_source_id <- collection_source_id
+  }
+  if (!missing(collection_site_id)) {
+    defaults$collection_site_id <- collection_site_id
+  }
+  if (!missing(reporting_priority_id)) {
+    defaults$reporting_priority_id <- reporting_priority_id
+  }
+  if (!missing(micro_order_status_id)) {
+    defaults$micro_order_status_id <- micro_order_status_id
+  }
+  if (!missing(collection_status_id)) {
+    defaults$collection_status_id <- collection_status_id
+  }
+  if (!missing(micro_lab_ordered_dt_id)) {
+    defaults$micro_lab_ordered_dt_id <- micro_lab_ordered_dt_id
+  }
+  if (!missing(micro_lab_drawn_dt_id)) {
+    defaults$micro_lab_drawn_dt_id <- micro_lab_drawn_dt_id
+  }
+  if (!missing(micro_lab_received_dt_id)) {
+    defaults$micro_lab_received_dt_id <- micro_lab_received_dt_id
+  }
+  if (!missing(micro_lab_completed_dt_id)) {
+    defaults$micro_lab_completed_dt_id <- micro_lab_completed_dt_id
+  }
+  if (!missing(micro_lab_cancelled_dt_id)) {
+    defaults$micro_lab_cancelled_dt_id <- micro_lab_cancelled_dt_id
+  }
+  if (!missing(first_report_entered_dt_id)) {
+    defaults$first_report_entered_dt_id <- first_report_entered_dt_id
+  }
+  if (!missing(last_report_updated_dt_id)) {
+    defaults$last_report_updated_dt_id <- last_report_updated_dt_id
+  }
+  if (!missing(accession)) {
+    defaults$accession <- accession
+  }
+  if (!missing(false_positive_ind)) {
+    defaults$false_positive_ind <- false_positive_ind
+  }
+  if (!missing(total_report_updates)) {
+    defaults$total_report_updates <- total_report_updates
+  }
+  if (!missing(micro_lab_ordered_dt_tm)) {
+    defaults$micro_lab_ordered_dt_tm <- micro_lab_ordered_dt_tm
+  }
+  if (!missing(micro_lab_drawn_dt_tm)) {
+    defaults$micro_lab_drawn_dt_tm <- micro_lab_drawn_dt_tm
+  }
+  if (!missing(micro_lab_received_dt_tm)) {
+    defaults$micro_lab_received_dt_tm <- micro_lab_received_dt_tm
+  }
+  if (!missing(micro_lab_completed_dt_tm)) {
+    defaults$micro_lab_completed_dt_tm <- micro_lab_completed_dt_tm
+  }
+  if (!missing(micro_lab_cancelled_dt_tm)) {
+    defaults$micro_lab_cancelled_dt_tm <- micro_lab_cancelled_dt_tm
+  }
+  if (!missing(first_report_entered_dt_tm)) {
+    defaults$first_report_entered_dt_tm <- first_report_entered_dt_tm
+  }
+  if (!missing(last_report_updated_dt_tm)) {
+    defaults$last_report_updated_dt_tm <- last_report_updated_dt_tm
+  }
+  if (!missing(micro_lab_ordered_tm_vld_flg)) {
+    defaults$micro_lab_ordered_tm_vld_flg <- micro_lab_ordered_tm_vld_flg
+  }
+  if (!missing(micro_lab_drawn_tm_vld_flg)) {
+    defaults$micro_lab_drawn_tm_vld_flg <- micro_lab_drawn_tm_vld_flg
+  }
+  if (!missing(micro_lab_received_tm_vld_flg)) {
+    defaults$micro_lab_received_tm_vld_flg <- micro_lab_received_tm_vld_flg
+  }
+  if (!missing(micro_lab_complted_tm_vld_flg)) {
+    defaults$micro_lab_complted_tm_vld_flg <- micro_lab_complted_tm_vld_flg
+  }
+  if (!missing(micro_lab_cancelled_tm_vld_flg)) {
+    defaults$micro_lab_cancelled_tm_vld_flg <- micro_lab_cancelled_tm_vld_flg
+  }
+  if (!missing(first_rpt_entered_tm_vld_flg)) {
+    defaults$first_rpt_entered_tm_vld_flg <- first_rpt_entered_tm_vld_flg
+  }
+  if (!missing(last_rpt_updated_tm_vld_flg)) {
+    defaults$last_rpt_updated_tm_vld_flg <- last_rpt_updated_tm_vld_flg
+  }
+  if (!missing(collection_method_id)) {
+    defaults$collection_method_id <- collection_method_id
+  }
+  if (!missing(_extractyear)) {
+    defaults$_extractyear <- _extractyear
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_f_procedure <- function(encounter_id, procedure_id, procedure_dt_id, procedure_dt_tm, procedure_priority, third_party_ind, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_procedure;
+  if (!missing(encounter_id)) {
+    defaults$encounter_id <- encounter_id
+  }
+  if (!missing(procedure_id)) {
+    defaults$procedure_id <- procedure_id
+  }
+  if (!missing(procedure_dt_id)) {
+    defaults$procedure_dt_id <- procedure_dt_id
+  }
+  if (!missing(procedure_dt_tm)) {
+    defaults$procedure_dt_tm <- procedure_dt_tm
+  }
+  if (!missing(procedure_priority)) {
+    defaults$procedure_priority <- procedure_priority
+  }
+  if (!missing(third_party_ind)) {
+    defaults$third_party_ind <- third_party_ind
+  }
+  if (!missing(_extractyear)) {
+    defaults$_extractyear <- _extractyear
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_f_surgical_case <- function(surgical_case_id, encounter_id, case_level_id, case_start_dt_tm, case_stop_dt_tm, case_start_dt_id, case_stop_dt_id, case_duration, scheduled_case_start_dt_tm, scheduled_case_stop_dt_tm, scheduled_case_start_dt_id, scheduled_case_stop_dt_id, scheduled_case_duration, case_specialty_id, case_completed_ind, case_cancelled_dt_tm, case_cancelled_dt_id, case_cancelled_reason_id, case_closing_start_dt_tm, case_closing_start_dt_id, transport_requested_dt_tm, transport_requested_dt_id, operating_room_setup_dt_tm, operating_room_ready_dt_tm, operating_room_setup_dt_id, operating_room_ready_dt_id, patient_in_preop_hold_dt_tm, patient_out_preop_hold_dt_tm, patient_in_preop_hold_dt_id, patient_out_preop_hold_dt_id, preop_antibiotic_admin_dt_tm, preop_antibiotic_admin_dt_id, patient_in_oper_room_dt_tm, patient_out_oper_room_dt_tm, patient_out_oper_room_dt_id, anesthesia_start_dt_tm, anesthesia_induct_dt_tm, anesthesia_stop_dt_tm, anesthesia_start_dt_id, anesthesia_induct_dt_id, anesthesia_stop_dt_id, anesthesia_induct_stop_duratn, surgeon_in_oper_room_dt_tm, surgeon_in_oper_room_dt_id, patient_in_pacu_dt_tm, patient_out_pacu_dt_tm, patient_in_pacu_ii_dt_tm, patient_out_pacu_ii_dt_tm, patient_in_pacu_dt_id, patient_out_pacu_dt_id, patient_in_pacu_ii_dt_id, patient_out_pacu_ii_dt_id, patient_in_oper_room_dt_id, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_surgical_case;
+  if (!missing(surgical_case_id)) {
+    defaults$surgical_case_id <- surgical_case_id
+  }
+  if (!missing(encounter_id)) {
+    defaults$encounter_id <- encounter_id
+  }
+  if (!missing(case_level_id)) {
+    defaults$case_level_id <- case_level_id
+  }
+  if (!missing(case_start_dt_tm)) {
+    defaults$case_start_dt_tm <- case_start_dt_tm
+  }
+  if (!missing(case_stop_dt_tm)) {
+    defaults$case_stop_dt_tm <- case_stop_dt_tm
+  }
+  if (!missing(case_start_dt_id)) {
+    defaults$case_start_dt_id <- case_start_dt_id
+  }
+  if (!missing(case_stop_dt_id)) {
+    defaults$case_stop_dt_id <- case_stop_dt_id
+  }
+  if (!missing(case_duration)) {
+    defaults$case_duration <- case_duration
+  }
+  if (!missing(scheduled_case_start_dt_tm)) {
+    defaults$scheduled_case_start_dt_tm <- scheduled_case_start_dt_tm
+  }
+  if (!missing(scheduled_case_stop_dt_tm)) {
+    defaults$scheduled_case_stop_dt_tm <- scheduled_case_stop_dt_tm
+  }
+  if (!missing(scheduled_case_start_dt_id)) {
+    defaults$scheduled_case_start_dt_id <- scheduled_case_start_dt_id
+  }
+  if (!missing(scheduled_case_stop_dt_id)) {
+    defaults$scheduled_case_stop_dt_id <- scheduled_case_stop_dt_id
+  }
+  if (!missing(scheduled_case_duration)) {
+    defaults$scheduled_case_duration <- scheduled_case_duration
+  }
+  if (!missing(case_specialty_id)) {
+    defaults$case_specialty_id <- case_specialty_id
+  }
+  if (!missing(case_completed_ind)) {
+    defaults$case_completed_ind <- case_completed_ind
+  }
+  if (!missing(case_cancelled_dt_tm)) {
+    defaults$case_cancelled_dt_tm <- case_cancelled_dt_tm
+  }
+  if (!missing(case_cancelled_dt_id)) {
+    defaults$case_cancelled_dt_id <- case_cancelled_dt_id
+  }
+  if (!missing(case_cancelled_reason_id)) {
+    defaults$case_cancelled_reason_id <- case_cancelled_reason_id
+  }
+  if (!missing(case_closing_start_dt_tm)) {
+    defaults$case_closing_start_dt_tm <- case_closing_start_dt_tm
+  }
+  if (!missing(case_closing_start_dt_id)) {
+    defaults$case_closing_start_dt_id <- case_closing_start_dt_id
+  }
+  if (!missing(transport_requested_dt_tm)) {
+    defaults$transport_requested_dt_tm <- transport_requested_dt_tm
+  }
+  if (!missing(transport_requested_dt_id)) {
+    defaults$transport_requested_dt_id <- transport_requested_dt_id
+  }
+  if (!missing(operating_room_setup_dt_tm)) {
+    defaults$operating_room_setup_dt_tm <- operating_room_setup_dt_tm
+  }
+  if (!missing(operating_room_ready_dt_tm)) {
+    defaults$operating_room_ready_dt_tm <- operating_room_ready_dt_tm
+  }
+  if (!missing(operating_room_setup_dt_id)) {
+    defaults$operating_room_setup_dt_id <- operating_room_setup_dt_id
+  }
+  if (!missing(operating_room_ready_dt_id)) {
+    defaults$operating_room_ready_dt_id <- operating_room_ready_dt_id
+  }
+  if (!missing(patient_in_preop_hold_dt_tm)) {
+    defaults$patient_in_preop_hold_dt_tm <- patient_in_preop_hold_dt_tm
+  }
+  if (!missing(patient_out_preop_hold_dt_tm)) {
+    defaults$patient_out_preop_hold_dt_tm <- patient_out_preop_hold_dt_tm
+  }
+  if (!missing(patient_in_preop_hold_dt_id)) {
+    defaults$patient_in_preop_hold_dt_id <- patient_in_preop_hold_dt_id
+  }
+  if (!missing(patient_out_preop_hold_dt_id)) {
+    defaults$patient_out_preop_hold_dt_id <- patient_out_preop_hold_dt_id
+  }
+  if (!missing(preop_antibiotic_admin_dt_tm)) {
+    defaults$preop_antibiotic_admin_dt_tm <- preop_antibiotic_admin_dt_tm
+  }
+  if (!missing(preop_antibiotic_admin_dt_id)) {
+    defaults$preop_antibiotic_admin_dt_id <- preop_antibiotic_admin_dt_id
+  }
+  if (!missing(patient_in_oper_room_dt_tm)) {
+    defaults$patient_in_oper_room_dt_tm <- patient_in_oper_room_dt_tm
+  }
+  if (!missing(patient_out_oper_room_dt_tm)) {
+    defaults$patient_out_oper_room_dt_tm <- patient_out_oper_room_dt_tm
+  }
+  if (!missing(patient_out_oper_room_dt_id)) {
+    defaults$patient_out_oper_room_dt_id <- patient_out_oper_room_dt_id
+  }
+  if (!missing(anesthesia_start_dt_tm)) {
+    defaults$anesthesia_start_dt_tm <- anesthesia_start_dt_tm
+  }
+  if (!missing(anesthesia_induct_dt_tm)) {
+    defaults$anesthesia_induct_dt_tm <- anesthesia_induct_dt_tm
+  }
+  if (!missing(anesthesia_stop_dt_tm)) {
+    defaults$anesthesia_stop_dt_tm <- anesthesia_stop_dt_tm
+  }
+  if (!missing(anesthesia_start_dt_id)) {
+    defaults$anesthesia_start_dt_id <- anesthesia_start_dt_id
+  }
+  if (!missing(anesthesia_induct_dt_id)) {
+    defaults$anesthesia_induct_dt_id <- anesthesia_induct_dt_id
+  }
+  if (!missing(anesthesia_stop_dt_id)) {
+    defaults$anesthesia_stop_dt_id <- anesthesia_stop_dt_id
+  }
+  if (!missing(anesthesia_induct_stop_duratn)) {
+    defaults$anesthesia_induct_stop_duratn <- anesthesia_induct_stop_duratn
+  }
+  if (!missing(surgeon_in_oper_room_dt_tm)) {
+    defaults$surgeon_in_oper_room_dt_tm <- surgeon_in_oper_room_dt_tm
+  }
+  if (!missing(surgeon_in_oper_room_dt_id)) {
+    defaults$surgeon_in_oper_room_dt_id <- surgeon_in_oper_room_dt_id
+  }
+  if (!missing(patient_in_pacu_dt_tm)) {
+    defaults$patient_in_pacu_dt_tm <- patient_in_pacu_dt_tm
+  }
+  if (!missing(patient_out_pacu_dt_tm)) {
+    defaults$patient_out_pacu_dt_tm <- patient_out_pacu_dt_tm
+  }
+  if (!missing(patient_in_pacu_ii_dt_tm)) {
+    defaults$patient_in_pacu_ii_dt_tm <- patient_in_pacu_ii_dt_tm
+  }
+  if (!missing(patient_out_pacu_ii_dt_tm)) {
+    defaults$patient_out_pacu_ii_dt_tm <- patient_out_pacu_ii_dt_tm
+  }
+  if (!missing(patient_in_pacu_dt_id)) {
+    defaults$patient_in_pacu_dt_id <- patient_in_pacu_dt_id
+  }
+  if (!missing(patient_out_pacu_dt_id)) {
+    defaults$patient_out_pacu_dt_id <- patient_out_pacu_dt_id
+  }
+  if (!missing(patient_in_pacu_ii_dt_id)) {
+    defaults$patient_in_pacu_ii_dt_id <- patient_in_pacu_ii_dt_id
+  }
+  if (!missing(patient_out_pacu_ii_dt_id)) {
+    defaults$patient_out_pacu_ii_dt_id <- patient_out_pacu_ii_dt_id
+  }
+  if (!missing(patient_in_oper_room_dt_id)) {
+    defaults$patient_in_oper_room_dt_id <- patient_in_oper_room_dt_id
+  }
+  if (!missing(_extractyear)) {
+    defaults$_extractyear <- _extractyear
+  }
+  invisible(defaults)
+}
+
+set_defaults_hf_f_surgical_procedure <- function(encounter_id, surgical_case_id, surgical_procedure_id, wound_class_id, asa_class_id, procedure_specialty_id, procedure_revision_ind, procedure_modifier_01_id, procedure_modifier_02_id, procedure_modifier_03_id, procedure_duration, procedure_start_dt_tm, procedure_stop_dt_tm, procedure_start_dt_id, procedure_stop_dt_id, primary_procedure_ind, scheduled_procedure_duration, procedure_completion_ind, concurrent_procedure_ind, anesthesia_type_id, expected_case_level_id, case_level_id, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_surgical_procedure;
+  if (!missing(encounter_id)) {
+    defaults$encounter_id <- encounter_id
+  }
+  if (!missing(surgical_case_id)) {
+    defaults$surgical_case_id <- surgical_case_id
+  }
+  if (!missing(surgical_procedure_id)) {
+    defaults$surgical_procedure_id <- surgical_procedure_id
+  }
+  if (!missing(wound_class_id)) {
+    defaults$wound_class_id <- wound_class_id
+  }
+  if (!missing(asa_class_id)) {
+    defaults$asa_class_id <- asa_class_id
+  }
+  if (!missing(procedure_specialty_id)) {
+    defaults$procedure_specialty_id <- procedure_specialty_id
+  }
+  if (!missing(procedure_revision_ind)) {
+    defaults$procedure_revision_ind <- procedure_revision_ind
+  }
+  if (!missing(procedure_modifier_01_id)) {
+    defaults$procedure_modifier_01_id <- procedure_modifier_01_id
+  }
+  if (!missing(procedure_modifier_02_id)) {
+    defaults$procedure_modifier_02_id <- procedure_modifier_02_id
+  }
+  if (!missing(procedure_modifier_03_id)) {
+    defaults$procedure_modifier_03_id <- procedure_modifier_03_id
+  }
+  if (!missing(procedure_duration)) {
+    defaults$procedure_duration <- procedure_duration
+  }
+  if (!missing(procedure_start_dt_tm)) {
+    defaults$procedure_start_dt_tm <- procedure_start_dt_tm
+  }
+  if (!missing(procedure_stop_dt_tm)) {
+    defaults$procedure_stop_dt_tm <- procedure_stop_dt_tm
+  }
+  if (!missing(procedure_start_dt_id)) {
+    defaults$procedure_start_dt_id <- procedure_start_dt_id
+  }
+  if (!missing(procedure_stop_dt_id)) {
+    defaults$procedure_stop_dt_id <- procedure_stop_dt_id
+  }
+  if (!missing(primary_procedure_ind)) {
+    defaults$primary_procedure_ind <- primary_procedure_ind
+  }
+  if (!missing(scheduled_procedure_duration)) {
+    defaults$scheduled_procedure_duration <- scheduled_procedure_duration
+  }
+  if (!missing(procedure_completion_ind)) {
+    defaults$procedure_completion_ind <- procedure_completion_ind
+  }
+  if (!missing(concurrent_procedure_ind)) {
+    defaults$concurrent_procedure_ind <- concurrent_procedure_ind
+  }
+  if (!missing(anesthesia_type_id)) {
+    defaults$anesthesia_type_id <- anesthesia_type_id
+  }
+  if (!missing(expected_case_level_id)) {
+    defaults$expected_case_level_id <- expected_case_level_id
+  }
+  if (!missing(case_level_id)) {
+    defaults$case_level_id <- case_level_id
+  }
+  if (!missing(_extractyear)) {
+    defaults$_extractyear <- _extractyear
+  }
+  invisible(defaults)
+}
+
+get_defaults_hf_d_admission_source <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_admission_type <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_anesthesia_type <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_antimicrobial <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_asa_class <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_cancel_reason <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_caresetting <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_collection_src_site <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_collection_status <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_compliance_status <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_date <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_diagnosis <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_diagnosis_type <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_diagnostic_grouping <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_dischg_disp <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_discontinue_reason <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_event_class <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_event_code <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_event_reltn <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_event_source <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_formulary_type <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_frequency <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_hospital <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_interp_result <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_isolate <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_lab_procedure <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_lab_result_type <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_manufacturer <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_med_order_status <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_med_product <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_med_reason <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_medication <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_mic_order_status <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_micro_result_type <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_normalcy <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_normalcy_method <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_order_stop_type <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_order_type <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_patient <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_patient_type <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_payer <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_physician <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_present_on_admit <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_procedure <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_procedure_modifier <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_reporting_priority <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_result_indicator <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_result_type_proc <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_route_admin <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_surgical_case_level <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_surgical_procedure <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_surgical_specialty <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_test_type <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_unit <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_d_wound_class <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_f_clinical_event <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_f_diagnosis <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_f_enc_history <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_f_encounter <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_f_implant_log <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_f_lab_procedure <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_f_med_history <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_f_medication <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_f_micro_susceptibility <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_f_microbiology <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_f_procedure <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_f_surgical_case <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+get_defaults_hf_f_surgical_procedure <- function() {
+  return(frameworkContext$defaultValues)
+}
+
+add_hf_d_admission_source <- function(admission_source_id, admission_source_code, admission_source_code_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_admission_source;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(admission_source_id)) {
+    admission_source_id <- defaults$admission_source_id
+  }
+  if (!is.null(admission_source_id)) {
+    insertFields <- c(insertFields, "admission_source_id")
+    insertValues <- c(insertValues, admission_source_id)
+  }
+
+  if (missing(admission_source_code)) {
+    admission_source_code <- defaults$admission_source_code
+  }
+  if (!is.null(admission_source_code)) {
+    insertFields <- c(insertFields, "admission_source_code")
+    insertValues <- c(insertValues, admission_source_code)
+  }
+
+  if (missing(admission_source_code_desc)) {
+    admission_source_code_desc <- defaults$admission_source_code_desc
+  }
+  if (!is.null(admission_source_code_desc)) {
+    insertFields <- c(insertFields, "admission_source_code_desc")
+    insertValues <- c(insertValues, admission_source_code_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_admission_source', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_admission_source (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_admission_source', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_admission_type <- function(admission_type_id, admission_type_code, admission_type_code_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_admission_type;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(admission_type_id)) {
+    admission_type_id <- defaults$admission_type_id
+  }
+  if (!is.null(admission_type_id)) {
+    insertFields <- c(insertFields, "admission_type_id")
+    insertValues <- c(insertValues, admission_type_id)
+  }
+
+  if (missing(admission_type_code)) {
+    admission_type_code <- defaults$admission_type_code
+  }
+  if (!is.null(admission_type_code)) {
+    insertFields <- c(insertFields, "admission_type_code")
+    insertValues <- c(insertValues, admission_type_code)
+  }
+
+  if (missing(admission_type_code_desc)) {
+    admission_type_code_desc <- defaults$admission_type_code_desc
+  }
+  if (!is.null(admission_type_code_desc)) {
+    insertFields <- c(insertFields, "admission_type_code_desc")
+    insertValues <- c(insertValues, admission_type_code_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_admission_type', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_admission_type (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_admission_type', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_anesthesia_type <- function(anesthesia_type_id, anesthesia_type_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_anesthesia_type;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(anesthesia_type_id)) {
+    anesthesia_type_id <- defaults$anesthesia_type_id
+  }
+  if (!is.null(anesthesia_type_id)) {
+    insertFields <- c(insertFields, "anesthesia_type_id")
+    insertValues <- c(insertValues, anesthesia_type_id)
+  }
+
+  if (missing(anesthesia_type_desc)) {
+    anesthesia_type_desc <- defaults$anesthesia_type_desc
+  }
+  if (!is.null(anesthesia_type_desc)) {
+    insertFields <- c(insertFields, "anesthesia_type_desc")
+    insertValues <- c(insertValues, anesthesia_type_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_anesthesia_type', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_anesthesia_type (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_anesthesia_type', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_antimicrobial <- function(antimicrobial_id, antimicrobial_dcode, antimicrobial_desc, drug_classification, antibiogram_class, antimicrobial_mnemonic, loinc_long, loinc_short) {
+  defaults <- frameworkContext$defaultValues$hf_d_antimicrobial;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(antimicrobial_id)) {
+    antimicrobial_id <- defaults$antimicrobial_id
+  }
+  if (!is.null(antimicrobial_id)) {
+    insertFields <- c(insertFields, "antimicrobial_id")
+    insertValues <- c(insertValues, antimicrobial_id)
+  }
+
+  if (missing(antimicrobial_dcode)) {
+    antimicrobial_dcode <- defaults$antimicrobial_dcode
+  }
+  if (!is.null(antimicrobial_dcode)) {
+    insertFields <- c(insertFields, "antimicrobial_dcode")
+    insertValues <- c(insertValues, antimicrobial_dcode)
+  }
+
+  if (missing(antimicrobial_desc)) {
+    antimicrobial_desc <- defaults$antimicrobial_desc
+  }
+  if (!is.null(antimicrobial_desc)) {
+    insertFields <- c(insertFields, "antimicrobial_desc")
+    insertValues <- c(insertValues, antimicrobial_desc)
+  }
+
+  if (missing(drug_classification)) {
+    drug_classification <- defaults$drug_classification
+  }
+  if (!is.null(drug_classification)) {
+    insertFields <- c(insertFields, "drug_classification")
+    insertValues <- c(insertValues, drug_classification)
+  }
+
+  if (missing(antibiogram_class)) {
+    antibiogram_class <- defaults$antibiogram_class
+  }
+  if (!is.null(antibiogram_class)) {
+    insertFields <- c(insertFields, "antibiogram_class")
+    insertValues <- c(insertValues, antibiogram_class)
+  }
+
+  if (missing(antimicrobial_mnemonic)) {
+    antimicrobial_mnemonic <- defaults$antimicrobial_mnemonic
+  }
+  if (!is.null(antimicrobial_mnemonic)) {
+    insertFields <- c(insertFields, "antimicrobial_mnemonic")
+    insertValues <- c(insertValues, antimicrobial_mnemonic)
+  }
+
+  if (missing(loinc_long)) {
+    loinc_long <- defaults$loinc_long
+  }
+  if (!is.null(loinc_long)) {
+    insertFields <- c(insertFields, "loinc_long")
+    insertValues <- c(insertValues, loinc_long)
+  }
+
+  if (missing(loinc_short)) {
+    loinc_short <- defaults$loinc_short
+  }
+  if (!is.null(loinc_short)) {
+    insertFields <- c(insertFields, "loinc_short")
+    insertValues <- c(insertValues, loinc_short)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_antimicrobial', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_antimicrobial (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_antimicrobial', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_asa_class <- function(asa_class_id, asa_class_code, asa_class_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_asa_class;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(asa_class_id)) {
+    asa_class_id <- defaults$asa_class_id
+  }
+  if (!is.null(asa_class_id)) {
+    insertFields <- c(insertFields, "asa_class_id")
+    insertValues <- c(insertValues, asa_class_id)
+  }
+
+  if (missing(asa_class_code)) {
+    asa_class_code <- defaults$asa_class_code
+  }
+  if (!is.null(asa_class_code)) {
+    insertFields <- c(insertFields, "asa_class_code")
+    insertValues <- c(insertValues, asa_class_code)
+  }
+
+  if (missing(asa_class_desc)) {
+    asa_class_desc <- defaults$asa_class_desc
+  }
+  if (!is.null(asa_class_desc)) {
+    insertFields <- c(insertFields, "asa_class_desc")
+    insertValues <- c(insertValues, asa_class_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_asa_class', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_asa_class (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_asa_class', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_cancel_reason <- function(cancel_reason_id, cancel_reason_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_cancel_reason;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(cancel_reason_id)) {
+    cancel_reason_id <- defaults$cancel_reason_id
+  }
+  if (!is.null(cancel_reason_id)) {
+    insertFields <- c(insertFields, "cancel_reason_id")
+    insertValues <- c(insertValues, cancel_reason_id)
+  }
+
+  if (missing(cancel_reason_desc)) {
+    cancel_reason_desc <- defaults$cancel_reason_desc
+  }
+  if (!is.null(cancel_reason_desc)) {
+    insertFields <- c(insertFields, "cancel_reason_desc")
+    insertValues <- c(insertValues, cancel_reason_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_cancel_reason', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_cancel_reason (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_cancel_reason', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_caresetting <- function(caresetting_id, caresetting_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_caresetting;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(caresetting_id)) {
+    caresetting_id <- defaults$caresetting_id
+  }
+  if (!is.null(caresetting_id)) {
+    insertFields <- c(insertFields, "caresetting_id")
+    insertValues <- c(insertValues, caresetting_id)
+  }
+
+  if (missing(caresetting_desc)) {
+    caresetting_desc <- defaults$caresetting_desc
+  }
+  if (!is.null(caresetting_desc)) {
+    insertFields <- c(insertFields, "caresetting_desc")
+    insertValues <- c(insertValues, caresetting_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_caresetting', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_caresetting (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_caresetting', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_collection_src_site <- function(collection_source_site_id, snomed_code, collection_source_site_desc, source_type) {
+  defaults <- frameworkContext$defaultValues$hf_d_collection_src_site;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(collection_source_site_id)) {
+    collection_source_site_id <- defaults$collection_source_site_id
+  }
+  if (!is.null(collection_source_site_id)) {
+    insertFields <- c(insertFields, "collection_source_site_id")
+    insertValues <- c(insertValues, collection_source_site_id)
+  }
+
+  if (missing(snomed_code)) {
+    snomed_code <- defaults$snomed_code
+  }
+  if (!is.null(snomed_code)) {
+    insertFields <- c(insertFields, "snomed_code")
+    insertValues <- c(insertValues, snomed_code)
+  }
+
+  if (missing(collection_source_site_desc)) {
+    collection_source_site_desc <- defaults$collection_source_site_desc
+  }
+  if (!is.null(collection_source_site_desc)) {
+    insertFields <- c(insertFields, "collection_source_site_desc")
+    insertValues <- c(insertValues, collection_source_site_desc)
+  }
+
+  if (missing(source_type)) {
+    source_type <- defaults$source_type
+  }
+  if (!is.null(source_type)) {
+    insertFields <- c(insertFields, "source_type")
+    insertValues <- c(insertValues, source_type)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_collection_src_site', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_collection_src_site (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_collection_src_site', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_collection_status <- function(collection_status_id, collection_status_code, collection_status_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_collection_status;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(collection_status_id)) {
+    collection_status_id <- defaults$collection_status_id
+  }
+  if (!is.null(collection_status_id)) {
+    insertFields <- c(insertFields, "collection_status_id")
+    insertValues <- c(insertValues, collection_status_id)
+  }
+
+  if (missing(collection_status_code)) {
+    collection_status_code <- defaults$collection_status_code
+  }
+  if (!is.null(collection_status_code)) {
+    insertFields <- c(insertFields, "collection_status_code")
+    insertValues <- c(insertValues, collection_status_code)
+  }
+
+  if (missing(collection_status_desc)) {
+    collection_status_desc <- defaults$collection_status_desc
+  }
+  if (!is.null(collection_status_desc)) {
+    insertFields <- c(insertFields, "collection_status_desc")
+    insertValues <- c(insertValues, collection_status_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_collection_status', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_collection_status (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_collection_status', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_compliance_status <- function(compliance_status_id, compliance_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_compliance_status;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(compliance_status_id)) {
+    compliance_status_id <- defaults$compliance_status_id
+  }
+  if (!is.null(compliance_status_id)) {
+    insertFields <- c(insertFields, "compliance_status_id")
+    insertValues <- c(insertValues, compliance_status_id)
+  }
+
+  if (missing(compliance_desc)) {
+    compliance_desc <- defaults$compliance_desc
+  }
+  if (!is.null(compliance_desc)) {
+    insertFields <- c(insertFields, "compliance_desc")
+    insertValues <- c(insertValues, compliance_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_compliance_status', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_compliance_status (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_compliance_status', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_date <- function(date_id, year, quarter, month, month_name, day_number_in_month, week_number_in_year, day_of_week, day_number_of_week, holiday_ind, weekday_ind) {
+  defaults <- frameworkContext$defaultValues$hf_d_date;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(date_id)) {
+    date_id <- defaults$date_id
+  }
+  if (!is.null(date_id)) {
+    insertFields <- c(insertFields, "date_id")
+    insertValues <- c(insertValues, date_id)
+  }
+
+  if (missing(year)) {
+    year <- defaults$year
+  }
+  if (!is.null(year)) {
+    insertFields <- c(insertFields, "year")
+    insertValues <- c(insertValues, year)
+  }
+
+  if (missing(quarter)) {
+    quarter <- defaults$quarter
+  }
+  if (!is.null(quarter)) {
+    insertFields <- c(insertFields, "quarter")
+    insertValues <- c(insertValues, quarter)
+  }
+
+  if (missing(month)) {
+    month <- defaults$month
+  }
+  if (!is.null(month)) {
+    insertFields <- c(insertFields, "month")
+    insertValues <- c(insertValues, month)
+  }
+
+  if (missing(month_name)) {
+    month_name <- defaults$month_name
+  }
+  if (!is.null(month_name)) {
+    insertFields <- c(insertFields, "month_name")
+    insertValues <- c(insertValues, month_name)
+  }
+
+  if (missing(day_number_in_month)) {
+    day_number_in_month <- defaults$day_number_in_month
+  }
+  if (!is.null(day_number_in_month)) {
+    insertFields <- c(insertFields, "day_number_in_month")
+    insertValues <- c(insertValues, day_number_in_month)
+  }
+
+  if (missing(week_number_in_year)) {
+    week_number_in_year <- defaults$week_number_in_year
+  }
+  if (!is.null(week_number_in_year)) {
+    insertFields <- c(insertFields, "week_number_in_year")
+    insertValues <- c(insertValues, week_number_in_year)
+  }
+
+  if (missing(day_of_week)) {
+    day_of_week <- defaults$day_of_week
+  }
+  if (!is.null(day_of_week)) {
+    insertFields <- c(insertFields, "day_of_week")
+    insertValues <- c(insertValues, day_of_week)
+  }
+
+  if (missing(day_number_of_week)) {
+    day_number_of_week <- defaults$day_number_of_week
+  }
+  if (!is.null(day_number_of_week)) {
+    insertFields <- c(insertFields, "day_number_of_week")
+    insertValues <- c(insertValues, day_number_of_week)
+  }
+
+  if (missing(holiday_ind)) {
+    holiday_ind <- defaults$holiday_ind
+  }
+  if (!is.null(holiday_ind)) {
+    insertFields <- c(insertFields, "holiday_ind")
+    insertValues <- c(insertValues, holiday_ind)
+  }
+
+  if (missing(weekday_ind)) {
+    weekday_ind <- defaults$weekday_ind
+  }
+  if (!is.null(weekday_ind)) {
+    insertFields <- c(insertFields, "weekday_ind")
+    insertValues <- c(insertValues, weekday_ind)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_date', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_date (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_date', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_diagnosis <- function(diagnosis_id, diagnosis_type, diagnosis_code, diagnosis_description) {
+  defaults <- frameworkContext$defaultValues$hf_d_diagnosis;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(diagnosis_id)) {
+    diagnosis_id <- defaults$diagnosis_id
+  }
+  if (!is.null(diagnosis_id)) {
+    insertFields <- c(insertFields, "diagnosis_id")
+    insertValues <- c(insertValues, diagnosis_id)
+  }
+
+  if (missing(diagnosis_type)) {
+    diagnosis_type <- defaults$diagnosis_type
+  }
+  if (!is.null(diagnosis_type)) {
+    insertFields <- c(insertFields, "diagnosis_type")
+    insertValues <- c(insertValues, diagnosis_type)
+  }
+
+  if (missing(diagnosis_code)) {
+    diagnosis_code <- defaults$diagnosis_code
+  }
+  if (!is.null(diagnosis_code)) {
+    insertFields <- c(insertFields, "diagnosis_code")
+    insertValues <- c(insertValues, diagnosis_code)
+  }
+
+  if (missing(diagnosis_description)) {
+    diagnosis_description <- defaults$diagnosis_description
+  }
+  if (!is.null(diagnosis_description)) {
+    insertFields <- c(insertFields, "diagnosis_description")
+    insertValues <- c(insertValues, diagnosis_description)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_diagnosis', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_diagnosis (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_diagnosis', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_diagnosis_type <- function(diagnosis_type_id, diagnosis_type_display) {
+  defaults <- frameworkContext$defaultValues$hf_d_diagnosis_type;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(diagnosis_type_id)) {
+    diagnosis_type_id <- defaults$diagnosis_type_id
+  }
+  if (!is.null(diagnosis_type_id)) {
+    insertFields <- c(insertFields, "diagnosis_type_id")
+    insertValues <- c(insertValues, diagnosis_type_id)
+  }
+
+  if (missing(diagnosis_type_display)) {
+    diagnosis_type_display <- defaults$diagnosis_type_display
+  }
+  if (!is.null(diagnosis_type_display)) {
+    insertFields <- c(insertFields, "diagnosis_type_display")
+    insertValues <- c(insertValues, diagnosis_type_display)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_diagnosis_type', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_diagnosis_type (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_diagnosis_type', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_diagnostic_grouping <- function(diagnostic_grouping_id, mdc_code, mdc_code_desc, drg_code, drg_code_desc, drg_id, mdc_id, drg_type) {
+  defaults <- frameworkContext$defaultValues$hf_d_diagnostic_grouping;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(diagnostic_grouping_id)) {
+    diagnostic_grouping_id <- defaults$diagnostic_grouping_id
+  }
+  if (!is.null(diagnostic_grouping_id)) {
+    insertFields <- c(insertFields, "diagnostic_grouping_id")
+    insertValues <- c(insertValues, diagnostic_grouping_id)
+  }
+
+  if (missing(mdc_code)) {
+    mdc_code <- defaults$mdc_code
+  }
+  if (!is.null(mdc_code)) {
+    insertFields <- c(insertFields, "mdc_code")
+    insertValues <- c(insertValues, mdc_code)
+  }
+
+  if (missing(mdc_code_desc)) {
+    mdc_code_desc <- defaults$mdc_code_desc
+  }
+  if (!is.null(mdc_code_desc)) {
+    insertFields <- c(insertFields, "mdc_code_desc")
+    insertValues <- c(insertValues, mdc_code_desc)
+  }
+
+  if (missing(drg_code)) {
+    drg_code <- defaults$drg_code
+  }
+  if (!is.null(drg_code)) {
+    insertFields <- c(insertFields, "drg_code")
+    insertValues <- c(insertValues, drg_code)
+  }
+
+  if (missing(drg_code_desc)) {
+    drg_code_desc <- defaults$drg_code_desc
+  }
+  if (!is.null(drg_code_desc)) {
+    insertFields <- c(insertFields, "drg_code_desc")
+    insertValues <- c(insertValues, drg_code_desc)
+  }
+
+  if (missing(drg_id)) {
+    drg_id <- defaults$drg_id
+  }
+  if (!is.null(drg_id)) {
+    insertFields <- c(insertFields, "drg_id")
+    insertValues <- c(insertValues, drg_id)
+  }
+
+  if (missing(mdc_id)) {
+    mdc_id <- defaults$mdc_id
+  }
+  if (!is.null(mdc_id)) {
+    insertFields <- c(insertFields, "mdc_id")
+    insertValues <- c(insertValues, mdc_id)
+  }
+
+  if (missing(drg_type)) {
+    drg_type <- defaults$drg_type
+  }
+  if (!is.null(drg_type)) {
+    insertFields <- c(insertFields, "drg_type")
+    insertValues <- c(insertValues, drg_type)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_diagnostic_grouping', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_diagnostic_grouping (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_diagnostic_grouping', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_dischg_disp <- function(dischg_disp_id, dischg_disp_code, dischg_disp_code_desc, beg_effective_dt_tm, end_effective_dt_tm) {
+  defaults <- frameworkContext$defaultValues$hf_d_dischg_disp;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(dischg_disp_id)) {
+    dischg_disp_id <- defaults$dischg_disp_id
+  }
+  if (!is.null(dischg_disp_id)) {
+    insertFields <- c(insertFields, "dischg_disp_id")
+    insertValues <- c(insertValues, dischg_disp_id)
+  }
+
+  if (missing(dischg_disp_code)) {
+    dischg_disp_code <- defaults$dischg_disp_code
+  }
+  if (!is.null(dischg_disp_code)) {
+    insertFields <- c(insertFields, "dischg_disp_code")
+    insertValues <- c(insertValues, dischg_disp_code)
+  }
+
+  if (missing(dischg_disp_code_desc)) {
+    dischg_disp_code_desc <- defaults$dischg_disp_code_desc
+  }
+  if (!is.null(dischg_disp_code_desc)) {
+    insertFields <- c(insertFields, "dischg_disp_code_desc")
+    insertValues <- c(insertValues, dischg_disp_code_desc)
+  }
+
+  if (missing(beg_effective_dt_tm)) {
+    beg_effective_dt_tm <- defaults$beg_effective_dt_tm
+  }
+  if (!is.null(beg_effective_dt_tm)) {
+    insertFields <- c(insertFields, "beg_effective_dt_tm")
+    insertValues <- c(insertValues, beg_effective_dt_tm)
+  }
+
+  if (missing(end_effective_dt_tm)) {
+    end_effective_dt_tm <- defaults$end_effective_dt_tm
+  }
+  if (!is.null(end_effective_dt_tm)) {
+    insertFields <- c(insertFields, "end_effective_dt_tm")
+    insertValues <- c(insertValues, end_effective_dt_tm)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_dischg_disp', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_dischg_disp (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_dischg_disp', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_discontinue_reason <- function(discontinue_reason_id, discontinue_reason_code, discontinue_reason_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_discontinue_reason;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(discontinue_reason_id)) {
+    discontinue_reason_id <- defaults$discontinue_reason_id
+  }
+  if (!is.null(discontinue_reason_id)) {
+    insertFields <- c(insertFields, "discontinue_reason_id")
+    insertValues <- c(insertValues, discontinue_reason_id)
+  }
+
+  if (missing(discontinue_reason_code)) {
+    discontinue_reason_code <- defaults$discontinue_reason_code
+  }
+  if (!is.null(discontinue_reason_code)) {
+    insertFields <- c(insertFields, "discontinue_reason_code")
+    insertValues <- c(insertValues, discontinue_reason_code)
+  }
+
+  if (missing(discontinue_reason_desc)) {
+    discontinue_reason_desc <- defaults$discontinue_reason_desc
+  }
+  if (!is.null(discontinue_reason_desc)) {
+    insertFields <- c(insertFields, "discontinue_reason_desc")
+    insertValues <- c(insertValues, discontinue_reason_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_discontinue_reason', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_discontinue_reason (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_discontinue_reason', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_event_class <- function(event_class_id, event_class_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_event_class;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(event_class_id)) {
+    event_class_id <- defaults$event_class_id
+  }
+  if (!is.null(event_class_id)) {
+    insertFields <- c(insertFields, "event_class_id")
+    insertValues <- c(insertValues, event_class_id)
+  }
+
+  if (missing(event_class_desc)) {
+    event_class_desc <- defaults$event_class_desc
+  }
+  if (!is.null(event_class_desc)) {
+    insertFields <- c(insertFields, "event_class_desc")
+    insertValues <- c(insertValues, event_class_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_event_class', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_event_class (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_event_class', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_event_code <- function(event_code_id, event_code_desc, event_code_display, event_code_group, event_code_category) {
+  defaults <- frameworkContext$defaultValues$hf_d_event_code;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(event_code_id)) {
+    event_code_id <- defaults$event_code_id
+  }
+  if (!is.null(event_code_id)) {
+    insertFields <- c(insertFields, "event_code_id")
+    insertValues <- c(insertValues, event_code_id)
+  }
+
+  if (missing(event_code_desc)) {
+    event_code_desc <- defaults$event_code_desc
+  }
+  if (!is.null(event_code_desc)) {
+    insertFields <- c(insertFields, "event_code_desc")
+    insertValues <- c(insertValues, event_code_desc)
+  }
+
+  if (missing(event_code_display)) {
+    event_code_display <- defaults$event_code_display
+  }
+  if (!is.null(event_code_display)) {
+    insertFields <- c(insertFields, "event_code_display")
+    insertValues <- c(insertValues, event_code_display)
+  }
+
+  if (missing(event_code_group)) {
+    event_code_group <- defaults$event_code_group
+  }
+  if (!is.null(event_code_group)) {
+    insertFields <- c(insertFields, "event_code_group")
+    insertValues <- c(insertValues, event_code_group)
+  }
+
+  if (missing(event_code_category)) {
+    event_code_category <- defaults$event_code_category
+  }
+  if (!is.null(event_code_category)) {
+    insertFields <- c(insertFields, "event_code_category")
+    insertValues <- c(insertValues, event_code_category)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_event_code', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_event_code (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_event_code', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_event_reltn <- function(event_reltn_id, event_reltn_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_event_reltn;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(event_reltn_id)) {
+    event_reltn_id <- defaults$event_reltn_id
+  }
+  if (!is.null(event_reltn_id)) {
+    insertFields <- c(insertFields, "event_reltn_id")
+    insertValues <- c(insertValues, event_reltn_id)
+  }
+
+  if (missing(event_reltn_desc)) {
+    event_reltn_desc <- defaults$event_reltn_desc
+  }
+  if (!is.null(event_reltn_desc)) {
+    insertFields <- c(insertFields, "event_reltn_desc")
+    insertValues <- c(insertValues, event_reltn_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_event_reltn', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_event_reltn (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_event_reltn', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_event_source <- function(event_source_id, event_source_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_event_source;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(event_source_id)) {
+    event_source_id <- defaults$event_source_id
+  }
+  if (!is.null(event_source_id)) {
+    insertFields <- c(insertFields, "event_source_id")
+    insertValues <- c(insertValues, event_source_id)
+  }
+
+  if (missing(event_source_desc)) {
+    event_source_desc <- defaults$event_source_desc
+  }
+  if (!is.null(event_source_desc)) {
+    insertFields <- c(insertFields, "event_source_desc")
+    insertValues <- c(insertValues, event_source_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_event_source', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_event_source (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_event_source', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_formulary_type <- function(formulary_type_id, formulary_type_code, formulary_type_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_formulary_type;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(formulary_type_id)) {
+    formulary_type_id <- defaults$formulary_type_id
+  }
+  if (!is.null(formulary_type_id)) {
+    insertFields <- c(insertFields, "formulary_type_id")
+    insertValues <- c(insertValues, formulary_type_id)
+  }
+
+  if (missing(formulary_type_code)) {
+    formulary_type_code <- defaults$formulary_type_code
+  }
+  if (!is.null(formulary_type_code)) {
+    insertFields <- c(insertFields, "formulary_type_code")
+    insertValues <- c(insertValues, formulary_type_code)
+  }
+
+  if (missing(formulary_type_desc)) {
+    formulary_type_desc <- defaults$formulary_type_desc
+  }
+  if (!is.null(formulary_type_desc)) {
+    insertFields <- c(insertFields, "formulary_type_desc")
+    insertValues <- c(insertValues, formulary_type_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_formulary_type', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_formulary_type (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_formulary_type', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_frequency <- function(frequency_id, frequency_disp, frequency_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_frequency;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(frequency_id)) {
+    frequency_id <- defaults$frequency_id
+  }
+  if (!is.null(frequency_id)) {
+    insertFields <- c(insertFields, "frequency_id")
+    insertValues <- c(insertValues, frequency_id)
+  }
+
+  if (missing(frequency_disp)) {
+    frequency_disp <- defaults$frequency_disp
+  }
+  if (!is.null(frequency_disp)) {
+    insertFields <- c(insertFields, "frequency_disp")
+    insertValues <- c(insertValues, frequency_disp)
+  }
+
+  if (missing(frequency_desc)) {
+    frequency_desc <- defaults$frequency_desc
+  }
+  if (!is.null(frequency_desc)) {
+    insertFields <- c(insertFields, "frequency_desc")
+    insertValues <- c(insertValues, frequency_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_frequency', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_frequency (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_frequency', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_hospital <- function(hospital_id, census_region, census_division, bed_size_range, teaching_facility_ind, cath_lab_full_ind, cath_lab_diagnostic_ind, urban_rural_status, acute_status, alt_hospital_id, alt_health_system_id) {
+  defaults <- frameworkContext$defaultValues$hf_d_hospital;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(hospital_id)) {
+    hospital_id <- defaults$hospital_id
+  }
+  if (!is.null(hospital_id)) {
+    insertFields <- c(insertFields, "hospital_id")
+    insertValues <- c(insertValues, hospital_id)
+  }
+
+  if (missing(census_region)) {
+    census_region <- defaults$census_region
+  }
+  if (!is.null(census_region)) {
+    insertFields <- c(insertFields, "census_region")
+    insertValues <- c(insertValues, census_region)
+  }
+
+  if (missing(census_division)) {
+    census_division <- defaults$census_division
+  }
+  if (!is.null(census_division)) {
+    insertFields <- c(insertFields, "census_division")
+    insertValues <- c(insertValues, census_division)
+  }
+
+  if (missing(bed_size_range)) {
+    bed_size_range <- defaults$bed_size_range
+  }
+  if (!is.null(bed_size_range)) {
+    insertFields <- c(insertFields, "bed_size_range")
+    insertValues <- c(insertValues, bed_size_range)
+  }
+
+  if (missing(teaching_facility_ind)) {
+    teaching_facility_ind <- defaults$teaching_facility_ind
+  }
+  if (!is.null(teaching_facility_ind)) {
+    insertFields <- c(insertFields, "teaching_facility_ind")
+    insertValues <- c(insertValues, teaching_facility_ind)
+  }
+
+  if (missing(cath_lab_full_ind)) {
+    cath_lab_full_ind <- defaults$cath_lab_full_ind
+  }
+  if (!is.null(cath_lab_full_ind)) {
+    insertFields <- c(insertFields, "cath_lab_full_ind")
+    insertValues <- c(insertValues, cath_lab_full_ind)
+  }
+
+  if (missing(cath_lab_diagnostic_ind)) {
+    cath_lab_diagnostic_ind <- defaults$cath_lab_diagnostic_ind
+  }
+  if (!is.null(cath_lab_diagnostic_ind)) {
+    insertFields <- c(insertFields, "cath_lab_diagnostic_ind")
+    insertValues <- c(insertValues, cath_lab_diagnostic_ind)
+  }
+
+  if (missing(urban_rural_status)) {
+    urban_rural_status <- defaults$urban_rural_status
+  }
+  if (!is.null(urban_rural_status)) {
+    insertFields <- c(insertFields, "urban_rural_status")
+    insertValues <- c(insertValues, urban_rural_status)
+  }
+
+  if (missing(acute_status)) {
+    acute_status <- defaults$acute_status
+  }
+  if (!is.null(acute_status)) {
+    insertFields <- c(insertFields, "acute_status")
+    insertValues <- c(insertValues, acute_status)
+  }
+
+  if (missing(alt_hospital_id)) {
+    alt_hospital_id <- defaults$alt_hospital_id
+  }
+  if (!is.null(alt_hospital_id)) {
+    insertFields <- c(insertFields, "alt_hospital_id")
+    insertValues <- c(insertValues, alt_hospital_id)
+  }
+
+  if (missing(alt_health_system_id)) {
+    alt_health_system_id <- defaults$alt_health_system_id
+  }
+  if (!is.null(alt_health_system_id)) {
+    insertFields <- c(insertFields, "alt_health_system_id")
+    insertValues <- c(insertValues, alt_health_system_id)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_hospital', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_hospital (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_hospital', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_interp_result <- function(interp_result_id, interp_result_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_interp_result;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(interp_result_id)) {
+    interp_result_id <- defaults$interp_result_id
+  }
+  if (!is.null(interp_result_id)) {
+    insertFields <- c(insertFields, "interp_result_id")
+    insertValues <- c(insertValues, interp_result_id)
+  }
+
+  if (missing(interp_result_desc)) {
+    interp_result_desc <- defaults$interp_result_desc
+  }
+  if (!is.null(interp_result_desc)) {
+    insertFields <- c(insertFields, "interp_result_desc")
+    insertValues <- c(insertValues, interp_result_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_interp_result', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_interp_result (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_interp_result', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_isolate <- function(isolate_id, isolate_name, isolate_type, isolate_category, isolate_group, isolate_rept_category, phin_loinc_code, alt_loinc_code, snomed_code, snomedct_code) {
+  defaults <- frameworkContext$defaultValues$hf_d_isolate;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(isolate_id)) {
+    isolate_id <- defaults$isolate_id
+  }
+  if (!is.null(isolate_id)) {
+    insertFields <- c(insertFields, "isolate_id")
+    insertValues <- c(insertValues, isolate_id)
+  }
+
+  if (missing(isolate_name)) {
+    isolate_name <- defaults$isolate_name
+  }
+  if (!is.null(isolate_name)) {
+    insertFields <- c(insertFields, "isolate_name")
+    insertValues <- c(insertValues, isolate_name)
+  }
+
+  if (missing(isolate_type)) {
+    isolate_type <- defaults$isolate_type
+  }
+  if (!is.null(isolate_type)) {
+    insertFields <- c(insertFields, "isolate_type")
+    insertValues <- c(insertValues, isolate_type)
+  }
+
+  if (missing(isolate_category)) {
+    isolate_category <- defaults$isolate_category
+  }
+  if (!is.null(isolate_category)) {
+    insertFields <- c(insertFields, "isolate_category")
+    insertValues <- c(insertValues, isolate_category)
+  }
+
+  if (missing(isolate_group)) {
+    isolate_group <- defaults$isolate_group
+  }
+  if (!is.null(isolate_group)) {
+    insertFields <- c(insertFields, "isolate_group")
+    insertValues <- c(insertValues, isolate_group)
+  }
+
+  if (missing(isolate_rept_category)) {
+    isolate_rept_category <- defaults$isolate_rept_category
+  }
+  if (!is.null(isolate_rept_category)) {
+    insertFields <- c(insertFields, "isolate_rept_category")
+    insertValues <- c(insertValues, isolate_rept_category)
+  }
+
+  if (missing(phin_loinc_code)) {
+    phin_loinc_code <- defaults$phin_loinc_code
+  }
+  if (!is.null(phin_loinc_code)) {
+    insertFields <- c(insertFields, "phin_loinc_code")
+    insertValues <- c(insertValues, phin_loinc_code)
+  }
+
+  if (missing(alt_loinc_code)) {
+    alt_loinc_code <- defaults$alt_loinc_code
+  }
+  if (!is.null(alt_loinc_code)) {
+    insertFields <- c(insertFields, "alt_loinc_code")
+    insertValues <- c(insertValues, alt_loinc_code)
+  }
+
+  if (missing(snomed_code)) {
+    snomed_code <- defaults$snomed_code
+  }
+  if (!is.null(snomed_code)) {
+    insertFields <- c(insertFields, "snomed_code")
+    insertValues <- c(insertValues, snomed_code)
+  }
+
+  if (missing(snomedct_code)) {
+    snomedct_code <- defaults$snomedct_code
+  }
+  if (!is.null(snomedct_code)) {
+    insertFields <- c(insertFields, "snomedct_code")
+    insertValues <- c(insertValues, snomedct_code)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_isolate', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_isolate (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_isolate', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_lab_procedure <- function(lab_procedure_id, lab_procedure_mnemonic, lab_procedure_name, lab_procedure_group, lab_super_group, loinc_code, loinc_ind, loinc_long, loinc_short) {
+  defaults <- frameworkContext$defaultValues$hf_d_lab_procedure;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(lab_procedure_id)) {
+    lab_procedure_id <- defaults$lab_procedure_id
+  }
+  if (!is.null(lab_procedure_id)) {
+    insertFields <- c(insertFields, "lab_procedure_id")
+    insertValues <- c(insertValues, lab_procedure_id)
+  }
+
+  if (missing(lab_procedure_mnemonic)) {
+    lab_procedure_mnemonic <- defaults$lab_procedure_mnemonic
+  }
+  if (!is.null(lab_procedure_mnemonic)) {
+    insertFields <- c(insertFields, "lab_procedure_mnemonic")
+    insertValues <- c(insertValues, lab_procedure_mnemonic)
+  }
+
+  if (missing(lab_procedure_name)) {
+    lab_procedure_name <- defaults$lab_procedure_name
+  }
+  if (!is.null(lab_procedure_name)) {
+    insertFields <- c(insertFields, "lab_procedure_name")
+    insertValues <- c(insertValues, lab_procedure_name)
+  }
+
+  if (missing(lab_procedure_group)) {
+    lab_procedure_group <- defaults$lab_procedure_group
+  }
+  if (!is.null(lab_procedure_group)) {
+    insertFields <- c(insertFields, "lab_procedure_group")
+    insertValues <- c(insertValues, lab_procedure_group)
+  }
+
+  if (missing(lab_super_group)) {
+    lab_super_group <- defaults$lab_super_group
+  }
+  if (!is.null(lab_super_group)) {
+    insertFields <- c(insertFields, "lab_super_group")
+    insertValues <- c(insertValues, lab_super_group)
+  }
+
+  if (missing(loinc_code)) {
+    loinc_code <- defaults$loinc_code
+  }
+  if (!is.null(loinc_code)) {
+    insertFields <- c(insertFields, "loinc_code")
+    insertValues <- c(insertValues, loinc_code)
+  }
+
+  if (missing(loinc_ind)) {
+    loinc_ind <- defaults$loinc_ind
+  }
+  if (!is.null(loinc_ind)) {
+    insertFields <- c(insertFields, "loinc_ind")
+    insertValues <- c(insertValues, loinc_ind)
+  }
+
+  if (missing(loinc_long)) {
+    loinc_long <- defaults$loinc_long
+  }
+  if (!is.null(loinc_long)) {
+    insertFields <- c(insertFields, "loinc_long")
+    insertValues <- c(insertValues, loinc_long)
+  }
+
+  if (missing(loinc_short)) {
+    loinc_short <- defaults$loinc_short
+  }
+  if (!is.null(loinc_short)) {
+    insertFields <- c(insertFields, "loinc_short")
+    insertValues <- c(insertValues, loinc_short)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_lab_procedure', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_lab_procedure (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_lab_procedure', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_lab_result_type <- function(lab_result_type_id, lab_result_type_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_lab_result_type;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(lab_result_type_id)) {
+    lab_result_type_id <- defaults$lab_result_type_id
+  }
+  if (!is.null(lab_result_type_id)) {
+    insertFields <- c(insertFields, "lab_result_type_id")
+    insertValues <- c(insertValues, lab_result_type_id)
+  }
+
+  if (missing(lab_result_type_desc)) {
+    lab_result_type_desc <- defaults$lab_result_type_desc
+  }
+  if (!is.null(lab_result_type_desc)) {
+    insertFields <- c(insertFields, "lab_result_type_desc")
+    insertValues <- c(insertValues, lab_result_type_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_lab_result_type', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_lab_result_type (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_lab_result_type', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_manufacturer <- function(manufacturer_id, manufacturer_name, manufacturer_alt_name) {
+  defaults <- frameworkContext$defaultValues$hf_d_manufacturer;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(manufacturer_id)) {
+    manufacturer_id <- defaults$manufacturer_id
+  }
+  if (!is.null(manufacturer_id)) {
+    insertFields <- c(insertFields, "manufacturer_id")
+    insertValues <- c(insertValues, manufacturer_id)
+  }
+
+  if (missing(manufacturer_name)) {
+    manufacturer_name <- defaults$manufacturer_name
+  }
+  if (!is.null(manufacturer_name)) {
+    insertFields <- c(insertFields, "manufacturer_name")
+    insertValues <- c(insertValues, manufacturer_name)
+  }
+
+  if (missing(manufacturer_alt_name)) {
+    manufacturer_alt_name <- defaults$manufacturer_alt_name
+  }
+  if (!is.null(manufacturer_alt_name)) {
+    insertFields <- c(insertFields, "manufacturer_alt_name")
+    insertValues <- c(insertValues, manufacturer_alt_name)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_manufacturer', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_manufacturer (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_manufacturer', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_med_order_status <- function(med_order_status_id, med_order_status_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_med_order_status;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(med_order_status_id)) {
+    med_order_status_id <- defaults$med_order_status_id
+  }
+  if (!is.null(med_order_status_id)) {
+    insertFields <- c(insertFields, "med_order_status_id")
+    insertValues <- c(insertValues, med_order_status_id)
+  }
+
+  if (missing(med_order_status_desc)) {
+    med_order_status_desc <- defaults$med_order_status_desc
+  }
+  if (!is.null(med_order_status_desc)) {
+    insertFields <- c(insertFields, "med_order_status_desc")
+    insertValues <- c(insertValues, med_order_status_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_med_order_status', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_med_order_status (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_med_order_status', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_med_product <- function(med_product_id, drug_code, drug_mnemonic_code, drug_desc, drug_mnemonic_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_med_product;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(med_product_id)) {
+    med_product_id <- defaults$med_product_id
+  }
+  if (!is.null(med_product_id)) {
+    insertFields <- c(insertFields, "med_product_id")
+    insertValues <- c(insertValues, med_product_id)
+  }
+
+  if (missing(drug_code)) {
+    drug_code <- defaults$drug_code
+  }
+  if (!is.null(drug_code)) {
+    insertFields <- c(insertFields, "drug_code")
+    insertValues <- c(insertValues, drug_code)
+  }
+
+  if (missing(drug_mnemonic_code)) {
+    drug_mnemonic_code <- defaults$drug_mnemonic_code
+  }
+  if (!is.null(drug_mnemonic_code)) {
+    insertFields <- c(insertFields, "drug_mnemonic_code")
+    insertValues <- c(insertValues, drug_mnemonic_code)
+  }
+
+  if (missing(drug_desc)) {
+    drug_desc <- defaults$drug_desc
+  }
+  if (!is.null(drug_desc)) {
+    insertFields <- c(insertFields, "drug_desc")
+    insertValues <- c(insertValues, drug_desc)
+  }
+
+  if (missing(drug_mnemonic_desc)) {
+    drug_mnemonic_desc <- defaults$drug_mnemonic_desc
+  }
+  if (!is.null(drug_mnemonic_desc)) {
+    insertFields <- c(insertFields, "drug_mnemonic_desc")
+    insertValues <- c(insertValues, drug_mnemonic_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_med_product', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_med_product (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_med_product', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_med_reason <- function(med_reason_id, med_reason_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_med_reason;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(med_reason_id)) {
+    med_reason_id <- defaults$med_reason_id
+  }
+  if (!is.null(med_reason_id)) {
+    insertFields <- c(insertFields, "med_reason_id")
+    insertValues <- c(insertValues, med_reason_id)
+  }
+
+  if (missing(med_reason_desc)) {
+    med_reason_desc <- defaults$med_reason_desc
+  }
+  if (!is.null(med_reason_desc)) {
+    insertFields <- c(insertFields, "med_reason_desc")
+    insertValues <- c(insertValues, med_reason_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_med_reason', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_med_reason (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_med_reason', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_medication <- function(medication_id, ndc_code, brand_name, generic_name, product_strength_description, route_description, dose_form_description, obsolete_dt_tm) {
+  defaults <- frameworkContext$defaultValues$hf_d_medication;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(medication_id)) {
+    medication_id <- defaults$medication_id
+  }
+  if (!is.null(medication_id)) {
+    insertFields <- c(insertFields, "medication_id")
+    insertValues <- c(insertValues, medication_id)
+  }
+
+  if (missing(ndc_code)) {
+    ndc_code <- defaults$ndc_code
+  }
+  if (!is.null(ndc_code)) {
+    insertFields <- c(insertFields, "ndc_code")
+    insertValues <- c(insertValues, ndc_code)
+  }
+
+  if (missing(brand_name)) {
+    brand_name <- defaults$brand_name
+  }
+  if (!is.null(brand_name)) {
+    insertFields <- c(insertFields, "brand_name")
+    insertValues <- c(insertValues, brand_name)
+  }
+
+  if (missing(generic_name)) {
+    generic_name <- defaults$generic_name
+  }
+  if (!is.null(generic_name)) {
+    insertFields <- c(insertFields, "generic_name")
+    insertValues <- c(insertValues, generic_name)
+  }
+
+  if (missing(product_strength_description)) {
+    product_strength_description <- defaults$product_strength_description
+  }
+  if (!is.null(product_strength_description)) {
+    insertFields <- c(insertFields, "product_strength_description")
+    insertValues <- c(insertValues, product_strength_description)
+  }
+
+  if (missing(route_description)) {
+    route_description <- defaults$route_description
+  }
+  if (!is.null(route_description)) {
+    insertFields <- c(insertFields, "route_description")
+    insertValues <- c(insertValues, route_description)
+  }
+
+  if (missing(dose_form_description)) {
+    dose_form_description <- defaults$dose_form_description
+  }
+  if (!is.null(dose_form_description)) {
+    insertFields <- c(insertFields, "dose_form_description")
+    insertValues <- c(insertValues, dose_form_description)
+  }
+
+  if (missing(obsolete_dt_tm)) {
+    obsolete_dt_tm <- defaults$obsolete_dt_tm
+  }
+  if (!is.null(obsolete_dt_tm)) {
+    insertFields <- c(insertFields, "obsolete_dt_tm")
+    insertValues <- c(insertValues, obsolete_dt_tm)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_medication', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_medication (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_medication', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_mic_order_status <- function(micro_order_status_id, micro_order_status_code, micro_order_status_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_mic_order_status;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(micro_order_status_id)) {
+    micro_order_status_id <- defaults$micro_order_status_id
+  }
+  if (!is.null(micro_order_status_id)) {
+    insertFields <- c(insertFields, "micro_order_status_id")
+    insertValues <- c(insertValues, micro_order_status_id)
+  }
+
+  if (missing(micro_order_status_code)) {
+    micro_order_status_code <- defaults$micro_order_status_code
+  }
+  if (!is.null(micro_order_status_code)) {
+    insertFields <- c(insertFields, "micro_order_status_code")
+    insertValues <- c(insertValues, micro_order_status_code)
+  }
+
+  if (missing(micro_order_status_desc)) {
+    micro_order_status_desc <- defaults$micro_order_status_desc
+  }
+  if (!is.null(micro_order_status_desc)) {
+    insertFields <- c(insertFields, "micro_order_status_desc")
+    insertValues <- c(insertValues, micro_order_status_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_mic_order_status', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_mic_order_status (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_mic_order_status', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_micro_result_type <- function(micro_result_type_id, test_type, micro_result_type_code, micro_result_type_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_micro_result_type;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(micro_result_type_id)) {
+    micro_result_type_id <- defaults$micro_result_type_id
+  }
+  if (!is.null(micro_result_type_id)) {
+    insertFields <- c(insertFields, "micro_result_type_id")
+    insertValues <- c(insertValues, micro_result_type_id)
+  }
+
+  if (missing(test_type)) {
+    test_type <- defaults$test_type
+  }
+  if (!is.null(test_type)) {
+    insertFields <- c(insertFields, "test_type")
+    insertValues <- c(insertValues, test_type)
+  }
+
+  if (missing(micro_result_type_code)) {
+    micro_result_type_code <- defaults$micro_result_type_code
+  }
+  if (!is.null(micro_result_type_code)) {
+    insertFields <- c(insertFields, "micro_result_type_code")
+    insertValues <- c(insertValues, micro_result_type_code)
+  }
+
+  if (missing(micro_result_type_desc)) {
+    micro_result_type_desc <- defaults$micro_result_type_desc
+  }
+  if (!is.null(micro_result_type_desc)) {
+    insertFields <- c(insertFields, "micro_result_type_desc")
+    insertValues <- c(insertValues, micro_result_type_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_micro_result_type', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_micro_result_type (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_micro_result_type', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_normalcy <- function(normalcy_id, normalcy_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_normalcy;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(normalcy_id)) {
+    normalcy_id <- defaults$normalcy_id
+  }
+  if (!is.null(normalcy_id)) {
+    insertFields <- c(insertFields, "normalcy_id")
+    insertValues <- c(insertValues, normalcy_id)
+  }
+
+  if (missing(normalcy_desc)) {
+    normalcy_desc <- defaults$normalcy_desc
+  }
+  if (!is.null(normalcy_desc)) {
+    insertFields <- c(insertFields, "normalcy_desc")
+    insertValues <- c(insertValues, normalcy_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_normalcy', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_normalcy (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_normalcy', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_normalcy_method <- function(normalcy_method_id, normalcy_method_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_normalcy_method;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(normalcy_method_id)) {
+    normalcy_method_id <- defaults$normalcy_method_id
+  }
+  if (!is.null(normalcy_method_id)) {
+    insertFields <- c(insertFields, "normalcy_method_id")
+    insertValues <- c(insertValues, normalcy_method_id)
+  }
+
+  if (missing(normalcy_method_desc)) {
+    normalcy_method_desc <- defaults$normalcy_method_desc
+  }
+  if (!is.null(normalcy_method_desc)) {
+    insertFields <- c(insertFields, "normalcy_method_desc")
+    insertValues <- c(insertValues, normalcy_method_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_normalcy_method', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_normalcy_method (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_normalcy_method', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_order_stop_type <- function(order_stop_type_id, order_stop_type_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_order_stop_type;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(order_stop_type_id)) {
+    order_stop_type_id <- defaults$order_stop_type_id
+  }
+  if (!is.null(order_stop_type_id)) {
+    insertFields <- c(insertFields, "order_stop_type_id")
+    insertValues <- c(insertValues, order_stop_type_id)
+  }
+
+  if (missing(order_stop_type_desc)) {
+    order_stop_type_desc <- defaults$order_stop_type_desc
+  }
+  if (!is.null(order_stop_type_desc)) {
+    insertFields <- c(insertFields, "order_stop_type_desc")
+    insertValues <- c(insertValues, order_stop_type_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_order_stop_type', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_order_stop_type (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_order_stop_type', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_order_type <- function(order_type_id, order_type_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_order_type;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(order_type_id)) {
+    order_type_id <- defaults$order_type_id
+  }
+  if (!is.null(order_type_id)) {
+    insertFields <- c(insertFields, "order_type_id")
+    insertValues <- c(insertValues, order_type_id)
+  }
+
+  if (missing(order_type_desc)) {
+    order_type_desc <- defaults$order_type_desc
+  }
+  if (!is.null(order_type_desc)) {
+    insertFields <- c(insertFields, "order_type_desc")
+    insertValues <- c(insertValues, order_type_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_order_type', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_order_type (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_order_type', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_patient <- function(patient_id, patient_sk, race, gender, marital_status) {
+  defaults <- frameworkContext$defaultValues$hf_d_patient;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(patient_id)) {
+    patient_id <- defaults$patient_id
+  }
+  if (!is.null(patient_id)) {
+    insertFields <- c(insertFields, "patient_id")
+    insertValues <- c(insertValues, patient_id)
+  }
+
+  if (missing(patient_sk)) {
+    patient_sk <- defaults$patient_sk
+  }
+  if (!is.null(patient_sk)) {
+    insertFields <- c(insertFields, "patient_sk")
+    insertValues <- c(insertValues, patient_sk)
+  }
+
+  if (missing(race)) {
+    race <- defaults$race
+  }
+  if (!is.null(race)) {
+    insertFields <- c(insertFields, "race")
+    insertValues <- c(insertValues, race)
+  }
+
+  if (missing(gender)) {
+    gender <- defaults$gender
+  }
+  if (!is.null(gender)) {
+    insertFields <- c(insertFields, "gender")
+    insertValues <- c(insertValues, gender)
+  }
+
+  if (missing(marital_status)) {
+    marital_status <- defaults$marital_status
+  }
+  if (!is.null(marital_status)) {
+    insertFields <- c(insertFields, "marital_status")
+    insertValues <- c(insertValues, marital_status)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_patient', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_patient (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_patient', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_patient_type <- function(patient_type_id, patient_type_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_patient_type;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(patient_type_id)) {
+    patient_type_id <- defaults$patient_type_id
+  }
+  if (!is.null(patient_type_id)) {
+    insertFields <- c(insertFields, "patient_type_id")
+    insertValues <- c(insertValues, patient_type_id)
+  }
+
+  if (missing(patient_type_desc)) {
+    patient_type_desc <- defaults$patient_type_desc
+  }
+  if (!is.null(patient_type_desc)) {
+    insertFields <- c(insertFields, "patient_type_desc")
+    insertValues <- c(insertValues, patient_type_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_patient_type', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_patient_type (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_patient_type', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_payer <- function(payer_id, payer_code, payer_code_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_payer;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(payer_id)) {
+    payer_id <- defaults$payer_id
+  }
+  if (!is.null(payer_id)) {
+    insertFields <- c(insertFields, "payer_id")
+    insertValues <- c(insertValues, payer_id)
+  }
+
+  if (missing(payer_code)) {
+    payer_code <- defaults$payer_code
+  }
+  if (!is.null(payer_code)) {
+    insertFields <- c(insertFields, "payer_code")
+    insertValues <- c(insertValues, payer_code)
+  }
+
+  if (missing(payer_code_desc)) {
+    payer_code_desc <- defaults$payer_code_desc
+  }
+  if (!is.null(payer_code_desc)) {
+    insertFields <- c(insertFields, "payer_code_desc")
+    insertValues <- c(insertValues, payer_code_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_payer', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_payer (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_payer', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_physician <- function(physician_id, medical_specialty) {
+  defaults <- frameworkContext$defaultValues$hf_d_physician;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(physician_id)) {
+    physician_id <- defaults$physician_id
+  }
+  if (!is.null(physician_id)) {
+    insertFields <- c(insertFields, "physician_id")
+    insertValues <- c(insertValues, physician_id)
+  }
+
+  if (missing(medical_specialty)) {
+    medical_specialty <- defaults$medical_specialty
+  }
+  if (!is.null(medical_specialty)) {
+    insertFields <- c(insertFields, "medical_specialty")
+    insertValues <- c(insertValues, medical_specialty)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_physician', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_physician (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_physician', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_present_on_admit <- function(present_on_admit_id, present_on_admit_code, present_on_admit_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_present_on_admit;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(present_on_admit_id)) {
+    present_on_admit_id <- defaults$present_on_admit_id
+  }
+  if (!is.null(present_on_admit_id)) {
+    insertFields <- c(insertFields, "present_on_admit_id")
+    insertValues <- c(insertValues, present_on_admit_id)
+  }
+
+  if (missing(present_on_admit_code)) {
+    present_on_admit_code <- defaults$present_on_admit_code
+  }
+  if (!is.null(present_on_admit_code)) {
+    insertFields <- c(insertFields, "present_on_admit_code")
+    insertValues <- c(insertValues, present_on_admit_code)
+  }
+
+  if (missing(present_on_admit_desc)) {
+    present_on_admit_desc <- defaults$present_on_admit_desc
+  }
+  if (!is.null(present_on_admit_desc)) {
+    insertFields <- c(insertFields, "present_on_admit_desc")
+    insertValues <- c(insertValues, present_on_admit_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_present_on_admit', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_present_on_admit (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_present_on_admit', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_procedure <- function(procedure_id, procedure_type, procedure_code, procedure_description) {
+  defaults <- frameworkContext$defaultValues$hf_d_procedure;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(procedure_id)) {
+    procedure_id <- defaults$procedure_id
+  }
+  if (!is.null(procedure_id)) {
+    insertFields <- c(insertFields, "procedure_id")
+    insertValues <- c(insertValues, procedure_id)
+  }
+
+  if (missing(procedure_type)) {
+    procedure_type <- defaults$procedure_type
+  }
+  if (!is.null(procedure_type)) {
+    insertFields <- c(insertFields, "procedure_type")
+    insertValues <- c(insertValues, procedure_type)
+  }
+
+  if (missing(procedure_code)) {
+    procedure_code <- defaults$procedure_code
+  }
+  if (!is.null(procedure_code)) {
+    insertFields <- c(insertFields, "procedure_code")
+    insertValues <- c(insertValues, procedure_code)
+  }
+
+  if (missing(procedure_description)) {
+    procedure_description <- defaults$procedure_description
+  }
+  if (!is.null(procedure_description)) {
+    insertFields <- c(insertFields, "procedure_description")
+    insertValues <- c(insertValues, procedure_description)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_procedure', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_procedure (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_procedure', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_procedure_modifier <- function(procedure_modifier_id, procedure_modifier_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_procedure_modifier;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(procedure_modifier_id)) {
+    procedure_modifier_id <- defaults$procedure_modifier_id
+  }
+  if (!is.null(procedure_modifier_id)) {
+    insertFields <- c(insertFields, "procedure_modifier_id")
+    insertValues <- c(insertValues, procedure_modifier_id)
+  }
+
+  if (missing(procedure_modifier_desc)) {
+    procedure_modifier_desc <- defaults$procedure_modifier_desc
+  }
+  if (!is.null(procedure_modifier_desc)) {
+    insertFields <- c(insertFields, "procedure_modifier_desc")
+    insertValues <- c(insertValues, procedure_modifier_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_procedure_modifier', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_procedure_modifier (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_procedure_modifier', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_reporting_priority <- function(reporting_priority_id, reporting_priority_code, reporting_priority_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_reporting_priority;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(reporting_priority_id)) {
+    reporting_priority_id <- defaults$reporting_priority_id
+  }
+  if (!is.null(reporting_priority_id)) {
+    insertFields <- c(insertFields, "reporting_priority_id")
+    insertValues <- c(insertValues, reporting_priority_id)
+  }
+
+  if (missing(reporting_priority_code)) {
+    reporting_priority_code <- defaults$reporting_priority_code
+  }
+  if (!is.null(reporting_priority_code)) {
+    insertFields <- c(insertFields, "reporting_priority_code")
+    insertValues <- c(insertValues, reporting_priority_code)
+  }
+
+  if (missing(reporting_priority_desc)) {
+    reporting_priority_desc <- defaults$reporting_priority_desc
+  }
+  if (!is.null(reporting_priority_desc)) {
+    insertFields <- c(insertFields, "reporting_priority_desc")
+    insertValues <- c(insertValues, reporting_priority_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_reporting_priority', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_reporting_priority (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_reporting_priority', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_result_indicator <- function(result_indicator_id, result_indicator_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_result_indicator;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(result_indicator_id)) {
+    result_indicator_id <- defaults$result_indicator_id
+  }
+  if (!is.null(result_indicator_id)) {
+    insertFields <- c(insertFields, "result_indicator_id")
+    insertValues <- c(insertValues, result_indicator_id)
+  }
+
+  if (missing(result_indicator_desc)) {
+    result_indicator_desc <- defaults$result_indicator_desc
+  }
+  if (!is.null(result_indicator_desc)) {
+    insertFields <- c(insertFields, "result_indicator_desc")
+    insertValues <- c(insertValues, result_indicator_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_result_indicator', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_result_indicator (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_result_indicator', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_result_type_proc <- function(result_type_proc_id, result_type_proc_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_result_type_proc;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(result_type_proc_id)) {
+    result_type_proc_id <- defaults$result_type_proc_id
+  }
+  if (!is.null(result_type_proc_id)) {
+    insertFields <- c(insertFields, "result_type_proc_id")
+    insertValues <- c(insertValues, result_type_proc_id)
+  }
+
+  if (missing(result_type_proc_desc)) {
+    result_type_proc_desc <- defaults$result_type_proc_desc
+  }
+  if (!is.null(result_type_proc_desc)) {
+    insertFields <- c(insertFields, "result_type_proc_desc")
+    insertValues <- c(insertValues, result_type_proc_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_result_type_proc', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_result_type_proc (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_result_type_proc', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_route_admin <- function(route_admin_id, route_admin_display, route_admin_description) {
+  defaults <- frameworkContext$defaultValues$hf_d_route_admin;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(route_admin_id)) {
+    route_admin_id <- defaults$route_admin_id
+  }
+  if (!is.null(route_admin_id)) {
+    insertFields <- c(insertFields, "route_admin_id")
+    insertValues <- c(insertValues, route_admin_id)
+  }
+
+  if (missing(route_admin_display)) {
+    route_admin_display <- defaults$route_admin_display
+  }
+  if (!is.null(route_admin_display)) {
+    insertFields <- c(insertFields, "route_admin_display")
+    insertValues <- c(insertValues, route_admin_display)
+  }
+
+  if (missing(route_admin_description)) {
+    route_admin_description <- defaults$route_admin_description
+  }
+  if (!is.null(route_admin_description)) {
+    insertFields <- c(insertFields, "route_admin_description")
+    insertValues <- c(insertValues, route_admin_description)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_route_admin', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_route_admin (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_route_admin', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_surgical_case_level <- function(surgical_case_level_id, surgical_case_level_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_surgical_case_level;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(surgical_case_level_id)) {
+    surgical_case_level_id <- defaults$surgical_case_level_id
+  }
+  if (!is.null(surgical_case_level_id)) {
+    insertFields <- c(insertFields, "surgical_case_level_id")
+    insertValues <- c(insertValues, surgical_case_level_id)
+  }
+
+  if (missing(surgical_case_level_desc)) {
+    surgical_case_level_desc <- defaults$surgical_case_level_desc
+  }
+  if (!is.null(surgical_case_level_desc)) {
+    insertFields <- c(insertFields, "surgical_case_level_desc")
+    insertValues <- c(insertValues, surgical_case_level_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_surgical_case_level', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_surgical_case_level (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_surgical_case_level', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_surgical_procedure <- function(surgical_procedure_id, surgical_procedure_desc, order_type, order_specialty, anatomic_site, surgical_procedure_device, icd9_code, icd9_desc, revision_ind) {
+  defaults <- frameworkContext$defaultValues$hf_d_surgical_procedure;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(surgical_procedure_id)) {
+    surgical_procedure_id <- defaults$surgical_procedure_id
+  }
+  if (!is.null(surgical_procedure_id)) {
+    insertFields <- c(insertFields, "surgical_procedure_id")
+    insertValues <- c(insertValues, surgical_procedure_id)
+  }
+
+  if (missing(surgical_procedure_desc)) {
+    surgical_procedure_desc <- defaults$surgical_procedure_desc
+  }
+  if (!is.null(surgical_procedure_desc)) {
+    insertFields <- c(insertFields, "surgical_procedure_desc")
+    insertValues <- c(insertValues, surgical_procedure_desc)
+  }
+
+  if (missing(order_type)) {
+    order_type <- defaults$order_type
+  }
+  if (!is.null(order_type)) {
+    insertFields <- c(insertFields, "order_type")
+    insertValues <- c(insertValues, order_type)
+  }
+
+  if (missing(order_specialty)) {
+    order_specialty <- defaults$order_specialty
+  }
+  if (!is.null(order_specialty)) {
+    insertFields <- c(insertFields, "order_specialty")
+    insertValues <- c(insertValues, order_specialty)
+  }
+
+  if (missing(anatomic_site)) {
+    anatomic_site <- defaults$anatomic_site
+  }
+  if (!is.null(anatomic_site)) {
+    insertFields <- c(insertFields, "anatomic_site")
+    insertValues <- c(insertValues, anatomic_site)
+  }
+
+  if (missing(surgical_procedure_device)) {
+    surgical_procedure_device <- defaults$surgical_procedure_device
+  }
+  if (!is.null(surgical_procedure_device)) {
+    insertFields <- c(insertFields, "surgical_procedure_device")
+    insertValues <- c(insertValues, surgical_procedure_device)
+  }
+
+  if (missing(icd9_code)) {
+    icd9_code <- defaults$icd9_code
+  }
+  if (!is.null(icd9_code)) {
+    insertFields <- c(insertFields, "icd9_code")
+    insertValues <- c(insertValues, icd9_code)
+  }
+
+  if (missing(icd9_desc)) {
+    icd9_desc <- defaults$icd9_desc
+  }
+  if (!is.null(icd9_desc)) {
+    insertFields <- c(insertFields, "icd9_desc")
+    insertValues <- c(insertValues, icd9_desc)
+  }
+
+  if (missing(revision_ind)) {
+    revision_ind <- defaults$revision_ind
+  }
+  if (!is.null(revision_ind)) {
+    insertFields <- c(insertFields, "revision_ind")
+    insertValues <- c(insertValues, revision_ind)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_surgical_procedure', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_surgical_procedure (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_surgical_procedure', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_surgical_specialty <- function(surgical_specialty_id, surgical_specialty_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_surgical_specialty;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(surgical_specialty_id)) {
+    surgical_specialty_id <- defaults$surgical_specialty_id
+  }
+  if (!is.null(surgical_specialty_id)) {
+    insertFields <- c(insertFields, "surgical_specialty_id")
+    insertValues <- c(insertValues, surgical_specialty_id)
+  }
+
+  if (missing(surgical_specialty_desc)) {
+    surgical_specialty_desc <- defaults$surgical_specialty_desc
+  }
+  if (!is.null(surgical_specialty_desc)) {
+    insertFields <- c(insertFields, "surgical_specialty_desc")
+    insertValues <- c(insertValues, surgical_specialty_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_surgical_specialty', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_surgical_specialty (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_surgical_specialty', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_test_type <- function(test_type_id, test_type_mnemonic, test_type_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_test_type;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(test_type_id)) {
+    test_type_id <- defaults$test_type_id
+  }
+  if (!is.null(test_type_id)) {
+    insertFields <- c(insertFields, "test_type_id")
+    insertValues <- c(insertValues, test_type_id)
+  }
+
+  if (missing(test_type_mnemonic)) {
+    test_type_mnemonic <- defaults$test_type_mnemonic
+  }
+  if (!is.null(test_type_mnemonic)) {
+    insertFields <- c(insertFields, "test_type_mnemonic")
+    insertValues <- c(insertValues, test_type_mnemonic)
+  }
+
+  if (missing(test_type_desc)) {
+    test_type_desc <- defaults$test_type_desc
+  }
+  if (!is.null(test_type_desc)) {
+    insertFields <- c(insertFields, "test_type_desc")
+    insertValues <- c(insertValues, test_type_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_test_type', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_test_type (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_test_type', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_unit <- function(unit_id, unit_display, unit_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_unit;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(unit_id)) {
+    unit_id <- defaults$unit_id
+  }
+  if (!is.null(unit_id)) {
+    insertFields <- c(insertFields, "unit_id")
+    insertValues <- c(insertValues, unit_id)
+  }
+
+  if (missing(unit_display)) {
+    unit_display <- defaults$unit_display
+  }
+  if (!is.null(unit_display)) {
+    insertFields <- c(insertFields, "unit_display")
+    insertValues <- c(insertValues, unit_display)
+  }
+
+  if (missing(unit_desc)) {
+    unit_desc <- defaults$unit_desc
+  }
+  if (!is.null(unit_desc)) {
+    insertFields <- c(insertFields, "unit_desc")
+    insertValues <- c(insertValues, unit_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_unit', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_unit (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_unit', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_d_wound_class <- function(wound_class_id, wound_class_desc) {
+  defaults <- frameworkContext$defaultValues$hf_d_wound_class;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(wound_class_id)) {
+    wound_class_id <- defaults$wound_class_id
+  }
+  if (!is.null(wound_class_id)) {
+    insertFields <- c(insertFields, "wound_class_id")
+    insertValues <- c(insertValues, wound_class_id)
+  }
+
+  if (missing(wound_class_desc)) {
+    wound_class_desc <- defaults$wound_class_desc
+  }
+  if (!is.null(wound_class_desc)) {
+    insertFields <- c(insertFields, "wound_class_desc")
+    insertValues <- c(insertValues, wound_class_desc)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_wound_class', comment)
+  }
+  statement <- paste0("INSERT INTO hf_d_wound_class (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_d_wound_class', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_f_clinical_event <- function(encounter_id, accession_nbr, lab_procedure_id, critical_high, critical_low, event_code_id, event_class_id, event_end_dt_tm, event_end_dt_id, event_reltn_id, event_start_dt_tm, event_start_dt_id, event_expiration_dt_tm, event_expiration_dt_id, event_normalcy_id, event_normalcy_method_id, normal_high, normal_low, performed_dt_tm, performed_dt_id, performed_prsnl_id, result_normalcy_flg, result_time_unit_id, result_units_id, result_value_dt_tm, result_value_dt_id, result_value_num, result_feasible_ind, result_inaccurate_ind, event_source_id, verified_dt_tm, verified_dt_id, verified_prsnl_id, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_clinical_event;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(encounter_id)) {
+    encounter_id <- defaults$encounter_id
+  }
+  if (!is.null(encounter_id)) {
+    insertFields <- c(insertFields, "encounter_id")
+    insertValues <- c(insertValues, encounter_id)
+  }
+
+  if (missing(accession_nbr)) {
+    accession_nbr <- defaults$accession_nbr
+  }
+  if (!is.null(accession_nbr)) {
+    insertFields <- c(insertFields, "accession_nbr")
+    insertValues <- c(insertValues, accession_nbr)
+  }
+
+  if (missing(lab_procedure_id)) {
+    lab_procedure_id <- defaults$lab_procedure_id
+  }
+  if (!is.null(lab_procedure_id)) {
+    insertFields <- c(insertFields, "lab_procedure_id")
+    insertValues <- c(insertValues, lab_procedure_id)
+  }
+
+  if (missing(critical_high)) {
+    critical_high <- defaults$critical_high
+  }
+  if (!is.null(critical_high)) {
+    insertFields <- c(insertFields, "critical_high")
+    insertValues <- c(insertValues, critical_high)
+  }
+
+  if (missing(critical_low)) {
+    critical_low <- defaults$critical_low
+  }
+  if (!is.null(critical_low)) {
+    insertFields <- c(insertFields, "critical_low")
+    insertValues <- c(insertValues, critical_low)
+  }
+
+  if (missing(event_code_id)) {
+    event_code_id <- defaults$event_code_id
+  }
+  if (!is.null(event_code_id)) {
+    insertFields <- c(insertFields, "event_code_id")
+    insertValues <- c(insertValues, event_code_id)
+  }
+
+  if (missing(event_class_id)) {
+    event_class_id <- defaults$event_class_id
+  }
+  if (!is.null(event_class_id)) {
+    insertFields <- c(insertFields, "event_class_id")
+    insertValues <- c(insertValues, event_class_id)
+  }
+
+  if (missing(event_end_dt_tm)) {
+    event_end_dt_tm <- defaults$event_end_dt_tm
+  }
+  if (!is.null(event_end_dt_tm)) {
+    insertFields <- c(insertFields, "event_end_dt_tm")
+    insertValues <- c(insertValues, event_end_dt_tm)
+  }
+
+  if (missing(event_end_dt_id)) {
+    event_end_dt_id <- defaults$event_end_dt_id
+  }
+  if (!is.null(event_end_dt_id)) {
+    insertFields <- c(insertFields, "event_end_dt_id")
+    insertValues <- c(insertValues, event_end_dt_id)
+  }
+
+  if (missing(event_reltn_id)) {
+    event_reltn_id <- defaults$event_reltn_id
+  }
+  if (!is.null(event_reltn_id)) {
+    insertFields <- c(insertFields, "event_reltn_id")
+    insertValues <- c(insertValues, event_reltn_id)
+  }
+
+  if (missing(event_start_dt_tm)) {
+    event_start_dt_tm <- defaults$event_start_dt_tm
+  }
+  if (!is.null(event_start_dt_tm)) {
+    insertFields <- c(insertFields, "event_start_dt_tm")
+    insertValues <- c(insertValues, event_start_dt_tm)
+  }
+
+  if (missing(event_start_dt_id)) {
+    event_start_dt_id <- defaults$event_start_dt_id
+  }
+  if (!is.null(event_start_dt_id)) {
+    insertFields <- c(insertFields, "event_start_dt_id")
+    insertValues <- c(insertValues, event_start_dt_id)
+  }
+
+  if (missing(event_expiration_dt_tm)) {
+    event_expiration_dt_tm <- defaults$event_expiration_dt_tm
+  }
+  if (!is.null(event_expiration_dt_tm)) {
+    insertFields <- c(insertFields, "event_expiration_dt_tm")
+    insertValues <- c(insertValues, event_expiration_dt_tm)
+  }
+
+  if (missing(event_expiration_dt_id)) {
+    event_expiration_dt_id <- defaults$event_expiration_dt_id
+  }
+  if (!is.null(event_expiration_dt_id)) {
+    insertFields <- c(insertFields, "event_expiration_dt_id")
+    insertValues <- c(insertValues, event_expiration_dt_id)
+  }
+
+  if (missing(event_normalcy_id)) {
+    event_normalcy_id <- defaults$event_normalcy_id
+  }
+  if (!is.null(event_normalcy_id)) {
+    insertFields <- c(insertFields, "event_normalcy_id")
+    insertValues <- c(insertValues, event_normalcy_id)
+  }
+
+  if (missing(event_normalcy_method_id)) {
+    event_normalcy_method_id <- defaults$event_normalcy_method_id
+  }
+  if (!is.null(event_normalcy_method_id)) {
+    insertFields <- c(insertFields, "event_normalcy_method_id")
+    insertValues <- c(insertValues, event_normalcy_method_id)
+  }
+
+  if (missing(normal_high)) {
+    normal_high <- defaults$normal_high
+  }
+  if (!is.null(normal_high)) {
+    insertFields <- c(insertFields, "normal_high")
+    insertValues <- c(insertValues, normal_high)
+  }
+
+  if (missing(normal_low)) {
+    normal_low <- defaults$normal_low
+  }
+  if (!is.null(normal_low)) {
+    insertFields <- c(insertFields, "normal_low")
+    insertValues <- c(insertValues, normal_low)
+  }
+
+  if (missing(performed_dt_tm)) {
+    performed_dt_tm <- defaults$performed_dt_tm
+  }
+  if (!is.null(performed_dt_tm)) {
+    insertFields <- c(insertFields, "performed_dt_tm")
+    insertValues <- c(insertValues, performed_dt_tm)
+  }
+
+  if (missing(performed_dt_id)) {
+    performed_dt_id <- defaults$performed_dt_id
+  }
+  if (!is.null(performed_dt_id)) {
+    insertFields <- c(insertFields, "performed_dt_id")
+    insertValues <- c(insertValues, performed_dt_id)
+  }
+
+  if (missing(performed_prsnl_id)) {
+    performed_prsnl_id <- defaults$performed_prsnl_id
+  }
+  if (!is.null(performed_prsnl_id)) {
+    insertFields <- c(insertFields, "performed_prsnl_id")
+    insertValues <- c(insertValues, performed_prsnl_id)
+  }
+
+  if (missing(result_normalcy_flg)) {
+    result_normalcy_flg <- defaults$result_normalcy_flg
+  }
+  if (!is.null(result_normalcy_flg)) {
+    insertFields <- c(insertFields, "result_normalcy_flg")
+    insertValues <- c(insertValues, result_normalcy_flg)
+  }
+
+  if (missing(result_time_unit_id)) {
+    result_time_unit_id <- defaults$result_time_unit_id
+  }
+  if (!is.null(result_time_unit_id)) {
+    insertFields <- c(insertFields, "result_time_unit_id")
+    insertValues <- c(insertValues, result_time_unit_id)
+  }
+
+  if (missing(result_units_id)) {
+    result_units_id <- defaults$result_units_id
+  }
+  if (!is.null(result_units_id)) {
+    insertFields <- c(insertFields, "result_units_id")
+    insertValues <- c(insertValues, result_units_id)
+  }
+
+  if (missing(result_value_dt_tm)) {
+    result_value_dt_tm <- defaults$result_value_dt_tm
+  }
+  if (!is.null(result_value_dt_tm)) {
+    insertFields <- c(insertFields, "result_value_dt_tm")
+    insertValues <- c(insertValues, result_value_dt_tm)
+  }
+
+  if (missing(result_value_dt_id)) {
+    result_value_dt_id <- defaults$result_value_dt_id
+  }
+  if (!is.null(result_value_dt_id)) {
+    insertFields <- c(insertFields, "result_value_dt_id")
+    insertValues <- c(insertValues, result_value_dt_id)
+  }
+
+  if (missing(result_value_num)) {
+    result_value_num <- defaults$result_value_num
+  }
+  if (!is.null(result_value_num)) {
+    insertFields <- c(insertFields, "result_value_num")
+    insertValues <- c(insertValues, result_value_num)
+  }
+
+  if (missing(result_feasible_ind)) {
+    result_feasible_ind <- defaults$result_feasible_ind
+  }
+  if (!is.null(result_feasible_ind)) {
+    insertFields <- c(insertFields, "result_feasible_ind")
+    insertValues <- c(insertValues, result_feasible_ind)
+  }
+
+  if (missing(result_inaccurate_ind)) {
+    result_inaccurate_ind <- defaults$result_inaccurate_ind
+  }
+  if (!is.null(result_inaccurate_ind)) {
+    insertFields <- c(insertFields, "result_inaccurate_ind")
+    insertValues <- c(insertValues, result_inaccurate_ind)
+  }
+
+  if (missing(event_source_id)) {
+    event_source_id <- defaults$event_source_id
+  }
+  if (!is.null(event_source_id)) {
+    insertFields <- c(insertFields, "event_source_id")
+    insertValues <- c(insertValues, event_source_id)
+  }
+
+  if (missing(verified_dt_tm)) {
+    verified_dt_tm <- defaults$verified_dt_tm
+  }
+  if (!is.null(verified_dt_tm)) {
+    insertFields <- c(insertFields, "verified_dt_tm")
+    insertValues <- c(insertValues, verified_dt_tm)
+  }
+
+  if (missing(verified_dt_id)) {
+    verified_dt_id <- defaults$verified_dt_id
+  }
+  if (!is.null(verified_dt_id)) {
+    insertFields <- c(insertFields, "verified_dt_id")
+    insertValues <- c(insertValues, verified_dt_id)
+  }
+
+  if (missing(verified_prsnl_id)) {
+    verified_prsnl_id <- defaults$verified_prsnl_id
+  }
+  if (!is.null(verified_prsnl_id)) {
+    insertFields <- c(insertFields, "verified_prsnl_id")
+    insertValues <- c(insertValues, verified_prsnl_id)
+  }
+
+  if (missing(_extractyear)) {
+    _extractyear <- defaults$_extractyear
+  }
+  if (!is.null(_extractyear)) {
+    insertFields <- c(insertFields, "_extractyear")
+    insertValues <- c(insertValues, _extractyear)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_clinical_event', comment)
+  }
+  statement <- paste0("INSERT INTO hf_f_clinical_event (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_clinical_event', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_f_diagnosis <- function(encounter_id, diagnosis_id, diagnosis_priority, diagnosis_type_id, present_on_admit_id, third_party_ind, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_diagnosis;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(encounter_id)) {
+    encounter_id <- defaults$encounter_id
+  }
+  if (!is.null(encounter_id)) {
+    insertFields <- c(insertFields, "encounter_id")
+    insertValues <- c(insertValues, encounter_id)
+  }
+
+  if (missing(diagnosis_id)) {
+    diagnosis_id <- defaults$diagnosis_id
+  }
+  if (!is.null(diagnosis_id)) {
+    insertFields <- c(insertFields, "diagnosis_id")
+    insertValues <- c(insertValues, diagnosis_id)
+  }
+
+  if (missing(diagnosis_priority)) {
+    diagnosis_priority <- defaults$diagnosis_priority
+  }
+  if (!is.null(diagnosis_priority)) {
+    insertFields <- c(insertFields, "diagnosis_priority")
+    insertValues <- c(insertValues, diagnosis_priority)
+  }
+
+  if (missing(diagnosis_type_id)) {
+    diagnosis_type_id <- defaults$diagnosis_type_id
+  }
+  if (!is.null(diagnosis_type_id)) {
+    insertFields <- c(insertFields, "diagnosis_type_id")
+    insertValues <- c(insertValues, diagnosis_type_id)
+  }
+
+  if (missing(present_on_admit_id)) {
+    present_on_admit_id <- defaults$present_on_admit_id
+  }
+  if (!is.null(present_on_admit_id)) {
+    insertFields <- c(insertFields, "present_on_admit_id")
+    insertValues <- c(insertValues, present_on_admit_id)
+  }
+
+  if (missing(third_party_ind)) {
+    third_party_ind <- defaults$third_party_ind
+  }
+  if (!is.null(third_party_ind)) {
+    insertFields <- c(insertFields, "third_party_ind")
+    insertValues <- c(insertValues, third_party_ind)
+  }
+
+  if (missing(_extractyear)) {
+    _extractyear <- defaults$_extractyear
+  }
+  if (!is.null(_extractyear)) {
+    insertFields <- c(insertFields, "_extractyear")
+    insertValues <- c(insertValues, _extractyear)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_diagnosis', comment)
+  }
+  statement <- paste0("INSERT INTO hf_f_diagnosis (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_diagnosis', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_f_enc_history <- function(encounter_id, patient_type_id, caresetting_id, begin_dt_tm, end_dt_tm, begin_dt_id, end_dt_id, estimate_ind, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_enc_history;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(encounter_id)) {
+    encounter_id <- defaults$encounter_id
+  }
+  if (!is.null(encounter_id)) {
+    insertFields <- c(insertFields, "encounter_id")
+    insertValues <- c(insertValues, encounter_id)
+  }
+
+  if (missing(patient_type_id)) {
+    patient_type_id <- defaults$patient_type_id
+  }
+  if (!is.null(patient_type_id)) {
+    insertFields <- c(insertFields, "patient_type_id")
+    insertValues <- c(insertValues, patient_type_id)
+  }
+
+  if (missing(caresetting_id)) {
+    caresetting_id <- defaults$caresetting_id
+  }
+  if (!is.null(caresetting_id)) {
+    insertFields <- c(insertFields, "caresetting_id")
+    insertValues <- c(insertValues, caresetting_id)
+  }
+
+  if (missing(begin_dt_tm)) {
+    begin_dt_tm <- defaults$begin_dt_tm
+  }
+  if (!is.null(begin_dt_tm)) {
+    insertFields <- c(insertFields, "begin_dt_tm")
+    insertValues <- c(insertValues, begin_dt_tm)
+  }
+
+  if (missing(end_dt_tm)) {
+    end_dt_tm <- defaults$end_dt_tm
+  }
+  if (!is.null(end_dt_tm)) {
+    insertFields <- c(insertFields, "end_dt_tm")
+    insertValues <- c(insertValues, end_dt_tm)
+  }
+
+  if (missing(begin_dt_id)) {
+    begin_dt_id <- defaults$begin_dt_id
+  }
+  if (!is.null(begin_dt_id)) {
+    insertFields <- c(insertFields, "begin_dt_id")
+    insertValues <- c(insertValues, begin_dt_id)
+  }
+
+  if (missing(end_dt_id)) {
+    end_dt_id <- defaults$end_dt_id
+  }
+  if (!is.null(end_dt_id)) {
+    insertFields <- c(insertFields, "end_dt_id")
+    insertValues <- c(insertValues, end_dt_id)
+  }
+
+  if (missing(estimate_ind)) {
+    estimate_ind <- defaults$estimate_ind
+  }
+  if (!is.null(estimate_ind)) {
+    insertFields <- c(insertFields, "estimate_ind")
+    insertValues <- c(insertValues, estimate_ind)
+  }
+
+  if (missing(_extractyear)) {
+    _extractyear <- defaults$_extractyear
+  }
+  if (!is.null(_extractyear)) {
+    insertFields <- c(insertFields, "_extractyear")
+    insertValues <- c(insertValues, _extractyear)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_enc_history', comment)
+  }
+  statement <- paste0("INSERT INTO hf_f_enc_history (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_enc_history', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_f_encounter <- function(encounter_id, hospital_id, admitting_physician_id, discharge_caresetting_id, patient_id, patient_type_id, admitted_dt_id, discharged_dt_id, discharge_disposition_id, diagnostic_grouping_id, admission_source_id, admission_type_id, payer_id, age_in_years, age_in_months, age_in_weeks, age_in_days, age_in_hours, total_charges, billing_ind, weight, weight_unit_id, admitted_dt_tm, discharged_dt_tm, admitted_tm_valid_ind, discharged_tm_valid_ind, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_encounter;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(encounter_id)) {
+    encounter_id <- defaults$encounter_id
+  }
+  if (!is.null(encounter_id)) {
+    insertFields <- c(insertFields, "encounter_id")
+    insertValues <- c(insertValues, encounter_id)
+  }
+
+  if (missing(hospital_id)) {
+    hospital_id <- defaults$hospital_id
+  }
+  if (!is.null(hospital_id)) {
+    insertFields <- c(insertFields, "hospital_id")
+    insertValues <- c(insertValues, hospital_id)
+  }
+
+  if (missing(admitting_physician_id)) {
+    admitting_physician_id <- defaults$admitting_physician_id
+  }
+  if (!is.null(admitting_physician_id)) {
+    insertFields <- c(insertFields, "admitting_physician_id")
+    insertValues <- c(insertValues, admitting_physician_id)
+  }
+
+  if (missing(discharge_caresetting_id)) {
+    discharge_caresetting_id <- defaults$discharge_caresetting_id
+  }
+  if (!is.null(discharge_caresetting_id)) {
+    insertFields <- c(insertFields, "discharge_caresetting_id")
+    insertValues <- c(insertValues, discharge_caresetting_id)
+  }
+
+  if (missing(patient_id)) {
+    patient_id <- defaults$patient_id
+  }
+  if (!is.null(patient_id)) {
+    insertFields <- c(insertFields, "patient_id")
+    insertValues <- c(insertValues, patient_id)
+  }
+
+  if (missing(patient_type_id)) {
+    patient_type_id <- defaults$patient_type_id
+  }
+  if (!is.null(patient_type_id)) {
+    insertFields <- c(insertFields, "patient_type_id")
+    insertValues <- c(insertValues, patient_type_id)
+  }
+
+  if (missing(admitted_dt_id)) {
+    admitted_dt_id <- defaults$admitted_dt_id
+  }
+  if (!is.null(admitted_dt_id)) {
+    insertFields <- c(insertFields, "admitted_dt_id")
+    insertValues <- c(insertValues, admitted_dt_id)
+  }
+
+  if (missing(discharged_dt_id)) {
+    discharged_dt_id <- defaults$discharged_dt_id
+  }
+  if (!is.null(discharged_dt_id)) {
+    insertFields <- c(insertFields, "discharged_dt_id")
+    insertValues <- c(insertValues, discharged_dt_id)
+  }
+
+  if (missing(discharge_disposition_id)) {
+    discharge_disposition_id <- defaults$discharge_disposition_id
+  }
+  if (!is.null(discharge_disposition_id)) {
+    insertFields <- c(insertFields, "discharge_disposition_id")
+    insertValues <- c(insertValues, discharge_disposition_id)
+  }
+
+  if (missing(diagnostic_grouping_id)) {
+    diagnostic_grouping_id <- defaults$diagnostic_grouping_id
+  }
+  if (!is.null(diagnostic_grouping_id)) {
+    insertFields <- c(insertFields, "diagnostic_grouping_id")
+    insertValues <- c(insertValues, diagnostic_grouping_id)
+  }
+
+  if (missing(admission_source_id)) {
+    admission_source_id <- defaults$admission_source_id
+  }
+  if (!is.null(admission_source_id)) {
+    insertFields <- c(insertFields, "admission_source_id")
+    insertValues <- c(insertValues, admission_source_id)
+  }
+
+  if (missing(admission_type_id)) {
+    admission_type_id <- defaults$admission_type_id
+  }
+  if (!is.null(admission_type_id)) {
+    insertFields <- c(insertFields, "admission_type_id")
+    insertValues <- c(insertValues, admission_type_id)
+  }
+
+  if (missing(payer_id)) {
+    payer_id <- defaults$payer_id
+  }
+  if (!is.null(payer_id)) {
+    insertFields <- c(insertFields, "payer_id")
+    insertValues <- c(insertValues, payer_id)
+  }
+
+  if (missing(age_in_years)) {
+    age_in_years <- defaults$age_in_years
+  }
+  if (!is.null(age_in_years)) {
+    insertFields <- c(insertFields, "age_in_years")
+    insertValues <- c(insertValues, age_in_years)
+  }
+
+  if (missing(age_in_months)) {
+    age_in_months <- defaults$age_in_months
+  }
+  if (!is.null(age_in_months)) {
+    insertFields <- c(insertFields, "age_in_months")
+    insertValues <- c(insertValues, age_in_months)
+  }
+
+  if (missing(age_in_weeks)) {
+    age_in_weeks <- defaults$age_in_weeks
+  }
+  if (!is.null(age_in_weeks)) {
+    insertFields <- c(insertFields, "age_in_weeks")
+    insertValues <- c(insertValues, age_in_weeks)
+  }
+
+  if (missing(age_in_days)) {
+    age_in_days <- defaults$age_in_days
+  }
+  if (!is.null(age_in_days)) {
+    insertFields <- c(insertFields, "age_in_days")
+    insertValues <- c(insertValues, age_in_days)
+  }
+
+  if (missing(age_in_hours)) {
+    age_in_hours <- defaults$age_in_hours
+  }
+  if (!is.null(age_in_hours)) {
+    insertFields <- c(insertFields, "age_in_hours")
+    insertValues <- c(insertValues, age_in_hours)
+  }
+
+  if (missing(total_charges)) {
+    total_charges <- defaults$total_charges
+  }
+  if (!is.null(total_charges)) {
+    insertFields <- c(insertFields, "total_charges")
+    insertValues <- c(insertValues, total_charges)
+  }
+
+  if (missing(billing_ind)) {
+    billing_ind <- defaults$billing_ind
+  }
+  if (!is.null(billing_ind)) {
+    insertFields <- c(insertFields, "billing_ind")
+    insertValues <- c(insertValues, billing_ind)
+  }
+
+  if (missing(weight)) {
+    weight <- defaults$weight
+  }
+  if (!is.null(weight)) {
+    insertFields <- c(insertFields, "weight")
+    insertValues <- c(insertValues, weight)
+  }
+
+  if (missing(weight_unit_id)) {
+    weight_unit_id <- defaults$weight_unit_id
+  }
+  if (!is.null(weight_unit_id)) {
+    insertFields <- c(insertFields, "weight_unit_id")
+    insertValues <- c(insertValues, weight_unit_id)
+  }
+
+  if (missing(admitted_dt_tm)) {
+    admitted_dt_tm <- defaults$admitted_dt_tm
+  }
+  if (!is.null(admitted_dt_tm)) {
+    insertFields <- c(insertFields, "admitted_dt_tm")
+    insertValues <- c(insertValues, admitted_dt_tm)
+  }
+
+  if (missing(discharged_dt_tm)) {
+    discharged_dt_tm <- defaults$discharged_dt_tm
+  }
+  if (!is.null(discharged_dt_tm)) {
+    insertFields <- c(insertFields, "discharged_dt_tm")
+    insertValues <- c(insertValues, discharged_dt_tm)
+  }
+
+  if (missing(admitted_tm_valid_ind)) {
+    admitted_tm_valid_ind <- defaults$admitted_tm_valid_ind
+  }
+  if (!is.null(admitted_tm_valid_ind)) {
+    insertFields <- c(insertFields, "admitted_tm_valid_ind")
+    insertValues <- c(insertValues, admitted_tm_valid_ind)
+  }
+
+  if (missing(discharged_tm_valid_ind)) {
+    discharged_tm_valid_ind <- defaults$discharged_tm_valid_ind
+  }
+  if (!is.null(discharged_tm_valid_ind)) {
+    insertFields <- c(insertFields, "discharged_tm_valid_ind")
+    insertValues <- c(insertValues, discharged_tm_valid_ind)
+  }
+
+  if (missing(_extractyear)) {
+    _extractyear <- defaults$_extractyear
+  }
+  if (!is.null(_extractyear)) {
+    insertFields <- c(insertFields, "_extractyear")
+    insertValues <- c(insertValues, _extractyear)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_encounter', comment)
+  }
+  statement <- paste0("INSERT INTO hf_f_encounter (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_encounter', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_f_implant_log <- function(manufacturer_id, expiration_dt_tm, expiration_dt_id, surgical_case_id, encounter_id, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_implant_log;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(manufacturer_id)) {
+    manufacturer_id <- defaults$manufacturer_id
+  }
+  if (!is.null(manufacturer_id)) {
+    insertFields <- c(insertFields, "manufacturer_id")
+    insertValues <- c(insertValues, manufacturer_id)
+  }
+
+  if (missing(expiration_dt_tm)) {
+    expiration_dt_tm <- defaults$expiration_dt_tm
+  }
+  if (!is.null(expiration_dt_tm)) {
+    insertFields <- c(insertFields, "expiration_dt_tm")
+    insertValues <- c(insertValues, expiration_dt_tm)
+  }
+
+  if (missing(expiration_dt_id)) {
+    expiration_dt_id <- defaults$expiration_dt_id
+  }
+  if (!is.null(expiration_dt_id)) {
+    insertFields <- c(insertFields, "expiration_dt_id")
+    insertValues <- c(insertValues, expiration_dt_id)
+  }
+
+  if (missing(surgical_case_id)) {
+    surgical_case_id <- defaults$surgical_case_id
+  }
+  if (!is.null(surgical_case_id)) {
+    insertFields <- c(insertFields, "surgical_case_id")
+    insertValues <- c(insertValues, surgical_case_id)
+  }
+
+  if (missing(encounter_id)) {
+    encounter_id <- defaults$encounter_id
+  }
+  if (!is.null(encounter_id)) {
+    insertFields <- c(insertFields, "encounter_id")
+    insertValues <- c(insertValues, encounter_id)
+  }
+
+  if (missing(_extractyear)) {
+    _extractyear <- defaults$_extractyear
+  }
+  if (!is.null(_extractyear)) {
+    insertFields <- c(insertFields, "_extractyear")
+    insertValues <- c(insertValues, _extractyear)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_implant_log', comment)
+  }
+  statement <- paste0("INSERT INTO hf_f_implant_log (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_implant_log', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_f_lab_procedure <- function(encounter_id, detail_lab_procedure_id, order_lab_procedure_id, ordering_physician_id, lab_order_caresetting_id, reporting_priority_id, lab_result_type_id, result_indicator_id, lab_ordered_dt_id, lab_drawn_dt_id, lab_received_dt_id, lab_completed_dt_id, lab_cancelled_dt_id, lab_performed_dt_id, lab_verified_dt_id, accession, date_result_id, numeric_result, result_units_id, normal_range_low, normal_range_high, lab_ordered_dt_tm, lab_drawn_dt_tm, lab_received_dt_tm, lab_completed_dt_tm, lab_cancelled_dt_tm, lab_performed_dt_tm, lab_verified_dt_tm, lab_ordered_tm_vld_flg, lab_drawn_tm_vld_flg, lab_received_tm_vld_flg, lab_completed_tm_vld_flg, lab_cancelled_tm_vld_flg, lab_verified_tm_vld_flg, lab_performed_tm_vld_flg, lab_performed_caresetting_id, collection_source_id, collection_method_id, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_lab_procedure;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(encounter_id)) {
+    encounter_id <- defaults$encounter_id
+  }
+  if (!is.null(encounter_id)) {
+    insertFields <- c(insertFields, "encounter_id")
+    insertValues <- c(insertValues, encounter_id)
+  }
+
+  if (missing(detail_lab_procedure_id)) {
+    detail_lab_procedure_id <- defaults$detail_lab_procedure_id
+  }
+  if (!is.null(detail_lab_procedure_id)) {
+    insertFields <- c(insertFields, "detail_lab_procedure_id")
+    insertValues <- c(insertValues, detail_lab_procedure_id)
+  }
+
+  if (missing(order_lab_procedure_id)) {
+    order_lab_procedure_id <- defaults$order_lab_procedure_id
+  }
+  if (!is.null(order_lab_procedure_id)) {
+    insertFields <- c(insertFields, "order_lab_procedure_id")
+    insertValues <- c(insertValues, order_lab_procedure_id)
+  }
+
+  if (missing(ordering_physician_id)) {
+    ordering_physician_id <- defaults$ordering_physician_id
+  }
+  if (!is.null(ordering_physician_id)) {
+    insertFields <- c(insertFields, "ordering_physician_id")
+    insertValues <- c(insertValues, ordering_physician_id)
+  }
+
+  if (missing(lab_order_caresetting_id)) {
+    lab_order_caresetting_id <- defaults$lab_order_caresetting_id
+  }
+  if (!is.null(lab_order_caresetting_id)) {
+    insertFields <- c(insertFields, "lab_order_caresetting_id")
+    insertValues <- c(insertValues, lab_order_caresetting_id)
+  }
+
+  if (missing(reporting_priority_id)) {
+    reporting_priority_id <- defaults$reporting_priority_id
+  }
+  if (!is.null(reporting_priority_id)) {
+    insertFields <- c(insertFields, "reporting_priority_id")
+    insertValues <- c(insertValues, reporting_priority_id)
+  }
+
+  if (missing(lab_result_type_id)) {
+    lab_result_type_id <- defaults$lab_result_type_id
+  }
+  if (!is.null(lab_result_type_id)) {
+    insertFields <- c(insertFields, "lab_result_type_id")
+    insertValues <- c(insertValues, lab_result_type_id)
+  }
+
+  if (missing(result_indicator_id)) {
+    result_indicator_id <- defaults$result_indicator_id
+  }
+  if (!is.null(result_indicator_id)) {
+    insertFields <- c(insertFields, "result_indicator_id")
+    insertValues <- c(insertValues, result_indicator_id)
+  }
+
+  if (missing(lab_ordered_dt_id)) {
+    lab_ordered_dt_id <- defaults$lab_ordered_dt_id
+  }
+  if (!is.null(lab_ordered_dt_id)) {
+    insertFields <- c(insertFields, "lab_ordered_dt_id")
+    insertValues <- c(insertValues, lab_ordered_dt_id)
+  }
+
+  if (missing(lab_drawn_dt_id)) {
+    lab_drawn_dt_id <- defaults$lab_drawn_dt_id
+  }
+  if (!is.null(lab_drawn_dt_id)) {
+    insertFields <- c(insertFields, "lab_drawn_dt_id")
+    insertValues <- c(insertValues, lab_drawn_dt_id)
+  }
+
+  if (missing(lab_received_dt_id)) {
+    lab_received_dt_id <- defaults$lab_received_dt_id
+  }
+  if (!is.null(lab_received_dt_id)) {
+    insertFields <- c(insertFields, "lab_received_dt_id")
+    insertValues <- c(insertValues, lab_received_dt_id)
+  }
+
+  if (missing(lab_completed_dt_id)) {
+    lab_completed_dt_id <- defaults$lab_completed_dt_id
+  }
+  if (!is.null(lab_completed_dt_id)) {
+    insertFields <- c(insertFields, "lab_completed_dt_id")
+    insertValues <- c(insertValues, lab_completed_dt_id)
+  }
+
+  if (missing(lab_cancelled_dt_id)) {
+    lab_cancelled_dt_id <- defaults$lab_cancelled_dt_id
+  }
+  if (!is.null(lab_cancelled_dt_id)) {
+    insertFields <- c(insertFields, "lab_cancelled_dt_id")
+    insertValues <- c(insertValues, lab_cancelled_dt_id)
+  }
+
+  if (missing(lab_performed_dt_id)) {
+    lab_performed_dt_id <- defaults$lab_performed_dt_id
+  }
+  if (!is.null(lab_performed_dt_id)) {
+    insertFields <- c(insertFields, "lab_performed_dt_id")
+    insertValues <- c(insertValues, lab_performed_dt_id)
+  }
+
+  if (missing(lab_verified_dt_id)) {
+    lab_verified_dt_id <- defaults$lab_verified_dt_id
+  }
+  if (!is.null(lab_verified_dt_id)) {
+    insertFields <- c(insertFields, "lab_verified_dt_id")
+    insertValues <- c(insertValues, lab_verified_dt_id)
+  }
+
+  if (missing(accession)) {
+    accession <- defaults$accession
+  }
+  if (!is.null(accession)) {
+    insertFields <- c(insertFields, "accession")
+    insertValues <- c(insertValues, accession)
+  }
+
+  if (missing(date_result_id)) {
+    date_result_id <- defaults$date_result_id
+  }
+  if (!is.null(date_result_id)) {
+    insertFields <- c(insertFields, "date_result_id")
+    insertValues <- c(insertValues, date_result_id)
+  }
+
+  if (missing(numeric_result)) {
+    numeric_result <- defaults$numeric_result
+  }
+  if (!is.null(numeric_result)) {
+    insertFields <- c(insertFields, "numeric_result")
+    insertValues <- c(insertValues, numeric_result)
+  }
+
+  if (missing(result_units_id)) {
+    result_units_id <- defaults$result_units_id
+  }
+  if (!is.null(result_units_id)) {
+    insertFields <- c(insertFields, "result_units_id")
+    insertValues <- c(insertValues, result_units_id)
+  }
+
+  if (missing(normal_range_low)) {
+    normal_range_low <- defaults$normal_range_low
+  }
+  if (!is.null(normal_range_low)) {
+    insertFields <- c(insertFields, "normal_range_low")
+    insertValues <- c(insertValues, normal_range_low)
+  }
+
+  if (missing(normal_range_high)) {
+    normal_range_high <- defaults$normal_range_high
+  }
+  if (!is.null(normal_range_high)) {
+    insertFields <- c(insertFields, "normal_range_high")
+    insertValues <- c(insertValues, normal_range_high)
+  }
+
+  if (missing(lab_ordered_dt_tm)) {
+    lab_ordered_dt_tm <- defaults$lab_ordered_dt_tm
+  }
+  if (!is.null(lab_ordered_dt_tm)) {
+    insertFields <- c(insertFields, "lab_ordered_dt_tm")
+    insertValues <- c(insertValues, lab_ordered_dt_tm)
+  }
+
+  if (missing(lab_drawn_dt_tm)) {
+    lab_drawn_dt_tm <- defaults$lab_drawn_dt_tm
+  }
+  if (!is.null(lab_drawn_dt_tm)) {
+    insertFields <- c(insertFields, "lab_drawn_dt_tm")
+    insertValues <- c(insertValues, lab_drawn_dt_tm)
+  }
+
+  if (missing(lab_received_dt_tm)) {
+    lab_received_dt_tm <- defaults$lab_received_dt_tm
+  }
+  if (!is.null(lab_received_dt_tm)) {
+    insertFields <- c(insertFields, "lab_received_dt_tm")
+    insertValues <- c(insertValues, lab_received_dt_tm)
+  }
+
+  if (missing(lab_completed_dt_tm)) {
+    lab_completed_dt_tm <- defaults$lab_completed_dt_tm
+  }
+  if (!is.null(lab_completed_dt_tm)) {
+    insertFields <- c(insertFields, "lab_completed_dt_tm")
+    insertValues <- c(insertValues, lab_completed_dt_tm)
+  }
+
+  if (missing(lab_cancelled_dt_tm)) {
+    lab_cancelled_dt_tm <- defaults$lab_cancelled_dt_tm
+  }
+  if (!is.null(lab_cancelled_dt_tm)) {
+    insertFields <- c(insertFields, "lab_cancelled_dt_tm")
+    insertValues <- c(insertValues, lab_cancelled_dt_tm)
+  }
+
+  if (missing(lab_performed_dt_tm)) {
+    lab_performed_dt_tm <- defaults$lab_performed_dt_tm
+  }
+  if (!is.null(lab_performed_dt_tm)) {
+    insertFields <- c(insertFields, "lab_performed_dt_tm")
+    insertValues <- c(insertValues, lab_performed_dt_tm)
+  }
+
+  if (missing(lab_verified_dt_tm)) {
+    lab_verified_dt_tm <- defaults$lab_verified_dt_tm
+  }
+  if (!is.null(lab_verified_dt_tm)) {
+    insertFields <- c(insertFields, "lab_verified_dt_tm")
+    insertValues <- c(insertValues, lab_verified_dt_tm)
+  }
+
+  if (missing(lab_ordered_tm_vld_flg)) {
+    lab_ordered_tm_vld_flg <- defaults$lab_ordered_tm_vld_flg
+  }
+  if (!is.null(lab_ordered_tm_vld_flg)) {
+    insertFields <- c(insertFields, "lab_ordered_tm_vld_flg")
+    insertValues <- c(insertValues, lab_ordered_tm_vld_flg)
+  }
+
+  if (missing(lab_drawn_tm_vld_flg)) {
+    lab_drawn_tm_vld_flg <- defaults$lab_drawn_tm_vld_flg
+  }
+  if (!is.null(lab_drawn_tm_vld_flg)) {
+    insertFields <- c(insertFields, "lab_drawn_tm_vld_flg")
+    insertValues <- c(insertValues, lab_drawn_tm_vld_flg)
+  }
+
+  if (missing(lab_received_tm_vld_flg)) {
+    lab_received_tm_vld_flg <- defaults$lab_received_tm_vld_flg
+  }
+  if (!is.null(lab_received_tm_vld_flg)) {
+    insertFields <- c(insertFields, "lab_received_tm_vld_flg")
+    insertValues <- c(insertValues, lab_received_tm_vld_flg)
+  }
+
+  if (missing(lab_completed_tm_vld_flg)) {
+    lab_completed_tm_vld_flg <- defaults$lab_completed_tm_vld_flg
+  }
+  if (!is.null(lab_completed_tm_vld_flg)) {
+    insertFields <- c(insertFields, "lab_completed_tm_vld_flg")
+    insertValues <- c(insertValues, lab_completed_tm_vld_flg)
+  }
+
+  if (missing(lab_cancelled_tm_vld_flg)) {
+    lab_cancelled_tm_vld_flg <- defaults$lab_cancelled_tm_vld_flg
+  }
+  if (!is.null(lab_cancelled_tm_vld_flg)) {
+    insertFields <- c(insertFields, "lab_cancelled_tm_vld_flg")
+    insertValues <- c(insertValues, lab_cancelled_tm_vld_flg)
+  }
+
+  if (missing(lab_verified_tm_vld_flg)) {
+    lab_verified_tm_vld_flg <- defaults$lab_verified_tm_vld_flg
+  }
+  if (!is.null(lab_verified_tm_vld_flg)) {
+    insertFields <- c(insertFields, "lab_verified_tm_vld_flg")
+    insertValues <- c(insertValues, lab_verified_tm_vld_flg)
+  }
+
+  if (missing(lab_performed_tm_vld_flg)) {
+    lab_performed_tm_vld_flg <- defaults$lab_performed_tm_vld_flg
+  }
+  if (!is.null(lab_performed_tm_vld_flg)) {
+    insertFields <- c(insertFields, "lab_performed_tm_vld_flg")
+    insertValues <- c(insertValues, lab_performed_tm_vld_flg)
+  }
+
+  if (missing(lab_performed_caresetting_id)) {
+    lab_performed_caresetting_id <- defaults$lab_performed_caresetting_id
+  }
+  if (!is.null(lab_performed_caresetting_id)) {
+    insertFields <- c(insertFields, "lab_performed_caresetting_id")
+    insertValues <- c(insertValues, lab_performed_caresetting_id)
+  }
+
+  if (missing(collection_source_id)) {
+    collection_source_id <- defaults$collection_source_id
+  }
+  if (!is.null(collection_source_id)) {
+    insertFields <- c(insertFields, "collection_source_id")
+    insertValues <- c(insertValues, collection_source_id)
+  }
+
+  if (missing(collection_method_id)) {
+    collection_method_id <- defaults$collection_method_id
+  }
+  if (!is.null(collection_method_id)) {
+    insertFields <- c(insertFields, "collection_method_id")
+    insertValues <- c(insertValues, collection_method_id)
+  }
+
+  if (missing(_extractyear)) {
+    _extractyear <- defaults$_extractyear
+  }
+  if (!is.null(_extractyear)) {
+    insertFields <- c(insertFields, "_extractyear")
+    insertValues <- c(insertValues, _extractyear)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_lab_procedure', comment)
+  }
+  statement <- paste0("INSERT INTO hf_f_lab_procedure (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_lab_procedure', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_f_med_history <- function(encounter_id, ordering_physician_id, med_history_flg, req_start_dt_tm, req_start_dt_id, req_start_tm_vld_flg, prn_ind, route_administration_id, order_stop_type_id, med_stopped_dt_tm, med_stopped_dt_id, med_stopped_tm_vld_flg, frequency_id, collected_ind, order_strength, order_strength_units_id, order_volume, order_volume_units_id, total_dispensed_doses, duration, duration_unit_id, next_dose_dt_tm, next_dose_dt_id, next_dose_tm_vld_flg, infusion_rate, infusion_rate_units_id, med_reason_id, cancel_reason_id, dispensed_quantity, dispensed_quantity_units_id, compliance_status_id, med_entered_dt_tm, med_entered_dt_id, med_entered_tm_vld_flg, med_product_id, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_med_history;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(encounter_id)) {
+    encounter_id <- defaults$encounter_id
+  }
+  if (!is.null(encounter_id)) {
+    insertFields <- c(insertFields, "encounter_id")
+    insertValues <- c(insertValues, encounter_id)
+  }
+
+  if (missing(ordering_physician_id)) {
+    ordering_physician_id <- defaults$ordering_physician_id
+  }
+  if (!is.null(ordering_physician_id)) {
+    insertFields <- c(insertFields, "ordering_physician_id")
+    insertValues <- c(insertValues, ordering_physician_id)
+  }
+
+  if (missing(med_history_flg)) {
+    med_history_flg <- defaults$med_history_flg
+  }
+  if (!is.null(med_history_flg)) {
+    insertFields <- c(insertFields, "med_history_flg")
+    insertValues <- c(insertValues, med_history_flg)
+  }
+
+  if (missing(req_start_dt_tm)) {
+    req_start_dt_tm <- defaults$req_start_dt_tm
+  }
+  if (!is.null(req_start_dt_tm)) {
+    insertFields <- c(insertFields, "req_start_dt_tm")
+    insertValues <- c(insertValues, req_start_dt_tm)
+  }
+
+  if (missing(req_start_dt_id)) {
+    req_start_dt_id <- defaults$req_start_dt_id
+  }
+  if (!is.null(req_start_dt_id)) {
+    insertFields <- c(insertFields, "req_start_dt_id")
+    insertValues <- c(insertValues, req_start_dt_id)
+  }
+
+  if (missing(req_start_tm_vld_flg)) {
+    req_start_tm_vld_flg <- defaults$req_start_tm_vld_flg
+  }
+  if (!is.null(req_start_tm_vld_flg)) {
+    insertFields <- c(insertFields, "req_start_tm_vld_flg")
+    insertValues <- c(insertValues, req_start_tm_vld_flg)
+  }
+
+  if (missing(prn_ind)) {
+    prn_ind <- defaults$prn_ind
+  }
+  if (!is.null(prn_ind)) {
+    insertFields <- c(insertFields, "prn_ind")
+    insertValues <- c(insertValues, prn_ind)
+  }
+
+  if (missing(route_administration_id)) {
+    route_administration_id <- defaults$route_administration_id
+  }
+  if (!is.null(route_administration_id)) {
+    insertFields <- c(insertFields, "route_administration_id")
+    insertValues <- c(insertValues, route_administration_id)
+  }
+
+  if (missing(order_stop_type_id)) {
+    order_stop_type_id <- defaults$order_stop_type_id
+  }
+  if (!is.null(order_stop_type_id)) {
+    insertFields <- c(insertFields, "order_stop_type_id")
+    insertValues <- c(insertValues, order_stop_type_id)
+  }
+
+  if (missing(med_stopped_dt_tm)) {
+    med_stopped_dt_tm <- defaults$med_stopped_dt_tm
+  }
+  if (!is.null(med_stopped_dt_tm)) {
+    insertFields <- c(insertFields, "med_stopped_dt_tm")
+    insertValues <- c(insertValues, med_stopped_dt_tm)
+  }
+
+  if (missing(med_stopped_dt_id)) {
+    med_stopped_dt_id <- defaults$med_stopped_dt_id
+  }
+  if (!is.null(med_stopped_dt_id)) {
+    insertFields <- c(insertFields, "med_stopped_dt_id")
+    insertValues <- c(insertValues, med_stopped_dt_id)
+  }
+
+  if (missing(med_stopped_tm_vld_flg)) {
+    med_stopped_tm_vld_flg <- defaults$med_stopped_tm_vld_flg
+  }
+  if (!is.null(med_stopped_tm_vld_flg)) {
+    insertFields <- c(insertFields, "med_stopped_tm_vld_flg")
+    insertValues <- c(insertValues, med_stopped_tm_vld_flg)
+  }
+
+  if (missing(frequency_id)) {
+    frequency_id <- defaults$frequency_id
+  }
+  if (!is.null(frequency_id)) {
+    insertFields <- c(insertFields, "frequency_id")
+    insertValues <- c(insertValues, frequency_id)
+  }
+
+  if (missing(collected_ind)) {
+    collected_ind <- defaults$collected_ind
+  }
+  if (!is.null(collected_ind)) {
+    insertFields <- c(insertFields, "collected_ind")
+    insertValues <- c(insertValues, collected_ind)
+  }
+
+  if (missing(order_strength)) {
+    order_strength <- defaults$order_strength
+  }
+  if (!is.null(order_strength)) {
+    insertFields <- c(insertFields, "order_strength")
+    insertValues <- c(insertValues, order_strength)
+  }
+
+  if (missing(order_strength_units_id)) {
+    order_strength_units_id <- defaults$order_strength_units_id
+  }
+  if (!is.null(order_strength_units_id)) {
+    insertFields <- c(insertFields, "order_strength_units_id")
+    insertValues <- c(insertValues, order_strength_units_id)
+  }
+
+  if (missing(order_volume)) {
+    order_volume <- defaults$order_volume
+  }
+  if (!is.null(order_volume)) {
+    insertFields <- c(insertFields, "order_volume")
+    insertValues <- c(insertValues, order_volume)
+  }
+
+  if (missing(order_volume_units_id)) {
+    order_volume_units_id <- defaults$order_volume_units_id
+  }
+  if (!is.null(order_volume_units_id)) {
+    insertFields <- c(insertFields, "order_volume_units_id")
+    insertValues <- c(insertValues, order_volume_units_id)
+  }
+
+  if (missing(total_dispensed_doses)) {
+    total_dispensed_doses <- defaults$total_dispensed_doses
+  }
+  if (!is.null(total_dispensed_doses)) {
+    insertFields <- c(insertFields, "total_dispensed_doses")
+    insertValues <- c(insertValues, total_dispensed_doses)
+  }
+
+  if (missing(duration)) {
+    duration <- defaults$duration
+  }
+  if (!is.null(duration)) {
+    insertFields <- c(insertFields, "duration")
+    insertValues <- c(insertValues, duration)
+  }
+
+  if (missing(duration_unit_id)) {
+    duration_unit_id <- defaults$duration_unit_id
+  }
+  if (!is.null(duration_unit_id)) {
+    insertFields <- c(insertFields, "duration_unit_id")
+    insertValues <- c(insertValues, duration_unit_id)
+  }
+
+  if (missing(next_dose_dt_tm)) {
+    next_dose_dt_tm <- defaults$next_dose_dt_tm
+  }
+  if (!is.null(next_dose_dt_tm)) {
+    insertFields <- c(insertFields, "next_dose_dt_tm")
+    insertValues <- c(insertValues, next_dose_dt_tm)
+  }
+
+  if (missing(next_dose_dt_id)) {
+    next_dose_dt_id <- defaults$next_dose_dt_id
+  }
+  if (!is.null(next_dose_dt_id)) {
+    insertFields <- c(insertFields, "next_dose_dt_id")
+    insertValues <- c(insertValues, next_dose_dt_id)
+  }
+
+  if (missing(next_dose_tm_vld_flg)) {
+    next_dose_tm_vld_flg <- defaults$next_dose_tm_vld_flg
+  }
+  if (!is.null(next_dose_tm_vld_flg)) {
+    insertFields <- c(insertFields, "next_dose_tm_vld_flg")
+    insertValues <- c(insertValues, next_dose_tm_vld_flg)
+  }
+
+  if (missing(infusion_rate)) {
+    infusion_rate <- defaults$infusion_rate
+  }
+  if (!is.null(infusion_rate)) {
+    insertFields <- c(insertFields, "infusion_rate")
+    insertValues <- c(insertValues, infusion_rate)
+  }
+
+  if (missing(infusion_rate_units_id)) {
+    infusion_rate_units_id <- defaults$infusion_rate_units_id
+  }
+  if (!is.null(infusion_rate_units_id)) {
+    insertFields <- c(insertFields, "infusion_rate_units_id")
+    insertValues <- c(insertValues, infusion_rate_units_id)
+  }
+
+  if (missing(med_reason_id)) {
+    med_reason_id <- defaults$med_reason_id
+  }
+  if (!is.null(med_reason_id)) {
+    insertFields <- c(insertFields, "med_reason_id")
+    insertValues <- c(insertValues, med_reason_id)
+  }
+
+  if (missing(cancel_reason_id)) {
+    cancel_reason_id <- defaults$cancel_reason_id
+  }
+  if (!is.null(cancel_reason_id)) {
+    insertFields <- c(insertFields, "cancel_reason_id")
+    insertValues <- c(insertValues, cancel_reason_id)
+  }
+
+  if (missing(dispensed_quantity)) {
+    dispensed_quantity <- defaults$dispensed_quantity
+  }
+  if (!is.null(dispensed_quantity)) {
+    insertFields <- c(insertFields, "dispensed_quantity")
+    insertValues <- c(insertValues, dispensed_quantity)
+  }
+
+  if (missing(dispensed_quantity_units_id)) {
+    dispensed_quantity_units_id <- defaults$dispensed_quantity_units_id
+  }
+  if (!is.null(dispensed_quantity_units_id)) {
+    insertFields <- c(insertFields, "dispensed_quantity_units_id")
+    insertValues <- c(insertValues, dispensed_quantity_units_id)
+  }
+
+  if (missing(compliance_status_id)) {
+    compliance_status_id <- defaults$compliance_status_id
+  }
+  if (!is.null(compliance_status_id)) {
+    insertFields <- c(insertFields, "compliance_status_id")
+    insertValues <- c(insertValues, compliance_status_id)
+  }
+
+  if (missing(med_entered_dt_tm)) {
+    med_entered_dt_tm <- defaults$med_entered_dt_tm
+  }
+  if (!is.null(med_entered_dt_tm)) {
+    insertFields <- c(insertFields, "med_entered_dt_tm")
+    insertValues <- c(insertValues, med_entered_dt_tm)
+  }
+
+  if (missing(med_entered_dt_id)) {
+    med_entered_dt_id <- defaults$med_entered_dt_id
+  }
+  if (!is.null(med_entered_dt_id)) {
+    insertFields <- c(insertFields, "med_entered_dt_id")
+    insertValues <- c(insertValues, med_entered_dt_id)
+  }
+
+  if (missing(med_entered_tm_vld_flg)) {
+    med_entered_tm_vld_flg <- defaults$med_entered_tm_vld_flg
+  }
+  if (!is.null(med_entered_tm_vld_flg)) {
+    insertFields <- c(insertFields, "med_entered_tm_vld_flg")
+    insertValues <- c(insertValues, med_entered_tm_vld_flg)
+  }
+
+  if (missing(med_product_id)) {
+    med_product_id <- defaults$med_product_id
+  }
+  if (!is.null(med_product_id)) {
+    insertFields <- c(insertFields, "med_product_id")
+    insertValues <- c(insertValues, med_product_id)
+  }
+
+  if (missing(_extractyear)) {
+    _extractyear <- defaults$_extractyear
+  }
+  if (!is.null(_extractyear)) {
+    insertFields <- c(insertFields, "_extractyear")
+    insertValues <- c(insertValues, _extractyear)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_med_history', comment)
+  }
+  statement <- paste0("INSERT INTO hf_f_med_history (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_med_history', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_f_medication <- function(encounter_id, medication_id, ordering_physician_id, med_dispensed_caresetting_id, med_request_caresetting_id, discontinue_reason_id, route_administration_id, formulary_type_id, frequency_id, order_stop_type_id, order_type_id, med_order_status_id, med_started_dt_id, med_entered_dt_id, med_stopped_dt_id, med_discontinued_dt_id, order_no, total_dispensed_doses, dose_quantity, initial_dose_quantity, dose_units_id, charge_quantity, credit_quantity, infusion_rate, infusion_time, infusion_time_units_id, order_strength, order_strength_units_id, order_volume, order_volume_units_id, total_volume, unit_cost, unit_price, med_started_dt_tm, med_entered_dt_tm, med_stopped_dt_tm, med_discontinued_dt_tm, med_started_tm_valid_flg, med_entered_tm_valid_flg, med_stopped_tm_valid_flg, med_discontinued_tm_valid_flg, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_medication;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(encounter_id)) {
+    encounter_id <- defaults$encounter_id
+  }
+  if (!is.null(encounter_id)) {
+    insertFields <- c(insertFields, "encounter_id")
+    insertValues <- c(insertValues, encounter_id)
+  }
+
+  if (missing(medication_id)) {
+    medication_id <- defaults$medication_id
+  }
+  if (!is.null(medication_id)) {
+    insertFields <- c(insertFields, "medication_id")
+    insertValues <- c(insertValues, medication_id)
+  }
+
+  if (missing(ordering_physician_id)) {
+    ordering_physician_id <- defaults$ordering_physician_id
+  }
+  if (!is.null(ordering_physician_id)) {
+    insertFields <- c(insertFields, "ordering_physician_id")
+    insertValues <- c(insertValues, ordering_physician_id)
+  }
+
+  if (missing(med_dispensed_caresetting_id)) {
+    med_dispensed_caresetting_id <- defaults$med_dispensed_caresetting_id
+  }
+  if (!is.null(med_dispensed_caresetting_id)) {
+    insertFields <- c(insertFields, "med_dispensed_caresetting_id")
+    insertValues <- c(insertValues, med_dispensed_caresetting_id)
+  }
+
+  if (missing(med_request_caresetting_id)) {
+    med_request_caresetting_id <- defaults$med_request_caresetting_id
+  }
+  if (!is.null(med_request_caresetting_id)) {
+    insertFields <- c(insertFields, "med_request_caresetting_id")
+    insertValues <- c(insertValues, med_request_caresetting_id)
+  }
+
+  if (missing(discontinue_reason_id)) {
+    discontinue_reason_id <- defaults$discontinue_reason_id
+  }
+  if (!is.null(discontinue_reason_id)) {
+    insertFields <- c(insertFields, "discontinue_reason_id")
+    insertValues <- c(insertValues, discontinue_reason_id)
+  }
+
+  if (missing(route_administration_id)) {
+    route_administration_id <- defaults$route_administration_id
+  }
+  if (!is.null(route_administration_id)) {
+    insertFields <- c(insertFields, "route_administration_id")
+    insertValues <- c(insertValues, route_administration_id)
+  }
+
+  if (missing(formulary_type_id)) {
+    formulary_type_id <- defaults$formulary_type_id
+  }
+  if (!is.null(formulary_type_id)) {
+    insertFields <- c(insertFields, "formulary_type_id")
+    insertValues <- c(insertValues, formulary_type_id)
+  }
+
+  if (missing(frequency_id)) {
+    frequency_id <- defaults$frequency_id
+  }
+  if (!is.null(frequency_id)) {
+    insertFields <- c(insertFields, "frequency_id")
+    insertValues <- c(insertValues, frequency_id)
+  }
+
+  if (missing(order_stop_type_id)) {
+    order_stop_type_id <- defaults$order_stop_type_id
+  }
+  if (!is.null(order_stop_type_id)) {
+    insertFields <- c(insertFields, "order_stop_type_id")
+    insertValues <- c(insertValues, order_stop_type_id)
+  }
+
+  if (missing(order_type_id)) {
+    order_type_id <- defaults$order_type_id
+  }
+  if (!is.null(order_type_id)) {
+    insertFields <- c(insertFields, "order_type_id")
+    insertValues <- c(insertValues, order_type_id)
+  }
+
+  if (missing(med_order_status_id)) {
+    med_order_status_id <- defaults$med_order_status_id
+  }
+  if (!is.null(med_order_status_id)) {
+    insertFields <- c(insertFields, "med_order_status_id")
+    insertValues <- c(insertValues, med_order_status_id)
+  }
+
+  if (missing(med_started_dt_id)) {
+    med_started_dt_id <- defaults$med_started_dt_id
+  }
+  if (!is.null(med_started_dt_id)) {
+    insertFields <- c(insertFields, "med_started_dt_id")
+    insertValues <- c(insertValues, med_started_dt_id)
+  }
+
+  if (missing(med_entered_dt_id)) {
+    med_entered_dt_id <- defaults$med_entered_dt_id
+  }
+  if (!is.null(med_entered_dt_id)) {
+    insertFields <- c(insertFields, "med_entered_dt_id")
+    insertValues <- c(insertValues, med_entered_dt_id)
+  }
+
+  if (missing(med_stopped_dt_id)) {
+    med_stopped_dt_id <- defaults$med_stopped_dt_id
+  }
+  if (!is.null(med_stopped_dt_id)) {
+    insertFields <- c(insertFields, "med_stopped_dt_id")
+    insertValues <- c(insertValues, med_stopped_dt_id)
+  }
+
+  if (missing(med_discontinued_dt_id)) {
+    med_discontinued_dt_id <- defaults$med_discontinued_dt_id
+  }
+  if (!is.null(med_discontinued_dt_id)) {
+    insertFields <- c(insertFields, "med_discontinued_dt_id")
+    insertValues <- c(insertValues, med_discontinued_dt_id)
+  }
+
+  if (missing(order_no)) {
+    order_no <- defaults$order_no
+  }
+  if (!is.null(order_no)) {
+    insertFields <- c(insertFields, "order_no")
+    insertValues <- c(insertValues, order_no)
+  }
+
+  if (missing(total_dispensed_doses)) {
+    total_dispensed_doses <- defaults$total_dispensed_doses
+  }
+  if (!is.null(total_dispensed_doses)) {
+    insertFields <- c(insertFields, "total_dispensed_doses")
+    insertValues <- c(insertValues, total_dispensed_doses)
+  }
+
+  if (missing(dose_quantity)) {
+    dose_quantity <- defaults$dose_quantity
+  }
+  if (!is.null(dose_quantity)) {
+    insertFields <- c(insertFields, "dose_quantity")
+    insertValues <- c(insertValues, dose_quantity)
+  }
+
+  if (missing(initial_dose_quantity)) {
+    initial_dose_quantity <- defaults$initial_dose_quantity
+  }
+  if (!is.null(initial_dose_quantity)) {
+    insertFields <- c(insertFields, "initial_dose_quantity")
+    insertValues <- c(insertValues, initial_dose_quantity)
+  }
+
+  if (missing(dose_units_id)) {
+    dose_units_id <- defaults$dose_units_id
+  }
+  if (!is.null(dose_units_id)) {
+    insertFields <- c(insertFields, "dose_units_id")
+    insertValues <- c(insertValues, dose_units_id)
+  }
+
+  if (missing(charge_quantity)) {
+    charge_quantity <- defaults$charge_quantity
+  }
+  if (!is.null(charge_quantity)) {
+    insertFields <- c(insertFields, "charge_quantity")
+    insertValues <- c(insertValues, charge_quantity)
+  }
+
+  if (missing(credit_quantity)) {
+    credit_quantity <- defaults$credit_quantity
+  }
+  if (!is.null(credit_quantity)) {
+    insertFields <- c(insertFields, "credit_quantity")
+    insertValues <- c(insertValues, credit_quantity)
+  }
+
+  if (missing(infusion_rate)) {
+    infusion_rate <- defaults$infusion_rate
+  }
+  if (!is.null(infusion_rate)) {
+    insertFields <- c(insertFields, "infusion_rate")
+    insertValues <- c(insertValues, infusion_rate)
+  }
+
+  if (missing(infusion_time)) {
+    infusion_time <- defaults$infusion_time
+  }
+  if (!is.null(infusion_time)) {
+    insertFields <- c(insertFields, "infusion_time")
+    insertValues <- c(insertValues, infusion_time)
+  }
+
+  if (missing(infusion_time_units_id)) {
+    infusion_time_units_id <- defaults$infusion_time_units_id
+  }
+  if (!is.null(infusion_time_units_id)) {
+    insertFields <- c(insertFields, "infusion_time_units_id")
+    insertValues <- c(insertValues, infusion_time_units_id)
+  }
+
+  if (missing(order_strength)) {
+    order_strength <- defaults$order_strength
+  }
+  if (!is.null(order_strength)) {
+    insertFields <- c(insertFields, "order_strength")
+    insertValues <- c(insertValues, order_strength)
+  }
+
+  if (missing(order_strength_units_id)) {
+    order_strength_units_id <- defaults$order_strength_units_id
+  }
+  if (!is.null(order_strength_units_id)) {
+    insertFields <- c(insertFields, "order_strength_units_id")
+    insertValues <- c(insertValues, order_strength_units_id)
+  }
+
+  if (missing(order_volume)) {
+    order_volume <- defaults$order_volume
+  }
+  if (!is.null(order_volume)) {
+    insertFields <- c(insertFields, "order_volume")
+    insertValues <- c(insertValues, order_volume)
+  }
+
+  if (missing(order_volume_units_id)) {
+    order_volume_units_id <- defaults$order_volume_units_id
+  }
+  if (!is.null(order_volume_units_id)) {
+    insertFields <- c(insertFields, "order_volume_units_id")
+    insertValues <- c(insertValues, order_volume_units_id)
+  }
+
+  if (missing(total_volume)) {
+    total_volume <- defaults$total_volume
+  }
+  if (!is.null(total_volume)) {
+    insertFields <- c(insertFields, "total_volume")
+    insertValues <- c(insertValues, total_volume)
+  }
+
+  if (missing(unit_cost)) {
+    unit_cost <- defaults$unit_cost
+  }
+  if (!is.null(unit_cost)) {
+    insertFields <- c(insertFields, "unit_cost")
+    insertValues <- c(insertValues, unit_cost)
+  }
+
+  if (missing(unit_price)) {
+    unit_price <- defaults$unit_price
+  }
+  if (!is.null(unit_price)) {
+    insertFields <- c(insertFields, "unit_price")
+    insertValues <- c(insertValues, unit_price)
+  }
+
+  if (missing(med_started_dt_tm)) {
+    med_started_dt_tm <- defaults$med_started_dt_tm
+  }
+  if (!is.null(med_started_dt_tm)) {
+    insertFields <- c(insertFields, "med_started_dt_tm")
+    insertValues <- c(insertValues, med_started_dt_tm)
+  }
+
+  if (missing(med_entered_dt_tm)) {
+    med_entered_dt_tm <- defaults$med_entered_dt_tm
+  }
+  if (!is.null(med_entered_dt_tm)) {
+    insertFields <- c(insertFields, "med_entered_dt_tm")
+    insertValues <- c(insertValues, med_entered_dt_tm)
+  }
+
+  if (missing(med_stopped_dt_tm)) {
+    med_stopped_dt_tm <- defaults$med_stopped_dt_tm
+  }
+  if (!is.null(med_stopped_dt_tm)) {
+    insertFields <- c(insertFields, "med_stopped_dt_tm")
+    insertValues <- c(insertValues, med_stopped_dt_tm)
+  }
+
+  if (missing(med_discontinued_dt_tm)) {
+    med_discontinued_dt_tm <- defaults$med_discontinued_dt_tm
+  }
+  if (!is.null(med_discontinued_dt_tm)) {
+    insertFields <- c(insertFields, "med_discontinued_dt_tm")
+    insertValues <- c(insertValues, med_discontinued_dt_tm)
+  }
+
+  if (missing(med_started_tm_valid_flg)) {
+    med_started_tm_valid_flg <- defaults$med_started_tm_valid_flg
+  }
+  if (!is.null(med_started_tm_valid_flg)) {
+    insertFields <- c(insertFields, "med_started_tm_valid_flg")
+    insertValues <- c(insertValues, med_started_tm_valid_flg)
+  }
+
+  if (missing(med_entered_tm_valid_flg)) {
+    med_entered_tm_valid_flg <- defaults$med_entered_tm_valid_flg
+  }
+  if (!is.null(med_entered_tm_valid_flg)) {
+    insertFields <- c(insertFields, "med_entered_tm_valid_flg")
+    insertValues <- c(insertValues, med_entered_tm_valid_flg)
+  }
+
+  if (missing(med_stopped_tm_valid_flg)) {
+    med_stopped_tm_valid_flg <- defaults$med_stopped_tm_valid_flg
+  }
+  if (!is.null(med_stopped_tm_valid_flg)) {
+    insertFields <- c(insertFields, "med_stopped_tm_valid_flg")
+    insertValues <- c(insertValues, med_stopped_tm_valid_flg)
+  }
+
+  if (missing(med_discontinued_tm_valid_flg)) {
+    med_discontinued_tm_valid_flg <- defaults$med_discontinued_tm_valid_flg
+  }
+  if (!is.null(med_discontinued_tm_valid_flg)) {
+    insertFields <- c(insertFields, "med_discontinued_tm_valid_flg")
+    insertValues <- c(insertValues, med_discontinued_tm_valid_flg)
+  }
+
+  if (missing(_extractyear)) {
+    _extractyear <- defaults$_extractyear
+  }
+  if (!is.null(_extractyear)) {
+    insertFields <- c(insertFields, "_extractyear")
+    insertValues <- c(insertValues, _extractyear)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_medication', comment)
+  }
+  statement <- paste0("INSERT INTO hf_f_medication (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_medication', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_f_micro_susceptibility <- function(encounter_id, order_lab_procedure_id, test_type_id, isolate_id, antimicrobial_id, interp_result_id, interp_perf_dt_id, interp_perf_dt_tm, interp_perf_tm_vld_flg, interp_verf_dt_id, interp_verf_dt_tm, interp_verf_tm_vld_flg, accession, numeric_result, numeric_result_perf_dt_id, numeric_result_perf_dt_tm, numeric_result_perf_tm_vld_flg, numeric_result_verf_dt_id, numeric_result_verf_dt_tm, numeric_result_verf_tm_vld_flg, result_units_id, collection_source_id, collection_site_id, collection_method_id, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_micro_susceptibility;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(encounter_id)) {
+    encounter_id <- defaults$encounter_id
+  }
+  if (!is.null(encounter_id)) {
+    insertFields <- c(insertFields, "encounter_id")
+    insertValues <- c(insertValues, encounter_id)
+  }
+
+  if (missing(order_lab_procedure_id)) {
+    order_lab_procedure_id <- defaults$order_lab_procedure_id
+  }
+  if (!is.null(order_lab_procedure_id)) {
+    insertFields <- c(insertFields, "order_lab_procedure_id")
+    insertValues <- c(insertValues, order_lab_procedure_id)
+  }
+
+  if (missing(test_type_id)) {
+    test_type_id <- defaults$test_type_id
+  }
+  if (!is.null(test_type_id)) {
+    insertFields <- c(insertFields, "test_type_id")
+    insertValues <- c(insertValues, test_type_id)
+  }
+
+  if (missing(isolate_id)) {
+    isolate_id <- defaults$isolate_id
+  }
+  if (!is.null(isolate_id)) {
+    insertFields <- c(insertFields, "isolate_id")
+    insertValues <- c(insertValues, isolate_id)
+  }
+
+  if (missing(antimicrobial_id)) {
+    antimicrobial_id <- defaults$antimicrobial_id
+  }
+  if (!is.null(antimicrobial_id)) {
+    insertFields <- c(insertFields, "antimicrobial_id")
+    insertValues <- c(insertValues, antimicrobial_id)
+  }
+
+  if (missing(interp_result_id)) {
+    interp_result_id <- defaults$interp_result_id
+  }
+  if (!is.null(interp_result_id)) {
+    insertFields <- c(insertFields, "interp_result_id")
+    insertValues <- c(insertValues, interp_result_id)
+  }
+
+  if (missing(interp_perf_dt_id)) {
+    interp_perf_dt_id <- defaults$interp_perf_dt_id
+  }
+  if (!is.null(interp_perf_dt_id)) {
+    insertFields <- c(insertFields, "interp_perf_dt_id")
+    insertValues <- c(insertValues, interp_perf_dt_id)
+  }
+
+  if (missing(interp_perf_dt_tm)) {
+    interp_perf_dt_tm <- defaults$interp_perf_dt_tm
+  }
+  if (!is.null(interp_perf_dt_tm)) {
+    insertFields <- c(insertFields, "interp_perf_dt_tm")
+    insertValues <- c(insertValues, interp_perf_dt_tm)
+  }
+
+  if (missing(interp_perf_tm_vld_flg)) {
+    interp_perf_tm_vld_flg <- defaults$interp_perf_tm_vld_flg
+  }
+  if (!is.null(interp_perf_tm_vld_flg)) {
+    insertFields <- c(insertFields, "interp_perf_tm_vld_flg")
+    insertValues <- c(insertValues, interp_perf_tm_vld_flg)
+  }
+
+  if (missing(interp_verf_dt_id)) {
+    interp_verf_dt_id <- defaults$interp_verf_dt_id
+  }
+  if (!is.null(interp_verf_dt_id)) {
+    insertFields <- c(insertFields, "interp_verf_dt_id")
+    insertValues <- c(insertValues, interp_verf_dt_id)
+  }
+
+  if (missing(interp_verf_dt_tm)) {
+    interp_verf_dt_tm <- defaults$interp_verf_dt_tm
+  }
+  if (!is.null(interp_verf_dt_tm)) {
+    insertFields <- c(insertFields, "interp_verf_dt_tm")
+    insertValues <- c(insertValues, interp_verf_dt_tm)
+  }
+
+  if (missing(interp_verf_tm_vld_flg)) {
+    interp_verf_tm_vld_flg <- defaults$interp_verf_tm_vld_flg
+  }
+  if (!is.null(interp_verf_tm_vld_flg)) {
+    insertFields <- c(insertFields, "interp_verf_tm_vld_flg")
+    insertValues <- c(insertValues, interp_verf_tm_vld_flg)
+  }
+
+  if (missing(accession)) {
+    accession <- defaults$accession
+  }
+  if (!is.null(accession)) {
+    insertFields <- c(insertFields, "accession")
+    insertValues <- c(insertValues, accession)
+  }
+
+  if (missing(numeric_result)) {
+    numeric_result <- defaults$numeric_result
+  }
+  if (!is.null(numeric_result)) {
+    insertFields <- c(insertFields, "numeric_result")
+    insertValues <- c(insertValues, numeric_result)
+  }
+
+  if (missing(numeric_result_perf_dt_id)) {
+    numeric_result_perf_dt_id <- defaults$numeric_result_perf_dt_id
+  }
+  if (!is.null(numeric_result_perf_dt_id)) {
+    insertFields <- c(insertFields, "numeric_result_perf_dt_id")
+    insertValues <- c(insertValues, numeric_result_perf_dt_id)
+  }
+
+  if (missing(numeric_result_perf_dt_tm)) {
+    numeric_result_perf_dt_tm <- defaults$numeric_result_perf_dt_tm
+  }
+  if (!is.null(numeric_result_perf_dt_tm)) {
+    insertFields <- c(insertFields, "numeric_result_perf_dt_tm")
+    insertValues <- c(insertValues, numeric_result_perf_dt_tm)
+  }
+
+  if (missing(numeric_result_perf_tm_vld_flg)) {
+    numeric_result_perf_tm_vld_flg <- defaults$numeric_result_perf_tm_vld_flg
+  }
+  if (!is.null(numeric_result_perf_tm_vld_flg)) {
+    insertFields <- c(insertFields, "numeric_result_perf_tm_vld_flg")
+    insertValues <- c(insertValues, numeric_result_perf_tm_vld_flg)
+  }
+
+  if (missing(numeric_result_verf_dt_id)) {
+    numeric_result_verf_dt_id <- defaults$numeric_result_verf_dt_id
+  }
+  if (!is.null(numeric_result_verf_dt_id)) {
+    insertFields <- c(insertFields, "numeric_result_verf_dt_id")
+    insertValues <- c(insertValues, numeric_result_verf_dt_id)
+  }
+
+  if (missing(numeric_result_verf_dt_tm)) {
+    numeric_result_verf_dt_tm <- defaults$numeric_result_verf_dt_tm
+  }
+  if (!is.null(numeric_result_verf_dt_tm)) {
+    insertFields <- c(insertFields, "numeric_result_verf_dt_tm")
+    insertValues <- c(insertValues, numeric_result_verf_dt_tm)
+  }
+
+  if (missing(numeric_result_verf_tm_vld_flg)) {
+    numeric_result_verf_tm_vld_flg <- defaults$numeric_result_verf_tm_vld_flg
+  }
+  if (!is.null(numeric_result_verf_tm_vld_flg)) {
+    insertFields <- c(insertFields, "numeric_result_verf_tm_vld_flg")
+    insertValues <- c(insertValues, numeric_result_verf_tm_vld_flg)
+  }
+
+  if (missing(result_units_id)) {
+    result_units_id <- defaults$result_units_id
+  }
+  if (!is.null(result_units_id)) {
+    insertFields <- c(insertFields, "result_units_id")
+    insertValues <- c(insertValues, result_units_id)
+  }
+
+  if (missing(collection_source_id)) {
+    collection_source_id <- defaults$collection_source_id
+  }
+  if (!is.null(collection_source_id)) {
+    insertFields <- c(insertFields, "collection_source_id")
+    insertValues <- c(insertValues, collection_source_id)
+  }
+
+  if (missing(collection_site_id)) {
+    collection_site_id <- defaults$collection_site_id
+  }
+  if (!is.null(collection_site_id)) {
+    insertFields <- c(insertFields, "collection_site_id")
+    insertValues <- c(insertValues, collection_site_id)
+  }
+
+  if (missing(collection_method_id)) {
+    collection_method_id <- defaults$collection_method_id
+  }
+  if (!is.null(collection_method_id)) {
+    insertFields <- c(insertFields, "collection_method_id")
+    insertValues <- c(insertValues, collection_method_id)
+  }
+
+  if (missing(_extractyear)) {
+    _extractyear <- defaults$_extractyear
+  }
+  if (!is.null(_extractyear)) {
+    insertFields <- c(insertFields, "_extractyear")
+    insertValues <- c(insertValues, _extractyear)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_micro_susceptibility', comment)
+  }
+  statement <- paste0("INSERT INTO hf_f_micro_susceptibility (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_micro_susceptibility', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_f_microbiology <- function(encounter_id, order_lab_procedure_id, isolate_id, ordering_physician_id, micro_order_caresetting_id, micro_result_type_id, result_type_procedure_id, collection_source_id, collection_site_id, reporting_priority_id, micro_order_status_id, collection_status_id, micro_lab_ordered_dt_id, micro_lab_drawn_dt_id, micro_lab_received_dt_id, micro_lab_completed_dt_id, micro_lab_cancelled_dt_id, first_report_entered_dt_id, last_report_updated_dt_id, accession, false_positive_ind, total_report_updates, micro_lab_ordered_dt_tm, micro_lab_drawn_dt_tm, micro_lab_received_dt_tm, micro_lab_completed_dt_tm, micro_lab_cancelled_dt_tm, first_report_entered_dt_tm, last_report_updated_dt_tm, micro_lab_ordered_tm_vld_flg, micro_lab_drawn_tm_vld_flg, micro_lab_received_tm_vld_flg, micro_lab_complted_tm_vld_flg, micro_lab_cancelled_tm_vld_flg, first_rpt_entered_tm_vld_flg, last_rpt_updated_tm_vld_flg, collection_method_id, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_microbiology;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(encounter_id)) {
+    encounter_id <- defaults$encounter_id
+  }
+  if (!is.null(encounter_id)) {
+    insertFields <- c(insertFields, "encounter_id")
+    insertValues <- c(insertValues, encounter_id)
+  }
+
+  if (missing(order_lab_procedure_id)) {
+    order_lab_procedure_id <- defaults$order_lab_procedure_id
+  }
+  if (!is.null(order_lab_procedure_id)) {
+    insertFields <- c(insertFields, "order_lab_procedure_id")
+    insertValues <- c(insertValues, order_lab_procedure_id)
+  }
+
+  if (missing(isolate_id)) {
+    isolate_id <- defaults$isolate_id
+  }
+  if (!is.null(isolate_id)) {
+    insertFields <- c(insertFields, "isolate_id")
+    insertValues <- c(insertValues, isolate_id)
+  }
+
+  if (missing(ordering_physician_id)) {
+    ordering_physician_id <- defaults$ordering_physician_id
+  }
+  if (!is.null(ordering_physician_id)) {
+    insertFields <- c(insertFields, "ordering_physician_id")
+    insertValues <- c(insertValues, ordering_physician_id)
+  }
+
+  if (missing(micro_order_caresetting_id)) {
+    micro_order_caresetting_id <- defaults$micro_order_caresetting_id
+  }
+  if (!is.null(micro_order_caresetting_id)) {
+    insertFields <- c(insertFields, "micro_order_caresetting_id")
+    insertValues <- c(insertValues, micro_order_caresetting_id)
+  }
+
+  if (missing(micro_result_type_id)) {
+    micro_result_type_id <- defaults$micro_result_type_id
+  }
+  if (!is.null(micro_result_type_id)) {
+    insertFields <- c(insertFields, "micro_result_type_id")
+    insertValues <- c(insertValues, micro_result_type_id)
+  }
+
+  if (missing(result_type_procedure_id)) {
+    result_type_procedure_id <- defaults$result_type_procedure_id
+  }
+  if (!is.null(result_type_procedure_id)) {
+    insertFields <- c(insertFields, "result_type_procedure_id")
+    insertValues <- c(insertValues, result_type_procedure_id)
+  }
+
+  if (missing(collection_source_id)) {
+    collection_source_id <- defaults$collection_source_id
+  }
+  if (!is.null(collection_source_id)) {
+    insertFields <- c(insertFields, "collection_source_id")
+    insertValues <- c(insertValues, collection_source_id)
+  }
+
+  if (missing(collection_site_id)) {
+    collection_site_id <- defaults$collection_site_id
+  }
+  if (!is.null(collection_site_id)) {
+    insertFields <- c(insertFields, "collection_site_id")
+    insertValues <- c(insertValues, collection_site_id)
+  }
+
+  if (missing(reporting_priority_id)) {
+    reporting_priority_id <- defaults$reporting_priority_id
+  }
+  if (!is.null(reporting_priority_id)) {
+    insertFields <- c(insertFields, "reporting_priority_id")
+    insertValues <- c(insertValues, reporting_priority_id)
+  }
+
+  if (missing(micro_order_status_id)) {
+    micro_order_status_id <- defaults$micro_order_status_id
+  }
+  if (!is.null(micro_order_status_id)) {
+    insertFields <- c(insertFields, "micro_order_status_id")
+    insertValues <- c(insertValues, micro_order_status_id)
+  }
+
+  if (missing(collection_status_id)) {
+    collection_status_id <- defaults$collection_status_id
+  }
+  if (!is.null(collection_status_id)) {
+    insertFields <- c(insertFields, "collection_status_id")
+    insertValues <- c(insertValues, collection_status_id)
+  }
+
+  if (missing(micro_lab_ordered_dt_id)) {
+    micro_lab_ordered_dt_id <- defaults$micro_lab_ordered_dt_id
+  }
+  if (!is.null(micro_lab_ordered_dt_id)) {
+    insertFields <- c(insertFields, "micro_lab_ordered_dt_id")
+    insertValues <- c(insertValues, micro_lab_ordered_dt_id)
+  }
+
+  if (missing(micro_lab_drawn_dt_id)) {
+    micro_lab_drawn_dt_id <- defaults$micro_lab_drawn_dt_id
+  }
+  if (!is.null(micro_lab_drawn_dt_id)) {
+    insertFields <- c(insertFields, "micro_lab_drawn_dt_id")
+    insertValues <- c(insertValues, micro_lab_drawn_dt_id)
+  }
+
+  if (missing(micro_lab_received_dt_id)) {
+    micro_lab_received_dt_id <- defaults$micro_lab_received_dt_id
+  }
+  if (!is.null(micro_lab_received_dt_id)) {
+    insertFields <- c(insertFields, "micro_lab_received_dt_id")
+    insertValues <- c(insertValues, micro_lab_received_dt_id)
+  }
+
+  if (missing(micro_lab_completed_dt_id)) {
+    micro_lab_completed_dt_id <- defaults$micro_lab_completed_dt_id
+  }
+  if (!is.null(micro_lab_completed_dt_id)) {
+    insertFields <- c(insertFields, "micro_lab_completed_dt_id")
+    insertValues <- c(insertValues, micro_lab_completed_dt_id)
+  }
+
+  if (missing(micro_lab_cancelled_dt_id)) {
+    micro_lab_cancelled_dt_id <- defaults$micro_lab_cancelled_dt_id
+  }
+  if (!is.null(micro_lab_cancelled_dt_id)) {
+    insertFields <- c(insertFields, "micro_lab_cancelled_dt_id")
+    insertValues <- c(insertValues, micro_lab_cancelled_dt_id)
+  }
+
+  if (missing(first_report_entered_dt_id)) {
+    first_report_entered_dt_id <- defaults$first_report_entered_dt_id
+  }
+  if (!is.null(first_report_entered_dt_id)) {
+    insertFields <- c(insertFields, "first_report_entered_dt_id")
+    insertValues <- c(insertValues, first_report_entered_dt_id)
+  }
+
+  if (missing(last_report_updated_dt_id)) {
+    last_report_updated_dt_id <- defaults$last_report_updated_dt_id
+  }
+  if (!is.null(last_report_updated_dt_id)) {
+    insertFields <- c(insertFields, "last_report_updated_dt_id")
+    insertValues <- c(insertValues, last_report_updated_dt_id)
+  }
+
+  if (missing(accession)) {
+    accession <- defaults$accession
+  }
+  if (!is.null(accession)) {
+    insertFields <- c(insertFields, "accession")
+    insertValues <- c(insertValues, accession)
+  }
+
+  if (missing(false_positive_ind)) {
+    false_positive_ind <- defaults$false_positive_ind
+  }
+  if (!is.null(false_positive_ind)) {
+    insertFields <- c(insertFields, "false_positive_ind")
+    insertValues <- c(insertValues, false_positive_ind)
+  }
+
+  if (missing(total_report_updates)) {
+    total_report_updates <- defaults$total_report_updates
+  }
+  if (!is.null(total_report_updates)) {
+    insertFields <- c(insertFields, "total_report_updates")
+    insertValues <- c(insertValues, total_report_updates)
+  }
+
+  if (missing(micro_lab_ordered_dt_tm)) {
+    micro_lab_ordered_dt_tm <- defaults$micro_lab_ordered_dt_tm
+  }
+  if (!is.null(micro_lab_ordered_dt_tm)) {
+    insertFields <- c(insertFields, "micro_lab_ordered_dt_tm")
+    insertValues <- c(insertValues, micro_lab_ordered_dt_tm)
+  }
+
+  if (missing(micro_lab_drawn_dt_tm)) {
+    micro_lab_drawn_dt_tm <- defaults$micro_lab_drawn_dt_tm
+  }
+  if (!is.null(micro_lab_drawn_dt_tm)) {
+    insertFields <- c(insertFields, "micro_lab_drawn_dt_tm")
+    insertValues <- c(insertValues, micro_lab_drawn_dt_tm)
+  }
+
+  if (missing(micro_lab_received_dt_tm)) {
+    micro_lab_received_dt_tm <- defaults$micro_lab_received_dt_tm
+  }
+  if (!is.null(micro_lab_received_dt_tm)) {
+    insertFields <- c(insertFields, "micro_lab_received_dt_tm")
+    insertValues <- c(insertValues, micro_lab_received_dt_tm)
+  }
+
+  if (missing(micro_lab_completed_dt_tm)) {
+    micro_lab_completed_dt_tm <- defaults$micro_lab_completed_dt_tm
+  }
+  if (!is.null(micro_lab_completed_dt_tm)) {
+    insertFields <- c(insertFields, "micro_lab_completed_dt_tm")
+    insertValues <- c(insertValues, micro_lab_completed_dt_tm)
+  }
+
+  if (missing(micro_lab_cancelled_dt_tm)) {
+    micro_lab_cancelled_dt_tm <- defaults$micro_lab_cancelled_dt_tm
+  }
+  if (!is.null(micro_lab_cancelled_dt_tm)) {
+    insertFields <- c(insertFields, "micro_lab_cancelled_dt_tm")
+    insertValues <- c(insertValues, micro_lab_cancelled_dt_tm)
+  }
+
+  if (missing(first_report_entered_dt_tm)) {
+    first_report_entered_dt_tm <- defaults$first_report_entered_dt_tm
+  }
+  if (!is.null(first_report_entered_dt_tm)) {
+    insertFields <- c(insertFields, "first_report_entered_dt_tm")
+    insertValues <- c(insertValues, first_report_entered_dt_tm)
+  }
+
+  if (missing(last_report_updated_dt_tm)) {
+    last_report_updated_dt_tm <- defaults$last_report_updated_dt_tm
+  }
+  if (!is.null(last_report_updated_dt_tm)) {
+    insertFields <- c(insertFields, "last_report_updated_dt_tm")
+    insertValues <- c(insertValues, last_report_updated_dt_tm)
+  }
+
+  if (missing(micro_lab_ordered_tm_vld_flg)) {
+    micro_lab_ordered_tm_vld_flg <- defaults$micro_lab_ordered_tm_vld_flg
+  }
+  if (!is.null(micro_lab_ordered_tm_vld_flg)) {
+    insertFields <- c(insertFields, "micro_lab_ordered_tm_vld_flg")
+    insertValues <- c(insertValues, micro_lab_ordered_tm_vld_flg)
+  }
+
+  if (missing(micro_lab_drawn_tm_vld_flg)) {
+    micro_lab_drawn_tm_vld_flg <- defaults$micro_lab_drawn_tm_vld_flg
+  }
+  if (!is.null(micro_lab_drawn_tm_vld_flg)) {
+    insertFields <- c(insertFields, "micro_lab_drawn_tm_vld_flg")
+    insertValues <- c(insertValues, micro_lab_drawn_tm_vld_flg)
+  }
+
+  if (missing(micro_lab_received_tm_vld_flg)) {
+    micro_lab_received_tm_vld_flg <- defaults$micro_lab_received_tm_vld_flg
+  }
+  if (!is.null(micro_lab_received_tm_vld_flg)) {
+    insertFields <- c(insertFields, "micro_lab_received_tm_vld_flg")
+    insertValues <- c(insertValues, micro_lab_received_tm_vld_flg)
+  }
+
+  if (missing(micro_lab_complted_tm_vld_flg)) {
+    micro_lab_complted_tm_vld_flg <- defaults$micro_lab_complted_tm_vld_flg
+  }
+  if (!is.null(micro_lab_complted_tm_vld_flg)) {
+    insertFields <- c(insertFields, "micro_lab_complted_tm_vld_flg")
+    insertValues <- c(insertValues, micro_lab_complted_tm_vld_flg)
+  }
+
+  if (missing(micro_lab_cancelled_tm_vld_flg)) {
+    micro_lab_cancelled_tm_vld_flg <- defaults$micro_lab_cancelled_tm_vld_flg
+  }
+  if (!is.null(micro_lab_cancelled_tm_vld_flg)) {
+    insertFields <- c(insertFields, "micro_lab_cancelled_tm_vld_flg")
+    insertValues <- c(insertValues, micro_lab_cancelled_tm_vld_flg)
+  }
+
+  if (missing(first_rpt_entered_tm_vld_flg)) {
+    first_rpt_entered_tm_vld_flg <- defaults$first_rpt_entered_tm_vld_flg
+  }
+  if (!is.null(first_rpt_entered_tm_vld_flg)) {
+    insertFields <- c(insertFields, "first_rpt_entered_tm_vld_flg")
+    insertValues <- c(insertValues, first_rpt_entered_tm_vld_flg)
+  }
+
+  if (missing(last_rpt_updated_tm_vld_flg)) {
+    last_rpt_updated_tm_vld_flg <- defaults$last_rpt_updated_tm_vld_flg
+  }
+  if (!is.null(last_rpt_updated_tm_vld_flg)) {
+    insertFields <- c(insertFields, "last_rpt_updated_tm_vld_flg")
+    insertValues <- c(insertValues, last_rpt_updated_tm_vld_flg)
+  }
+
+  if (missing(collection_method_id)) {
+    collection_method_id <- defaults$collection_method_id
+  }
+  if (!is.null(collection_method_id)) {
+    insertFields <- c(insertFields, "collection_method_id")
+    insertValues <- c(insertValues, collection_method_id)
+  }
+
+  if (missing(_extractyear)) {
+    _extractyear <- defaults$_extractyear
+  }
+  if (!is.null(_extractyear)) {
+    insertFields <- c(insertFields, "_extractyear")
+    insertValues <- c(insertValues, _extractyear)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_microbiology', comment)
+  }
+  statement <- paste0("INSERT INTO hf_f_microbiology (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_microbiology', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_f_procedure <- function(encounter_id, procedure_id, procedure_dt_id, procedure_dt_tm, procedure_priority, third_party_ind, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_procedure;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(encounter_id)) {
+    encounter_id <- defaults$encounter_id
+  }
+  if (!is.null(encounter_id)) {
+    insertFields <- c(insertFields, "encounter_id")
+    insertValues <- c(insertValues, encounter_id)
+  }
+
+  if (missing(procedure_id)) {
+    procedure_id <- defaults$procedure_id
+  }
+  if (!is.null(procedure_id)) {
+    insertFields <- c(insertFields, "procedure_id")
+    insertValues <- c(insertValues, procedure_id)
+  }
+
+  if (missing(procedure_dt_id)) {
+    procedure_dt_id <- defaults$procedure_dt_id
+  }
+  if (!is.null(procedure_dt_id)) {
+    insertFields <- c(insertFields, "procedure_dt_id")
+    insertValues <- c(insertValues, procedure_dt_id)
+  }
+
+  if (missing(procedure_dt_tm)) {
+    procedure_dt_tm <- defaults$procedure_dt_tm
+  }
+  if (!is.null(procedure_dt_tm)) {
+    insertFields <- c(insertFields, "procedure_dt_tm")
+    insertValues <- c(insertValues, procedure_dt_tm)
+  }
+
+  if (missing(procedure_priority)) {
+    procedure_priority <- defaults$procedure_priority
+  }
+  if (!is.null(procedure_priority)) {
+    insertFields <- c(insertFields, "procedure_priority")
+    insertValues <- c(insertValues, procedure_priority)
+  }
+
+  if (missing(third_party_ind)) {
+    third_party_ind <- defaults$third_party_ind
+  }
+  if (!is.null(third_party_ind)) {
+    insertFields <- c(insertFields, "third_party_ind")
+    insertValues <- c(insertValues, third_party_ind)
+  }
+
+  if (missing(_extractyear)) {
+    _extractyear <- defaults$_extractyear
+  }
+  if (!is.null(_extractyear)) {
+    insertFields <- c(insertFields, "_extractyear")
+    insertValues <- c(insertValues, _extractyear)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_procedure', comment)
+  }
+  statement <- paste0("INSERT INTO hf_f_procedure (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_procedure', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_f_surgical_case <- function(surgical_case_id, encounter_id, case_level_id, case_start_dt_tm, case_stop_dt_tm, case_start_dt_id, case_stop_dt_id, case_duration, scheduled_case_start_dt_tm, scheduled_case_stop_dt_tm, scheduled_case_start_dt_id, scheduled_case_stop_dt_id, scheduled_case_duration, case_specialty_id, case_completed_ind, case_cancelled_dt_tm, case_cancelled_dt_id, case_cancelled_reason_id, case_closing_start_dt_tm, case_closing_start_dt_id, transport_requested_dt_tm, transport_requested_dt_id, operating_room_setup_dt_tm, operating_room_ready_dt_tm, operating_room_setup_dt_id, operating_room_ready_dt_id, patient_in_preop_hold_dt_tm, patient_out_preop_hold_dt_tm, patient_in_preop_hold_dt_id, patient_out_preop_hold_dt_id, preop_antibiotic_admin_dt_tm, preop_antibiotic_admin_dt_id, patient_in_oper_room_dt_tm, patient_out_oper_room_dt_tm, patient_out_oper_room_dt_id, anesthesia_start_dt_tm, anesthesia_induct_dt_tm, anesthesia_stop_dt_tm, anesthesia_start_dt_id, anesthesia_induct_dt_id, anesthesia_stop_dt_id, anesthesia_induct_stop_duratn, surgeon_in_oper_room_dt_tm, surgeon_in_oper_room_dt_id, patient_in_pacu_dt_tm, patient_out_pacu_dt_tm, patient_in_pacu_ii_dt_tm, patient_out_pacu_ii_dt_tm, patient_in_pacu_dt_id, patient_out_pacu_dt_id, patient_in_pacu_ii_dt_id, patient_out_pacu_ii_dt_id, patient_in_oper_room_dt_id, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_surgical_case;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(surgical_case_id)) {
+    surgical_case_id <- defaults$surgical_case_id
+  }
+  if (!is.null(surgical_case_id)) {
+    insertFields <- c(insertFields, "surgical_case_id")
+    insertValues <- c(insertValues, surgical_case_id)
+  }
+
+  if (missing(encounter_id)) {
+    encounter_id <- defaults$encounter_id
+  }
+  if (!is.null(encounter_id)) {
+    insertFields <- c(insertFields, "encounter_id")
+    insertValues <- c(insertValues, encounter_id)
+  }
+
+  if (missing(case_level_id)) {
+    case_level_id <- defaults$case_level_id
+  }
+  if (!is.null(case_level_id)) {
+    insertFields <- c(insertFields, "case_level_id")
+    insertValues <- c(insertValues, case_level_id)
+  }
+
+  if (missing(case_start_dt_tm)) {
+    case_start_dt_tm <- defaults$case_start_dt_tm
+  }
+  if (!is.null(case_start_dt_tm)) {
+    insertFields <- c(insertFields, "case_start_dt_tm")
+    insertValues <- c(insertValues, case_start_dt_tm)
+  }
+
+  if (missing(case_stop_dt_tm)) {
+    case_stop_dt_tm <- defaults$case_stop_dt_tm
+  }
+  if (!is.null(case_stop_dt_tm)) {
+    insertFields <- c(insertFields, "case_stop_dt_tm")
+    insertValues <- c(insertValues, case_stop_dt_tm)
+  }
+
+  if (missing(case_start_dt_id)) {
+    case_start_dt_id <- defaults$case_start_dt_id
+  }
+  if (!is.null(case_start_dt_id)) {
+    insertFields <- c(insertFields, "case_start_dt_id")
+    insertValues <- c(insertValues, case_start_dt_id)
+  }
+
+  if (missing(case_stop_dt_id)) {
+    case_stop_dt_id <- defaults$case_stop_dt_id
+  }
+  if (!is.null(case_stop_dt_id)) {
+    insertFields <- c(insertFields, "case_stop_dt_id")
+    insertValues <- c(insertValues, case_stop_dt_id)
+  }
+
+  if (missing(case_duration)) {
+    case_duration <- defaults$case_duration
+  }
+  if (!is.null(case_duration)) {
+    insertFields <- c(insertFields, "case_duration")
+    insertValues <- c(insertValues, case_duration)
+  }
+
+  if (missing(scheduled_case_start_dt_tm)) {
+    scheduled_case_start_dt_tm <- defaults$scheduled_case_start_dt_tm
+  }
+  if (!is.null(scheduled_case_start_dt_tm)) {
+    insertFields <- c(insertFields, "scheduled_case_start_dt_tm")
+    insertValues <- c(insertValues, scheduled_case_start_dt_tm)
+  }
+
+  if (missing(scheduled_case_stop_dt_tm)) {
+    scheduled_case_stop_dt_tm <- defaults$scheduled_case_stop_dt_tm
+  }
+  if (!is.null(scheduled_case_stop_dt_tm)) {
+    insertFields <- c(insertFields, "scheduled_case_stop_dt_tm")
+    insertValues <- c(insertValues, scheduled_case_stop_dt_tm)
+  }
+
+  if (missing(scheduled_case_start_dt_id)) {
+    scheduled_case_start_dt_id <- defaults$scheduled_case_start_dt_id
+  }
+  if (!is.null(scheduled_case_start_dt_id)) {
+    insertFields <- c(insertFields, "scheduled_case_start_dt_id")
+    insertValues <- c(insertValues, scheduled_case_start_dt_id)
+  }
+
+  if (missing(scheduled_case_stop_dt_id)) {
+    scheduled_case_stop_dt_id <- defaults$scheduled_case_stop_dt_id
+  }
+  if (!is.null(scheduled_case_stop_dt_id)) {
+    insertFields <- c(insertFields, "scheduled_case_stop_dt_id")
+    insertValues <- c(insertValues, scheduled_case_stop_dt_id)
+  }
+
+  if (missing(scheduled_case_duration)) {
+    scheduled_case_duration <- defaults$scheduled_case_duration
+  }
+  if (!is.null(scheduled_case_duration)) {
+    insertFields <- c(insertFields, "scheduled_case_duration")
+    insertValues <- c(insertValues, scheduled_case_duration)
+  }
+
+  if (missing(case_specialty_id)) {
+    case_specialty_id <- defaults$case_specialty_id
+  }
+  if (!is.null(case_specialty_id)) {
+    insertFields <- c(insertFields, "case_specialty_id")
+    insertValues <- c(insertValues, case_specialty_id)
+  }
+
+  if (missing(case_completed_ind)) {
+    case_completed_ind <- defaults$case_completed_ind
+  }
+  if (!is.null(case_completed_ind)) {
+    insertFields <- c(insertFields, "case_completed_ind")
+    insertValues <- c(insertValues, case_completed_ind)
+  }
+
+  if (missing(case_cancelled_dt_tm)) {
+    case_cancelled_dt_tm <- defaults$case_cancelled_dt_tm
+  }
+  if (!is.null(case_cancelled_dt_tm)) {
+    insertFields <- c(insertFields, "case_cancelled_dt_tm")
+    insertValues <- c(insertValues, case_cancelled_dt_tm)
+  }
+
+  if (missing(case_cancelled_dt_id)) {
+    case_cancelled_dt_id <- defaults$case_cancelled_dt_id
+  }
+  if (!is.null(case_cancelled_dt_id)) {
+    insertFields <- c(insertFields, "case_cancelled_dt_id")
+    insertValues <- c(insertValues, case_cancelled_dt_id)
+  }
+
+  if (missing(case_cancelled_reason_id)) {
+    case_cancelled_reason_id <- defaults$case_cancelled_reason_id
+  }
+  if (!is.null(case_cancelled_reason_id)) {
+    insertFields <- c(insertFields, "case_cancelled_reason_id")
+    insertValues <- c(insertValues, case_cancelled_reason_id)
+  }
+
+  if (missing(case_closing_start_dt_tm)) {
+    case_closing_start_dt_tm <- defaults$case_closing_start_dt_tm
+  }
+  if (!is.null(case_closing_start_dt_tm)) {
+    insertFields <- c(insertFields, "case_closing_start_dt_tm")
+    insertValues <- c(insertValues, case_closing_start_dt_tm)
+  }
+
+  if (missing(case_closing_start_dt_id)) {
+    case_closing_start_dt_id <- defaults$case_closing_start_dt_id
+  }
+  if (!is.null(case_closing_start_dt_id)) {
+    insertFields <- c(insertFields, "case_closing_start_dt_id")
+    insertValues <- c(insertValues, case_closing_start_dt_id)
+  }
+
+  if (missing(transport_requested_dt_tm)) {
+    transport_requested_dt_tm <- defaults$transport_requested_dt_tm
+  }
+  if (!is.null(transport_requested_dt_tm)) {
+    insertFields <- c(insertFields, "transport_requested_dt_tm")
+    insertValues <- c(insertValues, transport_requested_dt_tm)
+  }
+
+  if (missing(transport_requested_dt_id)) {
+    transport_requested_dt_id <- defaults$transport_requested_dt_id
+  }
+  if (!is.null(transport_requested_dt_id)) {
+    insertFields <- c(insertFields, "transport_requested_dt_id")
+    insertValues <- c(insertValues, transport_requested_dt_id)
+  }
+
+  if (missing(operating_room_setup_dt_tm)) {
+    operating_room_setup_dt_tm <- defaults$operating_room_setup_dt_tm
+  }
+  if (!is.null(operating_room_setup_dt_tm)) {
+    insertFields <- c(insertFields, "operating_room_setup_dt_tm")
+    insertValues <- c(insertValues, operating_room_setup_dt_tm)
+  }
+
+  if (missing(operating_room_ready_dt_tm)) {
+    operating_room_ready_dt_tm <- defaults$operating_room_ready_dt_tm
+  }
+  if (!is.null(operating_room_ready_dt_tm)) {
+    insertFields <- c(insertFields, "operating_room_ready_dt_tm")
+    insertValues <- c(insertValues, operating_room_ready_dt_tm)
+  }
+
+  if (missing(operating_room_setup_dt_id)) {
+    operating_room_setup_dt_id <- defaults$operating_room_setup_dt_id
+  }
+  if (!is.null(operating_room_setup_dt_id)) {
+    insertFields <- c(insertFields, "operating_room_setup_dt_id")
+    insertValues <- c(insertValues, operating_room_setup_dt_id)
+  }
+
+  if (missing(operating_room_ready_dt_id)) {
+    operating_room_ready_dt_id <- defaults$operating_room_ready_dt_id
+  }
+  if (!is.null(operating_room_ready_dt_id)) {
+    insertFields <- c(insertFields, "operating_room_ready_dt_id")
+    insertValues <- c(insertValues, operating_room_ready_dt_id)
+  }
+
+  if (missing(patient_in_preop_hold_dt_tm)) {
+    patient_in_preop_hold_dt_tm <- defaults$patient_in_preop_hold_dt_tm
+  }
+  if (!is.null(patient_in_preop_hold_dt_tm)) {
+    insertFields <- c(insertFields, "patient_in_preop_hold_dt_tm")
+    insertValues <- c(insertValues, patient_in_preop_hold_dt_tm)
+  }
+
+  if (missing(patient_out_preop_hold_dt_tm)) {
+    patient_out_preop_hold_dt_tm <- defaults$patient_out_preop_hold_dt_tm
+  }
+  if (!is.null(patient_out_preop_hold_dt_tm)) {
+    insertFields <- c(insertFields, "patient_out_preop_hold_dt_tm")
+    insertValues <- c(insertValues, patient_out_preop_hold_dt_tm)
+  }
+
+  if (missing(patient_in_preop_hold_dt_id)) {
+    patient_in_preop_hold_dt_id <- defaults$patient_in_preop_hold_dt_id
+  }
+  if (!is.null(patient_in_preop_hold_dt_id)) {
+    insertFields <- c(insertFields, "patient_in_preop_hold_dt_id")
+    insertValues <- c(insertValues, patient_in_preop_hold_dt_id)
+  }
+
+  if (missing(patient_out_preop_hold_dt_id)) {
+    patient_out_preop_hold_dt_id <- defaults$patient_out_preop_hold_dt_id
+  }
+  if (!is.null(patient_out_preop_hold_dt_id)) {
+    insertFields <- c(insertFields, "patient_out_preop_hold_dt_id")
+    insertValues <- c(insertValues, patient_out_preop_hold_dt_id)
+  }
+
+  if (missing(preop_antibiotic_admin_dt_tm)) {
+    preop_antibiotic_admin_dt_tm <- defaults$preop_antibiotic_admin_dt_tm
+  }
+  if (!is.null(preop_antibiotic_admin_dt_tm)) {
+    insertFields <- c(insertFields, "preop_antibiotic_admin_dt_tm")
+    insertValues <- c(insertValues, preop_antibiotic_admin_dt_tm)
+  }
+
+  if (missing(preop_antibiotic_admin_dt_id)) {
+    preop_antibiotic_admin_dt_id <- defaults$preop_antibiotic_admin_dt_id
+  }
+  if (!is.null(preop_antibiotic_admin_dt_id)) {
+    insertFields <- c(insertFields, "preop_antibiotic_admin_dt_id")
+    insertValues <- c(insertValues, preop_antibiotic_admin_dt_id)
+  }
+
+  if (missing(patient_in_oper_room_dt_tm)) {
+    patient_in_oper_room_dt_tm <- defaults$patient_in_oper_room_dt_tm
+  }
+  if (!is.null(patient_in_oper_room_dt_tm)) {
+    insertFields <- c(insertFields, "patient_in_oper_room_dt_tm")
+    insertValues <- c(insertValues, patient_in_oper_room_dt_tm)
+  }
+
+  if (missing(patient_out_oper_room_dt_tm)) {
+    patient_out_oper_room_dt_tm <- defaults$patient_out_oper_room_dt_tm
+  }
+  if (!is.null(patient_out_oper_room_dt_tm)) {
+    insertFields <- c(insertFields, "patient_out_oper_room_dt_tm")
+    insertValues <- c(insertValues, patient_out_oper_room_dt_tm)
+  }
+
+  if (missing(patient_out_oper_room_dt_id)) {
+    patient_out_oper_room_dt_id <- defaults$patient_out_oper_room_dt_id
+  }
+  if (!is.null(patient_out_oper_room_dt_id)) {
+    insertFields <- c(insertFields, "patient_out_oper_room_dt_id")
+    insertValues <- c(insertValues, patient_out_oper_room_dt_id)
+  }
+
+  if (missing(anesthesia_start_dt_tm)) {
+    anesthesia_start_dt_tm <- defaults$anesthesia_start_dt_tm
+  }
+  if (!is.null(anesthesia_start_dt_tm)) {
+    insertFields <- c(insertFields, "anesthesia_start_dt_tm")
+    insertValues <- c(insertValues, anesthesia_start_dt_tm)
+  }
+
+  if (missing(anesthesia_induct_dt_tm)) {
+    anesthesia_induct_dt_tm <- defaults$anesthesia_induct_dt_tm
+  }
+  if (!is.null(anesthesia_induct_dt_tm)) {
+    insertFields <- c(insertFields, "anesthesia_induct_dt_tm")
+    insertValues <- c(insertValues, anesthesia_induct_dt_tm)
+  }
+
+  if (missing(anesthesia_stop_dt_tm)) {
+    anesthesia_stop_dt_tm <- defaults$anesthesia_stop_dt_tm
+  }
+  if (!is.null(anesthesia_stop_dt_tm)) {
+    insertFields <- c(insertFields, "anesthesia_stop_dt_tm")
+    insertValues <- c(insertValues, anesthesia_stop_dt_tm)
+  }
+
+  if (missing(anesthesia_start_dt_id)) {
+    anesthesia_start_dt_id <- defaults$anesthesia_start_dt_id
+  }
+  if (!is.null(anesthesia_start_dt_id)) {
+    insertFields <- c(insertFields, "anesthesia_start_dt_id")
+    insertValues <- c(insertValues, anesthesia_start_dt_id)
+  }
+
+  if (missing(anesthesia_induct_dt_id)) {
+    anesthesia_induct_dt_id <- defaults$anesthesia_induct_dt_id
+  }
+  if (!is.null(anesthesia_induct_dt_id)) {
+    insertFields <- c(insertFields, "anesthesia_induct_dt_id")
+    insertValues <- c(insertValues, anesthesia_induct_dt_id)
+  }
+
+  if (missing(anesthesia_stop_dt_id)) {
+    anesthesia_stop_dt_id <- defaults$anesthesia_stop_dt_id
+  }
+  if (!is.null(anesthesia_stop_dt_id)) {
+    insertFields <- c(insertFields, "anesthesia_stop_dt_id")
+    insertValues <- c(insertValues, anesthesia_stop_dt_id)
+  }
+
+  if (missing(anesthesia_induct_stop_duratn)) {
+    anesthesia_induct_stop_duratn <- defaults$anesthesia_induct_stop_duratn
+  }
+  if (!is.null(anesthesia_induct_stop_duratn)) {
+    insertFields <- c(insertFields, "anesthesia_induct_stop_duratn")
+    insertValues <- c(insertValues, anesthesia_induct_stop_duratn)
+  }
+
+  if (missing(surgeon_in_oper_room_dt_tm)) {
+    surgeon_in_oper_room_dt_tm <- defaults$surgeon_in_oper_room_dt_tm
+  }
+  if (!is.null(surgeon_in_oper_room_dt_tm)) {
+    insertFields <- c(insertFields, "surgeon_in_oper_room_dt_tm")
+    insertValues <- c(insertValues, surgeon_in_oper_room_dt_tm)
+  }
+
+  if (missing(surgeon_in_oper_room_dt_id)) {
+    surgeon_in_oper_room_dt_id <- defaults$surgeon_in_oper_room_dt_id
+  }
+  if (!is.null(surgeon_in_oper_room_dt_id)) {
+    insertFields <- c(insertFields, "surgeon_in_oper_room_dt_id")
+    insertValues <- c(insertValues, surgeon_in_oper_room_dt_id)
+  }
+
+  if (missing(patient_in_pacu_dt_tm)) {
+    patient_in_pacu_dt_tm <- defaults$patient_in_pacu_dt_tm
+  }
+  if (!is.null(patient_in_pacu_dt_tm)) {
+    insertFields <- c(insertFields, "patient_in_pacu_dt_tm")
+    insertValues <- c(insertValues, patient_in_pacu_dt_tm)
+  }
+
+  if (missing(patient_out_pacu_dt_tm)) {
+    patient_out_pacu_dt_tm <- defaults$patient_out_pacu_dt_tm
+  }
+  if (!is.null(patient_out_pacu_dt_tm)) {
+    insertFields <- c(insertFields, "patient_out_pacu_dt_tm")
+    insertValues <- c(insertValues, patient_out_pacu_dt_tm)
+  }
+
+  if (missing(patient_in_pacu_ii_dt_tm)) {
+    patient_in_pacu_ii_dt_tm <- defaults$patient_in_pacu_ii_dt_tm
+  }
+  if (!is.null(patient_in_pacu_ii_dt_tm)) {
+    insertFields <- c(insertFields, "patient_in_pacu_ii_dt_tm")
+    insertValues <- c(insertValues, patient_in_pacu_ii_dt_tm)
+  }
+
+  if (missing(patient_out_pacu_ii_dt_tm)) {
+    patient_out_pacu_ii_dt_tm <- defaults$patient_out_pacu_ii_dt_tm
+  }
+  if (!is.null(patient_out_pacu_ii_dt_tm)) {
+    insertFields <- c(insertFields, "patient_out_pacu_ii_dt_tm")
+    insertValues <- c(insertValues, patient_out_pacu_ii_dt_tm)
+  }
+
+  if (missing(patient_in_pacu_dt_id)) {
+    patient_in_pacu_dt_id <- defaults$patient_in_pacu_dt_id
+  }
+  if (!is.null(patient_in_pacu_dt_id)) {
+    insertFields <- c(insertFields, "patient_in_pacu_dt_id")
+    insertValues <- c(insertValues, patient_in_pacu_dt_id)
+  }
+
+  if (missing(patient_out_pacu_dt_id)) {
+    patient_out_pacu_dt_id <- defaults$patient_out_pacu_dt_id
+  }
+  if (!is.null(patient_out_pacu_dt_id)) {
+    insertFields <- c(insertFields, "patient_out_pacu_dt_id")
+    insertValues <- c(insertValues, patient_out_pacu_dt_id)
+  }
+
+  if (missing(patient_in_pacu_ii_dt_id)) {
+    patient_in_pacu_ii_dt_id <- defaults$patient_in_pacu_ii_dt_id
+  }
+  if (!is.null(patient_in_pacu_ii_dt_id)) {
+    insertFields <- c(insertFields, "patient_in_pacu_ii_dt_id")
+    insertValues <- c(insertValues, patient_in_pacu_ii_dt_id)
+  }
+
+  if (missing(patient_out_pacu_ii_dt_id)) {
+    patient_out_pacu_ii_dt_id <- defaults$patient_out_pacu_ii_dt_id
+  }
+  if (!is.null(patient_out_pacu_ii_dt_id)) {
+    insertFields <- c(insertFields, "patient_out_pacu_ii_dt_id")
+    insertValues <- c(insertValues, patient_out_pacu_ii_dt_id)
+  }
+
+  if (missing(patient_in_oper_room_dt_id)) {
+    patient_in_oper_room_dt_id <- defaults$patient_in_oper_room_dt_id
+  }
+  if (!is.null(patient_in_oper_room_dt_id)) {
+    insertFields <- c(insertFields, "patient_in_oper_room_dt_id")
+    insertValues <- c(insertValues, patient_in_oper_room_dt_id)
+  }
+
+  if (missing(_extractyear)) {
+    _extractyear <- defaults$_extractyear
+  }
+  if (!is.null(_extractyear)) {
+    insertFields <- c(insertFields, "_extractyear")
+    insertValues <- c(insertValues, _extractyear)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_surgical_case', comment)
+  }
+  statement <- paste0("INSERT INTO hf_f_surgical_case (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_surgical_case', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+add_hf_f_surgical_procedure <- function(encounter_id, surgical_case_id, surgical_procedure_id, wound_class_id, asa_class_id, procedure_specialty_id, procedure_revision_ind, procedure_modifier_01_id, procedure_modifier_02_id, procedure_modifier_03_id, procedure_duration, procedure_start_dt_tm, procedure_stop_dt_tm, procedure_start_dt_id, procedure_stop_dt_id, primary_procedure_ind, scheduled_procedure_duration, procedure_completion_ind, concurrent_procedure_ind, anesthesia_type_id, expected_case_level_id, case_level_id, _extractyear) {
+  defaults <- frameworkContext$defaultValues$hf_f_surgical_procedure;
+  insertFields <- c()
+  insertValues <- c()
+  if (missing(encounter_id)) {
+    encounter_id <- defaults$encounter_id
+  }
+  if (!is.null(encounter_id)) {
+    insertFields <- c(insertFields, "encounter_id")
+    insertValues <- c(insertValues, encounter_id)
+  }
+
+  if (missing(surgical_case_id)) {
+    surgical_case_id <- defaults$surgical_case_id
+  }
+  if (!is.null(surgical_case_id)) {
+    insertFields <- c(insertFields, "surgical_case_id")
+    insertValues <- c(insertValues, surgical_case_id)
+  }
+
+  if (missing(surgical_procedure_id)) {
+    surgical_procedure_id <- defaults$surgical_procedure_id
+  }
+  if (!is.null(surgical_procedure_id)) {
+    insertFields <- c(insertFields, "surgical_procedure_id")
+    insertValues <- c(insertValues, surgical_procedure_id)
+  }
+
+  if (missing(wound_class_id)) {
+    wound_class_id <- defaults$wound_class_id
+  }
+  if (!is.null(wound_class_id)) {
+    insertFields <- c(insertFields, "wound_class_id")
+    insertValues <- c(insertValues, wound_class_id)
+  }
+
+  if (missing(asa_class_id)) {
+    asa_class_id <- defaults$asa_class_id
+  }
+  if (!is.null(asa_class_id)) {
+    insertFields <- c(insertFields, "asa_class_id")
+    insertValues <- c(insertValues, asa_class_id)
+  }
+
+  if (missing(procedure_specialty_id)) {
+    procedure_specialty_id <- defaults$procedure_specialty_id
+  }
+  if (!is.null(procedure_specialty_id)) {
+    insertFields <- c(insertFields, "procedure_specialty_id")
+    insertValues <- c(insertValues, procedure_specialty_id)
+  }
+
+  if (missing(procedure_revision_ind)) {
+    procedure_revision_ind <- defaults$procedure_revision_ind
+  }
+  if (!is.null(procedure_revision_ind)) {
+    insertFields <- c(insertFields, "procedure_revision_ind")
+    insertValues <- c(insertValues, procedure_revision_ind)
+  }
+
+  if (missing(procedure_modifier_01_id)) {
+    procedure_modifier_01_id <- defaults$procedure_modifier_01_id
+  }
+  if (!is.null(procedure_modifier_01_id)) {
+    insertFields <- c(insertFields, "procedure_modifier_01_id")
+    insertValues <- c(insertValues, procedure_modifier_01_id)
+  }
+
+  if (missing(procedure_modifier_02_id)) {
+    procedure_modifier_02_id <- defaults$procedure_modifier_02_id
+  }
+  if (!is.null(procedure_modifier_02_id)) {
+    insertFields <- c(insertFields, "procedure_modifier_02_id")
+    insertValues <- c(insertValues, procedure_modifier_02_id)
+  }
+
+  if (missing(procedure_modifier_03_id)) {
+    procedure_modifier_03_id <- defaults$procedure_modifier_03_id
+  }
+  if (!is.null(procedure_modifier_03_id)) {
+    insertFields <- c(insertFields, "procedure_modifier_03_id")
+    insertValues <- c(insertValues, procedure_modifier_03_id)
+  }
+
+  if (missing(procedure_duration)) {
+    procedure_duration <- defaults$procedure_duration
+  }
+  if (!is.null(procedure_duration)) {
+    insertFields <- c(insertFields, "procedure_duration")
+    insertValues <- c(insertValues, procedure_duration)
+  }
+
+  if (missing(procedure_start_dt_tm)) {
+    procedure_start_dt_tm <- defaults$procedure_start_dt_tm
+  }
+  if (!is.null(procedure_start_dt_tm)) {
+    insertFields <- c(insertFields, "procedure_start_dt_tm")
+    insertValues <- c(insertValues, procedure_start_dt_tm)
+  }
+
+  if (missing(procedure_stop_dt_tm)) {
+    procedure_stop_dt_tm <- defaults$procedure_stop_dt_tm
+  }
+  if (!is.null(procedure_stop_dt_tm)) {
+    insertFields <- c(insertFields, "procedure_stop_dt_tm")
+    insertValues <- c(insertValues, procedure_stop_dt_tm)
+  }
+
+  if (missing(procedure_start_dt_id)) {
+    procedure_start_dt_id <- defaults$procedure_start_dt_id
+  }
+  if (!is.null(procedure_start_dt_id)) {
+    insertFields <- c(insertFields, "procedure_start_dt_id")
+    insertValues <- c(insertValues, procedure_start_dt_id)
+  }
+
+  if (missing(procedure_stop_dt_id)) {
+    procedure_stop_dt_id <- defaults$procedure_stop_dt_id
+  }
+  if (!is.null(procedure_stop_dt_id)) {
+    insertFields <- c(insertFields, "procedure_stop_dt_id")
+    insertValues <- c(insertValues, procedure_stop_dt_id)
+  }
+
+  if (missing(primary_procedure_ind)) {
+    primary_procedure_ind <- defaults$primary_procedure_ind
+  }
+  if (!is.null(primary_procedure_ind)) {
+    insertFields <- c(insertFields, "primary_procedure_ind")
+    insertValues <- c(insertValues, primary_procedure_ind)
+  }
+
+  if (missing(scheduled_procedure_duration)) {
+    scheduled_procedure_duration <- defaults$scheduled_procedure_duration
+  }
+  if (!is.null(scheduled_procedure_duration)) {
+    insertFields <- c(insertFields, "scheduled_procedure_duration")
+    insertValues <- c(insertValues, scheduled_procedure_duration)
+  }
+
+  if (missing(procedure_completion_ind)) {
+    procedure_completion_ind <- defaults$procedure_completion_ind
+  }
+  if (!is.null(procedure_completion_ind)) {
+    insertFields <- c(insertFields, "procedure_completion_ind")
+    insertValues <- c(insertValues, procedure_completion_ind)
+  }
+
+  if (missing(concurrent_procedure_ind)) {
+    concurrent_procedure_ind <- defaults$concurrent_procedure_ind
+  }
+  if (!is.null(concurrent_procedure_ind)) {
+    insertFields <- c(insertFields, "concurrent_procedure_ind")
+    insertValues <- c(insertValues, concurrent_procedure_ind)
+  }
+
+  if (missing(anesthesia_type_id)) {
+    anesthesia_type_id <- defaults$anesthesia_type_id
+  }
+  if (!is.null(anesthesia_type_id)) {
+    insertFields <- c(insertFields, "anesthesia_type_id")
+    insertValues <- c(insertValues, anesthesia_type_id)
+  }
+
+  if (missing(expected_case_level_id)) {
+    expected_case_level_id <- defaults$expected_case_level_id
+  }
+  if (!is.null(expected_case_level_id)) {
+    insertFields <- c(insertFields, "expected_case_level_id")
+    insertValues <- c(insertValues, expected_case_level_id)
+  }
+
+  if (missing(case_level_id)) {
+    case_level_id <- defaults$case_level_id
+  }
+  if (!is.null(case_level_id)) {
+    insertFields <- c(insertFields, "case_level_id")
+    insertValues <- c(insertValues, case_level_id)
+  }
+
+  if (missing(_extractyear)) {
+    _extractyear <- defaults$_extractyear
+  }
+  if (!is.null(_extractyear)) {
+    insertFields <- c(insertFields, "_extractyear")
+    insertValues <- c(insertValues, _extractyear)
+  }
+
+  if (exists('testNewAdded', where = frameworkContext) && get('testNewAdded'))
+  {
+    frameworkContext$testNewAdded <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_surgical_procedure', comment)
+  }
+  statement <- paste0("INSERT INTO hf_f_surgical_procedure (", paste(insertFields, collapse = ", "), ") VALUES ('", paste(insertValues, collapse = "', '"), "');")
+  insertDf[nrow(insertDf) + 1,] <<- c('@source_schema.hf_f_surgical_procedure', statement)
+  frameworkContext$insertDf = insertDf;
+  invisible(statement);
+}
+
+expect_condition_occurrence <- function(condition_occurrence_id, person_id, condition_concept_id, condition_start_date, condition_start_datetime, condition_end_date, condition_end_datetime, condition_type_concept_id, stop_reason, provider_id, visit_occurrence_id, visit_detail_id, condition_source_value, condition_source_concept_id, condition_status_source_value, condition_status_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect condition_occurrence' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.condition_occurrence WHERE ")
+  whereClauses = NULL;
+  if (!missing(condition_occurrence_id)) {
+    if (is.null(condition_occurrence_id)) {
+      whereClauses <- c(whereClauses, "condition_occurrence_id IS NULL")
+    } else if (is(condition_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_occurrence_id = (", as.character(condition_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_occurrence_id = '", condition_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(condition_concept_id)) {
+    if (is.null(condition_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_concept_id IS NULL")
+    } else if (is(condition_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_concept_id = (", as.character(condition_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_concept_id = '", condition_concept_id,"'"))
+    }
+  }
+
+  if (!missing(condition_start_date)) {
+    if (is.null(condition_start_date)) {
+      whereClauses <- c(whereClauses, "condition_start_date IS NULL")
+    } else if (is(condition_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_start_date = (", as.character(condition_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_start_date = '", condition_start_date,"'"))
+    }
+  }
+
+  if (!missing(condition_start_datetime)) {
+    if (is.null(condition_start_datetime)) {
+      whereClauses <- c(whereClauses, "condition_start_datetime IS NULL")
+    } else if (is(condition_start_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_start_datetime = (", as.character(condition_start_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_start_datetime = '", condition_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(condition_end_date)) {
+    if (is.null(condition_end_date)) {
+      whereClauses <- c(whereClauses, "condition_end_date IS NULL")
+    } else if (is(condition_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_end_date = (", as.character(condition_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_end_date = '", condition_end_date,"'"))
+    }
+  }
+
+  if (!missing(condition_end_datetime)) {
+    if (is.null(condition_end_datetime)) {
+      whereClauses <- c(whereClauses, "condition_end_datetime IS NULL")
+    } else if (is(condition_end_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_end_datetime = (", as.character(condition_end_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_end_datetime = '", condition_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(condition_type_concept_id)) {
+    if (is.null(condition_type_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_type_concept_id IS NULL")
+    } else if (is(condition_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_type_concept_id = (", as.character(condition_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_type_concept_id = '", condition_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(stop_reason)) {
+    if (is.null(stop_reason)) {
+      whereClauses <- c(whereClauses, "stop_reason IS NULL")
+    } else if (is(stop_reason, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("stop_reason = (", as.character(stop_reason), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("stop_reason = '", stop_reason,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(condition_source_value)) {
+    if (is.null(condition_source_value)) {
+      whereClauses <- c(whereClauses, "condition_source_value IS NULL")
+    } else if (is(condition_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_source_value = (", as.character(condition_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_source_value = '", condition_source_value,"'"))
+    }
+  }
+
+  if (!missing(condition_source_concept_id)) {
+    if (is.null(condition_source_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_source_concept_id IS NULL")
+    } else if (is(condition_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_source_concept_id = (", as.character(condition_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_source_concept_id = '", condition_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(condition_status_source_value)) {
+    if (is.null(condition_status_source_value)) {
+      whereClauses <- c(whereClauses, "condition_status_source_value IS NULL")
+    } else if (is(condition_status_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_status_source_value = (", as.character(condition_status_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_status_source_value = '", condition_status_source_value,"'"))
+    }
+  }
+
+  if (!missing(condition_status_concept_id)) {
+    if (is.null(condition_status_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_status_concept_id IS NULL")
+    } else if (is(condition_status_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_status_concept_id = (", as.character(condition_status_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_status_concept_id = '", condition_status_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_death <- function(person_id, death_date, death_datetime, death_type_concept_id, cause_concept_id, cause_source_value, cause_source_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect death' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.death WHERE ")
+  whereClauses = NULL;
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(death_date)) {
+    if (is.null(death_date)) {
+      whereClauses <- c(whereClauses, "death_date IS NULL")
+    } else if (is(death_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("death_date = (", as.character(death_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("death_date = '", death_date,"'"))
+    }
+  }
+
+  if (!missing(death_datetime)) {
+    if (is.null(death_datetime)) {
+      whereClauses <- c(whereClauses, "death_datetime IS NULL")
+    } else if (is(death_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("death_datetime = (", as.character(death_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("death_datetime = '", death_datetime,"'"))
+    }
+  }
+
+  if (!missing(death_type_concept_id)) {
+    if (is.null(death_type_concept_id)) {
+      whereClauses <- c(whereClauses, "death_type_concept_id IS NULL")
+    } else if (is(death_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("death_type_concept_id = (", as.character(death_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("death_type_concept_id = '", death_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(cause_concept_id)) {
+    if (is.null(cause_concept_id)) {
+      whereClauses <- c(whereClauses, "cause_concept_id IS NULL")
+    } else if (is(cause_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cause_concept_id = (", as.character(cause_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cause_concept_id = '", cause_concept_id,"'"))
+    }
+  }
+
+  if (!missing(cause_source_value)) {
+    if (is.null(cause_source_value)) {
+      whereClauses <- c(whereClauses, "cause_source_value IS NULL")
+    } else if (is(cause_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cause_source_value = (", as.character(cause_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cause_source_value = '", cause_source_value,"'"))
+    }
+  }
+
+  if (!missing(cause_source_concept_id)) {
+    if (is.null(cause_source_concept_id)) {
+      whereClauses <- c(whereClauses, "cause_source_concept_id IS NULL")
+    } else if (is(cause_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cause_source_concept_id = (", as.character(cause_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cause_source_concept_id = '", cause_source_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_device_exposure <- function(device_exposure_id, person_id, device_concept_id, device_exposure_start_date, device_exposure_start_datetime, device_exposure_end_date, device_exposure_end_datetime, device_type_concept_id, unique_device_id, quantity, provider_id, visit_occurrence_id, device_source_value, device_source__concept_id, visit_detail_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect device_exposure' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.device_exposure WHERE ")
+  whereClauses = NULL;
+  if (!missing(device_exposure_id)) {
+    if (is.null(device_exposure_id)) {
+      whereClauses <- c(whereClauses, "device_exposure_id IS NULL")
+    } else if (is(device_exposure_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_exposure_id = (", as.character(device_exposure_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_id = '", device_exposure_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(device_concept_id)) {
+    if (is.null(device_concept_id)) {
+      whereClauses <- c(whereClauses, "device_concept_id IS NULL")
+    } else if (is(device_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_concept_id = (", as.character(device_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_concept_id = '", device_concept_id,"'"))
+    }
+  }
+
+  if (!missing(device_exposure_start_date)) {
+    if (is.null(device_exposure_start_date)) {
+      whereClauses <- c(whereClauses, "device_exposure_start_date IS NULL")
+    } else if (is(device_exposure_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_exposure_start_date = (", as.character(device_exposure_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_start_date = '", device_exposure_start_date,"'"))
+    }
+  }
+
+  if (!missing(device_exposure_start_datetime)) {
+    if (is.null(device_exposure_start_datetime)) {
+      whereClauses <- c(whereClauses, "device_exposure_start_datetime IS NULL")
+    } else if (is(device_exposure_start_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_exposure_start_datetime = (", as.character(device_exposure_start_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_start_datetime = '", device_exposure_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(device_exposure_end_date)) {
+    if (is.null(device_exposure_end_date)) {
+      whereClauses <- c(whereClauses, "device_exposure_end_date IS NULL")
+    } else if (is(device_exposure_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_exposure_end_date = (", as.character(device_exposure_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_end_date = '", device_exposure_end_date,"'"))
+    }
+  }
+
+  if (!missing(device_exposure_end_datetime)) {
+    if (is.null(device_exposure_end_datetime)) {
+      whereClauses <- c(whereClauses, "device_exposure_end_datetime IS NULL")
+    } else if (is(device_exposure_end_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_exposure_end_datetime = (", as.character(device_exposure_end_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_end_datetime = '", device_exposure_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(device_type_concept_id)) {
+    if (is.null(device_type_concept_id)) {
+      whereClauses <- c(whereClauses, "device_type_concept_id IS NULL")
+    } else if (is(device_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_type_concept_id = (", as.character(device_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_type_concept_id = '", device_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unique_device_id)) {
+    if (is.null(unique_device_id)) {
+      whereClauses <- c(whereClauses, "unique_device_id IS NULL")
+    } else if (is(unique_device_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unique_device_id = (", as.character(unique_device_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unique_device_id = '", unique_device_id,"'"))
+    }
+  }
+
+  if (!missing(quantity)) {
+    if (is.null(quantity)) {
+      whereClauses <- c(whereClauses, "quantity IS NULL")
+    } else if (is(quantity, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("quantity = (", as.character(quantity), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("quantity = '", quantity,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(device_source_value)) {
+    if (is.null(device_source_value)) {
+      whereClauses <- c(whereClauses, "device_source_value IS NULL")
+    } else if (is(device_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_source_value = (", as.character(device_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_source_value = '", device_source_value,"'"))
+    }
+  }
+
+  if (!missing(device_source__concept_id)) {
+    if (is.null(device_source__concept_id)) {
+      whereClauses <- c(whereClauses, "[device_source_ concept_id] IS NULL")
+    } else if (is(device_source__concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("[device_source_ concept_id] = (", as.character(device_source__concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("[device_source_ concept_id] = '", device_source__concept_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_drug_exposure <- function(drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_start_datetime, drug_exposure_end_date, drug_exposure_end_datetime, verbatim_end_date, drug_type_concept_id, stop_reason, refills, quantity, days_supply, sig, route_concept_id, lot_number, provider_id, visit_occurrence_id, drug_source_value, drug_source_concept_id, route_source_value, dose_unit_source_value, visit_detail_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect drug_exposure' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.drug_exposure WHERE ")
+  whereClauses = NULL;
+  if (!missing(drug_exposure_id)) {
+    if (is.null(drug_exposure_id)) {
+      whereClauses <- c(whereClauses, "drug_exposure_id IS NULL")
+    } else if (is(drug_exposure_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_id = (", as.character(drug_exposure_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_id = '", drug_exposure_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(drug_concept_id)) {
+    if (is.null(drug_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_concept_id IS NULL")
+    } else if (is(drug_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = (", as.character(drug_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = '", drug_concept_id,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_start_date)) {
+    if (is.null(drug_exposure_start_date)) {
+      whereClauses <- c(whereClauses, "drug_exposure_start_date IS NULL")
+    } else if (is(drug_exposure_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_start_date = (", as.character(drug_exposure_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_start_date = '", drug_exposure_start_date,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_start_datetime)) {
+    if (is.null(drug_exposure_start_datetime)) {
+      whereClauses <- c(whereClauses, "drug_exposure_start_datetime IS NULL")
+    } else if (is(drug_exposure_start_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_start_datetime = (", as.character(drug_exposure_start_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_start_datetime = '", drug_exposure_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_end_date)) {
+    if (is.null(drug_exposure_end_date)) {
+      whereClauses <- c(whereClauses, "drug_exposure_end_date IS NULL")
+    } else if (is(drug_exposure_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_end_date = (", as.character(drug_exposure_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_end_date = '", drug_exposure_end_date,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_end_datetime)) {
+    if (is.null(drug_exposure_end_datetime)) {
+      whereClauses <- c(whereClauses, "drug_exposure_end_datetime IS NULL")
+    } else if (is(drug_exposure_end_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_end_datetime = (", as.character(drug_exposure_end_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_end_datetime = '", drug_exposure_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(verbatim_end_date)) {
+    if (is.null(verbatim_end_date)) {
+      whereClauses <- c(whereClauses, "verbatim_end_date IS NULL")
+    } else if (is(verbatim_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("verbatim_end_date = (", as.character(verbatim_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("verbatim_end_date = '", verbatim_end_date,"'"))
+    }
+  }
+
+  if (!missing(drug_type_concept_id)) {
+    if (is.null(drug_type_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_type_concept_id IS NULL")
+    } else if (is(drug_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_type_concept_id = (", as.character(drug_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_type_concept_id = '", drug_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(stop_reason)) {
+    if (is.null(stop_reason)) {
+      whereClauses <- c(whereClauses, "stop_reason IS NULL")
+    } else if (is(stop_reason, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("stop_reason = (", as.character(stop_reason), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("stop_reason = '", stop_reason,"'"))
+    }
+  }
+
+  if (!missing(refills)) {
+    if (is.null(refills)) {
+      whereClauses <- c(whereClauses, "refills IS NULL")
+    } else if (is(refills, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("refills = (", as.character(refills), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("refills = '", refills,"'"))
+    }
+  }
+
+  if (!missing(quantity)) {
+    if (is.null(quantity)) {
+      whereClauses <- c(whereClauses, "quantity IS NULL")
+    } else if (is(quantity, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("quantity = (", as.character(quantity), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("quantity = '", quantity,"'"))
+    }
+  }
+
+  if (!missing(days_supply)) {
+    if (is.null(days_supply)) {
+      whereClauses <- c(whereClauses, "days_supply IS NULL")
+    } else if (is(days_supply, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("days_supply = (", as.character(days_supply), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("days_supply = '", days_supply,"'"))
+    }
+  }
+
+  if (!missing(sig)) {
+    if (is.null(sig)) {
+      whereClauses <- c(whereClauses, "sig IS NULL")
+    } else if (is(sig, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("sig = (", as.character(sig), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("sig = '", sig,"'"))
+    }
+  }
+
+  if (!missing(route_concept_id)) {
+    if (is.null(route_concept_id)) {
+      whereClauses <- c(whereClauses, "route_concept_id IS NULL")
+    } else if (is(route_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("route_concept_id = (", as.character(route_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("route_concept_id = '", route_concept_id,"'"))
+    }
+  }
+
+  if (!missing(lot_number)) {
+    if (is.null(lot_number)) {
+      whereClauses <- c(whereClauses, "lot_number IS NULL")
+    } else if (is(lot_number, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("lot_number = (", as.character(lot_number), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("lot_number = '", lot_number,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(drug_source_value)) {
+    if (is.null(drug_source_value)) {
+      whereClauses <- c(whereClauses, "drug_source_value IS NULL")
+    } else if (is(drug_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_source_value = (", as.character(drug_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_source_value = '", drug_source_value,"'"))
+    }
+  }
+
+  if (!missing(drug_source_concept_id)) {
+    if (is.null(drug_source_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_source_concept_id IS NULL")
+    } else if (is(drug_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_source_concept_id = (", as.character(drug_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_source_concept_id = '", drug_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(route_source_value)) {
+    if (is.null(route_source_value)) {
+      whereClauses <- c(whereClauses, "route_source_value IS NULL")
+    } else if (is(route_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("route_source_value = (", as.character(route_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("route_source_value = '", route_source_value,"'"))
+    }
+  }
+
+  if (!missing(dose_unit_source_value)) {
+    if (is.null(dose_unit_source_value)) {
+      whereClauses <- c(whereClauses, "dose_unit_source_value IS NULL")
+    } else if (is(dose_unit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dose_unit_source_value = (", as.character(dose_unit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_unit_source_value = '", dose_unit_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_fact_relationship <- function(domain_concept_id_1, fact_id_1, domain_concept_id_2, fact_id_2, relationship_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect fact_relationship' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.fact_relationship WHERE ")
+  whereClauses = NULL;
+  if (!missing(domain_concept_id_1)) {
+    if (is.null(domain_concept_id_1)) {
+      whereClauses <- c(whereClauses, "domain_concept_id_1 IS NULL")
+    } else if (is(domain_concept_id_1, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("domain_concept_id_1 = (", as.character(domain_concept_id_1), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("domain_concept_id_1 = '", domain_concept_id_1,"'"))
+    }
+  }
+
+  if (!missing(fact_id_1)) {
+    if (is.null(fact_id_1)) {
+      whereClauses <- c(whereClauses, "fact_id_1 IS NULL")
+    } else if (is(fact_id_1, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("fact_id_1 = (", as.character(fact_id_1), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("fact_id_1 = '", fact_id_1,"'"))
+    }
+  }
+
+  if (!missing(domain_concept_id_2)) {
+    if (is.null(domain_concept_id_2)) {
+      whereClauses <- c(whereClauses, "domain_concept_id_2 IS NULL")
+    } else if (is(domain_concept_id_2, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("domain_concept_id_2 = (", as.character(domain_concept_id_2), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("domain_concept_id_2 = '", domain_concept_id_2,"'"))
+    }
+  }
+
+  if (!missing(fact_id_2)) {
+    if (is.null(fact_id_2)) {
+      whereClauses <- c(whereClauses, "fact_id_2 IS NULL")
+    } else if (is(fact_id_2, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("fact_id_2 = (", as.character(fact_id_2), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("fact_id_2 = '", fact_id_2,"'"))
+    }
+  }
+
+  if (!missing(relationship_concept_id)) {
+    if (is.null(relationship_concept_id)) {
+      whereClauses <- c(whereClauses, "relationship_concept_id IS NULL")
+    } else if (is(relationship_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("relationship_concept_id = (", as.character(relationship_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("relationship_concept_id = '", relationship_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_measurement <- function(measurement_id, person_id, measurement_concept_id, measurement_date, measurement_datetime, measurement_type_concept_id, operator_concept_id, value_as_number, value_as_concept_id, unit_concept_id, range_low, range_high, provider_id, visit_occurrence_id, visit_detail_id, measurement_source_value, measurement_source_concept_id, unit_source_value, value_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect measurement' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.measurement WHERE ")
+  whereClauses = NULL;
+  if (!missing(measurement_id)) {
+    if (is.null(measurement_id)) {
+      whereClauses <- c(whereClauses, "measurement_id IS NULL")
+    } else if (is(measurement_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_id = (", as.character(measurement_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_id = '", measurement_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(measurement_concept_id)) {
+    if (is.null(measurement_concept_id)) {
+      whereClauses <- c(whereClauses, "measurement_concept_id IS NULL")
+    } else if (is(measurement_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_concept_id = (", as.character(measurement_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_concept_id = '", measurement_concept_id,"'"))
+    }
+  }
+
+  if (!missing(measurement_date)) {
+    if (is.null(measurement_date)) {
+      whereClauses <- c(whereClauses, "measurement_date IS NULL")
+    } else if (is(measurement_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_date = (", as.character(measurement_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_date = '", measurement_date,"'"))
+    }
+  }
+
+  if (!missing(measurement_datetime)) {
+    if (is.null(measurement_datetime)) {
+      whereClauses <- c(whereClauses, "measurement_datetime IS NULL")
+    } else if (is(measurement_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_datetime = (", as.character(measurement_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_datetime = '", measurement_datetime,"'"))
+    }
+  }
+
+  if (!missing(measurement_type_concept_id)) {
+    if (is.null(measurement_type_concept_id)) {
+      whereClauses <- c(whereClauses, "measurement_type_concept_id IS NULL")
+    } else if (is(measurement_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_type_concept_id = (", as.character(measurement_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_type_concept_id = '", measurement_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(operator_concept_id)) {
+    if (is.null(operator_concept_id)) {
+      whereClauses <- c(whereClauses, "operator_concept_id IS NULL")
+    } else if (is(operator_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("operator_concept_id = (", as.character(operator_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("operator_concept_id = '", operator_concept_id,"'"))
+    }
+  }
+
+  if (!missing(value_as_number)) {
+    if (is.null(value_as_number)) {
+      whereClauses <- c(whereClauses, "value_as_number IS NULL")
+    } else if (is(value_as_number, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_number = (", as.character(value_as_number), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_number = '", value_as_number,"'"))
+    }
+  }
+
+  if (!missing(value_as_concept_id)) {
+    if (is.null(value_as_concept_id)) {
+      whereClauses <- c(whereClauses, "value_as_concept_id IS NULL")
+    } else if (is(value_as_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = (", as.character(value_as_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = '", value_as_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_concept_id)) {
+    if (is.null(unit_concept_id)) {
+      whereClauses <- c(whereClauses, "unit_concept_id IS NULL")
+    } else if (is(unit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = (", as.character(unit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = '", unit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(range_low)) {
+    if (is.null(range_low)) {
+      whereClauses <- c(whereClauses, "range_low IS NULL")
+    } else if (is(range_low, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("range_low = (", as.character(range_low), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("range_low = '", range_low,"'"))
+    }
+  }
+
+  if (!missing(range_high)) {
+    if (is.null(range_high)) {
+      whereClauses <- c(whereClauses, "range_high IS NULL")
+    } else if (is(range_high, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("range_high = (", as.character(range_high), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("range_high = '", range_high,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(measurement_source_value)) {
+    if (is.null(measurement_source_value)) {
+      whereClauses <- c(whereClauses, "measurement_source_value IS NULL")
+    } else if (is(measurement_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_source_value = (", as.character(measurement_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_source_value = '", measurement_source_value,"'"))
+    }
+  }
+
+  if (!missing(measurement_source_concept_id)) {
+    if (is.null(measurement_source_concept_id)) {
+      whereClauses <- c(whereClauses, "measurement_source_concept_id IS NULL")
+    } else if (is(measurement_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_source_concept_id = (", as.character(measurement_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_source_concept_id = '", measurement_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_source_value)) {
+    if (is.null(unit_source_value)) {
+      whereClauses <- c(whereClauses, "unit_source_value IS NULL")
+    } else if (is(unit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_source_value = (", as.character(unit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_source_value = '", unit_source_value,"'"))
+    }
+  }
+
+  if (!missing(value_source_value)) {
+    if (is.null(value_source_value)) {
+      whereClauses <- c(whereClauses, "value_source_value IS NULL")
+    } else if (is(value_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_source_value = (", as.character(value_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_source_value = '", value_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_note <- function(note_id, person_id, note_date, note_datetime, note_type_concept_id, note_class_concept_id, note_title, note_text, encoding_concept_id, language_concept_id, provider_id, note_source_value, visit_occurrence_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect note' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.note WHERE ")
+  whereClauses = NULL;
+  if (!missing(note_id)) {
+    if (is.null(note_id)) {
+      whereClauses <- c(whereClauses, "note_id IS NULL")
+    } else if (is(note_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_id = (", as.character(note_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_id = '", note_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(note_date)) {
+    if (is.null(note_date)) {
+      whereClauses <- c(whereClauses, "note_date IS NULL")
+    } else if (is(note_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_date = (", as.character(note_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_date = '", note_date,"'"))
+    }
+  }
+
+  if (!missing(note_datetime)) {
+    if (is.null(note_datetime)) {
+      whereClauses <- c(whereClauses, "note_datetime IS NULL")
+    } else if (is(note_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_datetime = (", as.character(note_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_datetime = '", note_datetime,"'"))
+    }
+  }
+
+  if (!missing(note_type_concept_id)) {
+    if (is.null(note_type_concept_id)) {
+      whereClauses <- c(whereClauses, "note_type_concept_id IS NULL")
+    } else if (is(note_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_type_concept_id = (", as.character(note_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_type_concept_id = '", note_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(note_class_concept_id)) {
+    if (is.null(note_class_concept_id)) {
+      whereClauses <- c(whereClauses, "note_class_concept_id IS NULL")
+    } else if (is(note_class_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_class_concept_id = (", as.character(note_class_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_class_concept_id = '", note_class_concept_id,"'"))
+    }
+  }
+
+  if (!missing(note_title)) {
+    if (is.null(note_title)) {
+      whereClauses <- c(whereClauses, "note_title IS NULL")
+    } else if (is(note_title, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_title = (", as.character(note_title), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_title = '", note_title,"'"))
+    }
+  }
+
+  if (!missing(note_text)) {
+    if (is.null(note_text)) {
+      whereClauses <- c(whereClauses, "note_text IS NULL")
+    } else if (is(note_text, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_text = (", as.character(note_text), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_text = '", note_text,"'"))
+    }
+  }
+
+  if (!missing(encoding_concept_id)) {
+    if (is.null(encoding_concept_id)) {
+      whereClauses <- c(whereClauses, "encoding_concept_id IS NULL")
+    } else if (is(encoding_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("encoding_concept_id = (", as.character(encoding_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("encoding_concept_id = '", encoding_concept_id,"'"))
+    }
+  }
+
+  if (!missing(language_concept_id)) {
+    if (is.null(language_concept_id)) {
+      whereClauses <- c(whereClauses, "language_concept_id IS NULL")
+    } else if (is(language_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("language_concept_id = (", as.character(language_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("language_concept_id = '", language_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(note_source_value)) {
+    if (is.null(note_source_value)) {
+      whereClauses <- c(whereClauses, "note_source_value IS NULL")
+    } else if (is(note_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_source_value = (", as.character(note_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_source_value = '", note_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_note_nlp <- function(note_nlp_id, note_id, section_concept_id, snippet, offset, lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_date_time, term_exists, term_temporal, term_modifiers) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect note_nlp' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.note_nlp WHERE ")
+  whereClauses = NULL;
+  if (!missing(note_nlp_id)) {
+    if (is.null(note_nlp_id)) {
+      whereClauses <- c(whereClauses, "note_nlp_id IS NULL")
+    } else if (is(note_nlp_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_nlp_id = (", as.character(note_nlp_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_nlp_id = '", note_nlp_id,"'"))
+    }
+  }
+
+  if (!missing(note_id)) {
+    if (is.null(note_id)) {
+      whereClauses <- c(whereClauses, "note_id IS NULL")
+    } else if (is(note_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_id = (", as.character(note_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_id = '", note_id,"'"))
+    }
+  }
+
+  if (!missing(section_concept_id)) {
+    if (is.null(section_concept_id)) {
+      whereClauses <- c(whereClauses, "section_concept_id IS NULL")
+    } else if (is(section_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("section_concept_id = (", as.character(section_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("section_concept_id = '", section_concept_id,"'"))
+    }
+  }
+
+  if (!missing(snippet)) {
+    if (is.null(snippet)) {
+      whereClauses <- c(whereClauses, "snippet IS NULL")
+    } else if (is(snippet, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("snippet = (", as.character(snippet), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("snippet = '", snippet,"'"))
+    }
+  }
+
+  if (!missing(offset)) {
+    if (is.null(offset)) {
+      whereClauses <- c(whereClauses, "offset IS NULL")
+    } else if (is(offset, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("offset = (", as.character(offset), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("offset = '", offset,"'"))
+    }
+  }
+
+  if (!missing(lexical_variant)) {
+    if (is.null(lexical_variant)) {
+      whereClauses <- c(whereClauses, "lexical_variant IS NULL")
+    } else if (is(lexical_variant, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("lexical_variant = (", as.character(lexical_variant), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("lexical_variant = '", lexical_variant,"'"))
+    }
+  }
+
+  if (!missing(note_nlp_concept_id)) {
+    if (is.null(note_nlp_concept_id)) {
+      whereClauses <- c(whereClauses, "note_nlp_concept_id IS NULL")
+    } else if (is(note_nlp_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_nlp_concept_id = (", as.character(note_nlp_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_nlp_concept_id = '", note_nlp_concept_id,"'"))
+    }
+  }
+
+  if (!missing(note_nlp_source_concept_id)) {
+    if (is.null(note_nlp_source_concept_id)) {
+      whereClauses <- c(whereClauses, "note_nlp_source_concept_id IS NULL")
+    } else if (is(note_nlp_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_nlp_source_concept_id = (", as.character(note_nlp_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_nlp_source_concept_id = '", note_nlp_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(nlp_system)) {
+    if (is.null(nlp_system)) {
+      whereClauses <- c(whereClauses, "nlp_system IS NULL")
+    } else if (is(nlp_system, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("nlp_system = (", as.character(nlp_system), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("nlp_system = '", nlp_system,"'"))
+    }
+  }
+
+  if (!missing(nlp_date)) {
+    if (is.null(nlp_date)) {
+      whereClauses <- c(whereClauses, "nlp_date IS NULL")
+    } else if (is(nlp_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("nlp_date = (", as.character(nlp_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("nlp_date = '", nlp_date,"'"))
+    }
+  }
+
+  if (!missing(nlp_date_time)) {
+    if (is.null(nlp_date_time)) {
+      whereClauses <- c(whereClauses, "nlp_date_time IS NULL")
+    } else if (is(nlp_date_time, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("nlp_date_time = (", as.character(nlp_date_time), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("nlp_date_time = '", nlp_date_time,"'"))
+    }
+  }
+
+  if (!missing(term_exists)) {
+    if (is.null(term_exists)) {
+      whereClauses <- c(whereClauses, "term_exists IS NULL")
+    } else if (is(term_exists, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("term_exists = (", as.character(term_exists), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("term_exists = '", term_exists,"'"))
+    }
+  }
+
+  if (!missing(term_temporal)) {
+    if (is.null(term_temporal)) {
+      whereClauses <- c(whereClauses, "term_temporal IS NULL")
+    } else if (is(term_temporal, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("term_temporal = (", as.character(term_temporal), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("term_temporal = '", term_temporal,"'"))
+    }
+  }
+
+  if (!missing(term_modifiers)) {
+    if (is.null(term_modifiers)) {
+      whereClauses <- c(whereClauses, "term_modifiers IS NULL")
+    } else if (is(term_modifiers, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("term_modifiers = (", as.character(term_modifiers), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("term_modifiers = '", term_modifiers,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_observation <- function(observation_id, person_id, observation_concept_id, observation_date, observation_datetime, observation_type_concept_id, value_as_number, value_as_string, value_as_concept_id, qualifier_concept_id, unit_concept_id, provider_id, visit_occurrence_id, visit_detail_id, observation_source_value, observation_source_concept_id, unit_source_value, qualifier_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect observation' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.observation WHERE ")
+  whereClauses = NULL;
+  if (!missing(observation_id)) {
+    if (is.null(observation_id)) {
+      whereClauses <- c(whereClauses, "observation_id IS NULL")
+    } else if (is(observation_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_id = (", as.character(observation_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_id = '", observation_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(observation_concept_id)) {
+    if (is.null(observation_concept_id)) {
+      whereClauses <- c(whereClauses, "observation_concept_id IS NULL")
+    } else if (is(observation_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_concept_id = (", as.character(observation_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_concept_id = '", observation_concept_id,"'"))
+    }
+  }
+
+  if (!missing(observation_date)) {
+    if (is.null(observation_date)) {
+      whereClauses <- c(whereClauses, "observation_date IS NULL")
+    } else if (is(observation_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_date = (", as.character(observation_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_date = '", observation_date,"'"))
+    }
+  }
+
+  if (!missing(observation_datetime)) {
+    if (is.null(observation_datetime)) {
+      whereClauses <- c(whereClauses, "observation_datetime IS NULL")
+    } else if (is(observation_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_datetime = (", as.character(observation_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_datetime = '", observation_datetime,"'"))
+    }
+  }
+
+  if (!missing(observation_type_concept_id)) {
+    if (is.null(observation_type_concept_id)) {
+      whereClauses <- c(whereClauses, "observation_type_concept_id IS NULL")
+    } else if (is(observation_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_type_concept_id = (", as.character(observation_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_type_concept_id = '", observation_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(value_as_number)) {
+    if (is.null(value_as_number)) {
+      whereClauses <- c(whereClauses, "value_as_number IS NULL")
+    } else if (is(value_as_number, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_number = (", as.character(value_as_number), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_number = '", value_as_number,"'"))
+    }
+  }
+
+  if (!missing(value_as_string)) {
+    if (is.null(value_as_string)) {
+      whereClauses <- c(whereClauses, "value_as_string IS NULL")
+    } else if (is(value_as_string, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_string = (", as.character(value_as_string), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_string = '", value_as_string,"'"))
+    }
+  }
+
+  if (!missing(value_as_concept_id)) {
+    if (is.null(value_as_concept_id)) {
+      whereClauses <- c(whereClauses, "value_as_concept_id IS NULL")
+    } else if (is(value_as_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = (", as.character(value_as_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = '", value_as_concept_id,"'"))
+    }
+  }
+
+  if (!missing(qualifier_concept_id)) {
+    if (is.null(qualifier_concept_id)) {
+      whereClauses <- c(whereClauses, "qualifier_concept_id IS NULL")
+    } else if (is(qualifier_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("qualifier_concept_id = (", as.character(qualifier_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("qualifier_concept_id = '", qualifier_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_concept_id)) {
+    if (is.null(unit_concept_id)) {
+      whereClauses <- c(whereClauses, "unit_concept_id IS NULL")
+    } else if (is(unit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = (", as.character(unit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = '", unit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(observation_source_value)) {
+    if (is.null(observation_source_value)) {
+      whereClauses <- c(whereClauses, "observation_source_value IS NULL")
+    } else if (is(observation_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_source_value = (", as.character(observation_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_source_value = '", observation_source_value,"'"))
+    }
+  }
+
+  if (!missing(observation_source_concept_id)) {
+    if (is.null(observation_source_concept_id)) {
+      whereClauses <- c(whereClauses, "observation_source_concept_id IS NULL")
+    } else if (is(observation_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_source_concept_id = (", as.character(observation_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_source_concept_id = '", observation_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_source_value)) {
+    if (is.null(unit_source_value)) {
+      whereClauses <- c(whereClauses, "unit_source_value IS NULL")
+    } else if (is(unit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_source_value = (", as.character(unit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_source_value = '", unit_source_value,"'"))
+    }
+  }
+
+  if (!missing(qualifier_source_value)) {
+    if (is.null(qualifier_source_value)) {
+      whereClauses <- c(whereClauses, "qualifier_source_value IS NULL")
+    } else if (is(qualifier_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("qualifier_source_value = (", as.character(qualifier_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("qualifier_source_value = '", qualifier_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_observation_period <- function(observation_period_id, person_id, observation_period_start_date, observation_period_end_date, period_type_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect observation_period' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.observation_period WHERE ")
+  whereClauses = NULL;
+  if (!missing(observation_period_id)) {
+    if (is.null(observation_period_id)) {
+      whereClauses <- c(whereClauses, "observation_period_id IS NULL")
+    } else if (is(observation_period_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_period_id = (", as.character(observation_period_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_period_id = '", observation_period_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(observation_period_start_date)) {
+    if (is.null(observation_period_start_date)) {
+      whereClauses <- c(whereClauses, "observation_period_start_date IS NULL")
+    } else if (is(observation_period_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_period_start_date = (", as.character(observation_period_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_period_start_date = '", observation_period_start_date,"'"))
+    }
+  }
+
+  if (!missing(observation_period_end_date)) {
+    if (is.null(observation_period_end_date)) {
+      whereClauses <- c(whereClauses, "observation_period_end_date IS NULL")
+    } else if (is(observation_period_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_period_end_date = (", as.character(observation_period_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_period_end_date = '", observation_period_end_date,"'"))
+    }
+  }
+
+  if (!missing(period_type_concept_id)) {
+    if (is.null(period_type_concept_id)) {
+      whereClauses <- c(whereClauses, "period_type_concept_id IS NULL")
+    } else if (is(period_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("period_type_concept_id = (", as.character(period_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("period_type_concept_id = '", period_type_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_person <- function(person_id, gender_concept_id, year_of_birth, month_of_birth, day_of_birth, birth_datetime, race_concept_id, ethnicity_concept_id, location_id, provider_id, care_site_id, person_source_value, gender_source_value, gender_source_concept_id, race_source_value, race_source_concept_id, ethnicity_source_value, ethnicity_source_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect person' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.person WHERE ")
+  whereClauses = NULL;
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(gender_concept_id)) {
+    if (is.null(gender_concept_id)) {
+      whereClauses <- c(whereClauses, "gender_concept_id IS NULL")
+    } else if (is(gender_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_concept_id = (", as.character(gender_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_concept_id = '", gender_concept_id,"'"))
+    }
+  }
+
+  if (!missing(year_of_birth)) {
+    if (is.null(year_of_birth)) {
+      whereClauses <- c(whereClauses, "year_of_birth IS NULL")
+    } else if (is(year_of_birth, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("year_of_birth = (", as.character(year_of_birth), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("year_of_birth = '", year_of_birth,"'"))
+    }
+  }
+
+  if (!missing(month_of_birth)) {
+    if (is.null(month_of_birth)) {
+      whereClauses <- c(whereClauses, "month_of_birth IS NULL")
+    } else if (is(month_of_birth, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("month_of_birth = (", as.character(month_of_birth), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("month_of_birth = '", month_of_birth,"'"))
+    }
+  }
+
+  if (!missing(day_of_birth)) {
+    if (is.null(day_of_birth)) {
+      whereClauses <- c(whereClauses, "day_of_birth IS NULL")
+    } else if (is(day_of_birth, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("day_of_birth = (", as.character(day_of_birth), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("day_of_birth = '", day_of_birth,"'"))
+    }
+  }
+
+  if (!missing(birth_datetime)) {
+    if (is.null(birth_datetime)) {
+      whereClauses <- c(whereClauses, "birth_datetime IS NULL")
+    } else if (is(birth_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("birth_datetime = (", as.character(birth_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("birth_datetime = '", birth_datetime,"'"))
+    }
+  }
+
+  if (!missing(race_concept_id)) {
+    if (is.null(race_concept_id)) {
+      whereClauses <- c(whereClauses, "race_concept_id IS NULL")
+    } else if (is(race_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("race_concept_id = (", as.character(race_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("race_concept_id = '", race_concept_id,"'"))
+    }
+  }
+
+  if (!missing(ethnicity_concept_id)) {
+    if (is.null(ethnicity_concept_id)) {
+      whereClauses <- c(whereClauses, "ethnicity_concept_id IS NULL")
+    } else if (is(ethnicity_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("ethnicity_concept_id = (", as.character(ethnicity_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("ethnicity_concept_id = '", ethnicity_concept_id,"'"))
+    }
+  }
+
+  if (!missing(location_id)) {
+    if (is.null(location_id)) {
+      whereClauses <- c(whereClauses, "location_id IS NULL")
+    } else if (is(location_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("location_id = (", as.character(location_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("location_id = '", location_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else if (is(care_site_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_id = (", as.character(care_site_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(person_source_value)) {
+    if (is.null(person_source_value)) {
+      whereClauses <- c(whereClauses, "person_source_value IS NULL")
+    } else if (is(person_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_source_value = (", as.character(person_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_source_value = '", person_source_value,"'"))
+    }
+  }
+
+  if (!missing(gender_source_value)) {
+    if (is.null(gender_source_value)) {
+      whereClauses <- c(whereClauses, "gender_source_value IS NULL")
+    } else if (is(gender_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_source_value = (", as.character(gender_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_source_value = '", gender_source_value,"'"))
+    }
+  }
+
+  if (!missing(gender_source_concept_id)) {
+    if (is.null(gender_source_concept_id)) {
+      whereClauses <- c(whereClauses, "gender_source_concept_id IS NULL")
+    } else if (is(gender_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_source_concept_id = (", as.character(gender_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_source_concept_id = '", gender_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(race_source_value)) {
+    if (is.null(race_source_value)) {
+      whereClauses <- c(whereClauses, "race_source_value IS NULL")
+    } else if (is(race_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("race_source_value = (", as.character(race_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("race_source_value = '", race_source_value,"'"))
+    }
+  }
+
+  if (!missing(race_source_concept_id)) {
+    if (is.null(race_source_concept_id)) {
+      whereClauses <- c(whereClauses, "race_source_concept_id IS NULL")
+    } else if (is(race_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("race_source_concept_id = (", as.character(race_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("race_source_concept_id = '", race_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(ethnicity_source_value)) {
+    if (is.null(ethnicity_source_value)) {
+      whereClauses <- c(whereClauses, "ethnicity_source_value IS NULL")
+    } else if (is(ethnicity_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("ethnicity_source_value = (", as.character(ethnicity_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("ethnicity_source_value = '", ethnicity_source_value,"'"))
+    }
+  }
+
+  if (!missing(ethnicity_source_concept_id)) {
+    if (is.null(ethnicity_source_concept_id)) {
+      whereClauses <- c(whereClauses, "ethnicity_source_concept_id IS NULL")
+    } else if (is(ethnicity_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("ethnicity_source_concept_id = (", as.character(ethnicity_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("ethnicity_source_concept_id = '", ethnicity_source_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_procedure_occurrence <- function(procedure_occurrence_id, person_id, procedure_concept_id, procedure_date, procedure_datetime, procedure_type_concept_id, modifier_concept_id, quantity, provider_id, visit_occurrence_id, procedure_source_value, procedure_source_concept_id, qualifier_source_value, visit_detail_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect procedure_occurrence' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.procedure_occurrence WHERE ")
+  whereClauses = NULL;
+  if (!missing(procedure_occurrence_id)) {
+    if (is.null(procedure_occurrence_id)) {
+      whereClauses <- c(whereClauses, "procedure_occurrence_id IS NULL")
+    } else if (is(procedure_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_occurrence_id = (", as.character(procedure_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_occurrence_id = '", procedure_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(procedure_concept_id)) {
+    if (is.null(procedure_concept_id)) {
+      whereClauses <- c(whereClauses, "procedure_concept_id IS NULL")
+    } else if (is(procedure_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_concept_id = (", as.character(procedure_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_concept_id = '", procedure_concept_id,"'"))
+    }
+  }
+
+  if (!missing(procedure_date)) {
+    if (is.null(procedure_date)) {
+      whereClauses <- c(whereClauses, "procedure_date IS NULL")
+    } else if (is(procedure_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_date = (", as.character(procedure_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_date = '", procedure_date,"'"))
+    }
+  }
+
+  if (!missing(procedure_datetime)) {
+    if (is.null(procedure_datetime)) {
+      whereClauses <- c(whereClauses, "procedure_datetime IS NULL")
+    } else if (is(procedure_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_datetime = (", as.character(procedure_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_datetime = '", procedure_datetime,"'"))
+    }
+  }
+
+  if (!missing(procedure_type_concept_id)) {
+    if (is.null(procedure_type_concept_id)) {
+      whereClauses <- c(whereClauses, "procedure_type_concept_id IS NULL")
+    } else if (is(procedure_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_type_concept_id = (", as.character(procedure_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_type_concept_id = '", procedure_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(modifier_concept_id)) {
+    if (is.null(modifier_concept_id)) {
+      whereClauses <- c(whereClauses, "modifier_concept_id IS NULL")
+    } else if (is(modifier_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("modifier_concept_id = (", as.character(modifier_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("modifier_concept_id = '", modifier_concept_id,"'"))
+    }
+  }
+
+  if (!missing(quantity)) {
+    if (is.null(quantity)) {
+      whereClauses <- c(whereClauses, "quantity IS NULL")
+    } else if (is(quantity, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("quantity = (", as.character(quantity), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("quantity = '", quantity,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(procedure_source_value)) {
+    if (is.null(procedure_source_value)) {
+      whereClauses <- c(whereClauses, "procedure_source_value IS NULL")
+    } else if (is(procedure_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_source_value = (", as.character(procedure_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_source_value = '", procedure_source_value,"'"))
+    }
+  }
+
+  if (!missing(procedure_source_concept_id)) {
+    if (is.null(procedure_source_concept_id)) {
+      whereClauses <- c(whereClauses, "procedure_source_concept_id IS NULL")
+    } else if (is(procedure_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_source_concept_id = (", as.character(procedure_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_source_concept_id = '", procedure_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(qualifier_source_value)) {
+    if (is.null(qualifier_source_value)) {
+      whereClauses <- c(whereClauses, "qualifier_source_value IS NULL")
+    } else if (is(qualifier_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("qualifier_source_value = (", as.character(qualifier_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("qualifier_source_value = '", qualifier_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_specimen <- function(specimen_id, person_id, specimen_concept_id, specimen_type_concept_id, specimen_date, specimen_datetime, quantity, unit_concept_id, anatomic_site_concept_id, disease_status_concept_id, specimen_source_id, specimen_source_value, unit_source_value, anatomic_site_source_value, disease_status_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect specimen' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.specimen WHERE ")
+  whereClauses = NULL;
+  if (!missing(specimen_id)) {
+    if (is.null(specimen_id)) {
+      whereClauses <- c(whereClauses, "specimen_id IS NULL")
+    } else if (is(specimen_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_id = (", as.character(specimen_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_id = '", specimen_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_concept_id)) {
+    if (is.null(specimen_concept_id)) {
+      whereClauses <- c(whereClauses, "specimen_concept_id IS NULL")
+    } else if (is(specimen_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_concept_id = (", as.character(specimen_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_concept_id = '", specimen_concept_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_type_concept_id)) {
+    if (is.null(specimen_type_concept_id)) {
+      whereClauses <- c(whereClauses, "specimen_type_concept_id IS NULL")
+    } else if (is(specimen_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_type_concept_id = (", as.character(specimen_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_type_concept_id = '", specimen_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_date)) {
+    if (is.null(specimen_date)) {
+      whereClauses <- c(whereClauses, "specimen_date IS NULL")
+    } else if (is(specimen_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_date = (", as.character(specimen_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_date = '", specimen_date,"'"))
+    }
+  }
+
+  if (!missing(specimen_datetime)) {
+    if (is.null(specimen_datetime)) {
+      whereClauses <- c(whereClauses, "specimen_datetime IS NULL")
+    } else if (is(specimen_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_datetime = (", as.character(specimen_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_datetime = '", specimen_datetime,"'"))
+    }
+  }
+
+  if (!missing(quantity)) {
+    if (is.null(quantity)) {
+      whereClauses <- c(whereClauses, "quantity IS NULL")
+    } else if (is(quantity, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("quantity = (", as.character(quantity), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("quantity = '", quantity,"'"))
+    }
+  }
+
+  if (!missing(unit_concept_id)) {
+    if (is.null(unit_concept_id)) {
+      whereClauses <- c(whereClauses, "unit_concept_id IS NULL")
+    } else if (is(unit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = (", as.character(unit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = '", unit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(anatomic_site_concept_id)) {
+    if (is.null(anatomic_site_concept_id)) {
+      whereClauses <- c(whereClauses, "anatomic_site_concept_id IS NULL")
+    } else if (is(anatomic_site_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("anatomic_site_concept_id = (", as.character(anatomic_site_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("anatomic_site_concept_id = '", anatomic_site_concept_id,"'"))
+    }
+  }
+
+  if (!missing(disease_status_concept_id)) {
+    if (is.null(disease_status_concept_id)) {
+      whereClauses <- c(whereClauses, "disease_status_concept_id IS NULL")
+    } else if (is(disease_status_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("disease_status_concept_id = (", as.character(disease_status_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("disease_status_concept_id = '", disease_status_concept_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_source_id)) {
+    if (is.null(specimen_source_id)) {
+      whereClauses <- c(whereClauses, "specimen_source_id IS NULL")
+    } else if (is(specimen_source_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_source_id = (", as.character(specimen_source_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_source_id = '", specimen_source_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_source_value)) {
+    if (is.null(specimen_source_value)) {
+      whereClauses <- c(whereClauses, "specimen_source_value IS NULL")
+    } else if (is(specimen_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_source_value = (", as.character(specimen_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_source_value = '", specimen_source_value,"'"))
+    }
+  }
+
+  if (!missing(unit_source_value)) {
+    if (is.null(unit_source_value)) {
+      whereClauses <- c(whereClauses, "unit_source_value IS NULL")
+    } else if (is(unit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_source_value = (", as.character(unit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_source_value = '", unit_source_value,"'"))
+    }
+  }
+
+  if (!missing(anatomic_site_source_value)) {
+    if (is.null(anatomic_site_source_value)) {
+      whereClauses <- c(whereClauses, "anatomic_site_source_value IS NULL")
+    } else if (is(anatomic_site_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("anatomic_site_source_value = (", as.character(anatomic_site_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("anatomic_site_source_value = '", anatomic_site_source_value,"'"))
+    }
+  }
+
+  if (!missing(disease_status_source_value)) {
+    if (is.null(disease_status_source_value)) {
+      whereClauses <- c(whereClauses, "disease_status_source_value IS NULL")
+    } else if (is(disease_status_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("disease_status_source_value = (", as.character(disease_status_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("disease_status_source_value = '", disease_status_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_visit_detail <- function(visit_detail_id, person_id, visit_concept_id, visit_start_date, visit_start_datetime, visit_end_date, visit_end_datetime, visit_type_concept_id, provider_id, care_site_id, visit_source_value, visit_source_concept_id, admitting_source_value, admitting_source_concept_id, discharge_to_source_value, discharge_to_concept_id, preceding_visit_detail_id, visit_detail_parent_id, visit_occurrence_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect visit_detail' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.visit_detail WHERE ")
+  whereClauses = NULL;
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(visit_concept_id)) {
+    if (is.null(visit_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_concept_id IS NULL")
+    } else if (is(visit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_concept_id = (", as.character(visit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_concept_id = '", visit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(visit_start_date)) {
+    if (is.null(visit_start_date)) {
+      whereClauses <- c(whereClauses, "visit_start_date IS NULL")
+    } else if (is(visit_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_start_date = (", as.character(visit_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_start_date = '", visit_start_date,"'"))
+    }
+  }
+
+  if (!missing(visit_start_datetime)) {
+    if (is.null(visit_start_datetime)) {
+      whereClauses <- c(whereClauses, "visit_start_datetime IS NULL")
+    } else if (is(visit_start_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_start_datetime = (", as.character(visit_start_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_start_datetime = '", visit_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(visit_end_date)) {
+    if (is.null(visit_end_date)) {
+      whereClauses <- c(whereClauses, "visit_end_date IS NULL")
+    } else if (is(visit_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_end_date = (", as.character(visit_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_end_date = '", visit_end_date,"'"))
+    }
+  }
+
+  if (!missing(visit_end_datetime)) {
+    if (is.null(visit_end_datetime)) {
+      whereClauses <- c(whereClauses, "visit_end_datetime IS NULL")
+    } else if (is(visit_end_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_end_datetime = (", as.character(visit_end_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_end_datetime = '", visit_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(visit_type_concept_id)) {
+    if (is.null(visit_type_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_type_concept_id IS NULL")
+    } else if (is(visit_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_type_concept_id = (", as.character(visit_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_type_concept_id = '", visit_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else if (is(care_site_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_id = (", as.character(care_site_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(visit_source_value)) {
+    if (is.null(visit_source_value)) {
+      whereClauses <- c(whereClauses, "visit_source_value IS NULL")
+    } else if (is(visit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_source_value = (", as.character(visit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_source_value = '", visit_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_source_concept_id)) {
+    if (is.null(visit_source_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_source_concept_id IS NULL")
+    } else if (is(visit_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_source_concept_id = (", as.character(visit_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_source_concept_id = '", visit_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(admitting_source_value)) {
+    if (is.null(admitting_source_value)) {
+      whereClauses <- c(whereClauses, "admitting_source_value IS NULL")
+    } else if (is(admitting_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("admitting_source_value = (", as.character(admitting_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("admitting_source_value = '", admitting_source_value,"'"))
+    }
+  }
+
+  if (!missing(admitting_source_concept_id)) {
+    if (is.null(admitting_source_concept_id)) {
+      whereClauses <- c(whereClauses, "admitting_source_concept_id IS NULL")
+    } else if (is(admitting_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("admitting_source_concept_id = (", as.character(admitting_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("admitting_source_concept_id = '", admitting_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(discharge_to_source_value)) {
+    if (is.null(discharge_to_source_value)) {
+      whereClauses <- c(whereClauses, "discharge_to_source_value IS NULL")
+    } else if (is(discharge_to_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("discharge_to_source_value = (", as.character(discharge_to_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("discharge_to_source_value = '", discharge_to_source_value,"'"))
+    }
+  }
+
+  if (!missing(discharge_to_concept_id)) {
+    if (is.null(discharge_to_concept_id)) {
+      whereClauses <- c(whereClauses, "discharge_to_concept_id IS NULL")
+    } else if (is(discharge_to_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("discharge_to_concept_id = (", as.character(discharge_to_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("discharge_to_concept_id = '", discharge_to_concept_id,"'"))
+    }
+  }
+
+  if (!missing(preceding_visit_detail_id)) {
+    if (is.null(preceding_visit_detail_id)) {
+      whereClauses <- c(whereClauses, "preceding_visit_detail_id IS NULL")
+    } else if (is(preceding_visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("preceding_visit_detail_id = (", as.character(preceding_visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("preceding_visit_detail_id = '", preceding_visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_parent_id)) {
+    if (is.null(visit_detail_parent_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_parent_id IS NULL")
+    } else if (is(visit_detail_parent_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_parent_id = (", as.character(visit_detail_parent_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_parent_id = '", visit_detail_parent_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_visit_occurrence <- function(visit_occurrence_id, person_id, visit_concept_id, visit_start_date, visit_start_datetime, visit_end_date, visit_end_datetime, visit_type_concept_id, provider_id, care_site_id, visit_source_value, visit_source_concept_id, admitting_source_concept_id, admitting_source_value, discharge_to_concept_id, discharge_to_source_value, preceding_visit_occurrence_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect visit_occurrence' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.visit_occurrence WHERE ")
+  whereClauses = NULL;
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(visit_concept_id)) {
+    if (is.null(visit_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_concept_id IS NULL")
+    } else if (is(visit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_concept_id = (", as.character(visit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_concept_id = '", visit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(visit_start_date)) {
+    if (is.null(visit_start_date)) {
+      whereClauses <- c(whereClauses, "visit_start_date IS NULL")
+    } else if (is(visit_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_start_date = (", as.character(visit_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_start_date = '", visit_start_date,"'"))
+    }
+  }
+
+  if (!missing(visit_start_datetime)) {
+    if (is.null(visit_start_datetime)) {
+      whereClauses <- c(whereClauses, "visit_start_datetime IS NULL")
+    } else if (is(visit_start_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_start_datetime = (", as.character(visit_start_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_start_datetime = '", visit_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(visit_end_date)) {
+    if (is.null(visit_end_date)) {
+      whereClauses <- c(whereClauses, "visit_end_date IS NULL")
+    } else if (is(visit_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_end_date = (", as.character(visit_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_end_date = '", visit_end_date,"'"))
+    }
+  }
+
+  if (!missing(visit_end_datetime)) {
+    if (is.null(visit_end_datetime)) {
+      whereClauses <- c(whereClauses, "visit_end_datetime IS NULL")
+    } else if (is(visit_end_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_end_datetime = (", as.character(visit_end_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_end_datetime = '", visit_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(visit_type_concept_id)) {
+    if (is.null(visit_type_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_type_concept_id IS NULL")
+    } else if (is(visit_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_type_concept_id = (", as.character(visit_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_type_concept_id = '", visit_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else if (is(care_site_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_id = (", as.character(care_site_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(visit_source_value)) {
+    if (is.null(visit_source_value)) {
+      whereClauses <- c(whereClauses, "visit_source_value IS NULL")
+    } else if (is(visit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_source_value = (", as.character(visit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_source_value = '", visit_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_source_concept_id)) {
+    if (is.null(visit_source_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_source_concept_id IS NULL")
+    } else if (is(visit_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_source_concept_id = (", as.character(visit_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_source_concept_id = '", visit_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(admitting_source_concept_id)) {
+    if (is.null(admitting_source_concept_id)) {
+      whereClauses <- c(whereClauses, "admitting_source_concept_id IS NULL")
+    } else if (is(admitting_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("admitting_source_concept_id = (", as.character(admitting_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("admitting_source_concept_id = '", admitting_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(admitting_source_value)) {
+    if (is.null(admitting_source_value)) {
+      whereClauses <- c(whereClauses, "admitting_source_value IS NULL")
+    } else if (is(admitting_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("admitting_source_value = (", as.character(admitting_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("admitting_source_value = '", admitting_source_value,"'"))
+    }
+  }
+
+  if (!missing(discharge_to_concept_id)) {
+    if (is.null(discharge_to_concept_id)) {
+      whereClauses <- c(whereClauses, "discharge_to_concept_id IS NULL")
+    } else if (is(discharge_to_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("discharge_to_concept_id = (", as.character(discharge_to_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("discharge_to_concept_id = '", discharge_to_concept_id,"'"))
+    }
+  }
+
+  if (!missing(discharge_to_source_value)) {
+    if (is.null(discharge_to_source_value)) {
+      whereClauses <- c(whereClauses, "discharge_to_source_value IS NULL")
+    } else if (is(discharge_to_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("discharge_to_source_value = (", as.character(discharge_to_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("discharge_to_source_value = '", discharge_to_source_value,"'"))
+    }
+  }
+
+  if (!missing(preceding_visit_occurrence_id)) {
+    if (is.null(preceding_visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "preceding_visit_occurrence_id IS NULL")
+    } else if (is(preceding_visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("preceding_visit_occurrence_id = (", as.character(preceding_visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("preceding_visit_occurrence_id = '", preceding_visit_occurrence_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_cohort <- function(cohort_definition_id, subject_id, cohort_start_date, cohort_end_date) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect cohort' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.cohort WHERE ")
+  whereClauses = NULL;
+  if (!missing(cohort_definition_id)) {
+    if (is.null(cohort_definition_id)) {
+      whereClauses <- c(whereClauses, "cohort_definition_id IS NULL")
+    } else if (is(cohort_definition_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = (", as.character(cohort_definition_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = '", cohort_definition_id,"'"))
+    }
+  }
+
+  if (!missing(subject_id)) {
+    if (is.null(subject_id)) {
+      whereClauses <- c(whereClauses, "subject_id IS NULL")
+    } else if (is(subject_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("subject_id = (", as.character(subject_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("subject_id = '", subject_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_start_date)) {
+    if (is.null(cohort_start_date)) {
+      whereClauses <- c(whereClauses, "cohort_start_date IS NULL")
+    } else if (is(cohort_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_start_date = (", as.character(cohort_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_start_date = '", cohort_start_date,"'"))
+    }
+  }
+
+  if (!missing(cohort_end_date)) {
+    if (is.null(cohort_end_date)) {
+      whereClauses <- c(whereClauses, "cohort_end_date IS NULL")
+    } else if (is(cohort_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_end_date = (", as.character(cohort_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_end_date = '", cohort_end_date,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_cohort_attribute <- function(cohort_definition_id, subject_id, cohort_start_date, cohort_end_date, attribute_definition_id, value_as_number, value_as_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect cohort_attribute' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.cohort_attribute WHERE ")
+  whereClauses = NULL;
+  if (!missing(cohort_definition_id)) {
+    if (is.null(cohort_definition_id)) {
+      whereClauses <- c(whereClauses, "cohort_definition_id IS NULL")
+    } else if (is(cohort_definition_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = (", as.character(cohort_definition_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = '", cohort_definition_id,"'"))
+    }
+  }
+
+  if (!missing(subject_id)) {
+    if (is.null(subject_id)) {
+      whereClauses <- c(whereClauses, "subject_id IS NULL")
+    } else if (is(subject_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("subject_id = (", as.character(subject_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("subject_id = '", subject_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_start_date)) {
+    if (is.null(cohort_start_date)) {
+      whereClauses <- c(whereClauses, "cohort_start_date IS NULL")
+    } else if (is(cohort_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_start_date = (", as.character(cohort_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_start_date = '", cohort_start_date,"'"))
+    }
+  }
+
+  if (!missing(cohort_end_date)) {
+    if (is.null(cohort_end_date)) {
+      whereClauses <- c(whereClauses, "cohort_end_date IS NULL")
+    } else if (is(cohort_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_end_date = (", as.character(cohort_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_end_date = '", cohort_end_date,"'"))
+    }
+  }
+
+  if (!missing(attribute_definition_id)) {
+    if (is.null(attribute_definition_id)) {
+      whereClauses <- c(whereClauses, "attribute_definition_id IS NULL")
+    } else if (is(attribute_definition_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_definition_id = (", as.character(attribute_definition_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_definition_id = '", attribute_definition_id,"'"))
+    }
+  }
+
+  if (!missing(value_as_number)) {
+    if (is.null(value_as_number)) {
+      whereClauses <- c(whereClauses, "value_as_number IS NULL")
+    } else if (is(value_as_number, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_number = (", as.character(value_as_number), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_number = '", value_as_number,"'"))
+    }
+  }
+
+  if (!missing(value_as_concept_id)) {
+    if (is.null(value_as_concept_id)) {
+      whereClauses <- c(whereClauses, "value_as_concept_id IS NULL")
+    } else if (is(value_as_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = (", as.character(value_as_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = '", value_as_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_condition_era <- function(condition_era_id, person_id, condition_concept_id, condition_era_start_date, condition_era_end_date, condition_occurrence_count) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect condition_era' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.condition_era WHERE ")
+  whereClauses = NULL;
+  if (!missing(condition_era_id)) {
+    if (is.null(condition_era_id)) {
+      whereClauses <- c(whereClauses, "condition_era_id IS NULL")
+    } else if (is(condition_era_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_era_id = (", as.character(condition_era_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_era_id = '", condition_era_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(condition_concept_id)) {
+    if (is.null(condition_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_concept_id IS NULL")
+    } else if (is(condition_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_concept_id = (", as.character(condition_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_concept_id = '", condition_concept_id,"'"))
+    }
+  }
+
+  if (!missing(condition_era_start_date)) {
+    if (is.null(condition_era_start_date)) {
+      whereClauses <- c(whereClauses, "condition_era_start_date IS NULL")
+    } else if (is(condition_era_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_era_start_date = (", as.character(condition_era_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_era_start_date = '", condition_era_start_date,"'"))
+    }
+  }
+
+  if (!missing(condition_era_end_date)) {
+    if (is.null(condition_era_end_date)) {
+      whereClauses <- c(whereClauses, "condition_era_end_date IS NULL")
+    } else if (is(condition_era_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_era_end_date = (", as.character(condition_era_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_era_end_date = '", condition_era_end_date,"'"))
+    }
+  }
+
+  if (!missing(condition_occurrence_count)) {
+    if (is.null(condition_occurrence_count)) {
+      whereClauses <- c(whereClauses, "condition_occurrence_count IS NULL")
+    } else if (is(condition_occurrence_count, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_occurrence_count = (", as.character(condition_occurrence_count), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_occurrence_count = '", condition_occurrence_count,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_dose_era <- function(dose_era_id, person_id, drug_concept_id, unit_concept_id, dose_value, dose_era_start_date, dose_era_end_date) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect dose_era' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.dose_era WHERE ")
+  whereClauses = NULL;
+  if (!missing(dose_era_id)) {
+    if (is.null(dose_era_id)) {
+      whereClauses <- c(whereClauses, "dose_era_id IS NULL")
+    } else if (is(dose_era_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dose_era_id = (", as.character(dose_era_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_era_id = '", dose_era_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(drug_concept_id)) {
+    if (is.null(drug_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_concept_id IS NULL")
+    } else if (is(drug_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = (", as.character(drug_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = '", drug_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_concept_id)) {
+    if (is.null(unit_concept_id)) {
+      whereClauses <- c(whereClauses, "unit_concept_id IS NULL")
+    } else if (is(unit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = (", as.character(unit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = '", unit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(dose_value)) {
+    if (is.null(dose_value)) {
+      whereClauses <- c(whereClauses, "dose_value IS NULL")
+    } else if (is(dose_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dose_value = (", as.character(dose_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_value = '", dose_value,"'"))
+    }
+  }
+
+  if (!missing(dose_era_start_date)) {
+    if (is.null(dose_era_start_date)) {
+      whereClauses <- c(whereClauses, "dose_era_start_date IS NULL")
+    } else if (is(dose_era_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dose_era_start_date = (", as.character(dose_era_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_era_start_date = '", dose_era_start_date,"'"))
+    }
+  }
+
+  if (!missing(dose_era_end_date)) {
+    if (is.null(dose_era_end_date)) {
+      whereClauses <- c(whereClauses, "dose_era_end_date IS NULL")
+    } else if (is(dose_era_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dose_era_end_date = (", as.character(dose_era_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_era_end_date = '", dose_era_end_date,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_drug_era <- function(drug_era_id, person_id, drug_concept_id, drug_era_start_date, drug_era_end_date, drug_exposure_count, gap_days) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect drug_era' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.drug_era WHERE ")
+  whereClauses = NULL;
+  if (!missing(drug_era_id)) {
+    if (is.null(drug_era_id)) {
+      whereClauses <- c(whereClauses, "drug_era_id IS NULL")
+    } else if (is(drug_era_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_era_id = (", as.character(drug_era_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_era_id = '", drug_era_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(drug_concept_id)) {
+    if (is.null(drug_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_concept_id IS NULL")
+    } else if (is(drug_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = (", as.character(drug_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = '", drug_concept_id,"'"))
+    }
+  }
+
+  if (!missing(drug_era_start_date)) {
+    if (is.null(drug_era_start_date)) {
+      whereClauses <- c(whereClauses, "drug_era_start_date IS NULL")
+    } else if (is(drug_era_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_era_start_date = (", as.character(drug_era_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_era_start_date = '", drug_era_start_date,"'"))
+    }
+  }
+
+  if (!missing(drug_era_end_date)) {
+    if (is.null(drug_era_end_date)) {
+      whereClauses <- c(whereClauses, "drug_era_end_date IS NULL")
+    } else if (is(drug_era_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_era_end_date = (", as.character(drug_era_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_era_end_date = '", drug_era_end_date,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_count)) {
+    if (is.null(drug_exposure_count)) {
+      whereClauses <- c(whereClauses, "drug_exposure_count IS NULL")
+    } else if (is(drug_exposure_count, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_count = (", as.character(drug_exposure_count), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_count = '", drug_exposure_count,"'"))
+    }
+  }
+
+  if (!missing(gap_days)) {
+    if (is.null(gap_days)) {
+      whereClauses <- c(whereClauses, "gap_days IS NULL")
+    } else if (is(gap_days, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gap_days = (", as.character(gap_days), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gap_days = '", gap_days,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_cost <- function(cost_id, cost_event_id, cost_domain_id, cost_type_concept_id, currency_concept_id, total_charge, total_cost, total_paid, paid_by_payer, paid_by_patient, paid_patient_copay, paid_patient_coinsurance, paid_patient_deductible, paid_by_primary, paid_ingredient_cost, paid_dispensing_fee, payer_plan_period_id, amount_allowed, revenue_code_concept_id, revenue_code_source_value, drg_concept_id, drg_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect cost' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.cost WHERE ")
+  whereClauses = NULL;
+  if (!missing(cost_id)) {
+    if (is.null(cost_id)) {
+      whereClauses <- c(whereClauses, "cost_id IS NULL")
+    } else if (is(cost_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cost_id = (", as.character(cost_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cost_id = '", cost_id,"'"))
+    }
+  }
+
+  if (!missing(cost_event_id)) {
+    if (is.null(cost_event_id)) {
+      whereClauses <- c(whereClauses, "cost_event_id IS NULL")
+    } else if (is(cost_event_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cost_event_id = (", as.character(cost_event_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cost_event_id = '", cost_event_id,"'"))
+    }
+  }
+
+  if (!missing(cost_domain_id)) {
+    if (is.null(cost_domain_id)) {
+      whereClauses <- c(whereClauses, "cost_domain_id IS NULL")
+    } else if (is(cost_domain_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cost_domain_id = (", as.character(cost_domain_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cost_domain_id = '", cost_domain_id,"'"))
+    }
+  }
+
+  if (!missing(cost_type_concept_id)) {
+    if (is.null(cost_type_concept_id)) {
+      whereClauses <- c(whereClauses, "cost_type_concept_id IS NULL")
+    } else if (is(cost_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cost_type_concept_id = (", as.character(cost_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cost_type_concept_id = '", cost_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(currency_concept_id)) {
+    if (is.null(currency_concept_id)) {
+      whereClauses <- c(whereClauses, "currency_concept_id IS NULL")
+    } else if (is(currency_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("currency_concept_id = (", as.character(currency_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("currency_concept_id = '", currency_concept_id,"'"))
+    }
+  }
+
+  if (!missing(total_charge)) {
+    if (is.null(total_charge)) {
+      whereClauses <- c(whereClauses, "total_charge IS NULL")
+    } else if (is(total_charge, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("total_charge = (", as.character(total_charge), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("total_charge = '", total_charge,"'"))
+    }
+  }
+
+  if (!missing(total_cost)) {
+    if (is.null(total_cost)) {
+      whereClauses <- c(whereClauses, "total_cost IS NULL")
+    } else if (is(total_cost, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("total_cost = (", as.character(total_cost), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("total_cost = '", total_cost,"'"))
+    }
+  }
+
+  if (!missing(total_paid)) {
+    if (is.null(total_paid)) {
+      whereClauses <- c(whereClauses, "total_paid IS NULL")
+    } else if (is(total_paid, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("total_paid = (", as.character(total_paid), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("total_paid = '", total_paid,"'"))
+    }
+  }
+
+  if (!missing(paid_by_payer)) {
+    if (is.null(paid_by_payer)) {
+      whereClauses <- c(whereClauses, "paid_by_payer IS NULL")
+    } else if (is(paid_by_payer, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_by_payer = (", as.character(paid_by_payer), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_by_payer = '", paid_by_payer,"'"))
+    }
+  }
+
+  if (!missing(paid_by_patient)) {
+    if (is.null(paid_by_patient)) {
+      whereClauses <- c(whereClauses, "paid_by_patient IS NULL")
+    } else if (is(paid_by_patient, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_by_patient = (", as.character(paid_by_patient), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_by_patient = '", paid_by_patient,"'"))
+    }
+  }
+
+  if (!missing(paid_patient_copay)) {
+    if (is.null(paid_patient_copay)) {
+      whereClauses <- c(whereClauses, "paid_patient_copay IS NULL")
+    } else if (is(paid_patient_copay, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_patient_copay = (", as.character(paid_patient_copay), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_patient_copay = '", paid_patient_copay,"'"))
+    }
+  }
+
+  if (!missing(paid_patient_coinsurance)) {
+    if (is.null(paid_patient_coinsurance)) {
+      whereClauses <- c(whereClauses, "paid_patient_coinsurance IS NULL")
+    } else if (is(paid_patient_coinsurance, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_patient_coinsurance = (", as.character(paid_patient_coinsurance), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_patient_coinsurance = '", paid_patient_coinsurance,"'"))
+    }
+  }
+
+  if (!missing(paid_patient_deductible)) {
+    if (is.null(paid_patient_deductible)) {
+      whereClauses <- c(whereClauses, "paid_patient_deductible IS NULL")
+    } else if (is(paid_patient_deductible, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_patient_deductible = (", as.character(paid_patient_deductible), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_patient_deductible = '", paid_patient_deductible,"'"))
+    }
+  }
+
+  if (!missing(paid_by_primary)) {
+    if (is.null(paid_by_primary)) {
+      whereClauses <- c(whereClauses, "paid_by_primary IS NULL")
+    } else if (is(paid_by_primary, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_by_primary = (", as.character(paid_by_primary), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_by_primary = '", paid_by_primary,"'"))
+    }
+  }
+
+  if (!missing(paid_ingredient_cost)) {
+    if (is.null(paid_ingredient_cost)) {
+      whereClauses <- c(whereClauses, "paid_ingredient_cost IS NULL")
+    } else if (is(paid_ingredient_cost, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_ingredient_cost = (", as.character(paid_ingredient_cost), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_ingredient_cost = '", paid_ingredient_cost,"'"))
+    }
+  }
+
+  if (!missing(paid_dispensing_fee)) {
+    if (is.null(paid_dispensing_fee)) {
+      whereClauses <- c(whereClauses, "paid_dispensing_fee IS NULL")
+    } else if (is(paid_dispensing_fee, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_dispensing_fee = (", as.character(paid_dispensing_fee), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_dispensing_fee = '", paid_dispensing_fee,"'"))
+    }
+  }
+
+  if (!missing(payer_plan_period_id)) {
+    if (is.null(payer_plan_period_id)) {
+      whereClauses <- c(whereClauses, "payer_plan_period_id IS NULL")
+    } else if (is(payer_plan_period_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_id = (", as.character(payer_plan_period_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_id = '", payer_plan_period_id,"'"))
+    }
+  }
+
+  if (!missing(amount_allowed)) {
+    if (is.null(amount_allowed)) {
+      whereClauses <- c(whereClauses, "amount_allowed IS NULL")
+    } else if (is(amount_allowed, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("amount_allowed = (", as.character(amount_allowed), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("amount_allowed = '", amount_allowed,"'"))
+    }
+  }
+
+  if (!missing(revenue_code_concept_id)) {
+    if (is.null(revenue_code_concept_id)) {
+      whereClauses <- c(whereClauses, "revenue_code_concept_id IS NULL")
+    } else if (is(revenue_code_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("revenue_code_concept_id = (", as.character(revenue_code_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("revenue_code_concept_id = '", revenue_code_concept_id,"'"))
+    }
+  }
+
+  if (!missing(revenue_code_source_value)) {
+    if (is.null(revenue_code_source_value)) {
+      whereClauses <- c(whereClauses, "revenue_code_source_value IS NULL")
+    } else if (is(revenue_code_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("revenue_code_source_value = (", as.character(revenue_code_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("revenue_code_source_value = '", revenue_code_source_value,"'"))
+    }
+  }
+
+  if (!missing(drg_concept_id)) {
+    if (is.null(drg_concept_id)) {
+      whereClauses <- c(whereClauses, "drg_concept_id IS NULL")
+    } else if (is(drg_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drg_concept_id = (", as.character(drg_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drg_concept_id = '", drg_concept_id,"'"))
+    }
+  }
+
+  if (!missing(drg_source_value)) {
+    if (is.null(drg_source_value)) {
+      whereClauses <- c(whereClauses, "drg_source_value IS NULL")
+    } else if (is(drg_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drg_source_value = (", as.character(drg_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drg_source_value = '", drg_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_payer_plan_period <- function(payer_plan_period_id, person_id, payer_plan_period_start_date, payer_plan_period_end_date, payer_source_value, plan_source_value, family_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect payer_plan_period' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.payer_plan_period WHERE ")
+  whereClauses = NULL;
+  if (!missing(payer_plan_period_id)) {
+    if (is.null(payer_plan_period_id)) {
+      whereClauses <- c(whereClauses, "payer_plan_period_id IS NULL")
+    } else if (is(payer_plan_period_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_id = (", as.character(payer_plan_period_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_id = '", payer_plan_period_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(payer_plan_period_start_date)) {
+    if (is.null(payer_plan_period_start_date)) {
+      whereClauses <- c(whereClauses, "payer_plan_period_start_date IS NULL")
+    } else if (is(payer_plan_period_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_start_date = (", as.character(payer_plan_period_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_start_date = '", payer_plan_period_start_date,"'"))
+    }
+  }
+
+  if (!missing(payer_plan_period_end_date)) {
+    if (is.null(payer_plan_period_end_date)) {
+      whereClauses <- c(whereClauses, "payer_plan_period_end_date IS NULL")
+    } else if (is(payer_plan_period_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_end_date = (", as.character(payer_plan_period_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_end_date = '", payer_plan_period_end_date,"'"))
+    }
+  }
+
+  if (!missing(payer_source_value)) {
+    if (is.null(payer_source_value)) {
+      whereClauses <- c(whereClauses, "payer_source_value IS NULL")
+    } else if (is(payer_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("payer_source_value = (", as.character(payer_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_source_value = '", payer_source_value,"'"))
+    }
+  }
+
+  if (!missing(plan_source_value)) {
+    if (is.null(plan_source_value)) {
+      whereClauses <- c(whereClauses, "plan_source_value IS NULL")
+    } else if (is(plan_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("plan_source_value = (", as.character(plan_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("plan_source_value = '", plan_source_value,"'"))
+    }
+  }
+
+  if (!missing(family_source_value)) {
+    if (is.null(family_source_value)) {
+      whereClauses <- c(whereClauses, "family_source_value IS NULL")
+    } else if (is(family_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("family_source_value = (", as.character(family_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("family_source_value = '", family_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_care_site <- function(care_site_id, care_site_name, place_of_service_concept_id, location_id, care_site_source_value, place_of_service_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect care_site' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.care_site WHERE ")
+  whereClauses = NULL;
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else if (is(care_site_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_id = (", as.character(care_site_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_name)) {
+    if (is.null(care_site_name)) {
+      whereClauses <- c(whereClauses, "care_site_name IS NULL")
+    } else if (is(care_site_name, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_name = (", as.character(care_site_name), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_name = '", care_site_name,"'"))
+    }
+  }
+
+  if (!missing(place_of_service_concept_id)) {
+    if (is.null(place_of_service_concept_id)) {
+      whereClauses <- c(whereClauses, "place_of_service_concept_id IS NULL")
+    } else if (is(place_of_service_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("place_of_service_concept_id = (", as.character(place_of_service_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("place_of_service_concept_id = '", place_of_service_concept_id,"'"))
+    }
+  }
+
+  if (!missing(location_id)) {
+    if (is.null(location_id)) {
+      whereClauses <- c(whereClauses, "location_id IS NULL")
+    } else if (is(location_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("location_id = (", as.character(location_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("location_id = '", location_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_source_value)) {
+    if (is.null(care_site_source_value)) {
+      whereClauses <- c(whereClauses, "care_site_source_value IS NULL")
+    } else if (is(care_site_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_source_value = (", as.character(care_site_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_source_value = '", care_site_source_value,"'"))
+    }
+  }
+
+  if (!missing(place_of_service_source_value)) {
+    if (is.null(place_of_service_source_value)) {
+      whereClauses <- c(whereClauses, "place_of_service_source_value IS NULL")
+    } else if (is(place_of_service_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("place_of_service_source_value = (", as.character(place_of_service_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("place_of_service_source_value = '", place_of_service_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_location <- function(location_id, address_1, address_2, city, state, zip, county, location_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect location' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.location WHERE ")
+  whereClauses = NULL;
+  if (!missing(location_id)) {
+    if (is.null(location_id)) {
+      whereClauses <- c(whereClauses, "location_id IS NULL")
+    } else if (is(location_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("location_id = (", as.character(location_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("location_id = '", location_id,"'"))
+    }
+  }
+
+  if (!missing(address_1)) {
+    if (is.null(address_1)) {
+      whereClauses <- c(whereClauses, "address_1 IS NULL")
+    } else if (is(address_1, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("address_1 = (", as.character(address_1), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("address_1 = '", address_1,"'"))
+    }
+  }
+
+  if (!missing(address_2)) {
+    if (is.null(address_2)) {
+      whereClauses <- c(whereClauses, "address_2 IS NULL")
+    } else if (is(address_2, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("address_2 = (", as.character(address_2), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("address_2 = '", address_2,"'"))
+    }
+  }
+
+  if (!missing(city)) {
+    if (is.null(city)) {
+      whereClauses <- c(whereClauses, "city IS NULL")
+    } else if (is(city, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("city = (", as.character(city), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("city = '", city,"'"))
+    }
+  }
+
+  if (!missing(state)) {
+    if (is.null(state)) {
+      whereClauses <- c(whereClauses, "state IS NULL")
+    } else if (is(state, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("state = (", as.character(state), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("state = '", state,"'"))
+    }
+  }
+
+  if (!missing(zip)) {
+    if (is.null(zip)) {
+      whereClauses <- c(whereClauses, "zip IS NULL")
+    } else if (is(zip, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("zip = (", as.character(zip), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("zip = '", zip,"'"))
+    }
+  }
+
+  if (!missing(county)) {
+    if (is.null(county)) {
+      whereClauses <- c(whereClauses, "county IS NULL")
+    } else if (is(county, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("county = (", as.character(county), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("county = '", county,"'"))
+    }
+  }
+
+  if (!missing(location_source_value)) {
+    if (is.null(location_source_value)) {
+      whereClauses <- c(whereClauses, "location_source_value IS NULL")
+    } else if (is(location_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("location_source_value = (", as.character(location_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("location_source_value = '", location_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_provider <- function(provider_id, provider_name, npi, dea, specialty_concept_id, care_site_id, year_of_birth, gender_concept_id, provider_source_value, specialty_source_value, specialty_source_concept_id, gender_source_value, gender_source_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect provider' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.provider WHERE ")
+  whereClauses = NULL;
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(provider_name)) {
+    if (is.null(provider_name)) {
+      whereClauses <- c(whereClauses, "provider_name IS NULL")
+    } else if (is(provider_name, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_name = (", as.character(provider_name), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_name = '", provider_name,"'"))
+    }
+  }
+
+  if (!missing(npi)) {
+    if (is.null(npi)) {
+      whereClauses <- c(whereClauses, "npi IS NULL")
+    } else if (is(npi, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("npi = (", as.character(npi), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("npi = '", npi,"'"))
+    }
+  }
+
+  if (!missing(dea)) {
+    if (is.null(dea)) {
+      whereClauses <- c(whereClauses, "dea IS NULL")
+    } else if (is(dea, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dea = (", as.character(dea), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dea = '", dea,"'"))
+    }
+  }
+
+  if (!missing(specialty_concept_id)) {
+    if (is.null(specialty_concept_id)) {
+      whereClauses <- c(whereClauses, "specialty_concept_id IS NULL")
+    } else if (is(specialty_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specialty_concept_id = (", as.character(specialty_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specialty_concept_id = '", specialty_concept_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else if (is(care_site_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_id = (", as.character(care_site_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(year_of_birth)) {
+    if (is.null(year_of_birth)) {
+      whereClauses <- c(whereClauses, "year_of_birth IS NULL")
+    } else if (is(year_of_birth, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("year_of_birth = (", as.character(year_of_birth), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("year_of_birth = '", year_of_birth,"'"))
+    }
+  }
+
+  if (!missing(gender_concept_id)) {
+    if (is.null(gender_concept_id)) {
+      whereClauses <- c(whereClauses, "gender_concept_id IS NULL")
+    } else if (is(gender_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_concept_id = (", as.character(gender_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_concept_id = '", gender_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_source_value)) {
+    if (is.null(provider_source_value)) {
+      whereClauses <- c(whereClauses, "provider_source_value IS NULL")
+    } else if (is(provider_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_source_value = (", as.character(provider_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_source_value = '", provider_source_value,"'"))
+    }
+  }
+
+  if (!missing(specialty_source_value)) {
+    if (is.null(specialty_source_value)) {
+      whereClauses <- c(whereClauses, "specialty_source_value IS NULL")
+    } else if (is(specialty_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specialty_source_value = (", as.character(specialty_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specialty_source_value = '", specialty_source_value,"'"))
+    }
+  }
+
+  if (!missing(specialty_source_concept_id)) {
+    if (is.null(specialty_source_concept_id)) {
+      whereClauses <- c(whereClauses, "specialty_source_concept_id IS NULL")
+    } else if (is(specialty_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specialty_source_concept_id = (", as.character(specialty_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specialty_source_concept_id = '", specialty_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(gender_source_value)) {
+    if (is.null(gender_source_value)) {
+      whereClauses <- c(whereClauses, "gender_source_value IS NULL")
+    } else if (is(gender_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_source_value = (", as.character(gender_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_source_value = '", gender_source_value,"'"))
+    }
+  }
+
+  if (!missing(gender_source_concept_id)) {
+    if (is.null(gender_source_concept_id)) {
+      whereClauses <- c(whereClauses, "gender_source_concept_id IS NULL")
+    } else if (is(gender_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_source_concept_id = (", as.character(gender_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_source_concept_id = '", gender_source_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_cdm_source <- function(cdm_source_name, cdm_source_abbreviation, cdm_holder, source_description, source_documentation_reference, cdm_etl__reference, source_release_date, cdm_release_date, cdm_version, vocabulary_version) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect cdm_source' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.cdm_source WHERE ")
+  whereClauses = NULL;
+  if (!missing(cdm_source_name)) {
+    if (is.null(cdm_source_name)) {
+      whereClauses <- c(whereClauses, "cdm_source_name IS NULL")
+    } else if (is(cdm_source_name, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cdm_source_name = (", as.character(cdm_source_name), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_source_name = '", cdm_source_name,"'"))
+    }
+  }
+
+  if (!missing(cdm_source_abbreviation)) {
+    if (is.null(cdm_source_abbreviation)) {
+      whereClauses <- c(whereClauses, "cdm_source_abbreviation IS NULL")
+    } else if (is(cdm_source_abbreviation, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cdm_source_abbreviation = (", as.character(cdm_source_abbreviation), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_source_abbreviation = '", cdm_source_abbreviation,"'"))
+    }
+  }
+
+  if (!missing(cdm_holder)) {
+    if (is.null(cdm_holder)) {
+      whereClauses <- c(whereClauses, "cdm_holder IS NULL")
+    } else if (is(cdm_holder, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cdm_holder = (", as.character(cdm_holder), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_holder = '", cdm_holder,"'"))
+    }
+  }
+
+  if (!missing(source_description)) {
+    if (is.null(source_description)) {
+      whereClauses <- c(whereClauses, "source_description IS NULL")
+    } else if (is(source_description, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("source_description = (", as.character(source_description), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("source_description = '", source_description,"'"))
+    }
+  }
+
+  if (!missing(source_documentation_reference)) {
+    if (is.null(source_documentation_reference)) {
+      whereClauses <- c(whereClauses, "source_documentation_reference IS NULL")
+    } else if (is(source_documentation_reference, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("source_documentation_reference = (", as.character(source_documentation_reference), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("source_documentation_reference = '", source_documentation_reference,"'"))
+    }
+  }
+
+  if (!missing(cdm_etl__reference)) {
+    if (is.null(cdm_etl__reference)) {
+      whereClauses <- c(whereClauses, "[cdm_etl _reference] IS NULL")
+    } else if (is(cdm_etl__reference, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("[cdm_etl _reference] = (", as.character(cdm_etl__reference), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("[cdm_etl _reference] = '", cdm_etl__reference,"'"))
+    }
+  }
+
+  if (!missing(source_release_date)) {
+    if (is.null(source_release_date)) {
+      whereClauses <- c(whereClauses, "source_release_date IS NULL")
+    } else if (is(source_release_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("source_release_date = (", as.character(source_release_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("source_release_date = '", source_release_date,"'"))
+    }
+  }
+
+  if (!missing(cdm_release_date)) {
+    if (is.null(cdm_release_date)) {
+      whereClauses <- c(whereClauses, "cdm_release_date IS NULL")
+    } else if (is(cdm_release_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cdm_release_date = (", as.character(cdm_release_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_release_date = '", cdm_release_date,"'"))
+    }
+  }
+
+  if (!missing(cdm_version)) {
+    if (is.null(cdm_version)) {
+      whereClauses <- c(whereClauses, "cdm_version IS NULL")
+    } else if (is(cdm_version, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cdm_version = (", as.character(cdm_version), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_version = '", cdm_version,"'"))
+    }
+  }
+
+  if (!missing(vocabulary_version)) {
+    if (is.null(vocabulary_version)) {
+      whereClauses <- c(whereClauses, "vocabulary_version IS NULL")
+    } else if (is(vocabulary_version, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("vocabulary_version = (", as.character(vocabulary_version), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("vocabulary_version = '", vocabulary_version,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_attribute_definition <- function(attribute_definition_id, attribute_name, attribute_description, attribute_type_concept_id, attribute_syntax) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect attribute_definition' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.attribute_definition WHERE ")
+  whereClauses = NULL;
+  if (!missing(attribute_definition_id)) {
+    if (is.null(attribute_definition_id)) {
+      whereClauses <- c(whereClauses, "attribute_definition_id IS NULL")
+    } else if (is(attribute_definition_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_definition_id = (", as.character(attribute_definition_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_definition_id = '", attribute_definition_id,"'"))
+    }
+  }
+
+  if (!missing(attribute_name)) {
+    if (is.null(attribute_name)) {
+      whereClauses <- c(whereClauses, "attribute_name IS NULL")
+    } else if (is(attribute_name, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_name = (", as.character(attribute_name), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_name = '", attribute_name,"'"))
+    }
+  }
+
+  if (!missing(attribute_description)) {
+    if (is.null(attribute_description)) {
+      whereClauses <- c(whereClauses, "attribute_description IS NULL")
+    } else if (is(attribute_description, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_description = (", as.character(attribute_description), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_description = '", attribute_description,"'"))
+    }
+  }
+
+  if (!missing(attribute_type_concept_id)) {
+    if (is.null(attribute_type_concept_id)) {
+      whereClauses <- c(whereClauses, "attribute_type_concept_id IS NULL")
+    } else if (is(attribute_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_type_concept_id = (", as.character(attribute_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_type_concept_id = '", attribute_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(attribute_syntax)) {
+    if (is.null(attribute_syntax)) {
+      whereClauses <- c(whereClauses, "attribute_syntax IS NULL")
+    } else if (is(attribute_syntax, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_syntax = (", as.character(attribute_syntax), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_syntax = '", attribute_syntax,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_cohort_definition <- function(cohort_definition_id, cohort_definition_name, cohort_definition_description, definition_type_concept_id, cohort_definition_syntax, subject_concept_id, cohort_instantiation_date) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect cohort_definition' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.cohort_definition WHERE ")
+  whereClauses = NULL;
+  if (!missing(cohort_definition_id)) {
+    if (is.null(cohort_definition_id)) {
+      whereClauses <- c(whereClauses, "cohort_definition_id IS NULL")
+    } else if (is(cohort_definition_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = (", as.character(cohort_definition_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = '", cohort_definition_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_definition_name)) {
+    if (is.null(cohort_definition_name)) {
+      whereClauses <- c(whereClauses, "cohort_definition_name IS NULL")
+    } else if (is(cohort_definition_name, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_name = (", as.character(cohort_definition_name), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_name = '", cohort_definition_name,"'"))
+    }
+  }
+
+  if (!missing(cohort_definition_description)) {
+    if (is.null(cohort_definition_description)) {
+      whereClauses <- c(whereClauses, "cohort_definition_description IS NULL")
+    } else if (is(cohort_definition_description, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_description = (", as.character(cohort_definition_description), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_description = '", cohort_definition_description,"'"))
+    }
+  }
+
+  if (!missing(definition_type_concept_id)) {
+    if (is.null(definition_type_concept_id)) {
+      whereClauses <- c(whereClauses, "definition_type_concept_id IS NULL")
+    } else if (is(definition_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("definition_type_concept_id = (", as.character(definition_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("definition_type_concept_id = '", definition_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_definition_syntax)) {
+    if (is.null(cohort_definition_syntax)) {
+      whereClauses <- c(whereClauses, "cohort_definition_syntax IS NULL")
+    } else if (is(cohort_definition_syntax, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_syntax = (", as.character(cohort_definition_syntax), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_syntax = '", cohort_definition_syntax,"'"))
+    }
+  }
+
+  if (!missing(subject_concept_id)) {
+    if (is.null(subject_concept_id)) {
+      whereClauses <- c(whereClauses, "subject_concept_id IS NULL")
+    } else if (is(subject_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("subject_concept_id = (", as.character(subject_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("subject_concept_id = '", subject_concept_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_instantiation_date)) {
+    if (is.null(cohort_instantiation_date)) {
+      whereClauses <- c(whereClauses, "cohort_instantiation_date IS NULL")
+    } else if (is(cohort_instantiation_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_instantiation_date = (", as.character(cohort_instantiation_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_instantiation_date = '", cohort_instantiation_date,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") = 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_condition_occurrence <- function(condition_occurrence_id, person_id, condition_concept_id, condition_start_date, condition_start_datetime, condition_end_date, condition_end_datetime, condition_type_concept_id, stop_reason, provider_id, visit_occurrence_id, visit_detail_id, condition_source_value, condition_source_concept_id, condition_status_source_value, condition_status_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect condition_occurrence' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.condition_occurrence WHERE ")
+  whereClauses = NULL;
+  if (!missing(condition_occurrence_id)) {
+    if (is.null(condition_occurrence_id)) {
+      whereClauses <- c(whereClauses, "condition_occurrence_id IS NULL")
+    } else if (is(condition_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_occurrence_id = (", as.character(condition_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_occurrence_id = '", condition_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(condition_concept_id)) {
+    if (is.null(condition_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_concept_id IS NULL")
+    } else if (is(condition_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_concept_id = (", as.character(condition_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_concept_id = '", condition_concept_id,"'"))
+    }
+  }
+
+  if (!missing(condition_start_date)) {
+    if (is.null(condition_start_date)) {
+      whereClauses <- c(whereClauses, "condition_start_date IS NULL")
+    } else if (is(condition_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_start_date = (", as.character(condition_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_start_date = '", condition_start_date,"'"))
+    }
+  }
+
+  if (!missing(condition_start_datetime)) {
+    if (is.null(condition_start_datetime)) {
+      whereClauses <- c(whereClauses, "condition_start_datetime IS NULL")
+    } else if (is(condition_start_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_start_datetime = (", as.character(condition_start_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_start_datetime = '", condition_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(condition_end_date)) {
+    if (is.null(condition_end_date)) {
+      whereClauses <- c(whereClauses, "condition_end_date IS NULL")
+    } else if (is(condition_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_end_date = (", as.character(condition_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_end_date = '", condition_end_date,"'"))
+    }
+  }
+
+  if (!missing(condition_end_datetime)) {
+    if (is.null(condition_end_datetime)) {
+      whereClauses <- c(whereClauses, "condition_end_datetime IS NULL")
+    } else if (is(condition_end_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_end_datetime = (", as.character(condition_end_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_end_datetime = '", condition_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(condition_type_concept_id)) {
+    if (is.null(condition_type_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_type_concept_id IS NULL")
+    } else if (is(condition_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_type_concept_id = (", as.character(condition_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_type_concept_id = '", condition_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(stop_reason)) {
+    if (is.null(stop_reason)) {
+      whereClauses <- c(whereClauses, "stop_reason IS NULL")
+    } else if (is(stop_reason, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("stop_reason = (", as.character(stop_reason), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("stop_reason = '", stop_reason,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(condition_source_value)) {
+    if (is.null(condition_source_value)) {
+      whereClauses <- c(whereClauses, "condition_source_value IS NULL")
+    } else if (is(condition_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_source_value = (", as.character(condition_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_source_value = '", condition_source_value,"'"))
+    }
+  }
+
+  if (!missing(condition_source_concept_id)) {
+    if (is.null(condition_source_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_source_concept_id IS NULL")
+    } else if (is(condition_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_source_concept_id = (", as.character(condition_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_source_concept_id = '", condition_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(condition_status_source_value)) {
+    if (is.null(condition_status_source_value)) {
+      whereClauses <- c(whereClauses, "condition_status_source_value IS NULL")
+    } else if (is(condition_status_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_status_source_value = (", as.character(condition_status_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_status_source_value = '", condition_status_source_value,"'"))
+    }
+  }
+
+  if (!missing(condition_status_concept_id)) {
+    if (is.null(condition_status_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_status_concept_id IS NULL")
+    } else if (is(condition_status_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_status_concept_id = (", as.character(condition_status_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_status_concept_id = '", condition_status_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_death <- function(person_id, death_date, death_datetime, death_type_concept_id, cause_concept_id, cause_source_value, cause_source_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect death' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.death WHERE ")
+  whereClauses = NULL;
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(death_date)) {
+    if (is.null(death_date)) {
+      whereClauses <- c(whereClauses, "death_date IS NULL")
+    } else if (is(death_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("death_date = (", as.character(death_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("death_date = '", death_date,"'"))
+    }
+  }
+
+  if (!missing(death_datetime)) {
+    if (is.null(death_datetime)) {
+      whereClauses <- c(whereClauses, "death_datetime IS NULL")
+    } else if (is(death_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("death_datetime = (", as.character(death_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("death_datetime = '", death_datetime,"'"))
+    }
+  }
+
+  if (!missing(death_type_concept_id)) {
+    if (is.null(death_type_concept_id)) {
+      whereClauses <- c(whereClauses, "death_type_concept_id IS NULL")
+    } else if (is(death_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("death_type_concept_id = (", as.character(death_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("death_type_concept_id = '", death_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(cause_concept_id)) {
+    if (is.null(cause_concept_id)) {
+      whereClauses <- c(whereClauses, "cause_concept_id IS NULL")
+    } else if (is(cause_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cause_concept_id = (", as.character(cause_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cause_concept_id = '", cause_concept_id,"'"))
+    }
+  }
+
+  if (!missing(cause_source_value)) {
+    if (is.null(cause_source_value)) {
+      whereClauses <- c(whereClauses, "cause_source_value IS NULL")
+    } else if (is(cause_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cause_source_value = (", as.character(cause_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cause_source_value = '", cause_source_value,"'"))
+    }
+  }
+
+  if (!missing(cause_source_concept_id)) {
+    if (is.null(cause_source_concept_id)) {
+      whereClauses <- c(whereClauses, "cause_source_concept_id IS NULL")
+    } else if (is(cause_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cause_source_concept_id = (", as.character(cause_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cause_source_concept_id = '", cause_source_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_device_exposure <- function(device_exposure_id, person_id, device_concept_id, device_exposure_start_date, device_exposure_start_datetime, device_exposure_end_date, device_exposure_end_datetime, device_type_concept_id, unique_device_id, quantity, provider_id, visit_occurrence_id, device_source_value, device_source__concept_id, visit_detail_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect device_exposure' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.device_exposure WHERE ")
+  whereClauses = NULL;
+  if (!missing(device_exposure_id)) {
+    if (is.null(device_exposure_id)) {
+      whereClauses <- c(whereClauses, "device_exposure_id IS NULL")
+    } else if (is(device_exposure_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_exposure_id = (", as.character(device_exposure_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_id = '", device_exposure_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(device_concept_id)) {
+    if (is.null(device_concept_id)) {
+      whereClauses <- c(whereClauses, "device_concept_id IS NULL")
+    } else if (is(device_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_concept_id = (", as.character(device_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_concept_id = '", device_concept_id,"'"))
+    }
+  }
+
+  if (!missing(device_exposure_start_date)) {
+    if (is.null(device_exposure_start_date)) {
+      whereClauses <- c(whereClauses, "device_exposure_start_date IS NULL")
+    } else if (is(device_exposure_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_exposure_start_date = (", as.character(device_exposure_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_start_date = '", device_exposure_start_date,"'"))
+    }
+  }
+
+  if (!missing(device_exposure_start_datetime)) {
+    if (is.null(device_exposure_start_datetime)) {
+      whereClauses <- c(whereClauses, "device_exposure_start_datetime IS NULL")
+    } else if (is(device_exposure_start_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_exposure_start_datetime = (", as.character(device_exposure_start_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_start_datetime = '", device_exposure_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(device_exposure_end_date)) {
+    if (is.null(device_exposure_end_date)) {
+      whereClauses <- c(whereClauses, "device_exposure_end_date IS NULL")
+    } else if (is(device_exposure_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_exposure_end_date = (", as.character(device_exposure_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_end_date = '", device_exposure_end_date,"'"))
+    }
+  }
+
+  if (!missing(device_exposure_end_datetime)) {
+    if (is.null(device_exposure_end_datetime)) {
+      whereClauses <- c(whereClauses, "device_exposure_end_datetime IS NULL")
+    } else if (is(device_exposure_end_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_exposure_end_datetime = (", as.character(device_exposure_end_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_end_datetime = '", device_exposure_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(device_type_concept_id)) {
+    if (is.null(device_type_concept_id)) {
+      whereClauses <- c(whereClauses, "device_type_concept_id IS NULL")
+    } else if (is(device_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_type_concept_id = (", as.character(device_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_type_concept_id = '", device_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unique_device_id)) {
+    if (is.null(unique_device_id)) {
+      whereClauses <- c(whereClauses, "unique_device_id IS NULL")
+    } else if (is(unique_device_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unique_device_id = (", as.character(unique_device_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unique_device_id = '", unique_device_id,"'"))
+    }
+  }
+
+  if (!missing(quantity)) {
+    if (is.null(quantity)) {
+      whereClauses <- c(whereClauses, "quantity IS NULL")
+    } else if (is(quantity, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("quantity = (", as.character(quantity), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("quantity = '", quantity,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(device_source_value)) {
+    if (is.null(device_source_value)) {
+      whereClauses <- c(whereClauses, "device_source_value IS NULL")
+    } else if (is(device_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_source_value = (", as.character(device_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_source_value = '", device_source_value,"'"))
+    }
+  }
+
+  if (!missing(device_source__concept_id)) {
+    if (is.null(device_source__concept_id)) {
+      whereClauses <- c(whereClauses, "[device_source_ concept_id] IS NULL")
+    } else if (is(device_source__concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("[device_source_ concept_id] = (", as.character(device_source__concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("[device_source_ concept_id] = '", device_source__concept_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_drug_exposure <- function(drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_start_datetime, drug_exposure_end_date, drug_exposure_end_datetime, verbatim_end_date, drug_type_concept_id, stop_reason, refills, quantity, days_supply, sig, route_concept_id, lot_number, provider_id, visit_occurrence_id, drug_source_value, drug_source_concept_id, route_source_value, dose_unit_source_value, visit_detail_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect drug_exposure' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.drug_exposure WHERE ")
+  whereClauses = NULL;
+  if (!missing(drug_exposure_id)) {
+    if (is.null(drug_exposure_id)) {
+      whereClauses <- c(whereClauses, "drug_exposure_id IS NULL")
+    } else if (is(drug_exposure_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_id = (", as.character(drug_exposure_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_id = '", drug_exposure_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(drug_concept_id)) {
+    if (is.null(drug_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_concept_id IS NULL")
+    } else if (is(drug_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = (", as.character(drug_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = '", drug_concept_id,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_start_date)) {
+    if (is.null(drug_exposure_start_date)) {
+      whereClauses <- c(whereClauses, "drug_exposure_start_date IS NULL")
+    } else if (is(drug_exposure_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_start_date = (", as.character(drug_exposure_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_start_date = '", drug_exposure_start_date,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_start_datetime)) {
+    if (is.null(drug_exposure_start_datetime)) {
+      whereClauses <- c(whereClauses, "drug_exposure_start_datetime IS NULL")
+    } else if (is(drug_exposure_start_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_start_datetime = (", as.character(drug_exposure_start_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_start_datetime = '", drug_exposure_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_end_date)) {
+    if (is.null(drug_exposure_end_date)) {
+      whereClauses <- c(whereClauses, "drug_exposure_end_date IS NULL")
+    } else if (is(drug_exposure_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_end_date = (", as.character(drug_exposure_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_end_date = '", drug_exposure_end_date,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_end_datetime)) {
+    if (is.null(drug_exposure_end_datetime)) {
+      whereClauses <- c(whereClauses, "drug_exposure_end_datetime IS NULL")
+    } else if (is(drug_exposure_end_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_end_datetime = (", as.character(drug_exposure_end_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_end_datetime = '", drug_exposure_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(verbatim_end_date)) {
+    if (is.null(verbatim_end_date)) {
+      whereClauses <- c(whereClauses, "verbatim_end_date IS NULL")
+    } else if (is(verbatim_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("verbatim_end_date = (", as.character(verbatim_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("verbatim_end_date = '", verbatim_end_date,"'"))
+    }
+  }
+
+  if (!missing(drug_type_concept_id)) {
+    if (is.null(drug_type_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_type_concept_id IS NULL")
+    } else if (is(drug_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_type_concept_id = (", as.character(drug_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_type_concept_id = '", drug_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(stop_reason)) {
+    if (is.null(stop_reason)) {
+      whereClauses <- c(whereClauses, "stop_reason IS NULL")
+    } else if (is(stop_reason, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("stop_reason = (", as.character(stop_reason), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("stop_reason = '", stop_reason,"'"))
+    }
+  }
+
+  if (!missing(refills)) {
+    if (is.null(refills)) {
+      whereClauses <- c(whereClauses, "refills IS NULL")
+    } else if (is(refills, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("refills = (", as.character(refills), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("refills = '", refills,"'"))
+    }
+  }
+
+  if (!missing(quantity)) {
+    if (is.null(quantity)) {
+      whereClauses <- c(whereClauses, "quantity IS NULL")
+    } else if (is(quantity, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("quantity = (", as.character(quantity), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("quantity = '", quantity,"'"))
+    }
+  }
+
+  if (!missing(days_supply)) {
+    if (is.null(days_supply)) {
+      whereClauses <- c(whereClauses, "days_supply IS NULL")
+    } else if (is(days_supply, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("days_supply = (", as.character(days_supply), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("days_supply = '", days_supply,"'"))
+    }
+  }
+
+  if (!missing(sig)) {
+    if (is.null(sig)) {
+      whereClauses <- c(whereClauses, "sig IS NULL")
+    } else if (is(sig, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("sig = (", as.character(sig), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("sig = '", sig,"'"))
+    }
+  }
+
+  if (!missing(route_concept_id)) {
+    if (is.null(route_concept_id)) {
+      whereClauses <- c(whereClauses, "route_concept_id IS NULL")
+    } else if (is(route_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("route_concept_id = (", as.character(route_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("route_concept_id = '", route_concept_id,"'"))
+    }
+  }
+
+  if (!missing(lot_number)) {
+    if (is.null(lot_number)) {
+      whereClauses <- c(whereClauses, "lot_number IS NULL")
+    } else if (is(lot_number, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("lot_number = (", as.character(lot_number), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("lot_number = '", lot_number,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(drug_source_value)) {
+    if (is.null(drug_source_value)) {
+      whereClauses <- c(whereClauses, "drug_source_value IS NULL")
+    } else if (is(drug_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_source_value = (", as.character(drug_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_source_value = '", drug_source_value,"'"))
+    }
+  }
+
+  if (!missing(drug_source_concept_id)) {
+    if (is.null(drug_source_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_source_concept_id IS NULL")
+    } else if (is(drug_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_source_concept_id = (", as.character(drug_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_source_concept_id = '", drug_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(route_source_value)) {
+    if (is.null(route_source_value)) {
+      whereClauses <- c(whereClauses, "route_source_value IS NULL")
+    } else if (is(route_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("route_source_value = (", as.character(route_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("route_source_value = '", route_source_value,"'"))
+    }
+  }
+
+  if (!missing(dose_unit_source_value)) {
+    if (is.null(dose_unit_source_value)) {
+      whereClauses <- c(whereClauses, "dose_unit_source_value IS NULL")
+    } else if (is(dose_unit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dose_unit_source_value = (", as.character(dose_unit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_unit_source_value = '", dose_unit_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_fact_relationship <- function(domain_concept_id_1, fact_id_1, domain_concept_id_2, fact_id_2, relationship_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect fact_relationship' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.fact_relationship WHERE ")
+  whereClauses = NULL;
+  if (!missing(domain_concept_id_1)) {
+    if (is.null(domain_concept_id_1)) {
+      whereClauses <- c(whereClauses, "domain_concept_id_1 IS NULL")
+    } else if (is(domain_concept_id_1, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("domain_concept_id_1 = (", as.character(domain_concept_id_1), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("domain_concept_id_1 = '", domain_concept_id_1,"'"))
+    }
+  }
+
+  if (!missing(fact_id_1)) {
+    if (is.null(fact_id_1)) {
+      whereClauses <- c(whereClauses, "fact_id_1 IS NULL")
+    } else if (is(fact_id_1, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("fact_id_1 = (", as.character(fact_id_1), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("fact_id_1 = '", fact_id_1,"'"))
+    }
+  }
+
+  if (!missing(domain_concept_id_2)) {
+    if (is.null(domain_concept_id_2)) {
+      whereClauses <- c(whereClauses, "domain_concept_id_2 IS NULL")
+    } else if (is(domain_concept_id_2, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("domain_concept_id_2 = (", as.character(domain_concept_id_2), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("domain_concept_id_2 = '", domain_concept_id_2,"'"))
+    }
+  }
+
+  if (!missing(fact_id_2)) {
+    if (is.null(fact_id_2)) {
+      whereClauses <- c(whereClauses, "fact_id_2 IS NULL")
+    } else if (is(fact_id_2, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("fact_id_2 = (", as.character(fact_id_2), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("fact_id_2 = '", fact_id_2,"'"))
+    }
+  }
+
+  if (!missing(relationship_concept_id)) {
+    if (is.null(relationship_concept_id)) {
+      whereClauses <- c(whereClauses, "relationship_concept_id IS NULL")
+    } else if (is(relationship_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("relationship_concept_id = (", as.character(relationship_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("relationship_concept_id = '", relationship_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_measurement <- function(measurement_id, person_id, measurement_concept_id, measurement_date, measurement_datetime, measurement_type_concept_id, operator_concept_id, value_as_number, value_as_concept_id, unit_concept_id, range_low, range_high, provider_id, visit_occurrence_id, visit_detail_id, measurement_source_value, measurement_source_concept_id, unit_source_value, value_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect measurement' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.measurement WHERE ")
+  whereClauses = NULL;
+  if (!missing(measurement_id)) {
+    if (is.null(measurement_id)) {
+      whereClauses <- c(whereClauses, "measurement_id IS NULL")
+    } else if (is(measurement_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_id = (", as.character(measurement_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_id = '", measurement_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(measurement_concept_id)) {
+    if (is.null(measurement_concept_id)) {
+      whereClauses <- c(whereClauses, "measurement_concept_id IS NULL")
+    } else if (is(measurement_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_concept_id = (", as.character(measurement_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_concept_id = '", measurement_concept_id,"'"))
+    }
+  }
+
+  if (!missing(measurement_date)) {
+    if (is.null(measurement_date)) {
+      whereClauses <- c(whereClauses, "measurement_date IS NULL")
+    } else if (is(measurement_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_date = (", as.character(measurement_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_date = '", measurement_date,"'"))
+    }
+  }
+
+  if (!missing(measurement_datetime)) {
+    if (is.null(measurement_datetime)) {
+      whereClauses <- c(whereClauses, "measurement_datetime IS NULL")
+    } else if (is(measurement_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_datetime = (", as.character(measurement_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_datetime = '", measurement_datetime,"'"))
+    }
+  }
+
+  if (!missing(measurement_type_concept_id)) {
+    if (is.null(measurement_type_concept_id)) {
+      whereClauses <- c(whereClauses, "measurement_type_concept_id IS NULL")
+    } else if (is(measurement_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_type_concept_id = (", as.character(measurement_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_type_concept_id = '", measurement_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(operator_concept_id)) {
+    if (is.null(operator_concept_id)) {
+      whereClauses <- c(whereClauses, "operator_concept_id IS NULL")
+    } else if (is(operator_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("operator_concept_id = (", as.character(operator_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("operator_concept_id = '", operator_concept_id,"'"))
+    }
+  }
+
+  if (!missing(value_as_number)) {
+    if (is.null(value_as_number)) {
+      whereClauses <- c(whereClauses, "value_as_number IS NULL")
+    } else if (is(value_as_number, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_number = (", as.character(value_as_number), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_number = '", value_as_number,"'"))
+    }
+  }
+
+  if (!missing(value_as_concept_id)) {
+    if (is.null(value_as_concept_id)) {
+      whereClauses <- c(whereClauses, "value_as_concept_id IS NULL")
+    } else if (is(value_as_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = (", as.character(value_as_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = '", value_as_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_concept_id)) {
+    if (is.null(unit_concept_id)) {
+      whereClauses <- c(whereClauses, "unit_concept_id IS NULL")
+    } else if (is(unit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = (", as.character(unit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = '", unit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(range_low)) {
+    if (is.null(range_low)) {
+      whereClauses <- c(whereClauses, "range_low IS NULL")
+    } else if (is(range_low, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("range_low = (", as.character(range_low), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("range_low = '", range_low,"'"))
+    }
+  }
+
+  if (!missing(range_high)) {
+    if (is.null(range_high)) {
+      whereClauses <- c(whereClauses, "range_high IS NULL")
+    } else if (is(range_high, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("range_high = (", as.character(range_high), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("range_high = '", range_high,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(measurement_source_value)) {
+    if (is.null(measurement_source_value)) {
+      whereClauses <- c(whereClauses, "measurement_source_value IS NULL")
+    } else if (is(measurement_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_source_value = (", as.character(measurement_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_source_value = '", measurement_source_value,"'"))
+    }
+  }
+
+  if (!missing(measurement_source_concept_id)) {
+    if (is.null(measurement_source_concept_id)) {
+      whereClauses <- c(whereClauses, "measurement_source_concept_id IS NULL")
+    } else if (is(measurement_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_source_concept_id = (", as.character(measurement_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_source_concept_id = '", measurement_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_source_value)) {
+    if (is.null(unit_source_value)) {
+      whereClauses <- c(whereClauses, "unit_source_value IS NULL")
+    } else if (is(unit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_source_value = (", as.character(unit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_source_value = '", unit_source_value,"'"))
+    }
+  }
+
+  if (!missing(value_source_value)) {
+    if (is.null(value_source_value)) {
+      whereClauses <- c(whereClauses, "value_source_value IS NULL")
+    } else if (is(value_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_source_value = (", as.character(value_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_source_value = '", value_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_note <- function(note_id, person_id, note_date, note_datetime, note_type_concept_id, note_class_concept_id, note_title, note_text, encoding_concept_id, language_concept_id, provider_id, note_source_value, visit_occurrence_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect note' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.note WHERE ")
+  whereClauses = NULL;
+  if (!missing(note_id)) {
+    if (is.null(note_id)) {
+      whereClauses <- c(whereClauses, "note_id IS NULL")
+    } else if (is(note_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_id = (", as.character(note_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_id = '", note_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(note_date)) {
+    if (is.null(note_date)) {
+      whereClauses <- c(whereClauses, "note_date IS NULL")
+    } else if (is(note_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_date = (", as.character(note_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_date = '", note_date,"'"))
+    }
+  }
+
+  if (!missing(note_datetime)) {
+    if (is.null(note_datetime)) {
+      whereClauses <- c(whereClauses, "note_datetime IS NULL")
+    } else if (is(note_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_datetime = (", as.character(note_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_datetime = '", note_datetime,"'"))
+    }
+  }
+
+  if (!missing(note_type_concept_id)) {
+    if (is.null(note_type_concept_id)) {
+      whereClauses <- c(whereClauses, "note_type_concept_id IS NULL")
+    } else if (is(note_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_type_concept_id = (", as.character(note_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_type_concept_id = '", note_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(note_class_concept_id)) {
+    if (is.null(note_class_concept_id)) {
+      whereClauses <- c(whereClauses, "note_class_concept_id IS NULL")
+    } else if (is(note_class_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_class_concept_id = (", as.character(note_class_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_class_concept_id = '", note_class_concept_id,"'"))
+    }
+  }
+
+  if (!missing(note_title)) {
+    if (is.null(note_title)) {
+      whereClauses <- c(whereClauses, "note_title IS NULL")
+    } else if (is(note_title, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_title = (", as.character(note_title), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_title = '", note_title,"'"))
+    }
+  }
+
+  if (!missing(note_text)) {
+    if (is.null(note_text)) {
+      whereClauses <- c(whereClauses, "note_text IS NULL")
+    } else if (is(note_text, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_text = (", as.character(note_text), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_text = '", note_text,"'"))
+    }
+  }
+
+  if (!missing(encoding_concept_id)) {
+    if (is.null(encoding_concept_id)) {
+      whereClauses <- c(whereClauses, "encoding_concept_id IS NULL")
+    } else if (is(encoding_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("encoding_concept_id = (", as.character(encoding_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("encoding_concept_id = '", encoding_concept_id,"'"))
+    }
+  }
+
+  if (!missing(language_concept_id)) {
+    if (is.null(language_concept_id)) {
+      whereClauses <- c(whereClauses, "language_concept_id IS NULL")
+    } else if (is(language_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("language_concept_id = (", as.character(language_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("language_concept_id = '", language_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(note_source_value)) {
+    if (is.null(note_source_value)) {
+      whereClauses <- c(whereClauses, "note_source_value IS NULL")
+    } else if (is(note_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_source_value = (", as.character(note_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_source_value = '", note_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_note_nlp <- function(note_nlp_id, note_id, section_concept_id, snippet, offset, lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_date_time, term_exists, term_temporal, term_modifiers) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect note_nlp' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.note_nlp WHERE ")
+  whereClauses = NULL;
+  if (!missing(note_nlp_id)) {
+    if (is.null(note_nlp_id)) {
+      whereClauses <- c(whereClauses, "note_nlp_id IS NULL")
+    } else if (is(note_nlp_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_nlp_id = (", as.character(note_nlp_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_nlp_id = '", note_nlp_id,"'"))
+    }
+  }
+
+  if (!missing(note_id)) {
+    if (is.null(note_id)) {
+      whereClauses <- c(whereClauses, "note_id IS NULL")
+    } else if (is(note_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_id = (", as.character(note_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_id = '", note_id,"'"))
+    }
+  }
+
+  if (!missing(section_concept_id)) {
+    if (is.null(section_concept_id)) {
+      whereClauses <- c(whereClauses, "section_concept_id IS NULL")
+    } else if (is(section_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("section_concept_id = (", as.character(section_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("section_concept_id = '", section_concept_id,"'"))
+    }
+  }
+
+  if (!missing(snippet)) {
+    if (is.null(snippet)) {
+      whereClauses <- c(whereClauses, "snippet IS NULL")
+    } else if (is(snippet, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("snippet = (", as.character(snippet), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("snippet = '", snippet,"'"))
+    }
+  }
+
+  if (!missing(offset)) {
+    if (is.null(offset)) {
+      whereClauses <- c(whereClauses, "offset IS NULL")
+    } else if (is(offset, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("offset = (", as.character(offset), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("offset = '", offset,"'"))
+    }
+  }
+
+  if (!missing(lexical_variant)) {
+    if (is.null(lexical_variant)) {
+      whereClauses <- c(whereClauses, "lexical_variant IS NULL")
+    } else if (is(lexical_variant, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("lexical_variant = (", as.character(lexical_variant), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("lexical_variant = '", lexical_variant,"'"))
+    }
+  }
+
+  if (!missing(note_nlp_concept_id)) {
+    if (is.null(note_nlp_concept_id)) {
+      whereClauses <- c(whereClauses, "note_nlp_concept_id IS NULL")
+    } else if (is(note_nlp_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_nlp_concept_id = (", as.character(note_nlp_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_nlp_concept_id = '", note_nlp_concept_id,"'"))
+    }
+  }
+
+  if (!missing(note_nlp_source_concept_id)) {
+    if (is.null(note_nlp_source_concept_id)) {
+      whereClauses <- c(whereClauses, "note_nlp_source_concept_id IS NULL")
+    } else if (is(note_nlp_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_nlp_source_concept_id = (", as.character(note_nlp_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_nlp_source_concept_id = '", note_nlp_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(nlp_system)) {
+    if (is.null(nlp_system)) {
+      whereClauses <- c(whereClauses, "nlp_system IS NULL")
+    } else if (is(nlp_system, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("nlp_system = (", as.character(nlp_system), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("nlp_system = '", nlp_system,"'"))
+    }
+  }
+
+  if (!missing(nlp_date)) {
+    if (is.null(nlp_date)) {
+      whereClauses <- c(whereClauses, "nlp_date IS NULL")
+    } else if (is(nlp_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("nlp_date = (", as.character(nlp_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("nlp_date = '", nlp_date,"'"))
+    }
+  }
+
+  if (!missing(nlp_date_time)) {
+    if (is.null(nlp_date_time)) {
+      whereClauses <- c(whereClauses, "nlp_date_time IS NULL")
+    } else if (is(nlp_date_time, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("nlp_date_time = (", as.character(nlp_date_time), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("nlp_date_time = '", nlp_date_time,"'"))
+    }
+  }
+
+  if (!missing(term_exists)) {
+    if (is.null(term_exists)) {
+      whereClauses <- c(whereClauses, "term_exists IS NULL")
+    } else if (is(term_exists, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("term_exists = (", as.character(term_exists), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("term_exists = '", term_exists,"'"))
+    }
+  }
+
+  if (!missing(term_temporal)) {
+    if (is.null(term_temporal)) {
+      whereClauses <- c(whereClauses, "term_temporal IS NULL")
+    } else if (is(term_temporal, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("term_temporal = (", as.character(term_temporal), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("term_temporal = '", term_temporal,"'"))
+    }
+  }
+
+  if (!missing(term_modifiers)) {
+    if (is.null(term_modifiers)) {
+      whereClauses <- c(whereClauses, "term_modifiers IS NULL")
+    } else if (is(term_modifiers, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("term_modifiers = (", as.character(term_modifiers), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("term_modifiers = '", term_modifiers,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_observation <- function(observation_id, person_id, observation_concept_id, observation_date, observation_datetime, observation_type_concept_id, value_as_number, value_as_string, value_as_concept_id, qualifier_concept_id, unit_concept_id, provider_id, visit_occurrence_id, visit_detail_id, observation_source_value, observation_source_concept_id, unit_source_value, qualifier_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect observation' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.observation WHERE ")
+  whereClauses = NULL;
+  if (!missing(observation_id)) {
+    if (is.null(observation_id)) {
+      whereClauses <- c(whereClauses, "observation_id IS NULL")
+    } else if (is(observation_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_id = (", as.character(observation_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_id = '", observation_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(observation_concept_id)) {
+    if (is.null(observation_concept_id)) {
+      whereClauses <- c(whereClauses, "observation_concept_id IS NULL")
+    } else if (is(observation_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_concept_id = (", as.character(observation_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_concept_id = '", observation_concept_id,"'"))
+    }
+  }
+
+  if (!missing(observation_date)) {
+    if (is.null(observation_date)) {
+      whereClauses <- c(whereClauses, "observation_date IS NULL")
+    } else if (is(observation_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_date = (", as.character(observation_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_date = '", observation_date,"'"))
+    }
+  }
+
+  if (!missing(observation_datetime)) {
+    if (is.null(observation_datetime)) {
+      whereClauses <- c(whereClauses, "observation_datetime IS NULL")
+    } else if (is(observation_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_datetime = (", as.character(observation_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_datetime = '", observation_datetime,"'"))
+    }
+  }
+
+  if (!missing(observation_type_concept_id)) {
+    if (is.null(observation_type_concept_id)) {
+      whereClauses <- c(whereClauses, "observation_type_concept_id IS NULL")
+    } else if (is(observation_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_type_concept_id = (", as.character(observation_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_type_concept_id = '", observation_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(value_as_number)) {
+    if (is.null(value_as_number)) {
+      whereClauses <- c(whereClauses, "value_as_number IS NULL")
+    } else if (is(value_as_number, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_number = (", as.character(value_as_number), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_number = '", value_as_number,"'"))
+    }
+  }
+
+  if (!missing(value_as_string)) {
+    if (is.null(value_as_string)) {
+      whereClauses <- c(whereClauses, "value_as_string IS NULL")
+    } else if (is(value_as_string, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_string = (", as.character(value_as_string), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_string = '", value_as_string,"'"))
+    }
+  }
+
+  if (!missing(value_as_concept_id)) {
+    if (is.null(value_as_concept_id)) {
+      whereClauses <- c(whereClauses, "value_as_concept_id IS NULL")
+    } else if (is(value_as_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = (", as.character(value_as_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = '", value_as_concept_id,"'"))
+    }
+  }
+
+  if (!missing(qualifier_concept_id)) {
+    if (is.null(qualifier_concept_id)) {
+      whereClauses <- c(whereClauses, "qualifier_concept_id IS NULL")
+    } else if (is(qualifier_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("qualifier_concept_id = (", as.character(qualifier_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("qualifier_concept_id = '", qualifier_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_concept_id)) {
+    if (is.null(unit_concept_id)) {
+      whereClauses <- c(whereClauses, "unit_concept_id IS NULL")
+    } else if (is(unit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = (", as.character(unit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = '", unit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(observation_source_value)) {
+    if (is.null(observation_source_value)) {
+      whereClauses <- c(whereClauses, "observation_source_value IS NULL")
+    } else if (is(observation_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_source_value = (", as.character(observation_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_source_value = '", observation_source_value,"'"))
+    }
+  }
+
+  if (!missing(observation_source_concept_id)) {
+    if (is.null(observation_source_concept_id)) {
+      whereClauses <- c(whereClauses, "observation_source_concept_id IS NULL")
+    } else if (is(observation_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_source_concept_id = (", as.character(observation_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_source_concept_id = '", observation_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_source_value)) {
+    if (is.null(unit_source_value)) {
+      whereClauses <- c(whereClauses, "unit_source_value IS NULL")
+    } else if (is(unit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_source_value = (", as.character(unit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_source_value = '", unit_source_value,"'"))
+    }
+  }
+
+  if (!missing(qualifier_source_value)) {
+    if (is.null(qualifier_source_value)) {
+      whereClauses <- c(whereClauses, "qualifier_source_value IS NULL")
+    } else if (is(qualifier_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("qualifier_source_value = (", as.character(qualifier_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("qualifier_source_value = '", qualifier_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_observation_period <- function(observation_period_id, person_id, observation_period_start_date, observation_period_end_date, period_type_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect observation_period' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.observation_period WHERE ")
+  whereClauses = NULL;
+  if (!missing(observation_period_id)) {
+    if (is.null(observation_period_id)) {
+      whereClauses <- c(whereClauses, "observation_period_id IS NULL")
+    } else if (is(observation_period_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_period_id = (", as.character(observation_period_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_period_id = '", observation_period_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(observation_period_start_date)) {
+    if (is.null(observation_period_start_date)) {
+      whereClauses <- c(whereClauses, "observation_period_start_date IS NULL")
+    } else if (is(observation_period_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_period_start_date = (", as.character(observation_period_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_period_start_date = '", observation_period_start_date,"'"))
+    }
+  }
+
+  if (!missing(observation_period_end_date)) {
+    if (is.null(observation_period_end_date)) {
+      whereClauses <- c(whereClauses, "observation_period_end_date IS NULL")
+    } else if (is(observation_period_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_period_end_date = (", as.character(observation_period_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_period_end_date = '", observation_period_end_date,"'"))
+    }
+  }
+
+  if (!missing(period_type_concept_id)) {
+    if (is.null(period_type_concept_id)) {
+      whereClauses <- c(whereClauses, "period_type_concept_id IS NULL")
+    } else if (is(period_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("period_type_concept_id = (", as.character(period_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("period_type_concept_id = '", period_type_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_person <- function(person_id, gender_concept_id, year_of_birth, month_of_birth, day_of_birth, birth_datetime, race_concept_id, ethnicity_concept_id, location_id, provider_id, care_site_id, person_source_value, gender_source_value, gender_source_concept_id, race_source_value, race_source_concept_id, ethnicity_source_value, ethnicity_source_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect person' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.person WHERE ")
+  whereClauses = NULL;
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(gender_concept_id)) {
+    if (is.null(gender_concept_id)) {
+      whereClauses <- c(whereClauses, "gender_concept_id IS NULL")
+    } else if (is(gender_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_concept_id = (", as.character(gender_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_concept_id = '", gender_concept_id,"'"))
+    }
+  }
+
+  if (!missing(year_of_birth)) {
+    if (is.null(year_of_birth)) {
+      whereClauses <- c(whereClauses, "year_of_birth IS NULL")
+    } else if (is(year_of_birth, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("year_of_birth = (", as.character(year_of_birth), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("year_of_birth = '", year_of_birth,"'"))
+    }
+  }
+
+  if (!missing(month_of_birth)) {
+    if (is.null(month_of_birth)) {
+      whereClauses <- c(whereClauses, "month_of_birth IS NULL")
+    } else if (is(month_of_birth, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("month_of_birth = (", as.character(month_of_birth), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("month_of_birth = '", month_of_birth,"'"))
+    }
+  }
+
+  if (!missing(day_of_birth)) {
+    if (is.null(day_of_birth)) {
+      whereClauses <- c(whereClauses, "day_of_birth IS NULL")
+    } else if (is(day_of_birth, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("day_of_birth = (", as.character(day_of_birth), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("day_of_birth = '", day_of_birth,"'"))
+    }
+  }
+
+  if (!missing(birth_datetime)) {
+    if (is.null(birth_datetime)) {
+      whereClauses <- c(whereClauses, "birth_datetime IS NULL")
+    } else if (is(birth_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("birth_datetime = (", as.character(birth_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("birth_datetime = '", birth_datetime,"'"))
+    }
+  }
+
+  if (!missing(race_concept_id)) {
+    if (is.null(race_concept_id)) {
+      whereClauses <- c(whereClauses, "race_concept_id IS NULL")
+    } else if (is(race_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("race_concept_id = (", as.character(race_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("race_concept_id = '", race_concept_id,"'"))
+    }
+  }
+
+  if (!missing(ethnicity_concept_id)) {
+    if (is.null(ethnicity_concept_id)) {
+      whereClauses <- c(whereClauses, "ethnicity_concept_id IS NULL")
+    } else if (is(ethnicity_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("ethnicity_concept_id = (", as.character(ethnicity_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("ethnicity_concept_id = '", ethnicity_concept_id,"'"))
+    }
+  }
+
+  if (!missing(location_id)) {
+    if (is.null(location_id)) {
+      whereClauses <- c(whereClauses, "location_id IS NULL")
+    } else if (is(location_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("location_id = (", as.character(location_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("location_id = '", location_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else if (is(care_site_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_id = (", as.character(care_site_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(person_source_value)) {
+    if (is.null(person_source_value)) {
+      whereClauses <- c(whereClauses, "person_source_value IS NULL")
+    } else if (is(person_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_source_value = (", as.character(person_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_source_value = '", person_source_value,"'"))
+    }
+  }
+
+  if (!missing(gender_source_value)) {
+    if (is.null(gender_source_value)) {
+      whereClauses <- c(whereClauses, "gender_source_value IS NULL")
+    } else if (is(gender_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_source_value = (", as.character(gender_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_source_value = '", gender_source_value,"'"))
+    }
+  }
+
+  if (!missing(gender_source_concept_id)) {
+    if (is.null(gender_source_concept_id)) {
+      whereClauses <- c(whereClauses, "gender_source_concept_id IS NULL")
+    } else if (is(gender_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_source_concept_id = (", as.character(gender_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_source_concept_id = '", gender_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(race_source_value)) {
+    if (is.null(race_source_value)) {
+      whereClauses <- c(whereClauses, "race_source_value IS NULL")
+    } else if (is(race_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("race_source_value = (", as.character(race_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("race_source_value = '", race_source_value,"'"))
+    }
+  }
+
+  if (!missing(race_source_concept_id)) {
+    if (is.null(race_source_concept_id)) {
+      whereClauses <- c(whereClauses, "race_source_concept_id IS NULL")
+    } else if (is(race_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("race_source_concept_id = (", as.character(race_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("race_source_concept_id = '", race_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(ethnicity_source_value)) {
+    if (is.null(ethnicity_source_value)) {
+      whereClauses <- c(whereClauses, "ethnicity_source_value IS NULL")
+    } else if (is(ethnicity_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("ethnicity_source_value = (", as.character(ethnicity_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("ethnicity_source_value = '", ethnicity_source_value,"'"))
+    }
+  }
+
+  if (!missing(ethnicity_source_concept_id)) {
+    if (is.null(ethnicity_source_concept_id)) {
+      whereClauses <- c(whereClauses, "ethnicity_source_concept_id IS NULL")
+    } else if (is(ethnicity_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("ethnicity_source_concept_id = (", as.character(ethnicity_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("ethnicity_source_concept_id = '", ethnicity_source_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_procedure_occurrence <- function(procedure_occurrence_id, person_id, procedure_concept_id, procedure_date, procedure_datetime, procedure_type_concept_id, modifier_concept_id, quantity, provider_id, visit_occurrence_id, procedure_source_value, procedure_source_concept_id, qualifier_source_value, visit_detail_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect procedure_occurrence' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.procedure_occurrence WHERE ")
+  whereClauses = NULL;
+  if (!missing(procedure_occurrence_id)) {
+    if (is.null(procedure_occurrence_id)) {
+      whereClauses <- c(whereClauses, "procedure_occurrence_id IS NULL")
+    } else if (is(procedure_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_occurrence_id = (", as.character(procedure_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_occurrence_id = '", procedure_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(procedure_concept_id)) {
+    if (is.null(procedure_concept_id)) {
+      whereClauses <- c(whereClauses, "procedure_concept_id IS NULL")
+    } else if (is(procedure_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_concept_id = (", as.character(procedure_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_concept_id = '", procedure_concept_id,"'"))
+    }
+  }
+
+  if (!missing(procedure_date)) {
+    if (is.null(procedure_date)) {
+      whereClauses <- c(whereClauses, "procedure_date IS NULL")
+    } else if (is(procedure_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_date = (", as.character(procedure_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_date = '", procedure_date,"'"))
+    }
+  }
+
+  if (!missing(procedure_datetime)) {
+    if (is.null(procedure_datetime)) {
+      whereClauses <- c(whereClauses, "procedure_datetime IS NULL")
+    } else if (is(procedure_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_datetime = (", as.character(procedure_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_datetime = '", procedure_datetime,"'"))
+    }
+  }
+
+  if (!missing(procedure_type_concept_id)) {
+    if (is.null(procedure_type_concept_id)) {
+      whereClauses <- c(whereClauses, "procedure_type_concept_id IS NULL")
+    } else if (is(procedure_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_type_concept_id = (", as.character(procedure_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_type_concept_id = '", procedure_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(modifier_concept_id)) {
+    if (is.null(modifier_concept_id)) {
+      whereClauses <- c(whereClauses, "modifier_concept_id IS NULL")
+    } else if (is(modifier_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("modifier_concept_id = (", as.character(modifier_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("modifier_concept_id = '", modifier_concept_id,"'"))
+    }
+  }
+
+  if (!missing(quantity)) {
+    if (is.null(quantity)) {
+      whereClauses <- c(whereClauses, "quantity IS NULL")
+    } else if (is(quantity, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("quantity = (", as.character(quantity), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("quantity = '", quantity,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(procedure_source_value)) {
+    if (is.null(procedure_source_value)) {
+      whereClauses <- c(whereClauses, "procedure_source_value IS NULL")
+    } else if (is(procedure_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_source_value = (", as.character(procedure_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_source_value = '", procedure_source_value,"'"))
+    }
+  }
+
+  if (!missing(procedure_source_concept_id)) {
+    if (is.null(procedure_source_concept_id)) {
+      whereClauses <- c(whereClauses, "procedure_source_concept_id IS NULL")
+    } else if (is(procedure_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_source_concept_id = (", as.character(procedure_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_source_concept_id = '", procedure_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(qualifier_source_value)) {
+    if (is.null(qualifier_source_value)) {
+      whereClauses <- c(whereClauses, "qualifier_source_value IS NULL")
+    } else if (is(qualifier_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("qualifier_source_value = (", as.character(qualifier_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("qualifier_source_value = '", qualifier_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_specimen <- function(specimen_id, person_id, specimen_concept_id, specimen_type_concept_id, specimen_date, specimen_datetime, quantity, unit_concept_id, anatomic_site_concept_id, disease_status_concept_id, specimen_source_id, specimen_source_value, unit_source_value, anatomic_site_source_value, disease_status_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect specimen' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.specimen WHERE ")
+  whereClauses = NULL;
+  if (!missing(specimen_id)) {
+    if (is.null(specimen_id)) {
+      whereClauses <- c(whereClauses, "specimen_id IS NULL")
+    } else if (is(specimen_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_id = (", as.character(specimen_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_id = '", specimen_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_concept_id)) {
+    if (is.null(specimen_concept_id)) {
+      whereClauses <- c(whereClauses, "specimen_concept_id IS NULL")
+    } else if (is(specimen_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_concept_id = (", as.character(specimen_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_concept_id = '", specimen_concept_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_type_concept_id)) {
+    if (is.null(specimen_type_concept_id)) {
+      whereClauses <- c(whereClauses, "specimen_type_concept_id IS NULL")
+    } else if (is(specimen_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_type_concept_id = (", as.character(specimen_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_type_concept_id = '", specimen_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_date)) {
+    if (is.null(specimen_date)) {
+      whereClauses <- c(whereClauses, "specimen_date IS NULL")
+    } else if (is(specimen_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_date = (", as.character(specimen_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_date = '", specimen_date,"'"))
+    }
+  }
+
+  if (!missing(specimen_datetime)) {
+    if (is.null(specimen_datetime)) {
+      whereClauses <- c(whereClauses, "specimen_datetime IS NULL")
+    } else if (is(specimen_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_datetime = (", as.character(specimen_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_datetime = '", specimen_datetime,"'"))
+    }
+  }
+
+  if (!missing(quantity)) {
+    if (is.null(quantity)) {
+      whereClauses <- c(whereClauses, "quantity IS NULL")
+    } else if (is(quantity, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("quantity = (", as.character(quantity), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("quantity = '", quantity,"'"))
+    }
+  }
+
+  if (!missing(unit_concept_id)) {
+    if (is.null(unit_concept_id)) {
+      whereClauses <- c(whereClauses, "unit_concept_id IS NULL")
+    } else if (is(unit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = (", as.character(unit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = '", unit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(anatomic_site_concept_id)) {
+    if (is.null(anatomic_site_concept_id)) {
+      whereClauses <- c(whereClauses, "anatomic_site_concept_id IS NULL")
+    } else if (is(anatomic_site_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("anatomic_site_concept_id = (", as.character(anatomic_site_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("anatomic_site_concept_id = '", anatomic_site_concept_id,"'"))
+    }
+  }
+
+  if (!missing(disease_status_concept_id)) {
+    if (is.null(disease_status_concept_id)) {
+      whereClauses <- c(whereClauses, "disease_status_concept_id IS NULL")
+    } else if (is(disease_status_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("disease_status_concept_id = (", as.character(disease_status_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("disease_status_concept_id = '", disease_status_concept_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_source_id)) {
+    if (is.null(specimen_source_id)) {
+      whereClauses <- c(whereClauses, "specimen_source_id IS NULL")
+    } else if (is(specimen_source_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_source_id = (", as.character(specimen_source_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_source_id = '", specimen_source_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_source_value)) {
+    if (is.null(specimen_source_value)) {
+      whereClauses <- c(whereClauses, "specimen_source_value IS NULL")
+    } else if (is(specimen_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_source_value = (", as.character(specimen_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_source_value = '", specimen_source_value,"'"))
+    }
+  }
+
+  if (!missing(unit_source_value)) {
+    if (is.null(unit_source_value)) {
+      whereClauses <- c(whereClauses, "unit_source_value IS NULL")
+    } else if (is(unit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_source_value = (", as.character(unit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_source_value = '", unit_source_value,"'"))
+    }
+  }
+
+  if (!missing(anatomic_site_source_value)) {
+    if (is.null(anatomic_site_source_value)) {
+      whereClauses <- c(whereClauses, "anatomic_site_source_value IS NULL")
+    } else if (is(anatomic_site_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("anatomic_site_source_value = (", as.character(anatomic_site_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("anatomic_site_source_value = '", anatomic_site_source_value,"'"))
+    }
+  }
+
+  if (!missing(disease_status_source_value)) {
+    if (is.null(disease_status_source_value)) {
+      whereClauses <- c(whereClauses, "disease_status_source_value IS NULL")
+    } else if (is(disease_status_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("disease_status_source_value = (", as.character(disease_status_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("disease_status_source_value = '", disease_status_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_visit_detail <- function(visit_detail_id, person_id, visit_concept_id, visit_start_date, visit_start_datetime, visit_end_date, visit_end_datetime, visit_type_concept_id, provider_id, care_site_id, visit_source_value, visit_source_concept_id, admitting_source_value, admitting_source_concept_id, discharge_to_source_value, discharge_to_concept_id, preceding_visit_detail_id, visit_detail_parent_id, visit_occurrence_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect visit_detail' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.visit_detail WHERE ")
+  whereClauses = NULL;
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(visit_concept_id)) {
+    if (is.null(visit_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_concept_id IS NULL")
+    } else if (is(visit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_concept_id = (", as.character(visit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_concept_id = '", visit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(visit_start_date)) {
+    if (is.null(visit_start_date)) {
+      whereClauses <- c(whereClauses, "visit_start_date IS NULL")
+    } else if (is(visit_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_start_date = (", as.character(visit_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_start_date = '", visit_start_date,"'"))
+    }
+  }
+
+  if (!missing(visit_start_datetime)) {
+    if (is.null(visit_start_datetime)) {
+      whereClauses <- c(whereClauses, "visit_start_datetime IS NULL")
+    } else if (is(visit_start_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_start_datetime = (", as.character(visit_start_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_start_datetime = '", visit_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(visit_end_date)) {
+    if (is.null(visit_end_date)) {
+      whereClauses <- c(whereClauses, "visit_end_date IS NULL")
+    } else if (is(visit_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_end_date = (", as.character(visit_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_end_date = '", visit_end_date,"'"))
+    }
+  }
+
+  if (!missing(visit_end_datetime)) {
+    if (is.null(visit_end_datetime)) {
+      whereClauses <- c(whereClauses, "visit_end_datetime IS NULL")
+    } else if (is(visit_end_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_end_datetime = (", as.character(visit_end_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_end_datetime = '", visit_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(visit_type_concept_id)) {
+    if (is.null(visit_type_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_type_concept_id IS NULL")
+    } else if (is(visit_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_type_concept_id = (", as.character(visit_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_type_concept_id = '", visit_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else if (is(care_site_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_id = (", as.character(care_site_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(visit_source_value)) {
+    if (is.null(visit_source_value)) {
+      whereClauses <- c(whereClauses, "visit_source_value IS NULL")
+    } else if (is(visit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_source_value = (", as.character(visit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_source_value = '", visit_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_source_concept_id)) {
+    if (is.null(visit_source_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_source_concept_id IS NULL")
+    } else if (is(visit_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_source_concept_id = (", as.character(visit_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_source_concept_id = '", visit_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(admitting_source_value)) {
+    if (is.null(admitting_source_value)) {
+      whereClauses <- c(whereClauses, "admitting_source_value IS NULL")
+    } else if (is(admitting_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("admitting_source_value = (", as.character(admitting_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("admitting_source_value = '", admitting_source_value,"'"))
+    }
+  }
+
+  if (!missing(admitting_source_concept_id)) {
+    if (is.null(admitting_source_concept_id)) {
+      whereClauses <- c(whereClauses, "admitting_source_concept_id IS NULL")
+    } else if (is(admitting_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("admitting_source_concept_id = (", as.character(admitting_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("admitting_source_concept_id = '", admitting_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(discharge_to_source_value)) {
+    if (is.null(discharge_to_source_value)) {
+      whereClauses <- c(whereClauses, "discharge_to_source_value IS NULL")
+    } else if (is(discharge_to_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("discharge_to_source_value = (", as.character(discharge_to_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("discharge_to_source_value = '", discharge_to_source_value,"'"))
+    }
+  }
+
+  if (!missing(discharge_to_concept_id)) {
+    if (is.null(discharge_to_concept_id)) {
+      whereClauses <- c(whereClauses, "discharge_to_concept_id IS NULL")
+    } else if (is(discharge_to_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("discharge_to_concept_id = (", as.character(discharge_to_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("discharge_to_concept_id = '", discharge_to_concept_id,"'"))
+    }
+  }
+
+  if (!missing(preceding_visit_detail_id)) {
+    if (is.null(preceding_visit_detail_id)) {
+      whereClauses <- c(whereClauses, "preceding_visit_detail_id IS NULL")
+    } else if (is(preceding_visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("preceding_visit_detail_id = (", as.character(preceding_visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("preceding_visit_detail_id = '", preceding_visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_parent_id)) {
+    if (is.null(visit_detail_parent_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_parent_id IS NULL")
+    } else if (is(visit_detail_parent_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_parent_id = (", as.character(visit_detail_parent_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_parent_id = '", visit_detail_parent_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_visit_occurrence <- function(visit_occurrence_id, person_id, visit_concept_id, visit_start_date, visit_start_datetime, visit_end_date, visit_end_datetime, visit_type_concept_id, provider_id, care_site_id, visit_source_value, visit_source_concept_id, admitting_source_concept_id, admitting_source_value, discharge_to_concept_id, discharge_to_source_value, preceding_visit_occurrence_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect visit_occurrence' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.visit_occurrence WHERE ")
+  whereClauses = NULL;
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(visit_concept_id)) {
+    if (is.null(visit_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_concept_id IS NULL")
+    } else if (is(visit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_concept_id = (", as.character(visit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_concept_id = '", visit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(visit_start_date)) {
+    if (is.null(visit_start_date)) {
+      whereClauses <- c(whereClauses, "visit_start_date IS NULL")
+    } else if (is(visit_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_start_date = (", as.character(visit_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_start_date = '", visit_start_date,"'"))
+    }
+  }
+
+  if (!missing(visit_start_datetime)) {
+    if (is.null(visit_start_datetime)) {
+      whereClauses <- c(whereClauses, "visit_start_datetime IS NULL")
+    } else if (is(visit_start_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_start_datetime = (", as.character(visit_start_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_start_datetime = '", visit_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(visit_end_date)) {
+    if (is.null(visit_end_date)) {
+      whereClauses <- c(whereClauses, "visit_end_date IS NULL")
+    } else if (is(visit_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_end_date = (", as.character(visit_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_end_date = '", visit_end_date,"'"))
+    }
+  }
+
+  if (!missing(visit_end_datetime)) {
+    if (is.null(visit_end_datetime)) {
+      whereClauses <- c(whereClauses, "visit_end_datetime IS NULL")
+    } else if (is(visit_end_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_end_datetime = (", as.character(visit_end_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_end_datetime = '", visit_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(visit_type_concept_id)) {
+    if (is.null(visit_type_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_type_concept_id IS NULL")
+    } else if (is(visit_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_type_concept_id = (", as.character(visit_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_type_concept_id = '", visit_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else if (is(care_site_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_id = (", as.character(care_site_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(visit_source_value)) {
+    if (is.null(visit_source_value)) {
+      whereClauses <- c(whereClauses, "visit_source_value IS NULL")
+    } else if (is(visit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_source_value = (", as.character(visit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_source_value = '", visit_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_source_concept_id)) {
+    if (is.null(visit_source_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_source_concept_id IS NULL")
+    } else if (is(visit_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_source_concept_id = (", as.character(visit_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_source_concept_id = '", visit_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(admitting_source_concept_id)) {
+    if (is.null(admitting_source_concept_id)) {
+      whereClauses <- c(whereClauses, "admitting_source_concept_id IS NULL")
+    } else if (is(admitting_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("admitting_source_concept_id = (", as.character(admitting_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("admitting_source_concept_id = '", admitting_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(admitting_source_value)) {
+    if (is.null(admitting_source_value)) {
+      whereClauses <- c(whereClauses, "admitting_source_value IS NULL")
+    } else if (is(admitting_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("admitting_source_value = (", as.character(admitting_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("admitting_source_value = '", admitting_source_value,"'"))
+    }
+  }
+
+  if (!missing(discharge_to_concept_id)) {
+    if (is.null(discharge_to_concept_id)) {
+      whereClauses <- c(whereClauses, "discharge_to_concept_id IS NULL")
+    } else if (is(discharge_to_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("discharge_to_concept_id = (", as.character(discharge_to_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("discharge_to_concept_id = '", discharge_to_concept_id,"'"))
+    }
+  }
+
+  if (!missing(discharge_to_source_value)) {
+    if (is.null(discharge_to_source_value)) {
+      whereClauses <- c(whereClauses, "discharge_to_source_value IS NULL")
+    } else if (is(discharge_to_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("discharge_to_source_value = (", as.character(discharge_to_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("discharge_to_source_value = '", discharge_to_source_value,"'"))
+    }
+  }
+
+  if (!missing(preceding_visit_occurrence_id)) {
+    if (is.null(preceding_visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "preceding_visit_occurrence_id IS NULL")
+    } else if (is(preceding_visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("preceding_visit_occurrence_id = (", as.character(preceding_visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("preceding_visit_occurrence_id = '", preceding_visit_occurrence_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_cohort <- function(cohort_definition_id, subject_id, cohort_start_date, cohort_end_date) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect cohort' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.cohort WHERE ")
+  whereClauses = NULL;
+  if (!missing(cohort_definition_id)) {
+    if (is.null(cohort_definition_id)) {
+      whereClauses <- c(whereClauses, "cohort_definition_id IS NULL")
+    } else if (is(cohort_definition_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = (", as.character(cohort_definition_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = '", cohort_definition_id,"'"))
+    }
+  }
+
+  if (!missing(subject_id)) {
+    if (is.null(subject_id)) {
+      whereClauses <- c(whereClauses, "subject_id IS NULL")
+    } else if (is(subject_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("subject_id = (", as.character(subject_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("subject_id = '", subject_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_start_date)) {
+    if (is.null(cohort_start_date)) {
+      whereClauses <- c(whereClauses, "cohort_start_date IS NULL")
+    } else if (is(cohort_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_start_date = (", as.character(cohort_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_start_date = '", cohort_start_date,"'"))
+    }
+  }
+
+  if (!missing(cohort_end_date)) {
+    if (is.null(cohort_end_date)) {
+      whereClauses <- c(whereClauses, "cohort_end_date IS NULL")
+    } else if (is(cohort_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_end_date = (", as.character(cohort_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_end_date = '", cohort_end_date,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_cohort_attribute <- function(cohort_definition_id, subject_id, cohort_start_date, cohort_end_date, attribute_definition_id, value_as_number, value_as_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect cohort_attribute' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.cohort_attribute WHERE ")
+  whereClauses = NULL;
+  if (!missing(cohort_definition_id)) {
+    if (is.null(cohort_definition_id)) {
+      whereClauses <- c(whereClauses, "cohort_definition_id IS NULL")
+    } else if (is(cohort_definition_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = (", as.character(cohort_definition_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = '", cohort_definition_id,"'"))
+    }
+  }
+
+  if (!missing(subject_id)) {
+    if (is.null(subject_id)) {
+      whereClauses <- c(whereClauses, "subject_id IS NULL")
+    } else if (is(subject_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("subject_id = (", as.character(subject_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("subject_id = '", subject_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_start_date)) {
+    if (is.null(cohort_start_date)) {
+      whereClauses <- c(whereClauses, "cohort_start_date IS NULL")
+    } else if (is(cohort_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_start_date = (", as.character(cohort_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_start_date = '", cohort_start_date,"'"))
+    }
+  }
+
+  if (!missing(cohort_end_date)) {
+    if (is.null(cohort_end_date)) {
+      whereClauses <- c(whereClauses, "cohort_end_date IS NULL")
+    } else if (is(cohort_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_end_date = (", as.character(cohort_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_end_date = '", cohort_end_date,"'"))
+    }
+  }
+
+  if (!missing(attribute_definition_id)) {
+    if (is.null(attribute_definition_id)) {
+      whereClauses <- c(whereClauses, "attribute_definition_id IS NULL")
+    } else if (is(attribute_definition_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_definition_id = (", as.character(attribute_definition_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_definition_id = '", attribute_definition_id,"'"))
+    }
+  }
+
+  if (!missing(value_as_number)) {
+    if (is.null(value_as_number)) {
+      whereClauses <- c(whereClauses, "value_as_number IS NULL")
+    } else if (is(value_as_number, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_number = (", as.character(value_as_number), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_number = '", value_as_number,"'"))
+    }
+  }
+
+  if (!missing(value_as_concept_id)) {
+    if (is.null(value_as_concept_id)) {
+      whereClauses <- c(whereClauses, "value_as_concept_id IS NULL")
+    } else if (is(value_as_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = (", as.character(value_as_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = '", value_as_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_condition_era <- function(condition_era_id, person_id, condition_concept_id, condition_era_start_date, condition_era_end_date, condition_occurrence_count) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect condition_era' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.condition_era WHERE ")
+  whereClauses = NULL;
+  if (!missing(condition_era_id)) {
+    if (is.null(condition_era_id)) {
+      whereClauses <- c(whereClauses, "condition_era_id IS NULL")
+    } else if (is(condition_era_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_era_id = (", as.character(condition_era_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_era_id = '", condition_era_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(condition_concept_id)) {
+    if (is.null(condition_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_concept_id IS NULL")
+    } else if (is(condition_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_concept_id = (", as.character(condition_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_concept_id = '", condition_concept_id,"'"))
+    }
+  }
+
+  if (!missing(condition_era_start_date)) {
+    if (is.null(condition_era_start_date)) {
+      whereClauses <- c(whereClauses, "condition_era_start_date IS NULL")
+    } else if (is(condition_era_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_era_start_date = (", as.character(condition_era_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_era_start_date = '", condition_era_start_date,"'"))
+    }
+  }
+
+  if (!missing(condition_era_end_date)) {
+    if (is.null(condition_era_end_date)) {
+      whereClauses <- c(whereClauses, "condition_era_end_date IS NULL")
+    } else if (is(condition_era_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_era_end_date = (", as.character(condition_era_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_era_end_date = '", condition_era_end_date,"'"))
+    }
+  }
+
+  if (!missing(condition_occurrence_count)) {
+    if (is.null(condition_occurrence_count)) {
+      whereClauses <- c(whereClauses, "condition_occurrence_count IS NULL")
+    } else if (is(condition_occurrence_count, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_occurrence_count = (", as.character(condition_occurrence_count), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_occurrence_count = '", condition_occurrence_count,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_dose_era <- function(dose_era_id, person_id, drug_concept_id, unit_concept_id, dose_value, dose_era_start_date, dose_era_end_date) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect dose_era' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.dose_era WHERE ")
+  whereClauses = NULL;
+  if (!missing(dose_era_id)) {
+    if (is.null(dose_era_id)) {
+      whereClauses <- c(whereClauses, "dose_era_id IS NULL")
+    } else if (is(dose_era_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dose_era_id = (", as.character(dose_era_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_era_id = '", dose_era_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(drug_concept_id)) {
+    if (is.null(drug_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_concept_id IS NULL")
+    } else if (is(drug_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = (", as.character(drug_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = '", drug_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_concept_id)) {
+    if (is.null(unit_concept_id)) {
+      whereClauses <- c(whereClauses, "unit_concept_id IS NULL")
+    } else if (is(unit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = (", as.character(unit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = '", unit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(dose_value)) {
+    if (is.null(dose_value)) {
+      whereClauses <- c(whereClauses, "dose_value IS NULL")
+    } else if (is(dose_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dose_value = (", as.character(dose_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_value = '", dose_value,"'"))
+    }
+  }
+
+  if (!missing(dose_era_start_date)) {
+    if (is.null(dose_era_start_date)) {
+      whereClauses <- c(whereClauses, "dose_era_start_date IS NULL")
+    } else if (is(dose_era_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dose_era_start_date = (", as.character(dose_era_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_era_start_date = '", dose_era_start_date,"'"))
+    }
+  }
+
+  if (!missing(dose_era_end_date)) {
+    if (is.null(dose_era_end_date)) {
+      whereClauses <- c(whereClauses, "dose_era_end_date IS NULL")
+    } else if (is(dose_era_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dose_era_end_date = (", as.character(dose_era_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_era_end_date = '", dose_era_end_date,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_drug_era <- function(drug_era_id, person_id, drug_concept_id, drug_era_start_date, drug_era_end_date, drug_exposure_count, gap_days) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect drug_era' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.drug_era WHERE ")
+  whereClauses = NULL;
+  if (!missing(drug_era_id)) {
+    if (is.null(drug_era_id)) {
+      whereClauses <- c(whereClauses, "drug_era_id IS NULL")
+    } else if (is(drug_era_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_era_id = (", as.character(drug_era_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_era_id = '", drug_era_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(drug_concept_id)) {
+    if (is.null(drug_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_concept_id IS NULL")
+    } else if (is(drug_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = (", as.character(drug_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = '", drug_concept_id,"'"))
+    }
+  }
+
+  if (!missing(drug_era_start_date)) {
+    if (is.null(drug_era_start_date)) {
+      whereClauses <- c(whereClauses, "drug_era_start_date IS NULL")
+    } else if (is(drug_era_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_era_start_date = (", as.character(drug_era_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_era_start_date = '", drug_era_start_date,"'"))
+    }
+  }
+
+  if (!missing(drug_era_end_date)) {
+    if (is.null(drug_era_end_date)) {
+      whereClauses <- c(whereClauses, "drug_era_end_date IS NULL")
+    } else if (is(drug_era_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_era_end_date = (", as.character(drug_era_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_era_end_date = '", drug_era_end_date,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_count)) {
+    if (is.null(drug_exposure_count)) {
+      whereClauses <- c(whereClauses, "drug_exposure_count IS NULL")
+    } else if (is(drug_exposure_count, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_count = (", as.character(drug_exposure_count), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_count = '", drug_exposure_count,"'"))
+    }
+  }
+
+  if (!missing(gap_days)) {
+    if (is.null(gap_days)) {
+      whereClauses <- c(whereClauses, "gap_days IS NULL")
+    } else if (is(gap_days, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gap_days = (", as.character(gap_days), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gap_days = '", gap_days,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_cost <- function(cost_id, cost_event_id, cost_domain_id, cost_type_concept_id, currency_concept_id, total_charge, total_cost, total_paid, paid_by_payer, paid_by_patient, paid_patient_copay, paid_patient_coinsurance, paid_patient_deductible, paid_by_primary, paid_ingredient_cost, paid_dispensing_fee, payer_plan_period_id, amount_allowed, revenue_code_concept_id, revenue_code_source_value, drg_concept_id, drg_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect cost' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.cost WHERE ")
+  whereClauses = NULL;
+  if (!missing(cost_id)) {
+    if (is.null(cost_id)) {
+      whereClauses <- c(whereClauses, "cost_id IS NULL")
+    } else if (is(cost_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cost_id = (", as.character(cost_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cost_id = '", cost_id,"'"))
+    }
+  }
+
+  if (!missing(cost_event_id)) {
+    if (is.null(cost_event_id)) {
+      whereClauses <- c(whereClauses, "cost_event_id IS NULL")
+    } else if (is(cost_event_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cost_event_id = (", as.character(cost_event_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cost_event_id = '", cost_event_id,"'"))
+    }
+  }
+
+  if (!missing(cost_domain_id)) {
+    if (is.null(cost_domain_id)) {
+      whereClauses <- c(whereClauses, "cost_domain_id IS NULL")
+    } else if (is(cost_domain_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cost_domain_id = (", as.character(cost_domain_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cost_domain_id = '", cost_domain_id,"'"))
+    }
+  }
+
+  if (!missing(cost_type_concept_id)) {
+    if (is.null(cost_type_concept_id)) {
+      whereClauses <- c(whereClauses, "cost_type_concept_id IS NULL")
+    } else if (is(cost_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cost_type_concept_id = (", as.character(cost_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cost_type_concept_id = '", cost_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(currency_concept_id)) {
+    if (is.null(currency_concept_id)) {
+      whereClauses <- c(whereClauses, "currency_concept_id IS NULL")
+    } else if (is(currency_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("currency_concept_id = (", as.character(currency_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("currency_concept_id = '", currency_concept_id,"'"))
+    }
+  }
+
+  if (!missing(total_charge)) {
+    if (is.null(total_charge)) {
+      whereClauses <- c(whereClauses, "total_charge IS NULL")
+    } else if (is(total_charge, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("total_charge = (", as.character(total_charge), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("total_charge = '", total_charge,"'"))
+    }
+  }
+
+  if (!missing(total_cost)) {
+    if (is.null(total_cost)) {
+      whereClauses <- c(whereClauses, "total_cost IS NULL")
+    } else if (is(total_cost, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("total_cost = (", as.character(total_cost), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("total_cost = '", total_cost,"'"))
+    }
+  }
+
+  if (!missing(total_paid)) {
+    if (is.null(total_paid)) {
+      whereClauses <- c(whereClauses, "total_paid IS NULL")
+    } else if (is(total_paid, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("total_paid = (", as.character(total_paid), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("total_paid = '", total_paid,"'"))
+    }
+  }
+
+  if (!missing(paid_by_payer)) {
+    if (is.null(paid_by_payer)) {
+      whereClauses <- c(whereClauses, "paid_by_payer IS NULL")
+    } else if (is(paid_by_payer, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_by_payer = (", as.character(paid_by_payer), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_by_payer = '", paid_by_payer,"'"))
+    }
+  }
+
+  if (!missing(paid_by_patient)) {
+    if (is.null(paid_by_patient)) {
+      whereClauses <- c(whereClauses, "paid_by_patient IS NULL")
+    } else if (is(paid_by_patient, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_by_patient = (", as.character(paid_by_patient), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_by_patient = '", paid_by_patient,"'"))
+    }
+  }
+
+  if (!missing(paid_patient_copay)) {
+    if (is.null(paid_patient_copay)) {
+      whereClauses <- c(whereClauses, "paid_patient_copay IS NULL")
+    } else if (is(paid_patient_copay, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_patient_copay = (", as.character(paid_patient_copay), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_patient_copay = '", paid_patient_copay,"'"))
+    }
+  }
+
+  if (!missing(paid_patient_coinsurance)) {
+    if (is.null(paid_patient_coinsurance)) {
+      whereClauses <- c(whereClauses, "paid_patient_coinsurance IS NULL")
+    } else if (is(paid_patient_coinsurance, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_patient_coinsurance = (", as.character(paid_patient_coinsurance), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_patient_coinsurance = '", paid_patient_coinsurance,"'"))
+    }
+  }
+
+  if (!missing(paid_patient_deductible)) {
+    if (is.null(paid_patient_deductible)) {
+      whereClauses <- c(whereClauses, "paid_patient_deductible IS NULL")
+    } else if (is(paid_patient_deductible, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_patient_deductible = (", as.character(paid_patient_deductible), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_patient_deductible = '", paid_patient_deductible,"'"))
+    }
+  }
+
+  if (!missing(paid_by_primary)) {
+    if (is.null(paid_by_primary)) {
+      whereClauses <- c(whereClauses, "paid_by_primary IS NULL")
+    } else if (is(paid_by_primary, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_by_primary = (", as.character(paid_by_primary), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_by_primary = '", paid_by_primary,"'"))
+    }
+  }
+
+  if (!missing(paid_ingredient_cost)) {
+    if (is.null(paid_ingredient_cost)) {
+      whereClauses <- c(whereClauses, "paid_ingredient_cost IS NULL")
+    } else if (is(paid_ingredient_cost, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_ingredient_cost = (", as.character(paid_ingredient_cost), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_ingredient_cost = '", paid_ingredient_cost,"'"))
+    }
+  }
+
+  if (!missing(paid_dispensing_fee)) {
+    if (is.null(paid_dispensing_fee)) {
+      whereClauses <- c(whereClauses, "paid_dispensing_fee IS NULL")
+    } else if (is(paid_dispensing_fee, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_dispensing_fee = (", as.character(paid_dispensing_fee), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_dispensing_fee = '", paid_dispensing_fee,"'"))
+    }
+  }
+
+  if (!missing(payer_plan_period_id)) {
+    if (is.null(payer_plan_period_id)) {
+      whereClauses <- c(whereClauses, "payer_plan_period_id IS NULL")
+    } else if (is(payer_plan_period_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_id = (", as.character(payer_plan_period_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_id = '", payer_plan_period_id,"'"))
+    }
+  }
+
+  if (!missing(amount_allowed)) {
+    if (is.null(amount_allowed)) {
+      whereClauses <- c(whereClauses, "amount_allowed IS NULL")
+    } else if (is(amount_allowed, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("amount_allowed = (", as.character(amount_allowed), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("amount_allowed = '", amount_allowed,"'"))
+    }
+  }
+
+  if (!missing(revenue_code_concept_id)) {
+    if (is.null(revenue_code_concept_id)) {
+      whereClauses <- c(whereClauses, "revenue_code_concept_id IS NULL")
+    } else if (is(revenue_code_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("revenue_code_concept_id = (", as.character(revenue_code_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("revenue_code_concept_id = '", revenue_code_concept_id,"'"))
+    }
+  }
+
+  if (!missing(revenue_code_source_value)) {
+    if (is.null(revenue_code_source_value)) {
+      whereClauses <- c(whereClauses, "revenue_code_source_value IS NULL")
+    } else if (is(revenue_code_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("revenue_code_source_value = (", as.character(revenue_code_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("revenue_code_source_value = '", revenue_code_source_value,"'"))
+    }
+  }
+
+  if (!missing(drg_concept_id)) {
+    if (is.null(drg_concept_id)) {
+      whereClauses <- c(whereClauses, "drg_concept_id IS NULL")
+    } else if (is(drg_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drg_concept_id = (", as.character(drg_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drg_concept_id = '", drg_concept_id,"'"))
+    }
+  }
+
+  if (!missing(drg_source_value)) {
+    if (is.null(drg_source_value)) {
+      whereClauses <- c(whereClauses, "drg_source_value IS NULL")
+    } else if (is(drg_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drg_source_value = (", as.character(drg_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drg_source_value = '", drg_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_payer_plan_period <- function(payer_plan_period_id, person_id, payer_plan_period_start_date, payer_plan_period_end_date, payer_source_value, plan_source_value, family_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect payer_plan_period' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.payer_plan_period WHERE ")
+  whereClauses = NULL;
+  if (!missing(payer_plan_period_id)) {
+    if (is.null(payer_plan_period_id)) {
+      whereClauses <- c(whereClauses, "payer_plan_period_id IS NULL")
+    } else if (is(payer_plan_period_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_id = (", as.character(payer_plan_period_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_id = '", payer_plan_period_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(payer_plan_period_start_date)) {
+    if (is.null(payer_plan_period_start_date)) {
+      whereClauses <- c(whereClauses, "payer_plan_period_start_date IS NULL")
+    } else if (is(payer_plan_period_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_start_date = (", as.character(payer_plan_period_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_start_date = '", payer_plan_period_start_date,"'"))
+    }
+  }
+
+  if (!missing(payer_plan_period_end_date)) {
+    if (is.null(payer_plan_period_end_date)) {
+      whereClauses <- c(whereClauses, "payer_plan_period_end_date IS NULL")
+    } else if (is(payer_plan_period_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_end_date = (", as.character(payer_plan_period_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_end_date = '", payer_plan_period_end_date,"'"))
+    }
+  }
+
+  if (!missing(payer_source_value)) {
+    if (is.null(payer_source_value)) {
+      whereClauses <- c(whereClauses, "payer_source_value IS NULL")
+    } else if (is(payer_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("payer_source_value = (", as.character(payer_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_source_value = '", payer_source_value,"'"))
+    }
+  }
+
+  if (!missing(plan_source_value)) {
+    if (is.null(plan_source_value)) {
+      whereClauses <- c(whereClauses, "plan_source_value IS NULL")
+    } else if (is(plan_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("plan_source_value = (", as.character(plan_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("plan_source_value = '", plan_source_value,"'"))
+    }
+  }
+
+  if (!missing(family_source_value)) {
+    if (is.null(family_source_value)) {
+      whereClauses <- c(whereClauses, "family_source_value IS NULL")
+    } else if (is(family_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("family_source_value = (", as.character(family_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("family_source_value = '", family_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_care_site <- function(care_site_id, care_site_name, place_of_service_concept_id, location_id, care_site_source_value, place_of_service_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect care_site' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.care_site WHERE ")
+  whereClauses = NULL;
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else if (is(care_site_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_id = (", as.character(care_site_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_name)) {
+    if (is.null(care_site_name)) {
+      whereClauses <- c(whereClauses, "care_site_name IS NULL")
+    } else if (is(care_site_name, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_name = (", as.character(care_site_name), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_name = '", care_site_name,"'"))
+    }
+  }
+
+  if (!missing(place_of_service_concept_id)) {
+    if (is.null(place_of_service_concept_id)) {
+      whereClauses <- c(whereClauses, "place_of_service_concept_id IS NULL")
+    } else if (is(place_of_service_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("place_of_service_concept_id = (", as.character(place_of_service_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("place_of_service_concept_id = '", place_of_service_concept_id,"'"))
+    }
+  }
+
+  if (!missing(location_id)) {
+    if (is.null(location_id)) {
+      whereClauses <- c(whereClauses, "location_id IS NULL")
+    } else if (is(location_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("location_id = (", as.character(location_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("location_id = '", location_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_source_value)) {
+    if (is.null(care_site_source_value)) {
+      whereClauses <- c(whereClauses, "care_site_source_value IS NULL")
+    } else if (is(care_site_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_source_value = (", as.character(care_site_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_source_value = '", care_site_source_value,"'"))
+    }
+  }
+
+  if (!missing(place_of_service_source_value)) {
+    if (is.null(place_of_service_source_value)) {
+      whereClauses <- c(whereClauses, "place_of_service_source_value IS NULL")
+    } else if (is(place_of_service_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("place_of_service_source_value = (", as.character(place_of_service_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("place_of_service_source_value = '", place_of_service_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_location <- function(location_id, address_1, address_2, city, state, zip, county, location_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect location' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.location WHERE ")
+  whereClauses = NULL;
+  if (!missing(location_id)) {
+    if (is.null(location_id)) {
+      whereClauses <- c(whereClauses, "location_id IS NULL")
+    } else if (is(location_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("location_id = (", as.character(location_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("location_id = '", location_id,"'"))
+    }
+  }
+
+  if (!missing(address_1)) {
+    if (is.null(address_1)) {
+      whereClauses <- c(whereClauses, "address_1 IS NULL")
+    } else if (is(address_1, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("address_1 = (", as.character(address_1), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("address_1 = '", address_1,"'"))
+    }
+  }
+
+  if (!missing(address_2)) {
+    if (is.null(address_2)) {
+      whereClauses <- c(whereClauses, "address_2 IS NULL")
+    } else if (is(address_2, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("address_2 = (", as.character(address_2), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("address_2 = '", address_2,"'"))
+    }
+  }
+
+  if (!missing(city)) {
+    if (is.null(city)) {
+      whereClauses <- c(whereClauses, "city IS NULL")
+    } else if (is(city, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("city = (", as.character(city), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("city = '", city,"'"))
+    }
+  }
+
+  if (!missing(state)) {
+    if (is.null(state)) {
+      whereClauses <- c(whereClauses, "state IS NULL")
+    } else if (is(state, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("state = (", as.character(state), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("state = '", state,"'"))
+    }
+  }
+
+  if (!missing(zip)) {
+    if (is.null(zip)) {
+      whereClauses <- c(whereClauses, "zip IS NULL")
+    } else if (is(zip, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("zip = (", as.character(zip), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("zip = '", zip,"'"))
+    }
+  }
+
+  if (!missing(county)) {
+    if (is.null(county)) {
+      whereClauses <- c(whereClauses, "county IS NULL")
+    } else if (is(county, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("county = (", as.character(county), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("county = '", county,"'"))
+    }
+  }
+
+  if (!missing(location_source_value)) {
+    if (is.null(location_source_value)) {
+      whereClauses <- c(whereClauses, "location_source_value IS NULL")
+    } else if (is(location_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("location_source_value = (", as.character(location_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("location_source_value = '", location_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_provider <- function(provider_id, provider_name, npi, dea, specialty_concept_id, care_site_id, year_of_birth, gender_concept_id, provider_source_value, specialty_source_value, specialty_source_concept_id, gender_source_value, gender_source_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect provider' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.provider WHERE ")
+  whereClauses = NULL;
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(provider_name)) {
+    if (is.null(provider_name)) {
+      whereClauses <- c(whereClauses, "provider_name IS NULL")
+    } else if (is(provider_name, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_name = (", as.character(provider_name), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_name = '", provider_name,"'"))
+    }
+  }
+
+  if (!missing(npi)) {
+    if (is.null(npi)) {
+      whereClauses <- c(whereClauses, "npi IS NULL")
+    } else if (is(npi, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("npi = (", as.character(npi), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("npi = '", npi,"'"))
+    }
+  }
+
+  if (!missing(dea)) {
+    if (is.null(dea)) {
+      whereClauses <- c(whereClauses, "dea IS NULL")
+    } else if (is(dea, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dea = (", as.character(dea), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dea = '", dea,"'"))
+    }
+  }
+
+  if (!missing(specialty_concept_id)) {
+    if (is.null(specialty_concept_id)) {
+      whereClauses <- c(whereClauses, "specialty_concept_id IS NULL")
+    } else if (is(specialty_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specialty_concept_id = (", as.character(specialty_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specialty_concept_id = '", specialty_concept_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else if (is(care_site_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_id = (", as.character(care_site_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(year_of_birth)) {
+    if (is.null(year_of_birth)) {
+      whereClauses <- c(whereClauses, "year_of_birth IS NULL")
+    } else if (is(year_of_birth, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("year_of_birth = (", as.character(year_of_birth), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("year_of_birth = '", year_of_birth,"'"))
+    }
+  }
+
+  if (!missing(gender_concept_id)) {
+    if (is.null(gender_concept_id)) {
+      whereClauses <- c(whereClauses, "gender_concept_id IS NULL")
+    } else if (is(gender_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_concept_id = (", as.character(gender_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_concept_id = '", gender_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_source_value)) {
+    if (is.null(provider_source_value)) {
+      whereClauses <- c(whereClauses, "provider_source_value IS NULL")
+    } else if (is(provider_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_source_value = (", as.character(provider_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_source_value = '", provider_source_value,"'"))
+    }
+  }
+
+  if (!missing(specialty_source_value)) {
+    if (is.null(specialty_source_value)) {
+      whereClauses <- c(whereClauses, "specialty_source_value IS NULL")
+    } else if (is(specialty_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specialty_source_value = (", as.character(specialty_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specialty_source_value = '", specialty_source_value,"'"))
+    }
+  }
+
+  if (!missing(specialty_source_concept_id)) {
+    if (is.null(specialty_source_concept_id)) {
+      whereClauses <- c(whereClauses, "specialty_source_concept_id IS NULL")
+    } else if (is(specialty_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specialty_source_concept_id = (", as.character(specialty_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specialty_source_concept_id = '", specialty_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(gender_source_value)) {
+    if (is.null(gender_source_value)) {
+      whereClauses <- c(whereClauses, "gender_source_value IS NULL")
+    } else if (is(gender_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_source_value = (", as.character(gender_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_source_value = '", gender_source_value,"'"))
+    }
+  }
+
+  if (!missing(gender_source_concept_id)) {
+    if (is.null(gender_source_concept_id)) {
+      whereClauses <- c(whereClauses, "gender_source_concept_id IS NULL")
+    } else if (is(gender_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_source_concept_id = (", as.character(gender_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_source_concept_id = '", gender_source_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_cdm_source <- function(cdm_source_name, cdm_source_abbreviation, cdm_holder, source_description, source_documentation_reference, cdm_etl__reference, source_release_date, cdm_release_date, cdm_version, vocabulary_version) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect cdm_source' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.cdm_source WHERE ")
+  whereClauses = NULL;
+  if (!missing(cdm_source_name)) {
+    if (is.null(cdm_source_name)) {
+      whereClauses <- c(whereClauses, "cdm_source_name IS NULL")
+    } else if (is(cdm_source_name, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cdm_source_name = (", as.character(cdm_source_name), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_source_name = '", cdm_source_name,"'"))
+    }
+  }
+
+  if (!missing(cdm_source_abbreviation)) {
+    if (is.null(cdm_source_abbreviation)) {
+      whereClauses <- c(whereClauses, "cdm_source_abbreviation IS NULL")
+    } else if (is(cdm_source_abbreviation, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cdm_source_abbreviation = (", as.character(cdm_source_abbreviation), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_source_abbreviation = '", cdm_source_abbreviation,"'"))
+    }
+  }
+
+  if (!missing(cdm_holder)) {
+    if (is.null(cdm_holder)) {
+      whereClauses <- c(whereClauses, "cdm_holder IS NULL")
+    } else if (is(cdm_holder, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cdm_holder = (", as.character(cdm_holder), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_holder = '", cdm_holder,"'"))
+    }
+  }
+
+  if (!missing(source_description)) {
+    if (is.null(source_description)) {
+      whereClauses <- c(whereClauses, "source_description IS NULL")
+    } else if (is(source_description, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("source_description = (", as.character(source_description), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("source_description = '", source_description,"'"))
+    }
+  }
+
+  if (!missing(source_documentation_reference)) {
+    if (is.null(source_documentation_reference)) {
+      whereClauses <- c(whereClauses, "source_documentation_reference IS NULL")
+    } else if (is(source_documentation_reference, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("source_documentation_reference = (", as.character(source_documentation_reference), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("source_documentation_reference = '", source_documentation_reference,"'"))
+    }
+  }
+
+  if (!missing(cdm_etl__reference)) {
+    if (is.null(cdm_etl__reference)) {
+      whereClauses <- c(whereClauses, "[cdm_etl _reference] IS NULL")
+    } else if (is(cdm_etl__reference, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("[cdm_etl _reference] = (", as.character(cdm_etl__reference), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("[cdm_etl _reference] = '", cdm_etl__reference,"'"))
+    }
+  }
+
+  if (!missing(source_release_date)) {
+    if (is.null(source_release_date)) {
+      whereClauses <- c(whereClauses, "source_release_date IS NULL")
+    } else if (is(source_release_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("source_release_date = (", as.character(source_release_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("source_release_date = '", source_release_date,"'"))
+    }
+  }
+
+  if (!missing(cdm_release_date)) {
+    if (is.null(cdm_release_date)) {
+      whereClauses <- c(whereClauses, "cdm_release_date IS NULL")
+    } else if (is(cdm_release_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cdm_release_date = (", as.character(cdm_release_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_release_date = '", cdm_release_date,"'"))
+    }
+  }
+
+  if (!missing(cdm_version)) {
+    if (is.null(cdm_version)) {
+      whereClauses <- c(whereClauses, "cdm_version IS NULL")
+    } else if (is(cdm_version, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cdm_version = (", as.character(cdm_version), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_version = '", cdm_version,"'"))
+    }
+  }
+
+  if (!missing(vocabulary_version)) {
+    if (is.null(vocabulary_version)) {
+      whereClauses <- c(whereClauses, "vocabulary_version IS NULL")
+    } else if (is(vocabulary_version, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("vocabulary_version = (", as.character(vocabulary_version), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("vocabulary_version = '", vocabulary_version,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_attribute_definition <- function(attribute_definition_id, attribute_name, attribute_description, attribute_type_concept_id, attribute_syntax) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect attribute_definition' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.attribute_definition WHERE ")
+  whereClauses = NULL;
+  if (!missing(attribute_definition_id)) {
+    if (is.null(attribute_definition_id)) {
+      whereClauses <- c(whereClauses, "attribute_definition_id IS NULL")
+    } else if (is(attribute_definition_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_definition_id = (", as.character(attribute_definition_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_definition_id = '", attribute_definition_id,"'"))
+    }
+  }
+
+  if (!missing(attribute_name)) {
+    if (is.null(attribute_name)) {
+      whereClauses <- c(whereClauses, "attribute_name IS NULL")
+    } else if (is(attribute_name, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_name = (", as.character(attribute_name), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_name = '", attribute_name,"'"))
+    }
+  }
+
+  if (!missing(attribute_description)) {
+    if (is.null(attribute_description)) {
+      whereClauses <- c(whereClauses, "attribute_description IS NULL")
+    } else if (is(attribute_description, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_description = (", as.character(attribute_description), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_description = '", attribute_description,"'"))
+    }
+  }
+
+  if (!missing(attribute_type_concept_id)) {
+    if (is.null(attribute_type_concept_id)) {
+      whereClauses <- c(whereClauses, "attribute_type_concept_id IS NULL")
+    } else if (is(attribute_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_type_concept_id = (", as.character(attribute_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_type_concept_id = '", attribute_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(attribute_syntax)) {
+    if (is.null(attribute_syntax)) {
+      whereClauses <- c(whereClauses, "attribute_syntax IS NULL")
+    } else if (is(attribute_syntax, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_syntax = (", as.character(attribute_syntax), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_syntax = '", attribute_syntax,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_no_cohort_definition <- function(cohort_definition_id, cohort_definition_name, cohort_definition_description, definition_type_concept_id, cohort_definition_syntax, subject_concept_id, cohort_instantiation_date) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect cohort_definition' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.cohort_definition WHERE ")
+  whereClauses = NULL;
+  if (!missing(cohort_definition_id)) {
+    if (is.null(cohort_definition_id)) {
+      whereClauses <- c(whereClauses, "cohort_definition_id IS NULL")
+    } else if (is(cohort_definition_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = (", as.character(cohort_definition_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = '", cohort_definition_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_definition_name)) {
+    if (is.null(cohort_definition_name)) {
+      whereClauses <- c(whereClauses, "cohort_definition_name IS NULL")
+    } else if (is(cohort_definition_name, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_name = (", as.character(cohort_definition_name), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_name = '", cohort_definition_name,"'"))
+    }
+  }
+
+  if (!missing(cohort_definition_description)) {
+    if (is.null(cohort_definition_description)) {
+      whereClauses <- c(whereClauses, "cohort_definition_description IS NULL")
+    } else if (is(cohort_definition_description, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_description = (", as.character(cohort_definition_description), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_description = '", cohort_definition_description,"'"))
+    }
+  }
+
+  if (!missing(definition_type_concept_id)) {
+    if (is.null(definition_type_concept_id)) {
+      whereClauses <- c(whereClauses, "definition_type_concept_id IS NULL")
+    } else if (is(definition_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("definition_type_concept_id = (", as.character(definition_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("definition_type_concept_id = '", definition_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_definition_syntax)) {
+    if (is.null(cohort_definition_syntax)) {
+      whereClauses <- c(whereClauses, "cohort_definition_syntax IS NULL")
+    } else if (is(cohort_definition_syntax, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_syntax = (", as.character(cohort_definition_syntax), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_syntax = '", cohort_definition_syntax,"'"))
+    }
+  }
+
+  if (!missing(subject_concept_id)) {
+    if (is.null(subject_concept_id)) {
+      whereClauses <- c(whereClauses, "subject_concept_id IS NULL")
+    } else if (is(subject_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("subject_concept_id = (", as.character(subject_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("subject_concept_id = '", subject_concept_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_instantiation_date)) {
+    if (is.null(cohort_instantiation_date)) {
+      whereClauses <- c(whereClauses, "cohort_instantiation_date IS NULL")
+    } else if (is(cohort_instantiation_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_instantiation_date = (", as.character(cohort_instantiation_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_instantiation_date = '", cohort_instantiation_date,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != 0 THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_condition_occurrence <- function(rowCount, condition_occurrence_id, person_id, condition_concept_id, condition_start_date, condition_start_datetime, condition_end_date, condition_end_datetime, condition_type_concept_id, stop_reason, provider_id, visit_occurrence_id, visit_detail_id, condition_source_value, condition_source_concept_id, condition_status_source_value, condition_status_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect condition_occurrence' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.condition_occurrence WHERE ")
+  whereClauses = NULL;
+  if (!missing(condition_occurrence_id)) {
+    if (is.null(condition_occurrence_id)) {
+      whereClauses <- c(whereClauses, "condition_occurrence_id IS NULL")
+    } else if (is(condition_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_occurrence_id = (", as.character(condition_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_occurrence_id = '", condition_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(condition_concept_id)) {
+    if (is.null(condition_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_concept_id IS NULL")
+    } else if (is(condition_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_concept_id = (", as.character(condition_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_concept_id = '", condition_concept_id,"'"))
+    }
+  }
+
+  if (!missing(condition_start_date)) {
+    if (is.null(condition_start_date)) {
+      whereClauses <- c(whereClauses, "condition_start_date IS NULL")
+    } else if (is(condition_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_start_date = (", as.character(condition_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_start_date = '", condition_start_date,"'"))
+    }
+  }
+
+  if (!missing(condition_start_datetime)) {
+    if (is.null(condition_start_datetime)) {
+      whereClauses <- c(whereClauses, "condition_start_datetime IS NULL")
+    } else if (is(condition_start_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_start_datetime = (", as.character(condition_start_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_start_datetime = '", condition_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(condition_end_date)) {
+    if (is.null(condition_end_date)) {
+      whereClauses <- c(whereClauses, "condition_end_date IS NULL")
+    } else if (is(condition_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_end_date = (", as.character(condition_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_end_date = '", condition_end_date,"'"))
+    }
+  }
+
+  if (!missing(condition_end_datetime)) {
+    if (is.null(condition_end_datetime)) {
+      whereClauses <- c(whereClauses, "condition_end_datetime IS NULL")
+    } else if (is(condition_end_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_end_datetime = (", as.character(condition_end_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_end_datetime = '", condition_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(condition_type_concept_id)) {
+    if (is.null(condition_type_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_type_concept_id IS NULL")
+    } else if (is(condition_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_type_concept_id = (", as.character(condition_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_type_concept_id = '", condition_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(stop_reason)) {
+    if (is.null(stop_reason)) {
+      whereClauses <- c(whereClauses, "stop_reason IS NULL")
+    } else if (is(stop_reason, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("stop_reason = (", as.character(stop_reason), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("stop_reason = '", stop_reason,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(condition_source_value)) {
+    if (is.null(condition_source_value)) {
+      whereClauses <- c(whereClauses, "condition_source_value IS NULL")
+    } else if (is(condition_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_source_value = (", as.character(condition_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_source_value = '", condition_source_value,"'"))
+    }
+  }
+
+  if (!missing(condition_source_concept_id)) {
+    if (is.null(condition_source_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_source_concept_id IS NULL")
+    } else if (is(condition_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_source_concept_id = (", as.character(condition_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_source_concept_id = '", condition_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(condition_status_source_value)) {
+    if (is.null(condition_status_source_value)) {
+      whereClauses <- c(whereClauses, "condition_status_source_value IS NULL")
+    } else if (is(condition_status_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_status_source_value = (", as.character(condition_status_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_status_source_value = '", condition_status_source_value,"'"))
+    }
+  }
+
+  if (!missing(condition_status_concept_id)) {
+    if (is.null(condition_status_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_status_concept_id IS NULL")
+    } else if (is(condition_status_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_status_concept_id = (", as.character(condition_status_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_status_concept_id = '", condition_status_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_death <- function(rowCount, person_id, death_date, death_datetime, death_type_concept_id, cause_concept_id, cause_source_value, cause_source_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect death' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.death WHERE ")
+  whereClauses = NULL;
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(death_date)) {
+    if (is.null(death_date)) {
+      whereClauses <- c(whereClauses, "death_date IS NULL")
+    } else if (is(death_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("death_date = (", as.character(death_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("death_date = '", death_date,"'"))
+    }
+  }
+
+  if (!missing(death_datetime)) {
+    if (is.null(death_datetime)) {
+      whereClauses <- c(whereClauses, "death_datetime IS NULL")
+    } else if (is(death_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("death_datetime = (", as.character(death_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("death_datetime = '", death_datetime,"'"))
+    }
+  }
+
+  if (!missing(death_type_concept_id)) {
+    if (is.null(death_type_concept_id)) {
+      whereClauses <- c(whereClauses, "death_type_concept_id IS NULL")
+    } else if (is(death_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("death_type_concept_id = (", as.character(death_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("death_type_concept_id = '", death_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(cause_concept_id)) {
+    if (is.null(cause_concept_id)) {
+      whereClauses <- c(whereClauses, "cause_concept_id IS NULL")
+    } else if (is(cause_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cause_concept_id = (", as.character(cause_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cause_concept_id = '", cause_concept_id,"'"))
+    }
+  }
+
+  if (!missing(cause_source_value)) {
+    if (is.null(cause_source_value)) {
+      whereClauses <- c(whereClauses, "cause_source_value IS NULL")
+    } else if (is(cause_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cause_source_value = (", as.character(cause_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cause_source_value = '", cause_source_value,"'"))
+    }
+  }
+
+  if (!missing(cause_source_concept_id)) {
+    if (is.null(cause_source_concept_id)) {
+      whereClauses <- c(whereClauses, "cause_source_concept_id IS NULL")
+    } else if (is(cause_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cause_source_concept_id = (", as.character(cause_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cause_source_concept_id = '", cause_source_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_device_exposure <- function(rowCount, device_exposure_id, person_id, device_concept_id, device_exposure_start_date, device_exposure_start_datetime, device_exposure_end_date, device_exposure_end_datetime, device_type_concept_id, unique_device_id, quantity, provider_id, visit_occurrence_id, device_source_value, device_source__concept_id, visit_detail_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect device_exposure' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.device_exposure WHERE ")
+  whereClauses = NULL;
+  if (!missing(device_exposure_id)) {
+    if (is.null(device_exposure_id)) {
+      whereClauses <- c(whereClauses, "device_exposure_id IS NULL")
+    } else if (is(device_exposure_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_exposure_id = (", as.character(device_exposure_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_id = '", device_exposure_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(device_concept_id)) {
+    if (is.null(device_concept_id)) {
+      whereClauses <- c(whereClauses, "device_concept_id IS NULL")
+    } else if (is(device_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_concept_id = (", as.character(device_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_concept_id = '", device_concept_id,"'"))
+    }
+  }
+
+  if (!missing(device_exposure_start_date)) {
+    if (is.null(device_exposure_start_date)) {
+      whereClauses <- c(whereClauses, "device_exposure_start_date IS NULL")
+    } else if (is(device_exposure_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_exposure_start_date = (", as.character(device_exposure_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_start_date = '", device_exposure_start_date,"'"))
+    }
+  }
+
+  if (!missing(device_exposure_start_datetime)) {
+    if (is.null(device_exposure_start_datetime)) {
+      whereClauses <- c(whereClauses, "device_exposure_start_datetime IS NULL")
+    } else if (is(device_exposure_start_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_exposure_start_datetime = (", as.character(device_exposure_start_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_start_datetime = '", device_exposure_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(device_exposure_end_date)) {
+    if (is.null(device_exposure_end_date)) {
+      whereClauses <- c(whereClauses, "device_exposure_end_date IS NULL")
+    } else if (is(device_exposure_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_exposure_end_date = (", as.character(device_exposure_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_end_date = '", device_exposure_end_date,"'"))
+    }
+  }
+
+  if (!missing(device_exposure_end_datetime)) {
+    if (is.null(device_exposure_end_datetime)) {
+      whereClauses <- c(whereClauses, "device_exposure_end_datetime IS NULL")
+    } else if (is(device_exposure_end_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_exposure_end_datetime = (", as.character(device_exposure_end_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_end_datetime = '", device_exposure_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(device_type_concept_id)) {
+    if (is.null(device_type_concept_id)) {
+      whereClauses <- c(whereClauses, "device_type_concept_id IS NULL")
+    } else if (is(device_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_type_concept_id = (", as.character(device_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_type_concept_id = '", device_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unique_device_id)) {
+    if (is.null(unique_device_id)) {
+      whereClauses <- c(whereClauses, "unique_device_id IS NULL")
+    } else if (is(unique_device_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unique_device_id = (", as.character(unique_device_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unique_device_id = '", unique_device_id,"'"))
+    }
+  }
+
+  if (!missing(quantity)) {
+    if (is.null(quantity)) {
+      whereClauses <- c(whereClauses, "quantity IS NULL")
+    } else if (is(quantity, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("quantity = (", as.character(quantity), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("quantity = '", quantity,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(device_source_value)) {
+    if (is.null(device_source_value)) {
+      whereClauses <- c(whereClauses, "device_source_value IS NULL")
+    } else if (is(device_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("device_source_value = (", as.character(device_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_source_value = '", device_source_value,"'"))
+    }
+  }
+
+  if (!missing(device_source__concept_id)) {
+    if (is.null(device_source__concept_id)) {
+      whereClauses <- c(whereClauses, "[device_source_ concept_id] IS NULL")
+    } else if (is(device_source__concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("[device_source_ concept_id] = (", as.character(device_source__concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("[device_source_ concept_id] = '", device_source__concept_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_drug_exposure <- function(rowCount, drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_start_datetime, drug_exposure_end_date, drug_exposure_end_datetime, verbatim_end_date, drug_type_concept_id, stop_reason, refills, quantity, days_supply, sig, route_concept_id, lot_number, provider_id, visit_occurrence_id, drug_source_value, drug_source_concept_id, route_source_value, dose_unit_source_value, visit_detail_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect drug_exposure' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.drug_exposure WHERE ")
+  whereClauses = NULL;
+  if (!missing(drug_exposure_id)) {
+    if (is.null(drug_exposure_id)) {
+      whereClauses <- c(whereClauses, "drug_exposure_id IS NULL")
+    } else if (is(drug_exposure_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_id = (", as.character(drug_exposure_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_id = '", drug_exposure_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(drug_concept_id)) {
+    if (is.null(drug_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_concept_id IS NULL")
+    } else if (is(drug_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = (", as.character(drug_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = '", drug_concept_id,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_start_date)) {
+    if (is.null(drug_exposure_start_date)) {
+      whereClauses <- c(whereClauses, "drug_exposure_start_date IS NULL")
+    } else if (is(drug_exposure_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_start_date = (", as.character(drug_exposure_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_start_date = '", drug_exposure_start_date,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_start_datetime)) {
+    if (is.null(drug_exposure_start_datetime)) {
+      whereClauses <- c(whereClauses, "drug_exposure_start_datetime IS NULL")
+    } else if (is(drug_exposure_start_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_start_datetime = (", as.character(drug_exposure_start_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_start_datetime = '", drug_exposure_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_end_date)) {
+    if (is.null(drug_exposure_end_date)) {
+      whereClauses <- c(whereClauses, "drug_exposure_end_date IS NULL")
+    } else if (is(drug_exposure_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_end_date = (", as.character(drug_exposure_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_end_date = '", drug_exposure_end_date,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_end_datetime)) {
+    if (is.null(drug_exposure_end_datetime)) {
+      whereClauses <- c(whereClauses, "drug_exposure_end_datetime IS NULL")
+    } else if (is(drug_exposure_end_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_end_datetime = (", as.character(drug_exposure_end_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_end_datetime = '", drug_exposure_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(verbatim_end_date)) {
+    if (is.null(verbatim_end_date)) {
+      whereClauses <- c(whereClauses, "verbatim_end_date IS NULL")
+    } else if (is(verbatim_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("verbatim_end_date = (", as.character(verbatim_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("verbatim_end_date = '", verbatim_end_date,"'"))
+    }
+  }
+
+  if (!missing(drug_type_concept_id)) {
+    if (is.null(drug_type_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_type_concept_id IS NULL")
+    } else if (is(drug_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_type_concept_id = (", as.character(drug_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_type_concept_id = '", drug_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(stop_reason)) {
+    if (is.null(stop_reason)) {
+      whereClauses <- c(whereClauses, "stop_reason IS NULL")
+    } else if (is(stop_reason, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("stop_reason = (", as.character(stop_reason), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("stop_reason = '", stop_reason,"'"))
+    }
+  }
+
+  if (!missing(refills)) {
+    if (is.null(refills)) {
+      whereClauses <- c(whereClauses, "refills IS NULL")
+    } else if (is(refills, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("refills = (", as.character(refills), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("refills = '", refills,"'"))
+    }
+  }
+
+  if (!missing(quantity)) {
+    if (is.null(quantity)) {
+      whereClauses <- c(whereClauses, "quantity IS NULL")
+    } else if (is(quantity, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("quantity = (", as.character(quantity), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("quantity = '", quantity,"'"))
+    }
+  }
+
+  if (!missing(days_supply)) {
+    if (is.null(days_supply)) {
+      whereClauses <- c(whereClauses, "days_supply IS NULL")
+    } else if (is(days_supply, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("days_supply = (", as.character(days_supply), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("days_supply = '", days_supply,"'"))
+    }
+  }
+
+  if (!missing(sig)) {
+    if (is.null(sig)) {
+      whereClauses <- c(whereClauses, "sig IS NULL")
+    } else if (is(sig, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("sig = (", as.character(sig), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("sig = '", sig,"'"))
+    }
+  }
+
+  if (!missing(route_concept_id)) {
+    if (is.null(route_concept_id)) {
+      whereClauses <- c(whereClauses, "route_concept_id IS NULL")
+    } else if (is(route_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("route_concept_id = (", as.character(route_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("route_concept_id = '", route_concept_id,"'"))
+    }
+  }
+
+  if (!missing(lot_number)) {
+    if (is.null(lot_number)) {
+      whereClauses <- c(whereClauses, "lot_number IS NULL")
+    } else if (is(lot_number, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("lot_number = (", as.character(lot_number), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("lot_number = '", lot_number,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(drug_source_value)) {
+    if (is.null(drug_source_value)) {
+      whereClauses <- c(whereClauses, "drug_source_value IS NULL")
+    } else if (is(drug_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_source_value = (", as.character(drug_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_source_value = '", drug_source_value,"'"))
+    }
+  }
+
+  if (!missing(drug_source_concept_id)) {
+    if (is.null(drug_source_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_source_concept_id IS NULL")
+    } else if (is(drug_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_source_concept_id = (", as.character(drug_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_source_concept_id = '", drug_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(route_source_value)) {
+    if (is.null(route_source_value)) {
+      whereClauses <- c(whereClauses, "route_source_value IS NULL")
+    } else if (is(route_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("route_source_value = (", as.character(route_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("route_source_value = '", route_source_value,"'"))
+    }
+  }
+
+  if (!missing(dose_unit_source_value)) {
+    if (is.null(dose_unit_source_value)) {
+      whereClauses <- c(whereClauses, "dose_unit_source_value IS NULL")
+    } else if (is(dose_unit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dose_unit_source_value = (", as.character(dose_unit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_unit_source_value = '", dose_unit_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_fact_relationship <- function(rowCount, domain_concept_id_1, fact_id_1, domain_concept_id_2, fact_id_2, relationship_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect fact_relationship' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.fact_relationship WHERE ")
+  whereClauses = NULL;
+  if (!missing(domain_concept_id_1)) {
+    if (is.null(domain_concept_id_1)) {
+      whereClauses <- c(whereClauses, "domain_concept_id_1 IS NULL")
+    } else if (is(domain_concept_id_1, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("domain_concept_id_1 = (", as.character(domain_concept_id_1), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("domain_concept_id_1 = '", domain_concept_id_1,"'"))
+    }
+  }
+
+  if (!missing(fact_id_1)) {
+    if (is.null(fact_id_1)) {
+      whereClauses <- c(whereClauses, "fact_id_1 IS NULL")
+    } else if (is(fact_id_1, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("fact_id_1 = (", as.character(fact_id_1), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("fact_id_1 = '", fact_id_1,"'"))
+    }
+  }
+
+  if (!missing(domain_concept_id_2)) {
+    if (is.null(domain_concept_id_2)) {
+      whereClauses <- c(whereClauses, "domain_concept_id_2 IS NULL")
+    } else if (is(domain_concept_id_2, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("domain_concept_id_2 = (", as.character(domain_concept_id_2), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("domain_concept_id_2 = '", domain_concept_id_2,"'"))
+    }
+  }
+
+  if (!missing(fact_id_2)) {
+    if (is.null(fact_id_2)) {
+      whereClauses <- c(whereClauses, "fact_id_2 IS NULL")
+    } else if (is(fact_id_2, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("fact_id_2 = (", as.character(fact_id_2), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("fact_id_2 = '", fact_id_2,"'"))
+    }
+  }
+
+  if (!missing(relationship_concept_id)) {
+    if (is.null(relationship_concept_id)) {
+      whereClauses <- c(whereClauses, "relationship_concept_id IS NULL")
+    } else if (is(relationship_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("relationship_concept_id = (", as.character(relationship_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("relationship_concept_id = '", relationship_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_measurement <- function(rowCount, measurement_id, person_id, measurement_concept_id, measurement_date, measurement_datetime, measurement_type_concept_id, operator_concept_id, value_as_number, value_as_concept_id, unit_concept_id, range_low, range_high, provider_id, visit_occurrence_id, visit_detail_id, measurement_source_value, measurement_source_concept_id, unit_source_value, value_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect measurement' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.measurement WHERE ")
+  whereClauses = NULL;
+  if (!missing(measurement_id)) {
+    if (is.null(measurement_id)) {
+      whereClauses <- c(whereClauses, "measurement_id IS NULL")
+    } else if (is(measurement_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_id = (", as.character(measurement_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_id = '", measurement_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(measurement_concept_id)) {
+    if (is.null(measurement_concept_id)) {
+      whereClauses <- c(whereClauses, "measurement_concept_id IS NULL")
+    } else if (is(measurement_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_concept_id = (", as.character(measurement_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_concept_id = '", measurement_concept_id,"'"))
+    }
+  }
+
+  if (!missing(measurement_date)) {
+    if (is.null(measurement_date)) {
+      whereClauses <- c(whereClauses, "measurement_date IS NULL")
+    } else if (is(measurement_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_date = (", as.character(measurement_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_date = '", measurement_date,"'"))
+    }
+  }
+
+  if (!missing(measurement_datetime)) {
+    if (is.null(measurement_datetime)) {
+      whereClauses <- c(whereClauses, "measurement_datetime IS NULL")
+    } else if (is(measurement_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_datetime = (", as.character(measurement_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_datetime = '", measurement_datetime,"'"))
+    }
+  }
+
+  if (!missing(measurement_type_concept_id)) {
+    if (is.null(measurement_type_concept_id)) {
+      whereClauses <- c(whereClauses, "measurement_type_concept_id IS NULL")
+    } else if (is(measurement_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_type_concept_id = (", as.character(measurement_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_type_concept_id = '", measurement_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(operator_concept_id)) {
+    if (is.null(operator_concept_id)) {
+      whereClauses <- c(whereClauses, "operator_concept_id IS NULL")
+    } else if (is(operator_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("operator_concept_id = (", as.character(operator_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("operator_concept_id = '", operator_concept_id,"'"))
+    }
+  }
+
+  if (!missing(value_as_number)) {
+    if (is.null(value_as_number)) {
+      whereClauses <- c(whereClauses, "value_as_number IS NULL")
+    } else if (is(value_as_number, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_number = (", as.character(value_as_number), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_number = '", value_as_number,"'"))
+    }
+  }
+
+  if (!missing(value_as_concept_id)) {
+    if (is.null(value_as_concept_id)) {
+      whereClauses <- c(whereClauses, "value_as_concept_id IS NULL")
+    } else if (is(value_as_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = (", as.character(value_as_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = '", value_as_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_concept_id)) {
+    if (is.null(unit_concept_id)) {
+      whereClauses <- c(whereClauses, "unit_concept_id IS NULL")
+    } else if (is(unit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = (", as.character(unit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = '", unit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(range_low)) {
+    if (is.null(range_low)) {
+      whereClauses <- c(whereClauses, "range_low IS NULL")
+    } else if (is(range_low, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("range_low = (", as.character(range_low), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("range_low = '", range_low,"'"))
+    }
+  }
+
+  if (!missing(range_high)) {
+    if (is.null(range_high)) {
+      whereClauses <- c(whereClauses, "range_high IS NULL")
+    } else if (is(range_high, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("range_high = (", as.character(range_high), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("range_high = '", range_high,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(measurement_source_value)) {
+    if (is.null(measurement_source_value)) {
+      whereClauses <- c(whereClauses, "measurement_source_value IS NULL")
+    } else if (is(measurement_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_source_value = (", as.character(measurement_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_source_value = '", measurement_source_value,"'"))
+    }
+  }
+
+  if (!missing(measurement_source_concept_id)) {
+    if (is.null(measurement_source_concept_id)) {
+      whereClauses <- c(whereClauses, "measurement_source_concept_id IS NULL")
+    } else if (is(measurement_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("measurement_source_concept_id = (", as.character(measurement_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_source_concept_id = '", measurement_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_source_value)) {
+    if (is.null(unit_source_value)) {
+      whereClauses <- c(whereClauses, "unit_source_value IS NULL")
+    } else if (is(unit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_source_value = (", as.character(unit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_source_value = '", unit_source_value,"'"))
+    }
+  }
+
+  if (!missing(value_source_value)) {
+    if (is.null(value_source_value)) {
+      whereClauses <- c(whereClauses, "value_source_value IS NULL")
+    } else if (is(value_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_source_value = (", as.character(value_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_source_value = '", value_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_note <- function(rowCount, note_id, person_id, note_date, note_datetime, note_type_concept_id, note_class_concept_id, note_title, note_text, encoding_concept_id, language_concept_id, provider_id, note_source_value, visit_occurrence_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect note' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.note WHERE ")
+  whereClauses = NULL;
+  if (!missing(note_id)) {
+    if (is.null(note_id)) {
+      whereClauses <- c(whereClauses, "note_id IS NULL")
+    } else if (is(note_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_id = (", as.character(note_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_id = '", note_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(note_date)) {
+    if (is.null(note_date)) {
+      whereClauses <- c(whereClauses, "note_date IS NULL")
+    } else if (is(note_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_date = (", as.character(note_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_date = '", note_date,"'"))
+    }
+  }
+
+  if (!missing(note_datetime)) {
+    if (is.null(note_datetime)) {
+      whereClauses <- c(whereClauses, "note_datetime IS NULL")
+    } else if (is(note_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_datetime = (", as.character(note_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_datetime = '", note_datetime,"'"))
+    }
+  }
+
+  if (!missing(note_type_concept_id)) {
+    if (is.null(note_type_concept_id)) {
+      whereClauses <- c(whereClauses, "note_type_concept_id IS NULL")
+    } else if (is(note_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_type_concept_id = (", as.character(note_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_type_concept_id = '", note_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(note_class_concept_id)) {
+    if (is.null(note_class_concept_id)) {
+      whereClauses <- c(whereClauses, "note_class_concept_id IS NULL")
+    } else if (is(note_class_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_class_concept_id = (", as.character(note_class_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_class_concept_id = '", note_class_concept_id,"'"))
+    }
+  }
+
+  if (!missing(note_title)) {
+    if (is.null(note_title)) {
+      whereClauses <- c(whereClauses, "note_title IS NULL")
+    } else if (is(note_title, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_title = (", as.character(note_title), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_title = '", note_title,"'"))
+    }
+  }
+
+  if (!missing(note_text)) {
+    if (is.null(note_text)) {
+      whereClauses <- c(whereClauses, "note_text IS NULL")
+    } else if (is(note_text, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_text = (", as.character(note_text), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_text = '", note_text,"'"))
+    }
+  }
+
+  if (!missing(encoding_concept_id)) {
+    if (is.null(encoding_concept_id)) {
+      whereClauses <- c(whereClauses, "encoding_concept_id IS NULL")
+    } else if (is(encoding_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("encoding_concept_id = (", as.character(encoding_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("encoding_concept_id = '", encoding_concept_id,"'"))
+    }
+  }
+
+  if (!missing(language_concept_id)) {
+    if (is.null(language_concept_id)) {
+      whereClauses <- c(whereClauses, "language_concept_id IS NULL")
+    } else if (is(language_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("language_concept_id = (", as.character(language_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("language_concept_id = '", language_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(note_source_value)) {
+    if (is.null(note_source_value)) {
+      whereClauses <- c(whereClauses, "note_source_value IS NULL")
+    } else if (is(note_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_source_value = (", as.character(note_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_source_value = '", note_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_note_nlp <- function(rowCount, note_nlp_id, note_id, section_concept_id, snippet, offset, lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_date_time, term_exists, term_temporal, term_modifiers) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect note_nlp' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.note_nlp WHERE ")
+  whereClauses = NULL;
+  if (!missing(note_nlp_id)) {
+    if (is.null(note_nlp_id)) {
+      whereClauses <- c(whereClauses, "note_nlp_id IS NULL")
+    } else if (is(note_nlp_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_nlp_id = (", as.character(note_nlp_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_nlp_id = '", note_nlp_id,"'"))
+    }
+  }
+
+  if (!missing(note_id)) {
+    if (is.null(note_id)) {
+      whereClauses <- c(whereClauses, "note_id IS NULL")
+    } else if (is(note_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_id = (", as.character(note_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_id = '", note_id,"'"))
+    }
+  }
+
+  if (!missing(section_concept_id)) {
+    if (is.null(section_concept_id)) {
+      whereClauses <- c(whereClauses, "section_concept_id IS NULL")
+    } else if (is(section_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("section_concept_id = (", as.character(section_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("section_concept_id = '", section_concept_id,"'"))
+    }
+  }
+
+  if (!missing(snippet)) {
+    if (is.null(snippet)) {
+      whereClauses <- c(whereClauses, "snippet IS NULL")
+    } else if (is(snippet, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("snippet = (", as.character(snippet), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("snippet = '", snippet,"'"))
+    }
+  }
+
+  if (!missing(offset)) {
+    if (is.null(offset)) {
+      whereClauses <- c(whereClauses, "offset IS NULL")
+    } else if (is(offset, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("offset = (", as.character(offset), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("offset = '", offset,"'"))
+    }
+  }
+
+  if (!missing(lexical_variant)) {
+    if (is.null(lexical_variant)) {
+      whereClauses <- c(whereClauses, "lexical_variant IS NULL")
+    } else if (is(lexical_variant, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("lexical_variant = (", as.character(lexical_variant), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("lexical_variant = '", lexical_variant,"'"))
+    }
+  }
+
+  if (!missing(note_nlp_concept_id)) {
+    if (is.null(note_nlp_concept_id)) {
+      whereClauses <- c(whereClauses, "note_nlp_concept_id IS NULL")
+    } else if (is(note_nlp_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_nlp_concept_id = (", as.character(note_nlp_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_nlp_concept_id = '", note_nlp_concept_id,"'"))
+    }
+  }
+
+  if (!missing(note_nlp_source_concept_id)) {
+    if (is.null(note_nlp_source_concept_id)) {
+      whereClauses <- c(whereClauses, "note_nlp_source_concept_id IS NULL")
+    } else if (is(note_nlp_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("note_nlp_source_concept_id = (", as.character(note_nlp_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_nlp_source_concept_id = '", note_nlp_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(nlp_system)) {
+    if (is.null(nlp_system)) {
+      whereClauses <- c(whereClauses, "nlp_system IS NULL")
+    } else if (is(nlp_system, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("nlp_system = (", as.character(nlp_system), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("nlp_system = '", nlp_system,"'"))
+    }
+  }
+
+  if (!missing(nlp_date)) {
+    if (is.null(nlp_date)) {
+      whereClauses <- c(whereClauses, "nlp_date IS NULL")
+    } else if (is(nlp_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("nlp_date = (", as.character(nlp_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("nlp_date = '", nlp_date,"'"))
+    }
+  }
+
+  if (!missing(nlp_date_time)) {
+    if (is.null(nlp_date_time)) {
+      whereClauses <- c(whereClauses, "nlp_date_time IS NULL")
+    } else if (is(nlp_date_time, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("nlp_date_time = (", as.character(nlp_date_time), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("nlp_date_time = '", nlp_date_time,"'"))
+    }
+  }
+
+  if (!missing(term_exists)) {
+    if (is.null(term_exists)) {
+      whereClauses <- c(whereClauses, "term_exists IS NULL")
+    } else if (is(term_exists, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("term_exists = (", as.character(term_exists), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("term_exists = '", term_exists,"'"))
+    }
+  }
+
+  if (!missing(term_temporal)) {
+    if (is.null(term_temporal)) {
+      whereClauses <- c(whereClauses, "term_temporal IS NULL")
+    } else if (is(term_temporal, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("term_temporal = (", as.character(term_temporal), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("term_temporal = '", term_temporal,"'"))
+    }
+  }
+
+  if (!missing(term_modifiers)) {
+    if (is.null(term_modifiers)) {
+      whereClauses <- c(whereClauses, "term_modifiers IS NULL")
+    } else if (is(term_modifiers, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("term_modifiers = (", as.character(term_modifiers), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("term_modifiers = '", term_modifiers,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_observation <- function(rowCount, observation_id, person_id, observation_concept_id, observation_date, observation_datetime, observation_type_concept_id, value_as_number, value_as_string, value_as_concept_id, qualifier_concept_id, unit_concept_id, provider_id, visit_occurrence_id, visit_detail_id, observation_source_value, observation_source_concept_id, unit_source_value, qualifier_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect observation' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.observation WHERE ")
+  whereClauses = NULL;
+  if (!missing(observation_id)) {
+    if (is.null(observation_id)) {
+      whereClauses <- c(whereClauses, "observation_id IS NULL")
+    } else if (is(observation_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_id = (", as.character(observation_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_id = '", observation_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(observation_concept_id)) {
+    if (is.null(observation_concept_id)) {
+      whereClauses <- c(whereClauses, "observation_concept_id IS NULL")
+    } else if (is(observation_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_concept_id = (", as.character(observation_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_concept_id = '", observation_concept_id,"'"))
+    }
+  }
+
+  if (!missing(observation_date)) {
+    if (is.null(observation_date)) {
+      whereClauses <- c(whereClauses, "observation_date IS NULL")
+    } else if (is(observation_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_date = (", as.character(observation_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_date = '", observation_date,"'"))
+    }
+  }
+
+  if (!missing(observation_datetime)) {
+    if (is.null(observation_datetime)) {
+      whereClauses <- c(whereClauses, "observation_datetime IS NULL")
+    } else if (is(observation_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_datetime = (", as.character(observation_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_datetime = '", observation_datetime,"'"))
+    }
+  }
+
+  if (!missing(observation_type_concept_id)) {
+    if (is.null(observation_type_concept_id)) {
+      whereClauses <- c(whereClauses, "observation_type_concept_id IS NULL")
+    } else if (is(observation_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_type_concept_id = (", as.character(observation_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_type_concept_id = '", observation_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(value_as_number)) {
+    if (is.null(value_as_number)) {
+      whereClauses <- c(whereClauses, "value_as_number IS NULL")
+    } else if (is(value_as_number, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_number = (", as.character(value_as_number), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_number = '", value_as_number,"'"))
+    }
+  }
+
+  if (!missing(value_as_string)) {
+    if (is.null(value_as_string)) {
+      whereClauses <- c(whereClauses, "value_as_string IS NULL")
+    } else if (is(value_as_string, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_string = (", as.character(value_as_string), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_string = '", value_as_string,"'"))
+    }
+  }
+
+  if (!missing(value_as_concept_id)) {
+    if (is.null(value_as_concept_id)) {
+      whereClauses <- c(whereClauses, "value_as_concept_id IS NULL")
+    } else if (is(value_as_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = (", as.character(value_as_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = '", value_as_concept_id,"'"))
+    }
+  }
+
+  if (!missing(qualifier_concept_id)) {
+    if (is.null(qualifier_concept_id)) {
+      whereClauses <- c(whereClauses, "qualifier_concept_id IS NULL")
+    } else if (is(qualifier_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("qualifier_concept_id = (", as.character(qualifier_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("qualifier_concept_id = '", qualifier_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_concept_id)) {
+    if (is.null(unit_concept_id)) {
+      whereClauses <- c(whereClauses, "unit_concept_id IS NULL")
+    } else if (is(unit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = (", as.character(unit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = '", unit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(observation_source_value)) {
+    if (is.null(observation_source_value)) {
+      whereClauses <- c(whereClauses, "observation_source_value IS NULL")
+    } else if (is(observation_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_source_value = (", as.character(observation_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_source_value = '", observation_source_value,"'"))
+    }
+  }
+
+  if (!missing(observation_source_concept_id)) {
+    if (is.null(observation_source_concept_id)) {
+      whereClauses <- c(whereClauses, "observation_source_concept_id IS NULL")
+    } else if (is(observation_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_source_concept_id = (", as.character(observation_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_source_concept_id = '", observation_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_source_value)) {
+    if (is.null(unit_source_value)) {
+      whereClauses <- c(whereClauses, "unit_source_value IS NULL")
+    } else if (is(unit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_source_value = (", as.character(unit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_source_value = '", unit_source_value,"'"))
+    }
+  }
+
+  if (!missing(qualifier_source_value)) {
+    if (is.null(qualifier_source_value)) {
+      whereClauses <- c(whereClauses, "qualifier_source_value IS NULL")
+    } else if (is(qualifier_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("qualifier_source_value = (", as.character(qualifier_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("qualifier_source_value = '", qualifier_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_observation_period <- function(rowCount, observation_period_id, person_id, observation_period_start_date, observation_period_end_date, period_type_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect observation_period' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.observation_period WHERE ")
+  whereClauses = NULL;
+  if (!missing(observation_period_id)) {
+    if (is.null(observation_period_id)) {
+      whereClauses <- c(whereClauses, "observation_period_id IS NULL")
+    } else if (is(observation_period_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_period_id = (", as.character(observation_period_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_period_id = '", observation_period_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(observation_period_start_date)) {
+    if (is.null(observation_period_start_date)) {
+      whereClauses <- c(whereClauses, "observation_period_start_date IS NULL")
+    } else if (is(observation_period_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_period_start_date = (", as.character(observation_period_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_period_start_date = '", observation_period_start_date,"'"))
+    }
+  }
+
+  if (!missing(observation_period_end_date)) {
+    if (is.null(observation_period_end_date)) {
+      whereClauses <- c(whereClauses, "observation_period_end_date IS NULL")
+    } else if (is(observation_period_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("observation_period_end_date = (", as.character(observation_period_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_period_end_date = '", observation_period_end_date,"'"))
+    }
+  }
+
+  if (!missing(period_type_concept_id)) {
+    if (is.null(period_type_concept_id)) {
+      whereClauses <- c(whereClauses, "period_type_concept_id IS NULL")
+    } else if (is(period_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("period_type_concept_id = (", as.character(period_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("period_type_concept_id = '", period_type_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_person <- function(rowCount, person_id, gender_concept_id, year_of_birth, month_of_birth, day_of_birth, birth_datetime, race_concept_id, ethnicity_concept_id, location_id, provider_id, care_site_id, person_source_value, gender_source_value, gender_source_concept_id, race_source_value, race_source_concept_id, ethnicity_source_value, ethnicity_source_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect person' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.person WHERE ")
+  whereClauses = NULL;
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(gender_concept_id)) {
+    if (is.null(gender_concept_id)) {
+      whereClauses <- c(whereClauses, "gender_concept_id IS NULL")
+    } else if (is(gender_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_concept_id = (", as.character(gender_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_concept_id = '", gender_concept_id,"'"))
+    }
+  }
+
+  if (!missing(year_of_birth)) {
+    if (is.null(year_of_birth)) {
+      whereClauses <- c(whereClauses, "year_of_birth IS NULL")
+    } else if (is(year_of_birth, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("year_of_birth = (", as.character(year_of_birth), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("year_of_birth = '", year_of_birth,"'"))
+    }
+  }
+
+  if (!missing(month_of_birth)) {
+    if (is.null(month_of_birth)) {
+      whereClauses <- c(whereClauses, "month_of_birth IS NULL")
+    } else if (is(month_of_birth, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("month_of_birth = (", as.character(month_of_birth), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("month_of_birth = '", month_of_birth,"'"))
+    }
+  }
+
+  if (!missing(day_of_birth)) {
+    if (is.null(day_of_birth)) {
+      whereClauses <- c(whereClauses, "day_of_birth IS NULL")
+    } else if (is(day_of_birth, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("day_of_birth = (", as.character(day_of_birth), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("day_of_birth = '", day_of_birth,"'"))
+    }
+  }
+
+  if (!missing(birth_datetime)) {
+    if (is.null(birth_datetime)) {
+      whereClauses <- c(whereClauses, "birth_datetime IS NULL")
+    } else if (is(birth_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("birth_datetime = (", as.character(birth_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("birth_datetime = '", birth_datetime,"'"))
+    }
+  }
+
+  if (!missing(race_concept_id)) {
+    if (is.null(race_concept_id)) {
+      whereClauses <- c(whereClauses, "race_concept_id IS NULL")
+    } else if (is(race_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("race_concept_id = (", as.character(race_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("race_concept_id = '", race_concept_id,"'"))
+    }
+  }
+
+  if (!missing(ethnicity_concept_id)) {
+    if (is.null(ethnicity_concept_id)) {
+      whereClauses <- c(whereClauses, "ethnicity_concept_id IS NULL")
+    } else if (is(ethnicity_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("ethnicity_concept_id = (", as.character(ethnicity_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("ethnicity_concept_id = '", ethnicity_concept_id,"'"))
+    }
+  }
+
+  if (!missing(location_id)) {
+    if (is.null(location_id)) {
+      whereClauses <- c(whereClauses, "location_id IS NULL")
+    } else if (is(location_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("location_id = (", as.character(location_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("location_id = '", location_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else if (is(care_site_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_id = (", as.character(care_site_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(person_source_value)) {
+    if (is.null(person_source_value)) {
+      whereClauses <- c(whereClauses, "person_source_value IS NULL")
+    } else if (is(person_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_source_value = (", as.character(person_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_source_value = '", person_source_value,"'"))
+    }
+  }
+
+  if (!missing(gender_source_value)) {
+    if (is.null(gender_source_value)) {
+      whereClauses <- c(whereClauses, "gender_source_value IS NULL")
+    } else if (is(gender_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_source_value = (", as.character(gender_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_source_value = '", gender_source_value,"'"))
+    }
+  }
+
+  if (!missing(gender_source_concept_id)) {
+    if (is.null(gender_source_concept_id)) {
+      whereClauses <- c(whereClauses, "gender_source_concept_id IS NULL")
+    } else if (is(gender_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_source_concept_id = (", as.character(gender_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_source_concept_id = '", gender_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(race_source_value)) {
+    if (is.null(race_source_value)) {
+      whereClauses <- c(whereClauses, "race_source_value IS NULL")
+    } else if (is(race_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("race_source_value = (", as.character(race_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("race_source_value = '", race_source_value,"'"))
+    }
+  }
+
+  if (!missing(race_source_concept_id)) {
+    if (is.null(race_source_concept_id)) {
+      whereClauses <- c(whereClauses, "race_source_concept_id IS NULL")
+    } else if (is(race_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("race_source_concept_id = (", as.character(race_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("race_source_concept_id = '", race_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(ethnicity_source_value)) {
+    if (is.null(ethnicity_source_value)) {
+      whereClauses <- c(whereClauses, "ethnicity_source_value IS NULL")
+    } else if (is(ethnicity_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("ethnicity_source_value = (", as.character(ethnicity_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("ethnicity_source_value = '", ethnicity_source_value,"'"))
+    }
+  }
+
+  if (!missing(ethnicity_source_concept_id)) {
+    if (is.null(ethnicity_source_concept_id)) {
+      whereClauses <- c(whereClauses, "ethnicity_source_concept_id IS NULL")
+    } else if (is(ethnicity_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("ethnicity_source_concept_id = (", as.character(ethnicity_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("ethnicity_source_concept_id = '", ethnicity_source_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_procedure_occurrence <- function(rowCount, procedure_occurrence_id, person_id, procedure_concept_id, procedure_date, procedure_datetime, procedure_type_concept_id, modifier_concept_id, quantity, provider_id, visit_occurrence_id, procedure_source_value, procedure_source_concept_id, qualifier_source_value, visit_detail_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect procedure_occurrence' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.procedure_occurrence WHERE ")
+  whereClauses = NULL;
+  if (!missing(procedure_occurrence_id)) {
+    if (is.null(procedure_occurrence_id)) {
+      whereClauses <- c(whereClauses, "procedure_occurrence_id IS NULL")
+    } else if (is(procedure_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_occurrence_id = (", as.character(procedure_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_occurrence_id = '", procedure_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(procedure_concept_id)) {
+    if (is.null(procedure_concept_id)) {
+      whereClauses <- c(whereClauses, "procedure_concept_id IS NULL")
+    } else if (is(procedure_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_concept_id = (", as.character(procedure_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_concept_id = '", procedure_concept_id,"'"))
+    }
+  }
+
+  if (!missing(procedure_date)) {
+    if (is.null(procedure_date)) {
+      whereClauses <- c(whereClauses, "procedure_date IS NULL")
+    } else if (is(procedure_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_date = (", as.character(procedure_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_date = '", procedure_date,"'"))
+    }
+  }
+
+  if (!missing(procedure_datetime)) {
+    if (is.null(procedure_datetime)) {
+      whereClauses <- c(whereClauses, "procedure_datetime IS NULL")
+    } else if (is(procedure_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_datetime = (", as.character(procedure_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_datetime = '", procedure_datetime,"'"))
+    }
+  }
+
+  if (!missing(procedure_type_concept_id)) {
+    if (is.null(procedure_type_concept_id)) {
+      whereClauses <- c(whereClauses, "procedure_type_concept_id IS NULL")
+    } else if (is(procedure_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_type_concept_id = (", as.character(procedure_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_type_concept_id = '", procedure_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(modifier_concept_id)) {
+    if (is.null(modifier_concept_id)) {
+      whereClauses <- c(whereClauses, "modifier_concept_id IS NULL")
+    } else if (is(modifier_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("modifier_concept_id = (", as.character(modifier_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("modifier_concept_id = '", modifier_concept_id,"'"))
+    }
+  }
+
+  if (!missing(quantity)) {
+    if (is.null(quantity)) {
+      whereClauses <- c(whereClauses, "quantity IS NULL")
+    } else if (is(quantity, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("quantity = (", as.character(quantity), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("quantity = '", quantity,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(procedure_source_value)) {
+    if (is.null(procedure_source_value)) {
+      whereClauses <- c(whereClauses, "procedure_source_value IS NULL")
+    } else if (is(procedure_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_source_value = (", as.character(procedure_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_source_value = '", procedure_source_value,"'"))
+    }
+  }
+
+  if (!missing(procedure_source_concept_id)) {
+    if (is.null(procedure_source_concept_id)) {
+      whereClauses <- c(whereClauses, "procedure_source_concept_id IS NULL")
+    } else if (is(procedure_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("procedure_source_concept_id = (", as.character(procedure_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_source_concept_id = '", procedure_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(qualifier_source_value)) {
+    if (is.null(qualifier_source_value)) {
+      whereClauses <- c(whereClauses, "qualifier_source_value IS NULL")
+    } else if (is(qualifier_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("qualifier_source_value = (", as.character(qualifier_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("qualifier_source_value = '", qualifier_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_specimen <- function(rowCount, specimen_id, person_id, specimen_concept_id, specimen_type_concept_id, specimen_date, specimen_datetime, quantity, unit_concept_id, anatomic_site_concept_id, disease_status_concept_id, specimen_source_id, specimen_source_value, unit_source_value, anatomic_site_source_value, disease_status_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect specimen' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.specimen WHERE ")
+  whereClauses = NULL;
+  if (!missing(specimen_id)) {
+    if (is.null(specimen_id)) {
+      whereClauses <- c(whereClauses, "specimen_id IS NULL")
+    } else if (is(specimen_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_id = (", as.character(specimen_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_id = '", specimen_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_concept_id)) {
+    if (is.null(specimen_concept_id)) {
+      whereClauses <- c(whereClauses, "specimen_concept_id IS NULL")
+    } else if (is(specimen_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_concept_id = (", as.character(specimen_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_concept_id = '", specimen_concept_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_type_concept_id)) {
+    if (is.null(specimen_type_concept_id)) {
+      whereClauses <- c(whereClauses, "specimen_type_concept_id IS NULL")
+    } else if (is(specimen_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_type_concept_id = (", as.character(specimen_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_type_concept_id = '", specimen_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_date)) {
+    if (is.null(specimen_date)) {
+      whereClauses <- c(whereClauses, "specimen_date IS NULL")
+    } else if (is(specimen_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_date = (", as.character(specimen_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_date = '", specimen_date,"'"))
+    }
+  }
+
+  if (!missing(specimen_datetime)) {
+    if (is.null(specimen_datetime)) {
+      whereClauses <- c(whereClauses, "specimen_datetime IS NULL")
+    } else if (is(specimen_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_datetime = (", as.character(specimen_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_datetime = '", specimen_datetime,"'"))
+    }
+  }
+
+  if (!missing(quantity)) {
+    if (is.null(quantity)) {
+      whereClauses <- c(whereClauses, "quantity IS NULL")
+    } else if (is(quantity, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("quantity = (", as.character(quantity), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("quantity = '", quantity,"'"))
+    }
+  }
+
+  if (!missing(unit_concept_id)) {
+    if (is.null(unit_concept_id)) {
+      whereClauses <- c(whereClauses, "unit_concept_id IS NULL")
+    } else if (is(unit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = (", as.character(unit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = '", unit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(anatomic_site_concept_id)) {
+    if (is.null(anatomic_site_concept_id)) {
+      whereClauses <- c(whereClauses, "anatomic_site_concept_id IS NULL")
+    } else if (is(anatomic_site_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("anatomic_site_concept_id = (", as.character(anatomic_site_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("anatomic_site_concept_id = '", anatomic_site_concept_id,"'"))
+    }
+  }
+
+  if (!missing(disease_status_concept_id)) {
+    if (is.null(disease_status_concept_id)) {
+      whereClauses <- c(whereClauses, "disease_status_concept_id IS NULL")
+    } else if (is(disease_status_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("disease_status_concept_id = (", as.character(disease_status_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("disease_status_concept_id = '", disease_status_concept_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_source_id)) {
+    if (is.null(specimen_source_id)) {
+      whereClauses <- c(whereClauses, "specimen_source_id IS NULL")
+    } else if (is(specimen_source_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_source_id = (", as.character(specimen_source_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_source_id = '", specimen_source_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_source_value)) {
+    if (is.null(specimen_source_value)) {
+      whereClauses <- c(whereClauses, "specimen_source_value IS NULL")
+    } else if (is(specimen_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specimen_source_value = (", as.character(specimen_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_source_value = '", specimen_source_value,"'"))
+    }
+  }
+
+  if (!missing(unit_source_value)) {
+    if (is.null(unit_source_value)) {
+      whereClauses <- c(whereClauses, "unit_source_value IS NULL")
+    } else if (is(unit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_source_value = (", as.character(unit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_source_value = '", unit_source_value,"'"))
+    }
+  }
+
+  if (!missing(anatomic_site_source_value)) {
+    if (is.null(anatomic_site_source_value)) {
+      whereClauses <- c(whereClauses, "anatomic_site_source_value IS NULL")
+    } else if (is(anatomic_site_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("anatomic_site_source_value = (", as.character(anatomic_site_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("anatomic_site_source_value = '", anatomic_site_source_value,"'"))
+    }
+  }
+
+  if (!missing(disease_status_source_value)) {
+    if (is.null(disease_status_source_value)) {
+      whereClauses <- c(whereClauses, "disease_status_source_value IS NULL")
+    } else if (is(disease_status_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("disease_status_source_value = (", as.character(disease_status_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("disease_status_source_value = '", disease_status_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_visit_detail <- function(rowCount, visit_detail_id, person_id, visit_concept_id, visit_start_date, visit_start_datetime, visit_end_date, visit_end_datetime, visit_type_concept_id, provider_id, care_site_id, visit_source_value, visit_source_concept_id, admitting_source_value, admitting_source_concept_id, discharge_to_source_value, discharge_to_concept_id, preceding_visit_detail_id, visit_detail_parent_id, visit_occurrence_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect visit_detail' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.visit_detail WHERE ")
+  whereClauses = NULL;
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else if (is(visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = (", as.character(visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(visit_concept_id)) {
+    if (is.null(visit_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_concept_id IS NULL")
+    } else if (is(visit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_concept_id = (", as.character(visit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_concept_id = '", visit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(visit_start_date)) {
+    if (is.null(visit_start_date)) {
+      whereClauses <- c(whereClauses, "visit_start_date IS NULL")
+    } else if (is(visit_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_start_date = (", as.character(visit_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_start_date = '", visit_start_date,"'"))
+    }
+  }
+
+  if (!missing(visit_start_datetime)) {
+    if (is.null(visit_start_datetime)) {
+      whereClauses <- c(whereClauses, "visit_start_datetime IS NULL")
+    } else if (is(visit_start_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_start_datetime = (", as.character(visit_start_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_start_datetime = '", visit_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(visit_end_date)) {
+    if (is.null(visit_end_date)) {
+      whereClauses <- c(whereClauses, "visit_end_date IS NULL")
+    } else if (is(visit_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_end_date = (", as.character(visit_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_end_date = '", visit_end_date,"'"))
+    }
+  }
+
+  if (!missing(visit_end_datetime)) {
+    if (is.null(visit_end_datetime)) {
+      whereClauses <- c(whereClauses, "visit_end_datetime IS NULL")
+    } else if (is(visit_end_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_end_datetime = (", as.character(visit_end_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_end_datetime = '", visit_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(visit_type_concept_id)) {
+    if (is.null(visit_type_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_type_concept_id IS NULL")
+    } else if (is(visit_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_type_concept_id = (", as.character(visit_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_type_concept_id = '", visit_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else if (is(care_site_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_id = (", as.character(care_site_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(visit_source_value)) {
+    if (is.null(visit_source_value)) {
+      whereClauses <- c(whereClauses, "visit_source_value IS NULL")
+    } else if (is(visit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_source_value = (", as.character(visit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_source_value = '", visit_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_source_concept_id)) {
+    if (is.null(visit_source_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_source_concept_id IS NULL")
+    } else if (is(visit_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_source_concept_id = (", as.character(visit_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_source_concept_id = '", visit_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(admitting_source_value)) {
+    if (is.null(admitting_source_value)) {
+      whereClauses <- c(whereClauses, "admitting_source_value IS NULL")
+    } else if (is(admitting_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("admitting_source_value = (", as.character(admitting_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("admitting_source_value = '", admitting_source_value,"'"))
+    }
+  }
+
+  if (!missing(admitting_source_concept_id)) {
+    if (is.null(admitting_source_concept_id)) {
+      whereClauses <- c(whereClauses, "admitting_source_concept_id IS NULL")
+    } else if (is(admitting_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("admitting_source_concept_id = (", as.character(admitting_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("admitting_source_concept_id = '", admitting_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(discharge_to_source_value)) {
+    if (is.null(discharge_to_source_value)) {
+      whereClauses <- c(whereClauses, "discharge_to_source_value IS NULL")
+    } else if (is(discharge_to_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("discharge_to_source_value = (", as.character(discharge_to_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("discharge_to_source_value = '", discharge_to_source_value,"'"))
+    }
+  }
+
+  if (!missing(discharge_to_concept_id)) {
+    if (is.null(discharge_to_concept_id)) {
+      whereClauses <- c(whereClauses, "discharge_to_concept_id IS NULL")
+    } else if (is(discharge_to_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("discharge_to_concept_id = (", as.character(discharge_to_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("discharge_to_concept_id = '", discharge_to_concept_id,"'"))
+    }
+  }
+
+  if (!missing(preceding_visit_detail_id)) {
+    if (is.null(preceding_visit_detail_id)) {
+      whereClauses <- c(whereClauses, "preceding_visit_detail_id IS NULL")
+    } else if (is(preceding_visit_detail_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("preceding_visit_detail_id = (", as.character(preceding_visit_detail_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("preceding_visit_detail_id = '", preceding_visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_parent_id)) {
+    if (is.null(visit_detail_parent_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_parent_id IS NULL")
+    } else if (is(visit_detail_parent_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_detail_parent_id = (", as.character(visit_detail_parent_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_parent_id = '", visit_detail_parent_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_visit_occurrence <- function(rowCount, visit_occurrence_id, person_id, visit_concept_id, visit_start_date, visit_start_datetime, visit_end_date, visit_end_datetime, visit_type_concept_id, provider_id, care_site_id, visit_source_value, visit_source_concept_id, admitting_source_concept_id, admitting_source_value, discharge_to_concept_id, discharge_to_source_value, preceding_visit_occurrence_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect visit_occurrence' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.visit_occurrence WHERE ")
+  whereClauses = NULL;
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else if (is(visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = (", as.character(visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(visit_concept_id)) {
+    if (is.null(visit_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_concept_id IS NULL")
+    } else if (is(visit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_concept_id = (", as.character(visit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_concept_id = '", visit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(visit_start_date)) {
+    if (is.null(visit_start_date)) {
+      whereClauses <- c(whereClauses, "visit_start_date IS NULL")
+    } else if (is(visit_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_start_date = (", as.character(visit_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_start_date = '", visit_start_date,"'"))
+    }
+  }
+
+  if (!missing(visit_start_datetime)) {
+    if (is.null(visit_start_datetime)) {
+      whereClauses <- c(whereClauses, "visit_start_datetime IS NULL")
+    } else if (is(visit_start_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_start_datetime = (", as.character(visit_start_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_start_datetime = '", visit_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(visit_end_date)) {
+    if (is.null(visit_end_date)) {
+      whereClauses <- c(whereClauses, "visit_end_date IS NULL")
+    } else if (is(visit_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_end_date = (", as.character(visit_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_end_date = '", visit_end_date,"'"))
+    }
+  }
+
+  if (!missing(visit_end_datetime)) {
+    if (is.null(visit_end_datetime)) {
+      whereClauses <- c(whereClauses, "visit_end_datetime IS NULL")
+    } else if (is(visit_end_datetime, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_end_datetime = (", as.character(visit_end_datetime), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_end_datetime = '", visit_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(visit_type_concept_id)) {
+    if (is.null(visit_type_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_type_concept_id IS NULL")
+    } else if (is(visit_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_type_concept_id = (", as.character(visit_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_type_concept_id = '", visit_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else if (is(care_site_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_id = (", as.character(care_site_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(visit_source_value)) {
+    if (is.null(visit_source_value)) {
+      whereClauses <- c(whereClauses, "visit_source_value IS NULL")
+    } else if (is(visit_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_source_value = (", as.character(visit_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_source_value = '", visit_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_source_concept_id)) {
+    if (is.null(visit_source_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_source_concept_id IS NULL")
+    } else if (is(visit_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("visit_source_concept_id = (", as.character(visit_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_source_concept_id = '", visit_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(admitting_source_concept_id)) {
+    if (is.null(admitting_source_concept_id)) {
+      whereClauses <- c(whereClauses, "admitting_source_concept_id IS NULL")
+    } else if (is(admitting_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("admitting_source_concept_id = (", as.character(admitting_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("admitting_source_concept_id = '", admitting_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(admitting_source_value)) {
+    if (is.null(admitting_source_value)) {
+      whereClauses <- c(whereClauses, "admitting_source_value IS NULL")
+    } else if (is(admitting_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("admitting_source_value = (", as.character(admitting_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("admitting_source_value = '", admitting_source_value,"'"))
+    }
+  }
+
+  if (!missing(discharge_to_concept_id)) {
+    if (is.null(discharge_to_concept_id)) {
+      whereClauses <- c(whereClauses, "discharge_to_concept_id IS NULL")
+    } else if (is(discharge_to_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("discharge_to_concept_id = (", as.character(discharge_to_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("discharge_to_concept_id = '", discharge_to_concept_id,"'"))
+    }
+  }
+
+  if (!missing(discharge_to_source_value)) {
+    if (is.null(discharge_to_source_value)) {
+      whereClauses <- c(whereClauses, "discharge_to_source_value IS NULL")
+    } else if (is(discharge_to_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("discharge_to_source_value = (", as.character(discharge_to_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("discharge_to_source_value = '", discharge_to_source_value,"'"))
+    }
+  }
+
+  if (!missing(preceding_visit_occurrence_id)) {
+    if (is.null(preceding_visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "preceding_visit_occurrence_id IS NULL")
+    } else if (is(preceding_visit_occurrence_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("preceding_visit_occurrence_id = (", as.character(preceding_visit_occurrence_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("preceding_visit_occurrence_id = '", preceding_visit_occurrence_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_cohort <- function(rowCount, cohort_definition_id, subject_id, cohort_start_date, cohort_end_date) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect cohort' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.cohort WHERE ")
+  whereClauses = NULL;
+  if (!missing(cohort_definition_id)) {
+    if (is.null(cohort_definition_id)) {
+      whereClauses <- c(whereClauses, "cohort_definition_id IS NULL")
+    } else if (is(cohort_definition_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = (", as.character(cohort_definition_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = '", cohort_definition_id,"'"))
+    }
+  }
+
+  if (!missing(subject_id)) {
+    if (is.null(subject_id)) {
+      whereClauses <- c(whereClauses, "subject_id IS NULL")
+    } else if (is(subject_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("subject_id = (", as.character(subject_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("subject_id = '", subject_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_start_date)) {
+    if (is.null(cohort_start_date)) {
+      whereClauses <- c(whereClauses, "cohort_start_date IS NULL")
+    } else if (is(cohort_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_start_date = (", as.character(cohort_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_start_date = '", cohort_start_date,"'"))
+    }
+  }
+
+  if (!missing(cohort_end_date)) {
+    if (is.null(cohort_end_date)) {
+      whereClauses <- c(whereClauses, "cohort_end_date IS NULL")
+    } else if (is(cohort_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_end_date = (", as.character(cohort_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_end_date = '", cohort_end_date,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_cohort_attribute <- function(rowCount, cohort_definition_id, subject_id, cohort_start_date, cohort_end_date, attribute_definition_id, value_as_number, value_as_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect cohort_attribute' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.cohort_attribute WHERE ")
+  whereClauses = NULL;
+  if (!missing(cohort_definition_id)) {
+    if (is.null(cohort_definition_id)) {
+      whereClauses <- c(whereClauses, "cohort_definition_id IS NULL")
+    } else if (is(cohort_definition_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = (", as.character(cohort_definition_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = '", cohort_definition_id,"'"))
+    }
+  }
+
+  if (!missing(subject_id)) {
+    if (is.null(subject_id)) {
+      whereClauses <- c(whereClauses, "subject_id IS NULL")
+    } else if (is(subject_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("subject_id = (", as.character(subject_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("subject_id = '", subject_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_start_date)) {
+    if (is.null(cohort_start_date)) {
+      whereClauses <- c(whereClauses, "cohort_start_date IS NULL")
+    } else if (is(cohort_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_start_date = (", as.character(cohort_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_start_date = '", cohort_start_date,"'"))
+    }
+  }
+
+  if (!missing(cohort_end_date)) {
+    if (is.null(cohort_end_date)) {
+      whereClauses <- c(whereClauses, "cohort_end_date IS NULL")
+    } else if (is(cohort_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_end_date = (", as.character(cohort_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_end_date = '", cohort_end_date,"'"))
+    }
+  }
+
+  if (!missing(attribute_definition_id)) {
+    if (is.null(attribute_definition_id)) {
+      whereClauses <- c(whereClauses, "attribute_definition_id IS NULL")
+    } else if (is(attribute_definition_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_definition_id = (", as.character(attribute_definition_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_definition_id = '", attribute_definition_id,"'"))
+    }
+  }
+
+  if (!missing(value_as_number)) {
+    if (is.null(value_as_number)) {
+      whereClauses <- c(whereClauses, "value_as_number IS NULL")
+    } else if (is(value_as_number, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_number = (", as.character(value_as_number), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_number = '", value_as_number,"'"))
+    }
+  }
+
+  if (!missing(value_as_concept_id)) {
+    if (is.null(value_as_concept_id)) {
+      whereClauses <- c(whereClauses, "value_as_concept_id IS NULL")
+    } else if (is(value_as_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = (", as.character(value_as_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = '", value_as_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_condition_era <- function(rowCount, condition_era_id, person_id, condition_concept_id, condition_era_start_date, condition_era_end_date, condition_occurrence_count) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect condition_era' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.condition_era WHERE ")
+  whereClauses = NULL;
+  if (!missing(condition_era_id)) {
+    if (is.null(condition_era_id)) {
+      whereClauses <- c(whereClauses, "condition_era_id IS NULL")
+    } else if (is(condition_era_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_era_id = (", as.character(condition_era_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_era_id = '", condition_era_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(condition_concept_id)) {
+    if (is.null(condition_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_concept_id IS NULL")
+    } else if (is(condition_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_concept_id = (", as.character(condition_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_concept_id = '", condition_concept_id,"'"))
+    }
+  }
+
+  if (!missing(condition_era_start_date)) {
+    if (is.null(condition_era_start_date)) {
+      whereClauses <- c(whereClauses, "condition_era_start_date IS NULL")
+    } else if (is(condition_era_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_era_start_date = (", as.character(condition_era_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_era_start_date = '", condition_era_start_date,"'"))
+    }
+  }
+
+  if (!missing(condition_era_end_date)) {
+    if (is.null(condition_era_end_date)) {
+      whereClauses <- c(whereClauses, "condition_era_end_date IS NULL")
+    } else if (is(condition_era_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_era_end_date = (", as.character(condition_era_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_era_end_date = '", condition_era_end_date,"'"))
+    }
+  }
+
+  if (!missing(condition_occurrence_count)) {
+    if (is.null(condition_occurrence_count)) {
+      whereClauses <- c(whereClauses, "condition_occurrence_count IS NULL")
+    } else if (is(condition_occurrence_count, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("condition_occurrence_count = (", as.character(condition_occurrence_count), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_occurrence_count = '", condition_occurrence_count,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_dose_era <- function(rowCount, dose_era_id, person_id, drug_concept_id, unit_concept_id, dose_value, dose_era_start_date, dose_era_end_date) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect dose_era' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.dose_era WHERE ")
+  whereClauses = NULL;
+  if (!missing(dose_era_id)) {
+    if (is.null(dose_era_id)) {
+      whereClauses <- c(whereClauses, "dose_era_id IS NULL")
+    } else if (is(dose_era_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dose_era_id = (", as.character(dose_era_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_era_id = '", dose_era_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(drug_concept_id)) {
+    if (is.null(drug_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_concept_id IS NULL")
+    } else if (is(drug_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = (", as.character(drug_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = '", drug_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_concept_id)) {
+    if (is.null(unit_concept_id)) {
+      whereClauses <- c(whereClauses, "unit_concept_id IS NULL")
+    } else if (is(unit_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = (", as.character(unit_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = '", unit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(dose_value)) {
+    if (is.null(dose_value)) {
+      whereClauses <- c(whereClauses, "dose_value IS NULL")
+    } else if (is(dose_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dose_value = (", as.character(dose_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_value = '", dose_value,"'"))
+    }
+  }
+
+  if (!missing(dose_era_start_date)) {
+    if (is.null(dose_era_start_date)) {
+      whereClauses <- c(whereClauses, "dose_era_start_date IS NULL")
+    } else if (is(dose_era_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dose_era_start_date = (", as.character(dose_era_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_era_start_date = '", dose_era_start_date,"'"))
+    }
+  }
+
+  if (!missing(dose_era_end_date)) {
+    if (is.null(dose_era_end_date)) {
+      whereClauses <- c(whereClauses, "dose_era_end_date IS NULL")
+    } else if (is(dose_era_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dose_era_end_date = (", as.character(dose_era_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_era_end_date = '", dose_era_end_date,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_drug_era <- function(rowCount, drug_era_id, person_id, drug_concept_id, drug_era_start_date, drug_era_end_date, drug_exposure_count, gap_days) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect drug_era' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.drug_era WHERE ")
+  whereClauses = NULL;
+  if (!missing(drug_era_id)) {
+    if (is.null(drug_era_id)) {
+      whereClauses <- c(whereClauses, "drug_era_id IS NULL")
+    } else if (is(drug_era_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_era_id = (", as.character(drug_era_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_era_id = '", drug_era_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(drug_concept_id)) {
+    if (is.null(drug_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_concept_id IS NULL")
+    } else if (is(drug_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = (", as.character(drug_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = '", drug_concept_id,"'"))
+    }
+  }
+
+  if (!missing(drug_era_start_date)) {
+    if (is.null(drug_era_start_date)) {
+      whereClauses <- c(whereClauses, "drug_era_start_date IS NULL")
+    } else if (is(drug_era_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_era_start_date = (", as.character(drug_era_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_era_start_date = '", drug_era_start_date,"'"))
+    }
+  }
+
+  if (!missing(drug_era_end_date)) {
+    if (is.null(drug_era_end_date)) {
+      whereClauses <- c(whereClauses, "drug_era_end_date IS NULL")
+    } else if (is(drug_era_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_era_end_date = (", as.character(drug_era_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_era_end_date = '", drug_era_end_date,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_count)) {
+    if (is.null(drug_exposure_count)) {
+      whereClauses <- c(whereClauses, "drug_exposure_count IS NULL")
+    } else if (is(drug_exposure_count, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drug_exposure_count = (", as.character(drug_exposure_count), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_count = '", drug_exposure_count,"'"))
+    }
+  }
+
+  if (!missing(gap_days)) {
+    if (is.null(gap_days)) {
+      whereClauses <- c(whereClauses, "gap_days IS NULL")
+    } else if (is(gap_days, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gap_days = (", as.character(gap_days), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gap_days = '", gap_days,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_cost <- function(rowCount, cost_id, cost_event_id, cost_domain_id, cost_type_concept_id, currency_concept_id, total_charge, total_cost, total_paid, paid_by_payer, paid_by_patient, paid_patient_copay, paid_patient_coinsurance, paid_patient_deductible, paid_by_primary, paid_ingredient_cost, paid_dispensing_fee, payer_plan_period_id, amount_allowed, revenue_code_concept_id, revenue_code_source_value, drg_concept_id, drg_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect cost' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.cost WHERE ")
+  whereClauses = NULL;
+  if (!missing(cost_id)) {
+    if (is.null(cost_id)) {
+      whereClauses <- c(whereClauses, "cost_id IS NULL")
+    } else if (is(cost_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cost_id = (", as.character(cost_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cost_id = '", cost_id,"'"))
+    }
+  }
+
+  if (!missing(cost_event_id)) {
+    if (is.null(cost_event_id)) {
+      whereClauses <- c(whereClauses, "cost_event_id IS NULL")
+    } else if (is(cost_event_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cost_event_id = (", as.character(cost_event_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cost_event_id = '", cost_event_id,"'"))
+    }
+  }
+
+  if (!missing(cost_domain_id)) {
+    if (is.null(cost_domain_id)) {
+      whereClauses <- c(whereClauses, "cost_domain_id IS NULL")
+    } else if (is(cost_domain_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cost_domain_id = (", as.character(cost_domain_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cost_domain_id = '", cost_domain_id,"'"))
+    }
+  }
+
+  if (!missing(cost_type_concept_id)) {
+    if (is.null(cost_type_concept_id)) {
+      whereClauses <- c(whereClauses, "cost_type_concept_id IS NULL")
+    } else if (is(cost_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cost_type_concept_id = (", as.character(cost_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cost_type_concept_id = '", cost_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(currency_concept_id)) {
+    if (is.null(currency_concept_id)) {
+      whereClauses <- c(whereClauses, "currency_concept_id IS NULL")
+    } else if (is(currency_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("currency_concept_id = (", as.character(currency_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("currency_concept_id = '", currency_concept_id,"'"))
+    }
+  }
+
+  if (!missing(total_charge)) {
+    if (is.null(total_charge)) {
+      whereClauses <- c(whereClauses, "total_charge IS NULL")
+    } else if (is(total_charge, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("total_charge = (", as.character(total_charge), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("total_charge = '", total_charge,"'"))
+    }
+  }
+
+  if (!missing(total_cost)) {
+    if (is.null(total_cost)) {
+      whereClauses <- c(whereClauses, "total_cost IS NULL")
+    } else if (is(total_cost, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("total_cost = (", as.character(total_cost), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("total_cost = '", total_cost,"'"))
+    }
+  }
+
+  if (!missing(total_paid)) {
+    if (is.null(total_paid)) {
+      whereClauses <- c(whereClauses, "total_paid IS NULL")
+    } else if (is(total_paid, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("total_paid = (", as.character(total_paid), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("total_paid = '", total_paid,"'"))
+    }
+  }
+
+  if (!missing(paid_by_payer)) {
+    if (is.null(paid_by_payer)) {
+      whereClauses <- c(whereClauses, "paid_by_payer IS NULL")
+    } else if (is(paid_by_payer, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_by_payer = (", as.character(paid_by_payer), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_by_payer = '", paid_by_payer,"'"))
+    }
+  }
+
+  if (!missing(paid_by_patient)) {
+    if (is.null(paid_by_patient)) {
+      whereClauses <- c(whereClauses, "paid_by_patient IS NULL")
+    } else if (is(paid_by_patient, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_by_patient = (", as.character(paid_by_patient), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_by_patient = '", paid_by_patient,"'"))
+    }
+  }
+
+  if (!missing(paid_patient_copay)) {
+    if (is.null(paid_patient_copay)) {
+      whereClauses <- c(whereClauses, "paid_patient_copay IS NULL")
+    } else if (is(paid_patient_copay, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_patient_copay = (", as.character(paid_patient_copay), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_patient_copay = '", paid_patient_copay,"'"))
+    }
+  }
+
+  if (!missing(paid_patient_coinsurance)) {
+    if (is.null(paid_patient_coinsurance)) {
+      whereClauses <- c(whereClauses, "paid_patient_coinsurance IS NULL")
+    } else if (is(paid_patient_coinsurance, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_patient_coinsurance = (", as.character(paid_patient_coinsurance), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_patient_coinsurance = '", paid_patient_coinsurance,"'"))
+    }
+  }
+
+  if (!missing(paid_patient_deductible)) {
+    if (is.null(paid_patient_deductible)) {
+      whereClauses <- c(whereClauses, "paid_patient_deductible IS NULL")
+    } else if (is(paid_patient_deductible, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_patient_deductible = (", as.character(paid_patient_deductible), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_patient_deductible = '", paid_patient_deductible,"'"))
+    }
+  }
+
+  if (!missing(paid_by_primary)) {
+    if (is.null(paid_by_primary)) {
+      whereClauses <- c(whereClauses, "paid_by_primary IS NULL")
+    } else if (is(paid_by_primary, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_by_primary = (", as.character(paid_by_primary), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_by_primary = '", paid_by_primary,"'"))
+    }
+  }
+
+  if (!missing(paid_ingredient_cost)) {
+    if (is.null(paid_ingredient_cost)) {
+      whereClauses <- c(whereClauses, "paid_ingredient_cost IS NULL")
+    } else if (is(paid_ingredient_cost, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_ingredient_cost = (", as.character(paid_ingredient_cost), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_ingredient_cost = '", paid_ingredient_cost,"'"))
+    }
+  }
+
+  if (!missing(paid_dispensing_fee)) {
+    if (is.null(paid_dispensing_fee)) {
+      whereClauses <- c(whereClauses, "paid_dispensing_fee IS NULL")
+    } else if (is(paid_dispensing_fee, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("paid_dispensing_fee = (", as.character(paid_dispensing_fee), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_dispensing_fee = '", paid_dispensing_fee,"'"))
+    }
+  }
+
+  if (!missing(payer_plan_period_id)) {
+    if (is.null(payer_plan_period_id)) {
+      whereClauses <- c(whereClauses, "payer_plan_period_id IS NULL")
+    } else if (is(payer_plan_period_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_id = (", as.character(payer_plan_period_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_id = '", payer_plan_period_id,"'"))
+    }
+  }
+
+  if (!missing(amount_allowed)) {
+    if (is.null(amount_allowed)) {
+      whereClauses <- c(whereClauses, "amount_allowed IS NULL")
+    } else if (is(amount_allowed, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("amount_allowed = (", as.character(amount_allowed), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("amount_allowed = '", amount_allowed,"'"))
+    }
+  }
+
+  if (!missing(revenue_code_concept_id)) {
+    if (is.null(revenue_code_concept_id)) {
+      whereClauses <- c(whereClauses, "revenue_code_concept_id IS NULL")
+    } else if (is(revenue_code_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("revenue_code_concept_id = (", as.character(revenue_code_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("revenue_code_concept_id = '", revenue_code_concept_id,"'"))
+    }
+  }
+
+  if (!missing(revenue_code_source_value)) {
+    if (is.null(revenue_code_source_value)) {
+      whereClauses <- c(whereClauses, "revenue_code_source_value IS NULL")
+    } else if (is(revenue_code_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("revenue_code_source_value = (", as.character(revenue_code_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("revenue_code_source_value = '", revenue_code_source_value,"'"))
+    }
+  }
+
+  if (!missing(drg_concept_id)) {
+    if (is.null(drg_concept_id)) {
+      whereClauses <- c(whereClauses, "drg_concept_id IS NULL")
+    } else if (is(drg_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drg_concept_id = (", as.character(drg_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drg_concept_id = '", drg_concept_id,"'"))
+    }
+  }
+
+  if (!missing(drg_source_value)) {
+    if (is.null(drg_source_value)) {
+      whereClauses <- c(whereClauses, "drg_source_value IS NULL")
+    } else if (is(drg_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("drg_source_value = (", as.character(drg_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("drg_source_value = '", drg_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_payer_plan_period <- function(rowCount, payer_plan_period_id, person_id, payer_plan_period_start_date, payer_plan_period_end_date, payer_source_value, plan_source_value, family_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect payer_plan_period' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.payer_plan_period WHERE ")
+  whereClauses = NULL;
+  if (!missing(payer_plan_period_id)) {
+    if (is.null(payer_plan_period_id)) {
+      whereClauses <- c(whereClauses, "payer_plan_period_id IS NULL")
+    } else if (is(payer_plan_period_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_id = (", as.character(payer_plan_period_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_id = '", payer_plan_period_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else if (is(person_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("person_id = (", as.character(person_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(payer_plan_period_start_date)) {
+    if (is.null(payer_plan_period_start_date)) {
+      whereClauses <- c(whereClauses, "payer_plan_period_start_date IS NULL")
+    } else if (is(payer_plan_period_start_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_start_date = (", as.character(payer_plan_period_start_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_start_date = '", payer_plan_period_start_date,"'"))
+    }
+  }
+
+  if (!missing(payer_plan_period_end_date)) {
+    if (is.null(payer_plan_period_end_date)) {
+      whereClauses <- c(whereClauses, "payer_plan_period_end_date IS NULL")
+    } else if (is(payer_plan_period_end_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_end_date = (", as.character(payer_plan_period_end_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_end_date = '", payer_plan_period_end_date,"'"))
+    }
+  }
+
+  if (!missing(payer_source_value)) {
+    if (is.null(payer_source_value)) {
+      whereClauses <- c(whereClauses, "payer_source_value IS NULL")
+    } else if (is(payer_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("payer_source_value = (", as.character(payer_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_source_value = '", payer_source_value,"'"))
+    }
+  }
+
+  if (!missing(plan_source_value)) {
+    if (is.null(plan_source_value)) {
+      whereClauses <- c(whereClauses, "plan_source_value IS NULL")
+    } else if (is(plan_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("plan_source_value = (", as.character(plan_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("plan_source_value = '", plan_source_value,"'"))
+    }
+  }
+
+  if (!missing(family_source_value)) {
+    if (is.null(family_source_value)) {
+      whereClauses <- c(whereClauses, "family_source_value IS NULL")
+    } else if (is(family_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("family_source_value = (", as.character(family_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("family_source_value = '", family_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_care_site <- function(rowCount, care_site_id, care_site_name, place_of_service_concept_id, location_id, care_site_source_value, place_of_service_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect care_site' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.care_site WHERE ")
+  whereClauses = NULL;
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else if (is(care_site_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_id = (", as.character(care_site_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_name)) {
+    if (is.null(care_site_name)) {
+      whereClauses <- c(whereClauses, "care_site_name IS NULL")
+    } else if (is(care_site_name, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_name = (", as.character(care_site_name), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_name = '", care_site_name,"'"))
+    }
+  }
+
+  if (!missing(place_of_service_concept_id)) {
+    if (is.null(place_of_service_concept_id)) {
+      whereClauses <- c(whereClauses, "place_of_service_concept_id IS NULL")
+    } else if (is(place_of_service_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("place_of_service_concept_id = (", as.character(place_of_service_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("place_of_service_concept_id = '", place_of_service_concept_id,"'"))
+    }
+  }
+
+  if (!missing(location_id)) {
+    if (is.null(location_id)) {
+      whereClauses <- c(whereClauses, "location_id IS NULL")
+    } else if (is(location_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("location_id = (", as.character(location_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("location_id = '", location_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_source_value)) {
+    if (is.null(care_site_source_value)) {
+      whereClauses <- c(whereClauses, "care_site_source_value IS NULL")
+    } else if (is(care_site_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_source_value = (", as.character(care_site_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_source_value = '", care_site_source_value,"'"))
+    }
+  }
+
+  if (!missing(place_of_service_source_value)) {
+    if (is.null(place_of_service_source_value)) {
+      whereClauses <- c(whereClauses, "place_of_service_source_value IS NULL")
+    } else if (is(place_of_service_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("place_of_service_source_value = (", as.character(place_of_service_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("place_of_service_source_value = '", place_of_service_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_location <- function(rowCount, location_id, address_1, address_2, city, state, zip, county, location_source_value) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect location' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.location WHERE ")
+  whereClauses = NULL;
+  if (!missing(location_id)) {
+    if (is.null(location_id)) {
+      whereClauses <- c(whereClauses, "location_id IS NULL")
+    } else if (is(location_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("location_id = (", as.character(location_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("location_id = '", location_id,"'"))
+    }
+  }
+
+  if (!missing(address_1)) {
+    if (is.null(address_1)) {
+      whereClauses <- c(whereClauses, "address_1 IS NULL")
+    } else if (is(address_1, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("address_1 = (", as.character(address_1), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("address_1 = '", address_1,"'"))
+    }
+  }
+
+  if (!missing(address_2)) {
+    if (is.null(address_2)) {
+      whereClauses <- c(whereClauses, "address_2 IS NULL")
+    } else if (is(address_2, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("address_2 = (", as.character(address_2), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("address_2 = '", address_2,"'"))
+    }
+  }
+
+  if (!missing(city)) {
+    if (is.null(city)) {
+      whereClauses <- c(whereClauses, "city IS NULL")
+    } else if (is(city, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("city = (", as.character(city), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("city = '", city,"'"))
+    }
+  }
+
+  if (!missing(state)) {
+    if (is.null(state)) {
+      whereClauses <- c(whereClauses, "state IS NULL")
+    } else if (is(state, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("state = (", as.character(state), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("state = '", state,"'"))
+    }
+  }
+
+  if (!missing(zip)) {
+    if (is.null(zip)) {
+      whereClauses <- c(whereClauses, "zip IS NULL")
+    } else if (is(zip, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("zip = (", as.character(zip), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("zip = '", zip,"'"))
+    }
+  }
+
+  if (!missing(county)) {
+    if (is.null(county)) {
+      whereClauses <- c(whereClauses, "county IS NULL")
+    } else if (is(county, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("county = (", as.character(county), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("county = '", county,"'"))
+    }
+  }
+
+  if (!missing(location_source_value)) {
+    if (is.null(location_source_value)) {
+      whereClauses <- c(whereClauses, "location_source_value IS NULL")
+    } else if (is(location_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("location_source_value = (", as.character(location_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("location_source_value = '", location_source_value,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_provider <- function(rowCount, provider_id, provider_name, npi, dea, specialty_concept_id, care_site_id, year_of_birth, gender_concept_id, provider_source_value, specialty_source_value, specialty_source_concept_id, gender_source_value, gender_source_concept_id) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect provider' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.provider WHERE ")
+  whereClauses = NULL;
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else if (is(provider_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_id = (", as.character(provider_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(provider_name)) {
+    if (is.null(provider_name)) {
+      whereClauses <- c(whereClauses, "provider_name IS NULL")
+    } else if (is(provider_name, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_name = (", as.character(provider_name), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_name = '", provider_name,"'"))
+    }
+  }
+
+  if (!missing(npi)) {
+    if (is.null(npi)) {
+      whereClauses <- c(whereClauses, "npi IS NULL")
+    } else if (is(npi, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("npi = (", as.character(npi), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("npi = '", npi,"'"))
+    }
+  }
+
+  if (!missing(dea)) {
+    if (is.null(dea)) {
+      whereClauses <- c(whereClauses, "dea IS NULL")
+    } else if (is(dea, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("dea = (", as.character(dea), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("dea = '", dea,"'"))
+    }
+  }
+
+  if (!missing(specialty_concept_id)) {
+    if (is.null(specialty_concept_id)) {
+      whereClauses <- c(whereClauses, "specialty_concept_id IS NULL")
+    } else if (is(specialty_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specialty_concept_id = (", as.character(specialty_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specialty_concept_id = '", specialty_concept_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else if (is(care_site_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("care_site_id = (", as.character(care_site_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(year_of_birth)) {
+    if (is.null(year_of_birth)) {
+      whereClauses <- c(whereClauses, "year_of_birth IS NULL")
+    } else if (is(year_of_birth, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("year_of_birth = (", as.character(year_of_birth), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("year_of_birth = '", year_of_birth,"'"))
+    }
+  }
+
+  if (!missing(gender_concept_id)) {
+    if (is.null(gender_concept_id)) {
+      whereClauses <- c(whereClauses, "gender_concept_id IS NULL")
+    } else if (is(gender_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_concept_id = (", as.character(gender_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_concept_id = '", gender_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_source_value)) {
+    if (is.null(provider_source_value)) {
+      whereClauses <- c(whereClauses, "provider_source_value IS NULL")
+    } else if (is(provider_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("provider_source_value = (", as.character(provider_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_source_value = '", provider_source_value,"'"))
+    }
+  }
+
+  if (!missing(specialty_source_value)) {
+    if (is.null(specialty_source_value)) {
+      whereClauses <- c(whereClauses, "specialty_source_value IS NULL")
+    } else if (is(specialty_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specialty_source_value = (", as.character(specialty_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specialty_source_value = '", specialty_source_value,"'"))
+    }
+  }
+
+  if (!missing(specialty_source_concept_id)) {
+    if (is.null(specialty_source_concept_id)) {
+      whereClauses <- c(whereClauses, "specialty_source_concept_id IS NULL")
+    } else if (is(specialty_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("specialty_source_concept_id = (", as.character(specialty_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("specialty_source_concept_id = '", specialty_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(gender_source_value)) {
+    if (is.null(gender_source_value)) {
+      whereClauses <- c(whereClauses, "gender_source_value IS NULL")
+    } else if (is(gender_source_value, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_source_value = (", as.character(gender_source_value), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_source_value = '", gender_source_value,"'"))
+    }
+  }
+
+  if (!missing(gender_source_concept_id)) {
+    if (is.null(gender_source_concept_id)) {
+      whereClauses <- c(whereClauses, "gender_source_concept_id IS NULL")
+    } else if (is(gender_source_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("gender_source_concept_id = (", as.character(gender_source_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_source_concept_id = '", gender_source_concept_id,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_cdm_source <- function(rowCount, cdm_source_name, cdm_source_abbreviation, cdm_holder, source_description, source_documentation_reference, cdm_etl__reference, source_release_date, cdm_release_date, cdm_version, vocabulary_version) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect cdm_source' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.cdm_source WHERE ")
+  whereClauses = NULL;
+  if (!missing(cdm_source_name)) {
+    if (is.null(cdm_source_name)) {
+      whereClauses <- c(whereClauses, "cdm_source_name IS NULL")
+    } else if (is(cdm_source_name, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cdm_source_name = (", as.character(cdm_source_name), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_source_name = '", cdm_source_name,"'"))
+    }
+  }
+
+  if (!missing(cdm_source_abbreviation)) {
+    if (is.null(cdm_source_abbreviation)) {
+      whereClauses <- c(whereClauses, "cdm_source_abbreviation IS NULL")
+    } else if (is(cdm_source_abbreviation, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cdm_source_abbreviation = (", as.character(cdm_source_abbreviation), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_source_abbreviation = '", cdm_source_abbreviation,"'"))
+    }
+  }
+
+  if (!missing(cdm_holder)) {
+    if (is.null(cdm_holder)) {
+      whereClauses <- c(whereClauses, "cdm_holder IS NULL")
+    } else if (is(cdm_holder, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cdm_holder = (", as.character(cdm_holder), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_holder = '", cdm_holder,"'"))
+    }
+  }
+
+  if (!missing(source_description)) {
+    if (is.null(source_description)) {
+      whereClauses <- c(whereClauses, "source_description IS NULL")
+    } else if (is(source_description, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("source_description = (", as.character(source_description), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("source_description = '", source_description,"'"))
+    }
+  }
+
+  if (!missing(source_documentation_reference)) {
+    if (is.null(source_documentation_reference)) {
+      whereClauses <- c(whereClauses, "source_documentation_reference IS NULL")
+    } else if (is(source_documentation_reference, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("source_documentation_reference = (", as.character(source_documentation_reference), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("source_documentation_reference = '", source_documentation_reference,"'"))
+    }
+  }
+
+  if (!missing(cdm_etl__reference)) {
+    if (is.null(cdm_etl__reference)) {
+      whereClauses <- c(whereClauses, "[cdm_etl _reference] IS NULL")
+    } else if (is(cdm_etl__reference, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("[cdm_etl _reference] = (", as.character(cdm_etl__reference), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("[cdm_etl _reference] = '", cdm_etl__reference,"'"))
+    }
+  }
+
+  if (!missing(source_release_date)) {
+    if (is.null(source_release_date)) {
+      whereClauses <- c(whereClauses, "source_release_date IS NULL")
+    } else if (is(source_release_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("source_release_date = (", as.character(source_release_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("source_release_date = '", source_release_date,"'"))
+    }
+  }
+
+  if (!missing(cdm_release_date)) {
+    if (is.null(cdm_release_date)) {
+      whereClauses <- c(whereClauses, "cdm_release_date IS NULL")
+    } else if (is(cdm_release_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cdm_release_date = (", as.character(cdm_release_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_release_date = '", cdm_release_date,"'"))
+    }
+  }
+
+  if (!missing(cdm_version)) {
+    if (is.null(cdm_version)) {
+      whereClauses <- c(whereClauses, "cdm_version IS NULL")
+    } else if (is(cdm_version, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cdm_version = (", as.character(cdm_version), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_version = '", cdm_version,"'"))
+    }
+  }
+
+  if (!missing(vocabulary_version)) {
+    if (is.null(vocabulary_version)) {
+      whereClauses <- c(whereClauses, "vocabulary_version IS NULL")
+    } else if (is(vocabulary_version, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("vocabulary_version = (", as.character(vocabulary_version), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("vocabulary_version = '", vocabulary_version,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_attribute_definition <- function(rowCount, attribute_definition_id, attribute_name, attribute_description, attribute_type_concept_id, attribute_syntax) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect attribute_definition' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.attribute_definition WHERE ")
+  whereClauses = NULL;
+  if (!missing(attribute_definition_id)) {
+    if (is.null(attribute_definition_id)) {
+      whereClauses <- c(whereClauses, "attribute_definition_id IS NULL")
+    } else if (is(attribute_definition_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_definition_id = (", as.character(attribute_definition_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_definition_id = '", attribute_definition_id,"'"))
+    }
+  }
+
+  if (!missing(attribute_name)) {
+    if (is.null(attribute_name)) {
+      whereClauses <- c(whereClauses, "attribute_name IS NULL")
+    } else if (is(attribute_name, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_name = (", as.character(attribute_name), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_name = '", attribute_name,"'"))
+    }
+  }
+
+  if (!missing(attribute_description)) {
+    if (is.null(attribute_description)) {
+      whereClauses <- c(whereClauses, "attribute_description IS NULL")
+    } else if (is(attribute_description, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_description = (", as.character(attribute_description), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_description = '", attribute_description,"'"))
+    }
+  }
+
+  if (!missing(attribute_type_concept_id)) {
+    if (is.null(attribute_type_concept_id)) {
+      whereClauses <- c(whereClauses, "attribute_type_concept_id IS NULL")
+    } else if (is(attribute_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_type_concept_id = (", as.character(attribute_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_type_concept_id = '", attribute_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(attribute_syntax)) {
+    if (is.null(attribute_syntax)) {
+      whereClauses <- c(whereClauses, "attribute_syntax IS NULL")
+    } else if (is(attribute_syntax, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("attribute_syntax = (", as.character(attribute_syntax), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_syntax = '", attribute_syntax,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+expect_count_cohort_definition <- function(rowCount, cohort_definition_id, cohort_definition_name, cohort_definition_description, definition_type_concept_id, cohort_definition_syntax, subject_concept_id, cohort_instantiation_date) {
+
+  if (is.null(frameworkContext$currentGroup)) {
+    testName <- frameworkContext$testDescription;
+  } else {
+    testName <- paste0(frameworkContext$groupIndex, ".", frameworkContext$currentGroup$groupItemIndex, " ", frameworkContext$testDescription);
+  }
+
+  source_pid <- frameworkContext$patient$source_pid;
+  if (is.null(source_pid)) {
+    source_pid <- "NULL";
+  } else {
+    source_pid <- paste0("'", as.character(source_pid), "'");
+  }
+
+  cdm_pid <- frameworkContext$patient$cdm_pid;
+  if (is.null(cdm_pid)) {
+    cdm_pid <- "NULL"
+  }
+
+  statement <- paste0("INSERT INTO test_results SELECT ", frameworkContext$testId, " AS id, '", testName, "' AS description, 'Expect cohort_definition' AS test, ", source_pid, " as source_pid, ", cdm_pid, " as cdm_pid, CASE WHEN(SELECT COUNT(*) FROM @cdm_schema.cohort_definition WHERE ")
+  whereClauses = NULL;
+  if (!missing(cohort_definition_id)) {
+    if (is.null(cohort_definition_id)) {
+      whereClauses <- c(whereClauses, "cohort_definition_id IS NULL")
+    } else if (is(cohort_definition_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = (", as.character(cohort_definition_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = '", cohort_definition_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_definition_name)) {
+    if (is.null(cohort_definition_name)) {
+      whereClauses <- c(whereClauses, "cohort_definition_name IS NULL")
+    } else if (is(cohort_definition_name, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_name = (", as.character(cohort_definition_name), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_name = '", cohort_definition_name,"'"))
+    }
+  }
+
+  if (!missing(cohort_definition_description)) {
+    if (is.null(cohort_definition_description)) {
+      whereClauses <- c(whereClauses, "cohort_definition_description IS NULL")
+    } else if (is(cohort_definition_description, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_description = (", as.character(cohort_definition_description), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_description = '", cohort_definition_description,"'"))
+    }
+  }
+
+  if (!missing(definition_type_concept_id)) {
+    if (is.null(definition_type_concept_id)) {
+      whereClauses <- c(whereClauses, "definition_type_concept_id IS NULL")
+    } else if (is(definition_type_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("definition_type_concept_id = (", as.character(definition_type_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("definition_type_concept_id = '", definition_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_definition_syntax)) {
+    if (is.null(cohort_definition_syntax)) {
+      whereClauses <- c(whereClauses, "cohort_definition_syntax IS NULL")
+    } else if (is(cohort_definition_syntax, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_definition_syntax = (", as.character(cohort_definition_syntax), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_syntax = '", cohort_definition_syntax,"'"))
+    }
+  }
+
+  if (!missing(subject_concept_id)) {
+    if (is.null(subject_concept_id)) {
+      whereClauses <- c(whereClauses, "subject_concept_id IS NULL")
+    } else if (is(subject_concept_id, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("subject_concept_id = (", as.character(subject_concept_id), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("subject_concept_id = '", subject_concept_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_instantiation_date)) {
+    if (is.null(cohort_instantiation_date)) {
+      whereClauses <- c(whereClauses, "cohort_instantiation_date IS NULL")
+    } else if (is(cohort_instantiation_date, "subQuery")){
+      whereClauses <- c(whereClauses, paste0("cohort_instantiation_date = (", as.character(cohort_instantiation_date), ")"))
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_instantiation_date = '", cohort_instantiation_date,"'"))
+    }
+  }
+
+ statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  statement <- paste0(statement, ") != ",rowCount ," THEN 'FAIL' ELSE 'PASS' END AS status;")
+  if (exists('testNewExpected', where = frameworkContext) && get('testNewExpected'))
+  {
+    frameworkContext$testNewExpected <- FALSE
+    id <- frameworkContext$testId
+    description <- frameworkContext$testDescription
+    comment <- paste0('-- ', id, ': ', description)
+    testSql <- c(testSql, comment)
+  }
+  frameworkContext$testSql = c(frameworkContext$testSql, statement);
+  invisible(statement)
+}
+
+lookup_condition_occurrence <- function(fetchField, condition_occurrence_id, person_id, condition_concept_id, condition_start_date, condition_start_datetime, condition_end_date, condition_end_datetime, condition_type_concept_id, stop_reason, provider_id, visit_occurrence_id, visit_detail_id, condition_source_value, condition_source_concept_id, condition_status_source_value, condition_status_concept_id) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.condition_occurrence WHERE ")
+  if (!missing(condition_occurrence_id)) {
+    if (is.null(condition_occurrence_id)) {
+      whereClauses <- c(whereClauses, "condition_occurrence_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_occurrence_id = '", condition_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(condition_concept_id)) {
+    if (is.null(condition_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_concept_id = '", condition_concept_id,"'"))
+    }
+  }
+
+  if (!missing(condition_start_date)) {
+    if (is.null(condition_start_date)) {
+      whereClauses <- c(whereClauses, "condition_start_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_start_date = '", condition_start_date,"'"))
+    }
+  }
+
+  if (!missing(condition_start_datetime)) {
+    if (is.null(condition_start_datetime)) {
+      whereClauses <- c(whereClauses, "condition_start_datetime IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_start_datetime = '", condition_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(condition_end_date)) {
+    if (is.null(condition_end_date)) {
+      whereClauses <- c(whereClauses, "condition_end_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_end_date = '", condition_end_date,"'"))
+    }
+  }
+
+  if (!missing(condition_end_datetime)) {
+    if (is.null(condition_end_datetime)) {
+      whereClauses <- c(whereClauses, "condition_end_datetime IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_end_datetime = '", condition_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(condition_type_concept_id)) {
+    if (is.null(condition_type_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_type_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_type_concept_id = '", condition_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(stop_reason)) {
+    if (is.null(stop_reason)) {
+      whereClauses <- c(whereClauses, "stop_reason IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("stop_reason = '", stop_reason,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(condition_source_value)) {
+    if (is.null(condition_source_value)) {
+      whereClauses <- c(whereClauses, "condition_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_source_value = '", condition_source_value,"'"))
+    }
+  }
+
+  if (!missing(condition_source_concept_id)) {
+    if (is.null(condition_source_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_source_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_source_concept_id = '", condition_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(condition_status_source_value)) {
+    if (is.null(condition_status_source_value)) {
+      whereClauses <- c(whereClauses, "condition_status_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_status_source_value = '", condition_status_source_value,"'"))
+    }
+  }
+
+  if (!missing(condition_status_concept_id)) {
+    if (is.null(condition_status_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_status_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_status_concept_id = '", condition_status_concept_id,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_death <- function(fetchField, person_id, death_date, death_datetime, death_type_concept_id, cause_concept_id, cause_source_value, cause_source_concept_id) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.death WHERE ")
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(death_date)) {
+    if (is.null(death_date)) {
+      whereClauses <- c(whereClauses, "death_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("death_date = '", death_date,"'"))
+    }
+  }
+
+  if (!missing(death_datetime)) {
+    if (is.null(death_datetime)) {
+      whereClauses <- c(whereClauses, "death_datetime IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("death_datetime = '", death_datetime,"'"))
+    }
+  }
+
+  if (!missing(death_type_concept_id)) {
+    if (is.null(death_type_concept_id)) {
+      whereClauses <- c(whereClauses, "death_type_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("death_type_concept_id = '", death_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(cause_concept_id)) {
+    if (is.null(cause_concept_id)) {
+      whereClauses <- c(whereClauses, "cause_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cause_concept_id = '", cause_concept_id,"'"))
+    }
+  }
+
+  if (!missing(cause_source_value)) {
+    if (is.null(cause_source_value)) {
+      whereClauses <- c(whereClauses, "cause_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cause_source_value = '", cause_source_value,"'"))
+    }
+  }
+
+  if (!missing(cause_source_concept_id)) {
+    if (is.null(cause_source_concept_id)) {
+      whereClauses <- c(whereClauses, "cause_source_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cause_source_concept_id = '", cause_source_concept_id,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_device_exposure <- function(fetchField, device_exposure_id, person_id, device_concept_id, device_exposure_start_date, device_exposure_start_datetime, device_exposure_end_date, device_exposure_end_datetime, device_type_concept_id, unique_device_id, quantity, provider_id, visit_occurrence_id, device_source_value, device_source__concept_id, visit_detail_id) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.device_exposure WHERE ")
+  if (!missing(device_exposure_id)) {
+    if (is.null(device_exposure_id)) {
+      whereClauses <- c(whereClauses, "device_exposure_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_id = '", device_exposure_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(device_concept_id)) {
+    if (is.null(device_concept_id)) {
+      whereClauses <- c(whereClauses, "device_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_concept_id = '", device_concept_id,"'"))
+    }
+  }
+
+  if (!missing(device_exposure_start_date)) {
+    if (is.null(device_exposure_start_date)) {
+      whereClauses <- c(whereClauses, "device_exposure_start_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_start_date = '", device_exposure_start_date,"'"))
+    }
+  }
+
+  if (!missing(device_exposure_start_datetime)) {
+    if (is.null(device_exposure_start_datetime)) {
+      whereClauses <- c(whereClauses, "device_exposure_start_datetime IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_start_datetime = '", device_exposure_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(device_exposure_end_date)) {
+    if (is.null(device_exposure_end_date)) {
+      whereClauses <- c(whereClauses, "device_exposure_end_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_end_date = '", device_exposure_end_date,"'"))
+    }
+  }
+
+  if (!missing(device_exposure_end_datetime)) {
+    if (is.null(device_exposure_end_datetime)) {
+      whereClauses <- c(whereClauses, "device_exposure_end_datetime IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_exposure_end_datetime = '", device_exposure_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(device_type_concept_id)) {
+    if (is.null(device_type_concept_id)) {
+      whereClauses <- c(whereClauses, "device_type_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_type_concept_id = '", device_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unique_device_id)) {
+    if (is.null(unique_device_id)) {
+      whereClauses <- c(whereClauses, "unique_device_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("unique_device_id = '", unique_device_id,"'"))
+    }
+  }
+
+  if (!missing(quantity)) {
+    if (is.null(quantity)) {
+      whereClauses <- c(whereClauses, "quantity IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("quantity = '", quantity,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(device_source_value)) {
+    if (is.null(device_source_value)) {
+      whereClauses <- c(whereClauses, "device_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("device_source_value = '", device_source_value,"'"))
+    }
+  }
+
+  if (!missing(device_source__concept_id)) {
+    if (is.null(device_source__concept_id)) {
+      whereClauses <- c(whereClauses, "[device_source_ concept_id] IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("[device_source_ concept_id] = '", device_source__concept_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_drug_exposure <- function(fetchField, drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_start_datetime, drug_exposure_end_date, drug_exposure_end_datetime, verbatim_end_date, drug_type_concept_id, stop_reason, refills, quantity, days_supply, sig, route_concept_id, lot_number, provider_id, visit_occurrence_id, drug_source_value, drug_source_concept_id, route_source_value, dose_unit_source_value, visit_detail_id) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.drug_exposure WHERE ")
+  if (!missing(drug_exposure_id)) {
+    if (is.null(drug_exposure_id)) {
+      whereClauses <- c(whereClauses, "drug_exposure_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_id = '", drug_exposure_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(drug_concept_id)) {
+    if (is.null(drug_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = '", drug_concept_id,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_start_date)) {
+    if (is.null(drug_exposure_start_date)) {
+      whereClauses <- c(whereClauses, "drug_exposure_start_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_start_date = '", drug_exposure_start_date,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_start_datetime)) {
+    if (is.null(drug_exposure_start_datetime)) {
+      whereClauses <- c(whereClauses, "drug_exposure_start_datetime IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_start_datetime = '", drug_exposure_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_end_date)) {
+    if (is.null(drug_exposure_end_date)) {
+      whereClauses <- c(whereClauses, "drug_exposure_end_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_end_date = '", drug_exposure_end_date,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_end_datetime)) {
+    if (is.null(drug_exposure_end_datetime)) {
+      whereClauses <- c(whereClauses, "drug_exposure_end_datetime IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_end_datetime = '", drug_exposure_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(verbatim_end_date)) {
+    if (is.null(verbatim_end_date)) {
+      whereClauses <- c(whereClauses, "verbatim_end_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("verbatim_end_date = '", verbatim_end_date,"'"))
+    }
+  }
+
+  if (!missing(drug_type_concept_id)) {
+    if (is.null(drug_type_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_type_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_type_concept_id = '", drug_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(stop_reason)) {
+    if (is.null(stop_reason)) {
+      whereClauses <- c(whereClauses, "stop_reason IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("stop_reason = '", stop_reason,"'"))
+    }
+  }
+
+  if (!missing(refills)) {
+    if (is.null(refills)) {
+      whereClauses <- c(whereClauses, "refills IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("refills = '", refills,"'"))
+    }
+  }
+
+  if (!missing(quantity)) {
+    if (is.null(quantity)) {
+      whereClauses <- c(whereClauses, "quantity IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("quantity = '", quantity,"'"))
+    }
+  }
+
+  if (!missing(days_supply)) {
+    if (is.null(days_supply)) {
+      whereClauses <- c(whereClauses, "days_supply IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("days_supply = '", days_supply,"'"))
+    }
+  }
+
+  if (!missing(sig)) {
+    if (is.null(sig)) {
+      whereClauses <- c(whereClauses, "sig IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("sig = '", sig,"'"))
+    }
+  }
+
+  if (!missing(route_concept_id)) {
+    if (is.null(route_concept_id)) {
+      whereClauses <- c(whereClauses, "route_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("route_concept_id = '", route_concept_id,"'"))
+    }
+  }
+
+  if (!missing(lot_number)) {
+    if (is.null(lot_number)) {
+      whereClauses <- c(whereClauses, "lot_number IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("lot_number = '", lot_number,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(drug_source_value)) {
+    if (is.null(drug_source_value)) {
+      whereClauses <- c(whereClauses, "drug_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_source_value = '", drug_source_value,"'"))
+    }
+  }
+
+  if (!missing(drug_source_concept_id)) {
+    if (is.null(drug_source_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_source_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_source_concept_id = '", drug_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(route_source_value)) {
+    if (is.null(route_source_value)) {
+      whereClauses <- c(whereClauses, "route_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("route_source_value = '", route_source_value,"'"))
+    }
+  }
+
+  if (!missing(dose_unit_source_value)) {
+    if (is.null(dose_unit_source_value)) {
+      whereClauses <- c(whereClauses, "dose_unit_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_unit_source_value = '", dose_unit_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_fact_relationship <- function(fetchField, domain_concept_id_1, fact_id_1, domain_concept_id_2, fact_id_2, relationship_concept_id) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.fact_relationship WHERE ")
+  if (!missing(domain_concept_id_1)) {
+    if (is.null(domain_concept_id_1)) {
+      whereClauses <- c(whereClauses, "domain_concept_id_1 IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("domain_concept_id_1 = '", domain_concept_id_1,"'"))
+    }
+  }
+
+  if (!missing(fact_id_1)) {
+    if (is.null(fact_id_1)) {
+      whereClauses <- c(whereClauses, "fact_id_1 IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("fact_id_1 = '", fact_id_1,"'"))
+    }
+  }
+
+  if (!missing(domain_concept_id_2)) {
+    if (is.null(domain_concept_id_2)) {
+      whereClauses <- c(whereClauses, "domain_concept_id_2 IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("domain_concept_id_2 = '", domain_concept_id_2,"'"))
+    }
+  }
+
+  if (!missing(fact_id_2)) {
+    if (is.null(fact_id_2)) {
+      whereClauses <- c(whereClauses, "fact_id_2 IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("fact_id_2 = '", fact_id_2,"'"))
+    }
+  }
+
+  if (!missing(relationship_concept_id)) {
+    if (is.null(relationship_concept_id)) {
+      whereClauses <- c(whereClauses, "relationship_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("relationship_concept_id = '", relationship_concept_id,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_measurement <- function(fetchField, measurement_id, person_id, measurement_concept_id, measurement_date, measurement_datetime, measurement_type_concept_id, operator_concept_id, value_as_number, value_as_concept_id, unit_concept_id, range_low, range_high, provider_id, visit_occurrence_id, visit_detail_id, measurement_source_value, measurement_source_concept_id, unit_source_value, value_source_value) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.measurement WHERE ")
+  if (!missing(measurement_id)) {
+    if (is.null(measurement_id)) {
+      whereClauses <- c(whereClauses, "measurement_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_id = '", measurement_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(measurement_concept_id)) {
+    if (is.null(measurement_concept_id)) {
+      whereClauses <- c(whereClauses, "measurement_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_concept_id = '", measurement_concept_id,"'"))
+    }
+  }
+
+  if (!missing(measurement_date)) {
+    if (is.null(measurement_date)) {
+      whereClauses <- c(whereClauses, "measurement_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_date = '", measurement_date,"'"))
+    }
+  }
+
+  if (!missing(measurement_datetime)) {
+    if (is.null(measurement_datetime)) {
+      whereClauses <- c(whereClauses, "measurement_datetime IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_datetime = '", measurement_datetime,"'"))
+    }
+  }
+
+  if (!missing(measurement_type_concept_id)) {
+    if (is.null(measurement_type_concept_id)) {
+      whereClauses <- c(whereClauses, "measurement_type_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_type_concept_id = '", measurement_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(operator_concept_id)) {
+    if (is.null(operator_concept_id)) {
+      whereClauses <- c(whereClauses, "operator_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("operator_concept_id = '", operator_concept_id,"'"))
+    }
+  }
+
+  if (!missing(value_as_number)) {
+    if (is.null(value_as_number)) {
+      whereClauses <- c(whereClauses, "value_as_number IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_number = '", value_as_number,"'"))
+    }
+  }
+
+  if (!missing(value_as_concept_id)) {
+    if (is.null(value_as_concept_id)) {
+      whereClauses <- c(whereClauses, "value_as_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = '", value_as_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_concept_id)) {
+    if (is.null(unit_concept_id)) {
+      whereClauses <- c(whereClauses, "unit_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = '", unit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(range_low)) {
+    if (is.null(range_low)) {
+      whereClauses <- c(whereClauses, "range_low IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("range_low = '", range_low,"'"))
+    }
+  }
+
+  if (!missing(range_high)) {
+    if (is.null(range_high)) {
+      whereClauses <- c(whereClauses, "range_high IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("range_high = '", range_high,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(measurement_source_value)) {
+    if (is.null(measurement_source_value)) {
+      whereClauses <- c(whereClauses, "measurement_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_source_value = '", measurement_source_value,"'"))
+    }
+  }
+
+  if (!missing(measurement_source_concept_id)) {
+    if (is.null(measurement_source_concept_id)) {
+      whereClauses <- c(whereClauses, "measurement_source_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("measurement_source_concept_id = '", measurement_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_source_value)) {
+    if (is.null(unit_source_value)) {
+      whereClauses <- c(whereClauses, "unit_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_source_value = '", unit_source_value,"'"))
+    }
+  }
+
+  if (!missing(value_source_value)) {
+    if (is.null(value_source_value)) {
+      whereClauses <- c(whereClauses, "value_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_source_value = '", value_source_value,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_note <- function(fetchField, note_id, person_id, note_date, note_datetime, note_type_concept_id, note_class_concept_id, note_title, note_text, encoding_concept_id, language_concept_id, provider_id, note_source_value, visit_occurrence_id) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.note WHERE ")
+  if (!missing(note_id)) {
+    if (is.null(note_id)) {
+      whereClauses <- c(whereClauses, "note_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_id = '", note_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(note_date)) {
+    if (is.null(note_date)) {
+      whereClauses <- c(whereClauses, "note_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_date = '", note_date,"'"))
+    }
+  }
+
+  if (!missing(note_datetime)) {
+    if (is.null(note_datetime)) {
+      whereClauses <- c(whereClauses, "note_datetime IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_datetime = '", note_datetime,"'"))
+    }
+  }
+
+  if (!missing(note_type_concept_id)) {
+    if (is.null(note_type_concept_id)) {
+      whereClauses <- c(whereClauses, "note_type_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_type_concept_id = '", note_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(note_class_concept_id)) {
+    if (is.null(note_class_concept_id)) {
+      whereClauses <- c(whereClauses, "note_class_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_class_concept_id = '", note_class_concept_id,"'"))
+    }
+  }
+
+  if (!missing(note_title)) {
+    if (is.null(note_title)) {
+      whereClauses <- c(whereClauses, "note_title IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_title = '", note_title,"'"))
+    }
+  }
+
+  if (!missing(note_text)) {
+    if (is.null(note_text)) {
+      whereClauses <- c(whereClauses, "note_text IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_text = '", note_text,"'"))
+    }
+  }
+
+  if (!missing(encoding_concept_id)) {
+    if (is.null(encoding_concept_id)) {
+      whereClauses <- c(whereClauses, "encoding_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("encoding_concept_id = '", encoding_concept_id,"'"))
+    }
+  }
+
+  if (!missing(language_concept_id)) {
+    if (is.null(language_concept_id)) {
+      whereClauses <- c(whereClauses, "language_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("language_concept_id = '", language_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(note_source_value)) {
+    if (is.null(note_source_value)) {
+      whereClauses <- c(whereClauses, "note_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_source_value = '", note_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_note_nlp <- function(fetchField, note_nlp_id, note_id, section_concept_id, snippet, offset, lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_date_time, term_exists, term_temporal, term_modifiers) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.note_nlp WHERE ")
+  if (!missing(note_nlp_id)) {
+    if (is.null(note_nlp_id)) {
+      whereClauses <- c(whereClauses, "note_nlp_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_nlp_id = '", note_nlp_id,"'"))
+    }
+  }
+
+  if (!missing(note_id)) {
+    if (is.null(note_id)) {
+      whereClauses <- c(whereClauses, "note_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_id = '", note_id,"'"))
+    }
+  }
+
+  if (!missing(section_concept_id)) {
+    if (is.null(section_concept_id)) {
+      whereClauses <- c(whereClauses, "section_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("section_concept_id = '", section_concept_id,"'"))
+    }
+  }
+
+  if (!missing(snippet)) {
+    if (is.null(snippet)) {
+      whereClauses <- c(whereClauses, "snippet IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("snippet = '", snippet,"'"))
+    }
+  }
+
+  if (!missing(offset)) {
+    if (is.null(offset)) {
+      whereClauses <- c(whereClauses, "offset IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("offset = '", offset,"'"))
+    }
+  }
+
+  if (!missing(lexical_variant)) {
+    if (is.null(lexical_variant)) {
+      whereClauses <- c(whereClauses, "lexical_variant IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("lexical_variant = '", lexical_variant,"'"))
+    }
+  }
+
+  if (!missing(note_nlp_concept_id)) {
+    if (is.null(note_nlp_concept_id)) {
+      whereClauses <- c(whereClauses, "note_nlp_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_nlp_concept_id = '", note_nlp_concept_id,"'"))
+    }
+  }
+
+  if (!missing(note_nlp_source_concept_id)) {
+    if (is.null(note_nlp_source_concept_id)) {
+      whereClauses <- c(whereClauses, "note_nlp_source_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("note_nlp_source_concept_id = '", note_nlp_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(nlp_system)) {
+    if (is.null(nlp_system)) {
+      whereClauses <- c(whereClauses, "nlp_system IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("nlp_system = '", nlp_system,"'"))
+    }
+  }
+
+  if (!missing(nlp_date)) {
+    if (is.null(nlp_date)) {
+      whereClauses <- c(whereClauses, "nlp_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("nlp_date = '", nlp_date,"'"))
+    }
+  }
+
+  if (!missing(nlp_date_time)) {
+    if (is.null(nlp_date_time)) {
+      whereClauses <- c(whereClauses, "nlp_date_time IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("nlp_date_time = '", nlp_date_time,"'"))
+    }
+  }
+
+  if (!missing(term_exists)) {
+    if (is.null(term_exists)) {
+      whereClauses <- c(whereClauses, "term_exists IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("term_exists = '", term_exists,"'"))
+    }
+  }
+
+  if (!missing(term_temporal)) {
+    if (is.null(term_temporal)) {
+      whereClauses <- c(whereClauses, "term_temporal IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("term_temporal = '", term_temporal,"'"))
+    }
+  }
+
+  if (!missing(term_modifiers)) {
+    if (is.null(term_modifiers)) {
+      whereClauses <- c(whereClauses, "term_modifiers IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("term_modifiers = '", term_modifiers,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_observation <- function(fetchField, observation_id, person_id, observation_concept_id, observation_date, observation_datetime, observation_type_concept_id, value_as_number, value_as_string, value_as_concept_id, qualifier_concept_id, unit_concept_id, provider_id, visit_occurrence_id, visit_detail_id, observation_source_value, observation_source_concept_id, unit_source_value, qualifier_source_value) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.observation WHERE ")
+  if (!missing(observation_id)) {
+    if (is.null(observation_id)) {
+      whereClauses <- c(whereClauses, "observation_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_id = '", observation_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(observation_concept_id)) {
+    if (is.null(observation_concept_id)) {
+      whereClauses <- c(whereClauses, "observation_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_concept_id = '", observation_concept_id,"'"))
+    }
+  }
+
+  if (!missing(observation_date)) {
+    if (is.null(observation_date)) {
+      whereClauses <- c(whereClauses, "observation_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_date = '", observation_date,"'"))
+    }
+  }
+
+  if (!missing(observation_datetime)) {
+    if (is.null(observation_datetime)) {
+      whereClauses <- c(whereClauses, "observation_datetime IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_datetime = '", observation_datetime,"'"))
+    }
+  }
+
+  if (!missing(observation_type_concept_id)) {
+    if (is.null(observation_type_concept_id)) {
+      whereClauses <- c(whereClauses, "observation_type_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_type_concept_id = '", observation_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(value_as_number)) {
+    if (is.null(value_as_number)) {
+      whereClauses <- c(whereClauses, "value_as_number IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_number = '", value_as_number,"'"))
+    }
+  }
+
+  if (!missing(value_as_string)) {
+    if (is.null(value_as_string)) {
+      whereClauses <- c(whereClauses, "value_as_string IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_string = '", value_as_string,"'"))
+    }
+  }
+
+  if (!missing(value_as_concept_id)) {
+    if (is.null(value_as_concept_id)) {
+      whereClauses <- c(whereClauses, "value_as_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = '", value_as_concept_id,"'"))
+    }
+  }
+
+  if (!missing(qualifier_concept_id)) {
+    if (is.null(qualifier_concept_id)) {
+      whereClauses <- c(whereClauses, "qualifier_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("qualifier_concept_id = '", qualifier_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_concept_id)) {
+    if (is.null(unit_concept_id)) {
+      whereClauses <- c(whereClauses, "unit_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = '", unit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(observation_source_value)) {
+    if (is.null(observation_source_value)) {
+      whereClauses <- c(whereClauses, "observation_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_source_value = '", observation_source_value,"'"))
+    }
+  }
+
+  if (!missing(observation_source_concept_id)) {
+    if (is.null(observation_source_concept_id)) {
+      whereClauses <- c(whereClauses, "observation_source_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_source_concept_id = '", observation_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_source_value)) {
+    if (is.null(unit_source_value)) {
+      whereClauses <- c(whereClauses, "unit_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_source_value = '", unit_source_value,"'"))
+    }
+  }
+
+  if (!missing(qualifier_source_value)) {
+    if (is.null(qualifier_source_value)) {
+      whereClauses <- c(whereClauses, "qualifier_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("qualifier_source_value = '", qualifier_source_value,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_observation_period <- function(fetchField, observation_period_id, person_id, observation_period_start_date, observation_period_end_date, period_type_concept_id) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.observation_period WHERE ")
+  if (!missing(observation_period_id)) {
+    if (is.null(observation_period_id)) {
+      whereClauses <- c(whereClauses, "observation_period_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_period_id = '", observation_period_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(observation_period_start_date)) {
+    if (is.null(observation_period_start_date)) {
+      whereClauses <- c(whereClauses, "observation_period_start_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_period_start_date = '", observation_period_start_date,"'"))
+    }
+  }
+
+  if (!missing(observation_period_end_date)) {
+    if (is.null(observation_period_end_date)) {
+      whereClauses <- c(whereClauses, "observation_period_end_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("observation_period_end_date = '", observation_period_end_date,"'"))
+    }
+  }
+
+  if (!missing(period_type_concept_id)) {
+    if (is.null(period_type_concept_id)) {
+      whereClauses <- c(whereClauses, "period_type_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("period_type_concept_id = '", period_type_concept_id,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_person <- function(fetchField, person_id, gender_concept_id, year_of_birth, month_of_birth, day_of_birth, birth_datetime, race_concept_id, ethnicity_concept_id, location_id, provider_id, care_site_id, person_source_value, gender_source_value, gender_source_concept_id, race_source_value, race_source_concept_id, ethnicity_source_value, ethnicity_source_concept_id) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.person WHERE ")
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(gender_concept_id)) {
+    if (is.null(gender_concept_id)) {
+      whereClauses <- c(whereClauses, "gender_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_concept_id = '", gender_concept_id,"'"))
+    }
+  }
+
+  if (!missing(year_of_birth)) {
+    if (is.null(year_of_birth)) {
+      whereClauses <- c(whereClauses, "year_of_birth IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("year_of_birth = '", year_of_birth,"'"))
+    }
+  }
+
+  if (!missing(month_of_birth)) {
+    if (is.null(month_of_birth)) {
+      whereClauses <- c(whereClauses, "month_of_birth IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("month_of_birth = '", month_of_birth,"'"))
+    }
+  }
+
+  if (!missing(day_of_birth)) {
+    if (is.null(day_of_birth)) {
+      whereClauses <- c(whereClauses, "day_of_birth IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("day_of_birth = '", day_of_birth,"'"))
+    }
+  }
+
+  if (!missing(birth_datetime)) {
+    if (is.null(birth_datetime)) {
+      whereClauses <- c(whereClauses, "birth_datetime IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("birth_datetime = '", birth_datetime,"'"))
+    }
+  }
+
+  if (!missing(race_concept_id)) {
+    if (is.null(race_concept_id)) {
+      whereClauses <- c(whereClauses, "race_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("race_concept_id = '", race_concept_id,"'"))
+    }
+  }
+
+  if (!missing(ethnicity_concept_id)) {
+    if (is.null(ethnicity_concept_id)) {
+      whereClauses <- c(whereClauses, "ethnicity_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("ethnicity_concept_id = '", ethnicity_concept_id,"'"))
+    }
+  }
+
+  if (!missing(location_id)) {
+    if (is.null(location_id)) {
+      whereClauses <- c(whereClauses, "location_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("location_id = '", location_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(person_source_value)) {
+    if (is.null(person_source_value)) {
+      whereClauses <- c(whereClauses, "person_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_source_value = '", person_source_value,"'"))
+    }
+  }
+
+  if (!missing(gender_source_value)) {
+    if (is.null(gender_source_value)) {
+      whereClauses <- c(whereClauses, "gender_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_source_value = '", gender_source_value,"'"))
+    }
+  }
+
+  if (!missing(gender_source_concept_id)) {
+    if (is.null(gender_source_concept_id)) {
+      whereClauses <- c(whereClauses, "gender_source_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_source_concept_id = '", gender_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(race_source_value)) {
+    if (is.null(race_source_value)) {
+      whereClauses <- c(whereClauses, "race_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("race_source_value = '", race_source_value,"'"))
+    }
+  }
+
+  if (!missing(race_source_concept_id)) {
+    if (is.null(race_source_concept_id)) {
+      whereClauses <- c(whereClauses, "race_source_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("race_source_concept_id = '", race_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(ethnicity_source_value)) {
+    if (is.null(ethnicity_source_value)) {
+      whereClauses <- c(whereClauses, "ethnicity_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("ethnicity_source_value = '", ethnicity_source_value,"'"))
+    }
+  }
+
+  if (!missing(ethnicity_source_concept_id)) {
+    if (is.null(ethnicity_source_concept_id)) {
+      whereClauses <- c(whereClauses, "ethnicity_source_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("ethnicity_source_concept_id = '", ethnicity_source_concept_id,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_procedure_occurrence <- function(fetchField, procedure_occurrence_id, person_id, procedure_concept_id, procedure_date, procedure_datetime, procedure_type_concept_id, modifier_concept_id, quantity, provider_id, visit_occurrence_id, procedure_source_value, procedure_source_concept_id, qualifier_source_value, visit_detail_id) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.procedure_occurrence WHERE ")
+  if (!missing(procedure_occurrence_id)) {
+    if (is.null(procedure_occurrence_id)) {
+      whereClauses <- c(whereClauses, "procedure_occurrence_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_occurrence_id = '", procedure_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(procedure_concept_id)) {
+    if (is.null(procedure_concept_id)) {
+      whereClauses <- c(whereClauses, "procedure_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_concept_id = '", procedure_concept_id,"'"))
+    }
+  }
+
+  if (!missing(procedure_date)) {
+    if (is.null(procedure_date)) {
+      whereClauses <- c(whereClauses, "procedure_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_date = '", procedure_date,"'"))
+    }
+  }
+
+  if (!missing(procedure_datetime)) {
+    if (is.null(procedure_datetime)) {
+      whereClauses <- c(whereClauses, "procedure_datetime IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_datetime = '", procedure_datetime,"'"))
+    }
+  }
+
+  if (!missing(procedure_type_concept_id)) {
+    if (is.null(procedure_type_concept_id)) {
+      whereClauses <- c(whereClauses, "procedure_type_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_type_concept_id = '", procedure_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(modifier_concept_id)) {
+    if (is.null(modifier_concept_id)) {
+      whereClauses <- c(whereClauses, "modifier_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("modifier_concept_id = '", modifier_concept_id,"'"))
+    }
+  }
+
+  if (!missing(quantity)) {
+    if (is.null(quantity)) {
+      whereClauses <- c(whereClauses, "quantity IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("quantity = '", quantity,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(procedure_source_value)) {
+    if (is.null(procedure_source_value)) {
+      whereClauses <- c(whereClauses, "procedure_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_source_value = '", procedure_source_value,"'"))
+    }
+  }
+
+  if (!missing(procedure_source_concept_id)) {
+    if (is.null(procedure_source_concept_id)) {
+      whereClauses <- c(whereClauses, "procedure_source_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("procedure_source_concept_id = '", procedure_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(qualifier_source_value)) {
+    if (is.null(qualifier_source_value)) {
+      whereClauses <- c(whereClauses, "qualifier_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("qualifier_source_value = '", qualifier_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_specimen <- function(fetchField, specimen_id, person_id, specimen_concept_id, specimen_type_concept_id, specimen_date, specimen_datetime, quantity, unit_concept_id, anatomic_site_concept_id, disease_status_concept_id, specimen_source_id, specimen_source_value, unit_source_value, anatomic_site_source_value, disease_status_source_value) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.specimen WHERE ")
+  if (!missing(specimen_id)) {
+    if (is.null(specimen_id)) {
+      whereClauses <- c(whereClauses, "specimen_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_id = '", specimen_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_concept_id)) {
+    if (is.null(specimen_concept_id)) {
+      whereClauses <- c(whereClauses, "specimen_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_concept_id = '", specimen_concept_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_type_concept_id)) {
+    if (is.null(specimen_type_concept_id)) {
+      whereClauses <- c(whereClauses, "specimen_type_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_type_concept_id = '", specimen_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_date)) {
+    if (is.null(specimen_date)) {
+      whereClauses <- c(whereClauses, "specimen_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_date = '", specimen_date,"'"))
+    }
+  }
+
+  if (!missing(specimen_datetime)) {
+    if (is.null(specimen_datetime)) {
+      whereClauses <- c(whereClauses, "specimen_datetime IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_datetime = '", specimen_datetime,"'"))
+    }
+  }
+
+  if (!missing(quantity)) {
+    if (is.null(quantity)) {
+      whereClauses <- c(whereClauses, "quantity IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("quantity = '", quantity,"'"))
+    }
+  }
+
+  if (!missing(unit_concept_id)) {
+    if (is.null(unit_concept_id)) {
+      whereClauses <- c(whereClauses, "unit_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = '", unit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(anatomic_site_concept_id)) {
+    if (is.null(anatomic_site_concept_id)) {
+      whereClauses <- c(whereClauses, "anatomic_site_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("anatomic_site_concept_id = '", anatomic_site_concept_id,"'"))
+    }
+  }
+
+  if (!missing(disease_status_concept_id)) {
+    if (is.null(disease_status_concept_id)) {
+      whereClauses <- c(whereClauses, "disease_status_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("disease_status_concept_id = '", disease_status_concept_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_source_id)) {
+    if (is.null(specimen_source_id)) {
+      whereClauses <- c(whereClauses, "specimen_source_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_source_id = '", specimen_source_id,"'"))
+    }
+  }
+
+  if (!missing(specimen_source_value)) {
+    if (is.null(specimen_source_value)) {
+      whereClauses <- c(whereClauses, "specimen_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("specimen_source_value = '", specimen_source_value,"'"))
+    }
+  }
+
+  if (!missing(unit_source_value)) {
+    if (is.null(unit_source_value)) {
+      whereClauses <- c(whereClauses, "unit_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_source_value = '", unit_source_value,"'"))
+    }
+  }
+
+  if (!missing(anatomic_site_source_value)) {
+    if (is.null(anatomic_site_source_value)) {
+      whereClauses <- c(whereClauses, "anatomic_site_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("anatomic_site_source_value = '", anatomic_site_source_value,"'"))
+    }
+  }
+
+  if (!missing(disease_status_source_value)) {
+    if (is.null(disease_status_source_value)) {
+      whereClauses <- c(whereClauses, "disease_status_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("disease_status_source_value = '", disease_status_source_value,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_visit_detail <- function(fetchField, visit_detail_id, person_id, visit_concept_id, visit_start_date, visit_start_datetime, visit_end_date, visit_end_datetime, visit_type_concept_id, provider_id, care_site_id, visit_source_value, visit_source_concept_id, admitting_source_value, admitting_source_concept_id, discharge_to_source_value, discharge_to_concept_id, preceding_visit_detail_id, visit_detail_parent_id, visit_occurrence_id) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.visit_detail WHERE ")
+  if (!missing(visit_detail_id)) {
+    if (is.null(visit_detail_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_id = '", visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(visit_concept_id)) {
+    if (is.null(visit_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_concept_id = '", visit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(visit_start_date)) {
+    if (is.null(visit_start_date)) {
+      whereClauses <- c(whereClauses, "visit_start_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_start_date = '", visit_start_date,"'"))
+    }
+  }
+
+  if (!missing(visit_start_datetime)) {
+    if (is.null(visit_start_datetime)) {
+      whereClauses <- c(whereClauses, "visit_start_datetime IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_start_datetime = '", visit_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(visit_end_date)) {
+    if (is.null(visit_end_date)) {
+      whereClauses <- c(whereClauses, "visit_end_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_end_date = '", visit_end_date,"'"))
+    }
+  }
+
+  if (!missing(visit_end_datetime)) {
+    if (is.null(visit_end_datetime)) {
+      whereClauses <- c(whereClauses, "visit_end_datetime IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_end_datetime = '", visit_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(visit_type_concept_id)) {
+    if (is.null(visit_type_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_type_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_type_concept_id = '", visit_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(visit_source_value)) {
+    if (is.null(visit_source_value)) {
+      whereClauses <- c(whereClauses, "visit_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_source_value = '", visit_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_source_concept_id)) {
+    if (is.null(visit_source_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_source_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_source_concept_id = '", visit_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(admitting_source_value)) {
+    if (is.null(admitting_source_value)) {
+      whereClauses <- c(whereClauses, "admitting_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("admitting_source_value = '", admitting_source_value,"'"))
+    }
+  }
+
+  if (!missing(admitting_source_concept_id)) {
+    if (is.null(admitting_source_concept_id)) {
+      whereClauses <- c(whereClauses, "admitting_source_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("admitting_source_concept_id = '", admitting_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(discharge_to_source_value)) {
+    if (is.null(discharge_to_source_value)) {
+      whereClauses <- c(whereClauses, "discharge_to_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("discharge_to_source_value = '", discharge_to_source_value,"'"))
+    }
+  }
+
+  if (!missing(discharge_to_concept_id)) {
+    if (is.null(discharge_to_concept_id)) {
+      whereClauses <- c(whereClauses, "discharge_to_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("discharge_to_concept_id = '", discharge_to_concept_id,"'"))
+    }
+  }
+
+  if (!missing(preceding_visit_detail_id)) {
+    if (is.null(preceding_visit_detail_id)) {
+      whereClauses <- c(whereClauses, "preceding_visit_detail_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("preceding_visit_detail_id = '", preceding_visit_detail_id,"'"))
+    }
+  }
+
+  if (!missing(visit_detail_parent_id)) {
+    if (is.null(visit_detail_parent_id)) {
+      whereClauses <- c(whereClauses, "visit_detail_parent_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_detail_parent_id = '", visit_detail_parent_id,"'"))
+    }
+  }
+
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_visit_occurrence <- function(fetchField, visit_occurrence_id, person_id, visit_concept_id, visit_start_date, visit_start_datetime, visit_end_date, visit_end_datetime, visit_type_concept_id, provider_id, care_site_id, visit_source_value, visit_source_concept_id, admitting_source_concept_id, admitting_source_value, discharge_to_concept_id, discharge_to_source_value, preceding_visit_occurrence_id) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.visit_occurrence WHERE ")
+  if (!missing(visit_occurrence_id)) {
+    if (is.null(visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "visit_occurrence_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_occurrence_id = '", visit_occurrence_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(visit_concept_id)) {
+    if (is.null(visit_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_concept_id = '", visit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(visit_start_date)) {
+    if (is.null(visit_start_date)) {
+      whereClauses <- c(whereClauses, "visit_start_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_start_date = '", visit_start_date,"'"))
+    }
+  }
+
+  if (!missing(visit_start_datetime)) {
+    if (is.null(visit_start_datetime)) {
+      whereClauses <- c(whereClauses, "visit_start_datetime IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_start_datetime = '", visit_start_datetime,"'"))
+    }
+  }
+
+  if (!missing(visit_end_date)) {
+    if (is.null(visit_end_date)) {
+      whereClauses <- c(whereClauses, "visit_end_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_end_date = '", visit_end_date,"'"))
+    }
+  }
+
+  if (!missing(visit_end_datetime)) {
+    if (is.null(visit_end_datetime)) {
+      whereClauses <- c(whereClauses, "visit_end_datetime IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_end_datetime = '", visit_end_datetime,"'"))
+    }
+  }
+
+  if (!missing(visit_type_concept_id)) {
+    if (is.null(visit_type_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_type_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_type_concept_id = '", visit_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(visit_source_value)) {
+    if (is.null(visit_source_value)) {
+      whereClauses <- c(whereClauses, "visit_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_source_value = '", visit_source_value,"'"))
+    }
+  }
+
+  if (!missing(visit_source_concept_id)) {
+    if (is.null(visit_source_concept_id)) {
+      whereClauses <- c(whereClauses, "visit_source_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("visit_source_concept_id = '", visit_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(admitting_source_concept_id)) {
+    if (is.null(admitting_source_concept_id)) {
+      whereClauses <- c(whereClauses, "admitting_source_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("admitting_source_concept_id = '", admitting_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(admitting_source_value)) {
+    if (is.null(admitting_source_value)) {
+      whereClauses <- c(whereClauses, "admitting_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("admitting_source_value = '", admitting_source_value,"'"))
+    }
+  }
+
+  if (!missing(discharge_to_concept_id)) {
+    if (is.null(discharge_to_concept_id)) {
+      whereClauses <- c(whereClauses, "discharge_to_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("discharge_to_concept_id = '", discharge_to_concept_id,"'"))
+    }
+  }
+
+  if (!missing(discharge_to_source_value)) {
+    if (is.null(discharge_to_source_value)) {
+      whereClauses <- c(whereClauses, "discharge_to_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("discharge_to_source_value = '", discharge_to_source_value,"'"))
+    }
+  }
+
+  if (!missing(preceding_visit_occurrence_id)) {
+    if (is.null(preceding_visit_occurrence_id)) {
+      whereClauses <- c(whereClauses, "preceding_visit_occurrence_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("preceding_visit_occurrence_id = '", preceding_visit_occurrence_id,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_cohort <- function(fetchField, cohort_definition_id, subject_id, cohort_start_date, cohort_end_date) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.cohort WHERE ")
+  if (!missing(cohort_definition_id)) {
+    if (is.null(cohort_definition_id)) {
+      whereClauses <- c(whereClauses, "cohort_definition_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = '", cohort_definition_id,"'"))
+    }
+  }
+
+  if (!missing(subject_id)) {
+    if (is.null(subject_id)) {
+      whereClauses <- c(whereClauses, "subject_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("subject_id = '", subject_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_start_date)) {
+    if (is.null(cohort_start_date)) {
+      whereClauses <- c(whereClauses, "cohort_start_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_start_date = '", cohort_start_date,"'"))
+    }
+  }
+
+  if (!missing(cohort_end_date)) {
+    if (is.null(cohort_end_date)) {
+      whereClauses <- c(whereClauses, "cohort_end_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_end_date = '", cohort_end_date,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_cohort_attribute <- function(fetchField, cohort_definition_id, subject_id, cohort_start_date, cohort_end_date, attribute_definition_id, value_as_number, value_as_concept_id) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.cohort_attribute WHERE ")
+  if (!missing(cohort_definition_id)) {
+    if (is.null(cohort_definition_id)) {
+      whereClauses <- c(whereClauses, "cohort_definition_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = '", cohort_definition_id,"'"))
+    }
+  }
+
+  if (!missing(subject_id)) {
+    if (is.null(subject_id)) {
+      whereClauses <- c(whereClauses, "subject_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("subject_id = '", subject_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_start_date)) {
+    if (is.null(cohort_start_date)) {
+      whereClauses <- c(whereClauses, "cohort_start_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_start_date = '", cohort_start_date,"'"))
+    }
+  }
+
+  if (!missing(cohort_end_date)) {
+    if (is.null(cohort_end_date)) {
+      whereClauses <- c(whereClauses, "cohort_end_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_end_date = '", cohort_end_date,"'"))
+    }
+  }
+
+  if (!missing(attribute_definition_id)) {
+    if (is.null(attribute_definition_id)) {
+      whereClauses <- c(whereClauses, "attribute_definition_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_definition_id = '", attribute_definition_id,"'"))
+    }
+  }
+
+  if (!missing(value_as_number)) {
+    if (is.null(value_as_number)) {
+      whereClauses <- c(whereClauses, "value_as_number IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_number = '", value_as_number,"'"))
+    }
+  }
+
+  if (!missing(value_as_concept_id)) {
+    if (is.null(value_as_concept_id)) {
+      whereClauses <- c(whereClauses, "value_as_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("value_as_concept_id = '", value_as_concept_id,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_condition_era <- function(fetchField, condition_era_id, person_id, condition_concept_id, condition_era_start_date, condition_era_end_date, condition_occurrence_count) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.condition_era WHERE ")
+  if (!missing(condition_era_id)) {
+    if (is.null(condition_era_id)) {
+      whereClauses <- c(whereClauses, "condition_era_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_era_id = '", condition_era_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(condition_concept_id)) {
+    if (is.null(condition_concept_id)) {
+      whereClauses <- c(whereClauses, "condition_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_concept_id = '", condition_concept_id,"'"))
+    }
+  }
+
+  if (!missing(condition_era_start_date)) {
+    if (is.null(condition_era_start_date)) {
+      whereClauses <- c(whereClauses, "condition_era_start_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_era_start_date = '", condition_era_start_date,"'"))
+    }
+  }
+
+  if (!missing(condition_era_end_date)) {
+    if (is.null(condition_era_end_date)) {
+      whereClauses <- c(whereClauses, "condition_era_end_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_era_end_date = '", condition_era_end_date,"'"))
+    }
+  }
+
+  if (!missing(condition_occurrence_count)) {
+    if (is.null(condition_occurrence_count)) {
+      whereClauses <- c(whereClauses, "condition_occurrence_count IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("condition_occurrence_count = '", condition_occurrence_count,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_dose_era <- function(fetchField, dose_era_id, person_id, drug_concept_id, unit_concept_id, dose_value, dose_era_start_date, dose_era_end_date) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.dose_era WHERE ")
+  if (!missing(dose_era_id)) {
+    if (is.null(dose_era_id)) {
+      whereClauses <- c(whereClauses, "dose_era_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_era_id = '", dose_era_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(drug_concept_id)) {
+    if (is.null(drug_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = '", drug_concept_id,"'"))
+    }
+  }
+
+  if (!missing(unit_concept_id)) {
+    if (is.null(unit_concept_id)) {
+      whereClauses <- c(whereClauses, "unit_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("unit_concept_id = '", unit_concept_id,"'"))
+    }
+  }
+
+  if (!missing(dose_value)) {
+    if (is.null(dose_value)) {
+      whereClauses <- c(whereClauses, "dose_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_value = '", dose_value,"'"))
+    }
+  }
+
+  if (!missing(dose_era_start_date)) {
+    if (is.null(dose_era_start_date)) {
+      whereClauses <- c(whereClauses, "dose_era_start_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_era_start_date = '", dose_era_start_date,"'"))
+    }
+  }
+
+  if (!missing(dose_era_end_date)) {
+    if (is.null(dose_era_end_date)) {
+      whereClauses <- c(whereClauses, "dose_era_end_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("dose_era_end_date = '", dose_era_end_date,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_drug_era <- function(fetchField, drug_era_id, person_id, drug_concept_id, drug_era_start_date, drug_era_end_date, drug_exposure_count, gap_days) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.drug_era WHERE ")
+  if (!missing(drug_era_id)) {
+    if (is.null(drug_era_id)) {
+      whereClauses <- c(whereClauses, "drug_era_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_era_id = '", drug_era_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(drug_concept_id)) {
+    if (is.null(drug_concept_id)) {
+      whereClauses <- c(whereClauses, "drug_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_concept_id = '", drug_concept_id,"'"))
+    }
+  }
+
+  if (!missing(drug_era_start_date)) {
+    if (is.null(drug_era_start_date)) {
+      whereClauses <- c(whereClauses, "drug_era_start_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_era_start_date = '", drug_era_start_date,"'"))
+    }
+  }
+
+  if (!missing(drug_era_end_date)) {
+    if (is.null(drug_era_end_date)) {
+      whereClauses <- c(whereClauses, "drug_era_end_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_era_end_date = '", drug_era_end_date,"'"))
+    }
+  }
+
+  if (!missing(drug_exposure_count)) {
+    if (is.null(drug_exposure_count)) {
+      whereClauses <- c(whereClauses, "drug_exposure_count IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("drug_exposure_count = '", drug_exposure_count,"'"))
+    }
+  }
+
+  if (!missing(gap_days)) {
+    if (is.null(gap_days)) {
+      whereClauses <- c(whereClauses, "gap_days IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("gap_days = '", gap_days,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_cost <- function(fetchField, cost_id, cost_event_id, cost_domain_id, cost_type_concept_id, currency_concept_id, total_charge, total_cost, total_paid, paid_by_payer, paid_by_patient, paid_patient_copay, paid_patient_coinsurance, paid_patient_deductible, paid_by_primary, paid_ingredient_cost, paid_dispensing_fee, payer_plan_period_id, amount_allowed, revenue_code_concept_id, revenue_code_source_value, drg_concept_id, drg_source_value) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.cost WHERE ")
+  if (!missing(cost_id)) {
+    if (is.null(cost_id)) {
+      whereClauses <- c(whereClauses, "cost_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cost_id = '", cost_id,"'"))
+    }
+  }
+
+  if (!missing(cost_event_id)) {
+    if (is.null(cost_event_id)) {
+      whereClauses <- c(whereClauses, "cost_event_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cost_event_id = '", cost_event_id,"'"))
+    }
+  }
+
+  if (!missing(cost_domain_id)) {
+    if (is.null(cost_domain_id)) {
+      whereClauses <- c(whereClauses, "cost_domain_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cost_domain_id = '", cost_domain_id,"'"))
+    }
+  }
+
+  if (!missing(cost_type_concept_id)) {
+    if (is.null(cost_type_concept_id)) {
+      whereClauses <- c(whereClauses, "cost_type_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cost_type_concept_id = '", cost_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(currency_concept_id)) {
+    if (is.null(currency_concept_id)) {
+      whereClauses <- c(whereClauses, "currency_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("currency_concept_id = '", currency_concept_id,"'"))
+    }
+  }
+
+  if (!missing(total_charge)) {
+    if (is.null(total_charge)) {
+      whereClauses <- c(whereClauses, "total_charge IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("total_charge = '", total_charge,"'"))
+    }
+  }
+
+  if (!missing(total_cost)) {
+    if (is.null(total_cost)) {
+      whereClauses <- c(whereClauses, "total_cost IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("total_cost = '", total_cost,"'"))
+    }
+  }
+
+  if (!missing(total_paid)) {
+    if (is.null(total_paid)) {
+      whereClauses <- c(whereClauses, "total_paid IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("total_paid = '", total_paid,"'"))
+    }
+  }
+
+  if (!missing(paid_by_payer)) {
+    if (is.null(paid_by_payer)) {
+      whereClauses <- c(whereClauses, "paid_by_payer IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_by_payer = '", paid_by_payer,"'"))
+    }
+  }
+
+  if (!missing(paid_by_patient)) {
+    if (is.null(paid_by_patient)) {
+      whereClauses <- c(whereClauses, "paid_by_patient IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_by_patient = '", paid_by_patient,"'"))
+    }
+  }
+
+  if (!missing(paid_patient_copay)) {
+    if (is.null(paid_patient_copay)) {
+      whereClauses <- c(whereClauses, "paid_patient_copay IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_patient_copay = '", paid_patient_copay,"'"))
+    }
+  }
+
+  if (!missing(paid_patient_coinsurance)) {
+    if (is.null(paid_patient_coinsurance)) {
+      whereClauses <- c(whereClauses, "paid_patient_coinsurance IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_patient_coinsurance = '", paid_patient_coinsurance,"'"))
+    }
+  }
+
+  if (!missing(paid_patient_deductible)) {
+    if (is.null(paid_patient_deductible)) {
+      whereClauses <- c(whereClauses, "paid_patient_deductible IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_patient_deductible = '", paid_patient_deductible,"'"))
+    }
+  }
+
+  if (!missing(paid_by_primary)) {
+    if (is.null(paid_by_primary)) {
+      whereClauses <- c(whereClauses, "paid_by_primary IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_by_primary = '", paid_by_primary,"'"))
+    }
+  }
+
+  if (!missing(paid_ingredient_cost)) {
+    if (is.null(paid_ingredient_cost)) {
+      whereClauses <- c(whereClauses, "paid_ingredient_cost IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_ingredient_cost = '", paid_ingredient_cost,"'"))
+    }
+  }
+
+  if (!missing(paid_dispensing_fee)) {
+    if (is.null(paid_dispensing_fee)) {
+      whereClauses <- c(whereClauses, "paid_dispensing_fee IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("paid_dispensing_fee = '", paid_dispensing_fee,"'"))
+    }
+  }
+
+  if (!missing(payer_plan_period_id)) {
+    if (is.null(payer_plan_period_id)) {
+      whereClauses <- c(whereClauses, "payer_plan_period_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_id = '", payer_plan_period_id,"'"))
+    }
+  }
+
+  if (!missing(amount_allowed)) {
+    if (is.null(amount_allowed)) {
+      whereClauses <- c(whereClauses, "amount_allowed IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("amount_allowed = '", amount_allowed,"'"))
+    }
+  }
+
+  if (!missing(revenue_code_concept_id)) {
+    if (is.null(revenue_code_concept_id)) {
+      whereClauses <- c(whereClauses, "revenue_code_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("revenue_code_concept_id = '", revenue_code_concept_id,"'"))
+    }
+  }
+
+  if (!missing(revenue_code_source_value)) {
+    if (is.null(revenue_code_source_value)) {
+      whereClauses <- c(whereClauses, "revenue_code_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("revenue_code_source_value = '", revenue_code_source_value,"'"))
+    }
+  }
+
+  if (!missing(drg_concept_id)) {
+    if (is.null(drg_concept_id)) {
+      whereClauses <- c(whereClauses, "drg_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("drg_concept_id = '", drg_concept_id,"'"))
+    }
+  }
+
+  if (!missing(drg_source_value)) {
+    if (is.null(drg_source_value)) {
+      whereClauses <- c(whereClauses, "drg_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("drg_source_value = '", drg_source_value,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_payer_plan_period <- function(fetchField, payer_plan_period_id, person_id, payer_plan_period_start_date, payer_plan_period_end_date, payer_source_value, plan_source_value, family_source_value) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.payer_plan_period WHERE ")
+  if (!missing(payer_plan_period_id)) {
+    if (is.null(payer_plan_period_id)) {
+      whereClauses <- c(whereClauses, "payer_plan_period_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_id = '", payer_plan_period_id,"'"))
+    }
+  }
+
+  if (!missing(person_id)) {
+    if (is.null(person_id)) {
+      whereClauses <- c(whereClauses, "person_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("person_id = '", person_id,"'"))
+    }
+  }
+
+  if (!missing(payer_plan_period_start_date)) {
+    if (is.null(payer_plan_period_start_date)) {
+      whereClauses <- c(whereClauses, "payer_plan_period_start_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_start_date = '", payer_plan_period_start_date,"'"))
+    }
+  }
+
+  if (!missing(payer_plan_period_end_date)) {
+    if (is.null(payer_plan_period_end_date)) {
+      whereClauses <- c(whereClauses, "payer_plan_period_end_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_plan_period_end_date = '", payer_plan_period_end_date,"'"))
+    }
+  }
+
+  if (!missing(payer_source_value)) {
+    if (is.null(payer_source_value)) {
+      whereClauses <- c(whereClauses, "payer_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("payer_source_value = '", payer_source_value,"'"))
+    }
+  }
+
+  if (!missing(plan_source_value)) {
+    if (is.null(plan_source_value)) {
+      whereClauses <- c(whereClauses, "plan_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("plan_source_value = '", plan_source_value,"'"))
+    }
+  }
+
+  if (!missing(family_source_value)) {
+    if (is.null(family_source_value)) {
+      whereClauses <- c(whereClauses, "family_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("family_source_value = '", family_source_value,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_care_site <- function(fetchField, care_site_id, care_site_name, place_of_service_concept_id, location_id, care_site_source_value, place_of_service_source_value) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.care_site WHERE ")
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_name)) {
+    if (is.null(care_site_name)) {
+      whereClauses <- c(whereClauses, "care_site_name IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_name = '", care_site_name,"'"))
+    }
+  }
+
+  if (!missing(place_of_service_concept_id)) {
+    if (is.null(place_of_service_concept_id)) {
+      whereClauses <- c(whereClauses, "place_of_service_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("place_of_service_concept_id = '", place_of_service_concept_id,"'"))
+    }
+  }
+
+  if (!missing(location_id)) {
+    if (is.null(location_id)) {
+      whereClauses <- c(whereClauses, "location_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("location_id = '", location_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_source_value)) {
+    if (is.null(care_site_source_value)) {
+      whereClauses <- c(whereClauses, "care_site_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_source_value = '", care_site_source_value,"'"))
+    }
+  }
+
+  if (!missing(place_of_service_source_value)) {
+    if (is.null(place_of_service_source_value)) {
+      whereClauses <- c(whereClauses, "place_of_service_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("place_of_service_source_value = '", place_of_service_source_value,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_location <- function(fetchField, location_id, address_1, address_2, city, state, zip, county, location_source_value) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.location WHERE ")
+  if (!missing(location_id)) {
+    if (is.null(location_id)) {
+      whereClauses <- c(whereClauses, "location_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("location_id = '", location_id,"'"))
+    }
+  }
+
+  if (!missing(address_1)) {
+    if (is.null(address_1)) {
+      whereClauses <- c(whereClauses, "address_1 IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("address_1 = '", address_1,"'"))
+    }
+  }
+
+  if (!missing(address_2)) {
+    if (is.null(address_2)) {
+      whereClauses <- c(whereClauses, "address_2 IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("address_2 = '", address_2,"'"))
+    }
+  }
+
+  if (!missing(city)) {
+    if (is.null(city)) {
+      whereClauses <- c(whereClauses, "city IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("city = '", city,"'"))
+    }
+  }
+
+  if (!missing(state)) {
+    if (is.null(state)) {
+      whereClauses <- c(whereClauses, "state IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("state = '", state,"'"))
+    }
+  }
+
+  if (!missing(zip)) {
+    if (is.null(zip)) {
+      whereClauses <- c(whereClauses, "zip IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("zip = '", zip,"'"))
+    }
+  }
+
+  if (!missing(county)) {
+    if (is.null(county)) {
+      whereClauses <- c(whereClauses, "county IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("county = '", county,"'"))
+    }
+  }
+
+  if (!missing(location_source_value)) {
+    if (is.null(location_source_value)) {
+      whereClauses <- c(whereClauses, "location_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("location_source_value = '", location_source_value,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_provider <- function(fetchField, provider_id, provider_name, npi, dea, specialty_concept_id, care_site_id, year_of_birth, gender_concept_id, provider_source_value, specialty_source_value, specialty_source_concept_id, gender_source_value, gender_source_concept_id) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.provider WHERE ")
+  if (!missing(provider_id)) {
+    if (is.null(provider_id)) {
+      whereClauses <- c(whereClauses, "provider_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_id = '", provider_id,"'"))
+    }
+  }
+
+  if (!missing(provider_name)) {
+    if (is.null(provider_name)) {
+      whereClauses <- c(whereClauses, "provider_name IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_name = '", provider_name,"'"))
+    }
+  }
+
+  if (!missing(npi)) {
+    if (is.null(npi)) {
+      whereClauses <- c(whereClauses, "npi IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("npi = '", npi,"'"))
+    }
+  }
+
+  if (!missing(dea)) {
+    if (is.null(dea)) {
+      whereClauses <- c(whereClauses, "dea IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("dea = '", dea,"'"))
+    }
+  }
+
+  if (!missing(specialty_concept_id)) {
+    if (is.null(specialty_concept_id)) {
+      whereClauses <- c(whereClauses, "specialty_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("specialty_concept_id = '", specialty_concept_id,"'"))
+    }
+  }
+
+  if (!missing(care_site_id)) {
+    if (is.null(care_site_id)) {
+      whereClauses <- c(whereClauses, "care_site_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("care_site_id = '", care_site_id,"'"))
+    }
+  }
+
+  if (!missing(year_of_birth)) {
+    if (is.null(year_of_birth)) {
+      whereClauses <- c(whereClauses, "year_of_birth IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("year_of_birth = '", year_of_birth,"'"))
+    }
+  }
+
+  if (!missing(gender_concept_id)) {
+    if (is.null(gender_concept_id)) {
+      whereClauses <- c(whereClauses, "gender_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_concept_id = '", gender_concept_id,"'"))
+    }
+  }
+
+  if (!missing(provider_source_value)) {
+    if (is.null(provider_source_value)) {
+      whereClauses <- c(whereClauses, "provider_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("provider_source_value = '", provider_source_value,"'"))
+    }
+  }
+
+  if (!missing(specialty_source_value)) {
+    if (is.null(specialty_source_value)) {
+      whereClauses <- c(whereClauses, "specialty_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("specialty_source_value = '", specialty_source_value,"'"))
+    }
+  }
+
+  if (!missing(specialty_source_concept_id)) {
+    if (is.null(specialty_source_concept_id)) {
+      whereClauses <- c(whereClauses, "specialty_source_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("specialty_source_concept_id = '", specialty_source_concept_id,"'"))
+    }
+  }
+
+  if (!missing(gender_source_value)) {
+    if (is.null(gender_source_value)) {
+      whereClauses <- c(whereClauses, "gender_source_value IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_source_value = '", gender_source_value,"'"))
+    }
+  }
+
+  if (!missing(gender_source_concept_id)) {
+    if (is.null(gender_source_concept_id)) {
+      whereClauses <- c(whereClauses, "gender_source_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("gender_source_concept_id = '", gender_source_concept_id,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_cdm_source <- function(fetchField, cdm_source_name, cdm_source_abbreviation, cdm_holder, source_description, source_documentation_reference, cdm_etl__reference, source_release_date, cdm_release_date, cdm_version, vocabulary_version) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.cdm_source WHERE ")
+  if (!missing(cdm_source_name)) {
+    if (is.null(cdm_source_name)) {
+      whereClauses <- c(whereClauses, "cdm_source_name IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_source_name = '", cdm_source_name,"'"))
+    }
+  }
+
+  if (!missing(cdm_source_abbreviation)) {
+    if (is.null(cdm_source_abbreviation)) {
+      whereClauses <- c(whereClauses, "cdm_source_abbreviation IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_source_abbreviation = '", cdm_source_abbreviation,"'"))
+    }
+  }
+
+  if (!missing(cdm_holder)) {
+    if (is.null(cdm_holder)) {
+      whereClauses <- c(whereClauses, "cdm_holder IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_holder = '", cdm_holder,"'"))
+    }
+  }
+
+  if (!missing(source_description)) {
+    if (is.null(source_description)) {
+      whereClauses <- c(whereClauses, "source_description IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("source_description = '", source_description,"'"))
+    }
+  }
+
+  if (!missing(source_documentation_reference)) {
+    if (is.null(source_documentation_reference)) {
+      whereClauses <- c(whereClauses, "source_documentation_reference IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("source_documentation_reference = '", source_documentation_reference,"'"))
+    }
+  }
+
+  if (!missing(cdm_etl__reference)) {
+    if (is.null(cdm_etl__reference)) {
+      whereClauses <- c(whereClauses, "[cdm_etl _reference] IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("[cdm_etl _reference] = '", cdm_etl__reference,"'"))
+    }
+  }
+
+  if (!missing(source_release_date)) {
+    if (is.null(source_release_date)) {
+      whereClauses <- c(whereClauses, "source_release_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("source_release_date = '", source_release_date,"'"))
+    }
+  }
+
+  if (!missing(cdm_release_date)) {
+    if (is.null(cdm_release_date)) {
+      whereClauses <- c(whereClauses, "cdm_release_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_release_date = '", cdm_release_date,"'"))
+    }
+  }
+
+  if (!missing(cdm_version)) {
+    if (is.null(cdm_version)) {
+      whereClauses <- c(whereClauses, "cdm_version IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cdm_version = '", cdm_version,"'"))
+    }
+  }
+
+  if (!missing(vocabulary_version)) {
+    if (is.null(vocabulary_version)) {
+      whereClauses <- c(whereClauses, "vocabulary_version IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("vocabulary_version = '", vocabulary_version,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_attribute_definition <- function(fetchField, attribute_definition_id, attribute_name, attribute_description, attribute_type_concept_id, attribute_syntax) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.attribute_definition WHERE ")
+  if (!missing(attribute_definition_id)) {
+    if (is.null(attribute_definition_id)) {
+      whereClauses <- c(whereClauses, "attribute_definition_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_definition_id = '", attribute_definition_id,"'"))
+    }
+  }
+
+  if (!missing(attribute_name)) {
+    if (is.null(attribute_name)) {
+      whereClauses <- c(whereClauses, "attribute_name IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_name = '", attribute_name,"'"))
+    }
+  }
+
+  if (!missing(attribute_description)) {
+    if (is.null(attribute_description)) {
+      whereClauses <- c(whereClauses, "attribute_description IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_description = '", attribute_description,"'"))
+    }
+  }
+
+  if (!missing(attribute_type_concept_id)) {
+    if (is.null(attribute_type_concept_id)) {
+      whereClauses <- c(whereClauses, "attribute_type_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_type_concept_id = '", attribute_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(attribute_syntax)) {
+    if (is.null(attribute_syntax)) {
+      whereClauses <- c(whereClauses, "attribute_syntax IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("attribute_syntax = '", attribute_syntax,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+
+lookup_cohort_definition <- function(fetchField, cohort_definition_id, cohort_definition_name, cohort_definition_description, definition_type_concept_id, cohort_definition_syntax, subject_concept_id, cohort_instantiation_date) {
+  whereClauses = NULL;
+  statement <- paste0("SELECT ", fetchField , " FROM @cdm_schema.cohort_definition WHERE ")
+  if (!missing(cohort_definition_id)) {
+    if (is.null(cohort_definition_id)) {
+      whereClauses <- c(whereClauses, "cohort_definition_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_id = '", cohort_definition_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_definition_name)) {
+    if (is.null(cohort_definition_name)) {
+      whereClauses <- c(whereClauses, "cohort_definition_name IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_name = '", cohort_definition_name,"'"))
+    }
+  }
+
+  if (!missing(cohort_definition_description)) {
+    if (is.null(cohort_definition_description)) {
+      whereClauses <- c(whereClauses, "cohort_definition_description IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_description = '", cohort_definition_description,"'"))
+    }
+  }
+
+  if (!missing(definition_type_concept_id)) {
+    if (is.null(definition_type_concept_id)) {
+      whereClauses <- c(whereClauses, "definition_type_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("definition_type_concept_id = '", definition_type_concept_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_definition_syntax)) {
+    if (is.null(cohort_definition_syntax)) {
+      whereClauses <- c(whereClauses, "cohort_definition_syntax IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_definition_syntax = '", cohort_definition_syntax,"'"))
+    }
+  }
+
+  if (!missing(subject_concept_id)) {
+    if (is.null(subject_concept_id)) {
+      whereClauses <- c(whereClauses, "subject_concept_id IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("subject_concept_id = '", subject_concept_id,"'"))
+    }
+  }
+
+  if (!missing(cohort_instantiation_date)) {
+    if (is.null(cohort_instantiation_date)) {
+      whereClauses <- c(whereClauses, "cohort_instantiation_date IS NULL")
+    } else {
+      whereClauses <- c(whereClauses, paste0("cohort_instantiation_date = '", cohort_instantiation_date,"'"))
+    }
+  }
+
+  statement <- paste0(statement, paste0(whereClauses, collapse=" AND "));
+  class(statement) <- "subQuery"
+  return(statement)
+}
+

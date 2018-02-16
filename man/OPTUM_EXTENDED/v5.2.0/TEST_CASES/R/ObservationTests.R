@@ -136,14 +136,24 @@ createObservationTests <- function()
     add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                       gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
     
-    defaults <- get_defaults_hra()
+    valueAsString = mapping["VALUE_AS_STRING_VALUE"]
+    splits <- strsplit(x = valueAsString, split = " = ")
+    if (length(splits[[1]]) > 1)
+    {
+      valueAsString <- splits[[1]][1]
+    }
     
-    add_hra(patid = patient$patid,
+    add_hra(patid = patient$patid, value = valueAsString,
             name = fieldName, hra_compltd_dt = '2012-12-31')
 
+    if (length(splits[[1]]) > 1)
+    {
+      valueAsString <- splits[[1]][2]
+    }
+    
     expect_observation(person_id = patient$person_id, 
                          observation_concept_id = mapping["CONCEPT_ID"],
-                         value_as_string = mapping["VALUE_AS_STRING_VALUE"])
+                         value_as_string = valueAsString)
   })
   
   patient <- createPatient()

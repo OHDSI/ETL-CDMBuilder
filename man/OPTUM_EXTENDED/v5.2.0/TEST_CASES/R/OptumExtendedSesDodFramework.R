@@ -4053,8 +4053,16 @@ add_hra <- function(patid, name, value,
                     version = NULL)                    
 {
   defaults <- get('hra', envir = defaultValues)  
-  assign(name, defaults[name][[1]])
-
+  
+  if(missing(value))
+  {
+    assign(name, defaults[name][[1]])
+  }
+  else
+  {
+    assign(name, value)
+  }
+  
   insertFields <- c()
   insertValues <- c()
   if (missing(patid)) {

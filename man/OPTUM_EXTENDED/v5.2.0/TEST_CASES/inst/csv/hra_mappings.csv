@@ -1,9 +1,14 @@
 HRA_FIELD,DOMAIN_ID,CONCEPT_ID,TYPE_CONCEPT_ID,VALUE_AS_NUMBER,VALUE_AS_STRING_VALUE,UNIT_CONCEPT_ID,UNIT_SOURCE_VALUE,SOURCE_VALUE
 H_BMI,Measurement,3038553,44786633,H_BMI,H_BMI,9531,NULL,HEOR defined BMI
 H_BSA,Measurement,3005424,44786633,H_BSA,H_BSA,8617,m2,HEOR defined Body Surface Area (in m2) - Mosteller formula (most commonly used)
-H_CHRONIC_PAIN,Observation,3005359,44786634,NULL,1 = Yes; 0 = No; U = Unknown,0,NULL,HEOR defined Chronic Pain
+H_CHRONIC_PAIN,Observation,3005359,44786634,NULL,1 = Yes,0,NULL,HEOR defined Chronic Pain
+H_CHRONIC_PAIN,Observation,3005359,44786634,NULL,0 = No,0,NULL,HEOR defined Chronic Pain
+H_CHRONIC_PAIN,Observation,3005359,44786634,NULL,U = Unknown,0,NULL,HEOR defined Chronic Pain
 H_HEIGHT,Measurement,44786634,44786633,H_HEIGHT,H_HEIGHT,9330,inches,HEOR defined Height (in inches)
-H_SMOKING_STATUS,Observation,42742404,44786634,NULL,1 = Current user; 2 = Previous user; 3 = Never used; U = Unknown,0,NULL,HEOR defined Smoking status
+H_SMOKING_STATUS,Observation,42742404,44786634,NULL,1 = Current user,0,NULL,HEOR defined Smoking status
+H_SMOKING_STATUS,Observation,42742404,44786634,NULL,2 = Previous user,0,NULL,HEOR defined Smoking status
+H_SMOKING_STATUS,Observation,42742404,44786634,NULL,3 = Never used,0,NULL,HEOR defined Smoking status
+H_SMOKING_STATUS,Observation,42742404,44786634,NULL,U = Unknown,0,NULL,HEOR defined Smoking status
 H_WEIGHT,Measurement,3023166,44786633,H_WEIGHT,H_WEIGHT,8739,lbs,HEOR defined Weight (in pounds)
 ISA10008,Observation,46235605,44786634,NULL,ISA10008,0,NULL,"(10008) During the past 4 weeks, how much did your health problems affect your ability to do your regular daily activities, (other than work at a job)"
 ISA1006,Measurement,46235605,44786633,ISA1006,NULL,NULL,NULL,(1006) Weekly alcoholic drinks - Actual

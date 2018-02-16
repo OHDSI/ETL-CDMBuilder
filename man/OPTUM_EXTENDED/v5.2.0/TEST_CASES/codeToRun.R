@@ -5,16 +5,17 @@
 #=============================
 
 detach("package:OptumExtendedSesDodTesting", unload = TRUE)
+source("D:/Users/ALondhe2/Desktop/setCredentials.R")
 
 ## IMPORTANT: Set Extended Type ("ses" for SES, "dod" for DOD)
 
-#Sys.setenv(extendedType = "ses")
-Sys.setenv(extendedType = "dod")
+Sys.setenv(extendedType = "ses")
+#Sys.setenv(extendedType = "dod")
 
 library(OptumExtendedSesDodTesting)
 
-nativeDatabaseSchema <- "cdm_testing_optumdod_native.dbo" # specify your native schema
-cdmDatabaseSchema <- "cdm_testing_optumdod.dbo" # specify your cdm schema
+nativeDatabaseSchema <- "native.cdm_testing_optumses" # specify your native schema
+cdmDatabaseSchema <- "testing.cdm_testing_optumses" # specify your cdm schema
 
 ## Set Environment variables before running
 user <- Sys.getenv("cdmUser")

@@ -41,7 +41,7 @@ in the **PERSON** table.
 |MONTH_OF_BIRTH|**PERSON**<br/>YEAR_OF_BIRTH<br>**(Depends on OBSERVATION_PERIOD generation)** OBSERVATION_PERIOD_START_DATE| `if PERSON.YEAR_OF_BIRTH = YEAR(OBSERVATION_PERIOD_START_DATE), then PERSON.MONTH_OF_BIRTH = MONTH( MIN (OBSERVATION_PERIOD_START_DATE))`|This is a derived column.  Make sure to have Observation Periods generated before coming to this.|
 |DAY_OF_BIRTH| | | | 
 |RACE_CONCEPT_ID|**(SES only) SES**<br/>D_RACE_CODE|If no SES record, then map to 0.<br>Otherwise, map source values to their associated CONCEPT_IDs:<br>W = 8527<br>A = 8515<br>U = 0<br>H = 0<br>B = 8516|This data does not exist for DOD so this should be set to 0 for persons in the DOD database.|
-|ETHNICITY_CONCEPT_ID|**(SES only) SES**<br/>D_RACE_CODE |If no SES  record, then map to 0. Otherwise, map source values to their associated CONCEPT_IDs:<br>W = 0<br>A = 0<br>U = 0<br>H = 38003563<br>B = 0|This data does not exist for DOD so this should be set to 0 for persons in the DOD database.| 
+|ETHNICITY_CONCEPT_ID|**(SES only) SES**<br/>D_RACE_CODE |If no SES  record, then map to 0. Otherwise, map source values to their associated CONCEPT_IDs:<br>H = 38003563<br>W, A, B = 38003564<br>U = 0|This data does not exist for DOD so this should be set to 0 for persons in the DOD database.| 
 |LOCATION_ID|**SES, MEMBER_DETAIL** DIVISION<br>**DOD, MEMBER_DETAIL** STATE|**SES**: map DIVISION to LOCATION_SOURCE_VALUE in Location table, then extract its associated LOCATION_ID<br><br>**DOD**: map STATE to LOCATION_SOURCE_VALUE in Location table, then extract its associated LOCATION_ID||
 |PROVIDER_ID| | | |
 |CARE_SITE_ID| | | |

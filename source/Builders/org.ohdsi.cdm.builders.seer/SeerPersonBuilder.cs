@@ -1129,6 +1129,7 @@ namespace org.ohdsi.cdm.builders.seer
 
          var death = BuildDeath(deathRecords.ToArray(), null, observationPeriods);
 
+         var visitIds = new List<long>();
          var visitOccurrences = new Dictionary<long, VisitOccurrence>();
          foreach (var visitOccurrence in CleanUp(BuildVisitOccurrences(visitOccurrencesRaw.ToArray(), null), death))
          {
@@ -1140,8 +1141,19 @@ namespace org.ohdsi.cdm.builders.seer
             visitOccurrence.IdUndefined = false;
 
             visitOccurrences.Add(visitOccurrence.Id, visitOccurrence);
+            visitIds.Add(visitOccurrence.Id);
          }
 
+         long? prevVisitId = null;
+         foreach (var visitId in visitIds.OrderBy(v => v))
+         {
+            if (prevVisitId.HasValue)
+            {
+               visitOccurrences[visitId].PrecedingVisitOccurrenceId = prevVisitId;
+            }
+
+            prevVisitId = visitId;
+         }
          
          var conditionOccurrences =
             CleanUp(BuildConditionOccurrences(conditionOccurrencesRaw.ToArray(), visitOccurrences, observationPeriods), death).ToArray();
@@ -1176,49 +1188,77 @@ namespace org.ohdsi.cdm.builders.seer
          SetVisitOccurrenceId(observations, visitOccurrences.Values.ToArray());
          SetVisitOccurrenceId(measurements, visitOccurrences.Values.ToArray());
 
-         
-
-         var drugCosts =
-            BuildDrugCosts(drugExposures).Where(
-               c =>
-                  c.PaidCopay != null || c.PaidCoinsurance != null || c.PaidTowardDeductible != null ||
-                  c.PaidByPayer != null || c.PaidByCoordinationBenefits != null || c.TotalOutOfPocket != null ||
-                  c.TotalPaid != null)
-               .ToArray();
-
-         var procedureCosts = BuildProcedureCosts(procedureOccurrences).Where(
-            c =>
-               c.PaidCopay != null || c.PaidCoinsurance != null || c.PaidTowardDeductible != null ||
-               c.PaidByPayer != null || c.PaidByCoordinationBenefits != null || c.TotalOutOfPocket != null ||
-               c.TotalPaid != null).ToArray();
-
-         var visitCosts = BuildVisitCosts(visitOccurrences.Values.ToArray()).Where(
-            c =>
-               c.PaidCopay != null || c.PaidCoinsurance != null || c.PaidTowardDeductible != null ||
-               c.PaidByPayer != null || c.PaidByCoordinationBenefits != null || c.TotalOutOfPocket != null ||
-               c.TotalPaid != null).ToArray();
-
-         var devicCosts = BuildDeviceCosts(deviceExposures).Where(
-            c =>
-               c.PaidCopay != null || c.PaidCoinsurance != null || c.PaidTowardDeductible != null ||
-               c.PaidByPayer != null || c.PaidByCoordinationBenefits != null || c.TotalOutOfPocket != null ||
-               c.TotalPaid != null).ToArray();
+         var drugCosts = BuildDrugCosts(drugExposures).ToArray();
+         var procedureCosts = BuildProcedureCosts(procedureOccurrences).ToArray();
+         var visitCosts = BuildVisitCosts(visitOccurrences.Values.ToArray()).ToArray();
+         var devicCosts = BuildDeviceCosts(deviceExposures).ToArray();
 
          var cohort = BuildCohort(cohortRecords.ToArray(), observationPeriods).ToArray();
+
+         foreach (var cost in visitCosts)
+         {
+            if (cost.PaidCopay == null && cost.PaidCoinsurance == null && cost.PaidTowardDeductible == null &&
+                cost.PaidByPayer == null && cost.PaidByCoordinationBenefits == null && cost.TotalOutOfPocket == null &&
+                cost.TotalPaid == null)
+            continue;
+
+            var cost52 = new Cost
+            {
+               CostId = chunkData.KeyMasterOffset.VisitCostId,
+               CurrencyConceptId = cost.CurrencyConceptId,
+               Domain = "Visit",
+               EventId = cost.Id,
+
+               RevenueCodeConceptId = cost.RevenueCodeConceptId,
+               RevenueCodeSourceValue = cost.RevenueCodeSourceValue,
+               PaidByPrimary = cost.PaidByCoordinationBenefits,
+               PaidByPayer = cost.PaidByPayer,
+               PaidPatientDeductible = cost.PaidTowardDeductible,
+               PaidPatientCoinsurance = cost.PaidCoinsurance,
+               DrgConceptId = cost.DrgConceptId,
+               DrgSourceValue = cost.DrgSourceValue,
+
+               TotalPaid = cost.TotalPaid,
+               PaidByPatient = cost.TotalOutOfPocket
+            };
+
+            chunkData.AddCostData(cost52);
+         }
 
          // push built entities to ChunkBuilder for further save to CDM database
          AddToChunk(person, death, observationPeriods, 
             payerPlanPeriods.ToArray(), 
             drugExposures, drugCosts,
             conditionOccurrences, procedureOccurrences.Where(p => p.ConceptId > 0 || (p.ProcedureCosts != null && p.ProcedureCosts.Count > 0)).ToArray(), procedureCosts, observations, measurements,
-            visitOccurrences.Values.ToArray(), visitCosts, cohort, deviceExposures, devicCosts);
+            visitOccurrences.Values.ToArray(), visitCosts, cohort, deviceExposures, devicCosts, new Note[0]);
+      }
+
+      private static Func<ICostV5, Cost> CostV5ToV51(string domain)
+      {
+         return v5 => new Cost
+         {
+            CurrencyConceptId = v5.CurrencyConceptId,
+            Domain = domain,
+
+            RevenueCodeConceptId = v5.RevenueCodeConceptId,
+            RevenueCodeSourceValue = v5.RevenueCodeSourceValue,
+            PaidByPrimary = v5.PaidByCoordinationBenefits,
+            PaidByPayer = v5.PaidByPayer,
+            PaidPatientDeductible = v5.PaidTowardDeductible,
+            PaidPatientCoinsurance = v5.PaidCoinsurance,
+            DrgConceptId = v5.DrgConceptId,
+            DrgSourceValue = v5.DrgSourceValue,
+
+            TotalPaid = v5.TotalPaid,
+            PaidByPatient = v5.TotalOutOfPocket
+         };
       }
 
       public override void AddToChunk(Person person, Death death, ObservationPeriod[] observationPeriods, PayerPlanPeriod[] ppp,
          DrugExposure[] drugExposures, DrugCost[] drugCosts, ConditionOccurrence[] conditionOccurrences,
          ProcedureOccurrence[] procedureOccurrences, ProcedureCost[] procedureCosts, Observation[] observations,
          Measurement[] measurements, VisitOccurrence[] visitOccurrences, VisitCost[] visitCosts, Cohort[] cohort,
-         DeviceExposure[] devExposure, DeviceCost[] deviceCost)
+         DeviceExposure[] devExposure, DeviceCost[] deviceCost, Note[] notes)
       {
          chunkData.AddData(person);
 
@@ -1350,14 +1390,18 @@ namespace org.ohdsi.cdm.builders.seer
                             new Measurement(entity) { Id = chunkData.KeyMasterOffset.MeasurementId };
                   mes.TypeConceptId = 44818702;
                   measurement.Add(mes);
+
+                  AddCost(entity, CostV5ToV51("Measurement"));
                   break;
 
                case "Meas Value":
                   measurement.Add(entity as Measurement ?? new Measurement(entity) { Id = chunkData.KeyMasterOffset.MeasurementId });
+                  AddCost(entity, CostV5ToV51("Measurement"));
                   break;
 
                case "Observation":
                   observation.Add(entity as Observation ?? new Observation(entity) { Id = chunkData.KeyMasterOffset.ObservationId });
+                  AddCost(entity, CostV5ToV51("Observation"));
                   break;
 
                case "Procedure":
@@ -1372,6 +1416,8 @@ namespace org.ohdsi.cdm.builders.seer
 
                      if (po.ConceptId != 0 || (po.ProcedureCosts != null && po.ProcedureCosts.Count != 0))
                         procedureOccurrence.Add(po);
+
+                     AddCost(entity, CostV5ToV51("Procedure"));
                   }
                   break;
 
@@ -1381,6 +1427,7 @@ namespace org.ohdsi.cdm.builders.seer
                                                             {
                                                                Id = chunkData.KeyMasterOffset.DeviceExposureId
                                                             });
+                  AddCost(entity, CostV5ToV51("Device"));
                   break;
 
                case "Drug":
@@ -1393,31 +1440,33 @@ namespace org.ohdsi.cdm.builders.seer
                   drg.TypeConceptId = 38000179;
                   drugForEra.Add(drg);
                   chunkData.AddData(drg);
+
+                  AddCost(entity, CostV5ToV51("Drug"));
                   break;
 
             }
 
-            if (domain == "Procedure" && entityDomain != "Procedure")
-            {
-               if (entity.AdditionalFields == null || !entity.AdditionalFields.ContainsKey("source") ||
-                   entity.AdditionalFields["source"] != "dme")
-               {
-                  var po = (ProcedureOccurrence)entity;
+            //if (domain == "Procedure" && entityDomain != "Procedure")
+            //{
+            //   if (entity.AdditionalFields == null || !entity.AdditionalFields.ContainsKey("source") ||
+            //       entity.AdditionalFields["source"] != "dme")
+            //   {
+            //      var po = (ProcedureOccurrence)entity;
 
-                  if (po.ProcedureCosts != null && po.ProcedureCosts.Count > 0)
-                  {
-                     po.ConceptId = 0;
-                     procedureOccurrence.Add(po);
-                  }
-               }
-            }
+            //      if (po.ProcedureCosts != null && po.ProcedureCosts.Count > 0)
+            //      {
+            //         po.ConceptId = 0;
+            //         procedureOccurrence.Add(po);
+            //      }
+            //   }
+            //}
 
-            if (domain == "Observation" && entityDomain != "Observation")
-            {
-               var o = (Observation)entity;
-               o.ConceptId = 0;
-               observation.Add(o);
-            }
+            //if (domain == "Observation" && entityDomain != "Observation")
+            //{
+            //   var o = (Observation)entity;
+            //   o.ConceptId = 0;
+            //   observation.Add(o);
+            //}
          }
       }
 

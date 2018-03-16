@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using org.ohdsi.cdm.framework.core.Base;
 using org.ohdsi.cdm.framework.entities.Omop;
 
@@ -28,19 +30,28 @@ namespace org.ohdsi.cdm.builders.premier_v5
          var visits = CleanVisitOccurrences(visitOccurrencesRaw).ToArray();
          if (!visits.Any()) return;
 
-         var visitOccurrences = BuildVisitOccurrences(visits, null).ToDictionary(vo => vo.Id);
+         var visitOccurrences = new Dictionary<long, VisitOccurrence>();
+
+         foreach (var visitOccurrence in BuildVisitOccurrences(ApplyTimeFromPrior(visits), null))
+         {
+            if(!visitOccurrences.ContainsKey(visitOccurrence.Id))
+               visitOccurrences.Add(visitOccurrence.Id, visitOccurrence);
+         }
+
          var death = BuildDeath(deathRecords.ToArray(), visitOccurrences, null);
 
          //Exclude visits with start date after person death date
          var cleanedVisits = CleanUp(visitOccurrences.Values.ToArray(), death).ToArray();
          visitOccurrences.Clear();
-
+         
          // Create set of observation period entities from set of visit entities
+         var visitIds = new List<long>();
          var visitsDictionary = new Dictionary<Guid, VisitOccurrence>();
          foreach (var vo in cleanedVisits)
          {
             visitOccurrences.Add(vo.Id, vo);
             visitsDictionary.Add(vo.SourceRecordGuid, vo);
+            visitIds.Add(vo.Id);
             observationPeriodsFromVisits.Add(new EraEntity
             {
                Id = chunkData.KeyMasterOffset.ObservationPeriodId,
@@ -48,6 +59,17 @@ namespace org.ohdsi.cdm.builders.premier_v5
                StartDate = vo.StartDate,
                EndDate = vo.EndDate
             });
+         }
+
+         long? prevVisitId = null;
+         foreach (var visitId in visitIds.OrderBy(v => v))
+         {
+            if (prevVisitId.HasValue)
+            {
+               visitOccurrences[visitId].PrecedingVisitOccurrenceId = prevVisitId;
+            }
+
+            prevVisitId = visitId;
          }
 
          var minYearOfBirth = 9999;
@@ -111,6 +133,35 @@ namespace org.ohdsi.cdm.builders.premier_v5
          // set corresponding ProviderIds
          SetPayerPlanPeriodId(payerPlanPeriods, drugExposures, procedureOccurrences, visitOccurrences.Values.ToArray(), deviceExposure);
 
+         var visitCosts = BuildVisitCosts(visitOccurrences.Values.ToArray()).ToArray();
+         foreach (var v5 in visitCosts)
+         {
+            //if (cost.PaidCopay == null && cost.PaidCoinsurance == null && cost.PaidTowardDeductible == null &&
+            //   cost.PaidByPayer == null && cost.PaidByCoordinationBenefits == null && cost.TotalOutOfPocket == null &&
+            //   cost.TotalPaid == null)
+            //   continue;
+
+            var cost52 = new Cost
+            {
+               CostId = chunkData.KeyMasterOffset.VisitCostId,
+
+               Domain = "Visit",
+               EventId = v5.Id,
+
+               CurrencyConceptId = v5.CurrencyConceptId,
+               TotalCharge = v5.TotalPaid,
+               TotalCost = v5.PaidByPayer,
+               RevenueCodeConceptId = v5.RevenueCodeConceptId,
+               RevenueCodeSourceValue = v5.RevenueCodeSourceValue,
+               DrgConceptId = v5.DrgConceptId ?? 0,
+               DrgSourceValue = v5.DrgSourceValue,
+
+               TypeId = 0
+            };
+
+            chunkData.AddCostData(cost52);
+         }
+
          // push built entities to ChunkBuilder for further save to CDM database
          AddToChunk(person, death,
             observationPeriods,
@@ -122,7 +173,30 @@ namespace org.ohdsi.cdm.builders.premier_v5
             new ProcedureCost[0], 
             observations,
             measurements,
-            visitOccurrences.Values.ToArray(), new VisitCost[0], new Cohort[0], deviceExposure, new DeviceCost[0]);
+            visitOccurrences.Values.ToArray(), new VisitCost[0], new Cohort[0], deviceExposure, new DeviceCost[0], new Note[0]);
+      }
+
+      private static VisitOccurrence[] ApplyTimeFromPrior(VisitOccurrence[] visits)
+      {
+         var daysFromPrior = 0;
+         DateTime? prevEndDate = null;
+         foreach (var v in visits.OrderBy(v => v.StartDate).ThenBy(v => v.EndDate).ThenBy(v => v.Id))
+         {
+            if (prevEndDate.HasValue && daysFromPrior != 0)
+            {
+               var newStartDate = prevEndDate.Value.AddDays(daysFromPrior);
+               if (newStartDate <= v.EndDate)
+                  v.StartDate = newStartDate;
+            }
+
+            prevEndDate = v.EndDate;
+            if (v.AdditionalFields.ContainsKey("days_from_prior") &&
+                !string.IsNullOrEmpty(v.AdditionalFields["days_from_prior"]))
+            {
+               int.TryParse(v.AdditionalFields["days_from_prior"], out daysFromPrior);
+            }
+         }
+         return visits;
       }
 
       public override void AddToChunk(string domain, IEnumerable<IEntity> entities)
@@ -209,6 +283,9 @@ namespace org.ohdsi.cdm.builders.premier_v5
                                GetEraConceptIdsCall = vocabulary.LookupIngredientLevel
                             };
 
+                  if (!drg.EndDate.HasValue)
+                     drg.EndDate = drg.StartDate;
+
                   drugForEra.Add(drg);
                   chunkData.AddData(drg);
                   AddCost(entity, CostV5ToV51("Drug"));
@@ -227,6 +304,8 @@ namespace org.ohdsi.cdm.builders.premier_v5
             TotalCost = v5.PaidByPayer,
             RevenueCodeConceptId = v5.RevenueCodeConceptId,
             RevenueCodeSourceValue = v5.RevenueCodeSourceValue,
+            DrgConceptId = v5.DrgConceptId ?? 0,
+            DrgSourceValue = v5.DrgSourceValue,
             Domain = domain,
             TypeId = 0
          };
@@ -575,6 +654,7 @@ namespace org.ohdsi.cdm.builders.premier_v5
       public override IEnumerable<PayerPlanPeriod> BuildPayerPlanPeriods(PayerPlanPeriod[] payerPlanPeriods,
          Dictionary<long, VisitOccurrence> visitOccurrences)
       {
+
          var ppp = new List<PayerPlanPeriod>();
          foreach (var pp in payerPlanPeriods)
          {
@@ -630,7 +710,7 @@ namespace org.ohdsi.cdm.builders.premier_v5
                result.Add(currentPeriod);
             }
          }
-
+         
          foreach (var payerPlanPeriod in result)
          {
             payerPlanPeriod.Id = chunkData.KeyMasterOffset.PayerPlanPeriodId;

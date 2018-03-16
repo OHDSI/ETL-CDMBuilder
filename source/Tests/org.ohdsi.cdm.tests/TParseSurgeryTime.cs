@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using org.ohdsi.cdm.builders.premier_v5;
 
 namespace org.ohdsi.cdm.tests

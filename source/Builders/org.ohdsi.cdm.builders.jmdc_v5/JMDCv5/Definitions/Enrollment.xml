@@ -10,15 +10,15 @@
     [Member ID] AS person_source_value,
     [Year of birth of member] AS year_of_birth,
     [Gender of member] AS gender_source_value,
-    CASE WHEN [Month and year of entry] &lt; mm.min_date
-    THEN CAST(CAST(mm.min_date AS VARCHAR(6)) + '01' AS DATE)
-    ELSE CAST(CAST([Month and year of entry] AS VARCHAR(6)) + '01' AS DATE)
+    CASE
+    WHEN ISNULL([Month and year of entry], 0) &gt; ISNULL([Month and year of contract start], 0) and ISNULL([Month and year of entry], 0) &gt; mm.min_date THEN CAST(CAST([Month and year of entry] AS VARCHAR(6)) + '01' AS DATE)
+    WHEN ISNULL([Month and year of contract start], 0) &gt; ISNULL([Month and year of entry], 0) and ISNULL([Month and year of contract start], 0) &gt; mm.min_date THEN CAST(CAST([Month and year of contract start] AS VARCHAR(6)) + '01' AS DATE)
+    ELSE CAST(CAST(mm.min_date AS VARCHAR(6)) + '01' AS DATE)
     END AS observation_period_start_date,
     CASE
-    WHEN [Month and year of withdrawal] IS NULL
-    OR [Month and year of withdrawal] &gt; mm.max_date
-    THEN DATEADD(DAY, - 1, DATEADD(MONTH, 1, CAST(CAST(mm.max_date AS VARCHAR(6)) + '01' AS DATE)))
-    ELSE DATEADD(DAY, - 1, DATEADD(MONTH, 1, CAST(CAST([Month and year of withdrawal] AS VARCHAR(6)) + '01' AS DATE)))
+    WHEN ISNULL([Month and year of withdrawal], 999999) &lt; ISNULL([Month and year of contract end], 999999) and ISNULL([Month and year of withdrawal], 999999) &lt; mm.max_date THEN DATEADD(DAY, - 1, DATEADD(MONTH, 1, CAST(CAST([Month and year of withdrawal] AS VARCHAR(6)) + '01' AS DATE)))
+    WHEN ISNULL([Month and year of contract end], 999999) &lt; ISNULL([Month and year of withdrawal], 999999) and ISNULL([Month and year of contract end], 999999) &lt; mm.max_date THEN DATEADD(DAY, - 1, DATEADD(MONTH, 1, CAST(CAST([Month and year of contract end] AS VARCHAR(6)) + '01' AS DATE)))
+    ELSE DATEADD(DAY, - 1, DATEADD(MONTH, 1, CAST(CAST(mm.max_date AS VARCHAR(6)) + '01' AS DATE)))
     END AS observation_period_end_date,
     CASE
     WHEN [Death flag] = 1 THEN 1

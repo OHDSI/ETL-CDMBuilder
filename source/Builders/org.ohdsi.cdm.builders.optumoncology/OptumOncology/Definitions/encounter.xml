@@ -1,37 +1,30 @@
 ﻿<QueryDefinition>
   <Query>
-    with e_p as
+    with a as
     (
-    SELECT encid
-    ,ep.provid
-    ,provider_role
-    ,specialty
-    ,case when lower(provider_role) = 'attending' then 0 else 1 end as is_attending
-    ,ROW_NUMBER() OVER(partition by encid ORDER BY case when lower(provider_role) = 'attending' then 0 else 1 end, provider_role, specialty) sort_index
-    FROM {sc}.encounter_provider ep
-    join {sc}.provider p on p.provid = ep.provid
-    ),
-    e_p_filtered as
-    (
-    select encid, provid
-    from e_p
-    where sort_index = 1
-    )
-
     select
     e.encid,
     cast(replace(e.ptid, 'PT','') as bigint) as PersonId,
-    cast(replace(e.encid, 'E0000','') as bigint) as VisitOccurrenceId,
+    cast(replace(e.encid, 'E000','') as bigint) as VisitOccurrenceId,
     e.interaction_type,
     e.interaction_date,
     e.interaction_time,
-    ec.provid
+    ec.provid,
+    ROW_NUMBER() OVER(partition by e.encid ORDER BY case when lower(provider_role) = 'attending' then 0 else 1 end, provider_role, specialty) sort_index,
+    v.discharge_disposition,
+    v.admission_source
     from {sc}.encounter as e
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND e.ptid = ch.PERSON_SOURCE_VALUE
-    LEFT JOIN e_p_filtered as ec ON ec.encid = e.encid
-    LEFT JOIN {sc}.visit v on e.visitid = v.visitid
+    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = e.encid
+    LEFT JOIN {sc}.provider p on p.provid = ec.provid
+    LEFT JOIN {sc}.visit v on e.ptid = v.ptid and e.visitid = v.visitid
     where v.visitid is null and e.encid is not NULL and e.encid != ''
-    order by cast(replace(e.ptid, 'PT','') as bigint)
+    )
+
+    select encid, PersonId, VisitOccurrenceId, interaction_type, interaction_date, interaction_time, provid, discharge_disposition, admission_source
+    from a
+    where sort_index = 1
+    order by PersonId
   </Query>
   <VisitOccurrence>
     <VisitOccurrenceDefinition>
@@ -54,6 +47,26 @@
           </ConceptIdMappers>
           <Fields>
             <Field key="interaction_type" defaultTypeId="44818518"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumOncology\Lookups\DischargeTo.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="discharge_disposition" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumOncology\Lookups\Admitting.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="admission_source" defaultTypeId="0"/>
           </Fields>
         </Concept>
       </Concepts>

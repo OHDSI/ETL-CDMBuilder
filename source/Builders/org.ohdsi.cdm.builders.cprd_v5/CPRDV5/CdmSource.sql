@@ -14,15 +14,19 @@ INSERT INTO {sc}.CDM_SOURCE
            ,VOCABULARY_VERSION)
      VALUES
            (
-		   'CPRD',
+		   'Clinical Practice Research Datalink (CPRD)',
 		   'CPRD',
 		   'Janssen R&D',
-		   'The Clinical Practice Research Datalink (CPRD) is a governmental, not-for-profit research service, jointly funded by the NHS National Institute for Health Research (NIHR) and the Medicines and Healthcare products Regulatory Agency (MHRA), a part of the Department of Health, United Kingdom (UK).  CPRD consists of data collected from UK primary care for all ages.  This includes conditions, observations, measurements, and procedures that the general practitioner is made aware of in additional to any prescriptions as prescribed by the general practitioner.  In addition to primary care, there are also linked secondary care records for a small number of people. [For further information link to RWE site for CPRD.](https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2Fe3d6a6b5-a712-456f-9418-31b9c4f4c4fb.xml)',
-			'',
+		   'The Clinical Practice Research Datalink (CPRD) is a governmental, not-for-profit research service, jointly funded by the NHS National Institute for Health Research (NIHR) and the Medicines and Healthcare products Regulatory Agency (MHRA), a part of the Department of Health, United Kingdom (UK).  CPRD consists of data collected from UK primary care for all ages.  This includes conditions, observations, measurements, and procedures that the general practitioner is made aware of in additional to any prescriptions as prescribed by the general practitioner.  In addition to primary care, there are also linked secondary care records for a small number of people. 
+
+The major data elements contained within this database are outpatient prescriptions given by the general practitioner (coded with Multilex codes) and outpatient clinical, referral, immunization or test events that the general practitioner knows about (coded in Read or ICD10 or LOINC codes).  The database also contains the patients’ year of births and any date of deaths.
+
+[For further information link to RWE site for CPRD.](https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2Fe3d6a6b5-a712-456f-9418-31b9c4f4c4fb.xml)',
+			'https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2Fe3d6a6b5-a712-456f-9418-31b9c4f4c4fb.xml',
 			'http://www.ohdsi.org/web/wiki/doku.php?id=documentation:example_etls',
 			'{0}',
 			'{3}',
-			'V5.0',
+			'V5.2.0',
 			'{1}'
 		   );
 

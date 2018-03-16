@@ -58,15 +58,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AWSSDK.Core.3.3.17.10\lib\net45\AWSSDK.Core.dll</HintPath>
+      <HintPath>..\..\packages\AWSSDK.Core.3.3.21.10\lib\net45\AWSSDK.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AWSSDK.S3.3.3.11\lib\net45\AWSSDK.S3.dll</HintPath>
+      <HintPath>..\..\packages\AWSSDK.S3.3.3.17\lib\net45\AWSSDK.S3.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="CsvHelper, Version=3.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CsvHelper.3.0.0-beta7\lib\net451\CsvHelper.dll</HintPath>
+    <Reference Include="CsvHelper, Version=6.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\CsvHelper.6.1.1\lib\net45\CsvHelper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -82,14 +83,20 @@
     <Compile Include="Builder\KeyMaster.cs" />
     <Compile Include="Builder\KeyMasterOffset.cs" />
     <Compile Include="DataReaders\ChunkDataReader.cs" />
-    <Compile Include="DataReaders\S3DataReader2.cs" />
     <Compile Include="DataReaders\S3DataReader.cs" />
     <Compile Include="DataReaders\v5\CareSiteDataReader.cs" />
     <Compile Include="DataReaders\v5\CohortDataReader.cs" />
     <Compile Include="DataReaders\v5\ConditionEraDataReader.cs" />
     <Compile Include="DataReaders\v5\ConditionOccurrenceDataReader.cs" />
-    <Compile Include="DataReaders\v5\ConditionOccurrenceDataReader2.cs" />
-    <Compile Include="DataReaders\v5\CostDataReader.cs" />
+    <Compile Include="DataReaders\v5\v501\ConditionOccurrenceDataReader501.cs" />
+    <Compile Include="DataReaders\v5\v52\ConditionOccurrenceDataReader52.cs" />
+    <Compile Include="DataReaders\v5\v52\NoteDataReader52.cs" />
+    <Compile Include="DataReaders\v5\v52\CostDataReader52.cs" />
+    <Compile Include="DataReaders\v5\v52\DeathDataReader52.cs" />
+    <Compile Include="DataReaders\v5\v52\DeviceExposureDataReader52.cs" />
+    <Compile Include="DataReaders\v5\v52\DrugExposureDataReader52.cs" />
+    <Compile Include="DataReaders\v5\v52\ObservationPeriodDataReader52.cs" />
+    <Compile Include="DataReaders\v5\v501\CostDataReader.cs" />
     <Compile Include="DataReaders\v5\DeviceCostDataReader.cs" />
     <Compile Include="DataReaders\v5\DeviceExposureDataReader.cs" />
     <Compile Include="DataReaders\v5\DrugCostDataReader.cs" />
@@ -103,6 +110,8 @@
     <Compile Include="DataReaders\v5\PayerPlanPeriodDataReader.cs" />
     <Compile Include="DataReaders\v5\ProcedureCostDataReader.cs" />
     <Compile Include="DataReaders\v5\ProcedureOccurrenceDataReader.cs" />
+    <Compile Include="DataReaders\v5\v52\ProcedureOccurrenceDataReader52.cs" />
+    <Compile Include="DataReaders\v5\v52\VisitOccurrenceDataReader52.cs" />
     <Compile Include="DataReaders\v5\VisitCostDataReader.cs" />
     <Compile Include="DataReaders\v5\ProviderDataReader.cs" />
     <Compile Include="DataReaders\v5\VisitOccurrenceDataReader.cs" />
@@ -111,6 +120,7 @@
     <Compile Include="Omop\Cohort.cs" />
     <Compile Include="Omop\ConditionEra.cs" />
     <Compile Include="Omop\ConditionOccurrence.cs" />
+    <Compile Include="Omop\Note.cs" />
     <Compile Include="Omop\ICostV5.cs" />
     <Compile Include="Omop\ObservationCost.cs" />
     <Compile Include="Omop\MeasurementCost.cs" />

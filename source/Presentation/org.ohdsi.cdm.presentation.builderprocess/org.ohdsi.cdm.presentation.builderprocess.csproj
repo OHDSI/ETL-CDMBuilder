@@ -93,7 +93,6 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -103,6 +102,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Builders\org.ohdsi.cdm.builders.cerner\org.ohdsi.cdm.builders.cerner.csproj">
+      <Project>{c969a4e9-72b3-4631-8d3a-05055704581a}</Project>
+      <Name>org.ohdsi.cdm.builders.cerner</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Builders\org.ohdsi.cdm.builders.cprd_v5\org.ohdsi.cdm.builders.cprd_v5.csproj">
       <Project>{42ed060a-4253-49c2-90de-695aae0bd8f5}</Project>
       <Name>org.ohdsi.cdm.builders.cprd_v5</Name>

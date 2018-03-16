@@ -14,15 +14,19 @@ INSERT INTO {sc}.CDM_SOURCE
            ,VOCABULARY_VERSION)
      VALUES
            (
-		   'The Truven Health MarketScan® Research Databases, Medicare',
-		   'MDCR',
+		   'Truven Health MarketScan® Medicare Supplemental and Coordination of Benefits Database',
+		   'Truven MDCR',
 		   'Janssen R&D',
-		   'Truven Health MarketScan® Medicare Supplemental and Coordination of Benefits Database (MDCR) represents health services of retirees in the United States with primary or Medicare supplemental coverage through privately insured fee-for-service, point-of-service, or capitated health plans.  These data include adjudicated health insurance claims (e.g. inpatient, outpatient, and outpatient pharmacy). Additionally, it captures laboratory tests for a subset of the covered lives.  [For further information link to RWE site for Truven MDCR.](https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F4d653f44-36f7-4ccb-a81d-a1dce3be1c62.xml)',
-			'http://hicoe.jnj.com/DataSources/Truven/MDCR',
+		   'Truven Health MarketScan® Medicare Supplemental and Coordination of Benefits Database (MDCR) represents health services of retirees in the United States with primary or Medicare supplemental coverage through privately insured fee-for-service, point-of-service, or capitated health plans.  These data include adjudicated health insurance claims (e.g. inpatient, outpatient, and outpatient pharmacy). Additionally, it captures laboratory tests for a subset of the covered lives.  
+
+The major data elements contained within this database are outpatient pharmacy dispensing claims (coded with National Drug Codes (NDC), inpatient and outpatient medical claims which provide procedure codes (coded in CPT-4, HCPCs, ICD-9-CM or ICD-10-PCS) and diagnosis codes (coded in ICD-9-CM or ICD-10-CM).  The data also contain selected laboratory test results (those sent to a contracted thirds-party laboratory service provider) for a non-random sample of the population (coded with LOINC codes).  
+
+[For further information link to RWE site for Truven MDCR.](https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F4d653f44-36f7-4ccb-a81d-a1dce3be1c62.xml)',
+			'https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F4d653f44-36f7-4ccb-a81d-a1dce3be1c62.xml',
 			'http://www.ohdsi.org/web/wiki/doku.php?id=documentation:example_etls',
 			'{0}',
 			'{3}',
-			'V5.0.1',
+			'V5.2.0',
 			'{1}'
 		   );
 

@@ -5,10 +5,7 @@
 
     <Variable name="procmod" database="ccae, mdcr">PROCMOD</Variable>
     <Variable name="procmod" database="mdcd">NULL AS PROCMOD</Variable>
-
-    <Variable name="icdVer" database="ccae, mdcr">CASE WHEN DXVER NOT IN ('0', '9') THEN CASE WHEN SVCDATE &lt; '10/01/2015' THEN '9' ELSE '0' END ELSE DXVER END as DXVER, CASE WHEN PROCTYP = '' OR PROCTYP IS NULL THEN CASE WHEN SVCDATE &lt; '10/01/2015' THEN '9' ELSE '0' END WHEN PROCTYP = '0' THEN '0' ELSE '9' END as PROCTYP</Variable>
-    <Variable name="icdVer" database="mdcd">'9' as DXVER, '9' as PROCTYP</Variable>
-
+    
     <Variable name="diagnosisField" database="ccae, mdcr">DX1, DX2, DX3, DX4, DX5</Variable>
     <Variable name="diagnosisField" database="mdcd">DX1, DX2, DX3, DX4, null DX5</Variable>
   </Variables>
@@ -39,7 +36,7 @@
     1 priority,
     44818668 CurrencyConceptId,
     {procmod},
-    {icdVer}
+    CASE WHEN DXVER NOT IN ('0', '9') THEN CASE WHEN SVCDATE &lt; '10/01/2015' THEN '9' ELSE '0' END ELSE DXVER END as DXVER, CASE WHEN PROCTYP = '' OR PROCTYP IS NULL THEN CASE WHEN SVCDATE &lt; '10/01/2015' THEN '9' ELSE '0' END WHEN PROCTYP = '0' THEN '0' ELSE '9' END as PROCTYP
     from {sc}.OUTPATIENT_SERVICES
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND ENROLID = ch.PERSON_ID
     ORDER BY ENROLID
@@ -118,6 +115,7 @@
     <DrugExposureDefinition>
       <PersonId>ENROLID</PersonId>
       <StartDate>SVCDATE</StartDate>
+      <EndDate>SVCDATE</EndDate>
       <Concepts>
         <Concept>
           <!--<IdRequired>true</IdRequired>-->

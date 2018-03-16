@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
-using System.IO;
 using System.Threading;
 using Amazon.EC2;
 using Amazon.EC2.Model;
@@ -106,22 +105,25 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
             var complete = Build();
 
-            if (!Settings.Current.Builder.IsLead)
+            if (Settings.Current.Builder.IsLead)
+            {
+               CopyVocabulary();
+               FillPostBuildTables();
+            }
+            else
             {
                StopEC2Instance();
             }
 
             if (Settings.Current.Builder.IsLead && complete)
             {
-               FillPostBuildTables();
-               CopyVocabulary();
                CreateIndexes();
-               RunAchilles();
+               RunPostprocess();
 
                if (Builder.State == BuilderState.Running)
                   builderController.UpdateState(BuilderState.Stopped);
 
-               StopEC2Instance();
+               //StopEC2Instance();
             }
 
             if (Builder.State == BuilderState.Running)
@@ -183,11 +185,21 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
       private bool Build()
       {
-         var allChunksComplete = false;
-         if (!Settings.Current.Builder.IsLead && !Building.LookupCreated) return false;
-         if (Building.BuildingComplete) return false;
-         if (Builder.State == BuilderState.Error) return false;
+         while (!Settings.Current.Builder.IsLead && !Building.LookupCreated)
+         {
+            if (Builder.State == BuilderState.Error)
+               return false;
 
+            Thread.Sleep(1000);
+            Load();
+         }
+
+         var allChunksComplete = false;
+         //if (!Settings.Current.Builder.IsLead && !Building.LookupCreated) return false;
+         if (Building.BuildingComplete) return true;
+         if (Builder.State == BuilderState.Error) return false;
+         
+         
          using (
             var vocabHost = ServicesManager.CreateServiceHost<VocabularyService>(typeof (IVocabularyService),
                "VocabularyServiceEndpoint"))
@@ -272,7 +284,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
          AddMetric(Metrics.VocabularyCopyTimestamp, "", end.Value.Subtract(start.Value).TotalMinutes, end);
       }
 
-      private void FillPostBuildTables()
+      public void FillPostBuildTables()
       {
          var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.DestinationSchemaName);
 
@@ -293,17 +305,19 @@ namespace org.ohdsi.cdm.framework.core.Controllers
          UpdateDate("CreateIndexesEnd");
       }
 
-      private void RunAchilles()
+      private void RunPostprocess()
       {
-         if (Building.AchillesFinished) return;
+         if (Building.PostprocessFinished) return;
 
-         var start = UpdateDate("AchillesStart");
-         AddMetric(Metrics.AchillesTimestamp, "", 0, start);
-         builderController.RunAchilles();
-         var end = UpdateDate("AchillesEnd");
-         AddMetric(Metrics.AchillesTimestamp, "", end.Value.Subtract(start.Value).TotalMinutes, end);
+         // TODO: move to org.ohdsi.cdm.presentation.postprocess
+         //var start = UpdateDate("PostprocessStart");
+         //AddMetric(Metrics.AchillesTimestamp, "", 0, start);
 
-         //AddMetric(Metrics.AchillesTimestamp, start, end, null);
+         builderController.RunPostprocess();
+
+         // TODO: move to org.ohdsi.cdm.presentation.postprocess
+         //var end = UpdateDate("PostprocessEnd");
+         //AddMetric(Metrics.AchillesTimestamp, "", end.Value.Subtract(start.Value).TotalMinutes, end);
       }
 
       private static void AddMetric(Metrics metric, DateTime? start, DateTime? end, double? valueAsNumber)
@@ -385,8 +399,6 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
       public IEnumerable<string> GetErrors()
       {
-         //if (Builder.State != BuilderState.Error) yield break;
-
          var log = new DbLog(Settings.Current.Building.BuilderConnectionString);
          foreach (var error in log.GetErrors(Settings.Current.Building.Id.Value))
          {
@@ -396,15 +408,15 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
       public void ResetDbCreationStep()
       {
-         UpdateDate("CreateDestinationDbStart", null);
          builderController.DropDestination();
+         UpdateDate("CreateDestinationDbStart", null);
          UpdateDate("CreateDestinationDbEnd", null);
       }
 
       public void CreateTablesStep()
       {
-         UpdateDate("CreateDestinationDbStart", DateTime.Now);
          builderController.CreateTablesStep();
+         UpdateDate("CreateDestinationDbStart", DateTime.Now);
          UpdateDate("CreateDestinationDbEnd", DateTime.Now);
       }
 
@@ -428,9 +440,10 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
       public void ResetLookupCreationStep(bool onlyDataUpdate)
       {
-         UpdateDate("CreateLookupStart", null);
          if (!onlyDataUpdate)
             builderController.TruncateLookup();
+
+         UpdateDate("CreateLookupStart", null);
          UpdateDate("CreateLookupEnd", null);
       }
 
@@ -442,13 +455,14 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
       public void ResetBuildingStep(bool onlyDataUpdate)
       {
-         UpdateDate("BuildingStart", null);
          if (!onlyDataUpdate)
          {
             builderController.TruncateWithoutLookupTables();
             builderController.ResetChunk();
             builderController.CleanupS3();
          }
+
+         UpdateDate("BuildingStart", null);
          UpdateDate("BuildingEnd", null);
       }
 
@@ -460,9 +474,10 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
       public void ResetVocabularyStep(bool onlyDataUpdate)
       {
-         UpdateDate("CopyVocabularyStart", null);
          if (!onlyDataUpdate)
             builderController.ResetVocabularyStep();
+
+         UpdateDate("CopyVocabularyStart", null);
          UpdateDate("CopyVocabularyEnd", null);
       }
 
@@ -478,16 +493,16 @@ namespace org.ohdsi.cdm.framework.core.Controllers
          UpdateDate("CreateIndexesEnd", DateTime.MaxValue);
       }
 
-      public void ResetAchillesStep()
+      public void ResetPostprocessStep()
       {
-         UpdateDate("AchillesStart", null);
-         UpdateDate("AchillesEnd", null);
+         UpdateDate("PostprocessStart", null);
+         UpdateDate("PostprocessEnd", null);
       }
 
-      public void SkipAchillesStep()
+      public void SkipPostprocessStep()
       {
-         UpdateDate("AchillesStart", DateTime.MaxValue);
-         UpdateDate("AchillesEnd", DateTime.MaxValue);
+         UpdateDate("PostprocessStart", DateTime.MaxValue);
+         UpdateDate("PostprocessEnd", DateTime.MaxValue);
       }
 
       public void ResetNotFinishedChunks()

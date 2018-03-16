@@ -15,14 +15,18 @@ INSERT INTO {sc}.CDM_SOURCE
      VALUES
            (
 		   'Truven Health MarketScan® Commercial Claims and Encounters Database',
-		   'CCAE',
+		   'Truven CCAE',
 		   'Janssen R&D',
-		   'Truven Health MarketScan® Commercial Claims and Encounters Database (CCAE) represent data from individuals enrolled in United States employer-sponsored insurance health plans.  The data includes adjudicated health insurance claims (e.g. inpatient, outpatient, and outpatient pharmacy) as well as enrollment data from large employers and health plans who provide private healthcare coverage to employees, their spouses, and dependents.  Additionally, it captures laboratory tests for a subset of the covered lives.  This administrative claims database includes a variety of fee-for-service, preferred provider organizations, and capitated health plans. [For further information link to RWE site for Truven CCAE.](https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2Ff2f27aca-60f6-491d-8ed8-fff1858d178e.xml)',
-			'http://hicoe.jnj.com/DataSources/Truven/CCAE',
+		   'Truven Health MarketScan® Commercial Claims and Encounters Database (CCAE) represent data from individuals enrolled in United States employer-sponsored insurance health plans.  The data includes adjudicated health insurance claims (e.g. inpatient, outpatient, and outpatient pharmacy) as well as enrollment data from large employers and health plans who provide private healthcare coverage to employees, their spouses, and dependents.  Additionally, it captures laboratory tests for a subset of the covered lives.  This administrative claims database includes a variety of fee-for-service, preferred provider organizations, and capitated health plans. 
+
+The major data elements contained within this database are outpatient pharmacy dispensing claims (coded with National Drug Codes (NDC), inpatient and outpatient medical claims which provide procedure codes (coded in CPT-4, HCPCs, ICD-9-CM or ICD-10-PCS) and diagnosis codes (coded in ICD-9-CM or ICD-10-CM).  The data also contain selected laboratory test results (those sent to a contracted thirds-party laboratory service provider) for a non-random sample of the population (coded with LOINC codes).  
+
+[For further information link to RWE site for Truven CCAE.](https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2Ff2f27aca-60f6-491d-8ed8-fff1858d178e.xml)',
+			'https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2Ff2f27aca-60f6-491d-8ed8-fff1858d178e.xml',
 			'http://www.ohdsi.org/web/wiki/doku.php?id=documentation:example_etls',
 			'{0}',
 			'{3}',
-			'V5.0.1',
+			'V5.2.0',
 			'{1}'
 		   );
 

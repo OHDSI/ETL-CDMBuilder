@@ -25,11 +25,39 @@ namespace org.ohdsi.cdm.framework.shared.Helpers
          return connection;
       }
 
+      public static OdbcConnection OpenOdbcConnection(string connectionString, int numberOfAttempts)
+      {
+         var attempt = 0;
+         while (true)
+         {
+            try
+            {
+               attempt++;
+               var connection = new OdbcConnection(connectionString);
+               connection.Open();
+
+               return connection;
+            }
+            catch (Exception)
+            {
+               if (attempt <= numberOfAttempts)
+               {
+                  Thread.Sleep(1000);
+               }
+               else
+               {
+                  throw;
+               }
+            }
+         }
+      }
+
+
       public static IDbConnection OpenConnection(string odbcConnectionString, Database db)
       {
          var odbcConnection = new OdbcConnectionStringBuilder(odbcConnectionString);
 
-         if (db == Database.MSSQL || db == Database.APS)
+         if (db == Database.MSSQL)
          {
             var sqlConnection = new SqlConnectionStringBuilder();
             sqlConnection["Data Source"] = odbcConnection["server"];

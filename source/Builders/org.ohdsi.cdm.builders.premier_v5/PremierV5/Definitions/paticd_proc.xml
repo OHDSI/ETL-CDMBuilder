@@ -1,7 +1,7 @@
 ﻿<QueryDefinition>
    <Query>
      select
-     pat.medrec_key,
+     cast(pat.medrec_key as bigint) as medrec_key,
      null as condition_end_date,
      pat.disc_date,
      case

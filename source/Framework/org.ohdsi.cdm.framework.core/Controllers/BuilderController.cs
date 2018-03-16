@@ -16,7 +16,6 @@ namespace org.ohdsi.cdm.framework.core.Controllers
         #region Variables
         private readonly DbBuilder dbBuilder;
         private readonly ChunkController chunkController;
-        private readonly AchillesController achillesController;
         private int chunkCount;
         #endregion
 
@@ -64,7 +63,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
             chunkController = new ChunkController();
             dbBuilder = new DbBuilder(Settings.Current.Building.BuilderConnectionString);
             Builder = new Builder();
-            achillesController = new AchillesController(Settings.Current.AchillesRScript);
+            
             RefreshState();
         }
         #endregion
@@ -225,12 +224,23 @@ namespace org.ohdsi.cdm.framework.core.Controllers
             });
         }
 
-        public void RunAchilles()
-        {
-            PerformAction(() => achillesController.Run());
-        }
+       public void RunPostprocess()
+       {
+          var psi =
+             new ProcessStartInfo(Path.Combine(Settings.Current.Builder.Folder,
+                "org.ohdsi.cdm.presentation.postprocess.exe"))
+             {
+                CreateNoWindow = true
+             };
 
-        public void CreateLookup(bool lookupCreated)
+          using (var p = Process.Start(psi))
+          {
+             p.WaitForExit();
+             p.Close();
+          }
+       }
+
+       public void CreateLookup(bool lookupCreated)
         {
             PerformAction(() =>
             {
@@ -257,7 +267,6 @@ namespace org.ohdsi.cdm.framework.core.Controllers
                            string.Format(@"<{0}>{1}</{0}>", "s3accesskey", Settings.Current.S3AwsSecretAccessKey) +
                            string.Format(@"<{0}>{1}</{0}>", "ec2keyid", Settings.Current.Ec2AwsAccessKeyId) +
                            string.Format(@"<{0}>{1}</{0}>", "ec2accesskey", Settings.Current.Ec2AwsSecretAccessKey) +
-                           string.Format(@"<{0}>{1}</{0}>", "SubChunkSize", Settings.Current.SubChunkSize) +
                            string.Format(@"<{0}>{1}</{0}>", "bucket", Settings.Current.Bucket);
 
                         var psi =

@@ -15,14 +15,18 @@ INSERT INTO {sc}.CDM_SOURCE
      VALUES
            (
 		   'Truven Health MarketScan® Multi-State Medicaid Database',
-		   'MDCD',
+		   'Truven MDCD',
 		   'Janssen R&D',
-		   'Truven Health MarketScan® Multi-State Medicaid Database (MDCD) adjudicated US health insurance claims for Medicaid enrollees from multiple states and includes hospital discharge diagnoses, outpatient diagnoses and procedures, and outpatient pharmacy claims as well  as ethnicity and Medicare eligibility.  Members maintain their same identifier even if they leave the system for a brief period however the dataset lacks lab data. [For further information link to RWE site for Truven MDCD.](https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F4136471c-0662-4ca7-b091-4d6120358f74.xml)',
-			'http://hicoe.jnj.com/DataSources/Truven/MDCD',
+		   'Truven Health MarketScan® Multi-State Medicaid Database (MDCD) adjudicated US health insurance claims for Medicaid enrollees from multiple states and includes hospital discharge diagnoses, outpatient diagnoses and procedures, and outpatient pharmacy claims as well  as ethnicity and Medicare eligibility.  Members maintain their same identifier even if they leave the system for a brief period however the dataset lacks lab data. 
+
+The major data elements contained within this database are outpatient pharmacy dispensing claims (coded with National Drug Codes (NDC), inpatient and outpatient medical claims which provide procedure codes (coded in CPT-4, HCPCs, ICD-9-CM or ICD-10-PCS) and diagnosis codes (coded in ICD-9-CM or ICD-10-CM).  The data does not contain laboratory results. 
+
+[For further information link to RWE site for Truven MDCD.](https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F4136471c-0662-4ca7-b091-4d6120358f74.xml)',
+			'https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F4136471c-0662-4ca7-b091-4d6120358f74.xml',
 			'http://www.ohdsi.org/web/wiki/doku.php?id=documentation:example_etls',
 			'{0}',
 			'{3}',
-			'V5.0.1',
+			'V5.2.0',
 			'{1}'
 		   );
 

@@ -46,6 +46,86 @@ namespace org.ohdsi.cdm.tests
       }
 
       [Test]
+      public void TestDrugExposuresGap1()
+      {
+         var drugExposures = new List<DrugExposure>
+                                {
+                                   new DrugExposure(new Entity
+                                                       {
+                                                          ConceptId = 1,
+                                                          PersonId = 1,
+                                                          StartDate = DateTime.Parse("2001-01-15"),
+                                                          EndDate = DateTime.Parse("2001-02-15")
+                                                       })
+                                      {GetEraConceptIdsCall = GetEraConceptIds2},
+                                   new DrugExposure(new Entity
+                                                       {
+                                                          ConceptId = 1,
+                                                          PersonId = 1,
+                                                          StartDate = DateTime.Parse("2001-02-25"),
+                                                          EndDate = DateTime.Parse("2001-03-01")
+                                                       })
+                                      {GetEraConceptIdsCall = GetEraConceptIds2}
+                                };
+
+         var eras = EraHelper.GetEras(drugExposures, 30, 0).ToList();
+
+         Assert.AreEqual(eras.Count, 1);
+         Assert.AreEqual(eras[0].StartDate, DateTime.Parse("2001-01-15"));
+         Assert.AreEqual(eras[0].EndDate, DateTime.Parse("2001-03-01"));
+         Assert.AreEqual(eras[0].GapDays, 10);
+         Assert.AreEqual(eras[0].OccurrenceCount, 2);
+      }
+
+      [Test]
+      public void TestDrugExposuresGap2()
+      {
+         var drugExposures = new List<DrugExposure>
+                                {
+                                   new DrugExposure(new Entity
+                                                       {
+                                                          ConceptId = 1,
+                                                          PersonId = 1,
+                                                          StartDate = DateTime.Parse("2001-01-15"),
+                                                          EndDate = DateTime.Parse("2001-02-15")
+                                                       })
+                                      {GetEraConceptIdsCall = GetEraConceptIds2},
+                                   new DrugExposure(new Entity
+                                                       {
+                                                          ConceptId = 1,
+                                                          PersonId = 1,
+                                                          StartDate = DateTime.Parse("2001-02-01"),
+                                                          EndDate = DateTime.Parse("2001-03-01")
+                                                       })
+                                      {GetEraConceptIdsCall = GetEraConceptIds2},
+                                      new DrugExposure(new Entity
+                                                       {
+                                                          ConceptId = 1,
+                                                          PersonId = 1,
+                                                          StartDate = DateTime.Parse("2001-03-15"),
+                                                          EndDate = DateTime.Parse("2001-04-01")
+                                                       })
+                                      {GetEraConceptIdsCall = GetEraConceptIds2},
+                                      new DrugExposure(new Entity
+                                                       {
+                                                          ConceptId = 1,
+                                                          PersonId = 1,
+                                                          StartDate = DateTime.Parse("2001-04-05"),
+                                                          EndDate = DateTime.Parse("2001-04-27")
+                                                       })
+                                      {GetEraConceptIdsCall = GetEraConceptIds2}
+                                };
+
+         var eras = EraHelper.GetEras(drugExposures, 30, 0).ToList();
+
+         Assert.AreEqual(eras.Count, 1);
+         Assert.AreEqual(eras[0].StartDate, DateTime.Parse("2001-01-15"));
+         Assert.AreEqual(eras[0].EndDate, DateTime.Parse("2001-04-27"));
+         Assert.AreEqual(eras[0].GapDays, 18);
+         Assert.AreEqual(eras[0].OccurrenceCount, 4);
+      }
+
+      [Test]
       public void TestDrugExposures1()
       {
          var drugExposures = new List<DrugExposure>

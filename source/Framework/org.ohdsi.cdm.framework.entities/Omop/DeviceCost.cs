@@ -5,7 +5,7 @@ namespace org.ohdsi.cdm.framework.entities.Omop
    public class DeviceCost : DeviceExposure, ICostV5
    {
       public long DeviceCostId { get; set; }
-      public string DiseaseClassLookupKey { get; set; }
+      //public string DiseaseClassLookupKey { get; set; }
       public decimal? IngredientCost { get; set; }
       public decimal? DispensingFee { get; set; }
       public decimal? AverageWholesalePrice { get; set; }
@@ -20,10 +20,10 @@ namespace org.ohdsi.cdm.framework.entities.Omop
       public decimal? TotalPaid { get; set; }
 
       public long? PayerPlanPeriodId { get; set; }
-      public long? DiseaseClassConceptId { get; set; }
+      public long? DrgConceptId { get; set; }
 
       public long? RevenueCodeConceptId { get; set; }
-      public string DiseaseClassSourceValue { get; set; }
+      public string DrgSourceValue { get; set; }
       public string RevenueCodeSourceValue { get; set; }
 
       public DeviceCost(DeviceExposure ent)
@@ -51,6 +51,9 @@ namespace org.ohdsi.cdm.framework.entities.Omop
             TotalCost = null,
             RevenueCodeConceptId = RevenueCodeConceptId,
             RevenueCodeSourceValue = RevenueCodeSourceValue,
+
+            DrgConceptId = DrgConceptId,
+            DrgSourceValue = DrgSourceValue,
 
             PayerPlanPeriodId = PayerPlanPeriodId,
 

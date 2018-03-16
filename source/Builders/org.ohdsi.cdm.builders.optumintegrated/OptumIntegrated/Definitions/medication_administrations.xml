@@ -5,7 +5,7 @@
     cast(replace(m.ptid, 'PT','') as bigint) as PersonId,
     case
     when m.encid = '' or m.encid is null then NULL
-    else cast(replace(m.encid, 'E0000','') as bigint)
+    else cast(replace(m.encid, 'E000','') as bigint)
     end as VisitOccurrenceId,
     m.provid,
     m.order_date,

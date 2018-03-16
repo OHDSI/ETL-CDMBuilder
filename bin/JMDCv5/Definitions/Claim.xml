@@ -9,7 +9,9 @@
     CASE
     WHEN [Type of claim] LIKE 'out-patient' THEN 9202
     ELSE 9201
-    END as place_of_service_concept_id
+    END as place_of_service_concept_id,
+    points * 10 AS total_paid,
+    44818592 as CurrencyConceptId
     FROM {sc}.[Claim] c
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND c.[Member ID] = ch.PERSON_SOURCE_VALUE
     order by CAST(RIGHT([Member ID], LEN([Member ID]) - 1) AS BIGINT)
@@ -33,4 +35,10 @@
       </Concepts>
     </VisitOccurrenceDefinition>
   </VisitOccurrence>
+  <VisitCost>
+    <VisitCostDefinition>
+      <TotalPaid>total_paid</TotalPaid>
+      <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+    </VisitCostDefinition>
+  </VisitCost>
 </QueryDefinition>

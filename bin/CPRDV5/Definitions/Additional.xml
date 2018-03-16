@@ -217,7 +217,7 @@
      case when a.[enttype] = 372 then 1 else 0 end as is372
      FROM a
      JOIN {sc}.Clinical b on a.adid = b.adid and RIGHT(a.patid,3) = RIGHT(b.patid,3)
-     LEFT JOIN {sc}.[Lookup] c on c.lookup_type_id = (SELECT [lookup_type_id] FROM [LookupType] WHERE name = 'SUM') and a.sm_units = c.code
+     LEFT JOIN {sc}.[Lookup] c on c.lookup_type_id = (SELECT [lookup_type_id] FROM {sc}.[LookupType] WHERE name = 'SUM') and a.sm_units = c.code
      where b.eventdate is not null and a.value_as_string != 'Data Not Entered' and a.value_as_string is not null
      and a.value_as_string != ' '
      order by a.patid
@@ -255,7 +255,7 @@
             </Mapper>
           </ConceptIdMappers>
           <Fields>
-            <Field key="units_source_value" defaultTypeId="0"/>
+            <Field key="units_source_value" defaultTypeId="0" />
           </Fields>
         </Concept>
       </Concepts>
@@ -323,7 +323,7 @@
                   </Mapper>
                </ConceptIdMappers>
                <Fields>
-                  <Field key="units_source_value" defaultTypeId="0"/>
+                  <Field key="units_source_value" defaultTypeId="0" />
                </Fields>
             </Concept>
          </Concepts>

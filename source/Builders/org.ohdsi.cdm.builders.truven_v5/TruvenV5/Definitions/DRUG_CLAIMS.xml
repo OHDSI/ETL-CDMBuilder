@@ -64,6 +64,7 @@
       <DrugExposureDefinition>
          <PersonId>PERSON_ID</PersonId>
          <StartDate>DRUG_EXPOSURE_START_DATE</StartDate>
+         <EndDate>DRUG_EXPOSURE_START_DATE</EndDate>
          <DaysSupply>DAYS_SUPPLY</DaysSupply>
          <Refill>REFILLS</Refill>
          <Quantity>QUANTITY</Quantity>

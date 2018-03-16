@@ -21,8 +21,8 @@ namespace org.ohdsi.cdm.framework.entities.Builder
       public DateTime? CopyVocabularyEnd { get; private set; }
       public DateTime? CreateIndexesStart { get; private set; }
       public DateTime? CreateIndexesEnd { get; private set; }
-      public DateTime? AchillesStart { get; private set; }
-      public DateTime? AchillesEnd { get; private set; }
+      public DateTime? PostprocessStart { get; private set; }
+      public DateTime? PostprocessEnd { get; private set; }
 
       public bool DestinationStarted
       {
@@ -173,28 +173,28 @@ namespace org.ohdsi.cdm.framework.entities.Builder
          }
       }
 
-      public bool AchillesStarted
+      public bool PostprocessStarted
       {
          get
          {
-            if (AchillesFinished)
+            if (PostprocessFinished)
                return false;
 
-            if (!AchillesStart.HasValue)
+            if (!PostprocessStart.HasValue)
                return false;
 
-            return AchillesStart.Value != DateTime.MinValue;
+            return PostprocessStart.Value != DateTime.MinValue;
          }
       }
 
-      public bool AchillesFinished
+      public bool PostprocessFinished
       {
          get
          {
-            if (!AchillesEnd.HasValue)
+            if (!PostprocessEnd.HasValue)
                return false;
 
-            return AchillesEnd.Value != DateTime.MinValue;
+            return PostprocessEnd.Value != DateTime.MinValue;
          }
       }
       #endregion
@@ -216,8 +216,8 @@ namespace org.ohdsi.cdm.framework.entities.Builder
          CopyVocabularyEnd = reader.GetDateTime("CopyVocabularyEnd");
          CreateIndexesStart = reader.GetDateTime("CreateIndexesStart");
          CreateIndexesEnd = reader.GetDateTime("CreateIndexesEnd");
-         AchillesStart = reader.GetDateTime("AchillesStart");
-         AchillesEnd = reader.GetDateTime("AchillesEnd");
+         PostprocessStart = reader.GetDateTime("PostprocessStart");
+         PostprocessEnd = reader.GetDateTime("PostprocessEnd");
       }
       #endregion
    }

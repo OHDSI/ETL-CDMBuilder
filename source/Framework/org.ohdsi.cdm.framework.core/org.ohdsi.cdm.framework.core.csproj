@@ -63,7 +63,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Base\ChunkBuilder.cs" />
-    <Compile Include="Base\ChunkBuilder2.cs" />
+    <Compile Include="Base\RedshiftChunkBuilder.cs" />
     <Compile Include="Base\ChunkPart.cs" />
     <Compile Include="Base\IChunkBuilder.cs" />
     <Compile Include="Base\IPersonBuilder.cs" />
@@ -74,20 +74,18 @@
     <Compile Include="Common\Services\ServicesManager.cs" />
     <Compile Include="Common\Services\VocabularyService.cs" />
     <Compile Include="Controllers\BuilderController.cs" />
-    <Compile Include="Controllers\AchillesController.cs" />
     <Compile Include="Controllers\ChunkController.cs" />
-    <Compile Include="Databases\APSDatabaseEngine.cs" />
     <Compile Include="Databases\DatabaseEngine.cs" />
     <Compile Include="Databases\IDatabaseEngine.cs" />
     <Compile Include="Databases\MSSQLDatabaseEngine.cs" />
     <Compile Include="Databases\RedshiftDatabaseEngine.cs" />
     <Compile Include="Definitions\CareSiteDefinition.cs" />
     <Compile Include="Definitions\CohortDefinition.cs" />
-    <Compile Include="Definitions\Column.cs" />
     <Compile Include="Definitions\Concept.cs" />
     <Compile Include="Definitions\Condition.cs" />
     <Compile Include="Definitions\ConditionOccurrenceDefinition.cs" />
-    <Compile Include="Definitions\ConjunctionTypes.cs" />
+    <Compile Include="Definitions\NoteDefinition.cs" />
+    <Compile Include="Definitions\CostDefinition.cs" />
     <Compile Include="Definitions\ObservationCostDefinition.cs" />
     <Compile Include="Definitions\MeasurementCostDefinition.cs" />
     <Compile Include="Definitions\DeviceCostDefinition.cs" />
@@ -109,17 +107,11 @@
     <Compile Include="Definitions\ProcedureOccurrenceDefinition.cs" />
     <Compile Include="Definitions\ProviderDefinition.cs" />
     <Compile Include="Definitions\QueryDefinition.cs" />
-    <Compile Include="Definitions\Rule.cs" />
-    <Compile Include="Definitions\RuleType.cs" />
-    <Compile Include="Definitions\Transformation.cs" />
     <Compile Include="Definitions\VisitOccurrenceDefinition.cs" />
-    <Compile Include="Definitions\DynamicQuery.cs" />
     <Compile Include="Extensions\QueryDefinitionExtensions.cs" />
     <Compile Include="Helpers\AmazonS3Helper.cs" />
     <Compile Include="Helpers\EraHelper.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="Databases\QueryGenerator.cs" />
-    <Compile Include="Savers\APSSaver.cs" />
     <Compile Include="Savers\RedshiftSaver.cs" />
     <Compile Include="Settings\BuilderSettings.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
@@ -142,21 +134,22 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AWSSDK.Core.3.3.17.10\lib\net45\AWSSDK.Core.dll</HintPath>
+      <HintPath>..\..\packages\AWSSDK.Core.3.3.21.10\lib\net45\AWSSDK.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="AWSSDK.EC2, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AWSSDK.EC2.3.3.28\lib\net45\AWSSDK.EC2.dll</HintPath>
+      <HintPath>..\..\packages\AWSSDK.EC2.3.3.42.1\lib\net45\AWSSDK.EC2.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AWSSDK.S3.3.3.11\lib\net45\AWSSDK.S3.dll</HintPath>
+      <HintPath>..\..\packages\AWSSDK.S3.3.3.17\lib\net45\AWSSDK.S3.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="CsvHelper, Version=3.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CsvHelper.3.0.0-beta7\lib\net451\CsvHelper.dll</HintPath>
+    <Reference Include="CsvHelper, Version=6.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CsvHelper.6.1.1\lib\net45\CsvHelper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -165,42 +158,6 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Common\APS\AddUsers.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Common\APS\TruncateWithoutLookupTables.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Common\APS\TruncateTables.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Common\APS\CreateChunkTable.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Common\APS\CreateDestination.sql">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Common\APS\CreateIndexesChunkTable.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Common\APS\DropChunkTable.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Common\APS\TruncateLookup.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Common\APS\v5\CopyVocabulary.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Common\APS\v5\CreateIndexes.sql">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Common\APS\v5\CreateTables.sql">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Common\Lookups\Maps_to_Value.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -219,6 +176,29 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Common\MSSQL\AddUsers.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\MSSQL\v5.2\CopyVocabulary.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\MSSQL\v5.2\CreateIndexes.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\MSSQL\v5.2\CreateTables.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\MSSQL\v5.2\DropVocabularyTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\MSSQL\v5.2\TruncateLookup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\MSSQL\v5.2\TruncateTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\MSSQL\v5.2\TruncateWithoutLookupTables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Common\MSSQL\v5.01\CopyVocabulary.sql">
@@ -358,6 +338,69 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Common\Redshift\v5.2\CopyVocabulary.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.2\CreateIndexes.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.2\CreateTables.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.2\DropVocabularyTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.2\TruncateLookup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.2\TruncateTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.2\TruncateWithoutLookupTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.2\Vocabulary\concept.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.2\Vocabulary\concept_ancestor.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.2\Vocabulary\concept_class.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.2\Vocabulary\concept_relationship.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.2\Vocabulary\concept_synonym.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.2\Vocabulary\domain.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.2\Vocabulary\drug_strength.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.2\Vocabulary\relationship.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.2\Vocabulary\source_to_concept_map.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Common\Redshift\v5.2\Vocabulary\vocabulary.sql">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Common\Redshift\v5\DropVocabularyTables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -436,10 +479,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\APSClient\APSClient.csproj">
-      <Project>{1548394d-e779-4752-af7b-d3bb612fc09e}</Project>
-      <Name>APSClient</Name>
-    </ProjectReference>
     <ProjectReference Include="..\org.ohdsi.cdm.framework.data\org.ohdsi.cdm.framework.data.csproj">
       <Project>{e41e1c0d-6032-4cbc-b3a5-dd262445609f}</Project>
       <Name>org.ohdsi.cdm.framework.data</Name>
@@ -454,15 +493,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Common\Redshift\Achilles.R">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Common\APS\Achilles.R">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Common\MSSQL\Achilles.R">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

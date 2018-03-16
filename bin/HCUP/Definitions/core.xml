@@ -63,7 +63,7 @@
     prday11, prday12, prday13, prday14, prday15,
 
     drg,
-
+    totchg_x,
     discwt,
 
     CAST((CAST(year AS VARCHAR) + '-01' + '-01') AS DATE) as start_date,
@@ -134,7 +134,7 @@
     prday11, prday12, prday13, prday14, prday15,
 
     drg,
-
+    totchg_x,
     discwt,
 
     CAST((CAST(year AS VARCHAR) + '-01' + '-01') AS DATE) as start_date,
@@ -192,6 +192,12 @@
       </Concepts>
     </VisitOccurrenceDefinition>
   </VisitOccurrence>
+
+  <VisitCost>
+    <VisitCostDefinition>
+      <TotalPaid>totchg_x</TotalPaid>
+    </VisitCostDefinition>
+  </VisitCost>
 
   <ConditionOccurrence>
     <ConditionOccurrenceDefinition>

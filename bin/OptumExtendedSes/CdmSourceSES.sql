@@ -14,17 +14,19 @@ INSERT INTO {sc}.CDM_SOURCE
            ,VOCABULARY_VERSION)
      VALUES
            (
-		   'Optum Extended SES',
-		   'SES',
+		   'Optum’s  Clinformatics® Extended Data Mart – Socio-Economic Status (SES)',
+		   'OPTUM Extended SES',
 		   'Janssen R&D',
-		    'Clinformatics Extended DataMart (CEDM) is a robust, longitudinally-linked, statistically de-identified database consisting of de-identified individual-level data.
+		   'Optum Clinformatics® Extended DataMart is an adjudicated administrative health claims database for members with private health insurance, who are fully insured in commercial plans or in administrative services only (ASOs), Legacy Medicare Choice Lives (prior to January 2006), and Medicare Advantage (Medicare Advantage Prescription Drug coverage starting January 2006).  The population is primarily representative of US commercial claims patients (0-65 years old) with some Medicare (65+ years old) however ages are capped at 90 years.  It includes data captured from administrative claims processed from inpatient and outpatient medical services and prescriptions as dispensed, as well as results for outpatient lab tests processed by large national lab vendors who participate in data exchange with Optum.  Optum SES provides socio-economic status for members with both medical and pharmacy coverage and location information for patients it at the US Census Division. 
 
-The SES portion of CEDM provides Socio-Economic Status for members with both medical and pharmacy coverage. It may not be linked with the other portions of CEDM (Date of Death, Non-Affiliate).  The DOD portion of CEDM provides date of death for its members as well as location.',
-			'https://jnj.sharepoint.com/sites/PHM-GCSP-RND/RWE/Pages/DataSourceDetails.aspx?DataSourceItem=39',
+The major data elements contained within this database are outpatient pharmacy dispensing claims (coded with National Drug Codes (NDC), inpatient and outpatient medical claims which provide procedure codes (coded in CPT-4, HCPCs, ICD-9-CM or ICD-10-PCS) and diagnosis codes (coded in ICD-9-CM or ICD-10-CM).  The data also contain selected laboratory test results (those sent to a contracted thirds-party laboratory service provider) for a non-random sample of the population (coded with LOINC codes).  
+
+[For further information link to RWE site for Optum SES.](https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2Fd27742b7-6a17-4a6c-96f4-a4c5a486155a.xml)',
+			'https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2Fd27742b7-6a17-4a6c-96f4-a4c5a486155a.xml',
 			'https://github.com/OHDSI/ETL-CDMBuilder/tree/master/man',
 			'{0}',
 			'{3}',
-			'V5.0.1',
+			'V5.2.0',
 			'{1}'
 		   );
 

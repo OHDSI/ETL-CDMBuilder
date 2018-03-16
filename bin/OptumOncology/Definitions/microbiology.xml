@@ -4,7 +4,7 @@
     cast(replace(m.ptid, 'PT','') as bigint) as PersonId,
     case
     when m.encid = '' or m.encid is null then NULL
-    else cast(replace(m.encid, 'E0000','') as bigint)
+    else cast(replace(m.encid, 'E000','') as bigint)
     end as VisitOccurrenceId,
     m.collect_date,
     m.collect_time,
@@ -28,7 +28,7 @@
       <Concepts>
         <Concept>
           <Fields>
-            <Field key="specimen_source" defaultConceptId="0" defaultTypeId="44818702"/>
+            <Field key="specimen_source" defaultConceptId="4155370" defaultTypeId="44818702"/>
           </Fields>
         </Concept>
       </Concepts>

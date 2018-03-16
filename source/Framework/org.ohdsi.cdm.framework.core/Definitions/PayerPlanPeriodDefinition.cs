@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.entities.Omop;
 using org.ohdsi.cdm.framework.shared.Extensions;
@@ -19,7 +20,12 @@ namespace org.ohdsi.cdm.framework.core.Definitions
 
          var startDate = reader.GetDateTime(StartDate);
          var endDate = reader.GetDateTime(EndDate);
+         long? id = 0;
 
+         if (!string.IsNullOrEmpty(Id))
+         {
+            id = reader.GetLong(Id);
+         }
 
          if (personId.HasValue)
          {
@@ -43,6 +49,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
             
             yield return new PayerPlanPeriod
                             {
+                               Id = id ?? 0,
                                PersonId = personId.Value,
                                StartDate = startDate,
                                EndDate = endDate,

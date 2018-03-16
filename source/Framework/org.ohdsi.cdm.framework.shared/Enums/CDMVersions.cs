@@ -10,6 +10,10 @@ namespace org.ohdsi.cdm.framework.shared.Enums
 
       [Folder("v5.01")]
       [IngredientLevelFileAttribute("IngredientLevelV5.sql")]
-      v501
+      v501,
+
+      [Folder("v5.2")]
+      [IngredientLevelFileAttribute("IngredientLevelV5.sql")]
+      v52
    }
 }

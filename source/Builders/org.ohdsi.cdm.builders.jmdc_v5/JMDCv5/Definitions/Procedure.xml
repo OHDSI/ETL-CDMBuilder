@@ -9,8 +9,7 @@
     ELSE 38000184
     END AS procedure_type_concept_id,
     CAST('1' + RIGHT([Institution ID], LEN([Institution ID]) - 1) AS BIGINT) AS associated_provider_id,
-    [ICD9CM_level1] AS procedure_source_value,
-    [Actual point] * 10 AS total_paid
+    [ICD9CM_level1] AS procedure_source_value
     FROM {sc}.[Procedure] p
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND p.[Member ID] = ch.PERSON_SOURCE_VALUE
     order by CAST(RIGHT([Member ID], LEN([Member ID]) - 1) AS BIGINT)
@@ -41,9 +40,9 @@
       </Concepts>
     </ProcedureOccurrenceDefinition>
   </ProcedureOccurrence>
-  <ProcedureCost>
+  <!--<ProcedureCost>
     <ProcedureCostDefinition>
       <TotalPaid>total_paid</TotalPaid>
     </ProcedureCostDefinition>
-  </ProcedureCost>
+  </ProcedureCost>-->
 </QueryDefinition>

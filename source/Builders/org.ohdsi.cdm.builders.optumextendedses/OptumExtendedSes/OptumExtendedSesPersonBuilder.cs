@@ -221,8 +221,8 @@ namespace org.ohdsi.cdm.builders.optumextendedses
 
       private static int GetConditionTypeConceptId(int position, long visitTypeId)
       {
-         if (position > 14)
-            position = 14;
+         if (position > 15)
+            position = 15;
 
          if (visitTypeId == 9201)
          {
@@ -413,7 +413,7 @@ namespace org.ohdsi.cdm.builders.optumextendedses
       {
          var result = new HashSet<ConditionOccurrence>();
          var dateClaimTypeDictionary = new Dictionary<DateTime, Dictionary<string, List<IEntity>>>();
-         foreach (var conditionOccurrence in conditionOccurrences)
+         foreach (var conditionOccurrence in conditionOccurrences.Where(co => co.TypeConceptId.HasValue && !string.IsNullOrEmpty(co.TypeConceptId.ToString())))
          {
             var visitOccurrence = GetVisitOccurrence(conditionOccurrence);
             if (visitOccurrence == null)
@@ -442,7 +442,7 @@ namespace org.ohdsi.cdm.builders.optumextendedses
             AddToDateClaimTypeDictionary(dateClaimTypeDictionary, conditionOccurrence, visitOccurrence);
          }
 
-         foreach (var sameStartDate in conditionOccurrences.Where(c => c.VisitOccurrenceId.HasValue && !string.IsNullOrEmpty(c.SourceValue)).GroupBy(c => c.StartDate))
+         foreach (var sameStartDate in conditionOccurrences.Where(c => c.TypeConceptId.HasValue && !string.IsNullOrEmpty(c.TypeConceptId.ToString()) && c.VisitOccurrenceId.HasValue && !string.IsNullOrEmpty(c.SourceValue)).GroupBy(c => c.StartDate))
          {
             foreach (var sameVisit in sameStartDate.GroupBy(c => c.VisitOccurrenceId))
             {
@@ -556,7 +556,7 @@ namespace org.ohdsi.cdm.builders.optumextendedses
          var cdProcedures = new List<ProcedureOccurrence>();
          var otherProcedures = new List<ProcedureOccurrence>();
 
-         foreach (var procedureOccurrence in procedureOccurrences)
+         foreach (var procedureOccurrence in procedureOccurrences.Where(po => po.TypeConceptId.HasValue && !string.IsNullOrEmpty(po.TypeConceptId.ToString())))
          {
             if(procedureOccurrence.SourceValue == "0000000")
                continue;
@@ -720,6 +720,12 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                continue;
             }
 
+            if (similarDrugs.Count(d => d.SourceConceptId > 0) > 0)
+            {
+               yield return similarDrugs.Where(d => d.SourceConceptId > 0).OrderBy(d => d.SourceValue.Length).Last();
+               continue;
+            }
+
             yield return similarDrugs.OrderBy(d => d.SourceValue.Length).Last();
          }
 
@@ -759,7 +765,17 @@ namespace org.ohdsi.cdm.builders.optumextendedses
       {
          foreach (var observation in base.BuildObservations(observations, visitOccurrences, observationPeriods))
          {
-            if (!observation.StartDate.Between(observation.ValidStartDate, observation.ValidEndDate))
+            if (observation.TypeConceptId == 44814721)
+            {
+               if (observation.ConceptId != 4076206)
+               {
+                  observation.ValueAsNumber = null;
+               }
+
+               observation.StartDate = observationPeriods.Min(op => op.StartDate);
+               observation.SourceValue = null;
+            }
+            else if (observation.TypeConceptId != 44786634 && !observation.StartDate.Between(observation.ValidStartDate, observation.ValidEndDate))
             {
                observation.ConceptId = 0;
             }
@@ -772,7 +788,11 @@ namespace org.ohdsi.cdm.builders.optumextendedses
          ObservationPeriod[] observationPeriods)
       {
          var mes = new List<Measurement>();
-         foreach (var grouped in measurements.GroupBy(m => m.SourceRecordGuid))
+         var hra = measurements.Where(m => m.TypeConceptId == 44786633).ToArray();
+         if(hra.Any())
+            mes.AddRange(hra);
+
+         foreach (var grouped in measurements.Where(m => m.TypeConceptId != 44786633).GroupBy(m => m.SourceRecordGuid))
          {
             // First, look for LOINC_CD. If no map exists, then look for PROC_CD
             var isLOINCExsits = grouped.Count() > 1 && grouped.Any(m => m.TypeConceptId == 1 && m.ConceptId > 0);
@@ -899,7 +919,7 @@ namespace org.ohdsi.cdm.builders.optumextendedses
             procedureCosts,
             observations,
             measurements,
-            visitOccurrences.Values.ToArray(), visitCosts, new Cohort[0], deviceExposure, devicCosts);
+            visitOccurrences.Values.ToArray(), visitCosts, new Cohort[0], deviceExposure, devicCosts, new Note[0]);
       }
 
       protected override void SetPayerPlanPeriodId(PayerPlanPeriod[] payerPlanPeriods, DrugExposure[] drugExposures,
@@ -1055,12 +1075,20 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                      mes.ValueAsConceptId = result.Any() ? result[0].ConceptId : 0;
                   }
 
-                  if (entity.AdditionalFields != null && entity.AdditionalFields.ContainsKey("units"))
+                  // HIX-1363
+                  //if rslt_nbr is non-zero, take it for both fields, otherwise, 
+                  //use NULL for value_as_number and take rslt_txt for value_as_string.
+                  if (mes.ValueAsNumber != null && mes.ValueAsNumber != 0)
                   {
-                     decimal valueAsNumber;
-                     decimal.TryParse(entity.AdditionalFields["units"], out valueAsNumber);
-                     mes.ValueAsNumber = valueAsNumber;
+                     mes.ValueSourceValue = mes.ValueAsNumber.ToString();
                   }
+                  
+                  //if (entity.AdditionalFields != null && entity.AdditionalFields.ContainsKey("units"))
+                  //{
+                  //   decimal valueAsNumber;
+                  //   decimal.TryParse(entity.AdditionalFields["units"], out valueAsNumber);
+                  //   mes.ValueAsNumber = valueAsNumber;
+                  //}
 
                   if (entity.AdditionalFields == null || !entity.AdditionalFields.ContainsKey("source") ||
                       entity.AdditionalFields["source"] != "lab")
@@ -1088,15 +1116,26 @@ namespace org.ohdsi.cdm.builders.optumextendedses
                      o.TypeConceptId = 38000277;
                   }
 
-                  if (entity.AdditionalFields != null && entity.AdditionalFields.ContainsKey("units"))
+                  if (entity.AdditionalFields != null)
                   {
-                     decimal valueAsNumber;
-                     decimal.TryParse(entity.AdditionalFields["units"], out valueAsNumber);
-                     o.ValueAsNumber = valueAsNumber;
+                     if (entity.AdditionalFields.ContainsKey("units"))
+                     {
+                        decimal valueAsNumber;
+                        decimal.TryParse(entity.AdditionalFields["units"], out valueAsNumber);
+                        o.ValueAsNumber = valueAsNumber;
+                     }
+
+                     if (entity.AdditionalFields.ContainsKey("value_as_string_" + o.ConceptId))
+                     {
+                        o.ValueAsString = entity.AdditionalFields["value_as_string_" + o.ConceptId];
+                     }
                   }
 
-                  chunkData.AddData(o);
-                  AddCost(entity, CostV5ToV51_MesObser("Observation"));
+                  if (o.TypeConceptId != 44814721 || !string.IsNullOrEmpty(o.ValueAsString))
+                  {
+                     chunkData.AddData(o);
+                     AddCost(entity, CostV5ToV51_MesObser("Observation"));
+                  }
                   break;
 
                case "Procedure":

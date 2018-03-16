@@ -1,1 +1,1 @@
-create database {0}
+create database {0};

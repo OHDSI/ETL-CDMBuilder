@@ -4,7 +4,7 @@
     cast(replace(o.ptid, 'PT','') as bigint) as PersonId,
     case
     when o.encid = '' or o.encid is null then NULL
-    else cast(replace(o.encid, 'E0000','') as bigint)
+    else cast(replace(o.encid, 'E000','') as bigint)
     end as VisitOccurrenceId,
     o.obs_type,
     o.obs_date,
@@ -107,7 +107,7 @@
             </Mapper>
           </ConceptIdMappers>
           <Fields>
-            <Field key="obs_unit" defaultTypeId="0" ignoreCase="true"/>
+            <Field key="obs_unit" defaultTypeId="0" />
           </Fields>
         </Concept>
       </Concepts>

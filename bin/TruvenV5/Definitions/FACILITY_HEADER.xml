@@ -2,9 +2,6 @@
   <Variables>
     <Variable name="providField" database="ccae, mdcr">CAST(PROVID AS VARCHAR)</Variable>
     <Variable name="providField" database="mdcd">PROV_ID</Variable>
-
-    <Variable name="icdVer" database="ccae, mdcr">CASE WHEN DXVER NOT IN ('0', '9') THEN CASE WHEN SVCDATE &lt; '10/01/2015' THEN '9' ELSE '0' END ELSE DXVER END as DXVER, '9' as PROCTYP</Variable>
-    <Variable name="icdVer" database="mdcd">'9' as DXVER, '9' as PROCTYP</Variable>
   </Variables>
   <Query>
     with a as
@@ -20,7 +17,7 @@
     ELSE 0
     END as DIED,
     3 priority,
-    {icdVer},
+    CASE WHEN DXVER NOT IN ('0', '9') THEN CASE WHEN SVCDATE &lt; '10/01/2015' THEN '9' ELSE '0' END ELSE DXVER END as DXVER, '9' as PROCTYP,
     CASE
     WHEN DSTATUS = '01' THEN 'Discharged to home self care'
     WHEN DSTATUS = '02' THEN 'Transfer to short term hospital'
@@ -137,11 +134,49 @@
         </Concept>
       </Concepts>
     </ConditionOccurrenceDefinition>
+    <ConditionOccurrenceDefinition>
+      <PersonId>ENROLID</PersonId>
+      <StartDate>SVCDATE</StartDate>
+      <ProviderIdKey>ProviderIdKey</ProviderIdKey>
+      <AdditionalFields>
+        <string>FACHDID</string>
+        <string>YEAR</string>
+        <string>priority</string>
+        <string>DXVER</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\Procedure.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\ProcedureSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="DX1" defaultTypeId="102"/>
+            <Field key="DX2" defaultTypeId="103"/>
+            <Field key="DX3" defaultTypeId="104"/>
+            <Field key="DX4" defaultTypeId="105"/>
+            <Field key="DX5" defaultTypeId="106"/>
+            <Field key="DX6" defaultTypeId="107"/>
+            <Field key="DX7" defaultTypeId="108"/>
+            <Field key="DX8" defaultTypeId="109"/>
+            <Field key="DX9" defaultTypeId="110"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
   </ConditionOccurrence>
   <DrugExposure>
     <DrugExposureDefinition>
       <PersonId>ENROLID</PersonId>
       <StartDate>SVCDATE</StartDate>
+      <EndDate>SVCDATE</EndDate>
       <ProviderIdKey>ProviderIdKey</ProviderIdKey>
       <Concepts>
         <Concept>
@@ -209,7 +244,6 @@
   </ProcedureOccurrence>
   <Death>
     <DeathDefinition>
-      <Condition>{DXVER} = 9</Condition>
       <PersonId>ENROLID</PersonId>
       <StartDate>SVCDATE</StartDate>
       <Died>DIED</Died>
@@ -228,42 +262,6 @@
           <ConceptIdMappers>
             <Mapper>
               <Lookup>TruvenV5\Lookups\DeathCodes.sql</Lookup>
-            </Mapper>
-          </ConceptIdMappers>
-          <Fields>
-            <Field key="DX1" defaultTypeId="38003567"/>
-            <Field key="DX2" defaultTypeId="38003567"/>
-            <Field key="DX3" defaultTypeId="38003567"/>
-            <Field key="DX4" defaultTypeId="38003567"/>
-            <Field key="DX5" defaultTypeId="38003567"/>
-            <Field key="DX6" defaultTypeId="38003567"/>
-            <Field key="DX7" defaultTypeId="38003567"/>
-            <Field key="DX8" defaultTypeId="38003567"/>
-            <Field key="DX9" defaultTypeId="38003567"/>
-          </Fields>
-        </Concept>
-      </Concepts>
-    </DeathDefinition>
-    <DeathDefinition>
-      <Condition>{DXVER} = 0</Condition>
-      <PersonId>ENROLID</PersonId>
-      <StartDate>SVCDATE</StartDate>
-      <Died>DIED</Died>
-      <AdditionalFields>
-        <string>FACHDID</string>
-        <string>YEAR</string>
-        <string>priority</string>
-      </AdditionalFields>
-      <Concepts>
-        <Concept>
-          <Fields>
-            <Field key="DSTATUS" defaultConceptId="1" defaultTypeId="38003566"/>
-          </Fields>
-        </Concept>
-        <Concept>
-          <ConceptIdMappers>
-            <Mapper>
-              <Lookup>TruvenV5\Lookups\DeathCodes_ICD10.sql</Lookup>
             </Mapper>
           </ConceptIdMappers>
           <Fields>

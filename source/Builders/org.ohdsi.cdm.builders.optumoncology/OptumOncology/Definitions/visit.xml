@@ -1,23 +1,6 @@
 ﻿<QueryDefinition>
   <Query>
-    with e_p as
-    (
-    SELECT encid
-    ,ep.provid
-    ,provider_role
-    ,specialty
-    ,case when lower(provider_role) = 'attending' then 0 else 1 end as is_attending
-    ,ROW_NUMBER() OVER(partition by encid ORDER BY case when lower(provider_role) = 'attending' then 0 else 1 end, provider_role, specialty) sort_index
-    FROM {sc}.encounter_provider ep
-    join {sc}.provider p on p.provid = ep.provid
-    ),
-    e_p_filtered as
-    (
-    select encid, provid
-    from e_p
-    where sort_index = 1
-    ),
-    a as
+    with a as
     (
     select
     cast(replace(v.ptid, 'PT','') as bigint) as PersonId,
@@ -30,16 +13,30 @@
     v.visit_end_time,
     e.encid,
     ec.provid,
-    cast(replace(e.encid, 'E0000','') as bigint) as VisitOccurrenceId,
-    row_number() over (partition by v.visitid order by e.interaction_date) as ordinal
+    cast(replace(e.encid, 'E000','') as bigint) as VisitOccurrenceId,
+    row_number() over (partition by v.visitid order by e.interaction_date) as ordinal,
+    v.discharge_disposition,
+    v.admission_source,
+    ROW_NUMBER() OVER(partition by e.encid ORDER BY case when lower(provider_role) = 'attending' then 0 else 1 end, provider_role, specialty) sort_index
     from {sc}.visit v
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND v.ptid = ch.PERSON_SOURCE_VALUE
     join {sc}.encounter e on v.visitid = e.visitid
-    LEFT JOIN e_p_filtered as ec ON ec.encid = e.encid
+    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = e.encid
+    LEFT JOIN {sc}.provider p on p.provid = ec.provid
     where e.encid is not null and e.encid != ''
     )
 
-    select *,
+    select PersonId,
+    visit_start_date,
+    visit_end_date,
+    visit_start_time,
+    visit_end_time,
+    encid,
+    provid,
+    VisitOccurrenceId,
+    discharge_disposition,
+    admission_source,
+    visit_type,
     case
     when visit_type = 'Inpatient' then 9201
     when visit_type = 'Emergency patient' then 9203
@@ -47,7 +44,7 @@
     ELSE 0
     end as conceptId
     from a
-    where ordinal = 1
+    where ordinal = 1 and sort_index = 1
     order by PersonId
   </Query>
   <VisitOccurrence>
@@ -66,6 +63,26 @@
         <Concept>
           <Fields>
             <Field conceptId="conceptId" sourceKey="visit_type" defaultTypeId="44818518"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumOncology\Lookups\DischargeTo.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="discharge_disposition" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumOncology\Lookups\Admitting.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="admission_source" defaultTypeId="0"/>
           </Fields>
         </Concept>
       </Concepts>

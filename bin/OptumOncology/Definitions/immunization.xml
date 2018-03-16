@@ -13,6 +13,7 @@
     <DrugExposureDefinition>
       <PersonId>PersonId</PersonId>
       <StartDate>immunization_date</StartDate>
+      <EndDate>immunization_date</EndDate>
       <Concepts>
         <Concept>
           <ConceptIdMappers>

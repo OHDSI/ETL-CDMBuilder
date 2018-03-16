@@ -21,8 +21,8 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
       private string vocabulary;
       private string destination;
       private string apsConnectionString;
-      private bool storeToAPS;
-      private bool autoSettings;
+      
+      
       private string source;
       private Vendors vendor;
       private string saver;
@@ -168,54 +168,6 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
                if (this.PropertyChanged != null)
                {
                   this.PropertyChanged(this, new PropertyChangedEventArgs("Vocabulary"));
-               }
-            }
-         }
-      }
-
-      public string APSConnectionString
-      {
-         get { return apsConnectionString; }
-         set
-         {
-            if (value != this.apsConnectionString)
-            {
-               this.apsConnectionString = value;
-               if (this.PropertyChanged != null)
-               {
-                  this.PropertyChanged(this, new PropertyChangedEventArgs("APSConnectionString"));
-               }
-            }
-         }
-      }
-
-      public bool AutoSettings
-      {
-         get { return autoSettings; }
-         set
-         {
-            if (value != this.autoSettings)
-            {
-               this.autoSettings = value;
-               if (this.PropertyChanged != null)
-               {
-                  this.PropertyChanged(this, new PropertyChangedEventArgs("AutoSettings"));
-               }
-            }
-         }
-      }
-
-      public bool StoreToAPS
-      {
-         get { return storeToAPS; }
-         set
-         {
-            if (value != this.storeToAPS)
-            {
-               this.storeToAPS = value;
-               if (this.PropertyChanged != null)
-               {
-                  this.PropertyChanged(this, new PropertyChangedEventArgs("StoreToAPS"));
                }
             }
          }
@@ -430,7 +382,7 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
 
       public bool BuildingWorking
       {
-         get { return BuildingStarted && !BuildingComplete && buildingController.Builder.State == BuilderState.Running; }
+         get { return BuildingStarted && !BuildingComplete && !BuildingSkipped && buildingController.Builder.State == BuilderState.Running; }
       }
 
       public bool BuildingComplete
@@ -574,49 +526,49 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
       }
 
       
-      public bool AchillesStarted
+      public bool PostprocessStarted
       {
          get
          {
             if (buildingController == null) return false;
-            return buildingController.Building.AchillesStarted;
+            return buildingController.Building.PostprocessStarted;
          }
       }
 
-      public bool AchillesWorking
+      public bool PostprocessWorking
       {
-         get { return AchillesStarted && buildingController.Builder.State == BuilderState.Running; }
+         get { return PostprocessStarted && buildingController.Builder.State == BuilderState.Running; }
       }
 
-      public bool AchillesFinished
+      public bool PostprocessFinished
       {
          get
          {
             if (buildingController == null) return false;
-            return !AchillesSkipped && buildingController.Building.AchillesFinished;
+            return !PostprocessSkipped && buildingController.Building.PostprocessFinished;
          }
       }
 
-      public bool AchillesSkipped
+      public bool PostprocessSkipped
       {
          get
          {
-            return buildingController != null && IsSkipped(buildingController.Building.AchillesStart,
-               buildingController.Building.AchillesEnd);
+            return buildingController != null && IsSkipped(buildingController.Building.PostprocessStart,
+               buildingController.Building.PostprocessEnd);
          }
       }
 
-      public string AchillesInfo
+      public string PostprocessInfo
       {
          get
          {
-            if (AchillesSkipped)
+            if (PostprocessSkipped)
                return "skipped";
 
-            if (AchillesFinished)
+            if (PostprocessFinished)
             {
-               return buildingController.Building.AchillesEnd.Value.Subtract(
-                  buildingController.Building.AchillesStart.Value).ToReadableString();
+               return buildingController.Building.PostprocessEnd.Value.Subtract(
+                  buildingController.Building.PostprocessStart.Value).ToReadableString();
             }
             
             return string.Empty;
@@ -700,13 +652,15 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
       {
          get
          {
+            var title = "Building Manager";
+
             if (Settings.Current != null && Settings.Current.Builder != null && Settings.Current.Builder.IsLead)
-               return "Building Manager v." + Settings.Current.Builder.Version + " - Lead";
+               return "Building Manager v." + Settings.Current.Builder.Version + " - Lead | Load Id " + Settings.Current.Building.LoadId;
 
             if (Settings.Current != null && Settings.Current.Builder != null)
-               return "Building Manager v." + Settings.Current.Builder.Version;
+               return "Building Manager v." + Settings.Current.Builder.Version + " | Load Id " + Settings.Current.Building.LoadId;
 
-            return "Building Manager";
+            return title;
          }
       }
 
@@ -760,6 +714,11 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
       public ICommand SkipDbCreationStepCommand
       {
          get { return new DelegateCommand(SkipDbCreationStep); }
+      }
+
+      public ICommand FillPostBuildTableCommand
+      {
+         get { return new DelegateCommand(FillPostBuildTable); }
       }
 
       public ICommand ResetDbCreationStepCommand
@@ -822,14 +781,14 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
          get { return new DelegateCommand(SkipIndexesStep); }
       }
 
-      public ICommand SkipAchillesStepCommand
+      public ICommand SkipPostprocessStepCommand
       {
-         get { return new DelegateCommand(SkipAchillesStep); }
+         get { return new DelegateCommand(SkipPostprocessStep); }
       }
 
-      public ICommand ResetAchillesStepCommand
+      public ICommand ResetPostprocessStepCommand
       {
-         get { return new DelegateCommand(() => ResetAchillesStep(true)); }
+         get { return new DelegateCommand(() => ResetPostprocessStep(true)); }
       }
       #endregion
 
@@ -851,7 +810,7 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
             ResetBuildingStep(false);
             ResetVocabularyStep(false);
             //ResetIndexesStep(false);
-            ResetAchillesStep(false);
+            ResetPostprocessStep(false);
          }
       }
 
@@ -868,6 +827,14 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
          if (DestinationCreated) return;
 
          buildingController.SkipDbCreationStep();
+      }
+
+      private void FillPostBuildTable()
+      {
+         if (buildingController == null) return;
+         if (DestinationCreated) return;
+
+         buildingController.FillPostBuildTables();
       }
       
       #endregion
@@ -1061,29 +1028,29 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
       }
         #endregion
 
-        #region Achilles step
-        private void ResetAchillesStep(bool showWarningDialog)
+      #region Postprocess step
+      private void ResetPostprocessStep(bool showWarningDialog)
         {
             if (buildingController == null) return;
-            if (!AchillesFinished) return;
-            if (AchillesSkipped) return;
+            if (!PostprocessFinished) return;
+            if (PostprocessSkipped) return;
 
-            var message = "Achilles results will be reset. Continue?";
+            var message = "Postprocess results will be reset. Continue?";
 
             if (!showWarningDialog ||
                 MessageBox.Show(message, "Warning", MessageBoxButton.YesNo,
                    MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                buildingController.ResetAchillesStep();
+                buildingController.ResetPostprocessStep();
             }
         } 
         
-      private void SkipAchillesStep()
+      private void SkipPostprocessStep()
       {
          if (buildingController == null) return;
-         if (AchillesFinished) return;
+         if (PostprocessFinished) return;
 
-         buildingController.SkipAchillesStep();
+         buildingController.SkipPostprocessStep();
       }
       #endregion
 
@@ -1113,10 +1080,6 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
          {
             MaxDegreeOfParallelism = Settings.Current.Builder.MaxDegreeOfParallelism;
          }
-
-         StoreToAPS = Settings.Current.StoreToAPS;
-         AutoSettings = Settings.Current.AutoSettings;
-         APSConnectionString = Settings.Current.APSConnectionString;
          
          timer.Elapsed += OnTimer;
          timer.Start();
@@ -1195,10 +1158,10 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
             this.PropertyChanged(this, new PropertyChangedEventArgs("VocabularyCopied"));
             this.PropertyChanged(this, new PropertyChangedEventArgs("VocabularyInfo"));
 
-            this.PropertyChanged(this, new PropertyChangedEventArgs("AchillesStarted"));
-            this.PropertyChanged(this, new PropertyChangedEventArgs("AchillesWorking"));
-            this.PropertyChanged(this, new PropertyChangedEventArgs("AchillesFinished"));
-            this.PropertyChanged(this, new PropertyChangedEventArgs("AchillesInfo"));
+            this.PropertyChanged(this, new PropertyChangedEventArgs("PostprocessStarted"));
+            this.PropertyChanged(this, new PropertyChangedEventArgs("PostprocessWorking"));
+            this.PropertyChanged(this, new PropertyChangedEventArgs("PostprocessFinished"));
+            this.PropertyChanged(this, new PropertyChangedEventArgs("PostprocessInfo"));
 
             this.PropertyChanged(this, new PropertyChangedEventArgs("CurrentState"));
             this.PropertyChanged(this, new PropertyChangedEventArgs("PlayButtonChecked"));
@@ -1206,10 +1169,6 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
             this.PropertyChanged(this, new PropertyChangedEventArgs("ErrorsInfo"));
             this.PropertyChanged(this, new PropertyChangedEventArgs("OtherBuilderInfo"));
             this.PropertyChanged(this, new PropertyChangedEventArgs("Title"));
-
-            this.PropertyChanged(this, new PropertyChangedEventArgs("APSConnectionString"));
-            this.PropertyChanged(this, new PropertyChangedEventArgs("StoreToAPS"));
-            this.PropertyChanged(this, new PropertyChangedEventArgs("AutoSettings"));
          }
       }
 
@@ -1286,8 +1245,6 @@ namespace org.ohdsi.cdm.presentation.buildingmanager
          Settings.Current.Building.RawVocabularyConnectionString = Vocabulary;
          Settings.Current.Building.Vendor = Vendor;
          Settings.Current.Building.Batches = Batches;
-
-         Settings.Current.APSConnectionString = APSConnectionString;
 
          Settings.Current.Save();
       }

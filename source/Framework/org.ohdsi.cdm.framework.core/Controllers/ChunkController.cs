@@ -10,7 +10,6 @@ using Amazon.S3;
 using Amazon.S3.Transfer;
 using CsvHelper;
 using org.ohdsi.cdm.framework.core.Definitions;
-using org.ohdsi.cdm.framework.core.Helpers;
 using org.ohdsi.cdm.framework.data.DbLayer;
 using org.ohdsi.cdm.framework.entities.Omop;
 using org.ohdsi.cdm.framework.shared.Enums;
@@ -24,8 +23,6 @@ namespace org.ohdsi.cdm.framework.core.Controllers
       private readonly DbChunk dbChunk;
       private readonly DbSource dbSource;
 
-      //public long TotalPersonCount { get; private set; }
-
       public ChunkController()
       {
          dbKeyOffset = new DbKeyOffset(Settings.Current.Building.BuilderConnectionString);
@@ -38,39 +35,6 @@ namespace org.ohdsi.cdm.framework.core.Controllers
          }), Settings.Current.Building.SourceSchemaName);
       }
 
-      
-
-      //private void AddSubChunks(int chunkId, IEnumerable<KeyValuePair<string, string>> chunk)
-      //{
-      //   var subChunkSize = Settings.Current.SubChunkSize;
-      //   var count = 0;
-      //   var min = long.MaxValue;
-      //   var max = long.MinValue;
-      //   var subChunkIndex = 0;
-
-      //   foreach (var personId in chunk.OrderBy(c => Convert.ToInt64(c.Key)).Select(c => Convert.ToInt64(c.Key)))
-      //   {
-      //      if (min > personId)
-      //         min = personId;
-
-      //      if (max < personId)
-      //         max = personId;
-
-      //      count++;
-
-      //      if (count == subChunkSize)
-      //      {
-      //         dbChunk.AddSubChunk(chunkId, subChunkIndex, min, max, count);
-      //         count = 0;
-      //         min = long.MaxValue;
-      //         max = long.MinValue;
-      //         subChunkIndex++;
-      //      }
-      //   }
-
-      //   if(count > 0)
-      //      dbChunk.AddSubChunk(chunkId, subChunkIndex, min, max, count);
-      //}
 
       public void ClenupChunks()
       {
@@ -79,7 +43,6 @@ namespace org.ohdsi.cdm.framework.core.Controllers
 
       public void CreateChunks()
       {
-          //TotalPersonCount = 0;
           var chunkIds = new List<int>();
           dbKeyOffset.Recreate(Settings.Current.Building.Id.Value);
           dbChunk.ClearChunks(Settings.Current.Building.Id.Value);
@@ -92,14 +55,8 @@ namespace org.ohdsi.cdm.framework.core.Controllers
               var chunks = new List<ChunkRecord>();
               foreach (var chunk in GetPersonKeys(Settings.Current.Building.BatchSize))
               {
-                  //TotalPersonCount = TotalPersonCount + chunk.Count;
-
                   var chunkId = dbChunk.AddChunk(Settings.Current.Building.Id.Value);
                   chunkIds.Add(chunkId);
-
-                  //TMP
-                  //if (Settings.Current.Building.SourceEngine.Database == Database.MSSQL)
-                  //   AddSubChunks(chunkId, chunk);
 
                   chunks.AddRange(chunk.Select(c => new ChunkRecord { Id = chunkId, PersonId = Convert.ToInt64(c.Key), PersonSource = c.Value }));
                   var chunkSizeOnS3 = 0;
@@ -146,7 +103,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
       private static void MoveChunkDataToS3(IEnumerable<int> chunkIds)
       {
          var baseFolder = string.Format("{0}/{1}/{2}/raw", Settings.Current.Bucket, Settings.Current.Building.Vendor, Settings.Current.Building.Id);
-         //foreach (var cId in chunkIds)
+
          Parallel.ForEach(chunkIds, new ParallelOptions { MaxDegreeOfParallelism = 2 }, cId =>
         {
             var chunkId = cId;
@@ -173,12 +130,11 @@ namespace org.ohdsi.cdm.framework.core.Controllers
                     var personIdField = queryDefinition.GetPersonIdFieldName();
                     var tmpTableName = "#" + queryDefinition.FileName + "_" + chunkId;
 
-                    //sql = sql.Replace("'", @"\'");
 
                     var folder = string.Format("{0}/{1}/{2}", baseFolder, chunkId, queryDefinition.FileName);
                     var fileName = string.Format(@"{0}/{1}", folder, queryDefinition.FileName);
 
-                    var unloadQuery = string.Format(@"create table {0} distkey ({1}) as {2}; " +
+                    var unloadQuery = string.Format(@"create table {0} sortkey ({1}) distkey ({1}) as {2}; " +
                                                     @"UNLOAD ('select * from {0} order by {1}') to 's3://{3}' " +
                                                     @"DELIMITER AS '\t' " + 
                                                     @"credentials 'aws_access_key_id={4};aws_secret_access_key={5}' " +
@@ -219,7 +175,7 @@ namespace org.ohdsi.cdm.framework.core.Controllers
          {
             using (var source = new MemoryStream())
             using (TextWriter writer = new StreamWriter(source, new UTF8Encoding(false, true)))
-            using (var csv = new CsvWriter(writer, new CsvHelper.Configuration.CsvConfiguration
+            using (var csv = new CsvWriter(writer, new CsvHelper.Configuration.Configuration
             {
                HasHeaderRecord = false,
                Delimiter = ",",

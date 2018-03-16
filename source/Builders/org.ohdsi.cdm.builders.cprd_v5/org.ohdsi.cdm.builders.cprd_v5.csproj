@@ -114,6 +114,7 @@
     </Content>
     <Content Include="CPRDV5\Definitions\L_LOCATION.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="CPRDV5\Definitions\L_PROVIDER.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -127,6 +128,7 @@
     </Content>
     <Content Include="CPRDV5\Definitions\Test.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="CPRDV5\Definitions\Therapy.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

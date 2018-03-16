@@ -70,7 +70,7 @@
          <ValuesAsString>
             <string>VALUE_AS_STRING</string>
          </ValuesAsString>
-         <ValueSourceValue>rslt_nbr</ValueSourceValue>
+         <ValueSourceValue>VALUE_AS_STRING</ValueSourceValue>
          <RangeLow>low_nrml</RangeLow>
          <RangeHigh>hi_nrml</RangeHigh>
          <ValueAsConceptId>VALUE_AS_CONCEPT_ID</ValueAsConceptId>
@@ -102,7 +102,7 @@
                   </Mapper>
                </ConceptIdMappers>
                <Fields>
-                  <Field key="rslt_unit_nm" defaultTypeId="0" ignoreCase="true"/>
+                  <Field key="rslt_unit_nm" defaultTypeId="0" />
                </Fields>
             </Concept>
          </Concepts>
@@ -115,7 +115,7 @@
       <ValuesAsString>
         <string>VALUE_AS_STRING</string>
       </ValuesAsString>
-      <ValueSourceValue>rslt_nbr</ValueSourceValue>
+      <ValueSourceValue>VALUE_AS_STRING</ValueSourceValue>
       <RangeLow>low_nrml</RangeLow>
       <RangeHigh>hi_nrml</RangeHigh>
       <ValueAsConceptId>VALUE_AS_CONCEPT_ID</ValueAsConceptId>
@@ -147,7 +147,7 @@
             </Mapper>
           </ConceptIdMappers>
           <Fields>
-            <Field key="rslt_unit_nm" defaultTypeId="0" ignoreCase="true"/>
+            <Field key="rslt_unit_nm" defaultTypeId="0" />
           </Fields>
         </Concept>
       </Concepts>

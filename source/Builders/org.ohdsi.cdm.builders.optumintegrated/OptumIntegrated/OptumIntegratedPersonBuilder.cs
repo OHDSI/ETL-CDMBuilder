@@ -144,6 +144,12 @@ namespace org.ohdsi.cdm.builders.optumintegrated
                continue;
             }
 
+            if (similarDrugs.Count(d => d.SourceConceptId > 0) > 0)
+            {
+               yield return similarDrugs.Where(d => d.SourceConceptId > 0).OrderBy(d => d.SourceValue.Length).Last();
+               continue;
+            }
+
             yield return similarDrugs.OrderBy(d => d.SourceValue.Length).Last();
          }
 
@@ -1068,7 +1074,7 @@ namespace org.ohdsi.cdm.builders.optumintegrated
             procedureCosts,
             observations,
             measurements,
-            visitOccurrences.Values.ToArray(), visitCosts, new Cohort[0], deviceExposure, devicCosts);
+            visitOccurrences.Values.ToArray(), visitCosts, new Cohort[0], deviceExposure, devicCosts, new Note[0]);
       }
 
       protected void SetProviderIds<T>(IEnumerable<T> inputRecords, Dictionary<long, VisitOccurrence> visits) where T : class, IEntity
@@ -1124,17 +1130,27 @@ namespace org.ohdsi.cdm.builders.optumintegrated
                      mes.ValueSourceValue = entity.AdditionalFields["test_result"];
                   }
 
-                  if (entity.AdditionalFields != null && entity.AdditionalFields.ContainsKey("units"))
+                  // HIX-1363
+                  //if rslt_nbr is non-zero, take it for both fields, otherwise, 
+                  //use NULL for value_as_number and take rslt_txt for value_as_string.
+                  if (mes.ValueAsNumber != null && mes.ValueAsNumber != 0)
                   {
-                     decimal valueAsNumber;
-                     if(decimal.TryParse(entity.AdditionalFields["units"], out valueAsNumber))
-                        mes.ValueAsNumber = valueAsNumber;
+                     mes.ValueSourceValue = mes.ValueAsNumber.ToString();
                   }
+
+                  //if (entity.AdditionalFields != null && entity.AdditionalFields.ContainsKey("units"))
+                  //{
+                  //   decimal valueAsNumber;
+                  //   if(decimal.TryParse(entity.AdditionalFields["units"], out valueAsNumber))
+                  //      mes.ValueAsNumber = valueAsNumber;
+                  //}
 
                   if (mes.TypeConceptId != 44786627 && mes.TypeConceptId != 44786629)
                      mes.TypeConceptId = 45754907;
 
                   chunkData.AddData(mes);
+
+                  AddCost(entity, CostV5ToV51_MesObser("Measurement"));
                   break;
 
                case "Meas Value":
@@ -1146,18 +1162,20 @@ namespace org.ohdsi.cdm.builders.optumintegrated
                      m.ValueSourceValue = entity.AdditionalFields["test_result"];
                   }
 
-                  if (entity.AdditionalFields != null && entity.AdditionalFields.ContainsKey("units"))
-                  {
-                     decimal valueAsNumber;
-                     if (decimal.TryParse(entity.AdditionalFields["units"], out valueAsNumber))
-                        m.ValueAsNumber = valueAsNumber;
-                  }
+                  //if (entity.AdditionalFields != null && entity.AdditionalFields.ContainsKey("units"))
+                  //{
+                  //   decimal valueAsNumber;
+                  //   if (decimal.TryParse(entity.AdditionalFields["units"], out valueAsNumber))
+                  //      m.ValueAsNumber = valueAsNumber;
+                  //}
 
                   if (m.TypeConceptId != 44786627 && m.TypeConceptId != 44786629)
                      m.TypeConceptId = 45754907;
 
                   m.TypeConceptId = 45754907;
                   chunkData.AddData(m);
+
+                  AddCost(entity, CostV5ToV51_MesObser("Measurement"));
                   break;
 
                case "Observation":
@@ -1172,6 +1190,7 @@ namespace org.ohdsi.cdm.builders.optumintegrated
                   }
 
                   chunkData.AddData(o);
+                  AddCost(entity, CostV5ToV51_MesObser("Observation"));
                   break;
 
                case "Procedure":
@@ -1181,14 +1200,14 @@ namespace org.ohdsi.cdm.builders.optumintegrated
                                 Id =
                                    chunkData.KeyMasterOffset.ProcedureOccurrenceId
                              };
-
-                  chunkData.AddData(proc);
-
+                  
                   if (proc.TypeConceptId == 0)
                      proc.TypeConceptId = 38000275;
                   else if (proc.TypeConceptId == 44786627 || proc.TypeConceptId == 44786629) 
                      proc.TypeConceptId = 42865906;
 
+                  chunkData.AddData(proc);
+                  AddCost(entity, CostV5ToV51_ProcDev("Procedure"));
                   break;
 
                case "Device":
@@ -1197,6 +1216,8 @@ namespace org.ohdsi.cdm.builders.optumintegrated
                                                             {
                                                                Id = chunkData.KeyMasterOffset.DeviceExposureId
                                                             });
+
+                  AddCost(entity, CostV5ToV51_ProcDev("Device"));
                   break;
 
                case "Drug":
@@ -1212,10 +1233,75 @@ namespace org.ohdsi.cdm.builders.optumintegrated
 
                   drugForEra.Add(drg);
                   chunkData.AddData(drg);
+
+                  if (drg.DrugCost != null)
+                  {
+                     AddCost(entity, v5 => new Cost
+                     {
+                        CurrencyConceptId = drg.DrugCost.CurrencyConceptId,
+
+                        TotalCharge = drg.DrugCost.PaidByCoordinationBenefits,
+                        //PaidByPatient = drg.DrugCost.PaidCoinsurance + drg.DrugCost.PaidTowardDeductible,
+                        PaidPatientCopay = drg.DrugCost.PaidCopay,
+                        PaidPatientCoinsurance = drg.DrugCost.PaidCoinsurance,
+                        PaidPatientDeductible = drg.DrugCost.PaidTowardDeductible,
+                        PaidDispensingFee = drg.DrugCost.DispensingFee,
+                        AmountAllowed = drg.DrugCost.TotalPaid,
+                        PayerPlanPeriodId = drg.DrugCost.PayerPlanPeriodId,
+                        RevenueCodeConceptId = drg.DrugCost.RevenueCodeConceptId,
+                        RevenueCodeSourceValue = drg.DrugCost.RevenueCodeSourceValue,
+
+                        Domain = entityDomain,
+                        TypeId = 0
+                     });
+                  }
                   break;
 
             }
          }
+      }
+
+      private static Func<ICostV5, Cost> CostV5ToV51_MesObser(string domain)
+      {
+         return v5 => new Cost
+         {
+            CurrencyConceptId = v5.CurrencyConceptId,
+
+            TotalCharge = v5.PaidByCoordinationBenefits,
+            PaidByPatient = v5.PaidCoinsurance + v5.PaidTowardDeductible,
+            PaidPatientCopay = v5.PaidCopay,
+            PaidPatientCoinsurance = v5.PaidCoinsurance,
+            PaidPatientDeductible = v5.PaidTowardDeductible,
+            PaidDispensingFee = v5.DispensingFee,
+            AmountAllowed = v5.TotalPaid,
+            PayerPlanPeriodId = v5.PayerPlanPeriodId,
+            RevenueCodeConceptId = v5.RevenueCodeConceptId,
+            RevenueCodeSourceValue = v5.RevenueCodeSourceValue,
+
+            Domain = domain,
+            TypeId = 0
+         };
+      }
+
+      private static Func<ICostV5, Cost> CostV5ToV51_ProcDev(string domain)
+      {
+         return v5 => new Cost
+         {
+            CurrencyConceptId = v5.CurrencyConceptId,
+
+            TotalCharge = v5.PaidByCoordinationBenefits,
+            PaidByPatient = v5.PaidCoinsurance + v5.PaidTowardDeductible,
+            PaidPatientCopay = v5.PaidCopay,
+            PaidPatientCoinsurance = v5.PaidCoinsurance,
+            PaidPatientDeductible = v5.PaidTowardDeductible,
+            AmountAllowed = v5.TotalPaid,
+            PayerPlanPeriodId = v5.PayerPlanPeriodId,
+            RevenueCodeConceptId = v5.RevenueCodeConceptId,
+            RevenueCodeSourceValue = v5.RevenueCodeSourceValue,
+
+            Domain = domain,
+            TypeId = 0
+         };
       }
 
       public override IEnumerable<ProcedureCost> BuildProcedureCosts(ProcedureOccurrence[] procedureOccurrences)

@@ -9,7 +9,6 @@ using org.ohdsi.cdm.framework.core.Controllers;
 using org.ohdsi.cdm.framework.shared.Enums;
 using org.ohdsi.cdm.framework.shared.Helpers;
 using CommandLine.Text;
-using System.Collections.Generic;
 
 namespace org.ohdsi.cdm.presentation.buildercmd
 {
@@ -49,20 +48,13 @@ namespace org.ohdsi.cdm.presentation.buildercmd
                     {
                         LoadId = 9999,
                         ChunkSize = 0,
-                        SubChunkSize = 1000,
                         BuildersCount = 1,
                         NativeSchema = "native",
                         CdmSchema = "cdm",
-                        AchillesSchema = "cdm",
-                        AchillesFolder = @"c:\temp\achillesJson",
                         S3AwsAccessKeyId = Environment.GetEnvironmentVariable("s3_aws_access_key_id"),
                         S3AwsSecretAccessKey = Environment.GetEnvironmentVariable("s3_aws_secret_access_key"),
                         Ec2AwsAccessKeyId = Environment.GetEnvironmentVariable("ec2_aws_access_key_id"),
                         Ec2AwsSecretAccessKey = Environment.GetEnvironmentVariable("ec2_aws_secret_access_key"),
-                        HixServer = @"",
-                        HixDatabase = "",
-                        HixPort = 1433,
-                        HixUser = ""
                     };
                 }
             }
@@ -84,9 +76,6 @@ namespace org.ohdsi.cdm.presentation.buildercmd
 
             [Option('c', "chunksize", HelpText = "CDM Build Batch size", Required = false)]
             public int ChunkSize { get; set; }
-
-            [Option("subChunkSize", HelpText = "CDM Build subchunk size", Required = false)]
-            public int SubChunkSize { get; set; }
 
             [Option('n', "builderscount", HelpText = "Number of concurrent CDM Builders on one server", Required = false)]
             public int BuildersCount { get; set; }
@@ -111,27 +100,6 @@ namespace org.ohdsi.cdm.presentation.buildercmd
 
             [Option("cdmSchema", HelpText = "CDM database schema name", Required = false)]
             public string CdmSchema { get; set; }
-
-            [Option("achillesSchema", HelpText = "Achilles results schema name", Required = false)]
-            public string AchillesSchema { get; set; }
-
-            [Option("achillesJsonFolder", HelpText = "Achilles results folder path", Required = false)]
-            public string AchillesFolder { get; set; }
-
-            [Option("hixServer", HelpText = "HIX server", Required = false)]
-            public string HixServer { get; set; }
-
-            [Option("hixDb", HelpText = "HIX dataabse name", Required = false)]
-            public string HixDatabase { get; set; }
-
-            [Option("hixUser", HelpText = "HIX user name", Required = false)]
-            public string HixUser { get; set; }
-
-            [Option("hixPassword", HelpText = "HIX user password", Required = false)]
-            public string HixPassword { get; set; }
-
-            [Option("hixPort", HelpText = "HIX connection port", Required = false)]
-            public int HixPort { get; set; }
         }
 
         private static bool IsBuilderDBAvailable(string builderConnectionString)
@@ -259,11 +227,6 @@ namespace org.ohdsi.cdm.presentation.buildercmd
 
             Settings.Initialize(builderConnectionString, Environment.MachineName);
 
-            if (opt.SubChunkSize != default(int))
-                Settings.Current.SubChunkSize = opt.SubChunkSize;
-            if (Settings.Current.SubChunkSize == default(int))
-                Settings.Current.SubChunkSize = Options.Default.SubChunkSize;
-
             if (Settings.Current.Builder.IsNew)
             {
                 if (opt.ChunkSize != default(int))
@@ -312,16 +275,6 @@ namespace org.ohdsi.cdm.presentation.buildercmd
                    Settings.Current.Ec2AwsSecretAccessKey = opt.Ec2AwsSecretAccessKey;
                 if (string.IsNullOrWhiteSpace(Settings.Current.Ec2AwsSecretAccessKey))
                    Settings.Current.Ec2AwsSecretAccessKey = Options.Default.Ec2AwsSecretAccessKey;
-
-                if (string.IsNullOrWhiteSpace(opt.HixServer))
-                    ConfigurationManager.AppSettings["hixServer"] = Options.Default.HixServer;
-                if (string.IsNullOrWhiteSpace(opt.HixDatabase))
-                    ConfigurationManager.AppSettings["hixDatabase"] = Options.Default.HixDatabase;
-                if (opt.HixPort != default(int))
-                    ConfigurationManager.AppSettings["hixPort"] = Options.Default.HixPort.ToString();
-                if (string.IsNullOrWhiteSpace(opt.HixUser))
-                    ConfigurationManager.AppSettings["hixUser"] = Options.Default.HixUser;
-
             }
         }
 
@@ -355,25 +308,11 @@ namespace org.ohdsi.cdm.presentation.buildercmd
 
                     if (config.AppSettings.Settings["bucket"] != null)
                         Settings.Current.Bucket = config.AppSettings.Settings["bucket"].Value;
-
-                    if (config.AppSettings.Settings["SubChunkSize"] != null)
-                        Settings.Current.SubChunkSize = int.Parse(config.AppSettings.Settings["SubChunkSize"].Value);
-                    else
-                        Settings.Current.SubChunkSize = Options.Default.SubChunkSize;
-
+                   
                     if (config.AppSettings.Settings["loadId"] != null)
                         ConfigurationManager.AppSettings["loadId"] = config.AppSettings.Settings["loadId"].Value;
                     else
                         ConfigurationManager.AppSettings["loadId"] = Options.Default.LoadId.ToString();
-
-                    if (config.AppSettings.Settings["achillesJsonFolder"] != null)
-                        ConfigurationManager.AppSettings["achillesJsonFolder"] = config.AppSettings.Settings["achillesJsonFolder"].Value;
-
-                    if (config.AppSettings.Settings["runCostAnalysis"] != null)
-                        ConfigurationManager.AppSettings["runCostAnalysis"] = config.AppSettings.Settings["runCostAnalysis"].Value;
-
-                    if (config.AppSettings.Settings["resultsSchema"] != null)
-                        ConfigurationManager.AppSettings["resultsSchema"] = config.AppSettings.Settings["resultsSchema"].Value;
                 }
             }
             return builderConnectionString;

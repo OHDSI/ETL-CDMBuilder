@@ -256,8 +256,47 @@ namespace org.ohdsi.cdm.builders.truven_v5
       /// <returns>Enumeration of condition occurrence entities</returns>
       public override IEnumerable<ConditionOccurrence> BuildConditionOccurrences(ConditionOccurrence[] conditionOccurrences, Dictionary<long, VisitOccurrence> vo, ObservationPeriod[] op)
       {
+         var filteredConditionOccurrences = new List<ConditionOccurrence>();
+
+         filteredConditionOccurrences.AddRange(conditionOccurrences.Where(
+            co => co.AdditionalFields["priority"] == "1" && CodeValidator.IsValidIcd(co.SourceValue, GetIcdVersion(co))));
+
+         foreach (var sameRow in conditionOccurrences.Where(
+                  co => co.AdditionalFields["priority"] == "2" || co.AdditionalFields["priority"] == "3") // I_A + F_H
+                  .GroupBy(c => c.SourceRecordGuid))
+         {
+            foreach (var sameSource in sameRow.GroupBy(c => c.SourceValue))
+            {
+               var cond = sameSource.Where(c => c.TypeConceptId < 100)
+                  .Where(co => CodeValidator.IsValidIcd(co.SourceValue, GetIcdVersion(co))).ToList();
+
+               var proc = sameSource.Where(c => c.TypeConceptId > 100).ToList();
+
+               if (cond.Count > 0)
+               {
+                  foreach (var co in cond)
+                  {
+                     var c = co;
+                     if (c.ConceptId == 0 && proc.Count > 0)
+                     {
+                        var po = proc.FirstOrDefault(p => p.ConceptId > 0 && p.TypeConceptId - 100 == c.TypeConceptId);
+                        filteredConditionOccurrences.Add(po ?? c);
+                     }
+                     else
+                     {
+                        filteredConditionOccurrences.Add(c);
+                     }
+                  }
+               }
+               else if (proc.Count > 0)
+               {
+                  filteredConditionOccurrences.AddRange(proc);
+               }
+            }
+         }
+
          var result = new HashSet<ConditionOccurrence>();
-         foreach (var sameVisit in JoinVisitOccurrences(conditionOccurrences.Where(co => CodeValidator.IsValidIcd(co.SourceValue, GetIcdVersion(co)))).GroupBy(c => c.VisitOccurrenceId))
+         foreach (var sameVisit in JoinVisitOccurrences(filteredConditionOccurrences).GroupBy(c => c.VisitOccurrenceId))
          {
             foreach (var sameSource in sameVisit.GroupBy(c => c.SourceValue))
             {
@@ -578,11 +617,17 @@ namespace org.ohdsi.cdm.builders.truven_v5
 
       private static int GetConditionTypeConceptId(IEntity e, long visitTypeId)
       {
+         var typeConceptId = e.TypeConceptId;
+         if (typeConceptId > 100)
+         {
+            typeConceptId = typeConceptId - 100;
+         }
+
          if (e.AdditionalFields["priority"] == "1") //IS OS
          {
             if (visitTypeId == 9201)
             {
-               switch (e.TypeConceptId)
+               switch (typeConceptId)
                {
                   case 0:
                      return 38000183;
@@ -607,7 +652,7 @@ namespace org.ohdsi.cdm.builders.truven_v5
                }
             }
 
-            switch (e.TypeConceptId)
+            switch (typeConceptId)
             {
                case 0:
                   return 38000215;
@@ -634,7 +679,7 @@ namespace org.ohdsi.cdm.builders.truven_v5
 
          if (visitTypeId == 9201)
          {
-            switch (e.TypeConceptId)
+            switch (typeConceptId)
             {
                case 1:
                   return 38000199;
@@ -689,7 +734,7 @@ namespace org.ohdsi.cdm.builders.truven_v5
             }
          }
 
-         switch (e.TypeConceptId)
+         switch (typeConceptId)
          {
             case 2:
                return 38000230;
@@ -781,6 +826,7 @@ namespace org.ohdsi.cdm.builders.truven_v5
          var payerPlanPeriods = BuildPayerPlanPeriods(payerPlanPeriodsRaw.ToArray(), null).ToArray();
          var visitOccurrences = new Dictionary<long, VisitOccurrence>();
 
+         var visitIds = new List<long>();
          foreach (var visitOccurrence in BuildVisitOccurrences(visitOccurrencesRaw.ToArray(), observationPeriods))
          {
             if (visitOccurrence.IdUndefined)
@@ -789,6 +835,18 @@ namespace org.ohdsi.cdm.builders.truven_v5
                visitOccurrence.IdUndefined = false;
             }
             visitOccurrences.Add(visitOccurrence.Id, visitOccurrence);
+            visitIds.Add(visitOccurrence.Id);
+         }
+
+         long? prevVisitId = null;
+         foreach (var visitId in visitIds.OrderBy(v => v))
+         {
+            if (prevVisitId.HasValue)
+            {
+               visitOccurrences[visitId].PrecedingVisitOccurrenceId = prevVisitId;
+            }
+
+            prevVisitId = visitId;
          }
 
          var conditionOccurrences = BuildConditionOccurrences(conditionOccurrencesRaw.ToArray(), visitOccurrences, observationPeriods).ToArray();
@@ -861,7 +919,7 @@ namespace org.ohdsi.cdm.builders.truven_v5
             procedureCosts,
             observations,
             measurements,
-            visitOccurrences.Values.ToArray(), visitCosts, new Cohort[0], deviceExposure, devicCosts);
+            visitOccurrences.Values.ToArray(), visitCosts, new Cohort[0], deviceExposure, devicCosts, new Note[0]);
       }
 
       public override void AddToChunk(string domain, IEnumerable<IEntity> entities)
@@ -899,6 +957,15 @@ namespace org.ohdsi.cdm.builders.truven_v5
                case "Measurement":
                    var mes = entity as Measurement ??
                             new Measurement(entity) {Id = chunkData.KeyMasterOffset.MeasurementId};
+
+                  // HIX-1418
+                  if (mes.TypeConceptId == 44818702 && mes.ValueAsNumber.HasValue && mes.ValueAsNumber > 100000 &&
+                      mes.UnitConceptId == 8739 && (mes.SourceValue == "3142-7" ||
+                      mes.SourceValue == "29463-7" || mes.SourceValue == "3141-9"))
+                  {
+                     mes.ValueAsNumber = mes.ValueAsNumber.Value/10000;
+                  }
+
                   chunkData.AddData(mes);
                   AddCost(entity, CostV5ToV51("Measurement"));
                   break;
@@ -953,10 +1020,10 @@ namespace org.ohdsi.cdm.builders.truven_v5
                                Id = chunkData.KeyMasterOffset.DrugExposureId,
                                GetEraConceptIdsCall = vocabulary.LookupIngredientLevel
                             };
-
-                  if (drg.TypeConceptId == 44786633 || drg.TypeConceptId == 44786634) //HRA
+                  
+                  if (!drg.EndDate.HasValue)
                   {
-                     drg.EndDate = null; //HIX-1299
+                     drg.EndDate = drg.StartDate;
                   }
 
                   drugForEra.Add(drg);
@@ -986,6 +1053,9 @@ namespace org.ohdsi.cdm.builders.truven_v5
             PaidPatientCoinsurance = v5.PaidCoinsurance,
             PaidPatientDeductible = v5.PaidTowardDeductible,
             PaidByPrimary = v5.PaidByCoordinationBenefits,
+
+            DrgConceptId = v5.DrgConceptId ?? 0,
+            DrgSourceValue = v5.DrgSourceValue,
 
             TotalPaid =
                v5.PaidCopay + v5.PaidCoinsurance + v5.PaidTowardDeductible + v5.PaidByPayer +
@@ -1062,7 +1132,6 @@ namespace org.ohdsi.cdm.builders.truven_v5
                de.EndDate = null;
                de.ProviderKey = po.ProviderKey;
                de.VisitOccurrenceId = po.VisitOccurrenceId;
-               de.RelevantConditionConceptId = po.ReleventConditionConceptId;
 
                de.Refills = null;
 
@@ -1097,6 +1166,12 @@ namespace org.ohdsi.cdm.builders.truven_v5
             if (similarDrugs.Count(d => d.ConceptId > 0) > 0)
             {
                yield return similarDrugs.Where(d => d.ConceptId > 0).OrderBy(d => d.SourceValue.Length).Last();
+               continue;
+            }
+
+            if (similarDrugs.Count(d => d.SourceConceptId > 0) > 0)
+            {
+               yield return similarDrugs.Where(d => d.SourceConceptId > 0).OrderBy(d => d.SourceValue.Length).Last();
                continue;
             }
 

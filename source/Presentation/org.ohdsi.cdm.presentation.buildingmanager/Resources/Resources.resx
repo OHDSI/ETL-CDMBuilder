@@ -138,6 +138,7 @@ CREATE TABLE [dbo].[KeyOffset](
 	[DeviceCost] [bigint] NOT NULL,
 	[DrugEra] [bigint] NOT NULL,
 	[ConditionEra] [bigint] NOT NULL,
+  [Note] [bigint] NOT NULL,
  CONSTRAINT [PK_KeyOffset1] PRIMARY KEY CLUSTERED 
 (
 	[BuildingId] ASC
@@ -232,8 +233,8 @@ CREATE TABLE [dbo].[Building](
 	[CopyVocabularyEnd] [datetime] NULL,
 	[CreateIndexesStart] [datetime] NULL,
 	[CreateIndexesEnd] [datetime] NULL,
-	[AchillesStart] [datetime] NULL,
-	[AchillesEnd] [datetime] NULL,
+	[PostprocessStart] [datetime] NULL,
+	[PostprocessEnd] [datetime] NULL,
  CONSTRAINT [PK_Building] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -317,6 +318,57 @@ CREATE TABLE [dbo].[Log](
 	[BuildingId] [int] NOT NULL
 ) ON [PRIMARY]
 GO
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[PostprocessSettings](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Vendor] [varchar](50) NULL,
+	[LoadId] [int] NULL,
+	[Name] [varchar](250) NOT NULL,
+	[Value] [varchar](250) NULL
+) ON [PRIMARY]
+
+GO
+
+INSERT INTO [dbo].[PostprocessSettings] ([Vendor],[LoadId],[Name],[Value])
+VALUES (null,null, 'Achilles', null);
+
+INSERT INTO [dbo].[PostprocessSettings] ([Vendor],[LoadId],[Name],[Value])
+VALUES (null,null, 'Pregnancy', null);
+
+INSERT INTO [dbo].[PostprocessSettings] ([Vendor],[LoadId],[Name],[Value])
+VALUES (null,null, 'MotherChild', null);
+
+INSERT INTO [dbo].[PostprocessSettings] ([Vendor],[LoadId],[Name],[Value])
+VALUES (null,null, 'EARS', null);
+
+INSERT INTO [dbo].[PostprocessSettings] ([Vendor],[LoadId],[Name],[Value])
+VALUES (null,null, 'achillesJsonFolder', null);
+
+INSERT INTO [dbo].[PostprocessSettings] ([Vendor],[LoadId],[Name],[Value])
+VALUES (null,null, 'achillesNumThreads', null);
+
+INSERT INTO [dbo].[PostprocessSettings] ([Vendor],[LoadId],[Name],[Value])
+VALUES (null,null, 'achillesRunCostAnalysis', null);
+
+INSERT INTO [dbo].[PostprocessSettings] ([Vendor],[LoadId],[Name],[Value])
+VALUES (null,null, 'scratchSchema', null);
+
+INSERT INTO [dbo].[PostprocessSettings] ([Vendor],[LoadId],[Name],[Value])
+VALUES (null,null, 'resultsSchema', null);
+
+
+SET ANSI_PADDING OFF
+GO
+
 SET ANSI_PADDING OFF
 GO
 /****** Object:  Default [DF_Builder_State1]    Script Date: 07/04/2016 11:16:14 ******/

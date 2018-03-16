@@ -16,6 +16,9 @@ namespace org.ohdsi.cdm.framework.core.Definitions
       public string PersonId { get; set; }
       public string StartDate { get; set; }
       public string EndDate { get; set; }
+      public string StartTime { get; set; }
+      public string EndTime { get; set; }
+
       public string ProviderId { get; set; }
       public string ProviderIdKey { get; set; }
 
@@ -112,6 +115,8 @@ namespace org.ohdsi.cdm.framework.core.Definitions
                            TypeConceptId = concept.GetTypeId(field, reader),
                            StartDate = startDate,
                            EndDate = endDate == DateTime.MinValue ? (DateTime?) null : endDate,
+                           StartTime = reader.GetTime(StartTime),
+                           EndTime = reader.GetTime(EndTime),
                            ProviderId = reader.GetInt(ProviderId),
                            ProviderKey = providerIdKey,
                            VisitOccurrenceId = reader.GetLong(VisitOccurrenceId),

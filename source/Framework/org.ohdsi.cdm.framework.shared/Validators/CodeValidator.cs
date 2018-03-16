@@ -39,12 +39,12 @@
          int firstDigit;
          int.TryParse(firstChar.ToString(), out firstDigit);
 
-         if (firstChar == 'E')
+         if (firstChar == 'E' || firstChar == 'e')
          {
             return code.Length >= 4 && code.Length <= 5;
          }
 
-         if(firstChar == 'V' || (char.IsDigit(firstChar) && firstDigit >= 0 && firstDigit <= 9))
+         if (firstChar == 'V' || firstChar == 'v' || (char.IsDigit(firstChar) && firstDigit >= 0 && firstDigit <= 9))
          {
             return code.Length >= 3 && code.Length <= 5;
          }

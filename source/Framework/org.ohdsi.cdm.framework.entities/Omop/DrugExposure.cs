@@ -20,7 +20,6 @@ namespace org.ohdsi.cdm.framework.entities.Omop
       public int? DaysSupply { get; set; }
       public int? CalculatedDaysSupply { get; set; }
       public string Sig { get; set; }
-      public long? RelevantConditionConceptId { get; set; }
 
       // CDM v5 props
       public long? RouteConceptId { get; set; }
@@ -29,6 +28,10 @@ namespace org.ohdsi.cdm.framework.entities.Omop
       public string LotNumber  { get; set; }
       public string RouteSourceValue  { get; set; }
       public string DoseUnitSourceValue { get; set; }
+
+
+      // CDM v5.2 props
+      public DateTime? VerbatimEndDate { get; set; }
 
       public bool Equals(DrugExposure other)
       {
@@ -49,10 +52,12 @@ namespace org.ohdsi.cdm.framework.entities.Omop
                 this.RouteSourceValue == other.RouteSourceValue &&
                 this.DoseUnitSourceValue == other.DoseUnitSourceValue &&
                 this.ProviderId == other.ProviderId &&
-                this.RelevantConditionConceptId == other.RelevantConditionConceptId &&
                 this.VisitOccurrenceId == other.VisitOccurrenceId &&
                 this.StartDate == other.StartDate &&
-                this.EndDate == other.EndDate;
+                this.EndDate == other.EndDate &&
+                this.StartTime == other.StartTime &&
+                this.EndTime == other.EndTime &&
+                this.VerbatimEndDate == other.VerbatimEndDate;
       }
 
       public override int GetHashCode()
@@ -75,9 +80,11 @@ namespace org.ohdsi.cdm.framework.entities.Omop
                 (RouteSourceValue != null ? RouteSourceValue.GetHashCode() : 0) ^
                 (DoseUnitSourceValue != null ? DoseUnitSourceValue.GetHashCode() : 0) ^
                 ProviderId.GetHashCode() ^
-                RelevantConditionConceptId.GetHashCode() ^
                 (StartDate.GetHashCode()) ^
-                (EndDate.GetHashCode());
+                (EndDate.GetHashCode()) ^
+                (VerbatimEndDate.GetHashCode()) ^
+                (StartTime != null ? StartTime.GetHashCode() : 0) ^
+                (EndTime != null ? EndTime.GetHashCode() : 0);
       }
 
       public override HashSet<long?> GetEraConceptIds()

@@ -3,7 +3,6 @@
    public enum Database
    {
       Unsupported,
-      APS,
       MSSQL,
       Redshift
    }

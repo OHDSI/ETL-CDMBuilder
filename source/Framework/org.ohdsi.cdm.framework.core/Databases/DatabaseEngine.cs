@@ -5,8 +5,6 @@ using System.Data.Odbc;
 using org.ohdsi.cdm.framework.core.Base;
 using org.ohdsi.cdm.framework.core.Definitions;
 using org.ohdsi.cdm.framework.core.Savers;
-using org.ohdsi.cdm.framework.data.DbLayer;
-using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.shared.Enums;
 using org.ohdsi.cdm.framework.shared.Helpers;
 
@@ -53,14 +51,6 @@ namespace org.ohdsi.cdm.framework.core.Databases
 
       public virtual IChunkBuilder GetChunkBuilder(int chunkId, Func<IPersonBuilder> createPersonBuilder)
       {
-         //var dbChunk = new DbChunk(Settings.Current.Building.BuilderConnectionString);
-         //var subChunks = new List<ChunkData>();
-         //foreach (var subChunkRecord in dbChunk.GetSubChunks(chunkId))
-         //{
-         //   subChunks.Add(new ChunkData(chunkId, subChunkRecord.Index, subChunkRecord.Count, subChunkRecord.MinPersonId,
-         //         subChunkRecord.MaxPersonId, subChunkRecord.Saved));
-         //}
-
          return new ChunkBuilder(chunkId, createPersonBuilder);
       }
 
@@ -165,15 +155,6 @@ namespace org.ohdsi.cdm.framework.core.Databases
 
             outstring = outstring.ToUpper();
 
-            //if (outstring.Contains("MYSQL"))
-            //{
-            //   t = Database.MySql;
-            //}
-            //else if (outstring.Contains("ORACLE"))
-            //{
-            //   t = Database.Oracle;
-            //}
-            //else 
             if (outstring.Contains("SQL SERVER"))
             {
                t = Database.MSSQL;

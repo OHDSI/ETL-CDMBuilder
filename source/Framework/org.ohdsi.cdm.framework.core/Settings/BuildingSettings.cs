@@ -59,6 +59,13 @@ namespace org.ohdsi.cdm.framework.core
                if (int.TryParse(loadIdValue, out loadId))
                   return loadId;
             }
+            else if (DestinationSchemaName.StartsWith("cdm_v"))
+            {
+               var loadIdValue = DestinationSchemaName.Replace("cdm_v", "");
+               int loadId;
+               if (int.TryParse(loadIdValue, out loadId))
+                  return loadId;
+            }
 
             return int.Parse(ConfigurationManager.AppSettings["loadId"]);
          }

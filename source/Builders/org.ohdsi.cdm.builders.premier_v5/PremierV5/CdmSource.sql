@@ -14,11 +14,16 @@ INSERT INTO {sc}.CDM_SOURCE
            ,VOCABULARY_VERSION)
      VALUES
            (
-		   'Premier',
-		   'Premier',
+		   'Premier Healthcare Database (PHD)',
+		   'PREMIER',
 		   'Janssen R&D',
-		   'Premier Healthcare Database (PHD) is a nationally representative all-payer US hospital database that houses data on the inpatient and outpatient visits from non-profit, non-governmental and community and teaching hospitals and health systems. The data represent 1 in 5 inpatient hospital stays in the US.  It is a visit-centric, billing database where each visit is linked with a unique billing record. The database contains information on medications, laboratory and diagnostic procedures, and diagnoses with day of service for medications and procedures.  [For further information link to RWE site for Premier.](https://catalog.rwe.jnj.com/index#jnjexplore?dataSetUri=%2Fdataset%2F27adc862-0a6d-48cd-abe9-6aec4c303b29.xml)',
-			'http://hicoe.jnj.com/DataSources/Premier',
+		   'Premier Healthcare Database (PHD) is a nationally representative all-payer US hospital database that houses data on the inpatient and outpatient visits from non-profit, non-governmental and community and teaching hospitals and health systems. The data represent 1 in 5 inpatient hospital stays in the US. It is a visit-centric, billing database where each visit is linked with a unique billing record. 
+
+The database contains information on medications (coded in CPT-4 or HCPCS), laboratory procedures (coded in CPT-4, HCPCS, ICD-9-CM, ICD-10-CM), diagnostic procedures (coded in CPT-4, HCPCS, ICD-9-CM, ICD-10-CM, ICD-9-Proc, and ICD-10-PCS), and diagnoses (coded with ICD-9-CM and ICD-10-CM) with day of service for medications and procedures. Additional data elements on medications, laboratory procedures, and diagnostic procedures are captured on the billing record and coded using the proprietary Perspective Standard Charge Master Code Version 10. 
+
+[For further information link to RWE site for Premier.]
+(https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F27adc862-0a6d-48cd-abe9-6aec4c303b29.xml)',
+			'https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F27adc862-0a6d-48cd-abe9-6aec4c303b29.xml',
 			'http://www.ohdsi.org/web/wiki/doku.php?id=documentation:example_etls',
 			'{0}',
 			'{3}',

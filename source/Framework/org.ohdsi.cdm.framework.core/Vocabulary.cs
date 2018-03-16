@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using org.ohdsi.cdm.framework.core.Common.Services;
-using org.ohdsi.cdm.framework.core.Databases;
 using org.ohdsi.cdm.framework.core.Definitions;
 using org.ohdsi.cdm.framework.core.Lookups;
 using org.ohdsi.cdm.framework.entities.Omop;
 using org.ohdsi.cdm.framework.shared.Attributes;
+using org.ohdsi.cdm.framework.shared.Enums;
 using org.ohdsi.cdm.framework.shared.Extensions;
 
 namespace org.ohdsi.cdm.framework.core
@@ -84,19 +84,6 @@ namespace org.ohdsi.cdm.framework.core
                 saver.SaveEntityLookup(locationConcepts.Lookup.Values.ToList(), organizationConcepts.Lookup.Values.ToList(),
                    careSiteConcepts.Lookup.Values.ToList(), providerConcepts.Lookup.Values.ToList());
             }
-
-            if (Settings.Current.StoreToAPS)
-            {
-               var aps = new APSDatabaseEngine();
-               var apsSaver = aps.GetSaver();
-               using (apsSaver.Create(Settings.Current.APSConnectionString))
-               {
-                  apsSaver.SaveEntityLookup(locationConcepts.Lookup.Values.ToList(),
-                     organizationConcepts.Lookup.Values.ToList(),
-                     careSiteConcepts.Lookup.Values.ToList(), providerConcepts.Lookup.Values.ToList());
-               }
-            }
-
          }
 
          LoadProviders();
@@ -117,7 +104,18 @@ namespace org.ohdsi.cdm.framework.core
 
          if (provider != null)
          {
-            providerConcepts.Load(provider, provider.Providers[0]);
+            //if (Settings.Current.Building.DestinationEngine.Database == Database.Redshift)
+            //{
+            //   providerConcepts.LoadFromS3(provider, provider.Providers[0], "PROVIDER.txt", new Dictionary<string, int>
+            //   {
+            //      {"PROVIDER_ID", 0},
+            //      {"SPECIALTY_SOURCE_VALUE", 1},
+            //      {"CARE_SITE_ID", 2},
+            //      {"PROVIDER_SOURCE_VALUE", 3}
+            //   });
+            //}
+            //else
+               providerConcepts.Load(provider, provider.Providers[0]);
          }
 
          FlushProvidersToCommonVocab();
@@ -162,22 +160,37 @@ namespace org.ohdsi.cdm.framework.core
             Load(folder, qd.VisitOccurrence);
             Load(folder, qd.CareSites);
             Load(folder, qd.Providers);
+            Load(folder, qd.Death);
+            Load(folder, qd.Measurement);
+            Load(folder, qd.DeviceExposure);
+            Load(folder, qd.Note);
+
+            Load(folder, qd.VisitCost);
             Load(folder, qd.ProcedureCost);
             Load(folder, qd.DeviceCost);
             Load(folder, qd.ObservationCost);
             Load(folder, qd.MeasurementCost);
             Load(folder, qd.DrugCost);
-            Load(folder, qd.Death);
-            Load(folder, qd.Measurement);
-            Load(folder, qd.DeviceExposure);
          }
-        
-         locationConcepts = new EntityLookup<Location>(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.DestinationSchemaName);
 
+         locationConcepts = new EntityLookup<Location>(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.DestinationSchemaName);
          var location = Settings.Current.Building.CommonQueryDefinitions.FirstOrDefault(qd => qd.Locations != null);
+
          if (location != null)
          {
-            locationConcepts.Load(location, location.Locations[0]);
+            //if (Settings.Current.Building.DestinationEngine.Database == Database.Redshift)
+            //{
+            //   locationConcepts.LoadFromS3(location, location.Locations[0], "LOCATION.txt", new Dictionary<string, int>
+            //   {
+            //      {"LOCATION_ID", 0},
+            //      {"STATE", 1},
+            //      {"LOCATION_SOURCE_VALUE", 2}
+            //   });
+            //}
+            //else
+            {
+               locationConcepts.Load(location, location.Locations[0]);
+            }
          }
       }
 
@@ -305,7 +318,11 @@ namespace org.ohdsi.cdm.framework.core
 
       public int? LookupGender(string genderSourceValue)
       {
-         return (int?) genderConcepts.LookupValue(genderSourceValue);
+         var res = genderConcepts.LookupValue(genderSourceValue);
+         if (!res.HasValue || res.Value == 0)
+            return 8551; // UNKNOWN
+
+         return (int?)res;
       }
 
       public int? LookupLocation(string location)
@@ -337,9 +354,9 @@ namespace org.ohdsi.cdm.framework.core
          return (int?) daysSupplyLookup.LookupValue(key);
       }
 
-      public List<LookupValue> Lookup(string sourceValue, string key, DateTime eventDate, bool ignoreCase)
+      public List<LookupValue> Lookup(string sourceValue, string key, DateTime eventDate, bool caseSensitive)
       {
-         return lookups[key].MultiLookupValue(sourceValue, eventDate, ignoreCase).ToList();
+         return lookups[key].MultiLookupValue(sourceValue, eventDate, caseSensitive).ToList();
       }
 
       public string LookupSource(string sourceValue, string key)

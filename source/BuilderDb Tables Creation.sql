@@ -18,6 +18,7 @@ CREATE TABLE [dbo].[KeyOffset](
 	[DeviceCost] [bigint] NOT NULL,
 	[DrugEra] [bigint] NOT NULL,
 	[ConditionEra] [bigint] NOT NULL,
+	[Note] [bigint] NOT NULL,
  CONSTRAINT [PK_KeyOffset1] PRIMARY KEY CLUSTERED 
 (
 	[BuildingId] ASC

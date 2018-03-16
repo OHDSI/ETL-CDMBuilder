@@ -7,7 +7,7 @@
      cast(ISNULL(role, 0) as varchar) as SPECIALTY_SOURCE_VALUE,
      cast(ISNULL(role, 0) as varchar) as SPECIALTY_SOURCE_KEY,
      ISNULL(gender, 0) as gender
-     from dbo.Staff
+     from {sc}.Staff
      union
      (select record_count+5000000000 as PROVIDER_ID,
      CARE_SITE_ID,
@@ -35,7 +35,7 @@
      (select *, row_number() over (partition by pconsult order by count_spec desc) as prov_count
      from
      (select pconsult, tretspef, count(patid) as count_spec
-     from dbo.HES_episodes a
+     from {sc}.HES_episodes a
      where pconsult != '&amp;'
      group by pconsult, tretspef) a) b
      where prov_count=1

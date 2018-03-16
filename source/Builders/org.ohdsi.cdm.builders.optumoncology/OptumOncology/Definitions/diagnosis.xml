@@ -1,11 +1,13 @@
 ﻿<QueryDefinition>
   <Query>
+    with a as
+    (
     select
     d.encid,
     cast(replace(d.ptid, 'PT','') as bigint) as PersonId,
     case
     when d.encid = '' or d.encid is null then NULL
-    else cast(replace(d.encid, 'E0000','') as bigint)
+    else cast(replace(d.encid, 'E000','') as bigint)
     end as VisitOccurrenceId,
     diag_date,
     case
@@ -32,11 +34,26 @@
     case
     when diagnosis_cd_type NOT IN ('ICD9', 'ICD10', 'SNOMED') or diagnosis_cd_type is NULL then 1
     else 0
-    end as unknown
+    end as unknown,
+    admitting_diagnosis, discharge_diagnosis, poa, primary_diagnosis,
+    CASE
+    WHEN admitting_diagnosis = '1' THEN 4203942
+    WHEN discharge_diagnosis = '1' THEN 4230359
+    WHEN poa = '1' THEN 46236988
+    WHEN primary_diagnosis = '1' THEN 3001410
+    END as condition_status_concept_id,
+    CASE WHEN admitting_diagnosis = '1' THEN 'ADMITTING_DIAGNOSIS;'  ELSE '' END AS ad,
+    CASE WHEN discharge_diagnosis = '1' THEN 'DISCHARGE_DIAGNOSIS;' ELSE '' END AS dd,
+    CASE WHEN poa = '1' THEN 'POA;' ELSE '' END AS p,
+    CASE WHEN primary_diagnosis = '1' THEN 'PRIMARY_DIAGNOSIS;' ELSE '' END AS pd
     from {sc}.diagnosis as d
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND d.ptid = ch.PERSON_SOURCE_VALUE
     where DIAGNOSIS_STATUS = 'Diagnosis of'
-    order by cast(replace(d.ptid, 'PT','') as bigint)
+    )
+
+    select *, ad + dd + p + pd as condition_status_source_value
+    from a
+    order by PersonId
   </Query>
   <ConditionOccurrence>
     <ConditionOccurrenceDefinition>
@@ -60,6 +77,11 @@
           </SourceConceptIdMappers>
           <Fields>
             <Field key="icd9" typeId="TypeId" />
+          </Fields>
+        </Concept>
+        <Concept>
+          <Fields>
+             <Field conceptId="condition_status_concept_id" sourceKey="condition_status_source_value" defaultTypeId="0"/>
           </Fields>
         </Concept>
       </Concepts>
@@ -88,6 +110,11 @@
             <Field key="icd10" typeId="TypeId" />
           </Fields>
         </Concept>
+        <Concept>
+          <Fields>
+             <Field conceptId="condition_status_concept_id" sourceKey="condition_status_source_value" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
       </Concepts>
     </ConditionOccurrenceDefinition>
 
@@ -114,6 +141,11 @@
             <Field key="snomed" typeId="TypeId" />
           </Fields>
         </Concept>
+        <Concept>
+          <Fields>
+             <Field conceptId="condition_status_concept_id" sourceKey="condition_status_source_value" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
       </Concepts>
     </ConditionOccurrenceDefinition>
 
@@ -129,6 +161,11 @@
         <Concept>
           <Fields>
             <Field key="others" typeId="TypeId" isNullable="true"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <Fields>
+             <Field conceptId="condition_status_concept_id" sourceKey="condition_status_source_value" defaultTypeId="0"/>
           </Fields>
         </Concept>
       </Concepts>

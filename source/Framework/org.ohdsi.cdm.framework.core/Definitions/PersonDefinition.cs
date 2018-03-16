@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.entities.Omop;
 using org.ohdsi.cdm.framework.shared.Extensions;
@@ -58,13 +59,20 @@ namespace org.ohdsi.cdm.framework.core.Definitions
                }
             }
 
+            var startDate = reader.GetDateTime(StartDate);
+            var endDate = reader.GetDateTime(EndDate);
+            var startTime = reader.GetTime(StartTime) ?? startDate.ToString("HH:mm:ss", CultureInfo.InvariantCulture);
+            var endTime = reader.GetTime(EndTime) ?? endDate.ToString("HH:mm:ss", CultureInfo.InvariantCulture);
+
             yield return new Person
                             {
                                ObservationPeriodGap = reader.GetInt(ObservationPeriodGap) ?? 32,
                                AdditionalFields = additionalFields,
                                PersonId = personId.Value,
-                               StartDate = reader.GetDateTime(StartDate),
-                               EndDate = reader.GetDateTime(EndDate),
+                               StartDate = startDate,
+                               EndDate = endDate,
+                               StartTime = startTime,
+                               EndTime = endTime,
                                PersonSourceValue = reader.GetString(PersonSourceValue),
                                GenderSourceValue = genderSource,
                                GenderConceptId = genderConceptId ?? 0,

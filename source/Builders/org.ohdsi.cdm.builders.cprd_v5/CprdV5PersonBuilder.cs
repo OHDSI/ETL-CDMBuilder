@@ -25,10 +25,28 @@ namespace org.ohdsi.cdm.builders.cprd_v5
          var payerPlanPeriods = BuildPayerPlanPeriods(payerPlanPeriodsRaw.ToArray(), null).ToArray();
          var cohort = BuildCohort(cohortRecords.ToArray(), observationPeriods).ToArray();
 
+         
+         var visitOccurrences = new Dictionary<long, VisitOccurrence>();
+         var visitIds = new List<long>();
+
          // Build and clenaup visit occurrences entities
-         var visitOccurrences =
-            CleanupVisits(BuildVisitOccurrences(visitOccurrencesRaw.ToArray(), observationPeriods), cohort,
-               observationPeriods).ToDictionary(visitOccurrence => visitOccurrence.Id);
+         foreach (var visitOccurrence in CleanupVisits(BuildVisitOccurrences(visitOccurrencesRaw.ToArray(), observationPeriods), cohort,
+               observationPeriods))
+         {
+            visitOccurrences.Add(visitOccurrence.Id, visitOccurrence);
+            visitIds.Add(visitOccurrence.Id);
+         }
+
+         long? prevVisitId = null;
+         foreach (var visitId in visitIds.OrderBy(v => v))
+         {
+            if (prevVisitId.HasValue)
+            {
+               visitOccurrences[visitId].PrecedingVisitOccurrenceId = prevVisitId;
+            }
+
+            prevVisitId = visitId;
+         }
 
          var drugExposures = BuildDrugExposures(drugExposuresRaw.ToArray(), visitOccurrences, observationPeriods).ToArray();
          var deviceExposure = BuildDeviceExposure(deviceExposureRaw.ToArray(), visitOccurrences, observationPeriods).ToArray();
@@ -71,7 +89,7 @@ namespace org.ohdsi.cdm.builders.cprd_v5
             procedureCosts,
             CleanupObservations(observations, measurements, conditionOccurrences, procedureOccurrences).ToArray(),
             measurements,
-            visitOccurrences.Values.ToArray(), new VisitCost[0], cohort, deviceExposure, new DeviceCost[0]);
+            visitOccurrences.Values.ToArray(), new VisitCost[0], cohort, deviceExposure, new DeviceCost[0], new Note[0]);
       }
 
       public override Person BuildPerson(List<Person> records)

@@ -40,6 +40,25 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
                }
             }
          }
+
+         if (schemaName.ToLower().Trim() != "dbo")
+         {
+            CreateSchema();
+         }
+      }
+
+      public void CreateSchema()
+      {
+         using (var connection = SqlConnectionHelper.OpenOdbcConnection(connectionString))
+         {
+            var query = string.Format("create schema [{0}]", schemaName);
+
+            using (var command = new OdbcCommand(query, connection))
+            {
+               command.CommandTimeout = 0;
+               command.ExecuteNonQuery();
+            }
+         }
       }
 
       public void DropDatabase()
@@ -153,6 +172,7 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
          using (var connection = SqlConnectionHelper.OpenOdbcConnection(connectionString))
          {
             query = string.Format(query, vocab["server"], vocab["database"]);
+            query = query.Replace("{sc}", schemaName);
             using (var command = new OdbcCommand(query, connection))
             {
                command.CommandTimeout = 0;
@@ -195,7 +215,8 @@ namespace org.ohdsi.cdm.framework.data.DbLayer
          {
             foreach (var subQuery in query.Split(new[] { "\r\nGO", "\nGO" }, StringSplitOptions.None))
             {
-               using (var command = new OdbcCommand(subQuery, connection))
+               var q  = subQuery.Replace("{sc}", schemaName);
+               using (var command = new OdbcCommand(q, connection))
                {
                   command.CommandTimeout = 0;
                   command.ExecuteNonQuery();

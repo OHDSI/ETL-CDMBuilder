@@ -5,7 +5,7 @@
            ,[DEFINITION_TYPE_CONCEPT_ID]
            ,[COHORT_DEFINITION_SYNTAX]
            ,[SUBJECT_CONCEPT_ID]
-           ,[COHORT_INSTANTIATION_DATE])
+           ,[COHORT_INITIATION_DATE])
      VALUES
            (224
            ,'HES Patients'

@@ -31,6 +31,15 @@ namespace org.ohdsi.cdm.framework.core.Savers
 
       public override void Write(int? chunkId, int? subChunkId, System.Data.IDataReader reader, string tableName)
       {
+         if (tableName.ToLower().StartsWith("_chunks"))
+         {
+            tableName = Settings.Current.Building.SourceSchemaName + "." + tableName;
+         }
+         else
+         {
+            tableName = Settings.Current.Building.DestinationSchemaName + "." + tableName;
+         }
+
          bulkCopy.Write(reader, tableName);
       }
 

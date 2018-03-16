@@ -5,10 +5,7 @@
 
     <Variable name="procmod" database="ccae, mdcr">PROCMOD</Variable>
     <Variable name="procmod" database="mdcd">NULL AS PROCMOD</Variable>
-
-    <Variable name="icdVer" database="ccae, mdcr">CASE WHEN DXVER NOT IN ('0', '9') THEN CASE WHEN ADMDATE &lt; '10/01/2015' THEN '9' ELSE '0' END ELSE DXVER END as DXVER, CASE WHEN PROCTYP = '' OR PROCTYP IS NULL THEN CASE WHEN ADMDATE &lt; '10/01/2015' THEN '9' ELSE '0' END WHEN PROCTYP = '0' THEN '0' ELSE '9' END as PROCTYP</Variable>
-    <Variable name="icdVer" database="mdcd">'9' as DXVER, '9' as PROCTYP</Variable>
-
+    
     <Variable name="diagnosisField" database="ccae, mdcr">PDX, DX1, DX2, DX3, DX4, DX5</Variable>
     <Variable name="diagnosisField" database="mdcd">PDX, DX1, DX2, DX3, DX4, null DX5</Variable>
   </Variables>
@@ -31,6 +28,11 @@
     DEDUCT, NETPAY, COB, PAY, REVCODE, DRG, DSTATUS, RTRIM(LTRIM(ISNULL({providField}, ''))) PROVID,
     RTRIM(LTRIM(ISNULL(CAST(STDPROV AS VARCHAR), ''))) + ';' + RTRIM(LTRIM(ISNULL({providField}, ''))) ProviderIdKey,
     FACHDID, YEAR,
+    case
+    when DSTATUS is null or DSTATUS = '' THEN NULL
+    else cast(DSTATUS as int)
+    end as DSTATUS_INT,
+    cast(DRG as int) as DRG_INT,
     CASE
     WHEN DSTATUS IN ('20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '40', '41', '42') THEN 1
     ELSE 0
@@ -45,7 +47,7 @@
     ELSE YEAR
     END AS UPDATED_YEAR, 'ccae/mdcr' source,
     44818668 CurrencyConceptId,
-    {icdVer},
+    CASE WHEN DXVER NOT IN ('0', '9') THEN CASE WHEN ADMDATE &lt; '10/01/2015' THEN '9' ELSE '0' END ELSE DXVER END as DXVER, CASE WHEN PROCTYP = '' OR PROCTYP IS NULL THEN CASE WHEN ADMDATE &lt; '10/01/2015' THEN '9' ELSE '0' END WHEN PROCTYP = '0' THEN '0' ELSE '9' END as PROCTYP,
     CASE
     WHEN DSTATUS = '01' THEN 'Discharged to home self care'
     WHEN DSTATUS = '02' THEN 'Transfer to short term hospital'
@@ -165,6 +167,7 @@
     <DrugExposureDefinition>
       <PersonId>ENROLID</PersonId>
       <StartDate>SVCDATE</StartDate>
+      <EndDate>SVCDATE</EndDate>
       <Concepts>
         <Concept>
           <!--<IdRequired>true</IdRequired>-->
@@ -250,6 +253,16 @@
             <Field key="REVCODE"/>
           </Fields>
         </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\Drg.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="DRG_INT" sourceKey="DRG" eventDate="TSVCDAT"/>
+          </Fields>
+        </Concept>
       </Concepts>
     </ProcedureCostDefinition>
   </ProcedureCost>
@@ -277,12 +290,21 @@
             <Field key="CLAIM_TYPE" defaultTypeId="44818517"/>
           </Fields>
         </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\DischargeTo.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="DSTATUS_INT" sourceKey="DSTATUS" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
       </Concepts>
     </VisitOccurrenceDefinition>
   </VisitOccurrence>
   <Death>
     <DeathDefinition>
-      <Condition>{DXVER} = 9</Condition>
       <PersonId>ENROLID</PersonId>
       <StartDate>SVCDATE</StartDate>
       <Died>DIED</Died>
@@ -302,40 +324,6 @@
           <ConceptIdMappers>
             <Mapper>
               <Lookup>TruvenV5\Lookups\DeathCodes.sql</Lookup>
-            </Mapper>
-          </ConceptIdMappers>
-          <Fields>
-            <Field key="PDX" defaultTypeId="38003567"/>
-            <Field key="DX1" defaultTypeId="38003567"/>
-            <Field key="DX2" defaultTypeId="38003567"/>
-            <Field key="DX3" defaultTypeId="38003567"/>
-            <Field key="DX4" defaultTypeId="38003567"/>
-            <Field key="DX5" defaultTypeId="38003567"/>
-          </Fields>
-        </Concept>
-      </Concepts>
-    </DeathDefinition>
-    <DeathDefinition>
-      <Condition>{DXVER} = 0</Condition>
-      <PersonId>ENROLID</PersonId>
-      <StartDate>SVCDATE</StartDate>
-      <Died>DIED</Died>
-      <AdditionalFields>
-        <string>priority</string>
-        <string>FACHDID</string>
-        <string>CASEID</string>
-        <string>YEAR</string>
-      </AdditionalFields>
-      <Concepts>
-        <Concept>
-          <Fields>
-            <Field key="DSTATUS" defaultConceptId="1" defaultTypeId="38003566"/>
-          </Fields>
-        </Concept>
-        <Concept>
-          <ConceptIdMappers>
-            <Mapper>
-              <Lookup>TruvenV5\Lookups\DeathCodes_ICD10.sql</Lookup>
             </Mapper>
           </ConceptIdMappers>
           <Fields>

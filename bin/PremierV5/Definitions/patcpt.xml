@@ -1,19 +1,18 @@
 ﻿<QueryDefinition>
    <Query>
-     select distinct
-     cast(pat.medrec_key as bigint),
-     pat.disc_date as procedure_date,
-     case
-     when pat.i_o_ind = 'I' then 38000249
-     when pat.i_o_ind = 'O' then 38000267
-     end as procedure_type_concept_id,
+     SELECT DISTINCT cast(pat.medrec_key as bigint) as medrec_key,
+     pat.disc_date AS procedure_date,
+     CASE
+     WHEN pat.i_o_ind = 'I' THEN 38000249
+     WHEN pat.i_o_ind = 'O' THEN 38000267
+     END AS procedure_type_concept_id,
      pat.pat_key,
      cpt.cpt_code,
      pat.adm_phy
-     from {sc}.pat
+     FROM {sc}.pat
      JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_SOURCE_VALUE
-     join {sc}.patcpt cpt on PAT.PAT_KEY = cpt.pat_key
-     order by cast(pat.medrec_key as bigint)
+     JOIN {sc}.patcpt cpt ON PAT.PAT_KEY = cpt.pat_key
+     ORDER BY cast(pat.medrec_key AS bigint)
    </Query>
    <ProcedureOccurrence>
       <ProcedureOccurrenceDefinition>

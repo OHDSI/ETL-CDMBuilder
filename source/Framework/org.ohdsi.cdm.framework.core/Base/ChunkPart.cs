@@ -113,6 +113,7 @@ namespace org.ohdsi.cdm.framework.core.Base
             AddEntity(queryDefinition, queryDefinition.Cohort, reader, recordGuid, "Cohort");
             AddEntity(queryDefinition, queryDefinition.Measurement, reader, recordGuid, "Measurement");
             AddEntity(queryDefinition, queryDefinition.DeviceExposure, reader, recordGuid, "DeviceExposure");
+            AddEntity(queryDefinition, queryDefinition.Note, reader, recordGuid, "Note");
          }
       }
 
@@ -232,7 +233,6 @@ namespace org.ohdsi.cdm.framework.core.Base
       private Dictionary<string, long> LookupProviders(IVocabularyService vocabularyService)
       {
          var providerKeys = new Dictionary<string, long>(StringComparer.OrdinalIgnoreCase);
-
          foreach (var pb in personBuilders.Values)
          {
             foreach (var providerKey in pb.Value.ProviderKeys.Keys)
@@ -244,14 +244,35 @@ namespace org.ohdsi.cdm.framework.core.Base
             }
          }
 
-         if (providerKeys.Count > 0)
+         if (providerKeys.Count <= 0) return providerKeys;
+
+         var attempt = 0;
+         var done = false;
+         while (!done)
          {
-            var providerIds = vocabularyService.GetProviderIds(providerKeys.Keys.ToArray());
-            foreach (var keyValuePair in providerIds)
+            try
             {
-               if (keyValuePair.Value != -1)
+               attempt++;
+               var providerIds = vocabularyService.GetProviderIds(providerKeys.Keys.ToArray());
+               foreach (var keyValuePair in providerIds)
                {
-                  providerKeys[keyValuePair.Key] = keyValuePair.Value;
+                  if (keyValuePair.Value != -1)
+                  {
+                     providerKeys[keyValuePair.Key] = keyValuePair.Value;
+                  }
+               }
+               done = true;
+            }
+            catch (Exception ex)
+            {
+               if (attempt <= 11)
+               {
+                  Logger.Write(chunkId, LogMessageTypes.Warning,
+                     "LookupProviders attempt=" + attempt + Logger.CreateExceptionString(ex));
+               }
+               else
+               {
+                  throw;
                }
             }
          }

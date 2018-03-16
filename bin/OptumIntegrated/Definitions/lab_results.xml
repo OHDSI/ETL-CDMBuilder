@@ -105,7 +105,7 @@
                   </Mapper>
                </ConceptIdMappers>
                <Fields>
-                  <Field key="rslt_unit_nm" defaultTypeId="0" ignoreCase="true"/>
+                  <Field key="rslt_unit_nm" defaultTypeId="0" />
                </Fields>
             </Concept>
          </Concepts>
@@ -151,7 +151,7 @@
             </Mapper>
           </ConceptIdMappers>
           <Fields>
-            <Field key="rslt_unit_nm" defaultTypeId="0" ignoreCase="true"/>
+            <Field key="rslt_unit_nm" defaultTypeId="0" />
           </Fields>
         </Concept>
       </Concepts>

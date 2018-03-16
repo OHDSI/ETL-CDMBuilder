@@ -111,6 +111,7 @@
     </Content>
     <Content Include="TruvenV5\Definitions\LAB.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="TruvenV5\Definitions\L_LOCATION.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -136,6 +137,12 @@
     </Content>
     <Content Include="TruvenV5\Lookups\ConditionSource_ICD10.sql">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TruvenV5\Lookups\Drg.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TruvenV5\Lookups\DischargeTo.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TruvenV5\Lookups\DeathDRG.sql">

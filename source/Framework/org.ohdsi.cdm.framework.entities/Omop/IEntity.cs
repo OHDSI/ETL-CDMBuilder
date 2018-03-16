@@ -14,6 +14,9 @@ namespace org.ohdsi.cdm.framework.entities.Omop
       long ConceptId { get; set; }
       DateTime StartDate { get; set; }
       DateTime? EndDate { get; set; }
+      string StartTime { get; set; }
+      string EndTime { get; set; }
+
       int? TypeConceptId { get; set; }
       long? VisitOccurrenceId { get; set; }
       string SourceValue { get; set; }

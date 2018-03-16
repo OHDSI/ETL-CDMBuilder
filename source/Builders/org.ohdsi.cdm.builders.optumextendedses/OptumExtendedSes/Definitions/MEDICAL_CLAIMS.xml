@@ -58,6 +58,8 @@
     m.ndc,
     m.Pat_PlanId,
     m.ICD_FLAG,
+    md.icd_flag as diag_icd_flag,
+    mp.icd_flag as proc_icd_flag,
     m.Units,
     44818668 as CurrencyConceptId
     from {sc}.Medical_claims m
@@ -134,7 +136,7 @@
     </ConditionOccurrenceDefinition>
 
     <ConditionOccurrenceDefinition>
-      <Condition>{ICD_FLAG} = 9</Condition>
+      <Condition>{diag_icd_flag} = 9</Condition>
       <PersonId>PERSON_ID</PersonId>
       <StartDate>VISIT_START_DATE</StartDate>
       <ProviderIdKey>ProviderIdKey</ProviderIdKey>
@@ -144,7 +146,7 @@
         <string>claim_type</string>
         <string>VISIT_START_DATE</string>
         <string>VISIT_END_DATE</string>
-        <string>ICD_FLAG</string>
+        <string>diag_icd_flag</string>
         <string>Units</string>
         <string>poa</string>
       </AdditionalFields>
@@ -161,13 +163,13 @@
             </Mapper>
           </SourceConceptIdMappers>
           <Fields>
-            <Field key="diag" typeId="diag_position," isNullable="true"/>
+            <Field key="diag" typeId="diag_position" isNullable="true"/>
           </Fields>
         </Concept>
       </Concepts>
     </ConditionOccurrenceDefinition>
     <ConditionOccurrenceDefinition>
-      <Condition>{ICD_FLAG} = 10</Condition>
+      <Condition>{diag_icd_flag} = 10</Condition>
       <PersonId>PERSON_ID</PersonId>
       <StartDate>VISIT_START_DATE</StartDate>
       <ProviderIdKey>ProviderIdKey</ProviderIdKey>
@@ -177,7 +179,7 @@
         <string>claim_type</string>
         <string>VISIT_START_DATE</string>
         <string>VISIT_END_DATE</string>
-        <string>ICD_FLAG</string>
+        <string>diag_icd_flag</string>
         <string>Units</string>
         <string>poa</string>
       </AdditionalFields>
@@ -202,7 +204,7 @@
   </ConditionOccurrence>
   <ProcedureOccurrence>
     <ProcedureOccurrenceDefinition>
-      <Condition>{ICD_FLAG} = 9</Condition>
+      <Condition>{icd_flag} = 9</Condition>
       <PersonId>PERSON_ID</PersonId>
       <StartDate>VISIT_START_DATE</StartDate>
       <EndDate>VISIT_END_DATE</EndDate>
@@ -232,15 +234,47 @@
           </SourceConceptIdMappers>
           <Fields>
             <Field key="proc_cd" defaultTypeId="4" isNullable="true"/>
-            
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureOccurrenceDefinition>
+    <ProcedureOccurrenceDefinition>
+      <Condition>{proc_icd_flag} = 9</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>VISIT_START_DATE</StartDate>
+      <EndDate>VISIT_END_DATE</EndDate>
+      <ProviderIdKey>ProviderIdKey</ProviderIdKey>
+      <Quantity>Units</Quantity>
+      <AdditionalFields>
+        <string>prov</string>
+        <string>provcat</string>
+        <string>claim_type</string>
+        <string>VISIT_START_DATE</string>
+        <string>VISIT_END_DATE</string>
+        <string>Pat_PlanId</string>
+        <string>Units</string>
+        <string>poa</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumExtendedSes\Lookups\ProcedureICD9.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumExtendedSes\Lookups\ProcedureSourceICD9.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
             <Field key="proc" typeId="proc_position"/>
           </Fields>
         </Concept>
       </Concepts>
     </ProcedureOccurrenceDefinition>
-
     <ProcedureOccurrenceDefinition>
-      <Condition>{ICD_FLAG} = 10</Condition>
+      <Condition>{icd_flag} = 10</Condition>
       <PersonId>PERSON_ID</PersonId>
       <StartDate>VISIT_START_DATE</StartDate>
       <EndDate>VISIT_END_DATE</EndDate>
@@ -270,6 +304,40 @@
           </SourceConceptIdMappers>
           <Fields>
             <Field key="proc_cd" defaultTypeId="4" isNullable="true"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureOccurrenceDefinition>
+    <ProcedureOccurrenceDefinition>
+      <Condition>{proc_icd_flag} = 10</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>VISIT_START_DATE</StartDate>
+      <EndDate>VISIT_END_DATE</EndDate>
+      <ProviderIdKey>ProviderIdKey</ProviderIdKey>
+      <Quantity>Units</Quantity>
+      <AdditionalFields>
+        <string>prov</string>
+        <string>provcat</string>
+        <string>claim_type</string>
+        <string>VISIT_START_DATE</string>
+        <string>VISIT_END_DATE</string>
+        <string>Pat_PlanId</string>
+        <string>Units</string>
+        <string>poa</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumExtendedSes\Lookups\ProcedureICD10.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumExtendedSes\Lookups\ProcedureSourceICD10.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
             <Field key="proc" typeId="proc_position"/>
           </Fields>
         </Concept>
@@ -364,7 +432,7 @@
   </VisitCost>
   <Death>
     <DeathDefinition>
-      <Condition>{ICD_FLAG} = 9</Condition>
+      <Condition>{diag_icd_flag} = 9</Condition>
       <PersonId>PERSON_ID</PersonId>
       <StartDate>VISIT_END_DATE</StartDate>
       <Died>DIED</Died>
@@ -397,7 +465,7 @@
       </Concepts>
     </DeathDefinition>
     <DeathDefinition>
-      <Condition>{ICD_FLAG} = 10</Condition>
+      <Condition>{diag_icd_flag} = 10</Condition>
       <PersonId>PERSON_ID</PersonId>
       <StartDate>VISIT_END_DATE</StartDate>
       <Died>DIED</Died>

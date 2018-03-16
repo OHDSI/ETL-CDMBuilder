@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 using org.ohdsi.cdm.framework.data.DbLayer;
 using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.entities.DataReaders;
@@ -42,8 +41,6 @@ namespace org.ohdsi.cdm.framework.core.Savers
          if (offset.DeviceExposureIdChanged)
             deviceOffset = offset.DeviceExposureId;
 
-
-
          var conditionOffset = 0;
          if (offset.ConditionOccurrenceIdChanged)
             conditionOffset = offset.ConditionOccurrenceId;
@@ -80,30 +77,15 @@ namespace org.ohdsi.cdm.framework.core.Savers
          if (offset.ConditionEraIdChanged)
             conditionEraOffset = offset.ConditionEraId;
 
-         var dbKeyOffset = new DbKeyOffset(Settings.Current.Building.BuilderConnectionString);
-         foreach (
-            var reader in
-               dbKeyOffset.Update(Settings.Current.Building.Id.Value, visitOffset, periodOffset, drugOffset,
-                  procedureOffset, deviceOffset, conditionOffset, measurementOffset, observationOffset,
-                  observationPeriodOffset, visitCostOffset, procedureCostOffset, deviceCostOffset, drugEraOffset,
-                  conditionEraOffset))
-         {
-            offset.VisitOccurrenceOffset = reader.GetLong("VisitOccurrence").Value - visitOffset;
-            offset.PayerPlanPeriodOffset = reader.GetLong("PayerPlanPeriod").Value - periodOffset;
-            offset.DrugExposureOffset = reader.GetLong("DrugExposure").Value - drugOffset;
-            offset.ProcedureOccurrenceOffset = reader.GetLong("ProcedureOccurrence").Value - procedureOffset;
-            offset.DeviceExposureOffset = reader.GetLong("DeviceExposure").Value - deviceOffset;
+         var noteOffset = 0;
+         if (offset.NoteIdChanged)
+            noteOffset = offset.NoteId;
 
-            offset.ConditionOccurrenceOffset = reader.GetLong("ConditionOccurrence").Value - conditionOffset;
-            offset.MeasurementOffset = reader.GetLong("Measurement").Value - measurementOffset;
-            offset.ObservationOffset = reader.GetLong("Observation").Value - observationOffset;
-            offset.ObservationPeriodOffset = reader.GetLong("ObservationPeriod").Value - observationPeriodOffset;
-            offset.VisitCostOffset = reader.GetLong("VisitCost").Value - visitCostOffset;
-            offset.ProcedureCostOffset = reader.GetLong("ProcedureCost").Value - procedureCostOffset;
-            offset.DeviceCostOffset = reader.GetLong("DeviceCost").Value - deviceCostOffset;
-            offset.DrugEraOffset = reader.GetLong("DrugEra").Value - drugEraOffset;
-            offset.ConditionEraOffset = reader.GetLong("ConditionEra").Value - conditionEraOffset;
-         }
+         var dbKeyOffset = new DbKeyOffset(Settings.Current.Building.BuilderConnectionString);
+         dbKeyOffset.Update(Settings.Current.Building.Id.Value, offset, visitOffset, periodOffset, drugOffset,
+            procedureOffset, deviceOffset, conditionOffset, measurementOffset, observationOffset,
+            observationPeriodOffset, visitCostOffset, procedureCostOffset, deviceCostOffset, drugEraOffset,
+            conditionEraOffset, noteOffset);
       }
 
       public void Save(ChunkData chunk)
@@ -119,25 +101,62 @@ namespace org.ohdsi.cdm.framework.core.Savers
                return new v5.PersonDataReader(chunk.Persons.ToList());
 
             case "OBSERVATION_PERIOD":
+            {
+               if (Settings.Current.Building.CDM == CDMVersions.v52)
+               {
+                  return new v5.ObservationPeriodDataReader52(chunk.ObservationPeriods.ToList(), chunk.KeyMasterOffset);
+               }
+
                return new v5.ObservationPeriodDataReader(chunk.ObservationPeriods.ToList(), chunk.KeyMasterOffset);
+            }
 
             case "PAYER_PLAN_PERIOD":
                return new v5.PayerPlanPeriodDataReader(chunk.PayerPlanPeriods.ToList(), chunk.KeyMasterOffset);
 
             case "DEATH":
+            {
+               if (Settings.Current.Building.CDM == CDMVersions.v52)
+               {
+                  return new v5.DeathDataReader52(chunk.Deaths.ToList());
+               }
+
                return new v5.DeathDataReader(chunk.Deaths.ToList());
+            }
 
             case "DRUG_EXPOSURE":
+            {
+               if (Settings.Current.Building.CDM == CDMVersions.v52)
+               {
+                  return new v5.DrugExposureDataReader52(chunk.DrugExposures.ToList(), chunk.KeyMasterOffset);
+               }
+
                return new v5.DrugExposureDataReader(chunk.DrugExposures.ToList(), chunk.KeyMasterOffset);
+            }
+
 
             case "OBSERVATION":
                return new v5.ObservationDataReader(chunk.Observations.ToList(), chunk.KeyMasterOffset);
 
             case "VISIT_OCCURRENCE":
+            {
+               if (Settings.Current.Building.CDM == CDMVersions.v52)
+               {
+                  return new v5.VisitOccurrenceDataReader52(chunk.VisitOccurrences.ToList(), chunk.KeyMasterOffset);
+               }
+
                return new v5.VisitOccurrenceDataReader(chunk.VisitOccurrences.ToList(), chunk.KeyMasterOffset);
+            }
 
             case "PROCEDURE_OCCURRENCE":
+            {
+               if (Settings.Current.Building.CDM == CDMVersions.v52)
+               {
+                  return new v5.ProcedureOccurrenceDataReader52(chunk.ProcedureOccurrences.ToList(),
+                     chunk.KeyMasterOffset);
+               }
+
                return new v5.ProcedureOccurrenceDataReader(chunk.ProcedureOccurrences.ToList(), chunk.KeyMasterOffset);
+            }
 
             case "DRUG_ERA":
                return new v5.DrugEraDataReader(chunk.DrugEra.ToList(), chunk.KeyMasterOffset);
@@ -146,7 +165,15 @@ namespace org.ohdsi.cdm.framework.core.Savers
                return new v5.ConditionEraDataReader(chunk.ConditionEra.ToList(), chunk.KeyMasterOffset);
 
             case "DEVICE_EXPOSURE":
+            {
+               if (Settings.Current.Building.CDM == CDMVersions.v52)
+               {
+                  return new v5.DeviceExposureDataReader52(chunk.DeviceExposure.ToList(), chunk.KeyMasterOffset);
+               }
+
                return new v5.DeviceExposureDataReader(chunk.DeviceExposure.ToList(), chunk.KeyMasterOffset);
+            }
+
 
             case "MEASUREMENT":
                return new v5.MeasurementDataReader(chunk.Measurements.ToList(), chunk.KeyMasterOffset);
@@ -159,10 +186,15 @@ namespace org.ohdsi.cdm.framework.core.Savers
                if (Settings.Current.Building.CDM == CDMVersions.v5)
                {
                   return new v5.ConditionOccurrenceDataReader(chunk.ConditionOccurrences.ToList(), chunk.KeyMasterOffset);
-               }
+               } 
                if (Settings.Current.Building.CDM == CDMVersions.v501)
                {
-                  return new v5.ConditionOccurrenceDataReader2(chunk.ConditionOccurrences.ToList(),
+                  return new v5.ConditionOccurrenceDataReader501(chunk.ConditionOccurrences.ToList(),
+                     chunk.KeyMasterOffset);
+               }
+               if (Settings.Current.Building.CDM == CDMVersions.v52)
+               {
+                  return new v5.ConditionOccurrenceDataReader52(chunk.ConditionOccurrences.ToList(),
                      chunk.KeyMasterOffset);
                }
                break;
@@ -181,7 +213,17 @@ namespace org.ohdsi.cdm.framework.core.Savers
                return new v5.VisitCostDataReader(chunk.VisitCost.ToList(), chunk.KeyMasterOffset);
 
             case "COST":
+            {
+               if (Settings.Current.Building.CDM == CDMVersions.v52)
+               {
+                  return new v5.CostDataReader52(chunk.Cost.ToList(), chunk.KeyMasterOffset);
+               }
+
                return new v5.CostDataReader(chunk.Cost.ToList(), chunk.KeyMasterOffset);
+            }
+
+            case "NOTE":
+               return new v5.NoteDataReader52(chunk.Note.ToList(), chunk.KeyMasterOffset);
          }
 
          throw new Exception("CreateDataReader, unsupported table name: " + table);
@@ -222,141 +264,12 @@ namespace org.ohdsi.cdm.framework.core.Savers
                Write(chunk, "PROCEDURE_COST");
                Write(chunk, "VISIT_COST");
             }
-            else if (Settings.Current.Building.CDM == CDMVersions.v501)
+            else
             {
                Write(chunk, "COST");
+               Write(chunk, "NOTE");
             }
 
-            Commit();
-         }
-         catch (Exception e)
-         {
-            Logger.WriteError(chunk.ChunkId, e);
-            Rollback();
-            Logger.Write(chunk.ChunkId, LogMessageTypes.Debug, "Rollback - Complete");
-            throw;
-         }
-      }
-
-      private void SaveAsync(ChunkData chunk)
-      {
-         try
-         {
-            UpdateOffset(chunk.KeyMasterOffset);
-
-            var tasks = new List<Task>();
-
-            tasks.Add(
-               Task.Run(
-                  () => Write(chunk.ChunkId, chunk.SubChunkId, new v5.PersonDataReader(chunk.Persons.ToList()), "PERSON")));
-            tasks.Add(
-               Task.Run(
-                  () =>
-                     Write(chunk.ChunkId, chunk.SubChunkId,
-                        new v5.ObservationPeriodDataReader(chunk.ObservationPeriods.ToList(), chunk.KeyMasterOffset),
-                        "OBSERVATION_PERIOD")));
-            tasks.Add(
-               Task.Run(
-                  () =>
-                     Write(chunk.ChunkId, chunk.SubChunkId,
-                        new v5.PayerPlanPeriodDataReader(chunk.PayerPlanPeriods.ToList(), chunk.KeyMasterOffset),
-                        "PAYER_PLAN_PERIOD")));
-            tasks.Add(
-               Task.Run(() => Write(chunk.ChunkId, chunk.SubChunkId, new v5.DeathDataReader(chunk.Deaths.ToList()), "DEATH")));
-            tasks.Add(
-               Task.Run(
-                  () =>
-                     Write(chunk.ChunkId, chunk.SubChunkId,
-                        new v5.DrugExposureDataReader(chunk.DrugExposures.ToList(), chunk.KeyMasterOffset), "DRUG_EXPOSURE")));
-            tasks.Add(
-               Task.Run(
-                  () =>
-                     Write(chunk.ChunkId, chunk.SubChunkId,
-                        new v5.ObservationDataReader(chunk.Observations.ToList(), chunk.KeyMasterOffset), "OBSERVATION")));
-            tasks.Add(
-               Task.Run(
-                  () =>
-                     Write(chunk.ChunkId, chunk.SubChunkId,
-                        new v5.VisitOccurrenceDataReader(chunk.VisitOccurrences.ToList(), chunk.KeyMasterOffset),
-                        "VISIT_OCCURRENCE")));
-            tasks.Add(
-               Task.Run(
-                  () =>
-                     Write(chunk.ChunkId, chunk.SubChunkId,
-                        new v5.ProcedureOccurrenceDataReader(chunk.ProcedureOccurrences.ToList(), chunk.KeyMasterOffset),
-                        "PROCEDURE_OCCURRENCE")));
-
-            tasks.Add(
-               Task.Run(
-                  () =>
-                     Write(chunk.ChunkId, chunk.SubChunkId,
-                        new v5.DrugEraDataReader(chunk.DrugEra.ToList(), chunk.KeyMasterOffset), "DRUG_ERA")));
-            tasks.Add(
-               Task.Run(
-                  () =>
-                     Write(chunk.ChunkId, chunk.SubChunkId,
-                        new v5.ConditionEraDataReader(chunk.ConditionEra.ToList(), chunk.KeyMasterOffset), "CONDITION_ERA")));
-            tasks.Add(
-               Task.Run(
-                  () =>
-                     Write(chunk.ChunkId, chunk.SubChunkId,
-                        new v5.DeviceExposureDataReader(chunk.DeviceExposure.ToList(), chunk.KeyMasterOffset),
-                        "DEVICE_EXPOSURE")));
-            tasks.Add(
-               Task.Run(
-                  () =>
-                     Write(chunk.ChunkId, chunk.SubChunkId,
-                        new v5.MeasurementDataReader(chunk.Measurements.ToList(), chunk.KeyMasterOffset), "MEASUREMENT")));
-            tasks.Add(
-               Task.Run(() => Write(chunk.ChunkId, chunk.SubChunkId, new v5.CohortDataReader(chunk.Cohort.ToList()), "COHORT")));
-
-            if (Settings.Current.Building.CDM == CDMVersions.v5)
-            {
-               tasks.Add(
-                  Task.Run(
-                     () =>
-                        Write(chunk.ChunkId, chunk.SubChunkId,
-                           new v5.ConditionOccurrenceDataReader(chunk.ConditionOccurrences.ToList(), chunk.KeyMasterOffset),
-                           "CONDITION_OCCURRENCE")));
-
-               tasks.Add(
-                  Task.Run(
-                     () =>
-                        Write(chunk.ChunkId, chunk.SubChunkId,
-                           new v5.DrugCostDataReader(chunk.DrugCost.ToList(), chunk.KeyMasterOffset), "DRUG_COST")));
-               tasks.Add(
-                  Task.Run(
-                     () =>
-                        Write(chunk.ChunkId, chunk.SubChunkId,
-                           new v5.DeviceCostDataReader(chunk.DeviceCost.ToList(), chunk.KeyMasterOffset), "DEVICE_COST")));
-               tasks.Add(
-                  Task.Run(
-                     () =>
-                        Write(chunk.ChunkId, chunk.SubChunkId,
-                           new v5.ProcedureCostDataReader(chunk.ProcedureCost.ToList(), chunk.KeyMasterOffset),
-                           "PROCEDURE_COST")));
-               tasks.Add(
-                  Task.Run(
-                     () =>
-                        Write(chunk.ChunkId, chunk.SubChunkId,
-                           new v5.VisitCostDataReader(chunk.VisitCost.ToList(), chunk.KeyMasterOffset), "VISIT_COST")));
-            }
-            else if (Settings.Current.Building.CDM == CDMVersions.v501)
-            {
-               tasks.Add(
-                  Task.Run(
-                     () =>
-                        Write(chunk.ChunkId, chunk.SubChunkId,
-                           new v5.ConditionOccurrenceDataReader2(chunk.ConditionOccurrences.ToList(), chunk.KeyMasterOffset),
-                           "CONDITION_OCCURRENCE")));
-               tasks.Add(
-                  Task.Run(
-                     () =>
-                        Write(chunk.ChunkId, chunk.SubChunkId,
-                           new v5.CostDataReader(chunk.Cost.ToList(), chunk.KeyMasterOffset), "COST")));
-            }
-
-            Task.WaitAll(tasks.ToArray());
             Commit();
          }
          catch (Exception e)

@@ -8,7 +8,7 @@ having count(*) > 1
 )
 , dups_medrec_key as
 (
-SELECT distinct {sc}.pat.medrec_key
+SELECT distinct pat.medrec_key
 FROM {sc}.pat
 join dups_pat_key on dups_pat_key.pat_key = {sc}.pat.pat_key
 ),

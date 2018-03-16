@@ -19,8 +19,8 @@ namespace org.ohdsi.cdm.framework.core.Definitions
       [XmlAttribute("eventDate")]
       public string EventDate { get; set; }
 
-      [XmlAttribute("ignoreCase")]
-      public bool IgnoreCase { get; set; }
+      [XmlAttribute("caseSensitive")]
+      public bool CaseSensitive { get; set; }
       
       [XmlIgnore]
       public int? DefaultTypeId { get; set; }
@@ -44,10 +44,6 @@ namespace org.ohdsi.cdm.framework.core.Definitions
 
       [XmlAttribute("defaultSource")]
       public string DefaultSource { get; set; }
-      
-      [XmlAttribute("conjunctionType")]
-      [DefaultValue(ConjunctionTypes.And)]
-      public ConjunctionTypes ConjunctionType { get; set; }
 
       [XmlAttribute("isNullable")]
       public bool IsNullable { get; set; }

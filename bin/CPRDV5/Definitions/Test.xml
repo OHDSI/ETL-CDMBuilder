@@ -333,7 +333,7 @@
             </Mapper>
           </ConceptIdMappers>
           <Fields>
-            <Field key="7df_units_source_value" defaultTypeId="0"/>
+            <Field key="7df_units_source_value" defaultTypeId="0" />
           </Fields>
         </Concept>
       </Concepts>
@@ -515,7 +515,7 @@
             </Mapper>
           </ConceptIdMappers>
           <Fields>
-            <Field key="7df_units_source_value" defaultTypeId="0"/>
+            <Field key="7df_units_source_value" defaultTypeId="0" />
           </Fields>
         </Concept>
       </Concepts>

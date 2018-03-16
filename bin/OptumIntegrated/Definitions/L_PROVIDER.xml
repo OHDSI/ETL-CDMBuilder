@@ -26,7 +26,7 @@
                   </Mapper>
                </ConceptIdMappers>
                <Fields>
-                  <Field key="specialty" ignoreCase="true"/>
+                  <Field key="specialty" />
                </Fields>
             </Concept>
          </Concepts>

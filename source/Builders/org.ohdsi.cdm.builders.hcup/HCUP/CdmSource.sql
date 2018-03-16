@@ -14,11 +14,13 @@ INSERT INTO {sc}.CDM_SOURCE
            ,VOCABULARY_VERSION)
      VALUES
            (
-		   'HCUP National (Nationwide) Inpatient Sample',
+		   'The Healthcare Cost and Utilization Project (HCUP), Nationwide Inpatient Sample (NIS)',
 		   'HCUP',
 		   'Janssen R&D',
-		   'The HCUP National Inpatient Sample database represents hospital data, collected under sponsorship of the Agency for Healthcare Research and Quality (AHRQ). The data includes diagnoses, procedures, discharge status, demographics, and charges for hospital care in the United States, regardless of payer. Information on drugs and devices is not included. The HCUP data is based on hospital visits, with no information linking multiple visits of the same patient together. Cost information has not yet been included in the CDM.',
-		   'https://www.hcup-us.ahrq.gov/nisoverview.jsp',
+		   'The Healthcare Cost and Utilization Project (HCUP) National Inpatient Sample (NIS) database is a representative sample of non-federal US community hospital data, collected under sponsorship of the Agency for Healthcare Research and Quality (AHRQ).  The publicly available data includes inpatient diagnoses (coded as ICD-9), procedures (ICD-9 Procedures), discharge status, demographics, and charges for hospital care in the United States, regardless of payer for patients of all ages.  Information on drugs and devices is not included.  The HCUP data is based on hospital visits, with no information linking multiple visits of the same patient together. 
+
+[For further information link to RWE site for HCUP.](https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F83fff67e-66ac-41dc-9d40-8c400846528e.xml)',
+		   'https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F83fff67e-66ac-41dc-9d40-8c400846528e.xml',
 		    'https://github.com/OHDSI/JCdmBuilder',
 			'{0}',
 			'{3}',

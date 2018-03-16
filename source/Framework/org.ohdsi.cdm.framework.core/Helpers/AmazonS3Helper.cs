@@ -28,65 +28,82 @@ namespace org.ohdsi.cdm.framework.core.Helpers
 
         public static void CopyFile(IAmazonS3 client, string bucketName, string fileName, IDataReader reader, string tableName)
         {
-            var timer = new Stopwatch();
-            timer.Start();
+           int fileIndex = 0;
+           var fileEnded = false;
 
-            using (var source = new MemoryStream())
-            using (TextWriter writer = new StreamWriter(source, new UTF8Encoding(false, true)))
-            using (
-               var csv = new CsvWriter(writer,
-                  new CsvHelper.Configuration.CsvConfiguration
-                  {
-                      HasHeaderRecord = false,
-                      Delimiter = "\t",
-                      Quote = '`',
-                      Encoding = Encoding.UTF8
-                  }))
-            {
-                while (reader.Read())
-                {
-                    for (var i = 0; i < reader.FieldCount; i++)
-                    {
-                        var type = reader.GetFieldType(i);
-                        var value = reader.GetValue(i);
-                        if (type == typeof(DateTime) && value != null)
-                        {
-                            csv.WriteField(((DateTime)value).ToString("yyyy-MM-dd"));
-                        }
-                        else if (type == typeof(string) && (value == null || value is DBNull))
-                        {
-                            csv.WriteField('\0');
-                        }
-                        else
-                        {
-                            csv.WriteField(value ?? string.Empty);
-                        }
-                    }
-                    csv.NextRecord();
-                }
-                writer.Flush();
-
-                timer.Stop();
-                timer.Restart();
-
-                using (var gz = Compress(source))
-                using (var directoryTransferUtility = new TransferUtility(client))
-                {
-                    directoryTransferUtility.Upload(new TransferUtilityUploadRequest
-                    {
-                        BucketName = bucketName,
-                        Key = fileName,
-                        ServerSideEncryptionMethod = ServerSideEncryptionMethod.AES256,
-                        StorageClass = S3StorageClass.ReducedRedundancy,
-                        InputStream = gz
-                    });
-                    
-                    timer.Stop();
-                }
-            }
+           while (!fileEnded)
+           {
+              var name = fileName + "." + fileIndex;
+              fileEnded = SaveFilePart(client, bucketName, name, reader);
+              fileIndex++;
+           }
         }
 
-        public static MemoryStream Compress(Stream inputStream)
+       private static bool SaveFilePart(IAmazonS3 client, string bucketName, string fileName, IDataReader reader)
+       {
+          var rowNumbers = 0;
+          const int rowLimit = 10*1000*1000;
+          var ended = false;
+
+          using (var source = new MemoryStream())
+          using (TextWriter writer = new StreamWriter(source, new UTF8Encoding(false, true)))
+          using (
+             var csv = new CsvWriter(writer,
+                new CsvHelper.Configuration.Configuration
+                {
+                   HasHeaderRecord = false,
+                   Delimiter = "\t",
+                   Quote = '`',
+                   Encoding = Encoding.UTF8
+                }))
+          {
+             while (rowNumbers < rowLimit)
+             {
+                ended = !reader.Read();
+
+                if (ended)
+                   break;
+
+                for (var i = 0; i < reader.FieldCount; i++)
+                {
+                   var type = reader.GetFieldType(i);
+                   var value = reader.GetValue(i);
+                   if (type == typeof (DateTime) && value != null)
+                   {
+                      csv.WriteField(((DateTime) value).ToString("yyyy-MM-dd"));
+                   }
+                   else if (type == typeof (string) && (value == null || value is DBNull))
+                   {
+                      csv.WriteField('\0');
+                   }
+                   else
+                   {
+                      csv.WriteField(value ?? string.Empty);
+                   }
+                }
+                csv.NextRecord();
+                rowNumbers++;
+             }
+             writer.Flush();
+
+             using (var gz = Compress(source))
+             using (var directoryTransferUtility = new TransferUtility(client))
+             {
+                directoryTransferUtility.Upload(new TransferUtilityUploadRequest
+                {
+                   BucketName = bucketName,
+                   Key = fileName,
+                   ServerSideEncryptionMethod = ServerSideEncryptionMethod.AES256,
+                   StorageClass = S3StorageClass.ReducedRedundancy,
+                   InputStream = gz
+                });
+             }
+          }
+
+          return ended;
+       }
+
+       public static MemoryStream Compress(Stream inputStream)
         {
             var timer = new Stopwatch();
             timer.Start();

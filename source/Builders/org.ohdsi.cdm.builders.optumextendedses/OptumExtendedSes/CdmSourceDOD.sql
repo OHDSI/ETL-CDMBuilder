@@ -14,15 +14,19 @@ INSERT INTO {sc}.CDM_SOURCE
            ,VOCABULARY_VERSION)
      VALUES
            (
-		   'Optum Extended DOD',
-		   'DOD',
+		   'Optum’s  Clinformatics® Extended Data Mart – Date of Death (DOD)',
+		   'OPTUM Extended DOD',
 		   'Janssen R&D',
-		    'Optum Clinformatics Extended DataMart is an adjudicated US administrative health claims database for members of private health insurance, who are fully insured in commercial plans or in administrative services only (ASOs), Legacy Medicare Choice Lives (prior to January 2006), and Medicare Advantage (Medicare Advantage Prescription Drug coverage starting January 2006).  The population is primarily representative of commercial claims patients (0-65 years old) with some Medicare (65+ years old) however ages are capped at 90 years.  It includes data captured from administrative claims processed from inpatient and outpatient medical services and prescriptions as dispensed, as well as results for outpatient lab tests processed by large national lab vendors who participate in data exchange with Optum.  This dataset also provides date of death (month and year only) for members with both medical and pharmacy coverage from the Social Security Death Master File (however prior to 2011 also included the CDC’s National Death Index) and location information for patients is at the US state level.  [For further information link to RWE site for Optum DOD.](https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F5115ce8f-54d7-46f8-bef5-7fba67943b75.xml)',
-			'https://jnj.sharepoint.com/sites/PHM-GCSP-RND/RWE/Pages/DataSourceDetails.aspx?DataSourceItem=38',
+		    'Optum Clinformatics® Extended DataMart is an adjudicated US administrative health claims database for members of private health insurance, who are fully insured in commercial plans or in administrative services only (ASOs), Legacy Medicare Choice Lives (prior to January 2006), and Medicare Advantage (Medicare Advantage Prescription Drug coverage starting January 2006).  The population is primarily representative of commercial claims patients (0-65 years old) with some Medicare (65+ years old) however ages are capped at 90 years.  It includes data captured from administrative claims processed from inpatient and outpatient medical services and prescriptions as dispensed, as well as results for outpatient lab tests processed by large national lab vendors who participate in data exchange with Optum.  This dataset also provides date of death (month and year only) for members with both medical and pharmacy coverage from the Social Security Death Master File (however after 2011 reporting frequency changed due to changes in reporting requirements) and location information for patients is at the US state level. Family identifiers are provided and utilized to infer mother-child linkages.
+
+The major data elements contained within this database are outpatient pharmacy dispensing claims (coded with National Drug Codes (NDC), inpatient and outpatient medical claims which provide procedure codes (coded in CPT-4, HCPCs, ICD-9-CM or ICD-10-PCS) and diagnosis codes (coded in ICD-9-CM or ICD-10-CM).  The data also contain selected laboratory test results (those sent to a contracted thirds-party laboratory service provider) for a non-random sample of the population (coded with LOINC codes).  
+
+[For further information link to RWE site for Optum DOD.](https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F5115ce8f-54d7-46f8-bef5-7fba67943b75.xml)',
+			'https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F5115ce8f-54d7-46f8-bef5-7fba67943b75.xml',
 			'https://github.com/OHDSI/ETL-CDMBuilder/tree/master/man',
 			'{0}',
 			'{3}',
-			'V5.0.1',
+			'V5.2.0',
 			'{1}'
 		   );
 

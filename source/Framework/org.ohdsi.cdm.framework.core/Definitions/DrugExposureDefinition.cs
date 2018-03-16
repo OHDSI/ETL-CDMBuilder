@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.entities.Omop;
@@ -22,17 +23,30 @@ namespace org.ohdsi.cdm.framework.core.Definitions
       public string DoseUnitSourceValue { get; set; }
       public string StopReason { get; set; }
 
+      // CDM v5.2 props
+      public string VerbatimEndDate { get; set; }
+
+
       public override IEnumerable<IEntity> GetConcepts(Concept concept, IDataRecord reader, KeyMasterOffset keyOffset)
       {
-         long? relevantConditionConceptId = 0;
          DateTime? endDate = null;
          
-         if(Concepts.Length == 2)
+         long? routeConceptId = null;
+         string routeSourceValue = null;
+         if (Concepts.Length == 2)
          {
-            var relevantConcepts = Concepts[1].GetConceptIdValues(Vocabulary, Concepts[1].Fields[0], reader);
-
-            if (relevantConcepts.Count > 0)
-                relevantConditionConceptId = relevantConcepts.Min(c => c.ConceptId);
+            var routeConcepts = base.GetConcepts(Concepts[1], reader, null).ToList();
+            routeSourceValue = reader.GetString(Concepts[1].Fields[0].Key);
+            if (routeConcepts.Count > 0)
+            {
+               routeConceptId = routeConcepts[0].ConceptId;
+               routeSourceValue = routeConcepts[0].SourceValue;
+            }
+         }
+         else
+         {
+            routeConceptId = reader.GetLong(RouteConceptId);
+            routeSourceValue = reader.GetString(RouteSourceValue);
          }
 
 
@@ -49,6 +63,8 @@ namespace org.ohdsi.cdm.framework.core.Definitions
                   endDate = reader.GetDateTime(EndDate);
             }
 
+            var verbatimEndDate = reader.GetDateTime(VerbatimEndDate);
+
             yield return new DrugExposure(e)
                             {
                                Id = keyOffset.DrugExposureId,
@@ -57,11 +73,12 @@ namespace org.ohdsi.cdm.framework.core.Definitions
                                CalculatedDaysSupply = calculatedDaysSupply,
                                Quantity = reader.GetDecimal(Quantity),
                                Sig = reader.GetString(Sig),
-                               RelevantConditionConceptId = relevantConditionConceptId,
                                EndDate = endDate == DateTime.MinValue ? null : endDate,
+                               StartTime = e.StartTime ?? e.StartDate.ToString("HH:mm:ss", CultureInfo.InvariantCulture),
+                               VerbatimEndDate = verbatimEndDate == DateTime.MinValue ? (DateTime?)null : verbatimEndDate,
                                GetEraConceptIdsCall = Vocabulary.LookupIngredientLevel,
-                               RouteConceptId = reader.GetLong(RouteConceptId),
-                               RouteSourceValue = reader.GetString(RouteSourceValue),
+                               RouteConceptId = routeConceptId,
+                               RouteSourceValue = routeSourceValue,
                                DoseUnitConceptId = reader.GetLong(DoseUnitConceptId),
                                DoseUnitSourceValue = reader.GetString(DoseUnitSourceValue),
                                StopReason = reader.GetString(StopReason)

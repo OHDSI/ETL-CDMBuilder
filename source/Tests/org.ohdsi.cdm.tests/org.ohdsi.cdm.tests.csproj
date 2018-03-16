@@ -88,15 +88,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TOptumSESPersonBuilder.cs" />
     <Compile Include="TParseSurgeryTime.cs" />
-    <Compile Include="TSeerPersonBuilder.cs" />
-    <Compile Include="TDynamicQuery.cs" />
     <Compile Include="TCodeValidator.cs" />
     <Compile Include="TDrugEra.cs" />
     <Compile Include="TEntityDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TQueryGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Builders\org.ohdsi.cdm.builders.optumextendedses\org.ohdsi.cdm.builders.optumextendedses.csproj">

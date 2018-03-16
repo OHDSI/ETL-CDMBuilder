@@ -1,0 +1,86 @@
+﻿<QueryDefinition>
+  <Query>
+    select cast(p.patient_sk AS BIGINT) AS person_id,
+    c.encounter_id,
+    c.performed_prsnl_id,
+    case
+    when l.loinc_code is null or l.loinc_code = '' then cast(c.event_code_id as varchar)
+    else l.loinc_code
+    end as source_value,
+    case
+    when l.loinc_code is null or l.loinc_code = '' then 0
+    else 1
+    end as isloinc,
+    case
+    when c.event_start_dt_tm is null then c.event_end_dt_tm
+    else c.event_start_dt_tm
+    end as start_date,
+    c.normal_high,
+    c.normal_low,
+    l.lab_procedure_name,
+    ec.event_code_desc,
+    u.unit_display,
+    c.result_value_num
+    FROM {sc}.hf_f_clinical_event as c
+    JOIN {sc}.hf_f_encounter as e on e.encounter_id = c.encounter_id
+    JOIN {sc}.hf_d_patient as p on e.patient_id = p.patient_id
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND p.patient_sk = ch.PERSON_SOURCE_VALUE
+    LEFT JOIN {sc}.hf_d_lab_procedure as l on l.lab_procedure_id = c.lab_procedure_id
+    LEFT JOIN {sc}.hf_d_event_code as ec on c.event_code_id = ec.event_code_id
+    LEFT JOIN {sc}.hf_d_unit as u on u.unit_id = c.result_units_id
+    order by p.patient_sk
+  </Query>
+  <Measurement>
+    <MeasurementDefinition>
+      <Condition>{isloinc} = 1</Condition>
+      <PersonId>person_id</PersonId>
+      <VisitOccurrenceId>encounter_id</VisitOccurrenceId>
+      <ProviderId>performed_prsnl_id</ProviderId>
+      <StartDate>start_date</StartDate>
+      <RangeLow>normal_low</RangeLow>
+      <RangeHigh>normal_high</RangeHigh>
+      <ValueAsNumber>result_value_num</ValueAsNumber>
+      <ValueSourceValue>result_value_num</ValueSourceValue>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Cerner\Lookups\Loinc.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>Cerner\Lookups\LoincSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="source_value" defaultTypeId="45754805" sourceKey="lab_procedure_name"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </MeasurementDefinition>
+    <MeasurementDefinition>
+      <Condition>{isloinc} = 0</Condition>
+      <PersonId>person_id</PersonId>
+      <VisitOccurrenceId>encounter_id</VisitOccurrenceId>
+      <ProviderId>performed_prsnl_id</ProviderId>
+      <StartDate>start_date</StartDate>
+      <RangeLow>normal_low</RangeLow>
+      <RangeHigh>normal_high</RangeHigh>
+      <ValueAsNumber>result_value_num</ValueAsNumber>
+      <ValueSourceValue>result_value_num</ValueSourceValue>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Cerner\Lookups\EventCode.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="source_value" defaultTypeId="45754805" sourceKey="event_code_desc"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </MeasurementDefinition>
+  </Measurement>
+</QueryDefinition>

@@ -23,6 +23,7 @@ namespace org.ohdsi.cdm.framework.entities.Builder
       private int devId;
 
       private int costId;
+      private int noteId;
       #endregion
 
       #region Properties
@@ -103,6 +104,11 @@ namespace org.ohdsi.cdm.framework.entities.Builder
          get { return Interlocked.Increment(ref costId); }
       }
 
+      public int NoteId
+      {
+         get { return Interlocked.Increment(ref noteId); }
+      }
+
       public bool DrugExposureIdChanged
       {
          get { return deId > 0; }
@@ -180,6 +186,11 @@ namespace org.ohdsi.cdm.framework.entities.Builder
          get { return costId > 0; }
       }
 
+      public bool NoteIdChanged
+      {
+         get { return noteId > 0; }
+      }
+
       public long VisitOccurrenceOffset { get; set; }
       public long PayerPlanPeriodOffset { get; set; }
       public long DrugExposureOffset { get; set; }
@@ -197,6 +208,7 @@ namespace org.ohdsi.cdm.framework.entities.Builder
       public long ConditionEraOffset { get; set; }
 
       public long CostOffset { get; set; }
+      public long NoteOffset { get; set; }
       #endregion
    }
 }

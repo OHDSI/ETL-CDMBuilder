@@ -24,20 +24,35 @@ namespace org.ohdsi.cdm.framework.core.Definitions
            if (Concepts.Length < 2)
               return new KeyValuePair<long?, string>(null, string.Empty);
 
-           var unitsConcepts = base.GetConcepts(Concepts[1], reader, null).ToList();
-
+           var unitsConcepts = base.GetConcepts(Concepts[1], reader, null).Where(c => c.ConceptId != 0).ToList();
+           var sourceValue = reader.GetString(Concepts[1].Fields[0].Key);
+           
            if (unitsConcepts.Count > 0)
            {
               return new KeyValuePair<long?, string>(unitsConcepts[0].ConceptId, unitsConcepts[0].SourceValue);
            }
 
-           return new KeyValuePair<long?, string>(null, string.Empty);
+           return new KeyValuePair<long?, string>(null, sourceValue);
         }
 
         public override IEnumerable<IEntity> GetConcepts(Concept concept, IDataRecord reader, KeyMasterOffset keyOffset)
         {
            var obsConcepts = base.GetConcepts(concept, reader, keyOffset).ToList();
            var unitConcept = GetUnitConcept(reader);
+
+           long? valueAsConceptId = null;
+           if (Concepts.Length > 2)
+           {
+              var valueConcepts = base.GetConcepts(Concepts[2], reader, null).ToList();
+              if (valueConcepts.Count > 0)
+              {
+                 valueAsConceptId = valueConcepts[0].ConceptId;
+              }
+           }
+           else
+           {
+              valueAsConceptId = reader.GetLong(ValueAsConceptId);
+           }
 
             if (obsConcepts.Count > 0)
             {
@@ -52,7 +67,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
                 UnitConceptId = unitConcept.Key ?? 0,
                 UnitSourceValue = string.IsNullOrWhiteSpace(unitConcept.Value) ? null : unitConcept.Value,
                 ValueSourceValue = reader.GetString(ValueSourceValue),
-                ValueAsConceptId = reader.GetInt(ValueAsConceptId) ?? 0,
+                ValueAsConceptId = valueAsConceptId ?? 0,
                 Time = reader.GetTime(Time)
             };
             }

@@ -4,7 +4,7 @@
     cast(replace(l.ptid, 'PT','') as bigint) as PersonId,
     case
     when l.encid = '' or l.encid is null then NULL
-    else cast(replace(l.encid, 'E0000','') as bigint)
+    else cast(replace(l.encid, 'E000','') as bigint)
     end as VisitOccurrenceId,
     test_name,
     result_date,
@@ -73,7 +73,7 @@
             </Mapper>
           </ConceptIdMappers>
           <Fields>
-            <Field key="result_unit" defaultTypeId="0" ignoreCase="true"/>
+            <Field key="result_unit" defaultTypeId="0" />
           </Fields>
         </Concept>
       </Concepts>

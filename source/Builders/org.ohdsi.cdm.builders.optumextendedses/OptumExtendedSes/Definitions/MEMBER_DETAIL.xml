@@ -20,6 +20,47 @@
 
     <Variable name="familysource" database="ses">NULL as familysource</Variable>
     <Variable name="familysource" database="dod">family_id as familysource</Variable>
+
+    <Variable name="observation" database="ses">
+      1 as toObservation, d_home_ownership_code, d_household_income_range_code,  d_education_level_code, d_occupation_type_code,
+      case d_household_income_range_code
+      when '0' THEN 'Unknown'
+      when '1' THEN '&lt;$40K'
+      when '2' THEN '$40K-$49K'
+      when '3' THEN '$50K-$59K'
+      when '4' THEN '$60K-$74K'
+      when '5' THEN '$75K-$99K'
+      when '6' THEN '$100K+'
+      end as VALUE_AS_STRING_4076114,
+
+      case d_education_level_code
+      when 'A' THEN 'Less than 12th Grade'
+      when 'B' THEN 'High School Diploma'
+      when 'C' THEN 'Less than Bachelor Degree'
+      when 'D' THEN 'Bachelor Degree Plus'
+      when 'U' THEN 'Unknown'
+      end as VALUE_AS_STRING_42528763,
+
+      case d_home_ownership_code
+      when '1' THEN 'Probable Homeowner'
+      when '0' THEN 'Unknown'
+      end as VALUE_AS_STRING_4076206,
+
+      case d_occupation_type_code
+      when '1' THEN 'Manager/Owner/Professional'
+      when '2' THEN 'White Collar/Health/Civil Service/Military'
+      when '3' THEN 'Blue Collar'
+      when '4' THEN 'Homemaker/Retired'
+      when 'U' THEN 'Missing/Unknown'
+      end as VALUE_AS_STRING_4033543
+    </Variable>
+    <Variable name="observation" database="dod">
+      0 as toObservation, null as d_home_ownership_code, null as d_household_income_range_code,  null as d_education_level_code, null as d_occupation_type_code,
+      '' as VALUE_AS_STRING_4076114,
+      '' as VALUE_AS_STRING_42528763,
+      '' as VALUE_AS_STRING_4076206,
+      '' as VALUE_AS_STRING_4033543
+    </Variable>
   </Variables>
   <Query>
     with a as
@@ -40,6 +81,7 @@
     {race},
     {ethnicity},
     {location},
+    {observation},
     {familysource},
     COALESCE(bus,'') + ' ' bus,
     CASE
@@ -98,4 +140,73 @@
       <FamilySourceValue>familysource</FamilySourceValue>
     </PayerPlanPeriodDefinition>
   </PayerPlanPeriods>
+  <Observation>
+    <ObservationDefinition>
+      <Condition>{toObservation} = 1</Condition>
+      <IsUnique>true</IsUnique>
+      <PersonId>PATID</PersonId>
+      <StartDate>startDate</StartDate>
+      <AdditionalFields>
+        <string>VALUE_AS_STRING_4076114</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field defaultConceptId="4076114" sourceKey="d_household_income_range_code" defaultTypeId="44814721"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+    <ObservationDefinition>
+      <Condition>{toObservation} = 1</Condition>
+      <IsUnique>true</IsUnique>
+      <PersonId>PATID</PersonId>
+      <StartDate>startDate</StartDate>
+      <AdditionalFields>
+        <string>VALUE_AS_STRING_42528763</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field defaultConceptId="42528763" sourceKey="d_education_level_code" defaultTypeId="44814721"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+    <ObservationDefinition>
+      <Condition>{toObservation} = 1</Condition>
+      <IsUnique>true</IsUnique>
+      <PersonId>PATID</PersonId>
+      <StartDate>startDate</StartDate>
+      <ValuesAsNumber>
+        <string>d_home_ownership_code</string>
+      </ValuesAsNumber>
+      <AdditionalFields>
+        <string>VALUE_AS_STRING_4076206</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field defaultConceptId="4076206" sourceKey="d_home_ownership_code" defaultTypeId="44814721"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+    <ObservationDefinition>
+      <Condition>{toObservation} = 1</Condition>
+      <IsUnique>true</IsUnique>
+      <PersonId>PATID</PersonId>
+      <StartDate>startDate</StartDate>
+      <AdditionalFields>
+        <string>VALUE_AS_STRING_4033543</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field defaultConceptId="4033543" sourceKey="d_occupation_type_code" defaultTypeId="44814721"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+  </Observation>
 </QueryDefinition>

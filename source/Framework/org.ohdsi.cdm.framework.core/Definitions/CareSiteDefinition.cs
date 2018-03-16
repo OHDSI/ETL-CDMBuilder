@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
+using System.Linq;
 using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.entities.Omop;
 using org.ohdsi.cdm.framework.shared.Extensions;
@@ -29,15 +30,50 @@ namespace org.ohdsi.cdm.framework.core.Definitions
             ? id.Value.ToString(CultureInfo.InvariantCulture)
             : reader.GetString(CareSiteSourceValue);
 
-         yield return new CareSite
-                         {
-                            Id = id.Value,
-                            LocationId = locationId.HasValue ? locationId.Value : 0,
-                            PlaceOfSvcSourceValue = reader.GetString(PlaceOfSvcSourceValue),
-                            ConceptId = conceptId,
-                            Name = reader.GetString(Name),
-                            SourceValue = careSiteSourceValue
-                         };
+         if (concept == null)
+         {
+            yield return new CareSite
+            {
+               Id = id.Value,
+               LocationId = locationId.HasValue ? locationId.Value : 0,
+               PlaceOfSvcSourceValue = reader.GetString(PlaceOfSvcSourceValue),
+               ConceptId = conceptId,
+               Name = reader.GetString(Name),
+               SourceValue = careSiteSourceValue
+            };
+         }
+         else
+         {
+            var conceptField = concept.Fields[0];
+            
+            var source = reader.GetString(conceptField.Key) ?? reader.GetString(conceptField.SourceKey);
+            if (source != null && source.Length == 0)
+               source = null;
+
+            var placeOfSvcConceptIds = concept.GetConceptIdValues(Vocabulary, conceptField, reader).ToList();
+            long? placeOfSvcConceptId = null;
+
+            long defaultConceptId = 0;
+            if (conceptField.DefaultConceptId.HasValue)
+            {
+               defaultConceptId = conceptField.DefaultConceptId.Value;
+            }
+
+            if (placeOfSvcConceptIds.Count > 0 && placeOfSvcConceptIds[0].ConceptId != 0)
+            {
+               placeOfSvcConceptId = placeOfSvcConceptIds[0].ConceptId;
+            }
+
+            yield return new CareSite
+            {
+               Id = id.Value,
+               LocationId = locationId.HasValue ? locationId.Value : 0,
+               PlaceOfSvcSourceValue = source,
+               ConceptId =  placeOfSvcConceptId.HasValue ? placeOfSvcConceptId.Value : defaultConceptId,
+               Name = reader.GetString(Name),
+               SourceValue = careSiteSourceValue
+            };
+         }
       }
    }
 }

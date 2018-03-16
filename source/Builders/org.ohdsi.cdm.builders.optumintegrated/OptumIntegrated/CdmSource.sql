@@ -22,6 +22,6 @@ INSERT INTO {sc}.CDM_SOURCE
 			'http://www.ohdsi.org/web/wiki/doku.php?id=documentation:example_etls',
 			'{0}',
 			'{3}',
-			'V5.0',
+			'V5.2.0',
 			'{1}'
 		   )

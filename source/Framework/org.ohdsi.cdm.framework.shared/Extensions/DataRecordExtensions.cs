@@ -231,12 +231,12 @@ namespace org.ohdsi.cdm.framework.shared.Extensions
                DateTime dateTime;
                if (!string.IsNullOrEmpty(dateTimeString) && DateTime.TryParse(dateTimeString, out dateTime))
                {
-                  return dateTime;
+                  return dateTime.Date;
                }
             }
             else
             {
-               return result.Value;
+               return result.Value.Date;
             }
 
             return DateTime.MinValue;

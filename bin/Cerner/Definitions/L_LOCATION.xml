@@ -1,0 +1,25 @@
+﻿<QueryDefinition>
+   <Query>
+     select distinct census_division,
+     CASE census_division
+     WHEN '1' THEN '(CT, ME, MA, NH, RI, VT)'
+     WHEN '2' THEN '(NJ, NY, PA)'
+     WHEN '3' THEN '(IA, KS, MN, MO, ND, SD)'
+     WHEN '4' THEN '(IL, IN, MI, OH, WI)'
+     WHEN '5' THEN '(AL, KY, MS, TN)'
+     WHEN '6' THEN '(DE, DC, FL, GA, MD, NC, SC, VA, WV)'
+     WHEN '7' THEN '(AR, LA, OK, TX)'
+     WHEN '8' THEN '(AZ, CO, ID, MT, NV, NM, UT, WY)'
+     WHEN '9' THEN '(AK, CA, HI, OR, WA)'
+     END as location_source_value
+     from {sc}.hf_d_hospital
+     where census_division is not null and census_division != ''
+     order by census_division
+   </Query>
+   <Locations>
+     <LocationDefinition>
+       <Id>census_division</Id>
+       <SourceValue>location_source_value</SourceValue>
+     </LocationDefinition>
+   </Locations>
+</QueryDefinition>

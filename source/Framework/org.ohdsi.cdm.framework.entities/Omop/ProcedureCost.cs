@@ -17,12 +17,12 @@ namespace org.ohdsi.cdm.framework.entities.Omop
 
       public long? PayerPlanPeriodId { get; set; }
 
-      public long? DiseaseClassConceptId { get; set; }
+      public long? DrgConceptId { get; set; }
       public long? RevenueCodeConceptId { get; set; }
-      public string DiseaseClassSourceValue { get; set; }
+      public string DrgSourceValue { get; set; }
       public string RevenueCodeSourceValue { get; set; }
 
-      public string DiseaseClassLookupKey { get; set; }
+      //public string DiseaseClassLookupKey { get; set; }
       public decimal? IngredientCost { get; set; }
       public decimal? DispensingFee { get; set; }
       public decimal? AverageWholesalePrice { get; set; }
@@ -49,9 +49,9 @@ namespace org.ohdsi.cdm.framework.entities.Omop
                 this.TotalOutOfPocket == other.TotalOutOfPocket &&
                 this.TotalPaid == other.TotalPaid &&
                 this.PayerPlanPeriodId == other.PayerPlanPeriodId &&
-                this.DiseaseClassConceptId == other.DiseaseClassConceptId &&
+                this.DrgConceptId == other.DrgConceptId &&
                 this.RevenueCodeConceptId == other.RevenueCodeConceptId &&
-                this.DiseaseClassSourceValue == other.DiseaseClassSourceValue &&
+                this.DrgSourceValue == other.DrgSourceValue &&
                 this.RevenueCodeSourceValue == other.RevenueCodeSourceValue &&
                 this.CurrencyConceptId == other.CurrencyConceptId;
       }
@@ -66,9 +66,9 @@ namespace org.ohdsi.cdm.framework.entities.Omop
                 TotalOutOfPocket.GetHashCode() ^
                 TotalPaid.GetHashCode() ^
                 PayerPlanPeriodId.GetHashCode() ^
-                DiseaseClassConceptId.GetHashCode() ^
+                DrgConceptId.GetHashCode() ^
                 RevenueCodeConceptId.GetHashCode() ^
-                (DiseaseClassSourceValue != null ? DiseaseClassSourceValue.GetHashCode() : 0) ^
+                (DrgSourceValue != null ? DrgSourceValue.GetHashCode() : 0) ^
                 (RevenueCodeSourceValue != null ? RevenueCodeSourceValue.GetHashCode() : 0) ^
                 CurrencyConceptId.GetHashCode();
       }
@@ -88,6 +88,9 @@ namespace org.ohdsi.cdm.framework.entities.Omop
             TotalCost = null,
             RevenueCodeConceptId = RevenueCodeConceptId,
             RevenueCodeSourceValue = RevenueCodeSourceValue,
+
+            DrgConceptId = DrgConceptId,
+            DrgSourceValue = DrgSourceValue,
 
             PayerPlanPeriodId = PayerPlanPeriodId,
 

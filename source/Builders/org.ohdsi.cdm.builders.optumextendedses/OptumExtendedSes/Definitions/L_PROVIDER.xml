@@ -12,17 +12,17 @@
      )
      ,a as
      (
-     SELECT distinct CONVERT(VARCHAR, PROV) PROVIDER,
+     SELECT distinct CAST(PROV as VARCHAR) PROVIDER,
      RTRIM(LTRIM(PROVCAT)) SPECIALTY_SOURCE,
      NULL AS NPI,
-     NULL as DEA 
+     NULL as DEA
      FROM {sc}.Medical_claims
      UNION
      SELECT distinct
      CASE
      WHEN NPI is not null and DEA is not null THEN NPI+ '-' + DEA
      ELSE ISNULL(NPI, DEA)
-     END as PROVIDER, 
+     END as PROVIDER,
      NULL SPECIALTY_SOURCE,
      NPI,
      DEA

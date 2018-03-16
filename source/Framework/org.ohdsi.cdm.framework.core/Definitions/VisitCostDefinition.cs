@@ -1,34 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.entities.Omop;
 using org.ohdsi.cdm.framework.shared.Extensions;
 
 namespace org.ohdsi.cdm.framework.core.Definitions
 {
-   public class VisitCostDefinition : VisitOccurrenceDefinition
+   public class VisitCostDefinition : CostDefinition
    {
-      public string CurrencyConceptId { get; set; }
-      public string PaidCopay { get; set; }
-      public string PaidCoinsurance { get; set; }
-      public string PaidTowardDeductible { get; set; }
-      public string PaidByPayer { get; set; }
-      public string PaidByCoordinationBenefits { get; set; }
-      public string TotalOutOfPocket { get; set; }
-      public string TotalPaid { get; set; }
-
-      public override IEnumerable<IEntity> GetConcepts(Concept concept, IDataRecord reader, KeyMasterOffset keyOffset)
-      {
-         throw new NotImplementedException();
-      }
-
       public VisitCost CreateEnity(VisitOccurrence visit, IDataRecord reader, KeyMasterOffset keyOffset)
       {
          var paidCopay = reader.GetDecimal(PaidCopay);
          var paidCoinsurance = reader.GetDecimal(PaidCoinsurance);
          var paidTowardDeductible = reader.GetDecimal(PaidTowardDeductible);
-
 
          decimal? totalOutOfPocket = null;
 
@@ -41,18 +24,28 @@ namespace org.ohdsi.cdm.framework.core.Definitions
             totalOutOfPocket = paidCoinsurance + paidTowardDeductible;
          }
 
+         long? drgConceptId;
+         string drgSource;
+         long? revenueCodeConceptId;
+         string revenueCodeSource;
+         PopulateOthersConcepts(reader, out drgConceptId, out drgSource, out revenueCodeConceptId, out revenueCodeSource);
+
          return new VisitCost(visit)
-                   {
-                      VisitCostId = keyOffset.VisitCostId,
-                      PaidCopay = paidCopay,
-                      PaidCoinsurance = paidCoinsurance,
-                      PaidTowardDeductible = paidTowardDeductible,
-                      PaidByPayer = reader.GetDecimal(PaidByPayer),
-                      PaidByCoordinationBenefits = reader.GetDecimal(PaidByCoordinationBenefits),
-                      TotalPaid = reader.GetDecimal(TotalPaid),
-                      TotalOutOfPocket = totalOutOfPocket,
-                      CurrencyConceptId = reader.GetLong(CurrencyConceptId) ?? 0
-                   };
+         {
+            VisitCostId = keyOffset.VisitCostId,
+            PaidCopay = paidCopay,
+            PaidCoinsurance = paidCoinsurance,
+            PaidTowardDeductible = paidTowardDeductible,
+            PaidByPayer = reader.GetDecimal(PaidByPayer),
+            PaidByCoordinationBenefits = reader.GetDecimal(PaidByCoordinationBenefits),
+            TotalPaid = reader.GetDecimal(TotalPaid),
+            TotalOutOfPocket = totalOutOfPocket,
+            CurrencyConceptId = reader.GetLong(CurrencyConceptId) ?? 0,
+            DrgConceptId = drgConceptId,
+            DrgSourceValue = drgSource,
+            RevenueCodeConceptId = revenueCodeConceptId,
+            RevenueCodeSourceValue = revenueCodeSource
+         };
       }
    }
 }

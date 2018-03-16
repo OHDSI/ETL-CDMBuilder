@@ -16,6 +16,8 @@ namespace org.ohdsi.cdm.framework.entities.Omop
       public long ConceptId { get; set; }
       public DateTime StartDate { get; set; }
       public DateTime? EndDate { get; set; }
+      public string StartTime { get; set; }
+      public string EndTime { get; set; }
       public int? TypeConceptId { get; set; }
       public long? VisitOccurrenceId { get; set; }
       public string SourceValue { get; set; }
@@ -80,6 +82,8 @@ namespace org.ohdsi.cdm.framework.entities.Omop
          ConceptId = ent.ConceptId;
          StartDate = ent.StartDate;
          EndDate = ent.EndDate;
+         StartTime = ent.StartTime;
+         EndTime = ent.EndTime;
          TypeConceptId = ent.TypeConceptId;
          VisitOccurrenceId = ent.VisitOccurrenceId;
          SourceValue = ent.SourceValue;

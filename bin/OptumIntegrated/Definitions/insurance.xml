@@ -4,7 +4,7 @@
     cast(replace(i.ptid, 'PT','') as bigint) as PersonId,
     case
     when i.encid = '' or i.encid is null then NULL
-    else cast(replace(i.encid, 'E0000','') as bigint)
+    else cast(replace(i.encid, 'E000','') as bigint)
     end as VisitOccurrenceId,
     i.ins_type,
     i.insurance_date,

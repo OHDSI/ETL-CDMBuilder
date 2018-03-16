@@ -30,7 +30,7 @@
     v.visit_end_time,
     e.encid,
     ec.provid,
-    cast(replace(e.encid, 'E0000','') as bigint) as VisitOccurrenceId,
+    cast(replace(e.encid, 'E000','') as bigint) as VisitOccurrenceId,
     row_number() over (partition by v.visitid order by e.interaction_date) as ordinal
     from {sc}.visit v
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND v.ptid = ch.PERSON_SOURCE_VALUE

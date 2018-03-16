@@ -25,5 +25,8 @@
 
       public long? RevenueCodeConceptId { get; set; }
       public string RevenueCodeSourceValue { get; set; }
+
+      public long? DrgConceptId { get; set; }
+      public string DrgSourceValue { get; set; }
    }
 }

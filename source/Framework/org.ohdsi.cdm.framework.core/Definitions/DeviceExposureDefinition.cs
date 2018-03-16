@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.entities.Omop;
@@ -22,6 +23,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
                                      {
                                         Id = keyOffset.DeviceExposureId,
                                         UniqueDeviceId = reader.GetString(UniqueDeviceId),
+                                        StartTime = de[0].StartTime ?? de[0].StartDate.ToString("HH:mm:ss", CultureInfo.InvariantCulture),
                                         Quantity = reader.GetInt(Quantity) ?? 0
                                      };
             

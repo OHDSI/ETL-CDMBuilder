@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using org.ohdsi.cdm.framework.core;
 using org.ohdsi.cdm.framework.core.Base;
 using org.ohdsi.cdm.framework.entities.Omop;
-using org.ohdsi.cdm.framework.shared.Enums;
 
 namespace org.ohdsi.cdm.builders.hcup
 {
@@ -238,6 +237,7 @@ namespace org.ohdsi.cdm.builders.hcup
             buildPerson.MonthOfBirth = dateOfBirth.Month;
          }
 
+         if (buildPerson.YearOfBirth < 1907) return; // HIX-1417
          // Delete any individual that has an OBSERVATION_PERIOD that is >= 2 years prior to the YEAR_OF_BIRTH
          if (Excluded(buildPerson, observationPeriods)) return;
          
@@ -270,13 +270,29 @@ namespace org.ohdsi.cdm.builders.hcup
          var visitCosts = BuildVisitCosts(visitOccurrences.Values.ToArray()).ToArray();
          var devicCosts = BuildDeviceCosts(deviceExposure).ToArray();
 
+         foreach (var cost in visitCosts)
+         {
+            if(cost.TotalPaid == 0) continue;
+            
+            var cost52 = new Cost
+            {
+               CostId = chunkData.KeyMasterOffset.VisitCostId,
+               CurrencyConceptId = 44818668,
+               TypeId = 5032,
+               Domain = "Visit",
+               EventId = cost.Id,
+               TotalCharge = cost.TotalPaid
+            };
+            chunkData.AddCostData(cost52);
+         }
+
          var cohort = BuildCohort(cohortRecords.ToArray(), observationPeriods).ToArray();
 
 
          // push built entities to ChunkBuilder for further save to CDM database
          AddToChunk(buildPerson, death, observationPeriods, payerPlanPeriods, drugExposures, drugCosts,
             conditionOccurrences, procedureOccurrences, procedureCosts, observations, measurements,
-            visitOccurrences.Values.ToArray(), visitCosts, cohort, deviceExposure, devicCosts);
+            visitOccurrences.Values.ToArray(), visitCosts, cohort, deviceExposure, devicCosts, new Note[0]);
       }
 
       public override void AddToChunk(string domain, IEnumerable<IEntity> entities)

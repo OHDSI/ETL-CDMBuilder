@@ -42,6 +42,7 @@ namespace org.ohdsi.cdm.framework.core.Base
       protected readonly List<DrugExposure> drugForEra = new List<DrugExposure>();
       protected readonly List<ConditionOccurrence> conditionForEra = new List<ConditionOccurrence>();
 
+      protected readonly ConcurrentQueue<Note> noteRecords = new ConcurrentQueue<Note>();
       public ConcurrentDictionary<string, bool> ProviderKeys { get; set; }
       
 
@@ -231,6 +232,8 @@ namespace org.ohdsi.cdm.framework.core.Base
                      PersonId = data.PersonId,
                      StartDate = data.StartDate,
                      EndDate = data.EndDate,
+                     StartTime = data.StartTime,
+                     EndTime = data.EndTime,
                      TypeConceptId = data.TypeConceptId
                   }, observationPeriodsRaw);
                break;
@@ -293,6 +296,12 @@ namespace org.ohdsi.cdm.framework.core.Base
             case EntityType.DeviceExposure:
             {
                AddEntity((DeviceExposure) data, deviceExposureRaw);
+               break;
+            }
+
+            case EntityType.Note:
+            {
+               AddEntity((Note)data, noteRecords);
                break;
             }
          }
@@ -494,6 +503,11 @@ namespace org.ohdsi.cdm.framework.core.Base
          ObservationPeriod[] observationPeriods)
       {
          return Clean(visitOccurrences, observationPeriods).Distinct();
+      }
+
+      public IEnumerable<Note> BuildNote(Note[] notes, Dictionary<long, VisitOccurrence> visitOccurrences, ObservationPeriod[] observationPeriods)
+      {
+         return BuildEntities(notes, visitOccurrences, observationPeriods);
       }
 
       /// <summary>
@@ -750,12 +764,12 @@ namespace org.ohdsi.cdm.framework.core.Base
          var devicCosts = BuildDeviceCosts(deviceExposure).ToArray();
 
          var cohort = BuildCohort(cohortRecords.ToArray(), observationPeriods).ToArray();
-
+         var notes = BuildNote(noteRecords.ToArray(), visitOccurrences, observationPeriods).ToArray();
 
          // push built entities to ChunkBuilder for further save to CDM database
          AddToChunk(person, death, observationPeriods, payerPlanPeriods, drugExposures, drugCosts,
             conditionOccurrences, procedureOccurrences, procedureCosts, observations, measurements,
-            visitOccurrences.Values.ToArray(), visitCosts, cohort, deviceExposure, devicCosts);
+            visitOccurrences.Values.ToArray(), visitCosts, cohort, deviceExposure, devicCosts, notes);
       }
 
       protected void AddToChunk(Person person, Death death, ObservationPeriod[] observationPeriods,
@@ -768,7 +782,7 @@ namespace org.ohdsi.cdm.framework.core.Base
             ppp, drugExposures,
             drugCosts, conditionOccurrences, 
             procedureOccurrences, procedureCosts, observations, new Measurement[] {},
-            visitOccurrences, new VisitCost[] {}, cohort, new DeviceExposure[] {}, new DeviceCost[] {});
+            visitOccurrences, new VisitCost[] {}, cohort, new DeviceExposure[] {}, new DeviceCost[] {}, new Note[] {});
       }
 
       /// <summary>
@@ -792,7 +806,7 @@ namespace org.ohdsi.cdm.framework.core.Base
          DrugCost[] drugCosts, ConditionOccurrence[] conditionOccurrences,
          ProcedureOccurrence[] procedureOccurrences, ProcedureCost[] procedureCosts, Observation[] observations,
          Measurement[] measurements, VisitOccurrence[] visitOccurrences, VisitCost[] visitCosts, Cohort[] cohort,
-         DeviceExposure[] devExposure, DeviceCost[] deviceCost)
+         DeviceExposure[] devExposure, DeviceCost[] deviceCost, Note[] notes)
       {
          chunkData.AddData(person);
 
@@ -842,6 +856,11 @@ namespace org.ohdsi.cdm.framework.core.Base
          foreach (var dc in deviceCost)
          {
             chunkData.AddData(dc);
+         }
+
+         foreach (var n in notes)
+         {
+            chunkData.AddData(n);
          }
 
          AddToChunk("Condition", conditionOccurrences);

@@ -32,13 +32,15 @@ namespace org.ohdsi.cdm.framework.core.Helpers
                            StartDate = ordered[0].StartDate,
                            EndDate = GetEndDate(ordered[0]),
                            TypeConceptId = type1,
-                           GapDays = gap1,
+                           GapDays = 0,
                            OccurrenceCount = 1
                        };
 
                     foreach (var entity in ordered.Skip(1))
                     {
-                        if (entity.StartDate.Subtract(era.EndDate.Value).Days > gap1)
+                        var currentGap = entity.StartDate.Subtract(era.EndDate.Value).Days;
+                        
+                        if (currentGap > gap1)
                         {
                             yield return era;
 
@@ -49,12 +51,15 @@ namespace org.ohdsi.cdm.framework.core.Helpers
                                    StartDate = entity.StartDate,
                                    EndDate = GetEndDate(entity),
                                    TypeConceptId = type1,
-                                   GapDays = gap1,
+                                   GapDays = 0,
                                    OccurrenceCount = 1
                                };
                         }
                         else
                         {
+                            if (currentGap > 0)
+                              era.GapDays += currentGap;
+
                             if (GetEndDate(entity) > era.EndDate)
                                 era.EndDate = GetEndDate(entity);
 
@@ -73,7 +78,7 @@ namespace org.ohdsi.cdm.framework.core.Helpers
                               StartDate = ordered[0].StartDate,
                               EndDate = GetEndDate(ordered[0]),
                               TypeConceptId = type1,
-                              GapDays = gap1,
+                              GapDays = 0,
                               OccurrenceCount = 1
                           };
                 }

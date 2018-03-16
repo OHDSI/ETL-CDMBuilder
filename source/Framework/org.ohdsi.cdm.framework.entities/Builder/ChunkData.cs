@@ -11,6 +11,7 @@ namespace org.ohdsi.cdm.framework.entities.Builder
 
       public ConcurrentQueue<Person> Persons { get; private set; }
       public ConcurrentQueue<Death> Deaths { get; private set; }
+      public ConcurrentQueue<Note> Note { get; private set; }
       public ConcurrentQueue<ObservationPeriod> ObservationPeriods { get; private set; }
       public ConcurrentQueue<PayerPlanPeriod> PayerPlanPeriods { get; private set; }
       public ConcurrentQueue<ConditionOccurrence> ConditionOccurrences { get; private set; }
@@ -61,6 +62,7 @@ namespace org.ohdsi.cdm.framework.entities.Builder
          DeviceExposure = new ConcurrentQueue<DeviceExposure>();
          DeviceCost = new ConcurrentQueue<DeviceCost>();
          Cost = new ConcurrentQueue<Cost>();
+         Note = new ConcurrentQueue<Note>();
       }
 
       public void Clean()
@@ -84,6 +86,7 @@ namespace org.ohdsi.cdm.framework.entities.Builder
          DeviceExposure = null;
          DeviceCost = null;
          Cost = null;
+         Note = null;
       }
 
       public bool AddCostData(Cost cost)
@@ -91,7 +94,7 @@ namespace org.ohdsi.cdm.framework.entities.Builder
          if (cost == null) 
             return false;
          if (cost.PaidPatientCopay == 0 && cost.PaidPatientCoinsurance == 0 && cost.PaidPatientDeductible == 0 &&
-             cost.PaidByPayer == 0)
+             cost.PaidByPayer == 0 && cost.TotalPaid == 0)
             return false;
 
          Cost.Enqueue(cost);
@@ -213,6 +216,12 @@ namespace org.ohdsi.cdm.framework.entities.Builder
             case EntityType.ConditionEra:
             {
                ConditionEra.Enqueue((EraEntity) data);
+               break;
+            }
+
+            case EntityType.Note:
+            {
+               Note.Enqueue((Note)data);
                break;
             }
          }

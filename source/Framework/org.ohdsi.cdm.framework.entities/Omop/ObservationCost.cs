@@ -17,14 +17,14 @@ namespace org.ohdsi.cdm.framework.entities.Omop
       public decimal? AverageWholesalePrice { get; set; }
 
       public long? PayerPlanPeriodId { get; set; }
-      public long? DiseaseClassConceptId { get; set; }
+      public long? DrgConceptId { get; set; }
 
 
       // CDM v5 props
-      public string DiseaseClassLookupKey { get; set; }
+      //public string DiseaseClassLookupKey { get; set; }
       public long CurrencyConceptId { get; set; }
       public long? RevenueCodeConceptId { get; set; }
-      public string DiseaseClassSourceValue { get; set; }
+      public string DrgSourceValue { get; set; }
       public string RevenueCodeSourceValue { get; set; }
 
       public ObservationCost(Observation ent)
@@ -83,6 +83,9 @@ namespace org.ohdsi.cdm.framework.entities.Omop
             TotalCost = null,
             RevenueCodeConceptId = RevenueCodeConceptId,
             RevenueCodeSourceValue = RevenueCodeSourceValue,
+
+            DrgConceptId = DrgConceptId,
+            DrgSourceValue = DrgSourceValue,
 
             PayerPlanPeriodId = PayerPlanPeriodId,
 

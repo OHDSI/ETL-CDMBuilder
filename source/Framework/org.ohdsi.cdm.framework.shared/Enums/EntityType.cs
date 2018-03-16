@@ -23,6 +23,7 @@
       MeasurementCost,
       ObservationPeriod,
       ConditionEra,
-      DrugEra
+      DrugEra,
+      Note
    }
 }

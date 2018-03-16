@@ -82,14 +82,14 @@ namespace org.ohdsi.cdm.framework.core.Lookups
          });
       }
 
-      public IEnumerable<LookupValue> MultiLookupValue(string sourceValue, DateTime? eventDate, bool ignoreCase)
+      public IEnumerable<LookupValue> MultiLookupValue(string sourceValue, DateTime? eventDate, bool caseSensitive)
       {
          if(vocab.ContainsKey(sourceValue))
          {
             foreach (var lookupValue in GetValues(vocab, sourceValue, eventDate)) 
                yield return lookupValue;
          }
-         else if (ignoreCase && vocabIgnoreCase.ContainsKey(sourceValue))
+         else if (!caseSensitive && vocabIgnoreCase.ContainsKey(sourceValue))
          {
             foreach (var lookupValue in GetValues(vocabIgnoreCase, sourceValue, eventDate))
                yield return lookupValue;

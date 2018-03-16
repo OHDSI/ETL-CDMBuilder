@@ -15,16 +15,18 @@ INSERT INTO {sc}.CDM_SOURCE
      VALUES
            (
 		   'Truven Health MarketScan® Multi-State Medicaid Database',
-		   'MDCD',
+		   'Truven MDCD',
 		   'Janssen R&D',
-		   'The Truven Health MarketScan® Research Databases contain individual-level, de-identified, healthcare claims information from employers, health plans, hospitals, Medicare, and Medicaid programs. Since their creation in the early 1990s, the MarketScan Databases have grown into one of the largest collections of de-identified patient-level data in the nation. These databases reflect the real-world of treatment patterns and costs by tracking millions of patients as they travel through the healthcare system offering detailed information about all aspects of care. Data from individual patients are integrated from all providers of care, maintaining all healthcare utilization and cost record connections at the patient level. Used primarily for research, these databases are fully HIPAA compliant. Research using MarketScan data has been widely publicized in peer-reviewed journals.
-This retrospective claims analysis utilized data from the Truven Health MarketScan® Medicaid Database for the period of [starting date] to [ending date]. These data included health insurance claims for seven million Medicaid enrollees from multiple states across the continuum of care (e.g. inpatient, outpatient, and outpatient pharmacy) as well as variables of interest for Medicaid populations, such as ethnicity and Medicare eligibility.
-',
-			'http://hicoe.jnj.com/DataSources/Truven/MDCD',
+		   'Truven Health MarketScan® Multi-State Medicaid Database (MDCD) adjudicated US health insurance claims for Medicaid enrollees from multiple states and includes hospital discharge diagnoses, outpatient diagnoses and procedures, and outpatient pharmacy claims as well  as ethnicity and Medicare eligibility.  Members maintain their same identifier even if they leave the system for a brief period however the dataset lacks lab data. 
+
+The major data elements contained within this database are outpatient pharmacy dispensing claims (coded with National Drug Codes (NDC), inpatient and outpatient medical claims which provide procedure codes (coded in CPT-4, HCPCs, ICD-9-CM or ICD-10-PCS) and diagnosis codes (coded in ICD-9-CM or ICD-10-CM).  The data does not contain laboratory results. 
+
+[For further information link to RWE site for Truven MDCD.](https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F4136471c-0662-4ca7-b091-4d6120358f74.xml)',
+			'https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F4136471c-0662-4ca7-b091-4d6120358f74.xml',
 			'http://www.ohdsi.org/web/wiki/doku.php?id=documentation:example_etls',
 			'{0}',
 			'{3}',
-			'V5.0.1',
+			'V5.2.0',
 			'{1}'
 		   );
 

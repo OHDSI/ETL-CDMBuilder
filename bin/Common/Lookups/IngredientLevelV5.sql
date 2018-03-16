@@ -1,7 +1,7 @@
 ﻿Select distinct A.concept_id as Drug_EXPOSURE_concept_id,
 				C.concept_id as ingredient_concept_id
 FROM {sc}.CONCEPT C
-JOIN CONCEPT_ANCESTOR CA
+JOIN {sc}.CONCEPT_ANCESTOR CA
 	ON CA.ancestor_concept_id = C.concept_id
 	and lower(c.vocabulary_id) = 'rxnorm'
 	and lower(c.concept_class_id) = 'ingredient'

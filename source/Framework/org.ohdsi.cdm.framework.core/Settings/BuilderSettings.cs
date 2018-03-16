@@ -26,7 +26,7 @@ namespace org.ohdsi.cdm.framework.core
 
       public string Version
       {
-         get { return "1.9.0.34"; }
+         get { return "1.9.1.12"; }
       }
       #endregion
 

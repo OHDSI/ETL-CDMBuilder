@@ -1,8 +1,5 @@
-﻿select '7616', 1 union
-select '798', 1 union
-select '7980', 1 union
-select '7981', 1 union
-select '7982', 1 union
-select '7989', 1 union
-select 'E9131', 1 union
-select 'E978', 1
+﻿{Source_to_Standard}
+
+SELECT REPLACE(SOURCE_CODE, '.', ''), 1
+FROM CTE_VOCAB_MAP 
+WHERE SOURCE_VOCABULARY_ID = 'JNJ_DEATH'

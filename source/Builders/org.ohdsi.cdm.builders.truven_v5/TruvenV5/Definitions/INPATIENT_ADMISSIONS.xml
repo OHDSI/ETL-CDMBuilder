@@ -1,8 +1,4 @@
 ﻿<QueryDefinition>
-  <Variables>
-    <Variable name="icdVer" database="ccae, mdcr">CASE WHEN DXVER NOT IN ('0', '9') THEN CASE WHEN ADMDATE &lt; '10/01/2015' THEN '9' ELSE '0' END ELSE DXVER END as DXVER, '9' as PROCTYP</Variable>
-    <Variable name="icdVer" database="mdcd">'9' as DXVER, '9' as PROCTYP</Variable>
-  </Variables>
   <Query>
     with a as
     (
@@ -29,7 +25,8 @@
     TOTPAY,
     44818668 CurrencyConceptId,
     DRG,
-    {icdVer},
+    cast(DRG as int) as DRG_INT,
+    CASE WHEN DXVER NOT IN ('0', '9') THEN CASE WHEN ADMDATE &lt; '10/01/2015' THEN '9' ELSE '0' END ELSE DXVER END as DXVER, '9' as PROCTYP,
     CASE
     WHEN DSTATUS = '01' THEN 'Discharged to home self care'
     WHEN DSTATUS = '02' THEN 'Transfer to short term hospital'
@@ -159,11 +156,55 @@
         </Concept>
       </Concepts>
     </ConditionOccurrenceDefinition>
+    <ConditionOccurrenceDefinition>
+      <PersonId>ENROLID</PersonId>
+      <StartDate>ADMDATE</StartDate>
+      <AdditionalFields>
+        <string>CASEID</string>
+        <string>YEAR</string>
+        <string>priority</string>
+        <string>DXVER</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\Procedure.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <SourceConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\ProcedureSource.sql</Lookup>
+            </Mapper>
+          </SourceConceptIdMappers>
+          <Fields>
+            <Field key="PDX" defaultTypeId="101"/>
+            <Field key="DX1" defaultTypeId="102"/>
+            <Field key="DX2" defaultTypeId="103"/>
+            <Field key="DX3" defaultTypeId="104"/>
+            <Field key="DX4" defaultTypeId="105"/>
+            <Field key="DX5" defaultTypeId="106"/>
+            <Field key="DX6" defaultTypeId="107"/>
+            <Field key="DX7" defaultTypeId="108"/>
+            <Field key="DX8" defaultTypeId="109"/>
+            <Field key="DX9" defaultTypeId="110"/>
+            <Field key="DX10" defaultTypeId="111"/>
+            <Field key="DX11" defaultTypeId="112"/>
+            <Field key="DX12" defaultTypeId="113"/>
+            <Field key="DX13" defaultTypeId="114"/>
+            <Field key="DX14" defaultTypeId="115"/>
+            <Field key="DX15" defaultTypeId="116"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
   </ConditionOccurrence>
   <DrugExposure>
     <DrugExposureDefinition>
       <PersonId>ENROLID</PersonId>
       <StartDate>ADMDATE</StartDate>
+      <EndDate>ADMDATE</EndDate>
       <Concepts>
         <Concept>
           <!--<IdRequired>true</IdRequired>-->
@@ -343,6 +384,23 @@
       <PaidByCoordinationBenefits>TOTCOB</PaidByCoordinationBenefits>
       <TotalPaid>TOTPAY</TotalPaid>
       <CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field defaultConceptId="0" defaultTypeId="0" defaultSource=" "/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>TruvenV5\Lookups\Drg.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="DRG_INT" sourceKey="DRG" eventDate="ADMDATE"/>
+          </Fields>
+        </Concept>
+      </Concepts>
     </VisitCostDefinition>
   </VisitCost>
   <Observation>

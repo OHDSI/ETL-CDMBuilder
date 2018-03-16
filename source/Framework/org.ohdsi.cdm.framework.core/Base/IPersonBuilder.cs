@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.entities.Omop;
-using org.ohdsi.cdm.framework.shared.Enums;
 
 namespace org.ohdsi.cdm.framework.core.Base
 {
@@ -13,7 +12,6 @@ namespace org.ohdsi.cdm.framework.core.Base
       void AddChildData(IEntity parent, IEntity child);
       void AddData(IEntity data);
       void Build(Dictionary<string, long> providers);
-      //bool WasBuilt { get; }
 
       Death BuildDeath(Death[] death, Dictionary<long, VisitOccurrence> visitOccurrences, ObservationPeriod[] observationPeriods);
 
@@ -39,6 +37,7 @@ namespace org.ohdsi.cdm.framework.core.Base
       IEnumerable<ProcedureCost> BuildProcedureCosts(ProcedureOccurrence[] procedureOccurrences);
       IEnumerable<VisitCost> BuildVisitCosts(VisitOccurrence[] visitOccurrences);
       IEnumerable<DeviceCost> BuildDeviceCosts(DeviceExposure[] deviceExposure);
+      IEnumerable<Note> BuildNote(Note[] notes, Dictionary<long, VisitOccurrence> visitOccurrences, ObservationPeriod[] observationPeriods);
 
       ConcurrentDictionary<string, bool> ProviderKeys { get; }
       bool AddCost(IEntity data, Func<ICostV5, Cost> createCost);

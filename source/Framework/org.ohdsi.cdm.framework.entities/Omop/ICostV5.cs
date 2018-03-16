@@ -12,12 +12,12 @@
 
       long? PayerPlanPeriodId { get; set; }
 
-      long? DiseaseClassConceptId { get; set; }
+      long? DrgConceptId { get; set; }
       long? RevenueCodeConceptId { get; set; }
-      string DiseaseClassSourceValue { get; set; }
+      string DrgSourceValue { get; set; }
       string RevenueCodeSourceValue { get; set; }
 
-      string DiseaseClassLookupKey { get; set; }
+      //string DiseaseClassLookupKey { get; set; }
 
 
       decimal? IngredientCost { get; set; }

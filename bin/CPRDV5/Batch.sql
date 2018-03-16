@@ -19,7 +19,6 @@ case when a.crd > b.uts then a.crd
     else '23-DEC-2099' end
     as observation_period_end_date
 	from {sc}.PATIENT a
-    left outer join {sc}.hes_patient c on c.patid=a.patid
     join {sc}.practice b on a.pracid = b.pracid
     where accept = 1 and yob + 1800 > 1899
 )

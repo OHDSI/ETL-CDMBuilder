@@ -9,9 +9,15 @@ namespace org.ohdsi.cdm.framework.entities.Omop
       public int? CareSiteId { get; set; }
 
       // CDM v5 props
-      public string StartTime { get; set; }
-      public string EndTime { get; set; }
       public List<VisitCost> VisitCosts { get; set; }
+
+
+      // CDM v5.2 props
+      public long? AdmittingSourceConceptId	{ get; set; }
+      public string AdmittingSourceValue	{ get; set; }
+      public long? DischargeToConceptId	{ get; set; }
+      public string DischargeToSourceValue	{ get; set; }
+      public long? PrecedingVisitOccurrenceId { get; set; }
       
       public VisitOccurrence(Entity ent)
       {
@@ -31,7 +37,12 @@ namespace org.ohdsi.cdm.framework.entities.Omop
                    this.EndTime == other.EndTime &&
                    this.SourceConceptId == other.SourceConceptId &&
                    this.EndDate == other.EndDate &&
-                   this.CareSiteId == other.CareSiteId;
+                   this.CareSiteId == other.CareSiteId &&
+                   this.AdmittingSourceConceptId == other.AdmittingSourceConceptId &&
+                   this.AdmittingSourceValue == other.AdmittingSourceValue &&
+                   this.DischargeToConceptId == other.DischargeToConceptId &&
+                   this.DischargeToSourceValue == other.DischargeToSourceValue &&
+                   this.PrecedingVisitOccurrenceId == other.PrecedingVisitOccurrenceId;
          }
 
          return this.Id.Equals(other.Id) &&
@@ -44,7 +55,12 @@ namespace org.ohdsi.cdm.framework.entities.Omop
                 this.EndTime == other.EndTime &&
                 this.SourceConceptId == other.SourceConceptId &&
                 this.EndDate == other.EndDate &&
-                this.CareSiteId == other.CareSiteId;
+                this.CareSiteId == other.CareSiteId &&
+                this.AdmittingSourceConceptId == other.AdmittingSourceConceptId &&
+                this.AdmittingSourceValue == other.AdmittingSourceValue &&
+                this.DischargeToConceptId == other.DischargeToConceptId &&
+                this.DischargeToSourceValue == other.DischargeToSourceValue &&
+                this.PrecedingVisitOccurrenceId == other.PrecedingVisitOccurrenceId;
       }
 
       public override int GetHashCode()
@@ -59,7 +75,12 @@ namespace org.ohdsi.cdm.framework.entities.Omop
                 (SourceConceptId.HasValue ? SourceConceptId.Value.GetHashCode() : 0) ^
                 (CareSiteId.GetHashCode()) ^
                 (StartDate.GetHashCode()) ^
-                (EndDate.GetHashCode());
+                (EndDate.GetHashCode()) ^
+                AdmittingSourceConceptId.GetHashCode() ^
+                (AdmittingSourceValue != null ? AdmittingSourceValue.GetHashCode() : 0) ^
+                DischargeToConceptId.GetHashCode() ^
+                (DischargeToSourceValue != null ? DischargeToSourceValue.GetHashCode() : 0) ^
+                PrecedingVisitOccurrenceId.GetHashCode();
       }
 
       public override EntityType GeEntityType()

@@ -41,7 +41,6 @@ namespace org.ohdsi.cdm.framework.core.Definitions
       public Guid Guid { get; set; }
       public Query Query { get; set; }
       public QueryVariable[] Variables { get; set; }
-      public DynamicQuery DynamicQuery { get; set; }
       public string FileName { get; set; }
 
       [XmlIgnore]
@@ -70,6 +69,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
       public ObservationCostDefinition[] ObservationCost { get; set; }
 
       public ProcedureOccurrenceDefinition[] ProcedureOccurrence { get; set; }
+      public NoteDefinition[] Note { get; set; }
       public ObservationDefinition[] Observation { get; set; }
       public MeasurementDefinition[] Measurement { get; set; }
       public VisitOccurrenceDefinition[] VisitOccurrence { get; set; }
@@ -187,6 +187,11 @@ namespace org.ohdsi.cdm.framework.core.Definitions
          if (DeviceExposure != null && DeviceExposure.Any())
          {
             return DeviceExposure[0].PersonId;
+         }
+
+         if (Note != null && Note.Any())
+         {
+            return Note[0].PersonId;
          }
 
          throw new Exception("Cant find PersonId FieldName " + this.FileName);

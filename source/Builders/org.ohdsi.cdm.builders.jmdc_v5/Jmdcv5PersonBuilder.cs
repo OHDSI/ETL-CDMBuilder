@@ -204,17 +204,25 @@ namespace org.ohdsi.cdm.builders.jmdc_v5
          return base.BuildEntities(drugExposures, visitOccurrences, observationPeriods);
 		}
 
-	   public override IEnumerable<ProcedureCost> BuildProcedureCosts(ProcedureOccurrence[] procedureOccurrences)
+	   public override IEnumerable<VisitCost> BuildVisitCosts(VisitOccurrence[] visitOccurrences)
 	   {
-	      return base.BuildProcedureCosts(procedureOccurrences).Where(procedureCost => procedureCost.TotalPaid.HasValue);
+         foreach (var c in base.BuildVisitCosts(visitOccurrences).Where(vc => vc.TotalPaid.HasValue))
+         {
+            chunkData.AddCostData(new Cost
+            {
+               CostId = chunkData.KeyMasterOffset.VisitCostId,
+               CurrencyConceptId = c.CurrencyConceptId,
+               TypeId = 5031,
+               Domain = "Visit",
+               EventId = c.Id,
+               TotalPaid = c.TotalPaid
+            });
+
+            yield return c;
+         }
 	   }
 
-	   public override IEnumerable<DrugCost> BuildDrugCosts(DrugExposure[] drugExposures)
-	   {
-	      return base.BuildDrugCosts(drugExposures).Where(drugCost => drugCost.TotalPaid.HasValue);
-	   }
-
-      public override void Build(Dictionary<string, long> providers)
+	   public override void Build(Dictionary<string, long> providers)
 	   {
          //"If the claim is associated with a diagnosis, " +
          //"and (1) that [Diagnosis].[Month and year of start of medical care] date falls within the [Month and year of medical care] and (2) " +

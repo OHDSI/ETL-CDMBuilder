@@ -229,6 +229,10 @@
       <Project>{b76bc58f-f8eb-4953-9ad9-00eae7f1c23d}</Project>
       <Name>org.ohdsi.cdm.presentation.builderprocess</Name>
     </ProjectReference>
+    <ProjectReference Include="..\org.ohdsi.cdm.presentation.postprocess\org.ohdsi.cdm.presentation.postprocess.csproj">
+      <Project>{4d20c478-948f-40d3-8ddd-ec4a2a6e13d2}</Project>
+      <Name>org.ohdsi.cdm.presentation.postprocess</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\splash.png" />

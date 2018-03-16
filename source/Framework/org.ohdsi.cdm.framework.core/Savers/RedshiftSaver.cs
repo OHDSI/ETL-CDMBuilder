@@ -85,7 +85,7 @@ namespace org.ohdsi.cdm.framework.core.Savers
          }
 
          var fileName = MoveToS3(currentClient, bucket, chunkId, subChunkId, reader, tableName);
-
+         
          if (tableName.ToLower().StartsWith("_chunks") || !chunkId.HasValue)
          {
             var schemaName = Settings.Current.Building.DestinationSchemaName;
@@ -96,11 +96,14 @@ namespace org.ohdsi.cdm.framework.core.Savers
                 tableName = "_chunks";
             }
 
-            using (var currentConnection = SqlConnectionHelper.OpenOdbcConnection(connectionString))
-            using (var currentTransaction = currentConnection.BeginTransaction())
+            if (tableName.ToLower().StartsWith("_chunks") || !Settings.Current.SkipSaveToRedshift)
             {
-               CopyToRedshift(bucket, schemaName, tableName, fileName, currentConnection, currentTransaction);
-               currentTransaction.Commit();
+               using (var currentConnection = SqlConnectionHelper.OpenOdbcConnection(connectionString))
+               using (var currentTransaction = currentConnection.BeginTransaction())
+               {
+                  CopyToRedshift(bucket, schemaName, tableName, fileName, currentConnection, currentTransaction);
+                  currentTransaction.Commit();
+               }
             }
          }
       }

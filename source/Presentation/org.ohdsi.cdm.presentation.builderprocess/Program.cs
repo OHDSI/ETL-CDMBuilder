@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Text.RegularExpressions;
+using org.ohdsi.cdm.builders.cerner;
 using org.ohdsi.cdm.builders.cprd_v5;
 using org.ohdsi.cdm.builders.hcup;
 using org.ohdsi.cdm.builders.jmdc_v5;
@@ -144,7 +145,7 @@ namespace org.ohdsi.cdm.presentation.builderprocess
             case Vendors.Truven_MDCR:
             case Vendors.Truven_MDCD:
                return new Truvenv5PersonBuilder();
-              
+
             case Vendors.CprdV5:
                return new CprdV5PersonBuilder();
 
@@ -173,6 +174,8 @@ namespace org.ohdsi.cdm.presentation.builderprocess
             case Vendors.HCUPv5:
                return new HcupPersonBuilder();
 
+            case Vendors.Cerner:
+               return new CernerPersonBuilder();
          }
 
          return new PersonBuilder();

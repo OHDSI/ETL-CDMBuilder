@@ -149,10 +149,6 @@
                                     <TextBlock Width="65" Text="Vocabulary:"/>
                                     <TextBox Width="700" Margin="5,0" Text="{Binding Vocabulary}"/>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,5" IsEnabled="{Binding StoreToAPS}">
-                                    <TextBlock Width="65" Text="APS:"/>
-                                    <TextBox Width="700" Margin="5,0" Text="{Binding APSConnectionString}"/>
-                                </StackPanel>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Orientation="Vertical">
@@ -162,16 +158,16 @@
                                     <TextBlock Width="133" Text="Vendor:"/>
                                     <ComboBox x:Name="cmbVendor" ItemsSource="{Binding Source={StaticResource vendors}}" SelectedValue="{Binding Vendor}"  DisplayMemberPath="Description" SelectedValuePath="Value" Width="133" IsReadOnly="True" Margin="7,0"/>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,5" IsEnabled="{Binding AutoSettings}">
+                                <StackPanel Orientation="Horizontal" Margin="0,5" >
                                     <TextBlock Text="Number of batches:" Width="133"/>
                                     <TextBox Width="133" Margin="7,0" Text="{Binding Batches}"/>
                                     <TextBlock Text="Use 0 for full database" FontStyle="Italic" Foreground="DimGray" Width="133" />
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,5" IsEnabled="{Binding AutoSettings}">
+                                <StackPanel Orientation="Horizontal" Margin="0,5" >
                                     <TextBlock Text="Batch size:" Width="133"/>
                                     <TextBox Width="133" Margin="7,0" Text="{Binding BatchSize}"/>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,5" IsEnabled="{Binding AutoSettings}">
+                                <StackPanel Orientation="Horizontal" Margin="0,5" >
                                     <TextBlock Text="MaxDegreeOfParallelism:" Width="133"/>
                                     <TextBox Width="133" Margin="7,0" Text="{Binding MaxDegreeOfParallelism}"/>
                                 </StackPanel>
@@ -271,6 +267,7 @@
                                                 <MenuItem Header="Reset not finished chunks" Command ="{Binding Path=ResetNotFinishedChunksCommand}"/>
                                                 <MenuItem Header="Truncate tables" Command ="{Binding Path=TruncateTablesCommand}"/>
                                                 <MenuItem Header="Truncate tables without lookup" Command ="{Binding Path=TruncateWithoutLookupTablesCommand}"/>
+                                                <MenuItem Header="Fill post build tables" Command ="{Binding Path=FillPostBuildTableCommand}"/>
                                                 <Separator/>
                                                 <MenuItem Header="Skip step" Command ="{Binding Path=SkipBuildingStepCommand}"/>
                                                 <MenuItem Header="Reset step" Command ="{Binding Path=ResetBuildingStepCommand}"/>
@@ -323,21 +320,21 @@
                             </StackPanel>
                         <StackPanel>
                                 <StackPanel Height="5">
-                                    <Polygon Points="0,0 2.5,5, 5,0" Stroke="Black" Fill="Black" HorizontalAlignment="Center" Visibility="{Binding AchillesStarted, Converter={StaticResource boolToVisConverter}}"/>
+                                    <Polygon Points="0,0 2.5,5, 5,0" Stroke="Black" Fill="Black" HorizontalAlignment="Center" Visibility="{Binding PostprocessStarted, Converter={StaticResource boolToVisConverter}}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Margin="0,5">
-                                    <TextBlock Style="{StaticResource ActionTextBlock}" Text="Achilles">
+                                    <TextBlock Style="{StaticResource ActionTextBlock}" Text="Postprocess">
                                         <TextBlock.ContextMenu>
                                             <ContextMenu>
-                                                <MenuItem Header="Skip step" Command ="{Binding Path=SkipAchillesStepCommand}"/>
-                                                <MenuItem Header="Reset step" Command ="{Binding Path=ResetAchillesStepCommand}"/>
+                                                <MenuItem Header="Skip step" Command ="{Binding Path=SkipPostprocessStepCommand}"/>
+                                                <MenuItem Header="Reset step" Command ="{Binding Path=ResetPostprocessStepCommand}"/>
                                             </ContextMenu>
                                         </TextBlock.ContextMenu>
                                     </TextBlock>
                                 </StackPanel>
-                                <ProgressBar Minimum="0" Maximum="0" Height="4" BorderThickness="0" Visibility="{Binding AchillesFinished, Converter={StaticResource boolToVisConverter}}"/>
-                                <ProgressBar Minimum="0" Maximum="100" Height="4" BorderThickness="0" IsIndeterminate="True" Visibility="{Binding AchillesWorking, Converter={StaticResource boolToVisConverter}}"/>
-                                <TextBlock Text="{Binding AchillesInfo}" TextAlignment="Center"/>
+                                <ProgressBar Minimum="0" Maximum="0" Height="4" BorderThickness="0" Visibility="{Binding PostprocessFinished, Converter={StaticResource boolToVisConverter}}"/>
+                                <ProgressBar Minimum="0" Maximum="100" Height="4" BorderThickness="0" IsIndeterminate="True" Visibility="{Binding PostprocessWorking, Converter={StaticResource boolToVisConverter}}"/>
+                                <TextBlock Text="{Binding PostprocessInfo}" TextAlignment="Center"/>
                             </StackPanel> 
                         </StackPanel>
                         <TextBlock FontFamily="Calibri" FontSize="30" Foreground="DimGray" Margin="0,30,0,10">BUILDERS ON OTHER MACHINES</TextBlock>

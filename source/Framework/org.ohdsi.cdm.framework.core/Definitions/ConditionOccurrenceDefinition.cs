@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using org.ohdsi.cdm.framework.entities.Builder;
 using org.ohdsi.cdm.framework.entities.Omop;
@@ -39,6 +40,7 @@ namespace org.ohdsi.cdm.framework.core.Definitions
                      {
                         Id = keyOffset.ConditionOccurrenceId,
                         StatusConceptId = statusConceptId.HasValue ? statusConceptId.Value : 0,
+                        StartTime = e.StartTime ?? e.StartDate.ToString("HH:mm:ss", CultureInfo.InvariantCulture),
                         StatusSourceValue = statusSource
                      });
       }

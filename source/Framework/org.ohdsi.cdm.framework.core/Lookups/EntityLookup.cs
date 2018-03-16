@@ -3,7 +3,9 @@ using System.Data;
 using System.Data.Odbc;
 using System.Linq;
 using org.ohdsi.cdm.framework.core.Definitions;
+using org.ohdsi.cdm.framework.entities.DataReaders;
 using org.ohdsi.cdm.framework.entities.Omop;
+using org.ohdsi.cdm.framework.shared.Enums;
 using org.ohdsi.cdm.framework.shared.Helpers;
 
 namespace org.ohdsi.cdm.framework.core.Lookups
@@ -23,6 +25,31 @@ namespace org.ohdsi.cdm.framework.core.Lookups
       {
          this.connectionString = connectionString;
          this.schemaName = schemaName;
+      }
+
+      public void LoadFromS3(QueryDefinition qd, EntityDefinition ed, string fileName, Dictionary<string, int> fields)
+      {
+         var fileKey = string.Format("{0}/{1}/{2}/{3}", Settings.Current.Building.Vendor,
+             Settings.Current.Building.Id, Settings.Current.Building.DestinationSchemaName, fileName);
+
+         using (var reader = new S3DataReaderLookup(Settings.Current.Bucket, fileKey, Settings.Current.S3AwsAccessKeyId,
+             Settings.Current.S3AwsSecretAccessKey, fields,  (m) => Logger.Write(null, LogMessageTypes.Debug, m)))
+         {
+            while (reader.Read())
+            {
+               Concept conceptDef = null;
+               if (ed.Concepts != null && ed.Concepts.Any())
+                  conceptDef = ed.Concepts[0];
+
+               var concept = (T)ed.GetConcepts(conceptDef, reader, null).ToList()[0];
+
+               var key = concept.GetKey();
+               if (key == null) continue;
+
+               if (!lookup.ContainsKey(key))
+                  lookup.Add(key, concept);
+            }
+         }
       }
 
       public void Load(QueryDefinition qd, EntityDefinition ed)

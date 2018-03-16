@@ -1,6 +1,0 @@
-﻿CREATE TABLE {sc}.[_chunks] (
-	[ChunkId] [int], 
-	[PERSON_ID] [bigint] NOT NULL, 
-	[PERSON_SOURCE_VALUE] [varchar](50) NULL
-	) 
-WITH (CLUSTERED COLUMNSTORE INDEX, DISTRIBUTION = REPLICATE);

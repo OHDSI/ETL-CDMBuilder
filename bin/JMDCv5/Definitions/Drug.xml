@@ -30,8 +30,7 @@
     WHEN [As-needed medication flag] = 1
     THEN ' as needed'
     ELSE ''
-    END AS sig,
-    [Actual point] * 10 AS total_paid
+    END AS sig
     FROM {sc}.[Drug] d
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND d.[Member ID] = ch.PERSON_SOURCE_VALUE
     order by CAST(RIGHT([Member ID], LEN([Member ID]) - 1) AS BIGINT)
@@ -65,9 +64,9 @@
       </Concepts>
     </DrugExposureDefinition>
   </DrugExposure>
-  <DrugCost>
+  <!--<DrugCost>
     <DrugCostDefinition>
       <TotalPaid>total_paid</TotalPaid>
     </DrugCostDefinition>
-  </DrugCost>
+  </DrugCost>-->
 </QueryDefinition>

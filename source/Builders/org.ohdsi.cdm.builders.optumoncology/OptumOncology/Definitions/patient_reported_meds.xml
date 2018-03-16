@@ -5,21 +5,6 @@
     p.provid,
     p.reported_date,
     p.quantity_of_dose,
-    CASE
-    WHEN p.route = 'Oral' then 4128794
-    WHEN p.route = 'Intravenous' then 4112421
-    WHEN p.route = 'Other medication route' then 45956875
-    WHEN p.route =  'Other injection' then 45956875
-    WHEN p.route =  'Subcutaneous' then 4139962
-    WHEN p.route =  'Inhalation' then 45956874
-    WHEN p.route =  'Topical' then 4231622
-    WHEN p.route =  'Ophthalmic' then 4157760
-    WHEN p.route =  'Nasal' then 4128792
-    WHEN p.route =  'Rectal' then 4115462
-    WHEN p.route =  'Urinary tract' then 4233974
-    WHEN p.route =  'Vaginal' then 4136280
-    ELSE 0
-    END as route_concept_id,
     p.route,
     p.ndc
     from {sc}.patient_reported_medications as p
@@ -31,10 +16,9 @@
     <DrugExposureDefinition>
       <PersonId>PersonId</PersonId>
       <StartDate>reported_date</StartDate>
+      <EndDate>reported_date</EndDate>
       <ProviderId>provid</ProviderId>
       <Quantity>quantity_of_dose</Quantity>
-      <RouteConceptId>route_concept_id</RouteConceptId>
-      <RouteSourceValue>route</RouteSourceValue>
       <Concepts>
         <Concept>
           <ConceptIdMappers>
@@ -49,6 +33,16 @@
           </SourceConceptIdMappers>
           <Fields>
             <Field key="ndc" defaultTypeId="44787730" />
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>OptumOncology\Lookups\Route.sql</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="route" defaultTypeId="0"/>
           </Fields>
         </Concept>
       </Concepts>

@@ -14,15 +14,19 @@ INSERT INTO {sc}.CDM_SOURCE
            ,VOCABULARY_VERSION)
      VALUES
            (
-		   'Japan Medical Data Center Database',
+		   'Japan Medical Data Center (JMDC)',
 		   'JMDC',
 		   'Janssen R&D',
-		   'JMDC database consists of data from 60 Society-Managed Health Insurances covering workers aged 18 to 65 and their dependents (children younger than 18 years old and elderly people older than 65 years old).  The old people (particularly those aged 66 or older) are less representative as compared with whole population in the nation.  When estimated among the people who are younger than 66 years old, the proportion of children younger than 18 years old in JMDC is approximately the same as the proportion in the whole nation.  JMDC data includes data on membership status of the insured people and claims data provided by insurers under contract.  Claims data are derived from monthly claims issued by clinics, hospitals and community pharmacies.',
-			'https://jnj.sharepoint.com/sites/PHM-GCSP-RND/RWE/Pages/DataSourceDetails.aspx?DataSourceItem=19',
-			'http://www.ohdsi.org/web/wiki/doku.php?id=documentation:example_etls',
+		   'Japan Medical Data Center (JMDC) database consists of data from 60 Society-Managed Health Insurance plans covering workers aged 18 to 65 and their dependents (children younger than 18 years old and elderly people older than 65 years old).  JMDC data includes membership status of the insured people and claims data provided by insurers under contract (e.g. patient-level demographic information, inpatient and outpatient data inclusive of diagnosis and procedures, and prescriptions as dispensed claims information).  Claims data are derived from monthly claims issued by clinics, hospitals and community pharmacies; for claims only the month and year are provided however prescriptions, procedures, admission, discharge, and start of medical care as associated with a full date.  
+
+All diagnoses are coded using ICD-10. All prescriptions refer to national Japanese drug codes, which have been linked to ATC. Procedures are encoded using local procedure codes, which the vendor has mapped to ICD-9 procedure codes. The annual health checkups report a standard battery of measurements (e.g. BMI), which are not coded but clearly described.
+
+[For further information link to RWE site for JMDC.](https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F06d7e4d1-6000-4779-bdc9-16ace880912a.xml)',
+			'https://catalog.rwe.jnj.com/index#jnjsearches?dataSetUri=%2Fdataset%2F06d7e4d1-6000-4779-bdc9-16ace880912a.xml',
+			'https://github.com/OHDSI/ETL-CDMBuilder',
 			'{0}',
 			'{3}',
-			'V5.0',
+			'V5.2.0',
 			'{1}'
 		   );
 
@@ -42,7 +46,7 @@ INSERT INTO {sc}.CDM_DOMAIN_META
 INSERT INTO {sc}.CDM_DOMAIN_META
            (DOMAIN_ID, DESCRIPTION)
      VALUES
-           ('Observation period','The observation period is defined as the time of enrollment in the health insurance. If the member is a dependent, the enrollment depends on the enrollment of the main beneficiary.');
+           ('Observation period','The observation period is defined as the time of enrollment in the health insurance. If the member is a dependent, the enrollment depends on the enrollment of the main beneficiary. The observation is truncated by the time when JMDC had a contract with the respective insurer.');
 
 INSERT INTO {sc}.CDM_DOMAIN_META
            (DOMAIN_ID, DESCRIPTION)
@@ -94,3 +98,8 @@ INSERT INTO {sc}.CDM_DOMAIN_META
            (DOMAIN_ID, DESCRIPTION)
      VALUES
            ('Cohort','');
+
+INSERT INTO {sc}.CDM_DOMAIN_META
+           (DOMAIN_ID, DESCRIPTION)
+     VALUES
+           ('Cost','Only the total amount paid for a claim is known with certainty. Since we map most claims directly to visits, we have reflected these costs as costs per visit.');

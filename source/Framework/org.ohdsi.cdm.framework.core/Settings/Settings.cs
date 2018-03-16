@@ -7,16 +7,13 @@ namespace org.ohdsi.cdm.framework.core
 {
    public class Settings
    {
-      private string apsConnectionString;
-      private bool storeToAPS;
-      private bool autoSettings;
       private string s3awsAccessKeyId;
       private string s3awsSecretAccessKey;
 
       private string ec2awsAccessKeyId;
       private string ec2awsSecretAccessKey;
       private string bucket;
-      private int? subChunkSize;
+      private bool skipSaveToRedshift;
 
       #region Properties
       public static Settings Current { get; set; }
@@ -202,6 +199,13 @@ namespace org.ohdsi.cdm.framework.core
          set { ec2awsSecretAccessKey = value; }
       }
 
+      public bool SkipSaveToRedshift
+      {
+         //get { return bool.Parse(ConfigurationManager.AppSettings["skipSaveToRedshift"]); }
+         get { return false; }
+         set { skipSaveToRedshift = value; }
+      }
+
       public string Bucket
       {
          get
@@ -214,67 +218,18 @@ namespace org.ohdsi.cdm.framework.core
          set { bucket = value; }
       }
 
-      public int SubChunkSize
+      public string HIXConnectionString
       {
          get
          {
-            if(!subChunkSize.HasValue)
-               subChunkSize = int.Parse(ConfigurationManager.AppSettings["SubChunkSize"]);
+            if (ConfigurationManager.ConnectionStrings["HIX"] != null)
+               return ConfigurationManager.ConnectionStrings["HIX"].ConnectionString;
 
-            return subChunkSize.Value;
-         }
-         set { subChunkSize = value; }
-      }
-
-      public bool StoreToAPS
-      {
-         //get { return bool.Parse(ConfigurationManager.AppSettings["StoreToAPS"]); }
-         get { return false; }
-      }
-
-      public bool AutoSettings
-      {
-         //get { return bool.Parse(ConfigurationManager.AppSettings["AutoSettings"]); }
-         get { return true; }
-      }
-      
-      public string APSConnectionString
-      {
-         get
-         {
-            if (ConfigurationManager.ConnectionStrings["APS"].ConnectionString != null)
-               apsConnectionString = ConfigurationManager.ConnectionStrings["APS"].ConnectionString;
-
-            return apsConnectionString;
-         }
-         set
-         {
-            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            if (config.ConnectionStrings.ConnectionStrings["APS"] != null)
-            {
-               
-               config.ConnectionStrings.ConnectionStrings["APS"].ConnectionString = value;
-               config.Save(ConfigurationSaveMode.Modified);
-            }
-
-            apsConnectionString = value;
+            return null;
          }
       }
 
-      public string AchillesRScript
-      {
-         get
-         {
-            return File.ReadAllText(
-               Path.Combine(new[] {
-                  Builder.Folder, 
-                  "Common", 
-                  Building.DestinationEngine.Database.ToString(),
-                  "Achilles.R"
-               })); 
-         }
-      }
-        #endregion
+     #endregion
 
       #region Methods
       public static void Initialize(string builderConnectionString, string machineName)

@@ -175,12 +175,27 @@ namespace org.ohdsi.cdm.builders.optumoncology
          var payerPlanPeriods = BuildPayerPlanPeriods(payerPlanPeriodsRaw.ToArray(), null).ToArray();
          var visitOccurrences = new Dictionary<long, VisitOccurrence>();
 
+         var visitIds = new List<long>();
          foreach (var visitOccurrence in BuildVisitOccurrences(visitOccurrencesRaw.ToArray(), observationPeriods))
          {
             if (visitOccurrence.IdUndefined)
+            {
                visitOccurrence.Id = chunkData.KeyMasterOffset.VisitOccurrenceId;
-
+               visitOccurrence.IdUndefined = false;
+            }
             visitOccurrences.Add(visitOccurrence.Id, visitOccurrence);
+            visitIds.Add(visitOccurrence.Id);
+         }
+
+         long? prevVisitId = null;
+         foreach (var visitId in visitIds.OrderBy(v => v))
+         {
+            if (prevVisitId.HasValue)
+            {
+               visitOccurrences[visitId].PrecedingVisitOccurrenceId = prevVisitId;
+            }
+
+            prevVisitId = visitId;
          }
          
          var drugExposures =
@@ -199,6 +214,8 @@ namespace org.ohdsi.cdm.builders.optumoncology
          SetPayerPlanPeriodId(payerPlanPeriods, drugExposures, procedureOccurrences, visitOccurrences.Values.ToArray(),
             deviceExposure);
 
+         var notes = BuildNote(noteRecords.ToArray(), visitOccurrences, observationPeriods).ToArray();
+
          // set corresponding ProviderIds
          SetProviderIds(drugExposures, providers);
          SetProviderIds(conditionOccurrences, providers);
@@ -211,6 +228,7 @@ namespace org.ohdsi.cdm.builders.optumoncology
          SetProviderIds(procedureOccurrences, visitOccurrences);
          SetProviderIds(deviceExposure, visitOccurrences);
          SetProviderIds(observations, visitOccurrences);
+         SetProviderIds(notes, visitOccurrences);
 
          var death = BuildDeath(deathRecords.ToArray(), visitOccurrences, observationPeriods);
          var drugCosts = BuildDrugCosts(drugExposures).ToArray();
@@ -219,6 +237,7 @@ namespace org.ohdsi.cdm.builders.optumoncology
          var devicCosts = BuildDeviceCosts(deviceExposure).ToArray();
 
          var cohort = BuildCohort(cohortRecords.ToArray(), observationPeriods).ToArray();
+         
 
          if (death != null)
          {
@@ -234,7 +253,7 @@ namespace org.ohdsi.cdm.builders.optumoncology
          // push built entities to ChunkBuilder for further save to CDM database
          AddToChunk(person, death, observationPeriods, payerPlanPeriods, drugExposures, drugCosts,
             conditionOccurrences, procedureOccurrences, procedureCosts, observations, measurements,
-            visitOccurrences.Values.ToArray(), visitCosts, cohort, deviceExposure, devicCosts);
+            visitOccurrences.Values.ToArray(), visitCosts, cohort, deviceExposure, devicCosts, notes);
       }
 
 
@@ -273,6 +292,14 @@ namespace org.ohdsi.cdm.builders.optumoncology
                   if (entity.AdditionalFields != null && entity.AdditionalFields.ContainsKey("test_result"))
                   {
                      mes.ValueSourceValue = entity.AdditionalFields["test_result"];
+                  }
+
+                  // HIX-1363
+                  //if rslt_nbr is non-zero, take it for both fields, otherwise, 
+                  //use NULL for value_as_number and take rslt_txt for value_as_string.
+                  if (mes.ValueAsNumber != null && mes.ValueAsNumber != 0)
+                  {
+                     mes.ValueSourceValue = mes.ValueAsNumber.ToString();
                   }
 
                   if (mes.TypeConceptId != 44786627 && mes.TypeConceptId != 44786629)
@@ -337,6 +364,11 @@ namespace org.ohdsi.cdm.builders.optumoncology
                   if (drg.TypeConceptId == 0)
                      drg.TypeConceptId = 38000275;
 
+                  if (!drg.EndDate.HasValue)
+                  {
+                     drg.EndDate = drg.StartDate;
+                  }
+
                   drugForEra.Add(drg);
                   chunkData.AddData(drg);
                   break;
@@ -357,6 +389,7 @@ namespace org.ohdsi.cdm.builders.optumoncology
                o.ConceptId = 0;
                chunkData.AddData(o);
             }
+
          }
       }
    }

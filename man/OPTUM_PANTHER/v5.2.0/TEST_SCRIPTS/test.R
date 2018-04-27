@@ -20,6 +20,6 @@ testSql <- SqlRender::translateSql(SqlRender::renderSql(paste(OptumPantherTests:
                                    targetDialect = "sql server")$sql
 SqlRender::writeSql(testSql, "test.sql")
 
-querySql(connection, renderSql("SELECT status, count(*) FROM @cdm_schema.test_results group by status", cdm_schema = cdm_schema)$sql)
-querySql(connection, renderSql("SELECT * FROM @cdm_schema.test_results where status = 'FAIL'", cdm_schema = cdm_schema)$sql)
+#querySql(connection, renderSql("SELECT status, count(*) FROM @cdm_schema.test_results group by status", cdm_schema = cdm_schema)$sql)
+#querySql(connection, renderSql("SELECT * FROM @cdm_schema.test_results where status = 'FAIL'", cdm_schema = cdm_schema)$sql)
 

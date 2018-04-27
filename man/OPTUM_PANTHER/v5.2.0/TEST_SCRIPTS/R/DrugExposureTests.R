@@ -321,7 +321,7 @@ createDrugExposureTests <- function () {
   declareTest("Patient has PROCEDURE with HCPCS proc_code that maps to a standard concept", source_pid = patient$ptid, cdm_pid = patient$person_id)
   add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
   add_procedure(ptid = patient$ptid, proc_date="2011-10-12", proc_code="J9310", proc_code_type="HCPCS")
-  expect_drug_exposure(person_id = patient$person_id, drug_concept_id="46275076", drug_source_value="J9310", drug_source_concept_id="2718907")
+  expect_drug_exposure(person_id = patient$person_id, drug_concept_id="43148859", drug_source_value="J9310", drug_source_concept_id="2718907")
 
   patient <- createPatient();
   provider <- createProvider();
@@ -329,7 +329,7 @@ createDrugExposureTests <- function () {
   add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
   add_provider(provid = provider$provid, specialty = "Internal Medicine", prim_spec_ind = "1")
   add_procedure(ptid = patient$ptid, proc_date="2011-10-12", proc_code="J9310", proc_code_type="HCPCS", provid_perform = provider$provid)
-  expect_drug_exposure(person_id = patient$person_id, drug_concept_id="46275076", drug_source_value="J9310", drug_source_concept_id="2718907", provider_id = provider$provider_id)
+  expect_drug_exposure(person_id = patient$person_id, drug_concept_id="43148859", drug_source_value="J9310", drug_source_concept_id="2718907", provider_id = provider$provider_id)
 
   ######################################
   # NLP_DRUG_RATIONALE

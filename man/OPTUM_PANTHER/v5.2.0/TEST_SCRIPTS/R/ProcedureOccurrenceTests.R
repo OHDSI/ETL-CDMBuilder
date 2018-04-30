@@ -15,8 +15,8 @@ createProcedureOccurrenceTests <- function () {
   declareTest("Tests procedure record with proc_code_type HCPCS", source_pid = patient$ptid, cdm_pid = patient$person_id)
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
-  add_procedure(ptid=patient$ptid, proc_code = 'C9743', proc_code_type = 'HCPCS', proc_date = '2009-01-01')
-  expect_procedure_occurrence(person_id = patient$person_id, procedure_concept_id = 915607, procedure_source_value = 'C9743')
+  add_procedure(ptid=patient$ptid, proc_code = 'G0290', proc_code_type = 'HCPCS', proc_date = '2009-01-01')
+  expect_procedure_occurrence(person_id = patient$person_id, procedure_concept_id = 43533247, procedure_source_value = 'G0290')
 
 
   patient <- createPatient();
@@ -31,8 +31,8 @@ createProcedureOccurrenceTests <- function () {
   declareTest("Tests procedure record with proc_code_type ICD10", source_pid = patient$ptid, cdm_pid = patient$person_id)
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
-  add_procedure(ptid=patient$ptid, proc_code = '0J8S0', proc_code_type = 'ICD10', proc_date = '2009-01-01')
-  expect_procedure_occurrence(person_id = patient$person_id, procedure_concept_id = 2863829, procedure_source_value = '0J8S0')
+  add_procedure(ptid=patient$ptid, proc_code = '0J8S0ZZ', proc_code_type = 'ICD10', proc_date = '2009-01-01')
+  expect_procedure_occurrence(person_id = patient$person_id, procedure_concept_id = 2755024, procedure_source_value = '0J8S0ZZ')
 
 
   patient <- createPatient();
@@ -77,13 +77,12 @@ createProcedureOccurrenceTests <- function () {
   ######################################
   # DIAGNOSIS
   ######################################
-
   patient <- createPatient();
   declareTest("Tests procedure type concept id from diagnosis record", source_pid = patient$ptid, cdm_pid = patient$person_id)
   enc <- createEncounter();
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
-  add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = '63491',
+  add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = '7946',
                 diagnosis_cd_type = 'ICD9', diag_date = '2009-01-01')
   expect_procedure_occurrence(person_id = patient$person_id, procedure_type_concept_id = 42865906)
 
@@ -103,9 +102,9 @@ createProcedureOccurrenceTests <- function () {
   enc <- createEncounter();
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
-  add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = '63491',
+  add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = '7946',
                 diagnosis_cd_type = 'ICD9', diag_date = '2009-01-01')
-  expect_procedure_occurrence(person_id = patient$person_id, procedure_concept_id = 435868, procedure_source_value = '63491')
+  expect_procedure_occurrence(person_id = patient$person_id, procedure_concept_id = 40491846, procedure_source_value = '7946')
 
 
   patient <- createPatient();
@@ -113,9 +112,9 @@ createProcedureOccurrenceTests <- function () {
   enc <- createEncounter();
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
-  add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = 'O04.87',
+  add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = 'R93.9',
                 diagnosis_cd_type = 'ICD10', diag_date = '2009-01-01')
-  expect_procedure_occurrence(person_id = patient$person_id, procedure_concept_id = 43530939, procedure_source_value = 'O04.87')
+  expect_procedure_occurrence(person_id = patient$person_id, procedure_concept_id = 4180938, procedure_source_value = 'R93.9')
 
 
   patient <- createPatient();

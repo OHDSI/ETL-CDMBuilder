@@ -67,7 +67,7 @@ createMeasurementTests <- function () {
   add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_type='Inpatient', interaction_date='2009-01-01')
   add_diagnosis(ptid=patient$ptid, encid = enc$encid, diagnosis_status = 'Diagnosis of', diagnosis_cd = '145003003',
                 diagnosis_cd_type = 'SNOMED', diag_date = '2009-01-01')
-  expect_measurement(person_id=patient$person_id, measurement_concept_id=4152685, measurement_date='2009-01-01',
+  expect_measurement(person_id=patient$person_id, measurement_concept_id=4120300, measurement_date='2009-01-01',
                      measurement_source_value='145003003')
 
 
@@ -81,9 +81,9 @@ createMeasurementTests <- function () {
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
   add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_type='Inpatient', interaction_date='2009-01-01')
-  add_labs(ptid=patient$ptid, encid = enc$encid, test_name='O2 saturation.oximetry', test_result='100', result_date='2009-01-01')
-  expect_measurement(person_id=patient$person_id,measurement_concept_id=4130729,measurement_date='2009-01-01',
-                     measurement_source_value='O2 saturation.oximetry', measurement_source_concept_id=0,
+  add_labs(ptid=patient$ptid, encid = enc$encid, test_name='Oxygen saturation (SpO2).pulse oximetry', test_result='100', result_date='2009-01-01')
+  expect_measurement(person_id=patient$person_id,measurement_concept_id=3027315,measurement_date='2009-01-01',
+                     measurement_source_concept_id=0,
                      value_as_number=100)
 
   patient <- createPatient();
@@ -92,9 +92,9 @@ createMeasurementTests <- function () {
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
   add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_type='Inpatient', interaction_date='2009-01-01')
-  add_labs(ptid=patient$ptid, encid = enc$encid, test_name='O2 saturation.oximetry', test_result='positive', result_date='2009-01-01')
-  expect_measurement(person_id=patient$person_id,measurement_concept_id=4130729,measurement_date='2009-01-01',
-                     measurement_source_value='O2 saturation.oximetry', measurement_source_concept_id=0,
+  add_labs(ptid=patient$ptid, encid = enc$encid, test_name='Oxygen saturation (SpO2).pulse oximetry', test_result='positive', result_date='2009-01-01')
+  expect_measurement(person_id=patient$person_id,measurement_concept_id=3027315,measurement_date='2009-01-01',
+                     measurement_source_concept_id=0,
                      value_as_number=NULL, value_as_concept_id=45884084)
 
   patient <- createPatient();
@@ -211,16 +211,16 @@ createMeasurementTests <- function () {
   add_observations(ptid=patient$ptid, encid = enc$encid,obs_type='Zach',obs_date='2009-01-01')
   expect_observation(person_id=patient$person_id,observation_concept_id=0,observation_source_value='Zach')
 
-  patient <- createPatient();
-  declareTest("Test VALUE_AS_CONCEPT_ID gets mapped from OBSERVATIONS", source_pid = patient$ptid, cdm_pid = patient$person_id)
-  enc <- createEncounter();
-  add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
-              first_month_active = '200701', last_month_active = '201001')
-  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_type='Inpatient', interaction_date='2009-01-01')
-  add_observations(ptid=patient$ptid, encid = enc$encid,obs_type='SBP',obs_date='2009-01-01',
-                   obs_result='normal')
-  expect_measurement(person_id=patient$person_id,value_as_concept_id=4069590, value_source_value = 'normal',
-                     measurement_source_concept_id=0)
+  # patient <- createPatient();
+  # declareTest("Test VALUE_AS_CONCEPT_ID gets mapped from OBSERVATIONS", source_pid = patient$ptid, cdm_pid = patient$person_id)
+  # enc <- createEncounter();
+  # add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
+  #             first_month_active = '200701', last_month_active = '201001')
+  # add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_type='Inpatient', interaction_date='2009-01-01')
+  # add_observations(ptid=patient$ptid, encid = enc$encid,obs_type='SBP',obs_date='2009-01-01',
+  #                  obs_result='normal')
+  # expect_measurement(person_id=patient$person_id,value_as_concept_id=4069590, value_source_value = 'normal',
+  #                    measurement_source_concept_id=0)
 
   patient <- createPatient();
   declareTest("Test UNIT_CONCEPT_ID gets mapped from OBSERVATIONS", source_pid = patient$ptid, cdm_pid = patient$person_id)

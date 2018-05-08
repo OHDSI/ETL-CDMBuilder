@@ -1,0 +1,27 @@
+*******************************************************************************
+* PREMIER
+*******************************************************************************
+1) HIX-1463
+Added in procedure physicians
+
+2) HIX-1181
+Added sampling weight field into OBSERVATION table
+
+3) HIX-1468
+People with unknown gender dropped from CDM
+
+4) HIX-1467
+Fix the COST_DOMAIN_ID to be the the proper domain
+
+5) HIX-1189
+Records that moved to PROCEDURE_OCCURRENCE need to also bring their quantity information
+
+*******************************************************************************
+* CPRD
+*******************************************************************************
+1) HIX-1519, HIX-1469
+CPRD updated raw data:
+ - Column ‘ses’ removed from Patient 
+ - Column textid removed from Clinical, Immunization, Referral and Test
+ - Removed textid and ndd from Therapy and added new column i.e. dosageid.
+ - Removed ndd from daysupply_decodes since its derived using ndd from Therapy.

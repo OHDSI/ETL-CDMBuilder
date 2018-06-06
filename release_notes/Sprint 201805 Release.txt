@@ -1,0 +1,40 @@
+*******************************************************************************
+* OPTUM EXTENDED SES / DOD
+*******************************************************************************
+1) Raw data update
+
+2) HIX-1538 / HIX-1511
+Observations were repeating incorrectly
+
+3) HIX-1496 / HIX-1447
+Add procedure modifiers
+
+*******************************************************************************
+* OPTUM PANTHER
+*******************************************************************************
+1) Raw data update
+
+2) HIX-1513 / HIX-1488
+Was missing some measurement data due to a mapping problem
+
+*******************************************************************************
+* JMDC
+*******************************************************************************
+1) Raw data update
+
+2) HIX-1499 / HIX-1428 / HIX-1498
+Update CDM builder to new raw schema update.
+
+3) HIX-1557
+The code used to indicate death changed from 2 to 3.  
+
+4) HIX-1507
+Updated the SOURCE_TO_CONCEPT_MAP file for JNJ_JMDC_DRUGS
+
+*******************************************************************************
+* TRUVEN CCAE/MDCR
+*******************************************************************************
+1) Raw data update
+
+2) HIX-1446
+In certain case the DRUG_SOURCE_CONCEPT_ID = 0 when there was a map, fixed

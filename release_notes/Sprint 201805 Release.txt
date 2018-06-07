@@ -38,3 +38,6 @@ Updated the SOURCE_TO_CONCEPT_MAP file for JNJ_JMDC_DRUGS
 
 2) HIX-1446
 In certain case the DRUG_SOURCE_CONCEPT_ID = 0 when there was a map, fixed
+
+3) HIX-1515
+Incorrect EVENT_ID showing up for COST

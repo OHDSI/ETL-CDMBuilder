@@ -1,0 +1,148 @@
+G93.82	45533174	JNJ_DEATH	Brain death	0	ICD10CM	19700101	20991231
+I46.1	45567177	JNJ_DEATH	"Sudden cardiac death, so described"	0	ICD10	19700101	20991231
+O95	45553610	JNJ_DEATH	Obstetric death of unspecified cause	0	ICD10	19700101	20991231
+O96	45539216	JNJ_DEATH	Death from any obstetric cause occurring more than 42 days but less than one year after delivery	0	ICD10	19700101	20991231
+O96.0	45582586	JNJ_DEATH	Death from sequelae of direct obstetric cause	0	ICD10	19700101	20991231
+O96.1	45755584	JNJ_DEATH	Death from sequelae of indirect obstetric cause	0	ICD10	19700101	20991231
+O96.9	45558344	JNJ_DEATH	Death from sequelae of unspecified obstetric cause	0	ICD10	19700101	20991231
+O97	45755585	JNJ_DEATH	Death from sequelae of direct obstetric causes	0	ICD10	19700101	20991231
+O97.0	45597046	JNJ_DEATH	Death from direct obstetric cause	0	ICD10	19700101	20991231
+O97.1	45755586	JNJ_DEATH	Death from indirect obstetric cause	0	ICD10	19700101	20991231
+O97.9	45755587	JNJ_DEATH	Death from unspecified obstetric cause	0	ICD10	19700101	20991231
+P01.6	45534328	JNJ_DEATH	Fetus and newborn affected by maternal death	0	ICD10	19700101	20991231
+P95	45582632	JNJ_DEATH	Fetal death of unspecified cause	0	ICD10	19700101	20991231
+R95	45539373	JNJ_DEATH	Sudden infant death syndrome	0	ICD10	19700101	20991231
+R95.0	45755750	JNJ_DEATH	Sudden infant death syndrome with mention of autopsy	0	ICD10	19700101	20991231
+R95.9	45755751	JNJ_DEATH	Sudden infant death syndrome without mention of autopsy	0	ICD10	19700101	20991231
+R96	45755752	JNJ_DEATH	"Other sudden death, cause unknown"	0	ICD10	19700101	20991231
+R96.0	45534481	JNJ_DEATH	Instantaneous death	0	ICD10	19700101	20991231
+R96.1	45534482	JNJ_DEATH	"Death occurring less than 24 hours from onset of symptoms, not otherwise explained"	0	ICD10	19700101	20991231
+R98	45592445	JNJ_DEATH	Unattended death	0	ICD10	19700101	20991231
+S06.0X7A	45602092	JNJ_DEATH	"Concussion with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.0X7D	45568225	JNJ_DEATH	"Concussion with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.0X7S	45602093	JNJ_DEATH	"Concussion with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.0X8A	45539442	JNJ_DEATH	"Concussion with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.0X8D	45558579	JNJ_DEATH	"Concussion with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.0X8S	45592509	JNJ_DEATH	"Concussion with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.1X7A	45549065	JNJ_DEATH	"Traumatic cerebral edema with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.1X7D	45592513	JNJ_DEATH	"Traumatic cerebral edema with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.1X7S	45592514	JNJ_DEATH	"Traumatic cerebral edema with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.1X8A	45534553	JNJ_DEATH	"Traumatic cerebral edema with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.1X8D	45568230	JNJ_DEATH	"Traumatic cerebral edema with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.1X8S	45568231	JNJ_DEATH	"Traumatic cerebral edema with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.2X7A	45553836	JNJ_DEATH	"Diffuse traumatic brain injury with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.2X7D	45577894	JNJ_DEATH	"Diffuse traumatic brain injury with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.2X7S	45597279	JNJ_DEATH	"Diffuse traumatic brain injury with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.2X8A	45563397	JNJ_DEATH	"Diffuse traumatic brain injury with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.2X8D	45563398	JNJ_DEATH	"Diffuse traumatic brain injury with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.2X8S	45606904	JNJ_DEATH	"Diffuse traumatic brain injury with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.307A	45582813	JNJ_DEATH	"Unspecified focal traumatic brain injury with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.307D	45544252	JNJ_DEATH	"Unspecified focal traumatic brain injury with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.307S	45549068	JNJ_DEATH	"Unspecified focal traumatic brain injury with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.308A	45597280	JNJ_DEATH	"Unspecified focal traumatic brain injury with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.308D	45563401	JNJ_DEATH	"Unspecified focal traumatic brain injury with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.308S	45568235	JNJ_DEATH	"Unspecified focal traumatic brain injury with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.317A	45587606	JNJ_DEATH	"Contusion and laceration of right cerebrum with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.317D	45573128	JNJ_DEATH	"Contusion and laceration of right cerebrum with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.317S	45597282	JNJ_DEATH	"Contusion and laceration of right cerebrum with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.318A	45582814	JNJ_DEATH	"Contusion and laceration of right cerebrum with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.318D	45592522	JNJ_DEATH	"Contusion and laceration of right cerebrum with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.318S	45539451	JNJ_DEATH	"Contusion and laceration of right cerebrum with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.327A	45539454	JNJ_DEATH	"Contusion and laceration of left cerebrum with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.327D	45568241	JNJ_DEATH	"Contusion and laceration of left cerebrum with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.327S	45544255	JNJ_DEATH	"Contusion and laceration of left cerebrum with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.328A	45558586	JNJ_DEATH	"Contusion and laceration of left cerebrum with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.328D	45602102	JNJ_DEATH	"Contusion and laceration of left cerebrum with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.328S	45592526	JNJ_DEATH	"Contusion and laceration of left cerebrum with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.337A	45563403	JNJ_DEATH	"Contusion and laceration of cerebrum, unspecified, with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.337D	45544257	JNJ_DEATH	"Contusion and laceration of cerebrum, unspecified, with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.337S	45549075	JNJ_DEATH	"Contusion and laceration of cerebrum, unspecified, with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.338A	45549076	JNJ_DEATH	"Contusion and laceration of cerebrum, unspecified, with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.338D	45568243	JNJ_DEATH	"Contusion and laceration of cerebrum, unspecified, with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.338S	45592529	JNJ_DEATH	"Contusion and laceration of cerebrum, unspecified, with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.347A	45582820	JNJ_DEATH	"Traumatic hemorrhage of right cerebrum with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.347D	45544259	JNJ_DEATH	"Traumatic hemorrhage of right cerebrum with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.347S	45597290	JNJ_DEATH	"Traumatic hemorrhage of right cerebrum with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.348A	45563404	JNJ_DEATH	"Traumatic hemorrhage of right cerebrum with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.348D	45563405	JNJ_DEATH	"Traumatic hemorrhage of right cerebrum with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.348S	45602107	JNJ_DEATH	"Traumatic hemorrhage of right cerebrum with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.357A	45534559	JNJ_DEATH	"Traumatic hemorrhage of left cerebrum with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.357D	45549079	JNJ_DEATH	"Traumatic hemorrhage of left cerebrum with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.357S	45582821	JNJ_DEATH	"Traumatic hemorrhage of left cerebrum with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.358A	45582822	JNJ_DEATH	"Traumatic hemorrhage of left cerebrum with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.358D	45544261	JNJ_DEATH	"Traumatic hemorrhage of left cerebrum with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.358S	45544262	JNJ_DEATH	"Traumatic hemorrhage of left cerebrum with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.367A	45568251	JNJ_DEATH	"Traumatic hemorrhage of cerebrum, unspecified, with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.367D	45582825	JNJ_DEATH	"Traumatic hemorrhage of cerebrum, unspecified, with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.367S	45587613	JNJ_DEATH	"Traumatic hemorrhage of cerebrum, unspecified, with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.368A	45568252	JNJ_DEATH	"Traumatic hemorrhage of cerebrum, unspecified, with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.368D	45587614	JNJ_DEATH	"Traumatic hemorrhage of cerebrum, unspecified, with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.368S	45558591	JNJ_DEATH	"Traumatic hemorrhage of cerebrum, unspecified, with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.377A	45597297	JNJ_DEATH	"Contusion, laceration, and hemorrhage of cerebellum with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.377D	45563412	JNJ_DEATH	"Contusion, laceration, and hemorrhage of cerebellum with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.377S	45539463	JNJ_DEATH	"Contusion, laceration, and hemorrhage of cerebellum with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.378A	45563413	JNJ_DEATH	"Contusion, laceration, and hemorrhage of cerebellum with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.378D	45606922	JNJ_DEATH	"Contusion, laceration, and hemorrhage of cerebellum with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.378S	45568255	JNJ_DEATH	"Contusion, laceration, and hemorrhage of cerebellum with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.387A	45563415	JNJ_DEATH	"Contusion, laceration, and hemorrhage of brainstem with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.387D	45582828	JNJ_DEATH	"Contusion, laceration, and hemorrhage of brainstem with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.387S	45587619	JNJ_DEATH	"Contusion, laceration, and hemorrhage of brainstem with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.388A	45587620	JNJ_DEATH	"Contusion, laceration, and hemorrhage of brainstem with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.388D	45544265	JNJ_DEATH	"Contusion, laceration, and hemorrhage of brainstem with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.388S	45553857	JNJ_DEATH	"Contusion, laceration, and hemorrhage of brainstem with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.4X7A	45577907	JNJ_DEATH	"Epidural hemorrhage with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.4X7D	45534562	JNJ_DEATH	"Epidural hemorrhage with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.4X7S	45602119	JNJ_DEATH	"Epidural hemorrhage with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.4X8A	45563421	JNJ_DEATH	"Epidural hemorrhage with loss of consciousness of any duration with death due to other causes prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.4X8D	45534563	JNJ_DEATH	"Epidural hemorrhage with loss of consciousness of any duration with death due to other causes prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.4X8S	45602120	JNJ_DEATH	"Epidural hemorrhage with loss of consciousness of any duration with death due to other causes prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.5X7A	45602122	JNJ_DEATH	"Traumatic subdural hemorrhage with loss of consciousness of any duration with death due to brain injury before regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.5X7D	45549090	JNJ_DEATH	"Traumatic subdural hemorrhage with loss of consciousness of any duration with death due to brain injury before regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.5X7S	45577912	JNJ_DEATH	"Traumatic subdural hemorrhage with loss of consciousness of any duration with death due to brain injury before regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.5X8A	45577913	JNJ_DEATH	"Traumatic subdural hemorrhage with loss of consciousness of any duration with death due to other cause before regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.5X8D	45573142	JNJ_DEATH	"Traumatic subdural hemorrhage with loss of consciousness of any duration with death due to other cause before regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.5X8S	45534566	JNJ_DEATH	"Traumatic subdural hemorrhage with loss of consciousness of any duration with death due to other cause before regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.6X7A	45606931	JNJ_DEATH	"Traumatic subarachnoid hemorrhage with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.6X7D	45602124	JNJ_DEATH	"Traumatic subarachnoid hemorrhage with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.6X7S	45563425	JNJ_DEATH	"Traumatic subarachnoid hemorrhage with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.6X8A	45539468	JNJ_DEATH	"Traumatic subarachnoid hemorrhage with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.6X8D	45558597	JNJ_DEATH	"Traumatic subarachnoid hemorrhage with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.6X8S	45592540	JNJ_DEATH	"Traumatic subarachnoid hemorrhage with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.817A	45587626	JNJ_DEATH	"Injury of right internal carotid artery, intracranial portion, not elsewhere classified with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.817D	45597308	JNJ_DEATH	"Injury of right internal carotid artery, intracranial portion, not elsewhere classified with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.817S	45573146	JNJ_DEATH	"Injury of right internal carotid artery, intracranial portion, not elsewhere classified with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.818A	45563426	JNJ_DEATH	"Injury of right internal carotid artery, intracranial portion, not elsewhere classified with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.818D	45573147	JNJ_DEATH	"Injury of right internal carotid artery, intracranial portion, not elsewhere classified with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.818S	45539471	JNJ_DEATH	"Injury of right internal carotid artery, intracranial portion, not elsewhere classified with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.827A	45602127	JNJ_DEATH	"Injury of left internal carotid artery, intracranial portion, not elsewhere classified with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.827D	45563428	JNJ_DEATH	"Injury of left internal carotid artery, intracranial portion, not elsewhere classified with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.827S	45558602	JNJ_DEATH	"Injury of left internal carotid artery, intracranial portion, not elsewhere classified with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.828A	45549093	JNJ_DEATH	"Injury of left internal carotid artery, intracranial portion, not elsewhere classified with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.828D	45534569	JNJ_DEATH	"Injury of left internal carotid artery, intracranial portion, not elsewhere classified with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.828S	45597310	JNJ_DEATH	"Injury of left internal carotid artery, intracranial portion, not elsewhere classified with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.897A	45606937	JNJ_DEATH	"Other specified intracranial injury with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.897D	45606938	JNJ_DEATH	"Other specified intracranial injury with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.897S	45549095	JNJ_DEATH	"Other specified intracranial injury with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.898A	45544275	JNJ_DEATH	"Other specified intracranial injury with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.898D	45592547	JNJ_DEATH	"Other specified intracranial injury with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.898S	45573153	JNJ_DEATH	"Other specified intracranial injury with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.9X7A	45549097	JNJ_DEATH	"Unspecified intracranial injury with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.9X7D	45568264	JNJ_DEATH	"Unspecified intracranial injury with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.9X7S	45577923	JNJ_DEATH	"Unspecified intracranial injury with loss of consciousness of any duration with death due to brain injury prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+S06.9X8A	45544280	JNJ_DEATH	"Unspecified intracranial injury with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter"	0	ICD10CM	19700101	20991231
+S06.9X8D	45534571	JNJ_DEATH	"Unspecified intracranial injury with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, subsequent encounter"	0	ICD10CM	19700101	20991231
+S06.9X8S	45563435	JNJ_DEATH	"Unspecified intracranial injury with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, sequela"	0	ICD10CM	19700101	20991231
+Y35.5	45551979	JNJ_DEATH	Death by legal execution	0	ICD10	19700101	20991231
+798.2	44837452	JNJ_DEATH	"Death occurring in less than 24 hours from onset of symptoms, not otherwise explained"	0	ICD9CM	19700101	20991231
+79.81	2005561	JNJ_DEATH	Open reduction of dislocation of shoulder	0	ICD9Proc	19700101	20991231
+79.82	2005572	JNJ_DEATH	Open reduction of dislocation of elbow	0	ICD9Proc	19700101	20991231
+798.0	44826990	JNJ_DEATH	Sudden infant death syndrome	0	ICD9CM	19700101	20991231
+761.6	44821216	JNJ_DEATH	Maternal death affecting fetus or newborn	0	ICD9CM	19700101	20991231
+79.89	2005579	JNJ_DEATH	Open reduction of dislocation of other specified sites	0	ICD9Proc	19700101	20991231
+798.1	44832725	JNJ_DEATH	Instantaneous death	0	ICD9CM	19700101	20991231
+79.80	2005560	JNJ_DEATH	Open reduction of dislocation of unspecified site	0	ICD9Proc	19700101	20991231
+798.9	44828177	JNJ_DEATH	Unattended death	0	ICD9CM	19700101	20991231
+798	44831614	JNJ_DEATH	"Sudden death, cause unknown"	0	ICD9CM	19700101	20991231
+E913.1	44821453	JNJ_DEATH	Accidental mechanical suffocation by plastic bag	0	ICD9CM	19700101	20991231
+79.8	2005559	JNJ_DEATH	Open reduction of dislocation	0	ICD9Proc	19700101	20991231
+E978	44831880	JNJ_DEATH	Legal execution	0	ICD9CM	19700101	20991231

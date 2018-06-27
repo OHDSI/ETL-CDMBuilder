@@ -1,0 +1,24 @@
+*******************************************************************************
+* VOCABULARY UPDATE
+*******************************************************************************
+1) Adopting a new Vocabulary per schedule.
+
+2) A summary of changes by how they play out in raw data can be found on our internal Epi site.
+
+--Moving Domains
+Only 56 of the domain changes seem to impact our largest claims database, here are the top 10:
+
+	Concept ID	Vocabulary	Old value	New value	Prevalence	Concept name
+	40664566	HCPCS		Procedure	Observation	0.291		Influenza virus vaccine, split virus, when administered to individuals 3 years of age and older, for intramuscular use (fluvirin)
+	40664532	HCPCS		Procedure	Observation	0.287		Influenza virus vaccine, split virus, when administered to individuals 3 years of age and older, for intramuscular use (fluzone)
+	2617178		HCPCS		Procedure	Drug		0.236		Administration of pneumococcal vaccine
+	40664421	HCPCS		Procedure	Observation	0.101		Influenza virus vaccine, split virus, when administered to individuals 3 years of age and older, for intramuscular use (flulaval)
+	2617456		HCPCS		Observation	Procedure	0.092		Lev 3 hosp type b ed visit
+	2617455		HCPCS		Observation	Procedure	0.078		Lev 2 hosp type b ed visit
+	2617453		HCPCS		Observation	Procedure	0.068		Direct admission of patient for hospital observation care
+	2720562		HCPCS		Procedure	Observation	0.046		Catheterization for collection of specimen, single patient, all places of service
+	2617454		HCPCS		Observation	Procedure	0.043		Lev 1 hosp type b ed visit
+	2617457		HCPCS		Observation	Procedure	0.037		Lev 4 hosp type b ed visit
+
+--New Maps
+

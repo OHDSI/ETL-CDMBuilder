@@ -49,7 +49,7 @@ CONDITION_TYPE_CONCEPT_ID|**VISIT_OCCURRENCE**<br/>PLACE_OF_SERVICE_SOURCE_VALUE
 STOP_REASON| | |
 PROVIDER_ID|**MEDICAL_CLAIMS**<br>PROV, PROVCAT|Map PROV and PROVCAT to PROVIDER_SOURCE_VALUE and SPECIALTY_SOURCE_VALUE in Provider table to extract its associated Provider ID. |
 VISIT_OCCURRENCE_ID|**VISIT_OCCURRENCE**<br/>VISIT_OCCURRENCE_ID| |
-CONDITION_SOURCE_VALUE|**MED_DIAGNOSIS**<br/>DIAG<br/><br/>**MED_PROCEDURE**<br/>PROC<br/><br/>**MEDICAL_CLAIMS**<br/>PROC_CD|Exclude records with invalid ICD9 or ICD10 diagnosis codes.|Use rules mentioned above to exclude invalid ICD9 or ICD10 diagnosis codes.|
+CONDITION_SOURCE_VALUE|**MED_DIAGNOSIS**<br/>DIAG<br/><br/>**MED_PROCEDURE**<br/>PROC<br/><br/>**MEDICAL_CLAIMS**<br/>PROC_CD|Exclude records with invalid ICD9 or ICD10 diagnosis codes.|Use rules mentioned above to exclude invalid ICD9 or ICD10 diagnosis codes.
 CONDITION_SOURCE_CONCEPT_ID|**MED_DIAGNOSIS**<br/>DIAG<br/><br/>**MEDICAL_CLAIMS**<br/>PROC_CD<br/><br/>**MED_PROCEDURE**<br/>PROC|**DIAG**<br/>Use [Source to Source](code_snippets.md#source-to-source) and filter with [Source Concept Ids from Medical Claims Diagnosis Fields](code_snippets.md#from-medical-claims-diagnosis-fields-2) <br><br> **PROC_CD, PROC**<br/>Use [Source to Source](code_snippets.md#source-to-source) and filter with [Source Concept Ids from Medical Claims Procedure Fields](code_snippets.md#from-medical-claims-procedure-fields-2)|
 CONDITION_STATUS_SOURCE_VALUE|**MED_DIAGNOSIS**<br/>POA| |
 CONDITION_STATUS_CONCEPT_ID|**MED_DIAGNOSIS**<br/>POA | Y = 46236988<br>N, U, or W = 0|

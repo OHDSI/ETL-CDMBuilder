@@ -127,4 +127,4 @@ The following are a list of conventions used throughout all tables in this ETL:
 -   If a CONCEPT_ID column cannot be mapped to a known code, it should be set to 0.
 -   If a non-CONCEPT_ID column cannot be mapped to a known code, it should be set to NULL.
 -   Only pull records during observation periods where a person had both medical and pharmacy benefits.
--   ICD diagnosis and procedure codes in **MEDICAL_CLAIMS** table have no decimal point, so when mapping to the OMOP Vocabulary, the decimal points need to be removed from the vocabulary in order to map between the source and the vocabulary.
+-   ICD diagnosis and procedure codes in the **MED_DIAGNOSIS** and **MED_PROCEDURE** tables have no decimal point, so when mapping to the OMOP Vocabulary, the decimal points need to be removed from the vocabulary in order to map between the source and the vocabulary.

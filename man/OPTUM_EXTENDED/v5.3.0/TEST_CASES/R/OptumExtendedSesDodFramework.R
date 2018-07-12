@@ -6203,9 +6203,9 @@ expect_visit_occurrence <- function(visit_occurrence_id,
       if (is.null(get(field))) {
         statement <- paste0(statement, sprintf(' %s IS NULL', field))
       } else if (is(get(field), 'subQuery')){
-        statement <- paste0(statement, sprintf(' %s = (', as.character(get(field)), ')', field))
+        statement <- paste0(statement, sprintf(' %s = (', field), as.character(get(field)), ')')
       } else {
-        statement <- paste0(statement, sprintf(" %s = '", get(field),"'", field))
+        statement <- paste0(statement, sprintf(" %s = '", field), get(field),"'")
       }
     }
   }
@@ -6256,11 +6256,11 @@ expect_visit_detail <- function(visit_detail_id,
         statement <- paste0(statement, ' AND')
       }
       if (is.null(get(field))) {
-        statement <- paste0(statement, sprintf(' %s IS NULL'), field)
+        statement <- paste0(statement, sprintf(' %s IS NULL', field))
       } else if (is(get(field), 'subQuery')){
-        statement <- paste0(statement, sprintf(' %s = (', as.character(get(field)), ')'), field)
+        statement <- paste0(statement, sprintf(' %s = (', field), as.character(get(field)), ')')
       } else {
-        statement <- paste0(statement, sprintf(" %s = '", get(field),"'"), field)
+        statement <- paste0(statement, sprintf(" %s = '", field), get(field),"'")
       }
     }
   }
@@ -10741,9 +10741,9 @@ expect_no_visit_occurrence <- function(visit_occurrence_id,
       if (is.null(get(field))) {
         statement <- paste0(statement, sprintf(' %s IS NULL', field))
       } else if (is(get(field), 'subQuery')){
-        statement <- paste0(statement, sprintf(' %s = (', as.character(get(field)), ')', field))
+        statement <- paste0(statement, sprintf(' %s = (', field), as.character(get(field)), ')')
       } else {
-        statement <- paste0(statement, sprintf(" %s = '", get(field),"'", field))
+        statement <- paste0(statement, sprintf(" %s = '", field), get(field),"'")
       }
     }
   }
@@ -10794,11 +10794,11 @@ expect_no_visit_detail <- function(visit_detail_id,
         statement <- paste0(statement, ' AND')
       }
       if (is.null(get(field))) {
-        statement <- paste0(statement, sprintf(' %s IS NULL'), field)
+        statement <- paste0(statement, sprintf(' %s IS NULL', field))
       } else if (is(get(field), 'subQuery')){
-        statement <- paste0(statement, sprintf(' %s = (', as.character(get(field)), ')'), field)
+        statement <- paste0(statement, sprintf(' %s = (', field), as.character(get(field)), ')')
       } else {
-        statement <- paste0(statement, sprintf(" %s = '", get(field),"'"), field)
+        statement <- paste0(statement, sprintf(" %s = '", field), get(field),"'")
       }
     }
   }
@@ -15281,9 +15281,9 @@ expect_count_visit_occurrence <- function(rowCount,
       if (is.null(get(field))) {
         statement <- paste0(statement, sprintf(' %s IS NULL', field))
       } else if (is(get(field), 'subQuery')){
-        statement <- paste0(statement, sprintf(' %s = (', as.character(get(field)), ')', field))
+        statement <- paste0(statement, sprintf(' %s = (', field), as.character(get(field)), ')')
       } else {
-        statement <- paste0(statement, sprintf(" %s = '", get(field),"'", field))
+        statement <- paste0(statement, sprintf(" %s = '", field), get(field),"'")
       }
     }
   }
@@ -15335,11 +15335,11 @@ expect_count_visit_detail <- function(rowCount,
         statement <- paste0(statement, ' AND')
       }
       if (is.null(get(field))) {
-        statement <- paste0(statement, sprintf(' %s IS NULL'), field)
+        statement <- paste0(statement, sprintf(' %s IS NULL', field))
       } else if (is(get(field), 'subQuery')){
-        statement <- paste0(statement, sprintf(' %s = (', as.character(get(field)), ')'), field)
+        statement <- paste0(statement, sprintf(' %s = (', field), as.character(get(field)), ')')
       } else {
-        statement <- paste0(statement, sprintf(" %s = '", get(field),"'"), field)
+        statement <- paste0(statement, sprintf(" %s = '", field), get(field),"'")
       }
     }
   }
@@ -19729,7 +19729,8 @@ lookup_visit_occurrence <- function(fetchField,
   statement <- paste0('SELECT ', fetchField , ' from @cdmDatabaseSchema.visit_occurrence WHERE')
   first <- TRUE
   
-  fields <- names(formals(lookup_visit_occurrence))
+  fields <- names(formals())
+  fields <- fields[fields != "fetchField"]
   
   for (field in fields) {
     if (!do.call(missing, list(field))) {
@@ -19741,9 +19742,9 @@ lookup_visit_occurrence <- function(fetchField,
       if (is.null(get(field))) {
         statement <- paste0(statement, sprintf(' %s IS NULL', field))
       } else if (is(get(field), 'subQuery')){
-        statement <- paste0(statement, sprintf(' %s = (', as.character(get(field)), ')', field))
+        statement <- paste0(statement, sprintf(' %s = (', field), as.character(get(field)), ')')
       } else {
-        statement <- paste0(statement, sprintf(" %s = '", get(field),"'", field))
+        statement <- paste0(statement, sprintf(" %s = '", field), get(field),"'")
       }
     }
   }
@@ -19777,6 +19778,7 @@ lookup_visit_detail <- function(fetchField,
   first <- TRUE
   
   fields <- names(formals())
+  fields <- fields[fields != "fetchField"]
   
   for (field in fields) {
     if (!do.call(missing, list(field))) {
@@ -19786,11 +19788,11 @@ lookup_visit_detail <- function(fetchField,
         statement <- paste0(statement, ' AND')
       }
       if (is.null(get(field))) {
-        statement <- paste0(statement, sprintf(' %s IS NULL'), field)
+        statement <- paste0(statement, sprintf(' %s IS NULL', field))
       } else if (is(get(field), 'subQuery')){
-        statement <- paste0(statement, sprintf(' %s = (', as.character(get(field)), ')'), field)
+        statement <- paste0(statement, sprintf(' %s = (', field), as.character(get(field)), ')')
       } else {
-        statement <- paste0(statement, sprintf(" %s = '", get(field),"'"), field)
+        statement <- paste0(statement, sprintf(" %s = '", field), get(field),"'")
       }
     }
   }

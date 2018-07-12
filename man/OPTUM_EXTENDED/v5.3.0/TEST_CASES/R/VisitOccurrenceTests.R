@@ -15,7 +15,8 @@ createVisitOccurrenceTests <- function() {
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01', rvnu_cd = '0100', pos = '20',
                      pat_planid = patient$patid*1000, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678')
   add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1, clmid = claim$clmid)
-  expect_count_visit_occurrence(rowCount = 1, person_id = patient$patid, visit_concept_id = 9201)
+  expect_count_visit_occurrence(rowCount = 1, person_id = patient$person_id, visit_concept_id = 9201)
+  expect_count_visit_detail(rowCount = 1, person_id = patient$person_id, visit_detail_concept_id = 9201)
   
   
   patient <- createPatient()
@@ -28,6 +29,7 @@ createVisitOccurrenceTests <- function() {
                      pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678')
   add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1, clmid = claim$clmid)
   expect_visit_occurrence(person_id = patient$person_id, visit_concept_id = 9201)
+  expect_visit_detail(person_id = patient$person_id, visit_detail_concept_id = 9201)
 
   
   patient <- createPatient()
@@ -40,6 +42,7 @@ createVisitOccurrenceTests <- function() {
                      pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678')
   add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1, clmid = claim$clmid)
   expect_visit_occurrence(person_id = patient$person_id, visit_concept_id = 9202)
+  expect_visit_detail(person_id = patient$person_id, visit_detail_concept_id = 9202)
 
 
   patient <- createPatient()
@@ -52,7 +55,8 @@ createVisitOccurrenceTests <- function() {
                      pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678')
   add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1, clmid = claim$clmid)
   expect_visit_occurrence(person_id = patient$person_id, visit_concept_id = 9203)
-
+  expect_visit_detail(person_id = patient$person_id, visit_detail_concept_id = 9203)
+  
 
   patient <- createPatient()
   claim <- createClaim()
@@ -64,6 +68,7 @@ createVisitOccurrenceTests <- function() {
                      pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678')
   add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1, clmid = claim$clmid)
   expect_visit_occurrence(person_id = patient$person_id, visit_concept_id = 42898160)
+  expect_visit_detail(person_id = patient$person_id, visit_detail_concept_id = 42898160)
 
 
   patient <- createPatient()
@@ -76,15 +81,28 @@ createVisitOccurrenceTests <- function() {
                      pat_planid = patient$patid, patid = patient$patid, fst_dt = '2009-07-01', prov = '111111', provcat = '5678')
   add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1, clmid = claim$clmid)
   expect_no_visit_occurrence(person_id = patient$person_id)
+  expect_no_visit_detail(person_id = patient$person_id)
+ 
   
-  
-  
-  
-  patient <- createPatient()
-  claim <- createClaim()
-  declareTest("Test discharge status ")
-  
-  
+  discStats <- read.csv(file = "inst/csv/discharge_status.csv", header = T, as.is = T)
+  for (i in 1:nrow(discStats)) {
+    patient <- createPatient()
+    claim <- createClaim()
+    declareTest(sprintf("Test discharge status mapping %s", discStats[i,]$SOURCE_CODE),
+                source_pid = patient$patid, cdm_pid = patient$person_id)
+    add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
+                      gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
+    add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2009-07-01', dstatus = discStats[i,]$SOURCE_CODE,
+                         pat_planid = patient$patid, patid = patient$patid, fst_dt = '2009-07-01', prov = '111111', provcat = '5678')
+    add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1, clmid = claim$clmid)
+    expect_visit_occurrence(person_id = patient$person_id, 
+                            discharge_to_concept_id = discStats[i,]$TARGET_CONCEPT_ID,
+                            discharge_to_source_value = discStats[i,]$SOURCE_CODE)
+    expect_visit_detail(person_id = patient$person_id, 
+                            discharge_to_concept_id = discStats[i,]$TARGET_CONCEPT_ID,
+                            discharge_to_source_value = discStats[i,]$SOURCE_CODE)
+  }
+
   patient <- createPatient()
   for (i in c(1:2)) {
     claim <- createClaim()
@@ -97,8 +115,15 @@ createVisitOccurrenceTests <- function() {
                        pat_planid = patient$patid, patid = patient$patid, fst_dt = '2009-07-01', prov = '111111', provcat = '5678')
     add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "9", diag = "7061", diag_position = 1, clmid = claim$clmid)
     
+    if (i == 1) {
+      firstOccurrenceId <- lookup_visit_occurrence(fetchField = "visit_occurrence_id", person_id = patient$person_id)
+    }
+    
     if (i == 2) {
-      
+      expect_visit_occurrence(person_id = patient$person_id,
+                              preceding_visit_occurrence_id = firstOccurrenceId)
+      expect_visit_detail(person_id = patient$person_id,
+                          preceding_visit_occurrence_id = firstOccurrenceId)
     }
   }
 }

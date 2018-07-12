@@ -29,6 +29,4 @@ createTests <- function() {
   createProviderTests()
   declareTestGroup("Visit Occurrence")
   createVisitOccurrenceTests()
-  declareTestGroup("Visit Detail")
-  createVisitDetailTests()
 }

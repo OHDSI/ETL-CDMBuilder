@@ -107,8 +107,9 @@ createConditionOccurrenceTests <- function()
   
   poaMappings <- data.frame(
     sourceValue = c('Y','N','U','W'),
-    concept = c(46236988, 0, 0, 0)
+    concept = c(46236988, 0, 0, 0), stringsAsFactors = FALSE
   )
+  
   
   for (i in 1:nrow(poaMappings)) {
     patient <- createPatient()

@@ -8,10 +8,10 @@ createDeviceExposureTests <- function()
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01', rvnu_cd = '0100', pos = '20',
                      pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678')
-  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "10", diag = "y731", clmid = claim$clmid, diag_position = 1)
+  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "10", diag = "Y733", clmid = claim$clmid, diag_position = 1)
   expect_visit_occurrence(person_id = patient$person_id, visit_concept_id = 9201)
-  expect_device_exposure(person_id = patient$person_id, device_concept_id = 45767866)
-  expect_no_condition_occurrence(person_id = patient$person_id, condition_source_value = 'Y731')
+  expect_device_exposure(person_id = patient$person_id, device_concept_id = 45767866, device_source_value = 'Y733')
+  expect_no_condition_occurrence(person_id = patient$person_id, condition_source_value = 'Y733')
   
 
   patient <- createPatient()
@@ -21,10 +21,10 @@ createDeviceExposureTests <- function()
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01',
                      pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678')
-  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "10", diag = "Y731", clmid = claim$clmid, diag_position = 1)
+  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "10", diag = "Y733", clmid = claim$clmid, diag_position = 1)
   expect_visit_occurrence(person_id = patient$person_id, visit_concept_id = 9202)
-  expect_device_exposure(person_id = patient$person_id, device_source_value = 'Y731')
-  expect_no_condition_occurrence(person_id = patient$person_id, condition_source_value = 'Y731')
+  expect_device_exposure(person_id = patient$person_id, device_concept_id = 45767866, device_source_value = 'Y733')
+  expect_no_condition_occurrence(person_id = patient$person_id, condition_source_value = 'Y733')
   
   
   patient <- createPatient()

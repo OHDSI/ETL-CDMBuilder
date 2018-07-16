@@ -2631,7 +2631,7 @@ add_med_diagnosis <- function(patid, pat_planid, icd_flag, diag, clmid, diag_pos
     diag <- tolower(defaults$diag)
   }
   if (!is.null(diag)) {
-    diag <- tolower(diag)
+    #diag <- tolower(diag)
     insertFields <- c(insertFields, "diag")
     insertValues <- c(insertValues, diag)
   }
@@ -6191,7 +6191,7 @@ expect_visit_occurrence <- function(visit_occurrence_id,
   statement <- getExpectStatement(domain = "visit_occurrence", table = "visit_occurrence")
   first <- TRUE
  
-  fields <- names(formals(expect_visit_occurrence))
+  fields <- names(formals())
   
   for (field in fields) {
     if (!do.call(missing, list(field))) {
@@ -6239,14 +6239,14 @@ expect_visit_detail <- function(visit_detail_id,
                                 admitting_source_concept_id,
                                 discharge_to_concept_id,
                                 discharge_to_source_value,
-                                preceding_visit_occurrence_id,
+                                preceding_visit_detail_id,
                                 visit_detail_parent_id,
                                 visit_occurrence_id) {
   
   statement <- getExpectStatement(domain = "visit_detail", table = "visit_detail")
   first <- TRUE
   
-  fields <- names(formals(expect_visit_detail))
+  fields <- names(formals())
   
   for (field in fields) {
     if (!do.call(missing, list(field))) {
@@ -10729,7 +10729,7 @@ expect_no_visit_occurrence <- function(visit_occurrence_id,
   statement <- getExpectStatement(domain = "visit_occurrence", table = "visit_occurrence")
   first <- TRUE
   
-  fields <- names(formals(expect_no_visit_occurrence))
+  fields <- names(formals())
   
   for (field in fields) {
     if (!do.call(missing, list(field))) {
@@ -10777,14 +10777,14 @@ expect_no_visit_detail <- function(visit_detail_id,
                                    admitting_source_concept_id,
                                    discharge_to_concept_id,
                                    discharge_to_source_value,
-                                   preceding_visit_occurrence_id,
+                                   preceding_visit_detail_id,
                                    visit_detail_parent_id,
                                    visit_occurrence_id) {
   
   statement <- getExpectStatement(domain = "visit_detail", table = "visit_detail")
   first <- TRUE
   
-  fields <- names(formals(expect_no_visit_detail))
+  fields <- names(formals())
   
   for (field in fields) {
     if (!do.call(missing, list(field))) {
@@ -15269,7 +15269,8 @@ expect_count_visit_occurrence <- function(rowCount,
   statement <- getExpectStatement(domain = "visit_occurrence", table = "visit_occurrence")
   first <- TRUE
   
-  fields <- names(formals(expect_count_visit_occurrence))
+  fields <- names(formals())
+  fields <- fields[fields != "rowCount"]
   
   for (field in fields) {
     if (!do.call(missing, list(field))) {
@@ -15318,14 +15319,15 @@ expect_count_visit_detail <- function(rowCount,
                                       admitting_source_concept_id,
                                       discharge_to_concept_id,
                                       discharge_to_source_value,
-                                      preceding_visit_occurrence_id,
+                                      preceding_visit_detail_id,
                                       visit_detail_parent_id,
                                       visit_occurrence_id) {
   
   statement <- getExpectStatement(domain = "visit_detail", table = "visit_detail")
   first <- TRUE
   
-  fields <- names(formals(expect_count_visit_detail))
+  fields <- names(formals())
+  fields <- fields[fields != "rowCount"]
   
   for (field in fields) {
     if (!do.call(missing, list(field))) {

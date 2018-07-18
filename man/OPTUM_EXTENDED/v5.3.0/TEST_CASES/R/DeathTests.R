@@ -13,6 +13,17 @@ createDeathTests <- function()
   
   patient <- createPatient()
   claim <- createClaim()
+  declareTest("Patient is indicated dead by diag source code (ICD10CM).", source_pid = patient$patid, cdm_pid = patient$person_id)
+  add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
+                    gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)
+  add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-07-01',
+                     pat_planid = patient$patid, patid = patient$patid, fst_dt = '2013-07-01', prov = '111111', provcat = '5678')
+  add_med_diagnosis(patid = patient$patid, pat_planid = patient$patid, icd_flag = "10", diag = "R99", clmid = claim$clmid, diag_position = 1)
+  expect_death(person_id = patient$person_id)
+  
+  
+  patient <- createPatient()
+  claim <- createClaim()
   declareTest("Patient has medical diagnosis data occurring <=30 days after death event.", source_pid = patient$patid, cdm_pid = patient$person_id)
   add_member_detail(aso = 'N', bus = 'COM', cdhp = 3, eligeff = '2010-05-01', eligend = '2013-10-31',
                     gdr_cd = 'F', patid = patient$patid, pat_planid = patient$patid, product = 'HMO', yrdob = 1969)

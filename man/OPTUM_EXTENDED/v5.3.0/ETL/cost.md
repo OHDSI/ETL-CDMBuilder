@@ -1,5 +1,5 @@
 *Common Data Model ETL Mapping Specification for Optum Extended SES & Extended DOD*
-<br>*CDM Version = 5.2, Clinformatics Version = v7.1*
+<br>*CDM Version = 5.3.1, Clinformatics Version = v7.1*
 <br>*Authors: Qianli Ma, PhD; Erica Voss, MPH; Chris Knoll; Ajit Londhe, MPH; Clair Blacketer, MPH*
 
 [Back to README](README.md)

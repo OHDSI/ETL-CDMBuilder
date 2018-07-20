@@ -1,0 +1,2490 @@
+lbs	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lbs.	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+pounds	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+oz	9373	JNJ_UNITS	ounce (avoirdupois)	9373	UCUM	2013-01-06	2099-12-31
+%	0	JNJ_UNITS	Percent	8554	UCUM	1970-01-01	2099-12-31
+/100	0	JNJ_UNITS	per 100	8662	UCUM	1970-01-01	2099-12-31
+/(24.h)	0	JNJ_UNITS	per 24 Hours	44777556	UCUM	1970-01-01	2099-12-31
+[HPF]	0	JNJ_UNITS	per High Powered Field	8786	UCUM	1970-01-01	2099-12-31
+/L	0	JNJ_UNITS	per Liter	9254	UCUM	1970-01-01	2099-12-31
+[LPF]	0	JNJ_UNITS	per Low Powered Field	8765	UCUM	1970-01-01	2099-12-31
+{Cells}/uL	0	JNJ_UNITS	Cells per Microliter	8784	UCUM	1970-01-01	2099-12-31
+/MIN	0	JNJ_UNITS	per Minute	8541	UCUM	1970-01-01	2099-12-31
+/mL	0	JNJ_UNITS	per Milliliter	9257	UCUM	1970-01-01	2099-12-31
+/mm3	0	JNJ_UNITS	per Cubic Millimeter	8785	UCUM	1970-01-01	2099-12-31
+/uL	0	JNJ_UNITS	per Microliter	8647	UCUM	1970-01-01	2099-12-31
+[arb''U]	0	JNJ_UNITS	Arbitrary Units	9260	UCUM	1970-01-01	2099-12-31
+[arb''U]/mL	0	JNJ_UNITS	Arbitrary Units per Milliliter	8980	UCUM	1970-01-01	2099-12-31
+Aerosol	0	JNJ_UNITS	Aerosol	4271835	SNOMED	1970-01-01	2099-12-31
+Amp	0	JNJ_UNITS	Ampule	45762934	SNOMED	1970-01-01	2099-12-31
+Apply	0	JNJ_UNITS	Apply	4169951	SNOMED	1970-01-01	2099-12-31
+As directed	0	JNJ_UNITS	As directed	4228744	SNOMED	1970-01-01	2099-12-31
+BT	0	JNJ_UNITS	Bottle	4238725	SNOMED	1970-01-01	2099-12-31
+BU	0	JNJ_UNITS	Billion Unit	0		1970-01-01	2099-12-31
+BU/mL	0	JNJ_UNITS	Billion Unit per Milliliter	0		1970-01-01	2099-12-31
+Box	0	JNJ_UNITS	Box	0		1970-01-01	2099-12-31
+Bag	0	JNJ_UNITS	Bag	4290599	SNOMED	1970-01-01	2099-12-31
+bar	0	JNJ_UNITS	Bar	9464	UCUM	1970-01-01	2099-12-31
+Box dup	0	JNJ_UNITS	Box dup	0		1970-01-01	2099-12-31
+Br/min	0	JNJ_UNITS	Breaths per Minute	0		1970-01-01	2099-12-31
+CPM	0	JNJ_UNITS	Counts per Milliliter	0		1970-01-01	2099-12-31
+{Copies}/mL	0	JNJ_UNITS	Copies per Milliliter	8799	UCUM	1970-01-01	2099-12-31
+CS	0	JNJ_UNITS	Case	0		1970-01-01	2099-12-31
+cal	0	JNJ_UNITS	Calorie	9472	UCUM	1970-01-01	2099-12-31
+Can	0	JNJ_UNITS	Can	0		1970-01-01	2099-12-31
+{Cells}	0	JNJ_UNITS	Cells	45744812	UCUM	1970-01-01	2099-12-31
+Chew	0	JNJ_UNITS	Chew	0		1970-01-01	2099-12-31
+[cup_us]	0	JNJ_UNITS	Cup	9287	UCUM	1970-01-01	2099-12-31
+d	0	JNJ_UNITS	Days	0		1970-01-01	2099-12-31
+Cel	0	JNJ_UNITS	Degree Centigrade	0		1970-01-01	2099-12-31
+Doses	0	JNJ_UNITS	Doses	0		1970-01-01	2099-12-31
+Drip	0	JNJ_UNITS	Drip	0		1970-01-01	2099-12-31
+[drp]	0	JNJ_UNITS	Drops	0		1970-01-01	2099-12-31
+EA	0	JNJ_UNITS	Each	0		1970-01-01	2099-12-31
+{EIA''U}	0	JNJ_UNITS	Enzyme Immunoassay	0		1970-01-01	2099-12-31
+{ElisaU}	0	JNJ_UNITS	Elisa Units	8600	UCUM	1970-01-01	2099-12-31
+{EhrlichU}	0	JNJ_UNITS	Ehrlich Unit	8480	UCUM	1970-01-01	2099-12-31
+{EhrlichU}/mL	0	JNJ_UNITS	Ehrlich Unit per Milliliter	8695	UCUM	1970-01-01	2099-12-31
+EV	0	JNJ_UNITS	Exposure Value	0		1970-01-01	2099-12-31
+Enema	0	JNJ_UNITS	Enema	0		1970-01-01	2099-12-31
+{EhrlichU}/dL	0	JNJ_UNITS	Ehrlich Unit per Deciliter	8829	UCUM	1970-01-01	2099-12-31
+FEU/mL	0	JNJ_UNITS	Fibrinogen Equivelent Units per Milliliter	0		1970-01-01	2099-12-31
+Filter	0	JNJ_UNITS	Filter	0		1970-01-01	2099-12-31
+Fluid	0	JNJ_UNITS	Fluid	0		1970-01-01	2099-12-31
+g/dL	0	JNJ_UNITS	Grams per Deciliter	0		1970-01-01	2099-12-31
+GIV	0	JNJ_UNITS	Gliadin Index Value	0		1970-01-01	2099-12-31
+g/L	0	JNJ_UNITS	Grams per Liter	0		1970-01-01	2099-12-31
+g/L/mL	0	JNJ_UNITS	Grams per Liter per Milliliter	0		1970-01-01	2099-12-31
+GPS	0	JNJ_UNITS	Phosphatidylserine IgG Units	0		1970-01-01	2099-12-31
+[gal_us]	0	JNJ_UNITS	Gallon	0		1970-01-01	2099-12-31
+[gr]	0	JNJ_UNITS	Grain	9319	UCUM	1970-01-01	2099-12-31
+INH	0	JNJ_UNITS	Inhalation	0		1970-01-01	2099-12-31
+{ISR}	0	JNJ_UNITS	Immune Status Ratio	8488	UCUM	1970-01-01	2099-12-31
+[iU]	0	JNJ_UNITS	International Unit	8718	UCUM	1970-01-01	2099-12-31
+[IU]/(2.h)	0	JNJ_UNITS	International Unit per 2 Hour	0		1970-01-01	2099-12-31
+[IU]/L	0	JNJ_UNITS	International Unit per Liter	8923	UCUM	1970-01-01	2099-12-31
+[iU]/mL	0	JNJ_UNITS	International Unit per Milliliter	8985	UCUM	1970-01-01	2099-12-31
+{index_val}	0	JNJ_UNITS	Index Value	0		1970-01-01	2099-12-31
+IgG/PL	0	JNJ_UNITS	IgG per Platelet	0		1970-01-01	2099-12-31
+IgG/RC	0	JNJ_UNITS	IgG/RC	0		1970-01-01	2099-12-31
+{index_val}	0	JNJ_UNITS	Index	0		1970-01-01	2099-12-31
+Inj	0	JNJ_UNITS	Injection	0		1970-01-01	2099-12-31
+Jar	0	JNJ_UNITS	Jar	0		1970-01-01	2099-12-31
+10*3	0	JNJ_UNITS	Thousand	8566	UCUM	1970-01-01	2099-12-31
+K/L	0	JNJ_UNITS	Thousand per Liter	9435	UCUM	1970-01-01	2099-12-31
+K/mm3	0	JNJ_UNITS	Thousand per Cubic Millimeter	8961	UCUM	1970-01-01	2099-12-31
+10*3/uL	0	JNJ_UNITS	Thousand per Microliter	8848	UCUM	1970-01-01	2099-12-31
+KIU/L	0	JNJ_UNITS	Thousand International Unit per Liter	0		1970-01-01	2099-12-31
+Kit	0	JNJ_UNITS	Kit	0		1970-01-01	2099-12-31
+L	0	JNJ_UNITS	Liter	8519	UCUM	1970-01-01	2099-12-31
+L/min	0	JNJ_UNITS	Liters per Minute	0		1970-01-01	2099-12-31
+L/sec	0	JNJ_UNITS	Liters per Second	0		1970-01-01	2099-12-31
+{Lyme_index_value}	0	JNJ_UNITS	Lyme Index Value	44777565	UCUM	1970-01-01	2099-12-31
+m/uL	0	JNJ_UNITS	Moles per MicroLiter	0		1970-01-01	2099-12-31
+mg/L	0	JNJ_UNITS	Milligrams per Liter	0		1970-01-01	2099-12-31
+10*6/mL	0	JNJ_UNITS	Million per Milliliter	8816	UCUM	1970-01-01	2099-12-31
+MILC	0	JNJ_UNITS	Mixed Leukocyte Culture	0		1970-01-01	2099-12-31
+m[IU]/mL	0	JNJ_UNITS	MilliInternational Units per Milliliter	0		1970-01-01	2099-12-31
+MMO	0	JNJ_UNITS	MMO	0		1970-01-01	2099-12-31
+MPS	0	JNJ_UNITS	Millipoise	0		1970-01-01	2099-12-31
+10*6	0	JNJ_UNITS	Million Units	9689	UCUM	1970-01-01	2099-12-31
+nmol/L	0	JNJ_UNITS	Nanomoles per Liter	8736	UCUM	1970-01-01	2099-12-31
+PC	0	JNJ_UNITS	Piece	45756973	SNOMED	1970-01-01	2099-12-31
+pmol/L	0	JNJ_UNITS	Picomoles per Liter	8729	UCUM	1970-01-01	2099-12-31
+Package	0	JNJ_UNITS	Package	0		1970-01-01	2099-12-31
+Pad	0	JNJ_UNITS	Pad	0		1970-01-01	2099-12-31
+Pump	0	JNJ_UNITS	Pump	0		1970-01-01	2099-12-31
+{ratio}	0	JNJ_UNITS	Ratio	8523	UCUM	1970-01-01	2099-12-31
+Roll	0	JNJ_UNITS	Roll	45756959	SNOMED	1970-01-01	2099-12-31
+Set	0	JNJ_UNITS	Set	0		1970-01-01	2099-12-31
+Spring	0	JNJ_UNITS	Spring	0		1970-01-01	2099-12-31
+Sq	0	JNJ_UNITS	Square	0		1970-01-01	2099-12-31
+Sqrt	0	JNJ_UNITS	Squirt	0		1970-01-01	2099-12-31
+Stick	0	JNJ_UNITS	Stick	0		1970-01-01	2099-12-31
+Strip	0	JNJ_UNITS	Strip	45756962	SNOMED	1970-01-01	2099-12-31
+Syringe	0	JNJ_UNITS	Syringe	45756963	SNOMED	1970-01-01	2099-12-31
+{tbl}	0	JNJ_UNITS	Tablet	9431	UCUM	1970-01-01	2099-12-31
+TU	0	JNJ_UNITS	Tuberculin Units	9413	UCUM	1970-01-01	2099-12-31
+[tbs_us]	0	JNJ_UNITS	Tablespoon	9412	UCUM	1970-01-01	2099-12-31
+Test	0	JNJ_UNITS	Test	0		1970-01-01	2099-12-31
+Time	0	JNJ_UNITS	Time	0		1970-01-01	2099-12-31
+{titer}	0	JNJ_UNITS	Titer	8525	UCUM	1970-01-01	2099-12-31
+Topical	0	JNJ_UNITS	Topical	0		1970-01-01	2099-12-31
+[tsp_us]	0	JNJ_UNITS	Teaspoon	9416	UCUM	1970-01-01	2099-12-31
+Tube	0	JNJ_UNITS	Tube	0		1970-01-01	2099-12-31
+U	0	JNJ_UNITS	Unit	45756942	SNOMED	1970-01-01	2099-12-31
+U/g	0	JNJ_UNITS	Units per Gram	0		1970-01-01	2099-12-31
+U/h	0	JNJ_UNITS	Units per Hour	0		1970-01-01	2099-12-31
+U/mL	0	JNJ_UNITS	Units per Milliliter	0		1970-01-01	2099-12-31
+ug/(24.h)	0	JNJ_UNITS	Micrograms per 24 Hours	8906	UCUM	1970-01-01	2099-12-31
+ug/d	0	JNJ_UNITS	Micrograms per Day	0		1970-01-01	2099-12-31
+ug/dL	0	JNJ_UNITS	Micrograms per Deciliter	0		1970-01-01	2099-12-31
+Unknown	0	JNJ_UNITS	Unknown	0		1970-01-01	2099-12-31
+Uptake	0	JNJ_UNITS	Uptake	0		1970-01-01	2099-12-31
+VL	0	JNJ_UNITS	Vial	0		1970-01-01	2099-12-31
+Vol	0	JNJ_UNITS	Volume	0		1970-01-01	2099-12-31
+Wafer	0	JNJ_UNITS	Wafer	0		1970-01-01	2099-12-31
+10*12	0	JNJ_UNITS	Trillion	0		1970-01-01	2099-12-31
+10*3	0	JNJ_UNITS	Thousand	8566	UCUM	1970-01-01	2099-12-31
+10*4	0	JNJ_UNITS	10 Thousand	0		1970-01-01	2099-12-31
+10*6	0	JNJ_UNITS	Million	8549	UCUM	1970-01-01	2099-12-31
+10*8	0	JNJ_UNITS	100 Million	0		1970-01-01	2099-12-31
+10*9	0	JNJ_UNITS	Billion	44777660	UCUM	1970-01-01	2099-12-31
+bpm	0	JNJ_UNITS	Beats per Minute	0		1970-01-01	2099-12-31
+Cap	0	JNJ_UNITS	Cap	0		1970-01-01	2099-12-31
+cm	0	JNJ_UNITS	Centimeter	8582	UCUM	1970-01-01	2099-12-31
+cm2	0	JNJ_UNITS	Square Centimeter	9483	UCUM	1970-01-01	2099-12-31
+cm3	0	JNJ_UNITS	Cubic Centimeter	44777662	UCUM	1970-01-01	2099-12-31
+cmH20	0	JNJ_UNITS	Centimeters Water	0		1970-01-01	2099-12-31
+fL	0	JNJ_UNITS	Femtoliter	8583	UCUM	1970-01-01	2099-12-31
+[ft_us]	0	JNJ_UNITS	Foot	0		1970-01-01	2099-12-31
+[sft_i]	0	JNJ_UNITS	Square Foot	9403	UCUM	1970-01-01	2099-12-31
+g	0	JNJ_UNITS	Gram	8504	UCUM	1970-01-01	2099-12-31
+g/24h	0	JNJ_UNITS	Grams per 24 hours	0		1970-01-01	2099-12-31
+g/12h	0	JNJ_UNITS	Grams per 12 hours	0		1970-01-01	2099-12-31
+gm/24h REMOVE	0	JNJ_UNITS	gm/24h REMOVE	0		1970-01-01	2099-12-31
+granules	0	JNJ_UNITS	Granules	0		1970-01-01	2099-12-31
+gum	0	JNJ_UNITS	Gum	0		1970-01-01	2099-12-31
+h	0	JNJ_UNITS	Hour	8505	UCUM	1970-01-01	2099-12-31
+[in_us]	0	JNJ_UNITS	Inch	0		1970-01-01	2099-12-31
+kU/L	0	JNJ_UNITS	Kilounits per Liter	0		1970-01-01	2099-12-31
+kCal	0	JNJ_UNITS	Kilocalorie	0		1970-01-01	2099-12-31
+kg	0	JNJ_UNITS	Kilogram	9529	UCUM	1970-01-01	2099-12-31
+[lb_av]	0	JNJ_UNITS	Pound	0		1970-01-01	2099-12-31
+[lg]	0	JNJ_UNITS	Log	0		1970-01-01	2099-12-31
+[lg]	0	JNJ_UNITS	Log 10	0		1970-01-01	2099-12-31
+lozenge	0	JNJ_UNITS	Lozenge (Pastille)	0		1970-01-01	2099-12-31
+m	0	JNJ_UNITS	Meter	9546	UCUM	1970-01-01	2099-12-31
+M/dL	0	JNJ_UNITS	Meter per Deciliter	0		1970-01-01	2099-12-31
+m2	0	JNJ_UNITS	Square Meter	8617	UCUM	1970-01-01	2099-12-31
+meq	0	JNJ_UNITS	Milliequivalent	9551	UCUM	1970-01-01	2099-12-31
+meq/L	0	JNJ_UNITS	Milliequivalents per Liter	9557	UCUM	1970-01-01	2099-12-31
+meq/day	0	JNJ_UNITS	Milliequivalents per Day	0		1970-01-01	2099-12-31
+meq/kg	0	JNJ_UNITS	Milliequivalents per Kilogram	9556	UCUM	1970-01-01	2099-12-31
+meq/vol	0	JNJ_UNITS	Milliequivalents per Total Volume	0		1970-01-01	2099-12-31
+m[IU]/L	0	JNJ_UNITS	MilliInternational Units per Liter	0		1970-01-01	2099-12-31
+mL	0	JNJ_UNITS	Milliliter	8587	UCUM	1970-01-01	2099-12-31
+mL/day	0	JNJ_UNITS	Milliliters per Day	0		1970-01-01	2099-12-31
+mL/min	0	JNJ_UNITS	Milliliters per Minute	8795	UCUM	1970-01-01	2099-12-31
+mosm	0	JNJ_UNITS	Milliosmoles	8605	UCUM	1970-01-01	2099-12-31
+mosm/kg	0	JNJ_UNITS	Milliosmoles per Kilogram	8862	UCUM	1970-01-01	2099-12-31
+mcU/mL	0	JNJ_UNITS	MicroUnit per Milliliter	8860	UCUM	1970-01-01	2099-12-31
+ug	0	JNJ_UNITS	Microgram	9655	UCUM	1970-01-01	2099-12-31
+ug/L	0	JNJ_UNITS	Micrograms per Liter	0		1970-01-01	2099-12-31
+ug/d dup	0	JNJ_UNITS	Micrograms per Day dup	0		1970-01-01	2099-12-31
+ug/dL dup	0	JNJ_UNITS	Micrograms per Deciliter dup	0		1970-01-01	2099-12-31
+ug/h	0	JNJ_UNITS	Micrograms per Hour	0		1970-01-01	2099-12-31
+ug/mL	0	JNJ_UNITS	Micrograms per Milliliter	0		1970-01-01	2099-12-31
+mg	0	JNJ_UNITS	Milligram	8576	UCUM	1970-01-01	2099-12-31
+mg%	0	JNJ_UNITS	Milligram %	0		1970-01-01	2099-12-31
+mg/0.5 mL	0	JNJ_UNITS	Milligrams per 0.5 Milliliters	0		1970-01-01	2099-12-31
+mg/(12.h)	0	JNJ_UNITS	Milligrams per 12 Hours	8908	UCUM	1970-01-01	2099-12-31
+mg/24h	0	JNJ_UNITS	Milligrams per 24 Hours	8909	UCUM	1970-01-01	2099-12-31
+mg/dL	0	JNJ_UNITS	Milligrams per Deciliter	0		1970-01-01	2099-12-31
+mg/day	0	JNJ_UNITS	Milligrams per Day	0		1970-01-01	2099-12-31
+mg/g	0	JNJ_UNITS	Milligrams per Gram	0		1970-01-01	2099-12-31
+mg/h	0	JNJ_UNITS	Milligrams per Hour	0		1970-01-01	2099-12-31
+mg/kg	0	JNJ_UNITS	Milligrams per Kilogram	0		1970-01-01	2099-12-31
+mg/tv	0	JNJ_UNITS	Milligrams per Total Volume	0		1970-01-01	2099-12-31
+mg/vol	0	JNJ_UNITS	Milligrams per Volume	0		1970-01-01	2099-12-31
+10*6/uL	0	JNJ_UNITS	Million per Microliter	8815	UCUM	1970-01-01	2099-12-31
+min	0	JNJ_UNITS	Minute	9211	UCUM	1970-01-01	2099-12-31
+mL/(4.h)	0	JNJ_UNITS	Milliliters per 4 Hours	0		1970-01-01	2099-12-31
+mL/dL	0	JNJ_UNITS	Milliliters per Decililter	0		1970-01-01	2099-12-31
+mL/h	0	JNJ_UNITS	Milliliters per Hour	44777613	UCUM	1970-01-01	2099-12-31
+mL/kg	0	JNJ_UNITS	Milliliters per Kilogram	9571	UCUM	1970-01-01	2099-12-31
+mlU/mL dup	0	JNJ_UNITS	Milli IU/Milliliter dup	0		1970-01-01	2099-12-31
+mm	0	JNJ_UNITS	Millimeter	8588	UCUM	1970-01-01	2099-12-31
+mm/(24.h)	0	JNJ_UNITS	Millimeters per 24 Hours	0		1970-01-01	2099-12-31
+mm/L	0	JNJ_UNITS	Millimeters per Liter	0		1970-01-01	2099-12-31
+mm/h	0	JNJ_UNITS	Millimeters per Hour	8752	UCUM	1970-01-01	2099-12-31
+mm2	0	JNJ_UNITS	Square Millimeter	9572	UCUM	1970-01-01	2099-12-31
+mm3	0	JNJ_UNITS	Cubic Millimeter	8686	UCUM	1970-01-01	2099-12-31
+mmH2O	0	JNJ_UNITS	Millimeters Water	0		1970-01-01	2099-12-31
+mm[Hg]	0	JNJ_UNITS	Millimeters Mercury	0		1970-01-01	2099-12-31
+mmol	0	JNJ_UNITS	Millimoles	9573	UCUM	1970-01-01	2099-12-31
+mmol/(24.h)	0	JNJ_UNITS	Millimoles per 24 Hours	8910	UCUM	1970-01-01	2099-12-31
+mmol/L	0	JNJ_UNITS	Millimoles per Liter	8753	UCUM	1970-01-01	2099-12-31
+mmu	0	JNJ_UNITS	Millimass Unit	0		1970-01-01	2099-12-31
+mol	0	JNJ_UNITS	Moles	9584	UCUM	1970-01-01	2099-12-31
+mol/L	0	JNJ_UNITS	Moles per Liter	0		1970-01-01	2099-12-31
+mol/dL	0	JNJ_UNITS	Moles per Deciliter	0		1970-01-01	2099-12-31
+mol/m	0	JNJ_UNITS	mol/m	0		1970-01-01	2099-12-31
+[MPL''U]	0	JNJ_UNITS	Cardiolipin IgM Units [MPL Units]	0		1970-01-01	2099-12-31
+mps	0	JNJ_UNITS	mps	0		1970-01-01	2099-12-31
+10*6/L	0	JNJ_UNITS	Million Units per Liter	0		1970-01-01	2099-12-31
+10*6/mL	0	JNJ_UNITS	Million Units per Milliliter	0		1970-01-01	2099-12-31
+nm	0	JNJ_UNITS	Nanometers	8577	UCUM	1970-01-01	2099-12-31
+ng	0	JNJ_UNITS	Nanograms	0		1970-01-01	2099-12-31
+ng/L	0	JNJ_UNITS	Nanograms per Liter	0		1970-01-01	2099-12-31
+ng/dL	0	JNJ_UNITS	Nanograms per Deciliter	0		1970-01-01	2099-12-31
+ng/mL	0	JNJ_UNITS	Nanograms per Milliliter	0		1970-01-01	2099-12-31
+ng/mg	0	JNJ_UNITS	Nanograms per Milligram	0		1970-01-01	2099-12-31
+nmol	0	JNJ_UNITS	Nanomoles	9607	UCUM	1970-01-01	2099-12-31
+nmol/g	0	JNJ_UNITS	Nanomoles per Gram	9609	UCUM	1970-01-01	2099-12-31
+Ohm	0	JNJ_UNITS	Ohm	9618	UCUM	1970-01-01	2099-12-31
+[oz_av]	0	JNJ_UNITS	Ounce	0		1970-01-01	2099-12-31
+packet	0	JNJ_UNITS	Packet	0		1970-01-01	2099-12-31
+patch	0	JNJ_UNITS	Patch	0		1970-01-01	2099-12-31
+pf	0	JNJ_UNITS	Puff	0		1970-01-01	2099-12-31
+pg	0	JNJ_UNITS	Picogram	8564	UCUM	1970-01-01	2099-12-31
+pg/dL	0	JNJ_UNITS	Picograms per Deciliter	0		1970-01-01	2099-12-31
+pg/mL	0	JNJ_UNITS	Picograms per Milliliter	0		1970-01-01	2099-12-31
+[ppb]	0	JNJ_UNITS	Parts per Billion	8703	UCUM	1970-01-01	2099-12-31
+[ppm]	0	JNJ_UNITS	Parts per Million	9387	UCUM	1970-01-01	2099-12-31
+scp	0	JNJ_UNITS	Scoops	0		1970-01-01	2099-12-31
+s	0	JNJ_UNITS	Second	9212	UCUM	1970-01-01	2099-12-31
+spray	0	JNJ_UNITS	Spray	0		1970-01-01	2099-12-31
+supp	0	JNJ_UNITS	Suppository(ies)	0		1970-01-01	2099-12-31
+U/(2.h)	0	JNJ_UNITS	Units per 2 Hours	0		1970-01-01	2099-12-31
+u[iU]/mL	0	JNJ_UNITS	MicroInternational Units per Milliliter	0		1970-01-01	2099-12-31
+u[iU]/L	0	JNJ_UNITS	MicroInternational Units per Liter	0		1970-01-01	2099-12-31
+uU/mL	0	JNJ_UNITS	MicroUnits per Milliliter	8860	UCUM	1970-01-01	2099-12-31
+ug/g	0	JNJ_UNITS	Micrograms per Gram	0		1970-01-01	2099-12-31
+ug/l dup	0	JNJ_UNITS	Micrograms per Liter dup	0		1970-01-01	2099-12-31
+ug/mL dup	0	JNJ_UNITS	Micrograms per Milliliter dup	0		1970-01-01	2099-12-31
+ug/mg	0	JNJ_UNITS	Micrograms per Milligram	0		1970-01-01	2099-12-31
+ug/min	0	JNJ_UNITS	Micrograms per Minute	0		1970-01-01	2099-12-31
+ug/ml dup	0	JNJ_UNITS	Micrograms per Milliliter dup	0		1970-01-01	2099-12-31
+uL	0	JNJ_UNITS	Microliter	9665	UCUM	1970-01-01	2099-12-31
+umol/L	0	JNJ_UNITS	Micromoles per Liter	8749	UCUM	1970-01-01	2099-12-31
+wbc	0	JNJ_UNITS	White Blood Cells	0		1970-01-01	2099-12-31
+wk	0	JNJ_UNITS	Week	8511	UCUM	1970-01-01	2099-12-31
+a	0	JNJ_UNITS	Year	9448	UCUM	1970-01-01	2099-12-31
+NULL	0	JNJ_UNITS	NULL	0		1970-01-01	2099-12-31
+Not Mapped	0	JNJ_UNITS	Not Mapped	0		1970-01-01	2099-12-31
+Unknown/Invalid	0	JNJ_UNITS	Unknown/Invalid	0		1970-01-01	2099-12-31
+1/2Day	0	JNJ_UNITS	1/2 Day	0		1970-01-01	2099-12-31
+Band(s)	0	JNJ_UNITS	Band(s)	0		1970-01-01	2099-12-31
+Carton	0	JNJ_UNITS	Carton	45756944	SNOMED	1970-01-01	2099-12-31
+Casts	0	JNJ_UNITS	Casts	0		1970-01-01	2099-12-31
+Chip	0	JNJ_UNITS	Chip	0		1970-01-01	2099-12-31
+Copies	0	JNJ_UNITS	Copies	0		1970-01-01	2099-12-31
+[degF]	0	JNJ_UNITS	Degree Fahrenheit	9289	UCUM	1970-01-01	2099-12-31
+Flush	0	JNJ_UNITS	Flush	0		1970-01-01	2099-12-31
+Hz	0	JNJ_UNITS	Hertz	9521	UCUM	1970-01-01	2099-12-31
+Instill	0	JNJ_UNITS	Instill	0		1970-01-01	2099-12-31
+M/mm	0	JNJ_UNITS	M/mm not active	0		1970-01-01	2099-12-31
+MMG/GM	0	JNJ_UNITS	MMG/GM not active	0		1970-01-01	2099-12-31
+PWDP	0	JNJ_UNITS	Powder	0		1970-01-01	2099-12-31
+cL	0	JNJ_UNITS	Centiliter	9482	UCUM	1970-01-01	2099-12-31
+cg	0	JNJ_UNITS	Centigram	9479	UCUM	1970-01-01	2099-12-31
+dL	0	JNJ_UNITS	Deciliter	9486	UCUM	1970-01-01	2099-12-31
+dg	0	JNJ_UNITS	Decigram	9485	UCUM	1970-01-01	2099-12-31
+dm	0	JNJ_UNITS	Decimeter	9487	UCUM	1970-01-01	2099-12-31
+dm2	0	JNJ_UNITS	Square Decimeter	0		1970-01-01	2099-12-31
+g/day REMOVE	0	JNJ_UNITS	Grams per Day REMOVE	0		1970-01-01	2099-12-31
+g/mL	0	JNJ_UNITS	Grams per Milliliter	0		1970-01-01	2099-12-31
+g/kg	0	JNJ_UNITS	Grams per Kilogram	0		1970-01-01	2099-12-31
+g/m2	0	JNJ_UNITS	Grams per Square meter	0		1970-01-01	2099-12-31
+in2	0	JNJ_UNITS	Square Inch	9404	UCUM	1970-01-01	2099-12-31
+[IU]/kg	0	JNJ_UNITS	International Unit per Kilogram	9335	UCUM	1970-01-01	2099-12-31
+M/U L	0	JNJ_UNITS	Molar per Unit Liter	0		1970-01-01	2099-12-31
+mM/kg	0	JNJ_UNITS	mM/kg	0		1970-01-01	2099-12-31
+ug/cc	0	JNJ_UNITS	Micrograms per Cubic Centimeter	0		1970-01-01	2099-12-31
+ug/kg	0	JNJ_UNITS	Micrograms per Kilogram	0		1970-01-01	2099-12-31
+ug/kg/min	0	JNJ_UNITS	Micrograms per Kilogram per Minute	0		1970-01-01	2099-12-31
+ug/m2	0	JNJ_UNITS	Micrograms per Square Meter	9663	UCUM	1970-01-01	2099-12-31
+mg/16h	0	JNJ_UNITS	Milligrams per 16 Hours	45891021	UCUM	1970-01-01	2099-12-31
+mg/70 kg	0	JNJ_UNITS	Milligrams per 70 Kilograms	0		1970-01-01	2099-12-31
+mg/cc	0	JNJ_UNITS	Milligrams per Cubic Centimeter	0		1970-01-01	2099-12-31
+mg/kg/day	0	JNJ_UNITS	Milligrams per Kilogram per Day	0		1970-01-01	2099-12-31
+mg/m2	0	JNJ_UNITS	Milligrams per Square Meter	9563	UCUM	1970-01-01	2099-12-31
+mg/m2/day	0	JNJ_UNITS	Milligrams per Square Meter per Day	0		1970-01-01	2099-12-31
+mg/min	0	JNJ_UNITS	Milligrams per Minute	0		1970-01-01	2099-12-31
+million units REMOVE	0	JNJ_UNITS	million units REMOVE	0		1970-01-01	2099-12-31
+mL/cm H2O	0	JNJ_UNITS	Milliliter per Centimeter Water	0		1970-01-01	2099-12-31
+mo	0	JNJ_UNITS	Month	9580	UCUM	1970-01-01	2099-12-31
+once	0	JNJ_UNITS	Once	0		1970-01-01	2099-12-31
+tr	0	JNJ_UNITS	Titrate	0		1970-01-01	2099-12-31
+U/kg	0	JNJ_UNITS	Units per Kilogram	0		1970-01-01	2099-12-31
+U/kg/day	0	JNJ_UNITS	Units per Kilogram per Day	0		1970-01-01	2099-12-31
+U/m2	0	JNJ_UNITS	Units per Square Meter	0		1970-01-01	2099-12-31
+ug/nL	0	JNJ_UNITS	Micrograms per Nanoliter	0		1970-01-01	2099-12-31
+mmol/kg	0	JNJ_UNITS	Millimoles per Kilogram	9577	UCUM	1970-01-01	2099-12-31
+kg/sec	0	JNJ_UNITS	Kilograms per Second	0		1970-01-01	2099-12-31
+m3	0	JNJ_UNITS	Cubic Meter	0		1970-01-01	2099-12-31
+pH units	0	JNJ_UNITS	pH Units	0		1970-01-01	2099-12-31
+kCal/day	0	JNJ_UNITS	Kilocalories per Day	0		1970-01-01	2099-12-31
+mg/mL	0	JNJ_UNITS	Milligrams per Milliliter	0		1970-01-01	2099-12-31
+AUC	0	JNJ_UNITS	Area Under the Curve	0		1970-01-01	2099-12-31
+Bethesda Units	0	JNJ_UNITS	Bethesda Units	9161	UCUM	1970-01-01	2099-12-31
+BMI	0	JNJ_UNITS	Body Mass Index	0		1970-01-01	2099-12-31
+[GPL''U]	0	JNJ_UNITS	Cardiolipin IgG Units [GPL Units]	0		1970-01-01	2099-12-31
+[APL''U]	0	JNJ_UNITS	Cardiolipin IgA Units [APL Units]	0		1970-01-01	2099-12-31
+[CFU]	0	JNJ_UNITS	Colony Forming Units	9278	UCUM	1970-01-01	2099-12-31
+[CFU]/g	0	JNJ_UNITS	Colony Forming Units per Gram of Tissue	0		1970-01-01	2099-12-31
+[CFU]/mL	0	JNJ_UNITS	Colony Forming Units per Milliliter	9423	UCUM	1970-01-01	2099-12-31
+m3/sec	0	JNJ_UNITS	Cubic Meter per Second	44777523	UCUM	1970-01-01	2099-12-31
+deg	0	JNJ_UNITS	Degree	9484	UCUM	1970-01-01	2099-12-31
+dils	0	JNJ_UNITS	Dilutions	0		1970-01-01	2099-12-31
+$	0	JNJ_UNITS	Dollars	0		1970-01-01	2099-12-31
+Dozen	0	JNJ_UNITS	Dozen	0		1970-01-01	2099-12-31
+{EhrlichU}/(24.h)	0	JNJ_UNITS	Ehrlich Unit per 24 Hours	0		1970-01-01	2099-12-31
+{EhrlichU}/(2.h)	0	JNJ_UNITS	Ehrlich Unit per 2 Hours	0		1970-01-01	2099-12-31
+F	0	JNJ_UNITS	Farenheit	0		1970-01-01	2099-12-31
+genomes/mL	0	JNJ_UNITS	Genomes per Milliliter	0		1970-01-01	2099-12-31
+g/kg/day	0	JNJ_UNITS	Grams per Kilogram per Day	0		1970-01-01	2099-12-31
+g/vol	0	JNJ_UNITS	Grams per Volume	0		1970-01-01	2099-12-31
+Gross	0	JNJ_UNITS	Gross	0		1970-01-01	2099-12-31
+[IU]/dL	0	JNJ_UNITS	International Unit per Deciliter	9332	UCUM	1970-01-01	2099-12-31
+[IU]/h	0	JNJ_UNITS	International Unit per Hour	9687	UCUM	1970-01-01	2099-12-31
+[iU]/m2	0	JNJ_UNITS	International Unit per Square Meter	0		1970-01-01	2099-12-31
+[iU]/vol	0	JNJ_UNITS	International Unit per Volume	0		1970-01-01	2099-12-31
+K	0	JNJ_UNITS	Kelvin	9523	UCUM	1970-01-01	2099-12-31
+kCal/L	0	JNJ_UNITS	Kilocalories per Liter	0		1970-01-01	2099-12-31
+kg/m3	0	JNJ_UNITS	Kilograms per Cubic Meter	9532	UCUM	1970-01-01	2099-12-31
+kg/h	0	JNJ_UNITS	Kilograms per Hour	0		1970-01-01	2099-12-31
+kg/min	0	JNJ_UNITS	Kilograms per Minute	0		1970-01-01	2099-12-31
+L/day	0	JNJ_UNITS	Liters per Day	0		1970-01-01	2099-12-31
+ugEq/mL	0	JNJ_UNITS	Micrograms Equivalents per Milliliter	0		1970-01-01	2099-12-31
+ug/gm dup	0	JNJ_UNITS	Micrograms per Gram dup	0		1970-01-01	2099-12-31
+ug/kg/day	0	JNJ_UNITS	Micrograms per Kilogram per Day	0		1970-01-01	2099-12-31
+ug/kg/h	0	JNJ_UNITS	Micrograms per Kilogram per Hour	0		1970-01-01	2099-12-31
+meq/kg/day	0	JNJ_UNITS	Milliequivalents per Kilogram per Day	0		1970-01-01	2099-12-31
+meq/kg/min	0	JNJ_UNITS	Milliequivalents per Kilogram per Minute	0		1970-01-01	2099-12-31
+meq/dL	0	JNJ_UNITS	Milliequivalents per Deciliter	9553	UCUM	1970-01-01	2099-12-31
+meq/h	0	JNJ_UNITS	Milliequivalents per Hour	0		1970-01-01	2099-12-31
+meq/kg/h	0	JNJ_UNITS	Milliequivalents per Kilogram per Hour	0		1970-01-01	2099-12-31
+meq/mL	0	JNJ_UNITS	Milliequivalents per Milliliter	9559	UCUM	1970-01-01	2099-12-31
+meq/m2	0	JNJ_UNITS	Milliequivalents per Square Meter	9558	UCUM	1970-01-01	2099-12-31
+mg/kg/day dup	0	JNJ_UNITS	Milligrams per Kilogram per Day - not active	0		1970-01-01	2099-12-31
+mg/kg/h	0	JNJ_UNITS	Milligrams per Kilogram per Hour	9691	UCUM	1970-01-01	2099-12-31
+mg/72r	0	JNJ_UNITS	Milligrams per 72 Hours	45891022	UCUM	1970-01-01	2099-12-31
+mL/kg/day	0	JNJ_UNITS	Milliliters per Kilogram per Day	0		1970-01-01	2099-12-31
+mL/kg/h	0	JNJ_UNITS	Milliliters per Kilogram per Hour	0		1970-01-01	2099-12-31
+mL/kg/min	0	JNJ_UNITS	Milliliters per Kilogram per Minute	0		1970-01-01	2099-12-31
+MoM	0	JNJ_UNITS	Multiple of the Median	8494	UCUM	1970-01-01	2099-12-31
+ng/(24.h)	0	JNJ_UNITS	Nanograms per 24 Hours	44777624	UCUM	1970-01-01	2099-12-31
+ng/kg/min	0	JNJ_UNITS	Nanograms per Kilogram per Minute	0		1970-01-01	2099-12-31
+nmol/mg	0	JNJ_UNITS	Nanomoles per Milligram	9611	UCUM	1970-01-01	2099-12-31
+nmol/mL/h	0	JNJ_UNITS	Nanomoles per Milliliter per Hour	0		1970-01-01	2099-12-31
+nmol/mmol	0	JNJ_UNITS	Nanomoles per Millilmole	0		1970-01-01	2099-12-31
+{OD_unit}	0	JNJ_UNITS	Optical Density	0		1970-01-01	2099-12-31
+/cc	0	JNJ_UNITS	per Cubic Centimeter	0		1970-01-01	2099-12-31
+/kg	0	JNJ_UNITS	per Kilogram	9252	UCUM	1970-01-01	2099-12-31
+[psi]	0	JNJ_UNITS	Pounds per Square Inch	0		1970-01-01	2099-12-31
+RPM	0	JNJ_UNITS	Revolution per Minute	0		1970-01-01	2099-12-31
+yd2	0	JNJ_UNITS	Square Yard	9411	UCUM	1970-01-01	2099-12-31
+U/L	0	JNJ_UNITS	Units per Liter	0		1970-01-01	2099-12-31
+U/dL	0	JNJ_UNITS	Units per Deciliter	0		1970-01-01	2099-12-31
+US RDA	0	JNJ_UNITS	United States Recommended Daily Allowance	0		1970-01-01	2099-12-31
+U/(2.h) dup	0	JNJ_UNITS	Units per 2 Hours dup	0		1970-01-01	2099-12-31
+U/m3	0	JNJ_UNITS	Units per Cubed Meter	0		1970-01-01	2099-12-31
+U/kg/h	0	JNJ_UNITS	Units per Kilogram per Hour	0		1970-01-01	2099-12-31
+U/min	0	JNJ_UNITS	Units per Minute	0		1970-01-01	2099-12-31
+Visits	0	JNJ_UNITS	Visits	0		1970-01-01	2099-12-31
+[yd_us]	0	JNJ_UNITS	Yard	0		1970-01-01	2099-12-31
+Applicator	0	JNJ_UNITS	Applicator	45756970	SNOMED	1970-01-01	2099-12-31
+cP	0	JNJ_UNITS	Centipoise	8479	UCUM	1970-01-01	2099-12-31
+CPY/uL	0	JNJ_UNITS	Copies per Microliter	0		1970-01-01	2099-12-31
+[dr_av]	0	JNJ_UNITS	Dram	0		1970-01-01	2099-12-31
+EIA Index	0	JNJ_UNITS	EIA Index	0		1970-01-01	2099-12-31
+Envelope	0	JNJ_UNITS	Envelope	0		1970-01-01	2099-12-31
+g/g	0	JNJ_UNITS	Gram per Gram	9510	UCUM	1970-01-01	2099-12-31
+g/spec	0	JNJ_UNITS	Grams per Specimen	0		1970-01-01	2099-12-31
+g/(5.h)	0	JNJ_UNITS	Grams per 5 hours	0		1970-01-01	2099-12-31
+INR	0	JNJ_UNITS	International Normalized Ratio	0		1970-01-01	2099-12-31
+[IU]/d	0	JNJ_UNITS	International Unit per Day	0		1970-01-01	2099-12-31
+[IU]/g	0	JNJ_UNITS	International Unit per Gram	9333	UCUM	1970-01-01	2099-12-31
+[iU]/min	0	JNJ_UNITS	International Unit per Minute	0		1970-01-01	2099-12-31
+JDK	0	JNJ_UNITS	JDK	0		1970-01-01	2099-12-31
+kDa	0	JNJ_UNITS	Killodalton	0		1970-01-01	2099-12-31
+kU	0	JNJ_UNITS	Kilounits	0		1970-01-01	2099-12-31
+MDV	0	JNJ_UNITS	Multiple Dose Vials	0		1970-01-01	2099-12-31
+ug/{specimen}	0	JNJ_UNITS	Micrograms per Specimen	0		1970-01-01	2099-12-31
+umm	0	JNJ_UNITS	Micromillimeter	0		1970-01-01	2099-12-31
+umol/dL	0	JNJ_UNITS	Micromoles per Deciliter	8839	UCUM	1970-01-01	2099-12-31
+umol/g	0	JNJ_UNITS	Micromoles per Gram	9668	UCUM	1970-01-01	2099-12-31
+umol/mL	0	JNJ_UNITS	Micromoles per Milliliters	9673	UCUM	1970-01-01	2099-12-31
+u	0	JNJ_UNITS	Micron	0		1970-01-01	2099-12-31
+mIU	0	JNJ_UNITS	MilliInternational Units	0		1970-01-01	2099-12-31
+m[IU]/dL	0	JNJ_UNITS	MilliInternational Units per Deciliter	0		1970-01-01	2099-12-31
+meq/min	0	JNJ_UNITS	Milliequivalents per Minute	0		1970-01-01	2099-12-31
+mg/mg	0	JNJ_UNITS	Milligrams per Milligram	0		1970-01-01	2099-12-31
+mmol/dL	0	JNJ_UNITS	Millimoles per Deciliter	9575	UCUM	1970-01-01	2099-12-31
+mmol/mL	0	JNJ_UNITS	Millimoles per Milliliter	45891014	UCUM	1970-01-01	2099-12-31
+mmol/min	0	JNJ_UNITS	Millimoles per Minute	0		1970-01-01	2099-12-31
+10*6	0	JNJ_UNITS	Million	8549	UCUM	1970-01-01	2099-12-31
+ng/mL/h	0	JNJ_UNITS	Nanograms per Milliliter per Hour	0		1970-01-01	2099-12-31
+ng/g	0	JNJ_UNITS	Nanograms per Gram	0		1970-01-01	2099-12-31
+nmol/dL	0	JNJ_UNITS	Nanomoles per Deciliter	9608	UCUM	1970-01-01	2099-12-31
+nmol/mL	0	JNJ_UNITS	Nanomoles per Milliliter	8843	UCUM	1970-01-01	2099-12-31
+/cm2	0	JNJ_UNITS	per Square Centimeter	45891034	UCUM	1970-01-01	2099-12-31
+pmol/g	0	JNJ_UNITS	Picomoles per Gram	0		1970-01-01	2099-12-31
+[pt_us]	0	JNJ_UNITS	Pint	0		1970-01-01	2099-12-31
+[qt_us]	0	JNJ_UNITS	Quart	0		1970-01-01	2099-12-31
+RBC	0	JNJ_UNITS	Red Blood Cells	0		1970-01-01	2099-12-31
+REV	0	JNJ_UNITS	Revolution	0		1970-01-01	2099-12-31
+score	0	JNJ_UNITS	Score	44777566	UCUM	1970-01-01	2099-12-31
+SLI Units	0	JNJ_UNITS	SLI Units	0		1970-01-01	2099-12-31
+umm2	0	JNJ_UNITS	Square Micromillimeter	9572	UCUM	1970-01-01	2099-12-31
+SD	0	JNJ_UNITS	Standard Deviation	0		1970-01-01	2099-12-31
+Swab	0	JNJ_UNITS	Swab	0		1970-01-01	2099-12-31
+K/mcL dup	0	JNJ_UNITS	Thousand per Microliter dup	8848	UCUM	1970-01-01	2099-12-31
+Todd U	0	JNJ_UNITS	Todd Units	9415	UCUM	1970-01-01	2099-12-31
+U/day	0	JNJ_UNITS	Units per Day	0		1970-01-01	2099-12-31
+U/mg	0	JNJ_UNITS	Units per Milligram	0		1970-01-01	2099-12-31
+U/TV	0	JNJ_UNITS	Units per Total Volume	0		1970-01-01	2099-12-31
+Amount	0	JNJ_UNITS	Amount	0		1970-01-01	2099-12-31
+Book	0	JNJ_UNITS	Book	0		1970-01-01	2099-12-31
+Cylinder	0	JNJ_UNITS	Cylinder	45756947	SNOMED	1970-01-01	2099-12-31
+Drum	0	JNJ_UNITS	Drum	0		1970-01-01	2099-12-31
+fr	0	JNJ_UNITS	French	0		1970-01-01	2099-12-31
+g/h	0	JNJ_UNITS	Grams per Hour	0		1970-01-01	2099-12-31
+g/min	0	JNJ_UNITS	Grams per Minute	0		1970-01-01	2099-12-31
+Gauge	0	JNJ_UNITS	Gauge	0		1970-01-01	2099-12-31
+Kaplow	0	JNJ_UNITS	Kaplow	0		1970-01-01	2099-12-31
+kCal/kg	0	JNJ_UNITS	Kilocalories per Kilogram	0		1970-01-01	2099-12-31
+Level	0	JNJ_UNITS	Level	0		1970-01-01	2099-12-31
+{Log_IU}/mL	0	JNJ_UNITS	Log International Unit per Milliliter	9084	UCUM	1970-01-01	2099-12-31
+ug/mg/h	0	JNJ_UNITS	Micrograms per Milligram per Hour	0		1970-01-01	2099-12-31
+ug/mL/h	0	JNJ_UNITS	Micrograms per Milliliter per Hour	0		1970-01-01	2099-12-31
+umol	0	JNJ_UNITS	Micromole	9667	UCUM	1970-01-01	2099-12-31
+umol/day	0	JNJ_UNITS	Micromoles per Day	0		1970-01-01	2099-12-31
+mL/spec	0	JNJ_UNITS	Milliliters per Specimen	8675	UCUM	1970-01-01	2099-12-31
+mmol/spec	0	JNJ_UNITS	Millimoles per Specimen	44777615	UCUM	1970-01-01	2099-12-31
+nm/L	0	JNJ_UNITS	Nanometers per Liter	0		1970-01-01	2099-12-31
+nmol/day	0	JNJ_UNITS	Nanomoles per Day	0		1970-01-01	2099-12-31
+nmol/h	0	JNJ_UNITS	Nanomoles per Hour	0		1970-01-01	2099-12-31
+/TV	0	JNJ_UNITS	per Total Volume	0		1970-01-01	2099-12-31
+pg/mg	0	JNJ_UNITS	Picograms per Milligram	0		1970-01-01	2099-12-31
+pg/mg/min	0	JNJ_UNITS	Picograms per Milligram per Minute	0		1970-01-01	2099-12-31
+pmol	0	JNJ_UNITS	Picomole	9630	UCUM	1970-01-01	2099-12-31
+Ream	0	JNJ_UNITS	Ream	0		1970-01-01	2099-12-31
+RIV	0	JNJ_UNITS	Rubella Index Value	0		1970-01-01	2099-12-31
+TIV	0	JNJ_UNITS	Toxoplasma Index Value	0		1970-01-01	2099-12-31
+Abs	0	JNJ_UNITS	Absorbency	0		1970-01-01	2099-12-31
+Ao	0	JNJ_UNITS	Angstrom	9452	UCUM	1970-01-01	2099-12-31
+Bases	0	JNJ_UNITS	Bases	0		1970-01-01	2099-12-31
+Bt	0	JNJ_UNITS	Beat	0		1970-01-01	2099-12-31
+cmH2O/L/sec	0	JNJ_UNITS	Centimeters of Water per Liter per Second	0		1970-01-01	2099-12-31
+$/day	0	JNJ_UNITS	Dollars per Day	0		1970-01-01	2099-12-31
+$/h	0	JNJ_UNITS	Dollars per Hour	0		1970-01-01	2099-12-31
+$/min	0	JNJ_UNITS	Dollars per Minute	0		1970-01-01	2099-12-31
+$/mo	0	JNJ_UNITS	Dollars per Month	0		1970-01-01	2099-12-31
+$/sec	0	JNJ_UNITS	Dollars per Second	0		1970-01-01	2099-12-31
+$/unit	0	JNJ_UNITS	Dollars per Unit	0		1970-01-01	2099-12-31
+$/wk	0	JNJ_UNITS	Dollars per Week	0		1970-01-01	2099-12-31
+$/yr	0	JNJ_UNITS	Dollars per Year	0		1970-01-01	2099-12-31
+dyn	0	JNJ_UNITS	Dynes	9488	UCUM	1970-01-01	2099-12-31
+dyn/sec/cm5	0	JNJ_UNITS	Dynes per Second per Centimeter5	0		1970-01-01	2099-12-31
+dyn/sec/cm-5/m2	0	JNJ_UNITS	Dynes per Second per Centimeter5 per Square Meter	0		1970-01-01	2099-12-31
+dyn/sec/cm2	0	JNJ_UNITS	Dynes per Second per Square Centimeter	0		1970-01-01	2099-12-31
+Euro	0	JNJ_UNITS	Euros	0		1970-01-01	2099-12-31
+Film	0	JNJ_UNITS	Film	45756932	SNOMED	1970-01-01	2099-12-31
+g.m/{beat}	0	JNJ_UNITS	Gram-meter per Beat	9507	UCUM	1970-01-01	2099-12-31
+gm-m/beat/cm2	0	JNJ_UNITS	Gram-meter per Beat per Square Centimeter	0		1970-01-01	2099-12-31
+g.m/({hb}.m2)	0	JNJ_UNITS	Gram-meter per Beat per Square Meter	9505	UCUM	1970-01-01	2099-12-31
+gm-m/m2	0	JNJ_UNITS	Gram-meter per Square Meter	0		1970-01-01	2099-12-31
+g/hgb/L	0	JNJ_UNITS	Grams per Hemoglobin per Liter	0		1970-01-01	2099-12-31
+g/kg/h	0	JNJ_UNITS	Grams per Kilogram per Hour	0		1970-01-01	2099-12-31
+g/kg/min	0	JNJ_UNITS	Grams per Kilogram per Minute	0		1970-01-01	2099-12-31
+KP	0	JNJ_UNITS	Kilobase	0		1970-01-01	2099-12-31
+KBP	0	JNJ_UNITS	Kilobase Pairs	0		1970-01-01	2099-12-31
+kCal/kg/24hr	0	JNJ_UNITS	Kilocalories per Kilogram per Day	0		1970-01-01	2099-12-31
+kCal/kg/h	0	JNJ_UNITS	Kilocalories per Kilogram per Hour	0		1970-01-01	2099-12-31
+kg-meter	0	JNJ_UNITS	Kilogram-meter	0		1970-01-01	2099-12-31
+kg-meter/m2	0	JNJ_UNITS	Kilogram-meter per Square Meter	0		1970-01-01	2099-12-31
+kJ	0	JNJ_UNITS	Kilojoules	0		1970-01-01	2099-12-31
+L/h	0	JNJ_UNITS	Liter per Hour	44777603	UCUM	1970-01-01	2099-12-31
+L/min/m2	0	JNJ_UNITS	Liter per Minute per Square Meter	0		1970-01-01	2099-12-31
+Mb	0	JNJ_UNITS	Megabase	0		1970-01-01	2099-12-31
+ug/m2/24hr	0	JNJ_UNITS	Micrograms per Square Meter per Day	0		1970-01-01	2099-12-31
+umol/mol	0	JNJ_UNITS	Micromoles per Mole	0		1970-01-01	2099-12-31
+uU	0	JNJ_UNITS	Microunit	0		1970-01-01	2099-12-31
+miles	0	JNJ_UNITS	Miles	0		1970-01-01	2099-12-31
+mA	0	JNJ_UNITS	Milliamps	0		1970-01-01	2099-12-31
+mCi	0	JNJ_UNITS	MilliCuries	44819154	UCUM	1970-01-01	2099-12-31
+mCi/kg	0	JNJ_UNITS	MilliCuries per Kilogram	0		1970-01-01	2099-12-31
+mg-m/beat	0	JNJ_UNITS	Milligram-meters per Beat	0		1970-01-01	2099-12-31
+mg/kg/min	0	JNJ_UNITS	Milligrams per Kilogram per Minute	9692	UCUM	1970-01-01	2099-12-31
+mg/mmol	0	JNJ_UNITS	Milligrams per Millimole	0		1970-01-01	2099-12-31
+mIU/h	0	JNJ_UNITS	MilliInternational Units per Hour	0		1970-01-01	2099-12-31
+mL/{h''b}	0	JNJ_UNITS	Milliliters per Beat	0		1970-01-01	2099-12-31
+mL/cm H2O dup	0	JNJ_UNITS	Milliliter per Centimeter Water dup	0		1970-01-01	2099-12-31
+mL/cm H2O/L/S	0	JNJ_UNITS	Milliliters per Centimeter of Water per Liter per Second	0		1970-01-01	2099-12-31
+mL/min/1.73	0	JNJ_UNITS	Milliliters per Minute per 1.73	0		1970-01-01	2099-12-31
+mL/min/1.73m2	0	JNJ_UNITS	Milliliters per Minute per 1.73 Square Meter	9117	UCUM	1970-01-01	2099-12-31
+mL/m2	0	JNJ_UNITS	Milliliters per Square Meter	0		1970-01-01	2099-12-31
+mL/m2/beat	0	JNJ_UNITS	Milliliters per Square Meter per Beat	0		1970-01-01	2099-12-31
+mmol/kg/day	0	JNJ_UNITS	Millimoles per Kilogram per Day	0		1970-01-01	2099-12-31
+mmol/kg/h	0	JNJ_UNITS	Millimoles per Kilogram per Hour	0		1970-01-01	2099-12-31
+mmol/kg/min	0	JNJ_UNITS	Millimoles per Kilogram per Minute	0		1970-01-01	2099-12-31
+mmol/m2	0	JNJ_UNITS	Millimoles per Square Meter	9578	UCUM	1970-01-01	2099-12-31
+mosm/kg H2O	0	JNJ_UNITS	Milliosmoles per Kilogram Water	0		1970-01-01	2099-12-31
+munit/g	0	JNJ_UNITS	Milliunit per Gram	9594	UCUM	1970-01-01	2099-12-31
+mV	0	JNJ_UNITS	Millivolts	0		1970-01-01	2099-12-31
+ng/kg	0	JNJ_UNITS	Nanograms per Kilogram	0		1970-01-01	2099-12-31
+ng/uL	0	JNJ_UNITS	Nanograms per Microliter	0		1970-01-01	2099-12-31
+nM Dpd/mM	0	JNJ_UNITS	Nanomoles Dihydropyrimidine Dehydrogenase per Millimolar	0		1970-01-01	2099-12-31
+pbpm	0	JNJ_UNITS	Pacing Rate (Pacing Beats per Minute)	0		1970-01-01	2099-12-31
+Pair	0	JNJ_UNITS	Pair	0		1970-01-01	2099-12-31
+GBP	0	JNJ_UNITS	Pounds Sterling	0		1970-01-01	2099-12-31
+SS	0	JNJ_UNITS	Sliding Scale	0		1970-01-01	2099-12-31
+Stones	0	JNJ_UNITS	Stones	9410	UCUM	1970-01-01	2099-12-31
+Tray	0	JNJ_UNITS	Tray	0		1970-01-01	2099-12-31
+Treatment	0	JNJ_UNITS	Treatment	0		1970-01-01	2099-12-31
+U/kg/min	0	JNJ_UNITS	Units per Kilogram per Minute	0		1970-01-01	2099-12-31
+U/mL/h	0	JNJ_UNITS	Units per Milliliter per Hour	0		1970-01-01	2099-12-31
+U/m2/day	0	JNJ_UNITS	Units per Square Meter per Day	0		1970-01-01	2099-12-31
+ACE untis	0	JNJ_UNITS	Angiotensin converting enzyme units	0		1970-01-01	2099-12-31
+APS Unit	0	JNJ_UNITS	Arbitrary units IgA isotype Ptd-L-Ser antibodies	0		1970-01-01	2099-12-31
+APS Unit/mL	0	JNJ_UNITS	Arbitrary units IgA isotype Ptd-L-Ser antibodies/milliliter	0		1970-01-01	2099-12-31
+APL Unit/mL	0	JNJ_UNITS	Arbitrary units IgA isotype PL antigens per milliliter	0		1970-01-01	2099-12-31
+GPL Unit/mL	0	JNJ_UNITS	Arbitrary units IgG isotype PL antigens per milliliter	0		1970-01-01	2099-12-31
+MPS Unit	0	JNJ_UNITS	Arbitrary units IgM isotype Ptd-L-Ser antigens	0		1970-01-01	2099-12-31
+MPS Unit/mL	0	JNJ_UNITS	Arbitrary units IgM isotype Ptd-L-Ser antigens/milliliter	0		1970-01-01	2099-12-31
+MPL Unit/mL	0	JNJ_UNITS	Arbitrary units IgM isotype PL antigens per milliliter	0		1970-01-01	2099-12-31
+Bandage	0	JNJ_UNITS	Bandage	45756986	SNOMED	1970-01-01	2099-12-31
+Base pr	0	JNJ_UNITS	Base pair	0		1970-01-01	2099-12-31
+Bq	0	JNJ_UNITS	Becquerel	9469	UCUM	1970-01-01	2099-12-31
+Bethesda Units/mL	0	JNJ_UNITS	Bethesda unit per Milliliter	44777562	UCUM	1970-01-01	2099-12-31
+Calorie/oz	0	JNJ_UNITS	Calories per ounce	0		1970-01-01	2099-12-31
+Capsules	0	JNJ_UNITS	Capsules	0		1970-01-01	2099-12-31
+Cartridges	0	JNJ_UNITS	Cartridges	45756945	SNOMED	1970-01-01	2099-12-31
+{Cells}/mm3	0	JNJ_UNITS	Cells per cubic millimeter	8888	UCUM	1970-01-01	2099-12-31
+{Cells}/mL	0	JNJ_UNITS	Cells per milliliter	0		1970-01-01	2099-12-31
+cm/sec	0	JNJ_UNITS	Centimeter per second	0		1970-01-01	2099-12-31
+cm/sec/sec	0	JNJ_UNITS	Centimeter per second per second	0		1970-01-01	2099-12-31
+cM	0	JNJ_UNITS	Centimorgan	0		1970-01-01	2099-12-31
+[CFU]/dL	0	JNJ_UNITS	Colony Forming Units per Deciliter	0		1970-01-01	2099-12-31
+Containers	0	JNJ_UNITS	Containers	45756980	SNOMED	1970-01-01	2099-12-31
+Da	0	JNJ_UNITS	Dalton	0		1970-01-01	2099-12-31
+dL/day	0	JNJ_UNITS	Deciliter per Day	0		1970-01-01	2099-12-31
+dL/h	0	JNJ_UNITS	Deciliter per Hour	0		1970-01-01	2099-12-31
+dL/min	0	JNJ_UNITS	Deciliter per Minute	0		1970-01-01	2099-12-31
+arcdegree	0	JNJ_UNITS	Degrees of Arc	0		1970-01-01	2099-12-31
+DG	0	JNJ_UNITS	Delta G (DG), the Gibbs free energy of transfer	0		1970-01-01	2099-12-31
+Delta optic dens	0	JNJ_UNITS	Delta optical density	0		1970-01-01	2099-12-31
+Device	0	JNJ_UNITS	Device	45756958	SNOMED	1970-01-01	2099-12-31
+DPM	0	JNJ_UNITS	Disintegrations per Minute	0		1970-01-01	2099-12-31
+Dressing	0	JNJ_UNITS	Dressing	45756966	SNOMED	1970-01-01	2099-12-31
+Drops/min	0	JNJ_UNITS	Drops per Minute	0		1970-01-01	2099-12-31
+Endotoxin/mL	0	JNJ_UNITS	Endotoxin Units per Milliliter	0		1970-01-01	2099-12-31
+fL/mL	0	JNJ_UNITS	Femtomole per Milliliter	9501	UCUM	1970-01-01	2099-12-31
+FIO2	0	JNJ_UNITS	FIO2 - Inspired fraction of oxygen	0		1970-01-01	2099-12-31
+[foz_us]	0	JNJ_UNITS	Fluid ounce	0		1970-01-01	2099-12-31
+g/g dry wgt tiss	0	JNJ_UNITS	Gram per Gram dry weight tissue	0		1970-01-01	2099-12-31
+Gauge dup	0	JNJ_UNITS	Gauge dup	0		1970-01-01	2099-12-31
+Gel	0	JNJ_UNITS	Gel	0		1970-01-01	2099-12-31
+GBg	0	JNJ_UNITS	Gigabecquerel (GBg)	0		1970-01-01	2099-12-31
+g/m2/min	0	JNJ_UNITS	Grams per Square Meter per Minute	0		1970-01-01	2099-12-31
+g.m	0	JNJ_UNITS	Gram-meter	9504	UCUM	1970-01-01	2099-12-31
+g/210 L	0	JNJ_UNITS	Grams per 210 liters	0		1970-01-01	2099-12-31
+H score	0	JNJ_UNITS	H score	0		1970-01-01	2099-12-31
+h:min	0	JNJ_UNITS	Hour:minutes	0		1970-01-01	2099-12-31
+Inhalers	0	JNJ_UNITS	Inhalers	0		1970-01-01	2099-12-31
+[IU]/kg/d	0	JNJ_UNITS	International Unit per Kilogram per Day	0		1970-01-01	2099-12-31
+[iU]/kg/h	0	JNJ_UNITS	International Unit per Kilogram per Hour	0		1970-01-01	2099-12-31
+[iU]/kg/min	0	JNJ_UNITS	International Unit per Kilogram per Minute	0		1970-01-01	2099-12-31
+[iU]/mmol	0	JNJ_UNITS	International Unit per Millimoles	0		1970-01-01	2099-12-31
+[iU]/m2/d	0	JNJ_UNITS	International Unit per Square Meter per Day	0		1970-01-01	2099-12-31
+Item score	0	JNJ_UNITS	Item score	0		1970-01-01	2099-12-31
+KLK units/mL	0	JNJ_UNITS	Kallikrein Inhibitory Units per Milliliter	0		1970-01-01	2099-12-31
+KBq	0	JNJ_UNITS	Kilobecquerel (KBq)	0		1970-01-01	2099-12-31
+kCal/dL	0	JNJ_UNITS	Kilocalories per Deciliter	0		1970-01-01	2099-12-31
+kCal/g	0	JNJ_UNITS	Kilocalories per Gram	0		1970-01-01	2099-12-31
+kCal/h	0	JNJ_UNITS	Kilocalories per Hour	0		1970-01-01	2099-12-31
+kCal/kg/min	0	JNJ_UNITS	Kilocalories per Kilogram per Minute	0		1970-01-01	2099-12-31
+kCal/mL	0	JNJ_UNITS	Kilocalories per Milliliter	0		1970-01-01	2099-12-31
+kCal/min	0	JNJ_UNITS	Kilocalories per Minute	0		1970-01-01	2099-12-31
+kCal/[oz_av]	0	JNJ_UNITS	Kilocalories per Ounce	9528	UCUM	1970-01-01	2099-12-31
+kCal/Tbs	0	JNJ_UNITS	Kilocalories per Tablespoon	0		1970-01-01	2099-12-31
+kCal/tsp	0	JNJ_UNITS	Kilocalories per Teaspoon	0		1970-01-01	2099-12-31
+kCal/kCal	0	JNJ_UNITS	Kilocalories per Total Kilocalories	0		1970-01-01	2099-12-31
+kg/d	0	JNJ_UNITS	Kilogram per Day	0		1970-01-01	2099-12-31
+kg/m2	0	JNJ_UNITS	Kilograms per Square Meter	9531	UCUM	1970-01-01	2099-12-31
+kg/day	0	JNJ_UNITS	Kilograms per 24 hour (day)	0		1970-01-01	2099-12-31
+kJ/day	0	JNJ_UNITS	Kilojoule per Day	0		1970-01-01	2099-12-31
+kJ/dL	0	JNJ_UNITS	Kilojoule per Deciliter	0		1970-01-01	2099-12-31
+kJ/h	0	JNJ_UNITS	Kilojoule per Hour	0		1970-01-01	2099-12-31
+kJ/kg	0	JNJ_UNITS	Kilojoule per Kilogram	0		1970-01-01	2099-12-31
+kJ/kg/day	0	JNJ_UNITS	Kilojoule per Kilogram per Day	0		1970-01-01	2099-12-31
+kJ/kg/h	0	JNJ_UNITS	Kilojoule per Kilogram per Hour	0		1970-01-01	2099-12-31
+kJ/kg/min	0	JNJ_UNITS	Kilojoule per Kilogram per Minute	0		1970-01-01	2099-12-31
+kJ/L	0	JNJ_UNITS	Kilojoule per Liter	0		1970-01-01	2099-12-31
+kJ/mL	0	JNJ_UNITS	Kilojoule per Milliliter	0		1970-01-01	2099-12-31
+kJ/min	0	JNJ_UNITS	Kilojoule per Minute	0		1970-01-01	2099-12-31
+kPa	0	JNJ_UNITS	Kilopascal	44777602	UCUM	1970-01-01	2099-12-31
+L/kg	0	JNJ_UNITS	Liters per Kilogram	9542	UCUM	1970-01-01	2099-12-31
+L/L	0	JNJ_UNITS	Liters per Liter	0		1970-01-01	2099-12-31
+{Log_copies}/mL	0	JNJ_UNITS	Log Copies per Milliliter	8873	UCUM	1970-01-01	2099-12-31
+MBg	0	JNJ_UNITS	Megabecquerel	45891007	UCUM	1970-01-01	2099-12-31
+M/sec	0	JNJ_UNITS	Meter per Second	44777606	UCUM	1970-01-01	2099-12-31
+ueq/L	0	JNJ_UNITS	Microequivalents per Liter	8875	UCUM	1970-01-01	2099-12-31
+ug{FEU}/mL	0	JNJ_UNITS	Micrograms Fibrinogen Equivalent Units/mL	0		1970-01-01	2099-12-31
+ug/uL	0	JNJ_UNITS	Micrograms per Microliter	0		1970-01-01	2099-12-31
+ug/mmol	0	JNJ_UNITS	Micrograms per Millimole	0		1970-01-01	2099-12-31
+mOhm	0	JNJ_UNITS	Microhm	0		1970-01-01	2099-12-31
+umol/h/g	0	JNJ_UNITS	Micromoles per Hour per Gram	0		1970-01-01	2099-12-31
+umol/h/mL	0	JNJ_UNITS	Micromoles per Hour per Milliliter	44777653	UCUM	1970-01-01	2099-12-31
+umol/mmol	0	JNJ_UNITS	Micromoles per Millimole	44777656	UCUM	1970-01-01	2099-12-31
+umol/min	0	JNJ_UNITS	Micromoles per Minute	44777655	UCUM	1970-01-01	2099-12-31
+umol/spec	0	JNJ_UNITS	Micromoles per Specimen	0		1970-01-01	2099-12-31
+umol/g/yr	0	JNJ_UNITS	Micromoles per gram per year	0		1970-01-01	2099-12-31
+mcU/spec	0	JNJ_UNITS	MicroUnit per Specimen	44777584	UCUM	1970-01-01	2099-12-31
+mcV	0	JNJ_UNITS	Microvolts	0		1970-01-01	2099-12-31
+mgPE	0	JNJ_UNITS	Milligram Phosphenytoin Equivalents (mgPE)	0		1970-01-01	2099-12-31
+mgPE/kg	0	JNJ_UNITS	Milligram Phosphenytoin Equivalents/kilogram	0		1970-01-01	2099-12-31
+mg/m2/h	0	JNJ_UNITS	Milligrams per Square Meter per Hour	0		1970-01-01	2099-12-31
+mg/2h	0	JNJ_UNITS	Milligrams per 2 Hours	0		1970-01-01	2099-12-31
+mg/spec	0	JNJ_UNITS	Milligrams per Specimen	0		1970-01-01	2099-12-31
+mL/sec	0	JNJ_UNITS	Milliliters per Second	44777614	UCUM	1970-01-01	2099-12-31
+mL/L	0	JNJ_UNITS	Milliliters per Liter	0		1970-01-01	2099-12-31
+mL/m2/day	0	JNJ_UNITS	Milliliters per Square Meter per Day	0		1970-01-01	2099-12-31
+mL/m2/h	0	JNJ_UNITS	Milliliters per Square Meter per Hour	0		1970-01-01	2099-12-31
+mL/min/kg	0	JNJ_UNITS	Milliliters per Minute per Kilogram	0		1970-01-01	2099-12-31
+mL/min/SA	0	JNJ_UNITS	Milliliters per Minute per Surface Area	0		1970-01-01	2099-12-31
+mL/mL of admin vol	0	JNJ_UNITS	Milliliters per Milliliter of Administered Volume	0		1970-01-01	2099-12-31
+mL/min/m2	0	JNJ_UNITS	Milliliters per Minute per Square meter	0		1970-01-01	2099-12-31
+mm/1st h	0	JNJ_UNITS	Millimeters 1st hour	0		1970-01-01	2099-12-31
+mmol/mmol dup	0	JNJ_UNITS	Millimoles per Millimole dup	0		1970-01-01	2099-12-31
+mmol/1.73m2	0	JNJ_UNITS	Millimoles per 1.73 Square Meter	0		1970-01-01	2099-12-31
+mmol/h	0	JNJ_UNITS	Millimoles per Hour	0		1970-01-01	2099-12-31
+mmol/mmol	0	JNJ_UNITS	Millimoles per Millimole	44777618	UCUM	1970-01-01	2099-12-31
+mmol/mol	0	JNJ_UNITS	Millimoles per Mole	0		1970-01-01	2099-12-31
+10*6/h	0	JNJ_UNITS	Million Units per Hour	0		1970-01-01	2099-12-31
+10*6/m2	0	JNJ_UNITS	Million Units per Meter Squared	0		1970-01-01	2099-12-31
+mosm/dL	0	JNJ_UNITS	Milliosmoles per Deciliter	0		1970-01-01	2099-12-31
+mosm/L	0	JNJ_UNITS	Milliosmoles per Liter	9591	UCUM	1970-01-01	2099-12-31
+mosm/mL	0	JNJ_UNITS	Milliosmoles per Milliliter	0		1970-01-01	2099-12-31
+mPas	0	JNJ_UNITS	Millipascal seconds	44777622	UCUM	1970-01-01	2099-12-31
+msec	0	JNJ_UNITS	Milliseconds	9593	UCUM	1970-01-01	2099-12-31
+munit	0	JNJ_UNITS	Milliunit	0		1970-01-01	2099-12-31
+munit/day	0	JNJ_UNITS	Milliunit per Day	0		1970-01-01	2099-12-31
+munit/h	0	JNJ_UNITS	Milliunit per Hour	0		1970-01-01	2099-12-31
+munit/kg/day	0	JNJ_UNITS	Milliunit per Kilogram per Day	0		1970-01-01	2099-12-31
+munit/kg/h	0	JNJ_UNITS	Milliunit per Kilogram per Hour	0		1970-01-01	2099-12-31
+munit/kg/min	0	JNJ_UNITS	Milliunit per Kilogram per Minute	0		1970-01-01	2099-12-31
+mU/L	0	JNJ_UNITS	Milliunit per Liter	44777578	UCUM	1970-01-01	2099-12-31
+munit/mL	0	JNJ_UNITS	Milliunit per Milliliter	8719	UCUM	1970-01-01	2099-12-31
+munit/min	0	JNJ_UNITS	Milliunit per Minute	0		1970-01-01	2099-12-31
+ng/kg/day	0	JNJ_UNITS	Nanograms per Kilograms per Day	0		1970-01-01	2099-12-31
+ng/kg/h	0	JNJ_UNITS	Nanograms per Kilograms per Hour	0		1970-01-01	2099-12-31
+ng TDP/gm	0	JNJ_UNITS	Nanograms TDP per Gram	0		1970-01-01	2099-12-31
+ng/umol	0	JNJ_UNITS	Nanograms per Micromole	0		1970-01-01	2099-12-31
+ng/munit	0	JNJ_UNITS	Nanograms per milliUnit	0		1970-01-01	2099-12-31
+ng/min	0	JNJ_UNITS	Nanograms per Minute	0		1970-01-01	2099-12-31
+ng/m2	0	JNJ_UNITS	Nanograms per Square Meter	9603	UCUM	1970-01-01	2099-12-31
+ng/m2/day	0	JNJ_UNITS	Nanograms per Square Meter per Day	0		1970-01-01	2099-12-31
+ng/m2/h	0	JNJ_UNITS	Nanograms per Square Meter per Hour	0		1970-01-01	2099-12-31
+ng/m2/min	0	JNJ_UNITS	Nanograms per Square Meter per Minute	0		1970-01-01	2099-12-31
+nL	0	JNJ_UNITS	Nanoliter	9606	UCUM	1970-01-01	2099-12-31
+nmol/h/mL	0	JNJ_UNITS	Nanomoles per Hour per Milliliter	44777631	UCUM	1970-01-01	2099-12-31
+nmol BCE	0	JNJ_UNITS	Nanomoles Bone Collagen Equivalents	8665	UCUM	1970-01-01	2099-12-31
+nmol/mL/min	0	JNJ_UNITS	Nanomoles PABA per Milliliter Plasma per Minute	0		1970-01-01	2099-12-31
+nmol/h/mg	0	JNJ_UNITS	Nanomoles per Hour per Milligrams	0		1970-01-01	2099-12-31
+nmol/sec/L	0	JNJ_UNITS	Nanomoles per Second per Liter	0		1970-01-01	2099-12-31
+nmol/gm/h	0	JNJ_UNITS	Nanomoles per Gram per Hour	0		1970-01-01	2099-12-31
+nmol/h/mL dup	0	JNJ_UNITS	Nanomoles per Hour per Milliliter dup	0		1970-01-01	2099-12-31
+nmol/mL/min	0	JNJ_UNITS	Nanomoles per Millilter per Minute	0		1970-01-01	2099-12-31
+nmol BCE/mmol	0	JNJ_UNITS	Nanomoles Bone Collagen Equivalents per Millimoles	0		1970-01-01	2099-12-31
+Organisms/mL	0	JNJ_UNITS	Organisms per Millilter	0		1970-01-01	2099-12-31
+packs	0	JNJ_UNITS	Packs	0		1970-01-01	2099-12-31
+Pessary	0	JNJ_UNITS	Pessary	45756956	SNOMED	1970-01-01	2099-12-31
+pmol/h/mg	0	JNJ_UNITS	Picomoles per Hour per Milligram	0		1970-01-01	2099-12-31
+pmol/min/h	0	JNJ_UNITS	Picomoles per Minute per Hour	0		1970-01-01	2099-12-31
+pmol/mL/h	0	JNJ_UNITS	Picomoles per Milliliter per Hour	0		1970-01-01	2099-12-31
+Plaster	0	JNJ_UNITS	Plaster	45756969	SNOMED	1970-01-01	2099-12-31
+GBP/annum	0	JNJ_UNITS	Pounds Sterling per Annum	0		1970-01-01	2099-12-31
+GBP/day	0	JNJ_UNITS	Pounds Sterling per Day	0		1970-01-01	2099-12-31
+GBP/h	0	JNJ_UNITS	Pounds Sterling per Hour	0		1970-01-01	2099-12-31
+GBP/mo	0	JNJ_UNITS	Pounds Sterling per Month	0		1970-01-01	2099-12-31
+GBP/wk	0	JNJ_UNITS	Pounds Sterling per Week	0		1970-01-01	2099-12-31
+Protein/kg	0	JNJ_UNITS	Protein per Kilogram	0		1970-01-01	2099-12-31
+RLU	0	JNJ_UNITS	Relative Light Units	0		1970-01-01	2099-12-31
+Sample Cut-off	0	JNJ_UNITS	Sample Over Cut-off	0		1970-01-01	2099-12-31
+m2/day	0	JNJ_UNITS	Square Meters per Day	0		1970-01-01	2099-12-31
+Straw	0	JNJ_UNITS	Straw	45756987	SNOMED	1970-01-01	2099-12-31
+Tabs	0	JNJ_UNITS	Tabs	0		1970-01-01	2099-12-31
+{TSI_index}	0	JNJ_UNITS	Thyroid-Stimulating Immunoglobulin Index	0		1970-01-01	2099-12-31
+Torr	0	JNJ_UNITS	Torr	0		1970-01-01	2099-12-31
+Tot/mechanical	0	JNJ_UNITS	Total per Mechanical	0		1970-01-01	2099-12-31
+ugE1/g	0	JNJ_UNITS	Micrograms E1 per Gram	0		1970-01-01	2099-12-31
+10*10	0	JNJ_UNITS	10 Billion	0		1970-01-01	2099-12-31
+U/mm	0	JNJ_UNITS	Units per Millimeter	0		1970-01-01	2099-12-31
+U/mmol	0	JNJ_UNITS	Units per Millimole	0		1970-01-01	2099-12-31
+U/Collection	0	JNJ_UNITS	Units per Collection	0		1970-01-01	2099-12-31
+10*12/L	0	JNJ_UNITS	Trillion per Liter	8734	UCUM	1970-01-01	2099-12-31
+10*3/uL	0	JNJ_UNITS	Thousand per Microlitre	8848	UCUM	1970-01-01	2099-12-31
+10*6/L	0	JNJ_UNITS	Million per Liter	9442	UCUM	1970-01-01	2099-12-31
+10*6/uL	0	JNJ_UNITS	Million per Microliter	8815	UCUM	1970-01-01	2099-12-31
+10*6/spec	0	JNJ_UNITS	Million per Specimen	9441	UCUM	1970-01-01	2099-12-31
+10*9/L	0	JNJ_UNITS	Billion per Liter	9444	UCUM	1970-01-01	2099-12-31
+AI	0	JNJ_UNITS	Adequate Intake (AI)	0		1970-01-01	2099-12-31
+J	0	JNJ_UNITS	Joule	9522	UCUM	1970-01-01	2099-12-31
+{Log_IU}	0	JNJ_UNITS	Log International Unit	0		1970-01-01	2099-12-31
+uCi	0	JNJ_UNITS	Microcuries	0		1970-01-01	2099-12-31
+OD Ratio	0	JNJ_UNITS	Optical Densities Ratio (OD Ratio)	0		1970-01-01	2099-12-31
+{s_co_ratio}	0	JNJ_UNITS	Signal Cutoff Ratio	8779	UCUM	1970-01-01	2099-12-31
+Threshold	0	JNJ_UNITS	Threshold	0		1970-01-01	2099-12-31
+W	0	JNJ_UNITS	Watt	9678	UCUM	1970-01-01	2099-12-31
+[bbl_us]	0	JNJ_UNITS	Barrel	9261	UCUM	1970-01-01	2099-12-31
+[bf_i]	0	JNJ_UNITS	Board Foot	9263	UCUM	1970-01-01	2099-12-31
+[crd_us]	0	JNJ_UNITS	Cord	0		1970-01-01	2099-12-31
+[cft_i]	0	JNJ_UNITS	Cubic Foot	9277	UCUM	1970-01-01	2099-12-31
+[cin_i]	0	JNJ_UNITS	Cubic Inch	9283	UCUM	1970-01-01	2099-12-31
+[cyd_i]	0	JNJ_UNITS	Cubic Yard	9288	UCUM	1970-01-01	2099-12-31
+hL	0	JNJ_UNITS	Hectoliter	9520	UCUM	1970-01-01	2099-12-31
+kL	0	JNJ_UNITS	Kiloliter	9535	UCUM	1970-01-01	2099-12-31
+pL	0	JNJ_UNITS	Picoliter	9628	UCUM	1970-01-01	2099-12-31
+{count}	0	JNJ_UNITS	Count	0		1970-01-01	2099-12-31
+Ci	0	JNJ_UNITS	Curie	9480	UCUM	1970-01-01	2099-12-31
+{ElisaU}/mL	0	JNJ_UNITS	Elisa Units per Milliliter	9426	UCUM	1970-01-01	2099-12-31
+g/[100]g	0	JNJ_UNITS	Gram per 100 Gram	9508	UCUM	1970-01-01	2099-12-31
+kg/L	0	JNJ_UNITS	Kilograms Per Liter	0		1970-01-01	2099-12-31
+kg/mol	0	JNJ_UNITS	Kilograms Per Mole	0		1970-01-01	2099-12-31
+k[iU]/mL	0	JNJ_UNITS	KiloInternational Units per Milliliter	0		1970-01-01	2099-12-31
+m[Hg]	0	JNJ_UNITS	Meter of Mercury Column	9548	UCUM	1970-01-01	2099-12-31
+m[H2O]	0	JNJ_UNITS	Meter of Water Column	9547	UCUM	1970-01-01	2099-12-31
+ueq/L dup	0	JNJ_UNITS	Microequivalents per Liter dup	8875	UCUM	1970-01-01	2099-12-31
+ueq/mL	0	JNJ_UNITS	Microequivalents per MilliLiter	9654	UCUM	1970-01-01	2099-12-31
+ug/ng	0	JNJ_UNITS	Micrograms per Nanogram	0		1970-01-01	2099-12-31
+umol/mg	0	JNJ_UNITS	Micromoles per Milligram	9670	UCUM	1970-01-01	2099-12-31
+umol/min/g	0	JNJ_UNITS	Micromoles per Minute per Gram	0		1970-01-01	2099-12-31
+meq/g	0	JNJ_UNITS	MilliEquivalents per Gram	9554	UCUM	1970-01-01	2099-12-31
+mmol/dL dup	0	JNJ_UNITS	Millimoles per Deciliter dup	0		1970-01-01	2099-12-31
+mmol/g	0	JNJ_UNITS	Millimoles per Gram	9576	UCUM	1970-01-01	2099-12-31
+mol/m3	0	JNJ_UNITS	Moles per Cubic Meter	9587	UCUM	1970-01-01	2099-12-31
+mol/kg	0	JNJ_UNITS	Moles per Kilogram	9585	UCUM	1970-01-01	2099-12-31
+nmol/mol	0	JNJ_UNITS	Nanomoles per Mole	0		1970-01-01	2099-12-31
+ns	0	JNJ_UNITS	Nanosecond	9616	UCUM	1970-01-01	2099-12-31
+N	0	JNJ_UNITS	Newton	9599	UCUM	1970-01-01	2099-12-31
+{#}	0	JNJ_UNITS	Number	0		1970-01-01	2099-12-31
+/dL	0	JNJ_UNITS	per Deciliter	9245	UCUM	1970-01-01	2099-12-31
+/mg	0	JNJ_UNITS	per Milligram	9256	UCUM	1970-01-01	2099-12-31
+/m2	0	JNJ_UNITS	per Square Meter	9255	UCUM	1970-01-01	2099-12-31
+[pH]	0	JNJ_UNITS	pH	8482	UCUM	1970-01-01	2099-12-31
+pg/L	0	JNJ_UNITS	Picograms per Liter	0		1970-01-01	2099-12-31
+pg/mm	0	JNJ_UNITS	Picograms per Millimeter	0		1970-01-01	2099-12-31
+pm	0	JNJ_UNITS	Picometer	9629	UCUM	1970-01-01	2099-12-31
+pmol/dL	0	JNJ_UNITS	Picomoles per Deciliter	9631	UCUM	1970-01-01	2099-12-31
+pmol/umol	0	JNJ_UNITS	Picomoles per Micromole	9633	UCUM	1970-01-01	2099-12-31
+pmol/mL	0	JNJ_UNITS	Picomoles per Milliliter	9632	UCUM	1970-01-01	2099-12-31
+[pnt]	0	JNJ_UNITS	Point	9384	UCUM	1970-01-01	2099-12-31
+P	0	JNJ_UNITS	Poise	9622	UCUM	1970-01-01	2099-12-31
+[rd_us]	0	JNJ_UNITS	Rod	0		1970-01-01	2099-12-31
+T	0	JNJ_UNITS	Tesla	9646	UCUM	1970-01-01	2099-12-31
+V	0	JNJ_UNITS	Volt	9677	UCUM	1970-01-01	2099-12-31
+10*6/mL	0	JNJ_UNITS	Million per Milliliter	8816	UCUM	1970-01-01	2099-12-31
+10*9/uL	0	JNJ_UNITS	Billion per Microliter	9446	UCUM	1970-01-01	2099-12-31
+10*9/mL	0	JNJ_UNITS	Billion per Milliliter	9445	UCUM	1970-01-01	2099-12-31
+gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=8-2.2/3700 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=59-71 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=6-12.8/3090 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=6-4.2/2850 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=6-11.4/3050 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=8-1.3/3670 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=2882-60 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=2980-180 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=3078-24 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=95-125 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=1450-120 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=8-6.7/3830 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=5-11.7/2600 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=6-0.1/2730 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=2780-50 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=3102-22 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=2000-2499 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=25-30 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=2865-50 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=4710-4860 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+gm^value=2942-38 gm	8504	JNJ_UNITS	gram	8504	UCUM	2013-01-06	2099-12-31
+kg^value=52.3-53.5 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=6/4-85 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=01/27/2009-87.091 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=133;137-62 lb-kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=173.2-175.4 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=55-61 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=92.7-8/16 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=10/21/16-105.7 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=86-91 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=3.45-7;10 kg-lb;oz	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=52.3-54.5 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=75-78 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=10.5-10.2 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=11/2/2016-41.7 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=65.9-70.5 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=81.2-24 kg-lb	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=97-7 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=150-169 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=75-165 kg-lb	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=81.8-62.5 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=3.399-35 kg-gm	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=12-3 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=56.8-59.1 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=63.9-62.2 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=47.7-50 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=134.8-131.5 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=2.11-55 kg-gm	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=55.792-98.2 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=83.6-184 kg-lb	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=93.9-93.3 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=61-62 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=68-95 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=41-42 kg^fuzzy=about	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=10.5-10.2-10.9 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=3.16-3.23-3.3-3.31-3.37 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=65.732-5 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=25-29 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=3.65-4.819 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=52;54.2-54.2 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=75-76 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=45.9-46.5 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=52.7-54.1 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=60-62 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=67.7-70 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=114-125 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=56.8-61.4 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=72.8-160 kg-lb	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=134/93-117.708 mmhg/mmhg-kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=55-56 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=156.4-344;13 kg-lb;oz	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=51.9-51.5-53.5-51.3-53 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=6.169-97.1 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=3/5-134 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=4.329-59 kg-gm	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=53.5-51.3-53 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=55.7-122 kg-lb	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=95.7-210.5 kg-lb	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=1-1 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=49.2-108 kg-lb	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=89.7-84.5 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=52.9;54.2-54.2 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=93-83 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=93-95 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=51.5-53.5-51.3-53 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=61.4-63.6 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=73.6-78.3 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=126.554-11 kg-lb	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=63.5-64.11 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=50-59.1 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=45-47 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=11/13-52.3 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=175.4-178.4 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=87-82.6 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=01/29/15-93.9 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=83.9-6/23 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=18-68.04 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=51.3-53 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=43.9-47.3 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=10/21/2013-61.326 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=57.7-60.5 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=77.8-2.2 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+kg^value=103-84.6 kg	9529	JNJ_UNITS	kilogram	9529	UCUM	2013-01-06	2099-12-31
+lb^value=02/15/12-240 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/12/10-269 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/04/16-197 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/06/10-257 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/23/13-247 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/29/09-225 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/05/09-269 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=139-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=149-3.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=151-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=151-150 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=176.5-166.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=177.2-169.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=183-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=193-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=20-7 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=219.8-221.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=219-223 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=221.6-223.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=245-238.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=249-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=259-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=269-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=29.1-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=30-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=31.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=48.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=70.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/16/14-168 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/19/09-287 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/30/09-299 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/07/08-197 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/07/11-172 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/12/12-153 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/22/09-320 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=109-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=112-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/08/16-206 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=122-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=132-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=167-177 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=184-187 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=217-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=240.3-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=245-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=265-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=27.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=3-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=51-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=55.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/09/15-264 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/20/09-274 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/01/15-196 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/18/15-211 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/21/12-191 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/06/09-203 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=107-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/26/10-315 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=141.8-145.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=18-14 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=184-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=265-270 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=27.08-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=30.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=33.1-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=52.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=59-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=75-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=89-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=93-98 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/17/16-155 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/12/12-220 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/08/14-228 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/16/16-215 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/22/10-206 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=182-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=182-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=189-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=19-20 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=192-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=21-13.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=24-3.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=248-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=258-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=260-263 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=268-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=278-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=36-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=46.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=56-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=86-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/07/11-167 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/26/09-316 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/20/15-223 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/21/10-189 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/30/09-174 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/07/14-209 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/21/16-178 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/10/08-278 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/13/15-172 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=14-14 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=158-160 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=16-14 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=17-14 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=18-3 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=202-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=216-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=22-15.84 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=223.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=226-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=236-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=265.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=293.2-298.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=37.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=45.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=51.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=8;20;8-259 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/19/12-256 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/09/15-244 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=114-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=124-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=132.4-132 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=136-138 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=14-13.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=189-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=193.1-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=199-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=229.8-228.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=23.1-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=232-9 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=24-13 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=243-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=253-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=263-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=273-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=348-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=36-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=42.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=49.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/11/09-235 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/05/08-404 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/24/10-274 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/13/11-242 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=1/10/17-188 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/15/12-240 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=117-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/22/08-341 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=127-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=134-122-121 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=13-5.9 lb-kg	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=135-3 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=137-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=150-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=159-156-156 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=169.2-173.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=180-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=192.9-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=199.9-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=209-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=213-227 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=220-204 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=241-242 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=32-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=350.7-349.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=39-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=398.5-395.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=47.08-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=60-75 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=6-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/26/09-200 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/03/10-201 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/02/15-299 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/18/15-229 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=104-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=130-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=144-1.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=151-152 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=15-13.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=182-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=193-2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=231-235 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=27.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=278-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=34.2-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=343-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=363-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=52-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=55.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=56-5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=59-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=6-11 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=82-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/09/11-277 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/15/12-237 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/18/14-213 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/22/09-274 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=137-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=159-2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=160.6-163.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=168-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=175.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=184.6-184.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=20.5-9.3 lb-kg	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=204-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=220-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=224.2-216.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=289.5-291.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=31.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=43.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=8-9 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/20/14-195 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/11/12-246 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/27/11-231 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/14/14-245 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=14-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=170-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=176-3.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=190-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=191-189 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=206-4.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=279-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=296-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=33-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=38-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=56.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=70-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=75.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/04/10-245 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/27/09-253 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/02/11-197 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/10/09-182 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/26/08-221 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/29/14-220 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/15/10-207 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=142.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=146-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=176-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=179.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=185-192-197-198 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=190.4-189.9 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=190-3.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=195-197 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=200-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=20-3.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=210.9-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=214-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=216-3 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=22-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=224-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=234-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=244-241 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=289-280 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=293-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=305-2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=35.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=382-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=42-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=47.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=58.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=65-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=7-11 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=92-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/27/15-188 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/30/09-328 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/15/09-152 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/18/16-249 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=104-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=105-103 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=133-60.3;137-62 lb-kg;lb-kg	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=160-175 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=167.2-182.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=20-10 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=201-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=226-226 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=26.9-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=291-296 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=32.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=37-5.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=39.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=50.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=63.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=66-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/08/16-373 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/17/09-272 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/06/09-311 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/09/15-216 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=118.2-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=131.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=162-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=166-170 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=178-180 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=184-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=185-187 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=188-186 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=19-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=194-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=197-206 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=224.6-223.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=225-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=228.6-231.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=233.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=259-262 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=288.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=346-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=35-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=42.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=66-14.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=75.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=82.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/28/08-388 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/02/09-281 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/27/10-220 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=147.2-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=147.5-143.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=172.2-171.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=172-174 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=174-175 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=17-7 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=19-11 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=198.4-195.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=200-14.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=203-206 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=220-100 lb-kg	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=242.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=286-3.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=308-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=40.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=44.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=67.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=stable-183.75 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/15/16-251 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/07/15-241 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/22/08-159 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/29/11-253 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/27/15-278 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/22/08-198 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/10/14-244 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/22/10-216 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/15/11-195 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11-1.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/07/11-320 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=120-130 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=168-14.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=189.8-187.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=203-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=207-2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=212.8-213.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=240.6-240.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=30.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=316-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=326-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=77-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=99.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/06/09-318 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/28/15-250 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/20/10-242 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/20/15-214 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/17/12-260 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/09/08-156 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=105-115 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=105-120 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/20/10-318 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=124-130 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=141-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=151-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=16-10 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=161-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=171-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=176-176 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=190.8-184.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=20-3 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=206.25-204.25 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=215-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=216-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=236-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=254.1-262.3 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=276.6-278.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=306-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=40-50 lb^fuzzy=about	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=6-6.1 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=fairly stable-240 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/19/11-165 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/10/10-135 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/23/12-272 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/31/08-221 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/08/11-218 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/08/08-270 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/04/08-248 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/04/14-207 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=111-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=121-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12-17 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=125.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=131-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=173.6-172.3 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=178.8-177.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=180-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=190-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=19-2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=198-199 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=214-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=222-224 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=234-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=30.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=301.2-292.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=319-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=35-9 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=445-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=59.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=76-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/26/10-282 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/15/12-232 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=1/12/13-187 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=107.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/14/08-248 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/14/2014-218 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11;20;15-197 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=115-120 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=124-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=156-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=165-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=175.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=176-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=195-10 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=207-1.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=21-10 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=211-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=219-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=22-10 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=221-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=223.2-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=23-10 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=231-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=272.2-271.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=280-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=290-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=312-252 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=320-325 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=36.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=42-11.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=95-100 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/12/15-302 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=109-11.84 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=145-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=155-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=165-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=175-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=187-184 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=233-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=235-242 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=25-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=273.4-272.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=29.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=296-295 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=302-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=329-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=36.9-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=40.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/24/08-331 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/06/14-174 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=127-2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=135-140 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=144-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=149.5-148.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=153-11.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=231-3.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=241-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=247-246 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=25-10 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=251-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=261-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=271-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=291.6-296.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=370.8-273.1 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=39.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=54.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=6-1 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=67-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=7-7 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=87.2-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/02/09-177 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/31/09-176 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/16/14-198 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=129-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=145-148 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=154-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=169-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=180-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=18-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=202.6-192.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=205-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=243-245 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=270-290 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=315-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=46.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=54-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=99.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/03/08-262 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/05/09-356 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/29/10-198 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/11/16-197 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/19/08-178 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=115-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=125-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=135-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=160-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=170-174 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=189-2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=20;20;14-171 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=252-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=25-35 lb^fuzzy=about	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=26-15.84 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=349-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=379-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=44-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=50.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=68-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=7-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=85-90 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=9/4/14-235 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=94-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/23/12-229 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/12/11-184 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/27/10-208 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/03/14-171 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=109-3.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=150-143 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=150-155 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=150-160 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=172-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=179-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=18-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=184.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=190-192 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=215-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=219-9.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=225-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=228.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=234-3.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=235-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=276.7-275.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=34-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=61.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=7/7/11-193 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=112.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=116-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=126-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=136-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=139-5/30/13 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=150.4-153.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=164.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=167.5-174.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=173-174 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=17-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=223.2-221.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=39.1-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=4;20;14-208 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=44-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=58.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=60.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=63-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/05/12-293 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/08/11-278 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/08/08-205 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/08/15-179 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/06/09-310 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=146-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=149-153 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=156.8-154.13 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=167-1.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=169.6-172.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=174-182 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=195.8-197.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=220-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=232-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=242.6-244.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=27-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=28-15.84 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=374-377 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=43-2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/26/15-286 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/03/12-160 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/27/16-269 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/17/11-211 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=112-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/19/11-261 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=134.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=15-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=16-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=171-2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=172.3-171.3 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=17-3.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=190-4.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=217-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=227-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=233-234 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=237-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=249-254 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=286.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=310-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=310-295 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=32.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=330-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=37.08-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=39.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=42-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=49-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=5/2/14-152.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=50.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=65-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=99-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/19/15-293 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/21/12-348 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/29/08-227 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/29/12-226 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/31/09-260 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/02/12-254 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/05/15-180 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/23/10-327 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/14/09-414 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=142.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=166-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=183-209 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=20-13 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=203-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=218-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=228-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=237.8-234.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=238-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=28-1 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=37-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=49.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/22/15-214 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/06/15-212 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/28/08-289 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/31/09-237 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/19/14-253 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/21/15-192 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/27/10-202 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=120-125 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=148-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=15-1 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=156.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=156-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=158-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=168-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=178-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=187-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=20-9.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=22-5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=26-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=272.5-266.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=282-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=287.2-292.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=292-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=31.2-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=40.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/13/15-195 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/02/14-223 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=134-122-121-124 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=136-137 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=146-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=156-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=166-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=167-1 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=170-168 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=176-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=181-174.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=195-200 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=219-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=22-14 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=321.2-327.7 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=432-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=57.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=96-11.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/10/14-204 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/01/12-240 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/28/09-303 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/04/12-183 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/21/14-187 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/30/09-440 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/22/10-168 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=132.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=135-138 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=142-1 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=143-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=149-159 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=153-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=16-13 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=163-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=173-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=233-211 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=250.9-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=26.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=273.5-264.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=284.5-286.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=289-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=299-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=304-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=46-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=54.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=77.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=96-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/04/16-270 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/16/11-162 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/16/09-171 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/23/10-305 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/29/14-218 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=132-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=142-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=15-15 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=15-20 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=152-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=153-154 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=155-160 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=16-15 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=162-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=172-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=175-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=178-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=190-191 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=204-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=215-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=216-221 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=261.1-262.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=277-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=298-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=298-289 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=32-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=42.3-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=436-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=50-60 lb^fuzzy=approximately	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=61.1-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/06/09-252 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/12/09-369 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/16/09-271 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/08/09-319 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=101-46 lb-kg	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=125-3.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=129-126 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=177.5-178.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=190-195 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=196.2-191.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=200-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=204.4-206.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=225.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=230-235 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=250-248 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=255-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=265.3-264.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=30-45 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=307-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=32.2-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=46-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=53.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=61-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/02/09-240 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/29/09-280 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=1/11/17-216 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=1/23/17-202 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/19/12-223 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=132-133 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=143-145 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=149-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=152-164.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=159-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=16-3.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=169-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=173-183 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=179-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=186-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=187-179 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=196-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=200.1-90.8 lb-kg	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=213-203 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=246-0.16 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=248-249 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=253.6-252.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=28-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=308.9-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=32.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=337-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=39.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=48-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=63.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=64-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=7-3.7 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=98-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/09/09-192 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/27/09-175 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/12/15-267 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/13/12-250 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/15/15-203 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=110-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=120-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=130-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=155.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=1-7.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=17-1.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=18-10 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=181-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=191-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=30.2-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=32-9 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=33.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=36-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=41.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=55.9-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=62.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=70-75 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=71-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=92.2-1/11/15 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/05/15-155 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/19/11-204 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/06/15-262 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/10/10-431 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/19/15-180 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/22/14-281 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/10/10-301 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/13/14-212 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/11/09-214 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/13/09-319 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/03/12-239 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/31/12-252 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=106-110 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/14/11-187 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=134-2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=136-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=147-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=165.2-161.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=167-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=188-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=196.8-195.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=198-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=20-14.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=208.6-204.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=241.8-243.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=242-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=252.2-254.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=252-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=262-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=272-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=287.5-284.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=30-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=50-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=6/14-158 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=67-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=7/29/16-320 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=80-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=93.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/19/12-284 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/03/08-298 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/24/09-266 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/03/14-208 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/06/09-228 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/05/08-349 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/19/16-189 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/20/15-167 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/17/14-166 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=125-130 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=131-146 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=175.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=177-176 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=181-176 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=2/9/15-153 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=206-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=240-245 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=266-271 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=28-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=34-3.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=4;20;14-254 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=54-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=73-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=95.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/26/09-232 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/13/12-170 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/25/16-250 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/03/09-148 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/14/10-242 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/15/16-225 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10;20;16-249 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/18/08-406 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=133-3.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=134-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=138-3.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=139-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=185-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=195-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=250-268 lb^fuzzy=about	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=3/27/16-311 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=43-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=64.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=64-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=98.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=high school-25 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/20/12-264 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/02/15-304 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/14/11-309 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/15/11-207 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/16/09-291 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=116-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=147-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=147-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=171-11.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=192-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=208-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=21-13 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=213-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=214.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=22-13 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=223-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=224.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=233-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=243.1-256.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=25-3.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=253-0.03 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=259-3/14 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=30.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=5/28/16-314 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=57-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=60-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=65.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=75-77 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=87-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/06/09-216 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/13/09-251 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/09/12-172 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/25/07-335 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/15/2012-232 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/06/12-157 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/25/09-271 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/27/10-182 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/09/08-372 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/21/08-275 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10-10 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=101-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/01/10-351 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/18/09-133 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=129-5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=137.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=145-150 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=156-3.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=16-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=162.6-162.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=180-185 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=184-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=194-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=197-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=220-225 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=225-226 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=229-3.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=232;230.9-231.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=234;230.9-231.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=236;230.9-231.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=24.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=25-1 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=278.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=314-298 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=47-5.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=5/6/14-138 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/22/09-209 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/15/11-342 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/25/09-346 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/23/14-227 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/11/15-169 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=145.5-149.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=153-3.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=165-170 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=178.5-178.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=199-200 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=211-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=214.4-210.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=219.2-214.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=221.5-221.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=221.8-223.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=225.9-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=23-1.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=26.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=284-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=29-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=309-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=35.2-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=45-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=484-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=51-14 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=54.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=63.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=69-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=95-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/02/11-157 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/07/16-446 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/05/12-205.5 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/12/11-118.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/30/12-205 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=114-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=124-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=134-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=137.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=15-3 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=187.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=188-2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=196-197 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=203-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=23.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=247-250 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=250-237-218 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=28.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=280-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=32-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=358-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=39-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=51.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=5-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=6/29/2012-159 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=63-5.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/12/09-424 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/23/10-285 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/30/12-172 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/08/08-271 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/13/08-414 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=144-65.5 lb-kg	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=1-5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=155-158 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=161-165 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=176-179 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=178.5-177.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=186.9-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=193-188 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=200-220 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=215-157 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=224-222 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=244-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=244-7 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=250-250 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=253-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=254-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=264-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=267.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=274-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=31.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=43.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=48.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=7-0.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=97.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=99-100 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/11/12-187 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/15/08-328 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/23/08-273 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10-15 lb^fuzzy=about	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/08/10-162 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/15/14-277 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=152-0.16 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=166.4-11/3/14 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=190.4-199.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=207-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=218.2-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=22-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=25.1-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=276.2-272.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=282-0.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=287.7-290.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=29.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=29-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=300-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=36.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=44.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/23/12-206 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/14/11-165 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/22/10-194 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/14/09-208 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/01/16-193 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/06/10-171 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/24/08-366 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/30/09-211 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=143-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=144-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=148.6-158 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=154-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=164-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=174-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=19-1.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=225.3-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=27.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=27-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=28-1.76 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=328-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=34.3-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=53-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=58-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=76.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=83-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/10/14-151 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/13/14-201 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/15/11-243 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=100-103 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/18/08-171 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=120.2-118.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=125-144 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=131-135 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=138.38-90 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=16-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=171.2-169.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=186-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=201-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=215.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=21-9 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=219-218 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=24-25 lb^fuzzy=>	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=248-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=268.9-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=280.6-276.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=287-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=297-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=311-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=53.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=62-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=83-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=93.5-94 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/21/12-193 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=100-150 lb^fuzzy=approximately	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=103-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=116-114 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=133-134 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=144-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=194-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=211.6-207.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=245-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=250-251 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=255-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=265-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=34.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=55-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=65.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=79-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=8-11.9 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/17/13-223 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/03/09-196 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/09/14-271 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/17/09-470 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/24/15-211 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/15/08-302 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/31/16-193 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/22/11-205 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/22/14-175 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/26/14-177 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/20/09-238 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/08/08-206 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=144.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=160-156 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=161-11.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=165-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=193-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=2/28/12-116 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=206-3.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=211-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=226-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=23-7 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=238-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=261-1.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=285-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=295-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=313-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=32-13 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=323-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=32-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=33-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=333-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=37-5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=38-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=61.2-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/01/11-223 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/30/09-244 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/24/14-250 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/27/16-282 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/08/09-177 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/09/14-255 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=1/18/17-227 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/01/15-182 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/30/09-224 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10-15 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=102-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=119-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=129-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=136-12/19 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=139-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=145-155 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=16-3 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=178-184 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=184-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=194-199 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=200-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=204.6-197.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=217-218 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=225-224 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=228-225 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=228-233 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=233-8.16 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=243.6-242.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=27-9.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=289.2-288.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=31-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=35-5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=4/6/13-259 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=51-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=72.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=79.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/19/10-227 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/20/17-161 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/22/12-210 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/30/14-299 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/06/09-155 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/14/08-315 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/15/09-197 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/17/14-170 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/02/09-240 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=112-115 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=112-120 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=121-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=15-10.08 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=160-145 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=192-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=19-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=199-204 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=202-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=213.4-208.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=219-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=229-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=245-222 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=255-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=402-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=41-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=418.4-422.9 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=47.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=9-10 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/31/11-162 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/04/12-190 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/08/09-143 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=1/23/12-206 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/16/09-247 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/19/09-179 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=103.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/19/08-274 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=129.6-131.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=180-183 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=192.6-195.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=214-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=223.5-220.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=240-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=248.8-241.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=250-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=25-7.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=260-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=270-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=47-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=57-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=60.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=64.9-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=70-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=76-9.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/01/12-238 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/02/15-172 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/10/12-210 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/30/09-370 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/09/08-349 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/28/11-236 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/15/16-242 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=134-122 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=140-141 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=147.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=148-155 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=178-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=184.8-184.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=187-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=197-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=200-193 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=201-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=234-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=35-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=37.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=45.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=6/22/16-172.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=82.3-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/03/12-345 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/06/15-182 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/17/14-342 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=120-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=122-119 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=135-137 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=170.8-170.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=180-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=196-200 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=211-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=213.2-223.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=2-3 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=243.6-240.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=246-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=256-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=266-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=276-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=52.2-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=62.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=72-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=8/18/14-188 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=9-11 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/20/15-201 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/09/14-191 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/26/10-133 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/05/07-369 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/21/10-133 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/15/08-294 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/26/11-276 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/06/09-270 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=14-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=147-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=157-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=167-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=177-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=18-11.1 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=187.5-197.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=198-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=204-209 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=208-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=21-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=216-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=238-240 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=260.6-254.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=30.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=30-35 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=46.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=58-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=59.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=88-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/22/10-285 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/20/09-189 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/24/09-314 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/21/14-259 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/10/08-223 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/02/09-194 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/10/11-215 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=115-125 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=181-1.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=198-200 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=209-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=21-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=212-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=214.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=222.4-224.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=222-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=223.2-222.1 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=223-209 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=232-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=25-5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=31.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=43.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/08/16-179 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/27/14-194 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/19/12-273 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/02/14-198 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/17/07-351 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=103-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=118-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=128-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=130-12/14/14 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=134-125 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=137-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=138-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=180-181 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=180-190 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=194-2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=208.6-212.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=252-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=32.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=33-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=344-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=384.3-358.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=47-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=5-14.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=8-2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=97-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/28/15-240 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/29/15-203 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/16/08-307 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=161-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=163.6-162.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=247-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=257-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=267-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=277-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=28-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=340-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=80.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=02/20/12-226 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/22/10-193 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/16/11-221 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/28/09-424 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/24/08-268 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/30/14-306 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/11/06-236 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=108-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/10/10-162 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=113-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/6/13-187 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=123-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=133-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=144-146 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=168.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=17-13.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=174.5-163.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=195.2-201.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=202-195 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=244-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=27-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=31.3-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=40.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=43.3-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=69.41-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/16/09-180 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/31/14-239 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/15/15-243 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/18/09-193 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/23/09-285 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/19/11-242 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/21/09-303 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=140-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=140-142 lb^fuzzy=about	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=150-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=160-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=160-165 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=163-167 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=168-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=170-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=175.2-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=187.8-187.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=197.5-194.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=212.2-214.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=308-316 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=33-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=37-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=45.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=50-80 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=91.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/28/16-223 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/07/08-228 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=110-122 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=129-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=13-13.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=152-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=157-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=164-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=167-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=174-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=196.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=198-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=231.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=251-268-252 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=256-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=27.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=281-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=294.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=30.3-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=328-337 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=38.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=396-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=55.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=60-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=7-9 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=0.3125-184 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/24/10-321 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/13/15-254 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/25/16-210 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/04/2014-198 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/21/11-250 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=149-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=156-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=159-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=168-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=169-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=171-176 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=179-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=186-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=19-15.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=200-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=20-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=205-4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=222.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=283-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=292-1 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=315-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=33.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=335-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=40-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=40-60 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=41.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=88-92 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=90-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/11/10-151 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/12/15-195 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/07/09-177 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/18/10-320 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=1/3/17-77 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/26-178.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10-60 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=106-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=115.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/17/09-292 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=126-130 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=13-7 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=153.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=160-168 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=176-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=184-177 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=19-12 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=193-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=200-300 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=205-204 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=208-205 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=21-1.92 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=214-223 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=220-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=228-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=238-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=275.5-268.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=320.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=36.3-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=57.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=74.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=83.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=97-11.2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/23/12-214 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/29/15-249 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=03/23/15-161 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=04/28/10-133 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/02/14-169 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/26/15-280 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=06/02/08-277 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/30/08-187 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/17/08-271 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/19/09-247 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=11/20/14-194 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/20/11-337 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/24/09-185 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=125-132 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=128-133 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=138.5-132.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=156-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=171.08-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=174.5-177.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=177-173 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=194-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=210-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=220-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=229-6.4 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=230-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=245-9.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=25.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=259.4-262.1 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=281-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=291-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=31.9-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=337-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=4/20-175.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=48.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=5/13/15-259 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=57.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=6-14 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=75-6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=0.0666667-211 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/07/08-302 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=05/23/11-253 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/24/14-194 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/30/09-191 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=08/22/12-250 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/06/14-210 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=105.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=114.4-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/13/16-105 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=120.2-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=123.1-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=147.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=156-163 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=159-156-156-157-154.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=161.8-160.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=164.2-174.6 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=165-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=195-12.8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=22-1 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=233.2-236.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=244.1-241.5 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=25-11 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=325-328 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=36-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=37.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=45.6-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=82-9 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=01/14/09-192 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=07/14/15-167 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=09/20/10-199 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/08/2010-292 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=10/14/08-283 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=105-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=12/03/09-239 status-lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=150-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=160-8 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=161-3/28/5-155 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=172-175 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=24-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=268-2 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=29.5-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=36.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=40.7-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=44.8-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=56-3.01 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31
+lb^value=70.1-0 lb	8739	JNJ_UNITS	pound (US)	8739	UCUM	2013-01-06	2099-12-31

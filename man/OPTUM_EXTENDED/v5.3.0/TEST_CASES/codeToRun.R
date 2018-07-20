@@ -1,11 +1,11 @@
 ### OPTUM EXTENDED DOD/SES TEST SCRIPT
-## For Optum Clinformatics DataMart v7.1 / OMOP CDM v5.2
+## For Optum Clinformatics DataMart v7.1 / OMOP CDM v5.3.1
 
 # Establish Extended Type and Connection strings
 #=============================
 
 detach("package:OptumExtendedSesDodTesting", unload = TRUE)
-source("D:/Users/ALondhe2/Desktop/setCredentials.R")
+source("/home/alondhe2/Desktop/setCredentials.R")
 
 ## IMPORTANT: Set Extended Type ("ses" for SES, "dod" for DOD)
 
@@ -14,15 +14,15 @@ Sys.setenv(extendedType = "dod")
 
 library(OptumExtendedSesDodTesting)
 
-nativeDatabaseSchema <- "native.cdm_testing_optumdod" # specify your native schema
-cdmDatabaseSchema <- "testing.cdm_testing_optumdod" # specify your cdm schema
+nativeDatabaseSchema <- sprintf("native.cdm_testing_optum%s", Sys.getenv("extendedType")) # specify your native schema
+cdmDatabaseSchema <- sprintf("testing.cdm_testing_optum%s", Sys.getenv("extendedType")) # specify your cdm schema
 
 ## Set Environment variables before running
-user <- Sys.getenv("cdmUser")
-password <- Sys.getenv("cdmPassword")
-server <- Sys.getenv("cdmServer")
-port <- Sys.getenv("cdmServerPort")
-dbms <- Sys.getenv("cdmDbms")
+user <- Sys.getenv("testingUser")
+password <- Sys.getenv("testingPassword")
+server <- Sys.getenv("testingServer")
+port <- Sys.getenv("testingServerPort")
+dbms <- Sys.getenv("testingDbms")
 
 ## Modify connection details as needed
 connectionDetails <- DatabaseConnector::createConnectionDetails(dbms = dbms, server = server,

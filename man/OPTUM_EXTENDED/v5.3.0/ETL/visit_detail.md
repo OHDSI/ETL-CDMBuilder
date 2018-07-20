@@ -30,6 +30,6 @@ ADMITTING_SOURCE_VALUE| | 0 |
 ADMITTING_SOURCE_CONCEPT_ID| | NULL |
 DISCHARGE_TO_CONCEPT_ID|**MEDICAL_CLAIMS**<br/>DSTATUS|Use [Source to Standard Terminology](code_snippets.md#source-to-standard-terminology) and filter with [Discharge Status Logic](code_snippets.md#discharge-status-logic) |
 DISCHARGE_TO_SOURCE_VALUE|**MEDICAL_CLAIMS**<br/>DSTATUS| |
-PRECEDING_VISIT_OCCURRENCE_ID| | NULL |
+PRECEDING_VISIT_DETAIL_ID| | NULL |
 VISIT_DETAIL_PARENT_ID| | NULL |
 VISIT_OCCURRENCE_ID|**VISIT_OCCURRENCE**<br/>VISIT_OCCURRENCE_ID | This is the VISIT_OCCURRENCE_ID for the VISIT_OCCURRENCE record that is the parent for the VISIT_DETAIL record |

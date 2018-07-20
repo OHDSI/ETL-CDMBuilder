@@ -120,6 +120,9 @@ createVisitOccurrenceTests <- function() {
   firstOccurrenceId <- lookup_visit_occurrence(fetchField = "visit_occurrence_id", 
                                                person_id = patient$person_id, visit_start_date = '2013-07-01')
   
+  # firstDetailId <- lookup_visit_occurrence(fetchField = "visit_detail_id", 
+  #                                              person_id = patient$person_id, visit_detail_start_date = '2013-07-01')
+  
   claim <- createClaim()
   add_medical_claims(clmid = claim$clmid, clmseq = '001', lst_dt = '2013-10-01',
                      pat_planid = patient$patid, patid = patient$patid, 
@@ -129,6 +132,6 @@ createVisitOccurrenceTests <- function() {
   
   expect_visit_occurrence(person_id = patient$person_id,
                           preceding_visit_occurrence_id = firstOccurrenceId)
-  expect_visit_detail(person_id = patient$person_id,
-                      preceding_visit_detail_id = firstOccurrenceId)
+  # expect_visit_detail(person_id = patient$person_id,
+  #                     preceding_visit_detail_id = firstDetailId)
 }

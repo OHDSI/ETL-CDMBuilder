@@ -21,4 +21,61 @@ Only 56 of the domain changes seem to impact our largest claims database, here a
 	2617457		HCPCS		Observation	Procedure	0.037		Lev 4 hosp type b ed visit
 
 --New Maps
+--3,764 codes received new mapping or mapping was deprecated.  Here are the top 10 concepts by use that changed (which all are going from no map to receiving a map):
 
+	SOURCE_CODE	SOURCE_VOCABULARY_ID	SOURCE_CONCEPT_NAME																						NEW_TARGET_CONCEPT_ID	CURRENT_CONCEPT_ID	ROW_COUNT	PERSON_COUNT
+	90669		CPT4					Pneumococcal conjugate vaccine, 7 valent, for intramuscular use											40213199				0					5714978		2437746
+	90645		CPT4					Hemophilus influenza b vaccine (Hib), HbOC conjugate (4 dose schedule), for intramuscular use			40213312				0					1905054		976670
+	J0131		HCPCS					Injection, acetaminophen, 10 mg																			36890566				0					594722		525733
+	90703		CPT4					Tetanus toxoid adsorbed, for intramuscular use															529411					0					404746		397397
+	E78.00		ICD10CM					Pure hypercholesterolemia, unspecified																	437827					0					528265		361493
+	J1580		HCPCS					Injection, garamycin, gentamicin, up to 80 mg															1594391					0					527536		357806
+	G9141		HCPCS					Influenza a (h1n1) immunization administration (includes the physician counseling the patient/family)	40213158				0					370311		332822
+	C9113		HCPCS					Injection, pantoprazole sodium, per vial																35604331				0					346871		267362
+	J2469		HCPCS					Injection, palonosetron hcl, 25 mcg																		35604687				0					1885041		252416
+	J7307		HCPCS					Etonogestrel (contraceptive) implant system, including implant and supplies								40041368				0					218035		204647
+	29321120	NDC						Paroxetine 20 MG Oral Tablet [Paxil]																	19035312				0					1070002		195196
+
+*******************************************************************************
+* HCUP
+*******************************************************************************
+1) HIX-1586
+CDM V5.3.0 ready, no logic changes necessary.
+
+*******************************************************************************
+* JMDC
+*******************************************************************************
+
+*******************************************************************************
+* CPRD
+*******************************************************************************
+
+*******************************************************************************
+* PREMIER
+*******************************************************************************
+
+*******************************************************************************
+* Optum Panther
+*******************************************************************************
+
+*******************************************************************************
+* Optum DOD/SES
+*******************************************************************************
+
+*******************************************************************************
+* Truven CCAE / MDCR
+*******************************************************************************
+1) HIX-1573 & HIX-1537
+Get Truven CCAE/MDCR on 5.3.1
+
+
+*******************************************************************************
+* Truven MDCD
+*******************************************************************************
+
+*******************************************************************************
+* IM Australia LPD
+*******************************************************************************
+
+1) HIX-1578
+Reissue of data cut by vendor, data spans the same years as prior.

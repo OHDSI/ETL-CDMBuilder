@@ -4,15 +4,16 @@ createMeasurementTests <- function()
   # 1) /*Patient has famnum*/
   declareTest('Patient has famnum',source_pid = patient$patid, cdm_pid = patient$person_id)
   add_patient(patid = patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01',
-              pracid = patient$pracid, famnum = 1764)
-  expect_measurement(person_id = patient$person_id, measurement_date='2010-01-01', measurement_type_concept_id=44818704,
+              pracid = patient$pracid, famnum = 1764, marital = NULL)
+  expect_measurement(person_id = patient$person_id, measurement_date='2010-01-01',
+                     measurement_type_concept_id=44818704,
                      measurement_source_value='1764', measurement_concept_id=44786681)
 
   # 2) /*Patient has NULL famnum*/
   patient <- createPatient();
-  declareTest('Patient has famnum',source_pid = patient$patid, cdm_pid = patient$person_id)
+  declareTest('Patient has NULL famnum',source_pid = patient$patid, cdm_pid = patient$person_id)
   add_patient(patid = patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01',
-              pracid = patient$pracid, famnum = NULL)
+              pracid = patient$pracid, famnum = NULL, marital = NULL)
   expect_no_measurement(person_id = patient$person_id)
 
 
@@ -20,7 +21,7 @@ createMeasurementTests <- function()
   patient <- createPatient();
   declareTest('Patient has NULL marital',source_pid = patient$patid, cdm_pid = patient$person_id)
   add_patient(patid = patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01',
-              pracid = patient$pracid, marital = NULL)
+              pracid = patient$pracid, marital = NULL, famnum = NULL)
   expect_no_measurement(person_id = patient$person_id)
 
   # 4) /*Patient has marital=2*/
@@ -90,7 +91,7 @@ createMeasurementTests <- function()
   declareTest('Now test gold observation outside patient observation to exclude',
               source_pid = patient$patid, cdm_pid = patient$person_id)
   add_patient(patid = patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01',
-              pracid = patient$pracid)
+              pracid = patient$pracid, famnum = NULL, marital = NULL)
   add_clinical(patid = patient$patid, eventdate = '2009-01-01', medcode = 445, staffid = 1001)
   add_consultation(patid = patient$patid, eventdate = '2009-01-01', staffid = 9001)
   #add_hes_hospital(patid = patient$patid, spno = 5, admidate = '2009-01-01')
@@ -311,7 +312,7 @@ createMeasurementTests <- function()
   patient <- createPatient();
   declareTest('test observation record enttype=284',source_pid = patient$patid, cdm_pid = patient$person_id)
   add_patient(patid = patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01',
-              pracid = patient$pracid)
+              pracid = patient$pracid, marital = NULL, famnum = NULL)
   add_test(patid = patient$patid, eventdate = '2012-01-01', medcode = 98196, staffid = 1001, enttype = 284,
            data1 = 3, data2 = 14.000, data3 = 61.000, data4 = 0, data5 = NULL, data6 = NULL, data7 = 0,
            data8_value = NULL, data8_date = '1998-12-17')
@@ -343,7 +344,7 @@ createMeasurementTests <- function()
   patient <- createPatient();
   declareTest('test observation record enttype=311',source_pid = patient$patid, cdm_pid = patient$person_id)
   add_patient(patid = patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01',
-              pracid = patient$pracid)
+              pracid = patient$pracid, marital = NULL, famnum = NULL)
   add_test(patid = patient$patid, eventdate = '2012-01-01', medcode = 98196, staffid = 1001, enttype = 311,
            data1 = 3, data2 = 120.00, data3 = 71.00, data4 = 0.00, data5 = NULL, data6 = NULL, data7 = 1,
            data8_value = NULL, data8_date = NULL)
@@ -373,7 +374,7 @@ createMeasurementTests <- function()
   patient <- createPatient();
   declareTest('test observation record enttype=154',source_pid = patient$patid, cdm_pid = patient$person_id)
   add_patient(patid = patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01',
-              pracid = patient$pracid)
+              pracid = patient$pracid, marital = NULL, famnum = NULL)
   add_test(patid = patient$patid, eventdate = '2012-01-01', medcode = 98196, staffid = 1001, enttype = 154,
            data1 = 3, data2 = 1.0, data3 = 0.00, data4 = 0.00, data5 = NULL, data6 = NULL, #data7 = 24,
            data8_value = 24, data8_date = NULL)

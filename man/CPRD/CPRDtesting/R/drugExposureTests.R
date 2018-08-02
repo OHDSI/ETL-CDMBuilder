@@ -1,15 +1,30 @@
 createDrugExposureTests <- function()
 {
   add_product(prodcode = 2, gemscriptcode = '58976020')
+  add_product(prodcode = 20, gemscriptcode = '64675020')
   add_product(prodcode = 9999, gemscriptcode = '89535020')
   add_product(prodcode = 46190, gemscriptcode = '99978020')
+
+
+  # add dummy people to make imputation for te combiantion 29
+  add_practice(pracid = 876, region=5, uts='2010-01-01', lcd= '2013-01-01')
+  for(i in 1:10){
+  add_patient(patid = i*1000+876, gender = 1, yob = 199, mob = 1, accept = 1,
+              crd = '2010-01-01', pracid= 867)
+  add_therapy(patid =  i*1000+876, eventdate = '2012-01-01', prodcode = 2,
+              dosageid=1, qty = 1, numpacks = 0,
+              issueseq = 1, numdays = 29, staffid = 9001)
+  }
+
 
   # 1) 9100
   patient <- createPatient();
   declareTest('testing the lookup for numdays does correct end date start+28 days',source_pid = patient$patid, cdm_pid = patient$person_id)
-  add_daysupply_decodes(prodcode = 2, ndd = 2, qty = 1, numpacks = 0, numdays = 29)
+  #add_daysupply_decodes(prodcode = 2, daily_dose = 2, qty = 1, numpacks = 0, numdays = 29)
+  add_commondosages(dosageid= 1,daily_dose = 2)
   add_patient(patid = patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01', pracid= patient$pracid)
-  add_therapy(patid =  patient$patid, eventdate = '2012-01-01', prodcode = 2, ndd=2, qty = 1, numpacks = 0,
+  add_therapy(patid =  patient$patid, eventdate = '2012-01-01', prodcode = 2,
+              dosageid=1, qty = 1, numpacks = 0,
               issueseq = 1, numdays = 0, staffid = 9001)
   add_consultation(patid =  patient$patid, eventdate = '2012-01-01', staffid = 9001)
   expect_drug_exposure(person_id =  patient$person_id,drug_concept_id = 19073982,
@@ -22,10 +37,12 @@ createDrugExposureTests <- function()
   patient <- createPatient();
   declareTest('testing when there is no lookup available default to start dte',source_pid = patient$patid, cdm_pid = patient$person_id)
   add_patient(patid =  patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01', pracid= patient$pracid)
-  add_therapy(patid =  patient$patid, eventdate = '2012-01-01', prodcode = 2, ndd=81, qty = 1, numpacks = 0,
-              issueseq = 1, numdays = 0, staffid = 9001)
+  add_therapy(patid =  patient$patid, eventdate = '2012-01-01', prodcode = 20,
+              dosageid=2,
+              qty = 10, numpacks = 0, issueseq = 1, numdays = 0, staffid = 9001)
+  add_commondosages(dosageid= 2,daily_dose = 81)
   add_consultation(patid =  patient$patid, eventdate = '2012-01-01', staffid = 9001)
-  expect_drug_exposure(person_id = patient$person_id,drug_concept_id = 19073982, drug_source_value = 58976020, quantity = 1, refills = 1,
+  expect_drug_exposure(person_id = patient$person_id,drug_concept_id = 19083554, drug_source_value =64675020, quantity = 10, refills = 1,
                        drug_exposure_end_date = '2012-1-1', sig = '81.000')
   expect_count_drug_exposure(person_id = patient$person_id, rowCount = 1)
 
@@ -35,7 +52,9 @@ createDrugExposureTests <- function()
   declareTest('The drug records comes in without a valid days supply, no lookup in DAYSSUPPLY_DECODES, no lookups in DAYSSUPPLY_MODES, assume 1 day duration.',
               source_pid = patient$patid, cdm_pid = patient$person_id)
   add_patient(patid =  patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01', pracid=patient$pracid)
-  add_therapy(patid =  patient$patid, eventdate = '2012-01-01', prodcode = 9999, ndd=81, qty = 1, numpacks = 0,
+  add_therapy(patid =  patient$patid, eventdate = '2012-01-01', prodcode = 9999,
+              dosageid=2,
+              qty = 1, numpacks = 0,
               issueseq = 1, numdays = 0, staffid = 9001)
   add_consultation(patid =  patient$patid, eventdate = '2012-01-01', staffid = 9001)
   expect_drug_exposure(person_id = patient$person_id,drug_source_value = 89535020, quantity = 1, refills = 1,
@@ -47,8 +66,8 @@ createDrugExposureTests <- function()
   patient <- createPatient();
   declareTest('testing end date: You have a THERAPY.NUMDAYS = 40.',source_pid = patient$patid, cdm_pid = patient$person_id)
   add_patient(patid = patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01', pracid=patient$pracid)
-  add_therapy(patid = patient$patid, eventdate = '2012-01-01', prodcode = 2, ndd=2, qty = 1, numpacks = 0,
-              issueseq = 1, numdays = 40, staffid = 9001)
+  add_therapy(patid = patient$patid, eventdate = '2012-01-01', prodcode = 2,qty = 1, numpacks = 0,
+              issueseq = 1, numdays = 40, staffid = 9001,dosageid=1)
   add_consultation(patid = patient$patid, eventdate = '2012-01-01', staffid = 9001)
   expect_drug_exposure(person_id = patient$person_id,drug_concept_id = 19073982, drug_source_value  = 58976020, quantity = 1, refills = 1,
                        drug_exposure_end_date = '2012-2-9', sig = '2.000')
@@ -61,8 +80,8 @@ createDrugExposureTests <- function()
               source_pid = patient$patid, cdm_pid = patient$person_id)
   #add_daysupply_decodes(prodcode = 2, ndd = 2, qty = 1, numpacks = 0, numdays = 29)
   add_patient(patid = patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01', pracid=patient$pracid)
-  add_therapy(patid = patient$patid, eventdate = '2012-01-01', prodcode = 2, ndd=2, qty = 1, numpacks = 0,
-              issueseq = 1, numdays = 366, staffid = 9001)
+  add_therapy(patid = patient$patid, eventdate = '2012-01-01', prodcode = 2, qty = 1, numpacks = 0,
+              issueseq = 1, numdays = 366, staffid = 9001,dosageid=1)
   add_consultation(patid = patient$patid, eventdate = '2012-01-01', staffid = 9001)
   expect_drug_exposure(person_id = patient$person_id,drug_concept_id = 19073982, drug_source_value  = 58976020, quantity = 1, refills = 1,
                        drug_exposure_end_date = '2012-1-29', sig = '2.000')
@@ -74,8 +93,8 @@ createDrugExposureTests <- function()
   declareTest('Test visit_occurrence_id: Drug is written to DRUG_EXPOSURE and the VISIT_OCCURRENCE_ID = patient$patid * 10000000000 + (2012*10000) +  (3* 100) + 12 = 91050020120312 ',
               source_pid = patient$patid, cdm_pid = patient$person_id)
   add_patient(patid = patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01', pracid=patient$pracid)
-  add_therapy(patid = patient$patid, eventdate = '2012-03-12', prodcode = 2, ndd=2, qty = 1, numpacks = 0,
-              issueseq = 1, numdays = 366, staffid = 9001)
+  add_therapy(patid = patient$patid, eventdate = '2012-03-12', prodcode = 2,  qty = 1, numpacks = 0,
+              issueseq = 1, numdays = 366, staffid = 9001,dosageid=1)
   add_consultation(patid = patient$patid, eventdate = '2012-03-12', staffid = 9001)
   expect_drug_exposure(person_id = patient$person_id, visit_occurrence_id = (as.integer(patient$patid)*100000000 + (2012*10000) +  (3* 100) + 12), drug_exposure_start_date = '2012-03-12',
                        drug_concept_id = 19073982, drug_source_value  = 58976020, quantity = 1, refills = 1,
@@ -87,8 +106,8 @@ createDrugExposureTests <- function()
   patient <- createPatient();
   declareTest('Drug date exists in an invalid visit_occurrence (outside practice dates)',source_pid = patient$patid, cdm_pid = patient$person_id)
   add_patient(patid = patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01', pracid=patient$pracid)
-  add_therapy(patid = patient$patid, eventdate = '2016-01-01', prodcode = 2, ndd=2, qty = 1, numpacks = 0,
-              issueseq = 1, numdays = 366, staffid = 9001)
+  add_therapy(patid = patient$patid, eventdate = '2016-01-01', prodcode = 2, qty = 1, numpacks = 0,
+              issueseq = 1, numdays = 366, staffid = 9001,dosageid=1)
   add_consultation(patid = patient$patid, eventdate = '2016-01-01', staffid = 9001)
   expect_no_drug_exposure(person_id = patient$person_id)
 
@@ -98,7 +117,7 @@ createDrugExposureTests <- function()
   declareTest('Drug date does exist within a valid observation period but does not have a consultation date.',
               source_pid = patient$patid, cdm_pid = patient$person_id)
   add_patient(patid = patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01', pracid=patient$pracid)
-  add_therapy(patid = patient$patid, eventdate = '2012-01-01', prodcode = 2, ndd=2, qty = 1, numpacks = 0,
+  add_therapy(patid = patient$patid, eventdate = '2012-01-01', prodcode = 2,dosageid=1, qty = 1, numpacks = 0,
               issueseq = 1, numdays = 366, staffid = 9001)
   expect_drug_exposure(person_id = patient$person_id, visit_occurrence_id = NULL, drug_exposure_start_date = '2012-01-01',
                        drug_concept_id = 19073982, drug_source_value  = 58976020, quantity = 1, refills = 1,
@@ -109,7 +128,7 @@ createDrugExposureTests <- function()
   patient <- createPatient();
   declareTest('PRODCODE = -1 - invalid.',source_pid = patient$patid, cdm_pid = patient$person_id)
   add_patient(patid = patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01', pracid=patient$pracid)
-  add_therapy(patid = patient$patid, eventdate = '2012-01-01', prodcode = -1, ndd=2, qty = 1, numpacks = 0,
+  add_therapy(patid = patient$patid, eventdate = '2012-01-01', prodcode = -1,dosageid=1, qty = 1, numpacks = 0,
               issueseq = 1, numdays = 366, staffid = 9001)
   add_consultation(patid = patient$patid, eventdate = '2012-01-01', staffid = 9001)
   expect_no_drug_exposure(person_id = patient$person_id)
@@ -118,7 +137,7 @@ createDrugExposureTests <- function()
   patient <- createPatient();
   declareTest('You have a valid PRODCODE but doesnt get an VOCAB mapping.PRODCODE = 46190.',source_pid = patient$patid, cdm_pid = patient$person_id)
   add_patient(patid = patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01', pracid=patient$pracid)
-  add_therapy(patid = patient$patid, eventdate = '2012-01-01', prodcode = 46190, ndd=2, qty = 1, numpacks = 0,
+  add_therapy(patid = patient$patid, eventdate = '2012-01-01', prodcode = 46190,dosageid=1, qty = 1, numpacks = 0,
               issueseq = 1, numdays = 366, staffid = 9001)
   add_consultation(patid = patient$patid, eventdate = '2012-01-01', staffid = 9001)
   expect_drug_exposure(person_id = patient$person_id, drug_concept_id = 0, drug_source_value =  99978020,
@@ -276,6 +295,20 @@ createDrugExposureTests <- function()
   expect_count_drug_exposure(person_id = patient$person_id, rowCount = 1)
 
   # device or drug??
+
+
+  # test to omop vocab mapping:
+  # 45741031 (gemscript) -> 19102476
+  # 735979  (JNJ_CPRD_GS_RXN) doesnt go anywhere
+  add_product(prodcode = 45466653434, gemscriptcode = '88875020')#45741031')
+  patient <- createPatient();
+  declareTest('Vocab uses gemscript preference',source_pid = patient$patid, cdm_pid = patient$person_id)
+  add_patient(patid = patient$patid, gender = 1, yob = 199, mob = 1, accept = 1, crd = '2010-01-01', pracid=patient$pracid)
+  add_therapy(patid =  patient$patid, eventdate = '2012-01-01', prodcode = 45466653434, dosageid=1, qty = 1, numpacks = 0,
+              issueseq = 1, numdays = 0, staffid = 9001)
+  expect_drug_exposure(person_id =  patient$person_id,drug_concept_id = 19102476,
+                       drug_source_concept_id = 45741031)
+  expect_count_drug_exposure(person_id = patient$person_id, rowCount = 1)
 
 
 

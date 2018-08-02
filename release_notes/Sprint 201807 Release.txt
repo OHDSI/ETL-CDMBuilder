@@ -66,16 +66,16 @@ CDM V5.3.0 ready, no logic changes necessary.
 * Truven CCAE / MDCR
 *******************************************************************************
 1) HIX-1573 & HIX-1537
-Get Truven CCAE/MDCR on 5.3.1
-
+Get Truven CCAE/MDCR on 5.3.1, the updated document can be found here.
+https://github.com/OHDSI/ETL-CDMBuilder/blob/master/man/TRUVEN_CCAE_MDCR_MDCD/Truven_CCAE_and_MDCR_ETL_CDM_V5.3.1.doc
 
 *******************************************************************************
 * Truven MDCD
 *******************************************************************************
 
+
 *******************************************************************************
 * IM Australia LPD
 *******************************************************************************
-
 1) HIX-1578
 Reissue of data cut by vendor, data spans the same years as prior.

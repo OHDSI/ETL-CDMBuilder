@@ -1,0 +1,1 @@
+All test cases for MDCD sit with the Truven CCAE/MDCR test cases.  

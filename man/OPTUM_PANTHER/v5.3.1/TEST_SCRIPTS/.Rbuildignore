@@ -1,0 +1,5 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+.RData
+.Rhistory
+errorReport.txt

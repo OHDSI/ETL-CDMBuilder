@@ -77,26 +77,26 @@ initFramework <- function() {
   defaults$date_of_health_checkup <- '2013-04-01'
   defaults$diastolic_bp <- '70'
   defaults$urinary_sugar <- '1'
-  defaults$uric_protein <- '1'
+  defaults$uric_protein_qualitative <- '1'
   defaults$presence_of_medical_history <- '2'
   defaults$presence_of_subjective_symptoms <- '2'
   defaults$presence_of_objective_symptoms <- '2'
   defaults$smoking_habit <- '2'
-  defaults$eating_habit_1 <- '2'
-  defaults$eating_habit_2 <- '2'
-  defaults$eating_habit_3 <- '2'
-  defaults$eating_habit_4 <- '2'
+  defaults$eating1_fast_eating <- '2'
+  defaults$eating2_before_bedtime <- '2'
+  defaults$eating3_late_evening_snack <- '2'
+  defaults$eating_habit <- '2'
   defaults$drinking_habit <- '3'
-  defaults$sleeping <- '1'
-  defaults$drug_1 <- '2'
-  defaults$drug_2 <- '2'
-  defaults$drug_3 <- '2'
-  defaults$medical_history_1 <- '2'
-  defaults$medical_history_2 <- '2'
-  defaults$medical_history_3 <- '2'
+  defaults$sleep <- '1'
+  defaults$Drug1_Hypertention <- '2'
+  defaults$Drug2_Diabetes <- '2'
+  defaults$Drug3_Hyperlipidemia <- '2'
+  defaults$Medical_history1_Cerebrovascular <- '2'
+  defaults$Medical_history2_Cardiovascular <- '2'
+  defaults$Medical_history3_Renal <- '2'
   defaults$anemia <- '2'
-  defaults$change_of_weight_after_20_year_old <- '2'
-  defaults$exercise_habit <- '2'
+  defaults$Change_of_weight_from_age_of_twenty <- '2'
+  defaults$exercise_hibit <- '2'
   defaults$physical_activity <- '2'
   defaults$walking_speed <- '2'
   defaults$change_of_weight_in_a_year <- '2'
@@ -404,7 +404,7 @@ set_defaults_procedure_master <- function(standardized_procedure_id, standardize
   invisible(defaults)
 }
 
-set_defaults_annual_health_checkup <- function(health_checkup_id, member_id, date_of_health_checkup, bmi, abdominal_circumference, systolic_bp, diastolic_bp, neutral_fat, hdl_cholesterol, ldl_cholesterol, got, gpt, g_gt, fasting_blood_sugar, casual_blood_sugar, hba1c, urinary_sugar, uric_protein, hct, hemoglobin_content, rbc_count, serum_creatinine, serum_uric_acid, total_cholesterol, ecg, presence_of_medical_history, time_of_blood_collection, presence_of_subjective_symptoms, presence_of_objective_symptoms, fundus_examination_k_w_classification, fundus_examination_scheie_classification_h, fundus_examination_scheie_classification_s, fundus_examination_scott_classification, smoking_habit, eating_habit_1, eating_habit_2, eating_habit_3, eating_habit_4, drinking_habit, amount_of_drinking, sleeping, drug_1, drug_2, drug_3, medical_history_1, medical_history_2, medical_history_3, anemia, change_of_weight_after_20_year_old, exercise_habit, physical_activity, walking_speed, change_of_weight_in_a_year, lifestyle_modification, request_for_health_guidance) {
+set_defaults_annual_health_checkup <- function(health_checkup_id, member_id, date_of_health_checkup, bmi, abdominal_circumference, systolic_bp, diastolic_bp, triglyceride, hdl_cholesterol, ldl_cholesterol, ast, alt, g_gt, fasting_blood_sugar, casual_blood_sugar, hba1c, urinary_sugar, uric_protein_qualitative, hct, hemoglobin_content, rbc_count, serum_creatinine, serum_uric_acid, total_cholesterol, ecg, presence_of_medical_history, time_of_blood_collection, presence_of_subjective_symptoms, presence_of_objective_symptoms, Fundus_examination_Keith_Wagener_classification, fundus_examination_scheie_classification_h, fundus_examination_scheie_classification_s, fundus_examination_scott_classification, smoking_habit, eating1_fast_eating, eating2_before_bedtime, eating3_late_evening_snack, eating_habit, drinking_habit, amount_drinking, sleep, Drug1_Hypertention, Drug2_Diabetes, Drug3_Hyperlipidemia, Medical_history1_Cerebrovascular, Medical_history2_Cardiovascular, Medical_history3_Renal, anemia, Change_of_weight_from_age_of_twenty, exercise_hibit, physical_activity, walking_speed, change_of_weight_in_a_year, lifestyle_modification, request_for_health_guidance) {
   defaults <- get('annual_health_checkup', envir = frameworkContext$defaultValues)
   if (!missing(health_checkup_id)) {
     defaults$health_checkup_id <- health_checkup_id
@@ -427,8 +427,8 @@ set_defaults_annual_health_checkup <- function(health_checkup_id, member_id, dat
   if (!missing(diastolic_bp)) {
     defaults$diastolic_bp <- diastolic_bp
   }
-  if (!missing(neutral_fat)) {
-    defaults$neutral_fat <- neutral_fat
+  if (!missing(triglyceride)) {
+    defaults$triglyceride <- triglyceride
   }
   if (!missing(hdl_cholesterol)) {
     defaults$hdl_cholesterol <- hdl_cholesterol
@@ -436,11 +436,11 @@ set_defaults_annual_health_checkup <- function(health_checkup_id, member_id, dat
   if (!missing(ldl_cholesterol)) {
     defaults$ldl_cholesterol <- ldl_cholesterol
   }
-  if (!missing(got)) {
-    defaults$got <- got
+  if (!missing(ast)) {
+    defaults$ast <- ast
   }
-  if (!missing(gpt)) {
-    defaults$gpt <- gpt
+  if (!missing(alt)) {
+    defaults$alt <- alt
   }
   if (!missing(g_gt)) {
     defaults$g_gt <- g_gt
@@ -457,8 +457,8 @@ set_defaults_annual_health_checkup <- function(health_checkup_id, member_id, dat
   if (!missing(urinary_sugar)) {
     defaults$urinary_sugar <- urinary_sugar
   }
-  if (!missing(uric_protein)) {
-    defaults$uric_protein <- uric_protein
+  if (!missing(uric_protein_qualitative)) {
+    defaults$uric_protein_qualitative <- uric_protein_qualitative
   }
   if (!missing(hct)) {
     defaults$hct <- hct
@@ -493,8 +493,8 @@ set_defaults_annual_health_checkup <- function(health_checkup_id, member_id, dat
   if (!missing(presence_of_objective_symptoms)) {
     defaults$presence_of_objective_symptoms <- presence_of_objective_symptoms
   }
-  if (!missing(fundus_examination_k_w_classification)) {
-    defaults$fundus_examination_k_w_classification <- fundus_examination_k_w_classification
+  if (!missing(Fundus_examination_Keith_Wagener_classification)) {
+    defaults$Fundus_examination_Keith_Wagener_classification <- Fundus_examination_Keith_Wagener_classification
   }
   if (!missing(fundus_examination_scheie_classification_h)) {
     defaults$fundus_examination_scheie_classification_h <- fundus_examination_scheie_classification_h
@@ -508,53 +508,53 @@ set_defaults_annual_health_checkup <- function(health_checkup_id, member_id, dat
   if (!missing(smoking_habit)) {
     defaults$smoking_habit <- smoking_habit
   }
-  if (!missing(eating_habit_1)) {
-    defaults$eating_habit_1 <- eating_habit_1
+  if (!missing(eating1_fast_eating)) {
+    defaults$eating1_fast_eating <- eating1_fast_eating
   }
-  if (!missing(eating_habit_2)) {
-    defaults$eating_habit_2 <- eating_habit_2
+  if (!missing(eating2_before_bedtime)) {
+    defaults$eating2_before_bedtime <- eating2_before_bedtime
   }
-  if (!missing(eating_habit_3)) {
-    defaults$eating_habit_3 <- eating_habit_3
+  if (!missing(eating3_late_evening_snack)) {
+    defaults$eating3_late_evening_snack <- eating3_late_evening_snack
   }
-  if (!missing(eating_habit_4)) {
-    defaults$eating_habit_4 <- eating_habit_4
+  if (!missing(eating_habit)) {
+    defaults$eating_habit <- eating_habit
   }
   if (!missing(drinking_habit)) {
     defaults$drinking_habit <- drinking_habit
   }
-  if (!missing(amount_of_drinking)) {
-    defaults$amount_of_drinking <- amount_of_drinking
+  if (!missing(amount_drinking)) {
+    defaults$amount_drinking <- amount_drinking
   }
-  if (!missing(sleeping)) {
-    defaults$sleeping <- sleeping
+  if (!missing(sleep)) {
+    defaults$sleep <- sleep
   }
-  if (!missing(drug_1)) {
-    defaults$drug_1 <- drug_1
+  if (!missing(Drug1_Hypertention)) {
+    defaults$Drug1_Hypertention <- Drug1_Hypertention
   }
-  if (!missing(drug_2)) {
-    defaults$drug_2 <- drug_2
+  if (!missing(Drug2_Diabetes)) {
+    defaults$Drug2_Diabetes <- Drug2_Diabetes
   }
-  if (!missing(drug_3)) {
-    defaults$drug_3 <- drug_3
+  if (!missing(Drug3_Hyperlipidemia)) {
+    defaults$Drug3_Hyperlipidemia <- Drug3_Hyperlipidemia
   }
-  if (!missing(medical_history_1)) {
-    defaults$medical_history_1 <- medical_history_1
+  if (!missing(Medical_history1_Cerebrovascular)) {
+    defaults$Medical_history1_Cerebrovascular <- Medical_history1_Cerebrovascular
   }
-  if (!missing(medical_history_2)) {
-    defaults$medical_history_2 <- medical_history_2
+  if (!missing(Medical_history2_Cardiovascular)) {
+    defaults$Medical_history2_Cardiovascular <- Medical_history2_Cardiovascular
   }
-  if (!missing(medical_history_3)) {
-    defaults$medical_history_3 <- medical_history_3
+  if (!missing(Medical_history3_Renal)) {
+    defaults$Medical_history3_Renal <- Medical_history3_Renal
   }
   if (!missing(anemia)) {
     defaults$anemia <- anemia
   }
-  if (!missing(change_of_weight_after_20_year_old)) {
-    defaults$change_of_weight_after_20_year_old <- change_of_weight_after_20_year_old
+  if (!missing(Change_of_weight_from_age_of_twenty)) {
+    defaults$Change_of_weight_from_age_of_twenty <- Change_of_weight_from_age_of_twenty
   }
-  if (!missing(exercise_habit)) {
-    defaults$exercise_habit <- exercise_habit
+  if (!missing(exercise_hibit)) {
+    defaults$exercise_hibit <- exercise_hibit
   }
   if (!missing(physical_activity)) {
     defaults$physical_activity <- physical_activity
@@ -1464,7 +1464,7 @@ add_procedure_master <- function(standardized_procedure_id, standardized_procedu
   invisible(NULL)
 }
 
-add_annual_health_checkup <- function(health_checkup_id, member_id, date_of_health_checkup, bmi, abdominal_circumference, systolic_bp, diastolic_bp, neutral_fat, hdl_cholesterol, ldl_cholesterol, got, gpt, g_gt, fasting_blood_sugar, casual_blood_sugar, hba1c, urinary_sugar, uric_protein, hct, hemoglobin_content, rbc_count, serum_creatinine, serum_uric_acid, total_cholesterol, ecg, presence_of_medical_history, time_of_blood_collection, presence_of_subjective_symptoms, presence_of_objective_symptoms, fundus_examination_k_w_classification, fundus_examination_scheie_classification_h, fundus_examination_scheie_classification_s, fundus_examination_scott_classification, smoking_habit, eating_habit_1, eating_habit_2, eating_habit_3, eating_habit_4, drinking_habit, amount_of_drinking, sleeping, drug_1, drug_2, drug_3, medical_history_1, medical_history_2, medical_history_3, anemia, change_of_weight_after_20_year_old, exercise_habit, physical_activity, walking_speed, change_of_weight_in_a_year, lifestyle_modification, request_for_health_guidance) {
+add_annual_health_checkup <- function(health_checkup_id, member_id, date_of_health_checkup, bmi, abdominal_circumference, systolic_bp, diastolic_bp, triglyceride, hdl_cholesterol, ldl_cholesterol, ast, alt, g_gt, fasting_blood_sugar, casual_blood_sugar, hba1c, urinary_sugar, uric_protein_qualitative, hct, hemoglobin_content, rbc_count, serum_creatinine, serum_uric_acid, total_cholesterol, ecg, presence_of_medical_history, time_of_blood_collection, presence_of_subjective_symptoms, presence_of_objective_symptoms, Fundus_examination_Keith_Wagener_classification, fundus_examination_scheie_classification_h, fundus_examination_scheie_classification_s, fundus_examination_scott_classification, smoking_habit, eating1_fast_eating, eating2_before_bedtime, eating3_late_evening_snack, eating_habit, drinking_habit, amount_drinking, sleep, Drug1_Hypertention, Drug2_Diabetes, Drug3_Hyperlipidemia, Medical_history1_Cerebrovascular, Medical_history2_Cardiovascular, Medical_history3_Renal, anemia, Change_of_weight_from_age_of_twenty, exercise_hibit, physical_activity, walking_speed, change_of_weight_in_a_year, lifestyle_modification, request_for_health_guidance) {
   defaults <- get('annual_health_checkup', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
@@ -1524,12 +1524,12 @@ add_annual_health_checkup <- function(health_checkup_id, member_id, date_of_heal
     values <- c(values, if (is.null(diastolic_bp)) "NULL" else if (is(diastolic_bp, "subQuery")) paste0("(", as.character(diastolic_bp), ")") else paste0("'", as.character(diastolic_bp), "'"))
   }
 
-  if (missing(neutral_fat)) {
-    neutral_fat <- defaults$neutral_fat
+  if (missing(triglyceride)) {
+    triglyceride <- defaults$triglyceride
   }
-  if (!is.null(neutral_fat)) {
-    fields <- c(fields, "neutral_fat")
-    values <- c(values, if (is.null(neutral_fat)) "NULL" else if (is(neutral_fat, "subQuery")) paste0("(", as.character(neutral_fat), ")") else paste0("'", as.character(neutral_fat), "'"))
+  if (!is.null(triglyceride)) {
+    fields <- c(fields, "triglyceride")
+    values <- c(values, if (is.null(triglyceride)) "NULL" else if (is(triglyceride, "subQuery")) paste0("(", as.character(triglyceride), ")") else paste0("'", as.character(triglyceride), "'"))
   }
 
   if (missing(hdl_cholesterol)) {
@@ -1548,20 +1548,20 @@ add_annual_health_checkup <- function(health_checkup_id, member_id, date_of_heal
     values <- c(values, if (is.null(ldl_cholesterol)) "NULL" else if (is(ldl_cholesterol, "subQuery")) paste0("(", as.character(ldl_cholesterol), ")") else paste0("'", as.character(ldl_cholesterol), "'"))
   }
 
-  if (missing(got)) {
-    got <- defaults$got
+  if (missing(ast)) {
+    ast <- defaults$ast
   }
-  if (!is.null(got)) {
-    fields <- c(fields, "got")
-    values <- c(values, if (is.null(got)) "NULL" else if (is(got, "subQuery")) paste0("(", as.character(got), ")") else paste0("'", as.character(got), "'"))
+  if (!is.null(ast)) {
+    fields <- c(fields, "ast")
+    values <- c(values, if (is.null(ast)) "NULL" else if (is(ast, "subQuery")) paste0("(", as.character(ast), ")") else paste0("'", as.character(ast), "'"))
   }
 
-  if (missing(gpt)) {
-    gpt <- defaults$gpt
+  if (missing(alt)) {
+    alt <- defaults$alt
   }
-  if (!is.null(gpt)) {
-    fields <- c(fields, "gpt")
-    values <- c(values, if (is.null(gpt)) "NULL" else if (is(gpt, "subQuery")) paste0("(", as.character(gpt), ")") else paste0("'", as.character(gpt), "'"))
+  if (!is.null(alt)) {
+    fields <- c(fields, "alt")
+    values <- c(values, if (is.null(alt)) "NULL" else if (is(alt, "subQuery")) paste0("(", as.character(alt), ")") else paste0("'", as.character(alt), "'"))
   }
 
   if (missing(g_gt)) {
@@ -1604,12 +1604,12 @@ add_annual_health_checkup <- function(health_checkup_id, member_id, date_of_heal
     values <- c(values, if (is.null(urinary_sugar)) "NULL" else if (is(urinary_sugar, "subQuery")) paste0("(", as.character(urinary_sugar), ")") else paste0("'", as.character(urinary_sugar), "'"))
   }
 
-  if (missing(uric_protein)) {
-    uric_protein <- defaults$uric_protein
+  if (missing(uric_protein_qualitative)) {
+    uric_protein_qualitative <- defaults$uric_protein_qualitative
   }
-  if (!is.null(uric_protein)) {
-    fields <- c(fields, "uric_protein")
-    values <- c(values, if (is.null(uric_protein)) "NULL" else if (is(uric_protein, "subQuery")) paste0("(", as.character(uric_protein), ")") else paste0("'", as.character(uric_protein), "'"))
+  if (!is.null(uric_protein_qualitative)) {
+    fields <- c(fields, "uric_protein_qualitative")
+    values <- c(values, if (is.null(uric_protein_qualitative)) "NULL" else if (is(uric_protein_qualitative, "subQuery")) paste0("(", as.character(uric_protein_qualitative), ")") else paste0("'", as.character(uric_protein_qualitative), "'"))
   }
 
   if (missing(hct)) {
@@ -1700,12 +1700,12 @@ add_annual_health_checkup <- function(health_checkup_id, member_id, date_of_heal
     values <- c(values, if (is.null(presence_of_objective_symptoms)) "NULL" else if (is(presence_of_objective_symptoms, "subQuery")) paste0("(", as.character(presence_of_objective_symptoms), ")") else paste0("'", as.character(presence_of_objective_symptoms), "'"))
   }
 
-  if (missing(fundus_examination_k_w_classification)) {
-    fundus_examination_k_w_classification <- defaults$fundus_examination_k_w_classification
+  if (missing(Fundus_examination_Keith_Wagener_classification)) {
+    Fundus_examination_Keith_Wagener_classification <- defaults$Fundus_examination_Keith_Wagener_classification
   }
-  if (!is.null(fundus_examination_k_w_classification)) {
-    fields <- c(fields, "fundus_examination_k_w_classification")
-    values <- c(values, if (is.null(fundus_examination_k_w_classification)) "NULL" else if (is(fundus_examination_k_w_classification, "subQuery")) paste0("(", as.character(fundus_examination_k_w_classification), ")") else paste0("'", as.character(fundus_examination_k_w_classification), "'"))
+  if (!is.null(Fundus_examination_Keith_Wagener_classification)) {
+    fields <- c(fields, "Fundus_examination_Keith_Wagener_classification")
+    values <- c(values, if (is.null(Fundus_examination_Keith_Wagener_classification)) "NULL" else if (is(Fundus_examination_Keith_Wagener_classification, "subQuery")) paste0("(", as.character(Fundus_examination_Keith_Wagener_classification), ")") else paste0("'", as.character(Fundus_examination_Keith_Wagener_classification), "'"))
   }
 
   if (missing(fundus_examination_scheie_classification_h)) {
@@ -1740,36 +1740,36 @@ add_annual_health_checkup <- function(health_checkup_id, member_id, date_of_heal
     values <- c(values, if (is.null(smoking_habit)) "NULL" else if (is(smoking_habit, "subQuery")) paste0("(", as.character(smoking_habit), ")") else paste0("'", as.character(smoking_habit), "'"))
   }
 
-  if (missing(eating_habit_1)) {
-    eating_habit_1 <- defaults$eating_habit_1
+  if (missing(eating1_fast_eating)) {
+    eating1_fast_eating <- defaults$eating1_fast_eating
   }
-  if (!is.null(eating_habit_1)) {
-    fields <- c(fields, "eating_habit_1")
-    values <- c(values, if (is.null(eating_habit_1)) "NULL" else if (is(eating_habit_1, "subQuery")) paste0("(", as.character(eating_habit_1), ")") else paste0("'", as.character(eating_habit_1), "'"))
-  }
-
-  if (missing(eating_habit_2)) {
-    eating_habit_2 <- defaults$eating_habit_2
-  }
-  if (!is.null(eating_habit_2)) {
-    fields <- c(fields, "eating_habit_2")
-    values <- c(values, if (is.null(eating_habit_2)) "NULL" else if (is(eating_habit_2, "subQuery")) paste0("(", as.character(eating_habit_2), ")") else paste0("'", as.character(eating_habit_2), "'"))
+  if (!is.null(eating1_fast_eating)) {
+    fields <- c(fields, "eating1_fast_eating")
+    values <- c(values, if (is.null(eating1_fast_eating)) "NULL" else if (is(eating1_fast_eating, "subQuery")) paste0("(", as.character(eating1_fast_eating), ")") else paste0("'", as.character(eating1_fast_eating), "'"))
   }
 
-  if (missing(eating_habit_3)) {
-    eating_habit_3 <- defaults$eating_habit_3
+  if (missing(eating2_before_bedtime)) {
+    eating2_before_bedtime <- defaults$eating2_before_bedtime
   }
-  if (!is.null(eating_habit_3)) {
-    fields <- c(fields, "eating_habit_3")
-    values <- c(values, if (is.null(eating_habit_3)) "NULL" else if (is(eating_habit_3, "subQuery")) paste0("(", as.character(eating_habit_3), ")") else paste0("'", as.character(eating_habit_3), "'"))
+  if (!is.null(eating2_before_bedtime)) {
+    fields <- c(fields, "eating2_before_bedtime")
+    values <- c(values, if (is.null(eating2_before_bedtime)) "NULL" else if (is(eating2_before_bedtime, "subQuery")) paste0("(", as.character(eating2_before_bedtime), ")") else paste0("'", as.character(eating2_before_bedtime), "'"))
   }
 
-  if (missing(eating_habit_4)) {
-    eating_habit_4 <- defaults$eating_habit_4
+  if (missing(eating3_late_evening_snack)) {
+    eating3_late_evening_snack <- defaults$eating3_late_evening_snack
   }
-  if (!is.null(eating_habit_4)) {
-    fields <- c(fields, "eating_habit_4")
-    values <- c(values, if (is.null(eating_habit_4)) "NULL" else if (is(eating_habit_4, "subQuery")) paste0("(", as.character(eating_habit_4), ")") else paste0("'", as.character(eating_habit_4), "'"))
+  if (!is.null(eating3_late_evening_snack)) {
+    fields <- c(fields, "eating3_late_evening_snack")
+    values <- c(values, if (is.null(eating3_late_evening_snack)) "NULL" else if (is(eating3_late_evening_snack, "subQuery")) paste0("(", as.character(eating3_late_evening_snack), ")") else paste0("'", as.character(eating3_late_evening_snack), "'"))
+  }
+
+  if (missing(eating_habit)) {
+    eating_habit <- defaults$eating_habit
+  }
+  if (!is.null(eating_habit)) {
+    fields <- c(fields, "eating_habit")
+    values <- c(values, if (is.null(eating_habit)) "NULL" else if (is(eating_habit, "subQuery")) paste0("(", as.character(eating_habit), ")") else paste0("'", as.character(eating_habit), "'"))
   }
 
   if (missing(drinking_habit)) {
@@ -1780,68 +1780,68 @@ add_annual_health_checkup <- function(health_checkup_id, member_id, date_of_heal
     values <- c(values, if (is.null(drinking_habit)) "NULL" else if (is(drinking_habit, "subQuery")) paste0("(", as.character(drinking_habit), ")") else paste0("'", as.character(drinking_habit), "'"))
   }
 
-  if (missing(amount_of_drinking)) {
-    amount_of_drinking <- defaults$amount_of_drinking
+  if (missing(amount_drinking)) {
+    amount_drinking <- defaults$amount_drinking
   }
-  if (!is.null(amount_of_drinking)) {
-    fields <- c(fields, "amount_of_drinking")
-    values <- c(values, if (is.null(amount_of_drinking)) "NULL" else if (is(amount_of_drinking, "subQuery")) paste0("(", as.character(amount_of_drinking), ")") else paste0("'", as.character(amount_of_drinking), "'"))
-  }
-
-  if (missing(sleeping)) {
-    sleeping <- defaults$sleeping
-  }
-  if (!is.null(sleeping)) {
-    fields <- c(fields, "sleeping")
-    values <- c(values, if (is.null(sleeping)) "NULL" else if (is(sleeping, "subQuery")) paste0("(", as.character(sleeping), ")") else paste0("'", as.character(sleeping), "'"))
+  if (!is.null(amount_drinking)) {
+    fields <- c(fields, "amount_drinking")
+    values <- c(values, if (is.null(amount_drinking)) "NULL" else if (is(amount_drinking, "subQuery")) paste0("(", as.character(amount_drinking), ")") else paste0("'", as.character(amount_drinking), "'"))
   }
 
-  if (missing(drug_1)) {
-    drug_1 <- defaults$drug_1
+  if (missing(sleep)) {
+    sleep <- defaults$sleep
   }
-  if (!is.null(drug_1)) {
-    fields <- c(fields, "drug_1")
-    values <- c(values, if (is.null(drug_1)) "NULL" else if (is(drug_1, "subQuery")) paste0("(", as.character(drug_1), ")") else paste0("'", as.character(drug_1), "'"))
-  }
-
-  if (missing(drug_2)) {
-    drug_2 <- defaults$drug_2
-  }
-  if (!is.null(drug_2)) {
-    fields <- c(fields, "drug_2")
-    values <- c(values, if (is.null(drug_2)) "NULL" else if (is(drug_2, "subQuery")) paste0("(", as.character(drug_2), ")") else paste0("'", as.character(drug_2), "'"))
+  if (!is.null(sleep)) {
+    fields <- c(fields, "sleep")
+    values <- c(values, if (is.null(sleep)) "NULL" else if (is(sleep, "subQuery")) paste0("(", as.character(sleep), ")") else paste0("'", as.character(sleep), "'"))
   }
 
-  if (missing(drug_3)) {
-    drug_3 <- defaults$drug_3
+  if (missing(Drug1_Hypertention)) {
+    Drug1_Hypertention <- defaults$Drug1_Hypertention
   }
-  if (!is.null(drug_3)) {
-    fields <- c(fields, "drug_3")
-    values <- c(values, if (is.null(drug_3)) "NULL" else if (is(drug_3, "subQuery")) paste0("(", as.character(drug_3), ")") else paste0("'", as.character(drug_3), "'"))
-  }
-
-  if (missing(medical_history_1)) {
-    medical_history_1 <- defaults$medical_history_1
-  }
-  if (!is.null(medical_history_1)) {
-    fields <- c(fields, "medical_history_1")
-    values <- c(values, if (is.null(medical_history_1)) "NULL" else if (is(medical_history_1, "subQuery")) paste0("(", as.character(medical_history_1), ")") else paste0("'", as.character(medical_history_1), "'"))
+  if (!is.null(Drug1_Hypertention)) {
+    fields <- c(fields, "Drug1_Hypertention")
+    values <- c(values, if (is.null(Drug1_Hypertention)) "NULL" else if (is(Drug1_Hypertention, "subQuery")) paste0("(", as.character(Drug1_Hypertention), ")") else paste0("'", as.character(Drug1_Hypertention), "'"))
   }
 
-  if (missing(medical_history_2)) {
-    medical_history_2 <- defaults$medical_history_2
+  if (missing(Drug2_Diabetes)) {
+    Drug2_Diabetes <- defaults$Drug2_Diabetes
   }
-  if (!is.null(medical_history_2)) {
-    fields <- c(fields, "medical_history_2")
-    values <- c(values, if (is.null(medical_history_2)) "NULL" else if (is(medical_history_2, "subQuery")) paste0("(", as.character(medical_history_2), ")") else paste0("'", as.character(medical_history_2), "'"))
+  if (!is.null(Drug2_Diabetes)) {
+    fields <- c(fields, "Drug2_Diabetes")
+    values <- c(values, if (is.null(Drug2_Diabetes)) "NULL" else if (is(Drug2_Diabetes, "subQuery")) paste0("(", as.character(Drug2_Diabetes), ")") else paste0("'", as.character(Drug2_Diabetes), "'"))
   }
 
-  if (missing(medical_history_3)) {
-    medical_history_3 <- defaults$medical_history_3
+  if (missing(Drug3_Hyperlipidemia)) {
+    Drug3_Hyperlipidemia <- defaults$Drug3_Hyperlipidemia
   }
-  if (!is.null(medical_history_3)) {
-    fields <- c(fields, "medical_history_3")
-    values <- c(values, if (is.null(medical_history_3)) "NULL" else if (is(medical_history_3, "subQuery")) paste0("(", as.character(medical_history_3), ")") else paste0("'", as.character(medical_history_3), "'"))
+  if (!is.null(Drug3_Hyperlipidemia)) {
+    fields <- c(fields, "Drug3_Hyperlipidemia")
+    values <- c(values, if (is.null(Drug3_Hyperlipidemia)) "NULL" else if (is(Drug3_Hyperlipidemia, "subQuery")) paste0("(", as.character(Drug3_Hyperlipidemia), ")") else paste0("'", as.character(Drug3_Hyperlipidemia), "'"))
+  }
+
+  if (missing(Medical_history1_Cerebrovascular)) {
+    Medical_history1_Cerebrovascular <- defaults$Medical_history1_Cerebrovascular
+  }
+  if (!is.null(Medical_history1_Cerebrovascular)) {
+    fields <- c(fields, "Medical_history1_Cerebrovascular")
+    values <- c(values, if (is.null(Medical_history1_Cerebrovascular)) "NULL" else if (is(Medical_history1_Cerebrovascular, "subQuery")) paste0("(", as.character(Medical_history1_Cerebrovascular), ")") else paste0("'", as.character(Medical_history1_Cerebrovascular), "'"))
+  }
+
+  if (missing(Medical_history2_Cardiovascular)) {
+    Medical_history2_Cardiovascular <- defaults$Medical_history2_Cardiovascular
+  }
+  if (!is.null(Medical_history2_Cardiovascular)) {
+    fields <- c(fields, "Medical_history2_Cardiovascular")
+    values <- c(values, if (is.null(Medical_history2_Cardiovascular)) "NULL" else if (is(Medical_history2_Cardiovascular, "subQuery")) paste0("(", as.character(Medical_history2_Cardiovascular), ")") else paste0("'", as.character(Medical_history2_Cardiovascular), "'"))
+  }
+
+  if (missing(Medical_history3_Renal)) {
+    Medical_history3_Renal <- defaults$Medical_history3_Renal
+  }
+  if (!is.null(Medical_history3_Renal)) {
+    fields <- c(fields, "Medical_history3_Renal")
+    values <- c(values, if (is.null(Medical_history3_Renal)) "NULL" else if (is(Medical_history3_Renal, "subQuery")) paste0("(", as.character(Medical_history3_Renal), ")") else paste0("'", as.character(Medical_history3_Renal), "'"))
   }
 
   if (missing(anemia)) {
@@ -1852,20 +1852,20 @@ add_annual_health_checkup <- function(health_checkup_id, member_id, date_of_heal
     values <- c(values, if (is.null(anemia)) "NULL" else if (is(anemia, "subQuery")) paste0("(", as.character(anemia), ")") else paste0("'", as.character(anemia), "'"))
   }
 
-  if (missing(change_of_weight_after_20_year_old)) {
-    change_of_weight_after_20_year_old <- defaults$change_of_weight_after_20_year_old
+  if (missing(Change_of_weight_from_age_of_twenty)) {
+    Change_of_weight_from_age_of_twenty <- defaults$Change_of_weight_from_age_of_twenty
   }
-  if (!is.null(change_of_weight_after_20_year_old)) {
-    fields <- c(fields, "change_of_weight_after_20_year_old")
-    values <- c(values, if (is.null(change_of_weight_after_20_year_old)) "NULL" else if (is(change_of_weight_after_20_year_old, "subQuery")) paste0("(", as.character(change_of_weight_after_20_year_old), ")") else paste0("'", as.character(change_of_weight_after_20_year_old), "'"))
+  if (!is.null(Change_of_weight_from_age_of_twenty)) {
+    fields <- c(fields, "Change_of_weight_from_age_of_twenty")
+    values <- c(values, if (is.null(Change_of_weight_from_age_of_twenty)) "NULL" else if (is(Change_of_weight_from_age_of_twenty, "subQuery")) paste0("(", as.character(Change_of_weight_from_age_of_twenty), ")") else paste0("'", as.character(Change_of_weight_from_age_of_twenty), "'"))
   }
 
-  if (missing(exercise_habit)) {
-    exercise_habit <- defaults$exercise_habit
+  if (missing(exercise_hibit)) {
+    exercise_hibit <- defaults$exercise_hibit
   }
-  if (!is.null(exercise_habit)) {
-    fields <- c(fields, "exercise_habit")
-    values <- c(values, if (is.null(exercise_habit)) "NULL" else if (is(exercise_habit, "subQuery")) paste0("(", as.character(exercise_habit), ")") else paste0("'", as.character(exercise_habit), "'"))
+  if (!is.null(exercise_hibit)) {
+    fields <- c(fields, "exercise_hibit")
+    values <- c(values, if (is.null(exercise_hibit)) "NULL" else if (is(exercise_hibit, "subQuery")) paste0("(", as.character(exercise_hibit), ")") else paste0("'", as.character(exercise_hibit), "'"))
   }
 
   if (missing(physical_activity)) {

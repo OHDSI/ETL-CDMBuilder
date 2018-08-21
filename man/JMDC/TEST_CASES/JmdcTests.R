@@ -177,7 +177,7 @@ expect_provider(care_site_id = 10000005, specialty_concept_id = 38004451, specia
 declareTest(601, "Death person ID from diagnosis")
 add_enrollment(member_id = "M000000601")
 add_claim(member_id = "M000000601", claim_id = "C000000000600")
-add_diagnosis(member_id = "M000000601", claim_id = "C000000000600", outcome = 2)
+add_diagnosis(member_id = "M000000601", claim_id = "C000000000600", outcome = 3)
 expect_death(person_id = 601)
 
 declareTest(602, "Death person ID from enrollement")
@@ -187,7 +187,7 @@ expect_death(person_id = 602)
 declareTest(603, "Death date from diagnosis")
 add_enrollment(member_id = "M000000603")
 add_claim(member_id = "M000000603", claim_id = "C000000000601", month_and_year_of_medical_care = "201001", days_of_medical_care = 3, admission_date = 2010-01-01)
-add_diagnosis(member_id = "M000000603", claim_id = "C000000000601", outcome = 2)
+add_diagnosis(member_id = "M000000603", claim_id = "C000000000601", outcome = 3)
 expect_death(person_id = 603, death_date = "2010-01-03")
 
 declareTest(604, "Death date from enrollment")
@@ -197,22 +197,22 @@ expect_death(person_id = 604, death_date = "2011-12-31")
 declareTest(605, "Death date from multiple diagnoses")
 add_enrollment(member_id = "M000000605")
 add_claim(member_id = "M000000605", claim_id = "C000000000602", month_and_year_of_medical_care = "201001", days_of_medical_care = 3, admission_date = 2010-01-01)
-add_diagnosis(member_id = "M000000605", claim_id = "C000000000602", outcome = 2)
+add_diagnosis(member_id = "M000000605", claim_id = "C000000000602", outcome = 3)
 add_claim(member_id = "M000000605", claim_id = "C000000000603", month_and_year_of_medical_care = "201002", days_of_medical_care = 3, admission_date = 2010-02-01)
-add_diagnosis(member_id = "M000000605", claim_id = "C000000000603", outcome = 2)
+add_diagnosis(member_id = "M000000605", claim_id = "C000000000603", outcome = 3)
 expect_death(person_id = 605, death_date = "2010-02-03")
 
 declareTest(606, "Death date from diagnosis and enrollment")
 add_enrollment(member_id = "M000000606", withdrawal_death_flag = "true", observation_start = "201001", observation_end = "201112")
 add_claim(member_id = "M000000606", claim_id = "C000000000604", month_and_year_of_medical_care = "201001", days_of_medical_care = 3, admission_date = 2010-01-01)
-add_diagnosis(member_id = "M000000606", claim_id = "C000000000604", outcome = 2)
+add_diagnosis(member_id = "M000000606", claim_id = "C000000000604", outcome = 3)
 expect_death(person_id = 606, death_date = "2010-01-03")
 
 declareTest(607, "Death type concept ID")
 add_enrollment(member_id = "M000000607", withdrawal_death_flag = "true")
 add_enrollment(member_id = "M000000608")
 add_claim(member_id = "M000000608", claim_id = "C000000000605")
-add_diagnosis(member_id = "M000000608", claim_id = "C000000000605", outcome = 2)
+add_diagnosis(member_id = "M000000608", claim_id = "C000000000605", outcome = 3)
 expect_death(person_id = 607, death_type_concept_id = 38003565)
 expect_death(person_id = 608, death_type_concept_id = 38003567)
 
@@ -445,9 +445,14 @@ expect_measurement(person_id = 1003, measurement_date = "2010-01-16")
 
 declareTest(1004, "Measurement value")
 add_enrollment(member_id = "M000001004")
-add_annual_health_checkup(member_id = "M000001004", bmi = "25.0", ecg = 1)
+add_annual_health_checkup(member_id = "M000001004", bmi = "25.0", ecg = 1, triglyceride = 40, ast = 20, alt = 21)
 expect_measurement(person_id = 1004, measurement_concept_id = 3038553, value_as_number = 25, value_source_value = "25.0", unit_concept_id = 9531)
 expect_measurement(person_id = 1004, measurement_concept_id = 42869419, value_as_concept_id = 263654008, value_source_value = "1")
+expect_measurement(person_id = 1004, measurement_concept_id = 3022038, value_as_number = 40, value_source_value = "40", unit_concept_id = 8840)
+expect_measurement(person_id = 1004, measurement_concept_id = 3003792, value_as_number = 20, value_source_value = "20", unit_concept_id = 8645)
+expect_measurement(person_id = 1004, measurement_concept_id = 3006923, value_as_number = 21, value_source_value = "21", unit_concept_id = 8645)
+
+
 
 declareTest(1005, "Measurement normal ranges")
 add_enrollment(member_id = "M000001005")
@@ -504,7 +509,7 @@ expect_observation(person_id = 1106, visit_occurrence_id = 1106, observation_dat
 
 declareTest(1107, "Observation from checkup")
 add_enrollment(member_id = "M000001107")
-add_annual_health_checkup(member_id = "M000001107", sleeping = 2, date_of_health_checkup =  "2010-01-13")
+add_annual_health_checkup(member_id = "M000001107", sleep = 2, date_of_health_checkup =  "2010-01-13")
 expect_observation(person_id = 1107, observation_date = "2010-01-13", observation_concept_id = 40764749, value_as_concept_id = 4188540)
 
 
@@ -552,5 +557,9 @@ executeSql(connection, paste(insertSql, collapse = "\n"))
 executeSql(connection, paste(testSql, collapse = "\n"))
 
 querySql(connection, "SELECT * FROM testing.cdm_testing_jmdc.test_results;")
+
+querySql(connection, "SELECT * FROM testing.cdm_testing_jmdc.cost WHERE total_paid = 1230")
+
+querySql(connection, "SELECT * FROM testing.cdm_testing_jmdc.visit_occurrence WHERE visit_occurrence_id =  620001201")
 
 DatabaseConnector::disconnect(connection)

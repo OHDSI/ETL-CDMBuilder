@@ -1,4 +1,11 @@
 *******************************************************************************
+* CDM Version Update
+*******************************************************************************
+1)  HIX-1537 - Get all CDMs on V5.3
+All CDMs (except for Optum Panther and the IMS data sets) are now on CDM V5.3.1
+https://github.com/OHDSI/CommonDataModel/releases/tag/v5.3.1
+
+*******************************************************************************
 * VOCABULARY UPDATE
 *******************************************************************************
 1) Adopting a new Vocabulary per schedule.
@@ -37,6 +44,20 @@ Only 56 of the domain changes seem to impact our largest claims database, here a
 	29321120	NDC						Paroxetine 20 MG Oral Tablet [Paxil]																	19035312				0					1070002		195196
 
 *******************************************************************************
+* General Builder Issues
+*******************************************************************************
+1) In converting over to the new processing with Lambda we had some ID generation
+issues:
+HIX-1613 - [CPRD] Number of observation periods with invalid person_id
+HIX-1612 - JMDC - COST_EVENT_ID not Correct
+HIX-1622 - Optum Extendeds: invalid provider_ids
+HIX-1621 - Optum Extended: invalid person_ids and visit_ids
+HIX-1593 - Provider NPI and DEA fields blank
+HIX-1623 - Negative PROVIDER_IDs
+HIX-1615 - PROVIDER_ID Issue in TRUVEN
+HIX-1614 - [MDCD] PERSON.LOCATION_ID
+	
+*******************************************************************************
 * HCUP
 *******************************************************************************
 1) HIX-1586
@@ -45,22 +66,72 @@ CDM V5.3.0 ready, no logic changes necessary.
 *******************************************************************************
 * JMDC
 *******************************************************************************
+1) HIX-1577	 - JMDC Recent Changes
+Updates to raw data required changes
+
+2) HIX-1627	- JMDC missing most prescriptions of sertraline (and other drugs)
+Issue with how pharmacy claims were brought over into the CDM.
 
 *******************************************************************************
 * CPRD
 *******************************************************************************
+1)  HIX-1587 - CPRD Drug Mapping Update
+	HIX-1581 - CPRD in Mapping Drugs
+Minor change in the priority of which Vocabulary mapping to use.
+
+2)  HIX-1517 - CPRD Investigate COMMONDOSAGES table
+Change in where we capture daily does
+
+3)  HIX-1605 - Load New CPRD Test Cases to GitHub
 
 *******************************************************************************
 * PREMIER
 *******************************************************************************
+1) HIX-1616	- CDM_Premier_v736 observation table issue(s)
+There was an issue with some of the ICD10s getting brought over.  
+
+2) HIX-1575	- Update CONCEPTS for POA in PREMIER
+
+3) HIX-1572 - Premier Update
+Update in provider information.
 
 *******************************************************************************
 * Optum Panther
 *******************************************************************************
+1) HIX-1576 - Update Concepts for POA in Panther
+
+2) HIX-1564	- PANTHER Birth Year
+
+3) HIX-1553	- Handling Days_Supply With Decimal
+
+4) HIX-1552 - Panther 11 digit / 9 digit NDC Code
+
+5) HIX-1435	- Upgrade Panther to v5.3.1
+We've prepared to go to V5.3.1 but will do so in a future sprint.
 
 *******************************************************************************
 * Optum DOD/SES
 *******************************************************************************
+1) HIX-1609	- Optum DOD/SES some patient record counts very high - Lambda
+Review of a subset of patients with Optum that seemed to have very high record 
+counts.  All was fine.
+
+2)  HIX-1599 - Optum: Discharge codes not mapping in VISIT_DETAIL
+
+3)  HIX-1597 - Optum preceding_visit_occurrence_id not populating
+
+4)  HIX-1596 - Optum visit_detail when no visit_occurrence
+
+5)  HIX-1591 - Optum Extended on v5.3.1
+
+6)  HIX-1590 - One more ICD10 source code for JNJ_DEATH
+
+7)  HIX-1589 - Optum: add discharge codes to STCM
+
+8)  HIX-1585 - Optum - use all Death DXs from data dictionary and switch to JNJ DEATH
+https://github.com/OHDSI/ETL-CDMBuilder/blob/master/man/VOCABULARY_ADDITIONS/JNJ_DEATH.txt
+
+9)  HIX-1574 - Optum POA (Present on Admission)
 
 *******************************************************************************
 * Truven CCAE / MDCR

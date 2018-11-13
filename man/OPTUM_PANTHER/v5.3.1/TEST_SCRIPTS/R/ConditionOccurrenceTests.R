@@ -42,6 +42,15 @@ createConditionOccurrenceTests <- function () {
                 diagnosis_cd_type = 'ICD10', diag_date = '2009-01-01')
   expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = 381850, condition_source_value = 'H44.611')
 
+  patient <- createPatient();
+  declareTest("Test diagnosis code type ICD10 without decimal", source_pid = patient$ptid, cdm_pid = patient$person_id)
+  enc <- createEncounter();
+  add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
+              first_month_active = '200701', last_month_active = '201001')
+  add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = 'H44611',
+                diagnosis_cd_type = 'ICD10', diag_date = '2009-01-01')
+  expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = 381850, condition_source_value = 'H44611')
+
 
   patient <- createPatient();
   declareTest("Test primary diagnosis to condition_type_concept_id", source_pid = patient$ptid, cdm_pid = patient$person_id)

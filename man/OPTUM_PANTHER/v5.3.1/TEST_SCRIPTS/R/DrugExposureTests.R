@@ -5,16 +5,22 @@ createDrugExposureTests <- function () {
   # MEDICATION_ADMINISTRATIONS
   ######################################
   patient <- createPatient();
+  enc <- createEncounter();
   declareTest("Patient has 1 valid MEDICATION_ADMINISTRATIONS record within the enrollment period.", source_pid = patient$ptid, cdm_pid = patient$person_id)
   add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201412')
-  add_medication_administrations(ptid=patient$ptid, ndc="55111067101", order_date='2011-01-07')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2011-01-07')
+  add_medication_administrations(ptid=patient$ptid, ndc="55111067101", order_date='2011-01-07', encid = enc$encid)
   expect_drug_exposure(person_id = patient$person_id, drug_source_value = '55111067101', drug_exposure_start_date = '2011-01-07', drug_type_concept_id = 38000180)
 
   patient <- createPatient();
+  enc <- createEncounter();
+  enc2 <- createEncounter();
   declareTest("Patient has 2 MEDICATION_ADMINISTRATIONS records, the first within the enrollment period, the second outside of enrollment.", source_pid = patient$ptid, cdm_pid = patient$person_id)
   add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
-  add_medication_administrations(ptid=patient$ptid, ndc="55111067101", order_date='2011-01-07')
-  add_medication_administrations(ptid=patient$ptid, ndc="58487000102", order_date='2013-01-07')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2011-01-07')
+  add_encounter(ptid=patient$ptid, encid = enc2$encid, interaction_date='2013-01-07')
+  add_medication_administrations(ptid=patient$ptid, ndc="55111067101", order_date='2011-01-07', encid=enc$encid)
+  add_medication_administrations(ptid=patient$ptid, ndc="58487000102", order_date='2013-01-07', encid=enc2$encid)
   expect_drug_exposure(person_id = patient$person_id, drug_source_value = '55111067101')
   expect_no_drug_exposure(person_id = patient$person_id, drug_source_value = '58487000102')
 
@@ -67,42 +73,49 @@ createDrugExposureTests <- function () {
   expect_drug_exposure(person_id = patient$person_id, drug_exposure_start_date = '2012-01-08', provider_id = provider$provid, visit_occurrence_id = enc$visit_occurrence_id)
 
   patient <- createPatient();
+  enc <- createEncounter();
   declareTest("Patient has MEDICATION_ADMINISTRATIONS with an NDC that is properly mapped to the source_concept_id and standard concept_id", source_pid = patient$ptid, cdm_pid = patient$person_id)
   add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
   add_medication_administrations(ptid=patient$ptid, ndc="55111067101", order_date='2012-01-08')
   expect_drug_exposure(person_id = patient$person_id, drug_source_concept_id = 45071548, drug_source_value="55111067101", drug_concept_id=1322189)
 
   patient <- createPatient();
+  enc <- createEncounter();
   declareTest("Patient has MEDICATION_ADMINISTRATIONS with a valid quantity_of_dose", source_pid = patient$ptid, cdm_pid = patient$person_id)
   add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
   add_medication_administrations(ptid=patient$ptid, ndc="55111067101", order_date='2012-01-08', quantity_of_dose=.5)
   expect_drug_exposure(person_id = patient$person_id, quantity=.5)
 
   patient <- createPatient();
+  enc <- createEncounter();
   declareTest("Patient has MEDICATION_ADMINISTRATIONS and the route value is found in the source-to-concept-map and assigned the proper concept_id", source_pid = patient$ptid, cdm_pid = patient$person_id)
   add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
   add_medication_administrations(ptid=patient$ptid, ndc="55111067101", order_date='2012-01-08', route="Oral")
   expect_drug_exposure(person_id = patient$person_id, route_concept_id=4128794, route_source_value="Oral")
 
   patient <- createPatient();
+  enc <- createEncounter();
   declareTest("Patient has MEDICATION_ADMINISTRATIONS and the route value is NOT found in the source-to-concept-map and assigned concept_id of 0", source_pid = patient$ptid, cdm_pid = patient$person_id)
   add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
   add_medication_administrations(ptid=patient$ptid, ndc="55111067101", order_date='2012-01-08', route="Osmosis")
   expect_drug_exposure(person_id = patient$person_id, route_concept_id=0, route_source_value="Osmosis")
 
   patient <- createPatient();
+  enc <- createEncounter();
   declareTest("Patient has MEDICATION_ADMINISTRATIONS with a strength_unit that maps to dose_unit_source_value", source_pid = patient$ptid, cdm_pid = patient$person_id)
   add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
   add_medication_administrations(ptid=patient$ptid, ndc="55111067101", order_date='2012-01-08', strength_unit="mg/mL")
   expect_drug_exposure(person_id = patient$person_id, dose_unit_source_value = "mg/mL")
 
   patient <- createPatient();
+  enc <- createEncounter();
   declareTest("Patient has MEDICATION_ADMINISTRATIONS with 11 digit NDC that doesn''t map, should first use 9 digits instead.", source_pid = patient$ptid, cdm_pid = patient$person_id)
   add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
   add_medication_administrations(ptid=patient$ptid, ndc="13533063670", order_date='2012-01-08')
   expect_drug_exposure(person_id = patient$person_id, drug_concept_id = '46275250')
 
   patient <- createPatient()
+  enc <- createEncounter();
   declareTest("Patient has MEDICATION_ADMINISTRATIONS with 9 digit NDC that doesn''t map, should use first 9 digits instead, should map to DRUG_CONCEPT_ID=0 because of the date filter.", source_pid = patient$ptid, cdm_pid = patient$person_id)
   add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
   add_medication_administrations(ptid=patient$ptid, ndc="00006000543", order_date='2012-01-08')
@@ -185,7 +198,7 @@ createDrugExposureTests <- function () {
   declareTest("Patient has PRESCRIPTIONS_WRITTEN with days_supply with decimal. This should drop the decimal portion.", source_pid = patient$ptid, cdm_pid = patient$person_id)
   add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
   add_prescriptions_written(ptid=patient$ptid, ndc="55111067101", rxdate='2012-01-08', days_supply="10.7")
-  expect_drug_exposure(person_id = patient$person_id, drug_concept_id = '0', days_supply="10")
+  expect_drug_exposure(person_id = patient$person_id, days_supply="10")
 
   patient <- createPatient();
   declareTest("Patient has PRESCRIPTIONS_WRITTEN with provid specified", source_pid = patient$ptid, cdm_pid = patient$person_id)

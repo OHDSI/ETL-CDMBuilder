@@ -114,12 +114,13 @@ createDrugExposureTests <- function () {
   add_medication_administrations(ptid=patient$ptid, ndc="13533063670", order_date='2012-01-08')
   expect_drug_exposure(person_id = patient$person_id, drug_concept_id = '46275250')
 
-  patient <- createPatient()
-  enc <- createEncounter();
-  declareTest("Patient has MEDICATION_ADMINISTRATIONS with 9 digit NDC that doesn''t map, should use first 9 digits instead, should map to DRUG_CONCEPT_ID=0 because of the date filter.", source_pid = patient$ptid, cdm_pid = patient$person_id)
-  add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
-  add_medication_administrations(ptid=patient$ptid, ndc="00006000543", order_date='2012-01-08')
-  expect_drug_exposure(person_id = patient$person_id, drug_concept_id = '0')
+  # AS - Invalid test since we're not restricting to when the NDC is active
+  # patient <- createPatient()
+  # enc <- createEncounter();
+  # declareTest("Patient has MEDICATION_ADMINISTRATIONS with 9 digit NDC that doesn''t map, should use first 9 digits instead, should map to DRUG_CONCEPT_ID=0 because of the date filter.", source_pid = patient$ptid, cdm_pid = patient$person_id)
+  # add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
+  # add_medication_administrations(ptid=patient$ptid, ndc="00006000543", order_date='2012-01-08')
+  # expect_drug_exposure(person_id = patient$person_id, drug_concept_id = '0')
 
 
   ######################################
@@ -132,12 +133,13 @@ createDrugExposureTests <- function () {
   add_prescriptions_written(ptid=patient$ptid, rxdate='2012-01-08')
   expect_drug_exposure(person_id = patient$person_id, drug_type_concept_id = 38000177)
 
-  patient <- createPatient();
-  declareTest("Patient has multiple PRESCRIPTIONS_WRITTEN with the first within the enrollment period, the second outside of enrollment.", source_pid = patient$ptid, cdm_pid = patient$person_id)
-  add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
-  add_prescriptions_written(ptid=patient$ptid, rxdate='2012-01-08')
-  add_prescriptions_written(ptid=patient$ptid, rxdate='2014-01-08')
-  expect_count_drug_exposure(rowCount = 1, person_id = patient$person_id)
+  # AS - Invalid test since we're no longer restricting to enrollment period
+  # patient <- createPatient();
+  # declareTest("Patient has multiple PRESCRIPTIONS_WRITTEN with the first within the enrollment period, the second outside of enrollment.", source_pid = patient$ptid, cdm_pid = patient$person_id)
+  # add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
+  # add_prescriptions_written(ptid=patient$ptid, rxdate='2012-01-08')
+  # add_prescriptions_written(ptid=patient$ptid, rxdate='2014-01-08')
+  # expect_count_drug_exposure(rowCount = 1, person_id = patient$person_id)
 
 
   patient <- createPatient();
@@ -224,11 +226,12 @@ createDrugExposureTests <- function () {
   add_prescriptions_written(ptid=patient$ptid, ndc="13533063670", rxdate='2012-01-08')
   expect_drug_exposure(person_id = patient$person_id, drug_concept_id = '46275250')
 
-  patient <- createPatient()
-  declareTest("Patient has PRESCRIPTIONS_WRITTEN with 9 digit NDC that doesn''t map, should use first 9 digits instead, should map to DRUG_CONCEPT_ID=0 because of the date filter.", source_pid = patient$ptid, cdm_pid = patient$person_id)
-  add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
-  add_prescriptions_written(ptid=patient$ptid, ndc="00006000543", rxdate='2012-01-08')
-  expect_drug_exposure(person_id = patient$person_id, drug_concept_id = '0')
+  # AS - Invalid test since we're not restricting to when the NDC is active
+  # patient <- createPatient()
+  # declareTest("Patient has PRESCRIPTIONS_WRITTEN with 9 digit NDC that doesn''t map, should use first 9 digits instead, should map to DRUG_CONCEPT_ID=0 because of the date filter.", source_pid = patient$ptid, cdm_pid = patient$person_id)
+  # add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
+  # add_prescriptions_written(ptid=patient$ptid, ndc="00006000543", rxdate='2012-01-08')
+  # expect_drug_exposure(person_id = patient$person_id, drug_concept_id = '0')
 
   ######################################
   # patient_reported_medications
@@ -239,12 +242,13 @@ createDrugExposureTests <- function () {
   add_patient_reported_medications(ptid=patient$ptid, reported_date='2012-01-08')
   expect_count_drug_exposure(rowCount = 1, person_id = patient$person_id)
 
-  patient <- createPatient();
-  declareTest("Patient has multiple patient_reported_medications with the first within the enrollment period, the second outside of enrollment.", source_pid = patient$ptid, cdm_pid = patient$person_id)
-  add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
-  add_patient_reported_medications(ptid=patient$ptid, reported_date='2012-01-08')
-  add_patient_reported_medications(ptid=patient$ptid, reported_date='2014-01-08')
-  expect_count_drug_exposure(rowCount = 1, person_id = patient$person_id)
+  # AS - Invalid test since we're no longer restricting to enrollment period
+  # patient <- createPatient();
+  # declareTest("Patient has multiple patient_reported_medications with the first within the enrollment period, the second outside of enrollment.", source_pid = patient$ptid, cdm_pid = patient$person_id)
+  # add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
+  # add_patient_reported_medications(ptid=patient$ptid, reported_date='2012-01-08')
+  # add_patient_reported_medications(ptid=patient$ptid, reported_date='2014-01-08')
+  # expect_count_drug_exposure(rowCount = 1, person_id = patient$person_id)
 
   patient <- createPatient();
   declareTest("Patient has patient_reported_medications with valid reported_date and drug_type_concept_id", source_pid = patient$ptid, cdm_pid = patient$person_id)
@@ -292,12 +296,13 @@ createDrugExposureTests <- function () {
   add_immunizations(ptid = patient$ptid, immunization_date="2011-10-12", ndc="66521011710", pt_reported="N")
   expect_count_drug_exposure(rowCount = 1, person_id = patient$person_id)
 
-  patient <- createPatient();
-  declareTest("Patient has multiple immunizations with the first within the enrollment period, the second outside of enrollment.", source_pid = patient$ptid, cdm_pid = patient$person_id)
-  add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
-  add_immunizations(ptid = patient$ptid, immunization_date="2011-10-12", ndc="66521011710", pt_reported="N")
-  add_immunizations(ptid = patient$ptid, immunization_date="2013-10-12", ndc="66521011710", pt_reported="N")
-  expect_count_drug_exposure(rowCount = 1, person_id = patient$person_id)
+  # AS - Invalid test since we're no longer restricting to enrollment period
+  # patient <- createPatient();
+  # declareTest("Patient has multiple immunizations with the first within the enrollment period, the second outside of enrollment.", source_pid = patient$ptid, cdm_pid = patient$person_id)
+  # add_patient(ptid = patient$ptid, first_month_active = '201005', last_month_active = '201212')
+  # add_immunizations(ptid = patient$ptid, immunization_date="2011-10-12", ndc="66521011710", pt_reported="N")
+  # add_immunizations(ptid = patient$ptid, immunization_date="2013-10-12", ndc="66521011710", pt_reported="N")
+  # expect_count_drug_exposure(rowCount = 1, person_id = patient$person_id)
 
   patient <- createPatient();
   declareTest("Patient has multiple immunizations records, all within enrollment period, but have the same immunization_date and ndc", source_pid = patient$ptid, cdm_pid = patient$person_id)

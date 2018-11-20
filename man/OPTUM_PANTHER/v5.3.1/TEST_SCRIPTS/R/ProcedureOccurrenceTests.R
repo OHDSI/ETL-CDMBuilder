@@ -132,9 +132,9 @@ createProcedureOccurrenceTests <- function () {
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
   add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
-  add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = 'R93.9',
+  add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = 'R939',
                 diagnosis_cd_type = 'ICD10', diag_date = '2009-01-01', encid = enc$encid)
-  expect_procedure_occurrence(person_id = patient$person_id, procedure_concept_id = 4155793, procedure_source_value = 'R93.9')
+  expect_procedure_occurrence(person_id = patient$person_id, procedure_concept_id = 4155793, procedure_source_value = 'R939')
 
 
   patient <- createPatient();

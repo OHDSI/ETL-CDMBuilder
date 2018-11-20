@@ -12,7 +12,7 @@ initFramework <- function() {
   assign('version', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
-  defaults$carearea <- 'UNKNOWN CARE AREA'
+  defaults$carearea <- 'OTHER CARE AREA'
   defaults$carearea_time <- '00:00:00'
   assign('care_area', defaults, envir = frameworkContext$defaultValues)
 
@@ -43,7 +43,7 @@ initFramework <- function() {
   assign('encounter', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
-  defaults$provid <- '15368571'
+  defaults$provid <- '41513404'
   defaults$provider_role <- 'ATTENDING'
   assign('encounter_provider', defaults, envir = frameworkContext$defaultValues)
 
@@ -52,6 +52,7 @@ initFramework <- function() {
   defaults$ndc <- '49281039765'
   defaults$ndc_source <- 'Derived'
   defaults$pt_reported <- ' '
+  defaults$gpi <- '1710002023E620'
   assign('immunizations', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
@@ -63,6 +64,7 @@ initFramework <- function() {
   defaults <- list()
   defaults$test_name <- 'Oxygen saturation (SpO2).pulse oximetry'
   defaults$test_type <- 'CHEMISTRY'
+  defaults$order_time <- '00:00:00'
   defaults$result_time <- '00:00:00'
   defaults$test_result <- 'negative'
   defaults$result_unit <- '%'
@@ -76,20 +78,22 @@ initFramework <- function() {
   defaults$ndc <- '00409798309'
   defaults$ndc_source <- 'Derived'
   defaults$order_date <- '2016-12-28'
-  defaults$order_time <- '12:00:00'
+  defaults$order_time <- '00:00:00'
   defaults$route <- 'Oral'
   defaults$strength_unit <- 'mg'
   defaults$dosage_form <- 'Solution'
   defaults$generic_desc <- '0.9 % SODIUM CHLORIDE'
   defaults$drug_class <- 'Narcotic agonist analgesics'
+  defaults$gpi <- '79750010002021'
   assign('medication_administrations', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
   defaults$ptid <- 'PT319405291'
   defaults$result_date <- '2014-05-23'
   defaults$result_time <- '00:00:00'
+  defaults$result_status <- 'Final'
   defaults$specimen_source <- 'Urine'
-  defaults$organism <- 'ESCHERICHIA COLI'
+  defaults$organism <- 'E. coli'
   defaults$mapped_organism_found <- 'Escherichia coli'
   defaults$culture_growth <- 'Not recorded'
   defaults$sensitivity <- 'Sensitive'
@@ -147,22 +151,22 @@ initFramework <- function() {
   assign('observations', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
-  defaults$birth_yr <- '1928 and Earlier'
+  defaults$birth_yr <- '1929 and Earlier'
   defaults$gender <- 'Female'
   defaults$race <- 'Caucasian'
   defaults$ethnicity <- 'Not Hispanic'
   defaults$region <- 'Midwest'
-  defaults$division <- 'South Atl/West South Crl'
+  defaults$division <- 'East North Central'
   defaults$pct_college_educ <- '26.0'
   defaults$deceased_indicator <- '0'
   defaults$date_of_death <- '      '
   defaults$idn_indicator <- '1'
   defaults$first_month_active <- '200601'
-  defaults$last_month_active <- '201706'
+  defaults$last_month_active <- '201806'
   defaults$notes_eligible <- '1'
   defaults$has_notes <- '1'
-  defaults$sourceid <- 'S0034'
-  defaults$source_data_through <- '201706'
+  defaults$sourceid <- 'S0093'
+  defaults$source_data_through <- '201806'
   assign('patient', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
@@ -3545,7 +3549,7 @@ expect_death <- function(person_id, death_date, death_datetime, death_type_conce
   invisible(NULL)
 }
 
-expect_device_exposure <- function(device_exposure_id, person_id, device_concept_id, device_exposure_start_date, device_exposure_start_datetime, device_exposure_end_date, device_exposure_end_datetime, device_type_concept_id, unique_device_id, quantity, provider_id, visit_occurrence_id, device_source_value, device_source__concept_id, visit_detail_id) {
+expect_device_exposure <- function(device_exposure_id, person_id, device_concept_id, device_exposure_start_date, device_exposure_start_datetime, device_exposure_end_date, device_exposure_end_datetime, device_type_concept_id, unique_device_id, quantity, provider_id, visit_occurrence_id, visit_detail_id, device_source_value, device_source_concept_id) {
   fields <- c()
   values <- c()
   if (!missing(device_exposure_id)) {
@@ -3608,19 +3612,19 @@ expect_device_exposure <- function(device_exposure_id, person_id, device_concept
     values <- c(values, if (is.null(visit_occurrence_id)) "NULL" else if (is(visit_occurrence_id, "subQuery")) paste0("(", as.character(visit_occurrence_id), ")") else paste0("'", as.character(visit_occurrence_id), "'"))
   }
 
+  if (!missing(visit_detail_id)) {
+    fields <- c(fields, "visit_detail_id")
+    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  }
+
   if (!missing(device_source_value)) {
     fields <- c(fields, "device_source_value")
     values <- c(values, if (is.null(device_source_value)) "NULL" else if (is(device_source_value, "subQuery")) paste0("(", as.character(device_source_value), ")") else paste0("'", as.character(device_source_value), "'"))
   }
 
-  if (!missing(device_source__concept_id)) {
-    fields <- c(fields, "[device_source_ concept_id]")
-    values <- c(values, if (is.null(device_source__concept_id)) "NULL" else if (is(device_source__concept_id, "subQuery")) paste0("(", as.character(device_source__concept_id), ")") else paste0("'", as.character(device_source__concept_id), "'"))
-  }
-
-  if (!missing(visit_detail_id)) {
-    fields <- c(fields, "visit_detail_id")
-    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  if (!missing(device_source_concept_id)) {
+    fields <- c(fields, "device_source_concept_id")
+    values <- c(values, if (is.null(device_source_concept_id)) "NULL" else if (is(device_source_concept_id, "subQuery")) paste0("(", as.character(device_source_concept_id), ")") else paste0("'", as.character(device_source_concept_id), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 0, table = "device_exposure", fields = fields, values = values)
@@ -3628,7 +3632,7 @@ expect_device_exposure <- function(device_exposure_id, person_id, device_concept
   invisible(NULL)
 }
 
-expect_drug_exposure <- function(drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_start_datetime, drug_exposure_end_date, drug_exposure_end_datetime, verbatim_end_date, drug_type_concept_id, stop_reason, refills, quantity, days_supply, sig, route_concept_id, lot_number, provider_id, visit_occurrence_id, drug_source_value, drug_source_concept_id, route_source_value, dose_unit_source_value, visit_detail_id) {
+expect_drug_exposure <- function(drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_start_datetime, drug_exposure_end_date, drug_exposure_end_datetime, verbatim_end_date, drug_type_concept_id, stop_reason, refills, quantity, days_supply, sig, route_concept_id, lot_number, provider_id, visit_occurrence_id, visit_detail_id, drug_source_value, drug_source_concept_id, route_source_value, dose_unit_source_value) {
   fields <- c()
   values <- c()
   if (!missing(drug_exposure_id)) {
@@ -3721,6 +3725,11 @@ expect_drug_exposure <- function(drug_exposure_id, person_id, drug_concept_id, d
     values <- c(values, if (is.null(visit_occurrence_id)) "NULL" else if (is(visit_occurrence_id, "subQuery")) paste0("(", as.character(visit_occurrence_id), ")") else paste0("'", as.character(visit_occurrence_id), "'"))
   }
 
+  if (!missing(visit_detail_id)) {
+    fields <- c(fields, "visit_detail_id")
+    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  }
+
   if (!missing(drug_source_value)) {
     fields <- c(fields, "drug_source_value")
     values <- c(values, if (is.null(drug_source_value)) "NULL" else if (is(drug_source_value, "subQuery")) paste0("(", as.character(drug_source_value), ")") else paste0("'", as.character(drug_source_value), "'"))
@@ -3739,11 +3748,6 @@ expect_drug_exposure <- function(drug_exposure_id, person_id, drug_concept_id, d
   if (!missing(dose_unit_source_value)) {
     fields <- c(fields, "dose_unit_source_value")
     values <- c(values, if (is.null(dose_unit_source_value)) "NULL" else if (is(dose_unit_source_value, "subQuery")) paste0("(", as.character(dose_unit_source_value), ")") else paste0("'", as.character(dose_unit_source_value), "'"))
-  }
-
-  if (!missing(visit_detail_id)) {
-    fields <- c(fields, "visit_detail_id")
-    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 0, table = "drug_exposure", fields = fields, values = values)
@@ -3784,7 +3788,7 @@ expect_fact_relationship <- function(domain_concept_id_1, fact_id_1, domain_conc
   invisible(NULL)
 }
 
-expect_measurement <- function(measurement_id, person_id, measurement_concept_id, measurement_date, measurement_datetime, measurement_type_concept_id, operator_concept_id, value_as_number, value_as_concept_id, unit_concept_id, range_low, range_high, provider_id, visit_occurrence_id, visit_detail_id, measurement_source_value, measurement_source_concept_id, unit_source_value, value_source_value) {
+expect_measurement <- function(measurement_id, person_id, measurement_concept_id, measurement_date, measurement_datetime, measurement_time, measurement_type_concept_id, operator_concept_id, value_as_number, value_as_concept_id, unit_concept_id, range_low, range_high, provider_id, visit_occurrence_id, visit_detail_id, measurement_source_value, measurement_source_concept_id, unit_source_value, value_source_value) {
   fields <- c()
   values <- c()
   if (!missing(measurement_id)) {
@@ -3810,6 +3814,11 @@ expect_measurement <- function(measurement_id, person_id, measurement_concept_id
   if (!missing(measurement_datetime)) {
     fields <- c(fields, "measurement_datetime")
     values <- c(values, if (is.null(measurement_datetime)) "NULL" else if (is(measurement_datetime, "subQuery")) paste0("(", as.character(measurement_datetime), ")") else paste0("'", as.character(measurement_datetime), "'"))
+  }
+
+  if (!missing(measurement_time)) {
+    fields <- c(fields, "measurement_time")
+    values <- c(values, if (is.null(measurement_time)) "NULL" else if (is(measurement_time, "subQuery")) paste0("(", as.character(measurement_time), ")") else paste0("'", as.character(measurement_time), "'"))
   }
 
   if (!missing(measurement_type_concept_id)) {
@@ -3887,7 +3896,7 @@ expect_measurement <- function(measurement_id, person_id, measurement_concept_id
   invisible(NULL)
 }
 
-expect_note <- function(note_id, person_id, note_date, note_datetime, note_type_concept_id, note_class_concept_id, note_title, note_text, encoding_concept_id, language_concept_id, provider_id, note_source_value, visit_occurrence_id) {
+expect_note <- function(note_id, person_id, note_date, note_datetime, note_type_concept_id, note_class_concept_id, note_title, note_text, encoding_concept_id, language_concept_id, provider_id, visit_occurrence_id, visit_detail_id, note_source_value) {
   fields <- c()
   values <- c()
   if (!missing(note_id)) {
@@ -3945,14 +3954,19 @@ expect_note <- function(note_id, person_id, note_date, note_datetime, note_type_
     values <- c(values, if (is.null(provider_id)) "NULL" else if (is(provider_id, "subQuery")) paste0("(", as.character(provider_id), ")") else paste0("'", as.character(provider_id), "'"))
   }
 
-  if (!missing(note_source_value)) {
-    fields <- c(fields, "note_source_value")
-    values <- c(values, if (is.null(note_source_value)) "NULL" else if (is(note_source_value, "subQuery")) paste0("(", as.character(note_source_value), ")") else paste0("'", as.character(note_source_value), "'"))
-  }
-
   if (!missing(visit_occurrence_id)) {
     fields <- c(fields, "visit_occurrence_id")
     values <- c(values, if (is.null(visit_occurrence_id)) "NULL" else if (is(visit_occurrence_id, "subQuery")) paste0("(", as.character(visit_occurrence_id), ")") else paste0("'", as.character(visit_occurrence_id), "'"))
+  }
+
+  if (!missing(visit_detail_id)) {
+    fields <- c(fields, "visit_detail_id")
+    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  }
+
+  if (!missing(note_source_value)) {
+    fields <- c(fields, "note_source_value")
+    values <- c(values, if (is.null(note_source_value)) "NULL" else if (is(note_source_value, "subQuery")) paste0("(", as.character(note_source_value), ")") else paste0("'", as.character(note_source_value), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 0, table = "note", fields = fields, values = values)
@@ -3960,7 +3974,7 @@ expect_note <- function(note_id, person_id, note_date, note_datetime, note_type_
   invisible(NULL)
 }
 
-expect_note_nlp <- function(note_nlp_id, note_id, section_concept_id, snippet, offset, lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_date_time, term_exists, term_temporal, term_modifiers) {
+expect_note_nlp <- function(note_nlp_id, note_id, section_concept_id, snippet, offset, lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_datetime, term_exists, term_temporal, term_modifiers) {
   fields <- c()
   values <- c()
   if (!missing(note_nlp_id)) {
@@ -4013,9 +4027,9 @@ expect_note_nlp <- function(note_nlp_id, note_id, section_concept_id, snippet, o
     values <- c(values, if (is.null(nlp_date)) "NULL" else if (is(nlp_date, "subQuery")) paste0("(", as.character(nlp_date), ")") else paste0("'", as.character(nlp_date), "'"))
   }
 
-  if (!missing(nlp_date_time)) {
-    fields <- c(fields, "nlp_date_time")
-    values <- c(values, if (is.null(nlp_date_time)) "NULL" else if (is(nlp_date_time, "subQuery")) paste0("(", as.character(nlp_date_time), ")") else paste0("'", as.character(nlp_date_time), "'"))
+  if (!missing(nlp_datetime)) {
+    fields <- c(fields, "nlp_datetime")
+    values <- c(values, if (is.null(nlp_datetime)) "NULL" else if (is(nlp_datetime, "subQuery")) paste0("(", as.character(nlp_datetime), ")") else paste0("'", as.character(nlp_datetime), "'"))
   }
 
   if (!missing(term_exists)) {
@@ -4267,7 +4281,7 @@ expect_person <- function(person_id, gender_concept_id, year_of_birth, month_of_
   invisible(NULL)
 }
 
-expect_procedure_occurrence <- function(procedure_occurrence_id, person_id, procedure_concept_id, procedure_date, procedure_datetime, procedure_type_concept_id, modifier_concept_id, quantity, provider_id, visit_occurrence_id, procedure_source_value, procedure_source_concept_id, qualifier_source_value, visit_detail_id) {
+expect_procedure_occurrence <- function(procedure_occurrence_id, person_id, procedure_concept_id, procedure_date, procedure_datetime, procedure_type_concept_id, modifier_concept_id, quantity, provider_id, visit_occurrence_id, visit_detail_id, procedure_source_value, procedure_source_concept_id, modifier_source_value) {
   fields <- c()
   values <- c()
   if (!missing(procedure_occurrence_id)) {
@@ -4320,6 +4334,11 @@ expect_procedure_occurrence <- function(procedure_occurrence_id, person_id, proc
     values <- c(values, if (is.null(visit_occurrence_id)) "NULL" else if (is(visit_occurrence_id, "subQuery")) paste0("(", as.character(visit_occurrence_id), ")") else paste0("'", as.character(visit_occurrence_id), "'"))
   }
 
+  if (!missing(visit_detail_id)) {
+    fields <- c(fields, "visit_detail_id")
+    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  }
+
   if (!missing(procedure_source_value)) {
     fields <- c(fields, "procedure_source_value")
     values <- c(values, if (is.null(procedure_source_value)) "NULL" else if (is(procedure_source_value, "subQuery")) paste0("(", as.character(procedure_source_value), ")") else paste0("'", as.character(procedure_source_value), "'"))
@@ -4330,14 +4349,9 @@ expect_procedure_occurrence <- function(procedure_occurrence_id, person_id, proc
     values <- c(values, if (is.null(procedure_source_concept_id)) "NULL" else if (is(procedure_source_concept_id, "subQuery")) paste0("(", as.character(procedure_source_concept_id), ")") else paste0("'", as.character(procedure_source_concept_id), "'"))
   }
 
-  if (!missing(qualifier_source_value)) {
-    fields <- c(fields, "qualifier_source_value")
-    values <- c(values, if (is.null(qualifier_source_value)) "NULL" else if (is(qualifier_source_value, "subQuery")) paste0("(", as.character(qualifier_source_value), ")") else paste0("'", as.character(qualifier_source_value), "'"))
-  }
-
-  if (!missing(visit_detail_id)) {
-    fields <- c(fields, "visit_detail_id")
-    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  if (!missing(modifier_source_value)) {
+    fields <- c(fields, "modifier_source_value")
+    values <- c(values, if (is.null(modifier_source_value)) "NULL" else if (is(modifier_source_value, "subQuery")) paste0("(", as.character(modifier_source_value), ")") else paste0("'", as.character(modifier_source_value), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 0, table = "procedure_occurrence", fields = fields, values = values)
@@ -4428,7 +4442,7 @@ expect_specimen <- function(specimen_id, person_id, specimen_concept_id, specime
   invisible(NULL)
 }
 
-expect_visit_detail <- function(visit_detail_id, person_id, visit_concept_id, visit_start_date, visit_start_datetime, visit_end_date, visit_end_datetime, visit_type_concept_id, provider_id, care_site_id, visit_source_value, visit_source_concept_id, admitting_source_value, admitting_source_concept_id, discharge_to_source_value, discharge_to_concept_id, preceding_visit_detail_id, visit_detail_parent_id, visit_occurrence_id) {
+expect_visit_detail <- function(visit_detail_id, person_id, visit_detail_concept_id, visit_start_date, visit_start_datetime, visit_end_date, visit_end_datetime, visit_type_concept_id, provider_id, care_site_id, visit_source_value, visit_source_concept_id, admitting_source_value, admitting_source_concept_id, discharge_to_source_value, discharge_to_concept_id, preceding_visit_detail_id, visit_detail_parent_id, visit_occurrence_id) {
   fields <- c()
   values <- c()
   if (!missing(visit_detail_id)) {
@@ -4441,9 +4455,9 @@ expect_visit_detail <- function(visit_detail_id, person_id, visit_concept_id, vi
     values <- c(values, if (is.null(person_id)) "NULL" else if (is(person_id, "subQuery")) paste0("(", as.character(person_id), ")") else paste0("'", as.character(person_id), "'"))
   }
 
-  if (!missing(visit_concept_id)) {
-    fields <- c(fields, "visit_concept_id")
-    values <- c(values, if (is.null(visit_concept_id)) "NULL" else if (is(visit_concept_id, "subQuery")) paste0("(", as.character(visit_concept_id), ")") else paste0("'", as.character(visit_concept_id), "'"))
+  if (!missing(visit_detail_concept_id)) {
+    fields <- c(fields, "visit_detail_concept_id")
+    values <- c(values, if (is.null(visit_detail_concept_id)) "NULL" else if (is(visit_detail_concept_id, "subQuery")) paste0("(", as.character(visit_detail_concept_id), ")") else paste0("'", as.character(visit_detail_concept_id), "'"))
   }
 
   if (!missing(visit_start_date)) {
@@ -4937,7 +4951,7 @@ expect_cost <- function(cost_id, cost_event_id, cost_domain_id, cost_type_concep
   invisible(NULL)
 }
 
-expect_payer_plan_period <- function(payer_plan_period_id, person_id, payer_plan_period_start_date, payer_plan_period_end_date, payer_source_value, plan_source_value, family_source_value) {
+expect_payer_plan_period <- function(payer_plan_period_id, person_id, payer_plan_period_start_date, payer_plan_period_end_date, payer_concept_id, payer_source_value, payer_source_concept_id, plan_concept_id, plan_source_value, plan_source_concept_id, sponsor_concept_id, sponsor_source_value, sponsor_source_concept_id, family_source_value, stop_reason_concept_id, stop_reason_source_value, stop_reason_source_concept_id) {
   fields <- c()
   values <- c()
   if (!missing(payer_plan_period_id)) {
@@ -4960,9 +4974,24 @@ expect_payer_plan_period <- function(payer_plan_period_id, person_id, payer_plan
     values <- c(values, if (is.null(payer_plan_period_end_date)) "NULL" else if (is(payer_plan_period_end_date, "subQuery")) paste0("(", as.character(payer_plan_period_end_date), ")") else paste0("'", as.character(payer_plan_period_end_date), "'"))
   }
 
+  if (!missing(payer_concept_id)) {
+    fields <- c(fields, "payer_concept_id")
+    values <- c(values, if (is.null(payer_concept_id)) "NULL" else if (is(payer_concept_id, "subQuery")) paste0("(", as.character(payer_concept_id), ")") else paste0("'", as.character(payer_concept_id), "'"))
+  }
+
   if (!missing(payer_source_value)) {
     fields <- c(fields, "payer_source_value")
     values <- c(values, if (is.null(payer_source_value)) "NULL" else if (is(payer_source_value, "subQuery")) paste0("(", as.character(payer_source_value), ")") else paste0("'", as.character(payer_source_value), "'"))
+  }
+
+  if (!missing(payer_source_concept_id)) {
+    fields <- c(fields, "payer_source_concept_id")
+    values <- c(values, if (is.null(payer_source_concept_id)) "NULL" else if (is(payer_source_concept_id, "subQuery")) paste0("(", as.character(payer_source_concept_id), ")") else paste0("'", as.character(payer_source_concept_id), "'"))
+  }
+
+  if (!missing(plan_concept_id)) {
+    fields <- c(fields, "plan_concept_id")
+    values <- c(values, if (is.null(plan_concept_id)) "NULL" else if (is(plan_concept_id, "subQuery")) paste0("(", as.character(plan_concept_id), ")") else paste0("'", as.character(plan_concept_id), "'"))
   }
 
   if (!missing(plan_source_value)) {
@@ -4970,9 +4999,44 @@ expect_payer_plan_period <- function(payer_plan_period_id, person_id, payer_plan
     values <- c(values, if (is.null(plan_source_value)) "NULL" else if (is(plan_source_value, "subQuery")) paste0("(", as.character(plan_source_value), ")") else paste0("'", as.character(plan_source_value), "'"))
   }
 
+  if (!missing(plan_source_concept_id)) {
+    fields <- c(fields, "plan_source_concept_id")
+    values <- c(values, if (is.null(plan_source_concept_id)) "NULL" else if (is(plan_source_concept_id, "subQuery")) paste0("(", as.character(plan_source_concept_id), ")") else paste0("'", as.character(plan_source_concept_id), "'"))
+  }
+
+  if (!missing(sponsor_concept_id)) {
+    fields <- c(fields, "sponsor_concept_id")
+    values <- c(values, if (is.null(sponsor_concept_id)) "NULL" else if (is(sponsor_concept_id, "subQuery")) paste0("(", as.character(sponsor_concept_id), ")") else paste0("'", as.character(sponsor_concept_id), "'"))
+  }
+
+  if (!missing(sponsor_source_value)) {
+    fields <- c(fields, "sponsor_source_value")
+    values <- c(values, if (is.null(sponsor_source_value)) "NULL" else if (is(sponsor_source_value, "subQuery")) paste0("(", as.character(sponsor_source_value), ")") else paste0("'", as.character(sponsor_source_value), "'"))
+  }
+
+  if (!missing(sponsor_source_concept_id)) {
+    fields <- c(fields, "sponsor_source_concept_id")
+    values <- c(values, if (is.null(sponsor_source_concept_id)) "NULL" else if (is(sponsor_source_concept_id, "subQuery")) paste0("(", as.character(sponsor_source_concept_id), ")") else paste0("'", as.character(sponsor_source_concept_id), "'"))
+  }
+
   if (!missing(family_source_value)) {
     fields <- c(fields, "family_source_value")
     values <- c(values, if (is.null(family_source_value)) "NULL" else if (is(family_source_value, "subQuery")) paste0("(", as.character(family_source_value), ")") else paste0("'", as.character(family_source_value), "'"))
+  }
+
+  if (!missing(stop_reason_concept_id)) {
+    fields <- c(fields, "stop_reason_concept_id")
+    values <- c(values, if (is.null(stop_reason_concept_id)) "NULL" else if (is(stop_reason_concept_id, "subQuery")) paste0("(", as.character(stop_reason_concept_id), ")") else paste0("'", as.character(stop_reason_concept_id), "'"))
+  }
+
+  if (!missing(stop_reason_source_value)) {
+    fields <- c(fields, "stop_reason_source_value")
+    values <- c(values, if (is.null(stop_reason_source_value)) "NULL" else if (is(stop_reason_source_value, "subQuery")) paste0("(", as.character(stop_reason_source_value), ")") else paste0("'", as.character(stop_reason_source_value), "'"))
+  }
+
+  if (!missing(stop_reason_source_concept_id)) {
+    fields <- c(fields, "stop_reason_source_concept_id")
+    values <- c(values, if (is.null(stop_reason_source_concept_id)) "NULL" else if (is(stop_reason_source_concept_id, "subQuery")) paste0("(", as.character(stop_reason_source_concept_id), ")") else paste0("'", as.character(stop_reason_source_concept_id), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 0, table = "payer_plan_period", fields = fields, values = values)
@@ -5139,7 +5203,7 @@ expect_provider <- function(provider_id, provider_name, npi, dea, specialty_conc
   invisible(NULL)
 }
 
-expect_cdm_source <- function(cdm_source_name, cdm_source_abbreviation, cdm_holder, source_description, source_documentation_reference, cdm_etl__reference, source_release_date, cdm_release_date, cdm_version, vocabulary_version) {
+expect_cdm_source <- function(cdm_source_name, cdm_source_abbreviation, cdm_holder, source_description, source_documentation_reference, cdm_etl_reference, source_release_date, cdm_release_date, cdm_version, vocabulary_version) {
   fields <- c()
   values <- c()
   if (!missing(cdm_source_name)) {
@@ -5167,9 +5231,9 @@ expect_cdm_source <- function(cdm_source_name, cdm_source_abbreviation, cdm_hold
     values <- c(values, if (is.null(source_documentation_reference)) "NULL" else if (is(source_documentation_reference, "subQuery")) paste0("(", as.character(source_documentation_reference), ")") else paste0("'", as.character(source_documentation_reference), "'"))
   }
 
-  if (!missing(cdm_etl__reference)) {
-    fields <- c(fields, "[cdm_etl _reference]")
-    values <- c(values, if (is.null(cdm_etl__reference)) "NULL" else if (is(cdm_etl__reference, "subQuery")) paste0("(", as.character(cdm_etl__reference), ")") else paste0("'", as.character(cdm_etl__reference), "'"))
+  if (!missing(cdm_etl_reference)) {
+    fields <- c(fields, "cdm_etl_reference")
+    values <- c(values, if (is.null(cdm_etl_reference)) "NULL" else if (is(cdm_etl_reference, "subQuery")) paste0("(", as.character(cdm_etl_reference), ")") else paste0("'", as.character(cdm_etl_reference), "'"))
   }
 
   if (!missing(source_release_date)) {
@@ -5193,6 +5257,49 @@ expect_cdm_source <- function(cdm_source_name, cdm_source_abbreviation, cdm_hold
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 0, table = "cdm_source", fields = fields, values = values)
+  frameworkContext$expects[[length(frameworkContext$expects) + 1]] <- expects
+  invisible(NULL)
+}
+
+expect_metadata <- function(metadata_concept_id, metadata_type_concept_id, name, value_as_string, value_as_concept_id, metadata_date, metadata_datetime) {
+  fields <- c()
+  values <- c()
+  if (!missing(metadata_concept_id)) {
+    fields <- c(fields, "metadata_concept_id")
+    values <- c(values, if (is.null(metadata_concept_id)) "NULL" else if (is(metadata_concept_id, "subQuery")) paste0("(", as.character(metadata_concept_id), ")") else paste0("'", as.character(metadata_concept_id), "'"))
+  }
+
+  if (!missing(metadata_type_concept_id)) {
+    fields <- c(fields, "metadata_type_concept_id")
+    values <- c(values, if (is.null(metadata_type_concept_id)) "NULL" else if (is(metadata_type_concept_id, "subQuery")) paste0("(", as.character(metadata_type_concept_id), ")") else paste0("'", as.character(metadata_type_concept_id), "'"))
+  }
+
+  if (!missing(name)) {
+    fields <- c(fields, "name")
+    values <- c(values, if (is.null(name)) "NULL" else if (is(name, "subQuery")) paste0("(", as.character(name), ")") else paste0("'", as.character(name), "'"))
+  }
+
+  if (!missing(value_as_string)) {
+    fields <- c(fields, "value_as_string")
+    values <- c(values, if (is.null(value_as_string)) "NULL" else if (is(value_as_string, "subQuery")) paste0("(", as.character(value_as_string), ")") else paste0("'", as.character(value_as_string), "'"))
+  }
+
+  if (!missing(value_as_concept_id)) {
+    fields <- c(fields, "value_as_concept_id")
+    values <- c(values, if (is.null(value_as_concept_id)) "NULL" else if (is(value_as_concept_id, "subQuery")) paste0("(", as.character(value_as_concept_id), ")") else paste0("'", as.character(value_as_concept_id), "'"))
+  }
+
+  if (!missing(metadata_date)) {
+    fields <- c(fields, "[metadata date]")
+    values <- c(values, if (is.null(metadata_date)) "NULL" else if (is(metadata_date, "subQuery")) paste0("(", as.character(metadata_date), ")") else paste0("'", as.character(metadata_date), "'"))
+  }
+
+  if (!missing(metadata_datetime)) {
+    fields <- c(fields, "metadata_datetime")
+    values <- c(values, if (is.null(metadata_datetime)) "NULL" else if (is(metadata_datetime, "subQuery")) paste0("(", as.character(metadata_datetime), ")") else paste0("'", as.character(metadata_datetime), "'"))
+  }
+
+  expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 0, table = "metadata", fields = fields, values = values)
   frameworkContext$expects[[length(frameworkContext$expects) + 1]] <- expects
   invisible(NULL)
 }
@@ -5230,7 +5337,7 @@ expect_attribute_definition <- function(attribute_definition_id, attribute_name,
   invisible(NULL)
 }
 
-expect_cohort_definition <- function(cohort_definition_id, cohort_definition_name, cohort_definition_description, definition_type_concept_id, cohort_definition_syntax, subject_concept_id, cohort_instantiation_date) {
+expect_cohort_definition <- function(cohort_definition_id, cohort_definition_name, cohort_definition_description, definition_type_concept_id, cohort_definition_syntax, subject_concept_id, cohort_initiation_date) {
   fields <- c()
   values <- c()
   if (!missing(cohort_definition_id)) {
@@ -5263,9 +5370,9 @@ expect_cohort_definition <- function(cohort_definition_id, cohort_definition_nam
     values <- c(values, if (is.null(subject_concept_id)) "NULL" else if (is(subject_concept_id, "subQuery")) paste0("(", as.character(subject_concept_id), ")") else paste0("'", as.character(subject_concept_id), "'"))
   }
 
-  if (!missing(cohort_instantiation_date)) {
-    fields <- c(fields, "cohort_instantiation_date")
-    values <- c(values, if (is.null(cohort_instantiation_date)) "NULL" else if (is(cohort_instantiation_date, "subQuery")) paste0("(", as.character(cohort_instantiation_date), ")") else paste0("'", as.character(cohort_instantiation_date), "'"))
+  if (!missing(cohort_initiation_date)) {
+    fields <- c(fields, "cohort_initiation_date")
+    values <- c(values, if (is.null(cohort_initiation_date)) "NULL" else if (is(cohort_initiation_date, "subQuery")) paste0("(", as.character(cohort_initiation_date), ")") else paste0("'", as.character(cohort_initiation_date), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 0, table = "cohort_definition", fields = fields, values = values)
@@ -5404,7 +5511,7 @@ expect_no_death <- function(person_id, death_date, death_datetime, death_type_co
   invisible(NULL)
 }
 
-expect_no_device_exposure <- function(device_exposure_id, person_id, device_concept_id, device_exposure_start_date, device_exposure_start_datetime, device_exposure_end_date, device_exposure_end_datetime, device_type_concept_id, unique_device_id, quantity, provider_id, visit_occurrence_id, device_source_value, device_source__concept_id, visit_detail_id) {
+expect_no_device_exposure <- function(device_exposure_id, person_id, device_concept_id, device_exposure_start_date, device_exposure_start_datetime, device_exposure_end_date, device_exposure_end_datetime, device_type_concept_id, unique_device_id, quantity, provider_id, visit_occurrence_id, visit_detail_id, device_source_value, device_source_concept_id) {
   fields <- c()
   values <- c()
   if (!missing(device_exposure_id)) {
@@ -5467,19 +5574,19 @@ expect_no_device_exposure <- function(device_exposure_id, person_id, device_conc
     values <- c(values, if (is.null(visit_occurrence_id)) "NULL" else if (is(visit_occurrence_id, "subQuery")) paste0("(", as.character(visit_occurrence_id), ")") else paste0("'", as.character(visit_occurrence_id), "'"))
   }
 
+  if (!missing(visit_detail_id)) {
+    fields <- c(fields, "visit_detail_id")
+    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  }
+
   if (!missing(device_source_value)) {
     fields <- c(fields, "device_source_value")
     values <- c(values, if (is.null(device_source_value)) "NULL" else if (is(device_source_value, "subQuery")) paste0("(", as.character(device_source_value), ")") else paste0("'", as.character(device_source_value), "'"))
   }
 
-  if (!missing(device_source__concept_id)) {
-    fields <- c(fields, "[device_source_ concept_id]")
-    values <- c(values, if (is.null(device_source__concept_id)) "NULL" else if (is(device_source__concept_id, "subQuery")) paste0("(", as.character(device_source__concept_id), ")") else paste0("'", as.character(device_source__concept_id), "'"))
-  }
-
-  if (!missing(visit_detail_id)) {
-    fields <- c(fields, "visit_detail_id")
-    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  if (!missing(device_source_concept_id)) {
+    fields <- c(fields, "device_source_concept_id")
+    values <- c(values, if (is.null(device_source_concept_id)) "NULL" else if (is(device_source_concept_id, "subQuery")) paste0("(", as.character(device_source_concept_id), ")") else paste0("'", as.character(device_source_concept_id), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 1, table = "device_exposure", fields = fields, values = values)
@@ -5487,7 +5594,7 @@ expect_no_device_exposure <- function(device_exposure_id, person_id, device_conc
   invisible(NULL)
 }
 
-expect_no_drug_exposure <- function(drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_start_datetime, drug_exposure_end_date, drug_exposure_end_datetime, verbatim_end_date, drug_type_concept_id, stop_reason, refills, quantity, days_supply, sig, route_concept_id, lot_number, provider_id, visit_occurrence_id, drug_source_value, drug_source_concept_id, route_source_value, dose_unit_source_value, visit_detail_id) {
+expect_no_drug_exposure <- function(drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_start_datetime, drug_exposure_end_date, drug_exposure_end_datetime, verbatim_end_date, drug_type_concept_id, stop_reason, refills, quantity, days_supply, sig, route_concept_id, lot_number, provider_id, visit_occurrence_id, visit_detail_id, drug_source_value, drug_source_concept_id, route_source_value, dose_unit_source_value) {
   fields <- c()
   values <- c()
   if (!missing(drug_exposure_id)) {
@@ -5580,6 +5687,11 @@ expect_no_drug_exposure <- function(drug_exposure_id, person_id, drug_concept_id
     values <- c(values, if (is.null(visit_occurrence_id)) "NULL" else if (is(visit_occurrence_id, "subQuery")) paste0("(", as.character(visit_occurrence_id), ")") else paste0("'", as.character(visit_occurrence_id), "'"))
   }
 
+  if (!missing(visit_detail_id)) {
+    fields <- c(fields, "visit_detail_id")
+    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  }
+
   if (!missing(drug_source_value)) {
     fields <- c(fields, "drug_source_value")
     values <- c(values, if (is.null(drug_source_value)) "NULL" else if (is(drug_source_value, "subQuery")) paste0("(", as.character(drug_source_value), ")") else paste0("'", as.character(drug_source_value), "'"))
@@ -5598,11 +5710,6 @@ expect_no_drug_exposure <- function(drug_exposure_id, person_id, drug_concept_id
   if (!missing(dose_unit_source_value)) {
     fields <- c(fields, "dose_unit_source_value")
     values <- c(values, if (is.null(dose_unit_source_value)) "NULL" else if (is(dose_unit_source_value, "subQuery")) paste0("(", as.character(dose_unit_source_value), ")") else paste0("'", as.character(dose_unit_source_value), "'"))
-  }
-
-  if (!missing(visit_detail_id)) {
-    fields <- c(fields, "visit_detail_id")
-    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 1, table = "drug_exposure", fields = fields, values = values)
@@ -5643,7 +5750,7 @@ expect_no_fact_relationship <- function(domain_concept_id_1, fact_id_1, domain_c
   invisible(NULL)
 }
 
-expect_no_measurement <- function(measurement_id, person_id, measurement_concept_id, measurement_date, measurement_datetime, measurement_type_concept_id, operator_concept_id, value_as_number, value_as_concept_id, unit_concept_id, range_low, range_high, provider_id, visit_occurrence_id, visit_detail_id, measurement_source_value, measurement_source_concept_id, unit_source_value, value_source_value) {
+expect_no_measurement <- function(measurement_id, person_id, measurement_concept_id, measurement_date, measurement_datetime, measurement_time, measurement_type_concept_id, operator_concept_id, value_as_number, value_as_concept_id, unit_concept_id, range_low, range_high, provider_id, visit_occurrence_id, visit_detail_id, measurement_source_value, measurement_source_concept_id, unit_source_value, value_source_value) {
   fields <- c()
   values <- c()
   if (!missing(measurement_id)) {
@@ -5669,6 +5776,11 @@ expect_no_measurement <- function(measurement_id, person_id, measurement_concept
   if (!missing(measurement_datetime)) {
     fields <- c(fields, "measurement_datetime")
     values <- c(values, if (is.null(measurement_datetime)) "NULL" else if (is(measurement_datetime, "subQuery")) paste0("(", as.character(measurement_datetime), ")") else paste0("'", as.character(measurement_datetime), "'"))
+  }
+
+  if (!missing(measurement_time)) {
+    fields <- c(fields, "measurement_time")
+    values <- c(values, if (is.null(measurement_time)) "NULL" else if (is(measurement_time, "subQuery")) paste0("(", as.character(measurement_time), ")") else paste0("'", as.character(measurement_time), "'"))
   }
 
   if (!missing(measurement_type_concept_id)) {
@@ -5746,7 +5858,7 @@ expect_no_measurement <- function(measurement_id, person_id, measurement_concept
   invisible(NULL)
 }
 
-expect_no_note <- function(note_id, person_id, note_date, note_datetime, note_type_concept_id, note_class_concept_id, note_title, note_text, encoding_concept_id, language_concept_id, provider_id, note_source_value, visit_occurrence_id) {
+expect_no_note <- function(note_id, person_id, note_date, note_datetime, note_type_concept_id, note_class_concept_id, note_title, note_text, encoding_concept_id, language_concept_id, provider_id, visit_occurrence_id, visit_detail_id, note_source_value) {
   fields <- c()
   values <- c()
   if (!missing(note_id)) {
@@ -5804,14 +5916,19 @@ expect_no_note <- function(note_id, person_id, note_date, note_datetime, note_ty
     values <- c(values, if (is.null(provider_id)) "NULL" else if (is(provider_id, "subQuery")) paste0("(", as.character(provider_id), ")") else paste0("'", as.character(provider_id), "'"))
   }
 
-  if (!missing(note_source_value)) {
-    fields <- c(fields, "note_source_value")
-    values <- c(values, if (is.null(note_source_value)) "NULL" else if (is(note_source_value, "subQuery")) paste0("(", as.character(note_source_value), ")") else paste0("'", as.character(note_source_value), "'"))
-  }
-
   if (!missing(visit_occurrence_id)) {
     fields <- c(fields, "visit_occurrence_id")
     values <- c(values, if (is.null(visit_occurrence_id)) "NULL" else if (is(visit_occurrence_id, "subQuery")) paste0("(", as.character(visit_occurrence_id), ")") else paste0("'", as.character(visit_occurrence_id), "'"))
+  }
+
+  if (!missing(visit_detail_id)) {
+    fields <- c(fields, "visit_detail_id")
+    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  }
+
+  if (!missing(note_source_value)) {
+    fields <- c(fields, "note_source_value")
+    values <- c(values, if (is.null(note_source_value)) "NULL" else if (is(note_source_value, "subQuery")) paste0("(", as.character(note_source_value), ")") else paste0("'", as.character(note_source_value), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 1, table = "note", fields = fields, values = values)
@@ -5819,7 +5936,7 @@ expect_no_note <- function(note_id, person_id, note_date, note_datetime, note_ty
   invisible(NULL)
 }
 
-expect_no_note_nlp <- function(note_nlp_id, note_id, section_concept_id, snippet, offset, lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_date_time, term_exists, term_temporal, term_modifiers) {
+expect_no_note_nlp <- function(note_nlp_id, note_id, section_concept_id, snippet, offset, lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_datetime, term_exists, term_temporal, term_modifiers) {
   fields <- c()
   values <- c()
   if (!missing(note_nlp_id)) {
@@ -5872,9 +5989,9 @@ expect_no_note_nlp <- function(note_nlp_id, note_id, section_concept_id, snippet
     values <- c(values, if (is.null(nlp_date)) "NULL" else if (is(nlp_date, "subQuery")) paste0("(", as.character(nlp_date), ")") else paste0("'", as.character(nlp_date), "'"))
   }
 
-  if (!missing(nlp_date_time)) {
-    fields <- c(fields, "nlp_date_time")
-    values <- c(values, if (is.null(nlp_date_time)) "NULL" else if (is(nlp_date_time, "subQuery")) paste0("(", as.character(nlp_date_time), ")") else paste0("'", as.character(nlp_date_time), "'"))
+  if (!missing(nlp_datetime)) {
+    fields <- c(fields, "nlp_datetime")
+    values <- c(values, if (is.null(nlp_datetime)) "NULL" else if (is(nlp_datetime, "subQuery")) paste0("(", as.character(nlp_datetime), ")") else paste0("'", as.character(nlp_datetime), "'"))
   }
 
   if (!missing(term_exists)) {
@@ -6126,7 +6243,7 @@ expect_no_person <- function(person_id, gender_concept_id, year_of_birth, month_
   invisible(NULL)
 }
 
-expect_no_procedure_occurrence <- function(procedure_occurrence_id, person_id, procedure_concept_id, procedure_date, procedure_datetime, procedure_type_concept_id, modifier_concept_id, quantity, provider_id, visit_occurrence_id, procedure_source_value, procedure_source_concept_id, qualifier_source_value, visit_detail_id) {
+expect_no_procedure_occurrence <- function(procedure_occurrence_id, person_id, procedure_concept_id, procedure_date, procedure_datetime, procedure_type_concept_id, modifier_concept_id, quantity, provider_id, visit_occurrence_id, visit_detail_id, procedure_source_value, procedure_source_concept_id, modifier_source_value) {
   fields <- c()
   values <- c()
   if (!missing(procedure_occurrence_id)) {
@@ -6179,6 +6296,11 @@ expect_no_procedure_occurrence <- function(procedure_occurrence_id, person_id, p
     values <- c(values, if (is.null(visit_occurrence_id)) "NULL" else if (is(visit_occurrence_id, "subQuery")) paste0("(", as.character(visit_occurrence_id), ")") else paste0("'", as.character(visit_occurrence_id), "'"))
   }
 
+  if (!missing(visit_detail_id)) {
+    fields <- c(fields, "visit_detail_id")
+    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  }
+
   if (!missing(procedure_source_value)) {
     fields <- c(fields, "procedure_source_value")
     values <- c(values, if (is.null(procedure_source_value)) "NULL" else if (is(procedure_source_value, "subQuery")) paste0("(", as.character(procedure_source_value), ")") else paste0("'", as.character(procedure_source_value), "'"))
@@ -6189,14 +6311,9 @@ expect_no_procedure_occurrence <- function(procedure_occurrence_id, person_id, p
     values <- c(values, if (is.null(procedure_source_concept_id)) "NULL" else if (is(procedure_source_concept_id, "subQuery")) paste0("(", as.character(procedure_source_concept_id), ")") else paste0("'", as.character(procedure_source_concept_id), "'"))
   }
 
-  if (!missing(qualifier_source_value)) {
-    fields <- c(fields, "qualifier_source_value")
-    values <- c(values, if (is.null(qualifier_source_value)) "NULL" else if (is(qualifier_source_value, "subQuery")) paste0("(", as.character(qualifier_source_value), ")") else paste0("'", as.character(qualifier_source_value), "'"))
-  }
-
-  if (!missing(visit_detail_id)) {
-    fields <- c(fields, "visit_detail_id")
-    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  if (!missing(modifier_source_value)) {
+    fields <- c(fields, "modifier_source_value")
+    values <- c(values, if (is.null(modifier_source_value)) "NULL" else if (is(modifier_source_value, "subQuery")) paste0("(", as.character(modifier_source_value), ")") else paste0("'", as.character(modifier_source_value), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 1, table = "procedure_occurrence", fields = fields, values = values)
@@ -6796,7 +6913,7 @@ expect_no_cost <- function(cost_id, cost_event_id, cost_domain_id, cost_type_con
   invisible(NULL)
 }
 
-expect_no_payer_plan_period <- function(payer_plan_period_id, person_id, payer_plan_period_start_date, payer_plan_period_end_date, payer_source_value, plan_source_value, family_source_value) {
+expect_no_payer_plan_period <- function(payer_plan_period_id, person_id, payer_plan_period_start_date, payer_plan_period_end_date, payer_concept_id, payer_source_value, payer_source_concept_id, plan_concept_id, plan_source_value, plan_source_concept_id, sponsor_concept_id, sponsor_source_value, sponsor_source_concept_id, family_source_value, stop_reason_concept_id, stop_reason_source_value, stop_reason_source_concept_id) {
   fields <- c()
   values <- c()
   if (!missing(payer_plan_period_id)) {
@@ -6819,9 +6936,24 @@ expect_no_payer_plan_period <- function(payer_plan_period_id, person_id, payer_p
     values <- c(values, if (is.null(payer_plan_period_end_date)) "NULL" else if (is(payer_plan_period_end_date, "subQuery")) paste0("(", as.character(payer_plan_period_end_date), ")") else paste0("'", as.character(payer_plan_period_end_date), "'"))
   }
 
+  if (!missing(payer_concept_id)) {
+    fields <- c(fields, "payer_concept_id")
+    values <- c(values, if (is.null(payer_concept_id)) "NULL" else if (is(payer_concept_id, "subQuery")) paste0("(", as.character(payer_concept_id), ")") else paste0("'", as.character(payer_concept_id), "'"))
+  }
+
   if (!missing(payer_source_value)) {
     fields <- c(fields, "payer_source_value")
     values <- c(values, if (is.null(payer_source_value)) "NULL" else if (is(payer_source_value, "subQuery")) paste0("(", as.character(payer_source_value), ")") else paste0("'", as.character(payer_source_value), "'"))
+  }
+
+  if (!missing(payer_source_concept_id)) {
+    fields <- c(fields, "payer_source_concept_id")
+    values <- c(values, if (is.null(payer_source_concept_id)) "NULL" else if (is(payer_source_concept_id, "subQuery")) paste0("(", as.character(payer_source_concept_id), ")") else paste0("'", as.character(payer_source_concept_id), "'"))
+  }
+
+  if (!missing(plan_concept_id)) {
+    fields <- c(fields, "plan_concept_id")
+    values <- c(values, if (is.null(plan_concept_id)) "NULL" else if (is(plan_concept_id, "subQuery")) paste0("(", as.character(plan_concept_id), ")") else paste0("'", as.character(plan_concept_id), "'"))
   }
 
   if (!missing(plan_source_value)) {
@@ -6829,9 +6961,44 @@ expect_no_payer_plan_period <- function(payer_plan_period_id, person_id, payer_p
     values <- c(values, if (is.null(plan_source_value)) "NULL" else if (is(plan_source_value, "subQuery")) paste0("(", as.character(plan_source_value), ")") else paste0("'", as.character(plan_source_value), "'"))
   }
 
+  if (!missing(plan_source_concept_id)) {
+    fields <- c(fields, "plan_source_concept_id")
+    values <- c(values, if (is.null(plan_source_concept_id)) "NULL" else if (is(plan_source_concept_id, "subQuery")) paste0("(", as.character(plan_source_concept_id), ")") else paste0("'", as.character(plan_source_concept_id), "'"))
+  }
+
+  if (!missing(sponsor_concept_id)) {
+    fields <- c(fields, "sponsor_concept_id")
+    values <- c(values, if (is.null(sponsor_concept_id)) "NULL" else if (is(sponsor_concept_id, "subQuery")) paste0("(", as.character(sponsor_concept_id), ")") else paste0("'", as.character(sponsor_concept_id), "'"))
+  }
+
+  if (!missing(sponsor_source_value)) {
+    fields <- c(fields, "sponsor_source_value")
+    values <- c(values, if (is.null(sponsor_source_value)) "NULL" else if (is(sponsor_source_value, "subQuery")) paste0("(", as.character(sponsor_source_value), ")") else paste0("'", as.character(sponsor_source_value), "'"))
+  }
+
+  if (!missing(sponsor_source_concept_id)) {
+    fields <- c(fields, "sponsor_source_concept_id")
+    values <- c(values, if (is.null(sponsor_source_concept_id)) "NULL" else if (is(sponsor_source_concept_id, "subQuery")) paste0("(", as.character(sponsor_source_concept_id), ")") else paste0("'", as.character(sponsor_source_concept_id), "'"))
+  }
+
   if (!missing(family_source_value)) {
     fields <- c(fields, "family_source_value")
     values <- c(values, if (is.null(family_source_value)) "NULL" else if (is(family_source_value, "subQuery")) paste0("(", as.character(family_source_value), ")") else paste0("'", as.character(family_source_value), "'"))
+  }
+
+  if (!missing(stop_reason_concept_id)) {
+    fields <- c(fields, "stop_reason_concept_id")
+    values <- c(values, if (is.null(stop_reason_concept_id)) "NULL" else if (is(stop_reason_concept_id, "subQuery")) paste0("(", as.character(stop_reason_concept_id), ")") else paste0("'", as.character(stop_reason_concept_id), "'"))
+  }
+
+  if (!missing(stop_reason_source_value)) {
+    fields <- c(fields, "stop_reason_source_value")
+    values <- c(values, if (is.null(stop_reason_source_value)) "NULL" else if (is(stop_reason_source_value, "subQuery")) paste0("(", as.character(stop_reason_source_value), ")") else paste0("'", as.character(stop_reason_source_value), "'"))
+  }
+
+  if (!missing(stop_reason_source_concept_id)) {
+    fields <- c(fields, "stop_reason_source_concept_id")
+    values <- c(values, if (is.null(stop_reason_source_concept_id)) "NULL" else if (is(stop_reason_source_concept_id, "subQuery")) paste0("(", as.character(stop_reason_source_concept_id), ")") else paste0("'", as.character(stop_reason_source_concept_id), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 1, table = "payer_plan_period", fields = fields, values = values)
@@ -6998,7 +7165,7 @@ expect_no_provider <- function(provider_id, provider_name, npi, dea, specialty_c
   invisible(NULL)
 }
 
-expect_no_cdm_source <- function(cdm_source_name, cdm_source_abbreviation, cdm_holder, source_description, source_documentation_reference, cdm_etl__reference, source_release_date, cdm_release_date, cdm_version, vocabulary_version) {
+expect_no_cdm_source <- function(cdm_source_name, cdm_source_abbreviation, cdm_holder, source_description, source_documentation_reference, cdm_etl_reference, source_release_date, cdm_release_date, cdm_version, vocabulary_version) {
   fields <- c()
   values <- c()
   if (!missing(cdm_source_name)) {
@@ -7026,9 +7193,9 @@ expect_no_cdm_source <- function(cdm_source_name, cdm_source_abbreviation, cdm_h
     values <- c(values, if (is.null(source_documentation_reference)) "NULL" else if (is(source_documentation_reference, "subQuery")) paste0("(", as.character(source_documentation_reference), ")") else paste0("'", as.character(source_documentation_reference), "'"))
   }
 
-  if (!missing(cdm_etl__reference)) {
-    fields <- c(fields, "[cdm_etl _reference]")
-    values <- c(values, if (is.null(cdm_etl__reference)) "NULL" else if (is(cdm_etl__reference, "subQuery")) paste0("(", as.character(cdm_etl__reference), ")") else paste0("'", as.character(cdm_etl__reference), "'"))
+  if (!missing(cdm_etl_reference)) {
+    fields <- c(fields, "cdm_etl_reference")
+    values <- c(values, if (is.null(cdm_etl_reference)) "NULL" else if (is(cdm_etl_reference, "subQuery")) paste0("(", as.character(cdm_etl_reference), ")") else paste0("'", as.character(cdm_etl_reference), "'"))
   }
 
   if (!missing(source_release_date)) {
@@ -7052,6 +7219,49 @@ expect_no_cdm_source <- function(cdm_source_name, cdm_source_abbreviation, cdm_h
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 1, table = "cdm_source", fields = fields, values = values)
+  frameworkContext$expects[[length(frameworkContext$expects) + 1]] <- expects
+  invisible(NULL)
+}
+
+expect_no_metadata <- function(metadata_concept_id, metadata_type_concept_id, name, value_as_string, value_as_concept_id, metadata_date, metadata_datetime) {
+  fields <- c()
+  values <- c()
+  if (!missing(metadata_concept_id)) {
+    fields <- c(fields, "metadata_concept_id")
+    values <- c(values, if (is.null(metadata_concept_id)) "NULL" else if (is(metadata_concept_id, "subQuery")) paste0("(", as.character(metadata_concept_id), ")") else paste0("'", as.character(metadata_concept_id), "'"))
+  }
+
+  if (!missing(metadata_type_concept_id)) {
+    fields <- c(fields, "metadata_type_concept_id")
+    values <- c(values, if (is.null(metadata_type_concept_id)) "NULL" else if (is(metadata_type_concept_id, "subQuery")) paste0("(", as.character(metadata_type_concept_id), ")") else paste0("'", as.character(metadata_type_concept_id), "'"))
+  }
+
+  if (!missing(name)) {
+    fields <- c(fields, "name")
+    values <- c(values, if (is.null(name)) "NULL" else if (is(name, "subQuery")) paste0("(", as.character(name), ")") else paste0("'", as.character(name), "'"))
+  }
+
+  if (!missing(value_as_string)) {
+    fields <- c(fields, "value_as_string")
+    values <- c(values, if (is.null(value_as_string)) "NULL" else if (is(value_as_string, "subQuery")) paste0("(", as.character(value_as_string), ")") else paste0("'", as.character(value_as_string), "'"))
+  }
+
+  if (!missing(value_as_concept_id)) {
+    fields <- c(fields, "value_as_concept_id")
+    values <- c(values, if (is.null(value_as_concept_id)) "NULL" else if (is(value_as_concept_id, "subQuery")) paste0("(", as.character(value_as_concept_id), ")") else paste0("'", as.character(value_as_concept_id), "'"))
+  }
+
+  if (!missing(metadata_date)) {
+    fields <- c(fields, "[metadata date]")
+    values <- c(values, if (is.null(metadata_date)) "NULL" else if (is(metadata_date, "subQuery")) paste0("(", as.character(metadata_date), ")") else paste0("'", as.character(metadata_date), "'"))
+  }
+
+  if (!missing(metadata_datetime)) {
+    fields <- c(fields, "metadata_datetime")
+    values <- c(values, if (is.null(metadata_datetime)) "NULL" else if (is(metadata_datetime, "subQuery")) paste0("(", as.character(metadata_datetime), ")") else paste0("'", as.character(metadata_datetime), "'"))
+  }
+
+  expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 1, table = "metadata", fields = fields, values = values)
   frameworkContext$expects[[length(frameworkContext$expects) + 1]] <- expects
   invisible(NULL)
 }
@@ -7089,7 +7299,7 @@ expect_no_attribute_definition <- function(attribute_definition_id, attribute_na
   invisible(NULL)
 }
 
-expect_no_cohort_definition <- function(cohort_definition_id, cohort_definition_name, cohort_definition_description, definition_type_concept_id, cohort_definition_syntax, subject_concept_id, cohort_instantiation_date) {
+expect_no_cohort_definition <- function(cohort_definition_id, cohort_definition_name, cohort_definition_description, definition_type_concept_id, cohort_definition_syntax, subject_concept_id, cohort_initiation_date) {
   fields <- c()
   values <- c()
   if (!missing(cohort_definition_id)) {
@@ -7122,9 +7332,9 @@ expect_no_cohort_definition <- function(cohort_definition_id, cohort_definition_
     values <- c(values, if (is.null(subject_concept_id)) "NULL" else if (is(subject_concept_id, "subQuery")) paste0("(", as.character(subject_concept_id), ")") else paste0("'", as.character(subject_concept_id), "'"))
   }
 
-  if (!missing(cohort_instantiation_date)) {
-    fields <- c(fields, "cohort_instantiation_date")
-    values <- c(values, if (is.null(cohort_instantiation_date)) "NULL" else if (is(cohort_instantiation_date, "subQuery")) paste0("(", as.character(cohort_instantiation_date), ")") else paste0("'", as.character(cohort_instantiation_date), "'"))
+  if (!missing(cohort_initiation_date)) {
+    fields <- c(fields, "cohort_initiation_date")
+    values <- c(values, if (is.null(cohort_initiation_date)) "NULL" else if (is(cohort_initiation_date, "subQuery")) paste0("(", as.character(cohort_initiation_date), ")") else paste0("'", as.character(cohort_initiation_date), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 1, table = "cohort_definition", fields = fields, values = values)
@@ -7265,7 +7475,7 @@ expect_count_death <- function(rowCount, person_id, death_date, death_datetime, 
   invisible(NULL)
 }
 
-expect_count_device_exposure <- function(rowCount, device_exposure_id, person_id, device_concept_id, device_exposure_start_date, device_exposure_start_datetime, device_exposure_end_date, device_exposure_end_datetime, device_type_concept_id, unique_device_id, quantity, provider_id, visit_occurrence_id, device_source_value, device_source__concept_id, visit_detail_id) {
+expect_count_device_exposure <- function(rowCount, device_exposure_id, person_id, device_concept_id, device_exposure_start_date, device_exposure_start_datetime, device_exposure_end_date, device_exposure_end_datetime, device_type_concept_id, unique_device_id, quantity, provider_id, visit_occurrence_id, visit_detail_id, device_source_value, device_source_concept_id) {
   fields <- c()
   values <- c()
   if (!missing(device_exposure_id)) {
@@ -7328,19 +7538,19 @@ expect_count_device_exposure <- function(rowCount, device_exposure_id, person_id
     values <- c(values, if (is.null(visit_occurrence_id)) "NULL" else if (is(visit_occurrence_id, "subQuery")) paste0("(", as.character(visit_occurrence_id), ")") else paste0("'", as.character(visit_occurrence_id), "'"))
   }
 
+  if (!missing(visit_detail_id)) {
+    fields <- c(fields, "visit_detail_id")
+    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  }
+
   if (!missing(device_source_value)) {
     fields <- c(fields, "device_source_value")
     values <- c(values, if (is.null(device_source_value)) "NULL" else if (is(device_source_value, "subQuery")) paste0("(", as.character(device_source_value), ")") else paste0("'", as.character(device_source_value), "'"))
   }
 
-  if (!missing(device_source__concept_id)) {
-    fields <- c(fields, "[device_source_ concept_id]")
-    values <- c(values, if (is.null(device_source__concept_id)) "NULL" else if (is(device_source__concept_id, "subQuery")) paste0("(", as.character(device_source__concept_id), ")") else paste0("'", as.character(device_source__concept_id), "'"))
-  }
-
-  if (!missing(visit_detail_id)) {
-    fields <- c(fields, "visit_detail_id")
-    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  if (!missing(device_source_concept_id)) {
+    fields <- c(fields, "device_source_concept_id")
+    values <- c(values, if (is.null(device_source_concept_id)) "NULL" else if (is(device_source_concept_id, "subQuery")) paste0("(", as.character(device_source_concept_id), ")") else paste0("'", as.character(device_source_concept_id), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 2, table = "device_exposure", fields = fields, values = values)
@@ -7349,7 +7559,7 @@ expect_count_device_exposure <- function(rowCount, device_exposure_id, person_id
   invisible(NULL)
 }
 
-expect_count_drug_exposure <- function(rowCount, drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_start_datetime, drug_exposure_end_date, drug_exposure_end_datetime, verbatim_end_date, drug_type_concept_id, stop_reason, refills, quantity, days_supply, sig, route_concept_id, lot_number, provider_id, visit_occurrence_id, drug_source_value, drug_source_concept_id, route_source_value, dose_unit_source_value, visit_detail_id) {
+expect_count_drug_exposure <- function(rowCount, drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_start_datetime, drug_exposure_end_date, drug_exposure_end_datetime, verbatim_end_date, drug_type_concept_id, stop_reason, refills, quantity, days_supply, sig, route_concept_id, lot_number, provider_id, visit_occurrence_id, visit_detail_id, drug_source_value, drug_source_concept_id, route_source_value, dose_unit_source_value) {
   fields <- c()
   values <- c()
   if (!missing(drug_exposure_id)) {
@@ -7442,6 +7652,11 @@ expect_count_drug_exposure <- function(rowCount, drug_exposure_id, person_id, dr
     values <- c(values, if (is.null(visit_occurrence_id)) "NULL" else if (is(visit_occurrence_id, "subQuery")) paste0("(", as.character(visit_occurrence_id), ")") else paste0("'", as.character(visit_occurrence_id), "'"))
   }
 
+  if (!missing(visit_detail_id)) {
+    fields <- c(fields, "visit_detail_id")
+    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  }
+
   if (!missing(drug_source_value)) {
     fields <- c(fields, "drug_source_value")
     values <- c(values, if (is.null(drug_source_value)) "NULL" else if (is(drug_source_value, "subQuery")) paste0("(", as.character(drug_source_value), ")") else paste0("'", as.character(drug_source_value), "'"))
@@ -7460,11 +7675,6 @@ expect_count_drug_exposure <- function(rowCount, drug_exposure_id, person_id, dr
   if (!missing(dose_unit_source_value)) {
     fields <- c(fields, "dose_unit_source_value")
     values <- c(values, if (is.null(dose_unit_source_value)) "NULL" else if (is(dose_unit_source_value, "subQuery")) paste0("(", as.character(dose_unit_source_value), ")") else paste0("'", as.character(dose_unit_source_value), "'"))
-  }
-
-  if (!missing(visit_detail_id)) {
-    fields <- c(fields, "visit_detail_id")
-    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 2, table = "drug_exposure", fields = fields, values = values)
@@ -7507,7 +7717,7 @@ expect_count_fact_relationship <- function(rowCount, domain_concept_id_1, fact_i
   invisible(NULL)
 }
 
-expect_count_measurement <- function(rowCount, measurement_id, person_id, measurement_concept_id, measurement_date, measurement_datetime, measurement_type_concept_id, operator_concept_id, value_as_number, value_as_concept_id, unit_concept_id, range_low, range_high, provider_id, visit_occurrence_id, visit_detail_id, measurement_source_value, measurement_source_concept_id, unit_source_value, value_source_value) {
+expect_count_measurement <- function(rowCount, measurement_id, person_id, measurement_concept_id, measurement_date, measurement_datetime, measurement_time, measurement_type_concept_id, operator_concept_id, value_as_number, value_as_concept_id, unit_concept_id, range_low, range_high, provider_id, visit_occurrence_id, visit_detail_id, measurement_source_value, measurement_source_concept_id, unit_source_value, value_source_value) {
   fields <- c()
   values <- c()
   if (!missing(measurement_id)) {
@@ -7533,6 +7743,11 @@ expect_count_measurement <- function(rowCount, measurement_id, person_id, measur
   if (!missing(measurement_datetime)) {
     fields <- c(fields, "measurement_datetime")
     values <- c(values, if (is.null(measurement_datetime)) "NULL" else if (is(measurement_datetime, "subQuery")) paste0("(", as.character(measurement_datetime), ")") else paste0("'", as.character(measurement_datetime), "'"))
+  }
+
+  if (!missing(measurement_time)) {
+    fields <- c(fields, "measurement_time")
+    values <- c(values, if (is.null(measurement_time)) "NULL" else if (is(measurement_time, "subQuery")) paste0("(", as.character(measurement_time), ")") else paste0("'", as.character(measurement_time), "'"))
   }
 
   if (!missing(measurement_type_concept_id)) {
@@ -7611,7 +7826,7 @@ expect_count_measurement <- function(rowCount, measurement_id, person_id, measur
   invisible(NULL)
 }
 
-expect_count_note <- function(rowCount, note_id, person_id, note_date, note_datetime, note_type_concept_id, note_class_concept_id, note_title, note_text, encoding_concept_id, language_concept_id, provider_id, note_source_value, visit_occurrence_id) {
+expect_count_note <- function(rowCount, note_id, person_id, note_date, note_datetime, note_type_concept_id, note_class_concept_id, note_title, note_text, encoding_concept_id, language_concept_id, provider_id, visit_occurrence_id, visit_detail_id, note_source_value) {
   fields <- c()
   values <- c()
   if (!missing(note_id)) {
@@ -7669,14 +7884,19 @@ expect_count_note <- function(rowCount, note_id, person_id, note_date, note_date
     values <- c(values, if (is.null(provider_id)) "NULL" else if (is(provider_id, "subQuery")) paste0("(", as.character(provider_id), ")") else paste0("'", as.character(provider_id), "'"))
   }
 
-  if (!missing(note_source_value)) {
-    fields <- c(fields, "note_source_value")
-    values <- c(values, if (is.null(note_source_value)) "NULL" else if (is(note_source_value, "subQuery")) paste0("(", as.character(note_source_value), ")") else paste0("'", as.character(note_source_value), "'"))
-  }
-
   if (!missing(visit_occurrence_id)) {
     fields <- c(fields, "visit_occurrence_id")
     values <- c(values, if (is.null(visit_occurrence_id)) "NULL" else if (is(visit_occurrence_id, "subQuery")) paste0("(", as.character(visit_occurrence_id), ")") else paste0("'", as.character(visit_occurrence_id), "'"))
+  }
+
+  if (!missing(visit_detail_id)) {
+    fields <- c(fields, "visit_detail_id")
+    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  }
+
+  if (!missing(note_source_value)) {
+    fields <- c(fields, "note_source_value")
+    values <- c(values, if (is.null(note_source_value)) "NULL" else if (is(note_source_value, "subQuery")) paste0("(", as.character(note_source_value), ")") else paste0("'", as.character(note_source_value), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 2, table = "note", fields = fields, values = values)
@@ -7685,7 +7905,7 @@ expect_count_note <- function(rowCount, note_id, person_id, note_date, note_date
   invisible(NULL)
 }
 
-expect_count_note_nlp <- function(rowCount, note_nlp_id, note_id, section_concept_id, snippet, offset, lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_date_time, term_exists, term_temporal, term_modifiers) {
+expect_count_note_nlp <- function(rowCount, note_nlp_id, note_id, section_concept_id, snippet, offset, lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_datetime, term_exists, term_temporal, term_modifiers) {
   fields <- c()
   values <- c()
   if (!missing(note_nlp_id)) {
@@ -7738,9 +7958,9 @@ expect_count_note_nlp <- function(rowCount, note_nlp_id, note_id, section_concep
     values <- c(values, if (is.null(nlp_date)) "NULL" else if (is(nlp_date, "subQuery")) paste0("(", as.character(nlp_date), ")") else paste0("'", as.character(nlp_date), "'"))
   }
 
-  if (!missing(nlp_date_time)) {
-    fields <- c(fields, "nlp_date_time")
-    values <- c(values, if (is.null(nlp_date_time)) "NULL" else if (is(nlp_date_time, "subQuery")) paste0("(", as.character(nlp_date_time), ")") else paste0("'", as.character(nlp_date_time), "'"))
+  if (!missing(nlp_datetime)) {
+    fields <- c(fields, "nlp_datetime")
+    values <- c(values, if (is.null(nlp_datetime)) "NULL" else if (is(nlp_datetime, "subQuery")) paste0("(", as.character(nlp_datetime), ")") else paste0("'", as.character(nlp_datetime), "'"))
   }
 
   if (!missing(term_exists)) {
@@ -7996,7 +8216,7 @@ expect_count_person <- function(rowCount, person_id, gender_concept_id, year_of_
   invisible(NULL)
 }
 
-expect_count_procedure_occurrence <- function(rowCount, procedure_occurrence_id, person_id, procedure_concept_id, procedure_date, procedure_datetime, procedure_type_concept_id, modifier_concept_id, quantity, provider_id, visit_occurrence_id, procedure_source_value, procedure_source_concept_id, qualifier_source_value, visit_detail_id) {
+expect_count_procedure_occurrence <- function(rowCount, procedure_occurrence_id, person_id, procedure_concept_id, procedure_date, procedure_datetime, procedure_type_concept_id, modifier_concept_id, quantity, provider_id, visit_occurrence_id, visit_detail_id, procedure_source_value, procedure_source_concept_id, modifier_source_value) {
   fields <- c()
   values <- c()
   if (!missing(procedure_occurrence_id)) {
@@ -8049,6 +8269,11 @@ expect_count_procedure_occurrence <- function(rowCount, procedure_occurrence_id,
     values <- c(values, if (is.null(visit_occurrence_id)) "NULL" else if (is(visit_occurrence_id, "subQuery")) paste0("(", as.character(visit_occurrence_id), ")") else paste0("'", as.character(visit_occurrence_id), "'"))
   }
 
+  if (!missing(visit_detail_id)) {
+    fields <- c(fields, "visit_detail_id")
+    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  }
+
   if (!missing(procedure_source_value)) {
     fields <- c(fields, "procedure_source_value")
     values <- c(values, if (is.null(procedure_source_value)) "NULL" else if (is(procedure_source_value, "subQuery")) paste0("(", as.character(procedure_source_value), ")") else paste0("'", as.character(procedure_source_value), "'"))
@@ -8059,14 +8284,9 @@ expect_count_procedure_occurrence <- function(rowCount, procedure_occurrence_id,
     values <- c(values, if (is.null(procedure_source_concept_id)) "NULL" else if (is(procedure_source_concept_id, "subQuery")) paste0("(", as.character(procedure_source_concept_id), ")") else paste0("'", as.character(procedure_source_concept_id), "'"))
   }
 
-  if (!missing(qualifier_source_value)) {
-    fields <- c(fields, "qualifier_source_value")
-    values <- c(values, if (is.null(qualifier_source_value)) "NULL" else if (is(qualifier_source_value, "subQuery")) paste0("(", as.character(qualifier_source_value), ")") else paste0("'", as.character(qualifier_source_value), "'"))
-  }
-
-  if (!missing(visit_detail_id)) {
-    fields <- c(fields, "visit_detail_id")
-    values <- c(values, if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  if (!missing(modifier_source_value)) {
+    fields <- c(fields, "modifier_source_value")
+    values <- c(values, if (is.null(modifier_source_value)) "NULL" else if (is(modifier_source_value, "subQuery")) paste0("(", as.character(modifier_source_value), ")") else paste0("'", as.character(modifier_source_value), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 2, table = "procedure_occurrence", fields = fields, values = values)
@@ -8676,7 +8896,7 @@ expect_count_cost <- function(rowCount, cost_id, cost_event_id, cost_domain_id, 
   invisible(NULL)
 }
 
-expect_count_payer_plan_period <- function(rowCount, payer_plan_period_id, person_id, payer_plan_period_start_date, payer_plan_period_end_date, payer_source_value, plan_source_value, family_source_value) {
+expect_count_payer_plan_period <- function(rowCount, payer_plan_period_id, person_id, payer_plan_period_start_date, payer_plan_period_end_date, payer_concept_id, payer_source_value, payer_source_concept_id, plan_concept_id, plan_source_value, plan_source_concept_id, sponsor_concept_id, sponsor_source_value, sponsor_source_concept_id, family_source_value, stop_reason_concept_id, stop_reason_source_value, stop_reason_source_concept_id) {
   fields <- c()
   values <- c()
   if (!missing(payer_plan_period_id)) {
@@ -8699,9 +8919,24 @@ expect_count_payer_plan_period <- function(rowCount, payer_plan_period_id, perso
     values <- c(values, if (is.null(payer_plan_period_end_date)) "NULL" else if (is(payer_plan_period_end_date, "subQuery")) paste0("(", as.character(payer_plan_period_end_date), ")") else paste0("'", as.character(payer_plan_period_end_date), "'"))
   }
 
+  if (!missing(payer_concept_id)) {
+    fields <- c(fields, "payer_concept_id")
+    values <- c(values, if (is.null(payer_concept_id)) "NULL" else if (is(payer_concept_id, "subQuery")) paste0("(", as.character(payer_concept_id), ")") else paste0("'", as.character(payer_concept_id), "'"))
+  }
+
   if (!missing(payer_source_value)) {
     fields <- c(fields, "payer_source_value")
     values <- c(values, if (is.null(payer_source_value)) "NULL" else if (is(payer_source_value, "subQuery")) paste0("(", as.character(payer_source_value), ")") else paste0("'", as.character(payer_source_value), "'"))
+  }
+
+  if (!missing(payer_source_concept_id)) {
+    fields <- c(fields, "payer_source_concept_id")
+    values <- c(values, if (is.null(payer_source_concept_id)) "NULL" else if (is(payer_source_concept_id, "subQuery")) paste0("(", as.character(payer_source_concept_id), ")") else paste0("'", as.character(payer_source_concept_id), "'"))
+  }
+
+  if (!missing(plan_concept_id)) {
+    fields <- c(fields, "plan_concept_id")
+    values <- c(values, if (is.null(plan_concept_id)) "NULL" else if (is(plan_concept_id, "subQuery")) paste0("(", as.character(plan_concept_id), ")") else paste0("'", as.character(plan_concept_id), "'"))
   }
 
   if (!missing(plan_source_value)) {
@@ -8709,9 +8944,44 @@ expect_count_payer_plan_period <- function(rowCount, payer_plan_period_id, perso
     values <- c(values, if (is.null(plan_source_value)) "NULL" else if (is(plan_source_value, "subQuery")) paste0("(", as.character(plan_source_value), ")") else paste0("'", as.character(plan_source_value), "'"))
   }
 
+  if (!missing(plan_source_concept_id)) {
+    fields <- c(fields, "plan_source_concept_id")
+    values <- c(values, if (is.null(plan_source_concept_id)) "NULL" else if (is(plan_source_concept_id, "subQuery")) paste0("(", as.character(plan_source_concept_id), ")") else paste0("'", as.character(plan_source_concept_id), "'"))
+  }
+
+  if (!missing(sponsor_concept_id)) {
+    fields <- c(fields, "sponsor_concept_id")
+    values <- c(values, if (is.null(sponsor_concept_id)) "NULL" else if (is(sponsor_concept_id, "subQuery")) paste0("(", as.character(sponsor_concept_id), ")") else paste0("'", as.character(sponsor_concept_id), "'"))
+  }
+
+  if (!missing(sponsor_source_value)) {
+    fields <- c(fields, "sponsor_source_value")
+    values <- c(values, if (is.null(sponsor_source_value)) "NULL" else if (is(sponsor_source_value, "subQuery")) paste0("(", as.character(sponsor_source_value), ")") else paste0("'", as.character(sponsor_source_value), "'"))
+  }
+
+  if (!missing(sponsor_source_concept_id)) {
+    fields <- c(fields, "sponsor_source_concept_id")
+    values <- c(values, if (is.null(sponsor_source_concept_id)) "NULL" else if (is(sponsor_source_concept_id, "subQuery")) paste0("(", as.character(sponsor_source_concept_id), ")") else paste0("'", as.character(sponsor_source_concept_id), "'"))
+  }
+
   if (!missing(family_source_value)) {
     fields <- c(fields, "family_source_value")
     values <- c(values, if (is.null(family_source_value)) "NULL" else if (is(family_source_value, "subQuery")) paste0("(", as.character(family_source_value), ")") else paste0("'", as.character(family_source_value), "'"))
+  }
+
+  if (!missing(stop_reason_concept_id)) {
+    fields <- c(fields, "stop_reason_concept_id")
+    values <- c(values, if (is.null(stop_reason_concept_id)) "NULL" else if (is(stop_reason_concept_id, "subQuery")) paste0("(", as.character(stop_reason_concept_id), ")") else paste0("'", as.character(stop_reason_concept_id), "'"))
+  }
+
+  if (!missing(stop_reason_source_value)) {
+    fields <- c(fields, "stop_reason_source_value")
+    values <- c(values, if (is.null(stop_reason_source_value)) "NULL" else if (is(stop_reason_source_value, "subQuery")) paste0("(", as.character(stop_reason_source_value), ")") else paste0("'", as.character(stop_reason_source_value), "'"))
+  }
+
+  if (!missing(stop_reason_source_concept_id)) {
+    fields <- c(fields, "stop_reason_source_concept_id")
+    values <- c(values, if (is.null(stop_reason_source_concept_id)) "NULL" else if (is(stop_reason_source_concept_id, "subQuery")) paste0("(", as.character(stop_reason_source_concept_id), ")") else paste0("'", as.character(stop_reason_source_concept_id), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 2, table = "payer_plan_period", fields = fields, values = values)
@@ -8882,7 +9152,7 @@ expect_count_provider <- function(rowCount, provider_id, provider_name, npi, dea
   invisible(NULL)
 }
 
-expect_count_cdm_source <- function(rowCount, cdm_source_name, cdm_source_abbreviation, cdm_holder, source_description, source_documentation_reference, cdm_etl__reference, source_release_date, cdm_release_date, cdm_version, vocabulary_version) {
+expect_count_cdm_source <- function(rowCount, cdm_source_name, cdm_source_abbreviation, cdm_holder, source_description, source_documentation_reference, cdm_etl_reference, source_release_date, cdm_release_date, cdm_version, vocabulary_version) {
   fields <- c()
   values <- c()
   if (!missing(cdm_source_name)) {
@@ -8910,9 +9180,9 @@ expect_count_cdm_source <- function(rowCount, cdm_source_name, cdm_source_abbrev
     values <- c(values, if (is.null(source_documentation_reference)) "NULL" else if (is(source_documentation_reference, "subQuery")) paste0("(", as.character(source_documentation_reference), ")") else paste0("'", as.character(source_documentation_reference), "'"))
   }
 
-  if (!missing(cdm_etl__reference)) {
-    fields <- c(fields, "[cdm_etl _reference]")
-    values <- c(values, if (is.null(cdm_etl__reference)) "NULL" else if (is(cdm_etl__reference, "subQuery")) paste0("(", as.character(cdm_etl__reference), ")") else paste0("'", as.character(cdm_etl__reference), "'"))
+  if (!missing(cdm_etl_reference)) {
+    fields <- c(fields, "cdm_etl_reference")
+    values <- c(values, if (is.null(cdm_etl_reference)) "NULL" else if (is(cdm_etl_reference, "subQuery")) paste0("(", as.character(cdm_etl_reference), ")") else paste0("'", as.character(cdm_etl_reference), "'"))
   }
 
   if (!missing(source_release_date)) {
@@ -8936,6 +9206,50 @@ expect_count_cdm_source <- function(rowCount, cdm_source_name, cdm_source_abbrev
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 2, table = "cdm_source", fields = fields, values = values)
+  expects$rowCount = rowCount
+  frameworkContext$expects[[length(frameworkContext$expects) + 1]] <- expects
+  invisible(NULL)
+}
+
+expect_count_metadata <- function(rowCount, metadata_concept_id, metadata_type_concept_id, name, value_as_string, value_as_concept_id, metadata_date, metadata_datetime) {
+  fields <- c()
+  values <- c()
+  if (!missing(metadata_concept_id)) {
+    fields <- c(fields, "metadata_concept_id")
+    values <- c(values, if (is.null(metadata_concept_id)) "NULL" else if (is(metadata_concept_id, "subQuery")) paste0("(", as.character(metadata_concept_id), ")") else paste0("'", as.character(metadata_concept_id), "'"))
+  }
+
+  if (!missing(metadata_type_concept_id)) {
+    fields <- c(fields, "metadata_type_concept_id")
+    values <- c(values, if (is.null(metadata_type_concept_id)) "NULL" else if (is(metadata_type_concept_id, "subQuery")) paste0("(", as.character(metadata_type_concept_id), ")") else paste0("'", as.character(metadata_type_concept_id), "'"))
+  }
+
+  if (!missing(name)) {
+    fields <- c(fields, "name")
+    values <- c(values, if (is.null(name)) "NULL" else if (is(name, "subQuery")) paste0("(", as.character(name), ")") else paste0("'", as.character(name), "'"))
+  }
+
+  if (!missing(value_as_string)) {
+    fields <- c(fields, "value_as_string")
+    values <- c(values, if (is.null(value_as_string)) "NULL" else if (is(value_as_string, "subQuery")) paste0("(", as.character(value_as_string), ")") else paste0("'", as.character(value_as_string), "'"))
+  }
+
+  if (!missing(value_as_concept_id)) {
+    fields <- c(fields, "value_as_concept_id")
+    values <- c(values, if (is.null(value_as_concept_id)) "NULL" else if (is(value_as_concept_id, "subQuery")) paste0("(", as.character(value_as_concept_id), ")") else paste0("'", as.character(value_as_concept_id), "'"))
+  }
+
+  if (!missing(metadata_date)) {
+    fields <- c(fields, "[metadata date]")
+    values <- c(values, if (is.null(metadata_date)) "NULL" else if (is(metadata_date, "subQuery")) paste0("(", as.character(metadata_date), ")") else paste0("'", as.character(metadata_date), "'"))
+  }
+
+  if (!missing(metadata_datetime)) {
+    fields <- c(fields, "metadata_datetime")
+    values <- c(values, if (is.null(metadata_datetime)) "NULL" else if (is(metadata_datetime, "subQuery")) paste0("(", as.character(metadata_datetime), ")") else paste0("'", as.character(metadata_datetime), "'"))
+  }
+
+  expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 2, table = "metadata", fields = fields, values = values)
   expects$rowCount = rowCount
   frameworkContext$expects[[length(frameworkContext$expects) + 1]] <- expects
   invisible(NULL)
@@ -8975,7 +9289,7 @@ expect_count_attribute_definition <- function(rowCount, attribute_definition_id,
   invisible(NULL)
 }
 
-expect_count_cohort_definition <- function(rowCount, cohort_definition_id, cohort_definition_name, cohort_definition_description, definition_type_concept_id, cohort_definition_syntax, subject_concept_id, cohort_instantiation_date) {
+expect_count_cohort_definition <- function(rowCount, cohort_definition_id, cohort_definition_name, cohort_definition_description, definition_type_concept_id, cohort_definition_syntax, subject_concept_id, cohort_initiation_date) {
   fields <- c()
   values <- c()
   if (!missing(cohort_definition_id)) {
@@ -9008,9 +9322,9 @@ expect_count_cohort_definition <- function(rowCount, cohort_definition_id, cohor
     values <- c(values, if (is.null(subject_concept_id)) "NULL" else if (is(subject_concept_id, "subQuery")) paste0("(", as.character(subject_concept_id), ")") else paste0("'", as.character(subject_concept_id), "'"))
   }
 
-  if (!missing(cohort_instantiation_date)) {
-    fields <- c(fields, "cohort_instantiation_date")
-    values <- c(values, if (is.null(cohort_instantiation_date)) "NULL" else if (is(cohort_instantiation_date, "subQuery")) paste0("(", as.character(cohort_instantiation_date), ")") else paste0("'", as.character(cohort_instantiation_date), "'"))
+  if (!missing(cohort_initiation_date)) {
+    fields <- c(fields, "cohort_initiation_date")
+    values <- c(values, if (is.null(cohort_initiation_date)) "NULL" else if (is(cohort_initiation_date, "subQuery")) paste0("(", as.character(cohort_initiation_date), ")") else paste0("'", as.character(cohort_initiation_date), "'"))
   }
 
   expects <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, type = 2, table = "cohort_definition", fields = fields, values = values)
@@ -9240,7 +9554,7 @@ lookup_death <- function(fetchField, person_id, death_date, death_datetime, deat
   return(statement)
 }
 
-lookup_device_exposure <- function(fetchField, device_exposure_id, person_id, device_concept_id, device_exposure_start_date, device_exposure_start_datetime, device_exposure_end_date, device_exposure_end_datetime, device_type_concept_id, unique_device_id, quantity, provider_id, visit_occurrence_id, device_source_value, device_source__concept_id, visit_detail_id) {
+lookup_device_exposure <- function(fetchField, device_exposure_id, person_id, device_concept_id, device_exposure_start_date, device_exposure_start_datetime, device_exposure_end_date, device_exposure_end_datetime, device_type_concept_id, unique_device_id, quantity, provider_id, visit_occurrence_id, visit_detail_id, device_source_value, device_source_concept_id) {
   statement <- paste0('SELECT ', fetchField , ' FROM @cdm_database_schema.device_exposure WHERE')
   first <- TRUE
   if (!missing(device_exposure_id)) {
@@ -9351,24 +9665,6 @@ lookup_device_exposure <- function(fetchField, device_exposure_id, person_id, de
     statement <- paste0(statement, " visit_occurrence_id = ", if (is.null(visit_occurrence_id)) "NULL" else if (is(visit_occurrence_id, "subQuery")) paste0("(", as.character(visit_occurrence_id), ")") else paste0("'", as.character(visit_occurrence_id), "'"))
   }
 
-  if (!missing(device_source_value)) {
-    if (first) {
-      first <- FALSE
-    } else {
-      statement <- paste0(statement, " AND")
-    }
-    statement <- paste0(statement, " device_source_value = ", if (is.null(device_source_value)) "NULL" else if (is(device_source_value, "subQuery")) paste0("(", as.character(device_source_value), ")") else paste0("'", as.character(device_source_value), "'"))
-  }
-
-  if (!missing(device_source__concept_id)) {
-    if (first) {
-      first <- FALSE
-    } else {
-      statement <- paste0(statement, " AND")
-    }
-    statement <- paste0(statement, " [device_source_ concept_id] = ", if (is.null(device_source__concept_id)) "NULL" else if (is(device_source__concept_id, "subQuery")) paste0("(", as.character(device_source__concept_id), ")") else paste0("'", as.character(device_source__concept_id), "'"))
-  }
-
   if (!missing(visit_detail_id)) {
     if (first) {
       first <- FALSE
@@ -9378,11 +9674,29 @@ lookup_device_exposure <- function(fetchField, device_exposure_id, person_id, de
     statement <- paste0(statement, " visit_detail_id = ", if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
   }
 
+  if (!missing(device_source_value)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " device_source_value = ", if (is.null(device_source_value)) "NULL" else if (is(device_source_value, "subQuery")) paste0("(", as.character(device_source_value), ")") else paste0("'", as.character(device_source_value), "'"))
+  }
+
+  if (!missing(device_source_concept_id)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " device_source_concept_id = ", if (is.null(device_source_concept_id)) "NULL" else if (is(device_source_concept_id, "subQuery")) paste0("(", as.character(device_source_concept_id), ")") else paste0("'", as.character(device_source_concept_id), "'"))
+  }
+
   class(statement) <- 'subQuery'
   return(statement)
 }
 
-lookup_drug_exposure <- function(fetchField, drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_start_datetime, drug_exposure_end_date, drug_exposure_end_datetime, verbatim_end_date, drug_type_concept_id, stop_reason, refills, quantity, days_supply, sig, route_concept_id, lot_number, provider_id, visit_occurrence_id, drug_source_value, drug_source_concept_id, route_source_value, dose_unit_source_value, visit_detail_id) {
+lookup_drug_exposure <- function(fetchField, drug_exposure_id, person_id, drug_concept_id, drug_exposure_start_date, drug_exposure_start_datetime, drug_exposure_end_date, drug_exposure_end_datetime, verbatim_end_date, drug_type_concept_id, stop_reason, refills, quantity, days_supply, sig, route_concept_id, lot_number, provider_id, visit_occurrence_id, visit_detail_id, drug_source_value, drug_source_concept_id, route_source_value, dose_unit_source_value) {
   statement <- paste0('SELECT ', fetchField , ' FROM @cdm_database_schema.drug_exposure WHERE')
   first <- TRUE
   if (!missing(drug_exposure_id)) {
@@ -9547,6 +9861,15 @@ lookup_drug_exposure <- function(fetchField, drug_exposure_id, person_id, drug_c
     statement <- paste0(statement, " visit_occurrence_id = ", if (is.null(visit_occurrence_id)) "NULL" else if (is(visit_occurrence_id, "subQuery")) paste0("(", as.character(visit_occurrence_id), ")") else paste0("'", as.character(visit_occurrence_id), "'"))
   }
 
+  if (!missing(visit_detail_id)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " visit_detail_id = ", if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  }
+
   if (!missing(drug_source_value)) {
     if (first) {
       first <- FALSE
@@ -9581,15 +9904,6 @@ lookup_drug_exposure <- function(fetchField, drug_exposure_id, person_id, drug_c
       statement <- paste0(statement, " AND")
     }
     statement <- paste0(statement, " dose_unit_source_value = ", if (is.null(dose_unit_source_value)) "NULL" else if (is(dose_unit_source_value, "subQuery")) paste0("(", as.character(dose_unit_source_value), ")") else paste0("'", as.character(dose_unit_source_value), "'"))
-  }
-
-  if (!missing(visit_detail_id)) {
-    if (first) {
-      first <- FALSE
-    } else {
-      statement <- paste0(statement, " AND")
-    }
-    statement <- paste0(statement, " visit_detail_id = ", if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
   }
 
   class(statement) <- 'subQuery'
@@ -9648,7 +9962,7 @@ lookup_fact_relationship <- function(fetchField, domain_concept_id_1, fact_id_1,
   return(statement)
 }
 
-lookup_measurement <- function(fetchField, measurement_id, person_id, measurement_concept_id, measurement_date, measurement_datetime, measurement_type_concept_id, operator_concept_id, value_as_number, value_as_concept_id, unit_concept_id, range_low, range_high, provider_id, visit_occurrence_id, visit_detail_id, measurement_source_value, measurement_source_concept_id, unit_source_value, value_source_value) {
+lookup_measurement <- function(fetchField, measurement_id, person_id, measurement_concept_id, measurement_date, measurement_datetime, measurement_time, measurement_type_concept_id, operator_concept_id, value_as_number, value_as_concept_id, unit_concept_id, range_low, range_high, provider_id, visit_occurrence_id, visit_detail_id, measurement_source_value, measurement_source_concept_id, unit_source_value, value_source_value) {
   statement <- paste0('SELECT ', fetchField , ' FROM @cdm_database_schema.measurement WHERE')
   first <- TRUE
   if (!missing(measurement_id)) {
@@ -9694,6 +10008,15 @@ lookup_measurement <- function(fetchField, measurement_id, person_id, measuremen
       statement <- paste0(statement, " AND")
     }
     statement <- paste0(statement, " measurement_datetime = ", if (is.null(measurement_datetime)) "NULL" else if (is(measurement_datetime, "subQuery")) paste0("(", as.character(measurement_datetime), ")") else paste0("'", as.character(measurement_datetime), "'"))
+  }
+
+  if (!missing(measurement_time)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " measurement_time = ", if (is.null(measurement_time)) "NULL" else if (is(measurement_time, "subQuery")) paste0("(", as.character(measurement_time), ")") else paste0("'", as.character(measurement_time), "'"))
   }
 
   if (!missing(measurement_type_concept_id)) {
@@ -9826,7 +10149,7 @@ lookup_measurement <- function(fetchField, measurement_id, person_id, measuremen
   return(statement)
 }
 
-lookup_note <- function(fetchField, note_id, person_id, note_date, note_datetime, note_type_concept_id, note_class_concept_id, note_title, note_text, encoding_concept_id, language_concept_id, provider_id, note_source_value, visit_occurrence_id) {
+lookup_note <- function(fetchField, note_id, person_id, note_date, note_datetime, note_type_concept_id, note_class_concept_id, note_title, note_text, encoding_concept_id, language_concept_id, provider_id, visit_occurrence_id, visit_detail_id, note_source_value) {
   statement <- paste0('SELECT ', fetchField , ' FROM @cdm_database_schema.note WHERE')
   first <- TRUE
   if (!missing(note_id)) {
@@ -9928,15 +10251,6 @@ lookup_note <- function(fetchField, note_id, person_id, note_date, note_datetime
     statement <- paste0(statement, " provider_id = ", if (is.null(provider_id)) "NULL" else if (is(provider_id, "subQuery")) paste0("(", as.character(provider_id), ")") else paste0("'", as.character(provider_id), "'"))
   }
 
-  if (!missing(note_source_value)) {
-    if (first) {
-      first <- FALSE
-    } else {
-      statement <- paste0(statement, " AND")
-    }
-    statement <- paste0(statement, " note_source_value = ", if (is.null(note_source_value)) "NULL" else if (is(note_source_value, "subQuery")) paste0("(", as.character(note_source_value), ")") else paste0("'", as.character(note_source_value), "'"))
-  }
-
   if (!missing(visit_occurrence_id)) {
     if (first) {
       first <- FALSE
@@ -9946,11 +10260,29 @@ lookup_note <- function(fetchField, note_id, person_id, note_date, note_datetime
     statement <- paste0(statement, " visit_occurrence_id = ", if (is.null(visit_occurrence_id)) "NULL" else if (is(visit_occurrence_id, "subQuery")) paste0("(", as.character(visit_occurrence_id), ")") else paste0("'", as.character(visit_occurrence_id), "'"))
   }
 
+  if (!missing(visit_detail_id)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " visit_detail_id = ", if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  }
+
+  if (!missing(note_source_value)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " note_source_value = ", if (is.null(note_source_value)) "NULL" else if (is(note_source_value, "subQuery")) paste0("(", as.character(note_source_value), ")") else paste0("'", as.character(note_source_value), "'"))
+  }
+
   class(statement) <- 'subQuery'
   return(statement)
 }
 
-lookup_note_nlp <- function(fetchField, note_nlp_id, note_id, section_concept_id, snippet, offset, lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_date_time, term_exists, term_temporal, term_modifiers) {
+lookup_note_nlp <- function(fetchField, note_nlp_id, note_id, section_concept_id, snippet, offset, lexical_variant, note_nlp_concept_id, note_nlp_source_concept_id, nlp_system, nlp_date, nlp_datetime, term_exists, term_temporal, term_modifiers) {
   statement <- paste0('SELECT ', fetchField , ' FROM @cdm_database_schema.note_nlp WHERE')
   first <- TRUE
   if (!missing(note_nlp_id)) {
@@ -10043,13 +10375,13 @@ lookup_note_nlp <- function(fetchField, note_nlp_id, note_id, section_concept_id
     statement <- paste0(statement, " nlp_date = ", if (is.null(nlp_date)) "NULL" else if (is(nlp_date, "subQuery")) paste0("(", as.character(nlp_date), ")") else paste0("'", as.character(nlp_date), "'"))
   }
 
-  if (!missing(nlp_date_time)) {
+  if (!missing(nlp_datetime)) {
     if (first) {
       first <- FALSE
     } else {
       statement <- paste0(statement, " AND")
     }
-    statement <- paste0(statement, " nlp_date_time = ", if (is.null(nlp_date_time)) "NULL" else if (is(nlp_date_time, "subQuery")) paste0("(", as.character(nlp_date_time), ")") else paste0("'", as.character(nlp_date_time), "'"))
+    statement <- paste0(statement, " nlp_datetime = ", if (is.null(nlp_datetime)) "NULL" else if (is(nlp_datetime, "subQuery")) paste0("(", as.character(nlp_datetime), ")") else paste0("'", as.character(nlp_datetime), "'"))
   }
 
   if (!missing(term_exists)) {
@@ -10473,7 +10805,7 @@ lookup_person <- function(fetchField, person_id, gender_concept_id, year_of_birt
   return(statement)
 }
 
-lookup_procedure_occurrence <- function(fetchField, procedure_occurrence_id, person_id, procedure_concept_id, procedure_date, procedure_datetime, procedure_type_concept_id, modifier_concept_id, quantity, provider_id, visit_occurrence_id, procedure_source_value, procedure_source_concept_id, qualifier_source_value, visit_detail_id) {
+lookup_procedure_occurrence <- function(fetchField, procedure_occurrence_id, person_id, procedure_concept_id, procedure_date, procedure_datetime, procedure_type_concept_id, modifier_concept_id, quantity, provider_id, visit_occurrence_id, visit_detail_id, procedure_source_value, procedure_source_concept_id, modifier_source_value) {
   statement <- paste0('SELECT ', fetchField , ' FROM @cdm_database_schema.procedure_occurrence WHERE')
   first <- TRUE
   if (!missing(procedure_occurrence_id)) {
@@ -10566,6 +10898,15 @@ lookup_procedure_occurrence <- function(fetchField, procedure_occurrence_id, per
     statement <- paste0(statement, " visit_occurrence_id = ", if (is.null(visit_occurrence_id)) "NULL" else if (is(visit_occurrence_id, "subQuery")) paste0("(", as.character(visit_occurrence_id), ")") else paste0("'", as.character(visit_occurrence_id), "'"))
   }
 
+  if (!missing(visit_detail_id)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " visit_detail_id = ", if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+  }
+
   if (!missing(procedure_source_value)) {
     if (first) {
       first <- FALSE
@@ -10584,22 +10925,13 @@ lookup_procedure_occurrence <- function(fetchField, procedure_occurrence_id, per
     statement <- paste0(statement, " procedure_source_concept_id = ", if (is.null(procedure_source_concept_id)) "NULL" else if (is(procedure_source_concept_id, "subQuery")) paste0("(", as.character(procedure_source_concept_id), ")") else paste0("'", as.character(procedure_source_concept_id), "'"))
   }
 
-  if (!missing(qualifier_source_value)) {
+  if (!missing(modifier_source_value)) {
     if (first) {
       first <- FALSE
     } else {
       statement <- paste0(statement, " AND")
     }
-    statement <- paste0(statement, " qualifier_source_value = ", if (is.null(qualifier_source_value)) "NULL" else if (is(qualifier_source_value, "subQuery")) paste0("(", as.character(qualifier_source_value), ")") else paste0("'", as.character(qualifier_source_value), "'"))
-  }
-
-  if (!missing(visit_detail_id)) {
-    if (first) {
-      first <- FALSE
-    } else {
-      statement <- paste0(statement, " AND")
-    }
-    statement <- paste0(statement, " visit_detail_id = ", if (is.null(visit_detail_id)) "NULL" else if (is(visit_detail_id, "subQuery")) paste0("(", as.character(visit_detail_id), ")") else paste0("'", as.character(visit_detail_id), "'"))
+    statement <- paste0(statement, " modifier_source_value = ", if (is.null(modifier_source_value)) "NULL" else if (is(modifier_source_value, "subQuery")) paste0("(", as.character(modifier_source_value), ")") else paste0("'", as.character(modifier_source_value), "'"))
   }
 
   class(statement) <- 'subQuery'
@@ -11605,7 +11937,7 @@ lookup_cost <- function(fetchField, cost_id, cost_event_id, cost_domain_id, cost
   return(statement)
 }
 
-lookup_payer_plan_period <- function(fetchField, payer_plan_period_id, person_id, payer_plan_period_start_date, payer_plan_period_end_date, payer_source_value, plan_source_value, family_source_value) {
+lookup_payer_plan_period <- function(fetchField, payer_plan_period_id, person_id, payer_plan_period_start_date, payer_plan_period_end_date, payer_concept_id, payer_source_value, payer_source_concept_id, plan_concept_id, plan_source_value, plan_source_concept_id, sponsor_concept_id, sponsor_source_value, sponsor_source_concept_id, family_source_value, stop_reason_concept_id, stop_reason_source_value, stop_reason_source_concept_id) {
   statement <- paste0('SELECT ', fetchField , ' FROM @cdm_database_schema.payer_plan_period WHERE')
   first <- TRUE
   if (!missing(payer_plan_period_id)) {
@@ -11644,6 +11976,15 @@ lookup_payer_plan_period <- function(fetchField, payer_plan_period_id, person_id
     statement <- paste0(statement, " payer_plan_period_end_date = ", if (is.null(payer_plan_period_end_date)) "NULL" else if (is(payer_plan_period_end_date, "subQuery")) paste0("(", as.character(payer_plan_period_end_date), ")") else paste0("'", as.character(payer_plan_period_end_date), "'"))
   }
 
+  if (!missing(payer_concept_id)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " payer_concept_id = ", if (is.null(payer_concept_id)) "NULL" else if (is(payer_concept_id, "subQuery")) paste0("(", as.character(payer_concept_id), ")") else paste0("'", as.character(payer_concept_id), "'"))
+  }
+
   if (!missing(payer_source_value)) {
     if (first) {
       first <- FALSE
@@ -11651,6 +11992,24 @@ lookup_payer_plan_period <- function(fetchField, payer_plan_period_id, person_id
       statement <- paste0(statement, " AND")
     }
     statement <- paste0(statement, " payer_source_value = ", if (is.null(payer_source_value)) "NULL" else if (is(payer_source_value, "subQuery")) paste0("(", as.character(payer_source_value), ")") else paste0("'", as.character(payer_source_value), "'"))
+  }
+
+  if (!missing(payer_source_concept_id)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " payer_source_concept_id = ", if (is.null(payer_source_concept_id)) "NULL" else if (is(payer_source_concept_id, "subQuery")) paste0("(", as.character(payer_source_concept_id), ")") else paste0("'", as.character(payer_source_concept_id), "'"))
+  }
+
+  if (!missing(plan_concept_id)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " plan_concept_id = ", if (is.null(plan_concept_id)) "NULL" else if (is(plan_concept_id, "subQuery")) paste0("(", as.character(plan_concept_id), ")") else paste0("'", as.character(plan_concept_id), "'"))
   }
 
   if (!missing(plan_source_value)) {
@@ -11662,6 +12021,42 @@ lookup_payer_plan_period <- function(fetchField, payer_plan_period_id, person_id
     statement <- paste0(statement, " plan_source_value = ", if (is.null(plan_source_value)) "NULL" else if (is(plan_source_value, "subQuery")) paste0("(", as.character(plan_source_value), ")") else paste0("'", as.character(plan_source_value), "'"))
   }
 
+  if (!missing(plan_source_concept_id)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " plan_source_concept_id = ", if (is.null(plan_source_concept_id)) "NULL" else if (is(plan_source_concept_id, "subQuery")) paste0("(", as.character(plan_source_concept_id), ")") else paste0("'", as.character(plan_source_concept_id), "'"))
+  }
+
+  if (!missing(sponsor_concept_id)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " sponsor_concept_id = ", if (is.null(sponsor_concept_id)) "NULL" else if (is(sponsor_concept_id, "subQuery")) paste0("(", as.character(sponsor_concept_id), ")") else paste0("'", as.character(sponsor_concept_id), "'"))
+  }
+
+  if (!missing(sponsor_source_value)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " sponsor_source_value = ", if (is.null(sponsor_source_value)) "NULL" else if (is(sponsor_source_value, "subQuery")) paste0("(", as.character(sponsor_source_value), ")") else paste0("'", as.character(sponsor_source_value), "'"))
+  }
+
+  if (!missing(sponsor_source_concept_id)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " sponsor_source_concept_id = ", if (is.null(sponsor_source_concept_id)) "NULL" else if (is(sponsor_source_concept_id, "subQuery")) paste0("(", as.character(sponsor_source_concept_id), ")") else paste0("'", as.character(sponsor_source_concept_id), "'"))
+  }
+
   if (!missing(family_source_value)) {
     if (first) {
       first <- FALSE
@@ -11669,6 +12064,33 @@ lookup_payer_plan_period <- function(fetchField, payer_plan_period_id, person_id
       statement <- paste0(statement, " AND")
     }
     statement <- paste0(statement, " family_source_value = ", if (is.null(family_source_value)) "NULL" else if (is(family_source_value, "subQuery")) paste0("(", as.character(family_source_value), ")") else paste0("'", as.character(family_source_value), "'"))
+  }
+
+  if (!missing(stop_reason_concept_id)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " stop_reason_concept_id = ", if (is.null(stop_reason_concept_id)) "NULL" else if (is(stop_reason_concept_id, "subQuery")) paste0("(", as.character(stop_reason_concept_id), ")") else paste0("'", as.character(stop_reason_concept_id), "'"))
+  }
+
+  if (!missing(stop_reason_source_value)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " stop_reason_source_value = ", if (is.null(stop_reason_source_value)) "NULL" else if (is(stop_reason_source_value, "subQuery")) paste0("(", as.character(stop_reason_source_value), ")") else paste0("'", as.character(stop_reason_source_value), "'"))
+  }
+
+  if (!missing(stop_reason_source_concept_id)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " stop_reason_source_concept_id = ", if (is.null(stop_reason_source_concept_id)) "NULL" else if (is(stop_reason_source_concept_id, "subQuery")) paste0("(", as.character(stop_reason_source_concept_id), ")") else paste0("'", as.character(stop_reason_source_concept_id), "'"))
   }
 
   class(statement) <- 'subQuery'
@@ -11939,7 +12361,7 @@ lookup_provider <- function(fetchField, provider_id, provider_name, npi, dea, sp
   return(statement)
 }
 
-lookup_cdm_source <- function(fetchField, cdm_source_name, cdm_source_abbreviation, cdm_holder, source_description, source_documentation_reference, cdm_etl__reference, source_release_date, cdm_release_date, cdm_version, vocabulary_version) {
+lookup_cdm_source <- function(fetchField, cdm_source_name, cdm_source_abbreviation, cdm_holder, source_description, source_documentation_reference, cdm_etl_reference, source_release_date, cdm_release_date, cdm_version, vocabulary_version) {
   statement <- paste0('SELECT ', fetchField , ' FROM @cdm_database_schema.cdm_source WHERE')
   first <- TRUE
   if (!missing(cdm_source_name)) {
@@ -11987,13 +12409,13 @@ lookup_cdm_source <- function(fetchField, cdm_source_name, cdm_source_abbreviati
     statement <- paste0(statement, " source_documentation_reference = ", if (is.null(source_documentation_reference)) "NULL" else if (is(source_documentation_reference, "subQuery")) paste0("(", as.character(source_documentation_reference), ")") else paste0("'", as.character(source_documentation_reference), "'"))
   }
 
-  if (!missing(cdm_etl__reference)) {
+  if (!missing(cdm_etl_reference)) {
     if (first) {
       first <- FALSE
     } else {
       statement <- paste0(statement, " AND")
     }
-    statement <- paste0(statement, " [cdm_etl _reference] = ", if (is.null(cdm_etl__reference)) "NULL" else if (is(cdm_etl__reference, "subQuery")) paste0("(", as.character(cdm_etl__reference), ")") else paste0("'", as.character(cdm_etl__reference), "'"))
+    statement <- paste0(statement, " cdm_etl_reference = ", if (is.null(cdm_etl_reference)) "NULL" else if (is(cdm_etl_reference, "subQuery")) paste0("(", as.character(cdm_etl_reference), ")") else paste0("'", as.character(cdm_etl_reference), "'"))
   }
 
   if (!missing(source_release_date)) {
@@ -12030,6 +12452,76 @@ lookup_cdm_source <- function(fetchField, cdm_source_name, cdm_source_abbreviati
       statement <- paste0(statement, " AND")
     }
     statement <- paste0(statement, " vocabulary_version = ", if (is.null(vocabulary_version)) "NULL" else if (is(vocabulary_version, "subQuery")) paste0("(", as.character(vocabulary_version), ")") else paste0("'", as.character(vocabulary_version), "'"))
+  }
+
+  class(statement) <- 'subQuery'
+  return(statement)
+}
+
+lookup_metadata <- function(fetchField, metadata_concept_id, metadata_type_concept_id, name, value_as_string, value_as_concept_id, metadata_date, metadata_datetime) {
+  statement <- paste0('SELECT ', fetchField , ' FROM @cdm_database_schema.metadata WHERE')
+  first <- TRUE
+  if (!missing(metadata_concept_id)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " metadata_concept_id = ", if (is.null(metadata_concept_id)) "NULL" else if (is(metadata_concept_id, "subQuery")) paste0("(", as.character(metadata_concept_id), ")") else paste0("'", as.character(metadata_concept_id), "'"))
+  }
+
+  if (!missing(metadata_type_concept_id)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " metadata_type_concept_id = ", if (is.null(metadata_type_concept_id)) "NULL" else if (is(metadata_type_concept_id, "subQuery")) paste0("(", as.character(metadata_type_concept_id), ")") else paste0("'", as.character(metadata_type_concept_id), "'"))
+  }
+
+  if (!missing(name)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " name = ", if (is.null(name)) "NULL" else if (is(name, "subQuery")) paste0("(", as.character(name), ")") else paste0("'", as.character(name), "'"))
+  }
+
+  if (!missing(value_as_string)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " value_as_string = ", if (is.null(value_as_string)) "NULL" else if (is(value_as_string, "subQuery")) paste0("(", as.character(value_as_string), ")") else paste0("'", as.character(value_as_string), "'"))
+  }
+
+  if (!missing(value_as_concept_id)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " value_as_concept_id = ", if (is.null(value_as_concept_id)) "NULL" else if (is(value_as_concept_id, "subQuery")) paste0("(", as.character(value_as_concept_id), ")") else paste0("'", as.character(value_as_concept_id), "'"))
+  }
+
+  if (!missing(metadata_date)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " [metadata date] = ", if (is.null(metadata_date)) "NULL" else if (is(metadata_date, "subQuery")) paste0("(", as.character(metadata_date), ")") else paste0("'", as.character(metadata_date), "'"))
+  }
+
+  if (!missing(metadata_datetime)) {
+    if (first) {
+      first <- FALSE
+    } else {
+      statement <- paste0(statement, " AND")
+    }
+    statement <- paste0(statement, " metadata_datetime = ", if (is.null(metadata_datetime)) "NULL" else if (is(metadata_datetime, "subQuery")) paste0("(", as.character(metadata_datetime), ")") else paste0("'", as.character(metadata_datetime), "'"))
   }
 
   class(statement) <- 'subQuery'
@@ -12088,7 +12580,7 @@ lookup_attribute_definition <- function(fetchField, attribute_definition_id, att
   return(statement)
 }
 
-lookup_cohort_definition <- function(fetchField, cohort_definition_id, cohort_definition_name, cohort_definition_description, definition_type_concept_id, cohort_definition_syntax, subject_concept_id, cohort_instantiation_date) {
+lookup_cohort_definition <- function(fetchField, cohort_definition_id, cohort_definition_name, cohort_definition_description, definition_type_concept_id, cohort_definition_syntax, subject_concept_id, cohort_initiation_date) {
   statement <- paste0('SELECT ', fetchField , ' FROM @cdm_database_schema.cohort_definition WHERE')
   first <- TRUE
   if (!missing(cohort_definition_id)) {
@@ -12145,13 +12637,13 @@ lookup_cohort_definition <- function(fetchField, cohort_definition_id, cohort_de
     statement <- paste0(statement, " subject_concept_id = ", if (is.null(subject_concept_id)) "NULL" else if (is(subject_concept_id, "subQuery")) paste0("(", as.character(subject_concept_id), ")") else paste0("'", as.character(subject_concept_id), "'"))
   }
 
-  if (!missing(cohort_instantiation_date)) {
+  if (!missing(cohort_initiation_date)) {
     if (first) {
       first <- FALSE
     } else {
       statement <- paste0(statement, " AND")
     }
-    statement <- paste0(statement, " cohort_instantiation_date = ", if (is.null(cohort_instantiation_date)) "NULL" else if (is(cohort_instantiation_date, "subQuery")) paste0("(", as.character(cohort_instantiation_date), ")") else paste0("'", as.character(cohort_instantiation_date), "'"))
+    statement <- paste0(statement, " cohort_initiation_date = ", if (is.null(cohort_initiation_date)) "NULL" else if (is(cohort_initiation_date, "subQuery")) paste0("(", as.character(cohort_initiation_date), ")") else paste0("'", as.character(cohort_initiation_date), "'"))
   }
 
   class(statement) <- 'subQuery'

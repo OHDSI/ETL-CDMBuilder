@@ -1,0 +1,88 @@
+*******************************************************************************
+* CDM Version Update
+*******************************************************************************
+1)  HIX-1617 Upgrade Panther to v5.3.1
+All CDMs, including Optum Panther and the IMS data sets are now on CDM V5.3.1
+https://github.com/OHDSI/CommonDataModel/releases/tag/v5.3.1
+
+
+*******************************************************************************
+* General Builder Updates
+*******************************************************************************
+1) HIX-1550 - Tracking patients dropped
+The metadata table now contains rows showing why patients from the native 
+database were dropped from the CDM and why:
+
+2) HIX-1598 - Builder: prevent dropping of databases
+The builder UI now does not have the option to drop tables in the CDM 
+databases from the 'CDM database creation' step
+
+3) HIX-1630 Pregnancy into Condition Table
+Instead of putting pregnancy episodes into a separate table, they will now
+exist in the CONDITION_ERA table
+
+4) HIX-1607 Handling Data Outside of OBS_PERIOD in ERA
+THEMIS rule #23 allows data to exist in a CDM outside of an observation period.
+This required a change to the era logic so that eras only include events 
+**inside** an observation period.
+	
+*******************************************************************************
+* CPRD
+*******************************************************************************
+1) New database is CDM_CPRD_V810
+	
+*******************************************************************************
+* IM Australia LPD
+*******************************************************************************
+1) New database is CDM_IMS_AUSTRALIA_EMR_V822
+
+*******************************************************************************
+* IM France DA
+*******************************************************************************
+1) New database is CDM_IMS_FRANCE_DA_V824
+
+*******************************************************************************
+* IMS Germany DA
+*******************************************************************************
+1) New database is CDM_IMS_GERMANY_DA_V826
+
+*******************************************************************************
+* JMDC
+*******************************************************************************
+1) New database is CDM_JMDC_V835
+
+*******************************************************************************
+* Optum DOD/SES
+*******************************************************************************
+1) New databases are CDM_OPTUM_EXTENDED_DOD_V774 and CDM_OPTUM_EXTENDED_SES_V775
+
+*******************************************************************************
+* PREMIER
+*******************************************************************************
+1) New database is CDM_PREMIER_V812
+
+*******************************************************************************
+* Optum Panther
+*******************************************************************************
+1) HIX-1617 Upgrade Panther to v5.3.1
+
+2) HIX-1629 CDM PANTHER vocabulary mapping issue CONDITION_OCCURRENCE
+The ETL allowed for ICD10 condition codes to retain the "." when mapping to a 
+CONDITION_CONCEPT_ID but now the source value is stripped of the "." which 
+resulted in a map to 0. This issue was corrected.
+
+3) HIX-1638 PANTHER dropping records
+The PANTHER builder was dropping visits, this issue was corrected. 
+
+3) New database is CDM_OPTUM_PANTHER_V811
+
+*******************************************************************************
+* Truven CCAE / MDCR
+*******************************************************************************
+1) New databases are CDM_IBM_CCAE_V813 and CDM_IBM_MDCR_V814
+
+*******************************************************************************
+* Truven MDCD
+*******************************************************************************
+
+

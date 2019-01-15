@@ -83,7 +83,7 @@ createVisitOccurrenceTests <- function () {
                 interaction_type = 'Ambulatory patient services')
   add_medication_administrations(ptid=patient$ptid, ndc="55111067101", order_date='2011-01-07', encid = enc$encid)
   expect_visit_occurrence(person_id = patient$person_id, visit_occurrence_id = enc$visit_occurrence_id,
-                          visit_concept_id = 9201,
+                          visit_concept_id = 9202,
                           visit_start_date = '2011-01-06',
                           visit_start_datetime = '01:02:03',
                           visit_end_date = '2011-01-08',
@@ -91,6 +91,6 @@ createVisitOccurrenceTests <- function () {
                           admitting_source_concept_id = 45884262,
                           discharge_to_concept_id = 21499184)
   expect_visit_detail(person_id = patient$person_id, visit_occurrence_id = enc$visit_occurrence_id,
-                      visit_detail_concept_id = 9201)
+                      visit_detail_concept_id = 9202)
 
 }

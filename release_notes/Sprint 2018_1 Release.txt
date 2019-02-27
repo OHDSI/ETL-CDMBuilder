@@ -1,1 +1,69 @@
-Release notes for the 2019.1 sprint
+*******************************************************************************
+* VOCABULARY UPDATE
+*******************************************************************************
+1) Adopting a new Vocabulary per schedule (Vocabulary_20190123).
+
+2) Major changes with potential impact:
+
+   - ICD10 mapping has been updated. The 20180609 version of the vocabulary had
+     dropped some ICD10/ICD10CM mappings to SNOMED due to a SNOMED version udpate.
+     These mappings have been reinstated in this version.
+   - Drug classifications NDFRT and VA Class have been removed and any concept 
+     sets relying on these codes will no longer resolve.
+   - CPT4 and HCPCS codes will no longer be deprecated i.e. INVALID_REASON will 
+     always be NULL. Instead, the VALID_START_DATE and VALID_END_DATE should be 
+     used to determine the life cycle of the code.
+	
+*******************************************************************************
+* CPRD
+*******************************************************************************
+1) New database is CDM_CPRD_V868
+	
+*******************************************************************************
+* HCUP
+*******************************************************************************
+1) New database is CDM_HCUP_V869
+   
+*******************************************************************************
+* JMDC
+*******************************************************************************
+1) New database is CDM_JMDC_V873
+
+2) HIX-1645 and HIX-1155
+Investigated the large number of procedure in PROCEDURE_OCCURRENCE that do not 
+have PROCEDURE_CONCEPT_IDs. These are due to costs and are saved as provenance 
+of the cost records.
+
+3) HIX-1652
+ICD10 records in JMDC were not being mapped. This was due to the version of the
+vocab being used and this issue is resolved with the Vocabulary_20190123.
+
+*******************************************************************************
+* Optum DOD/SES
+*******************************************************************************
+1) New databases are CDM_OPTUM_EXTENDED_DOD_V875 and CDM_OPTUM_EXTENDED_SES_V876
+
+*******************************************************************************
+* PREMIER
+*******************************************************************************
+1) New database is CDM_PREMIER_V877
+
+*******************************************************************************
+* Optum Panther
+*******************************************************************************
+1) New database is CDM_OPTUM_PANTHER_V874
+
+*******************************************************************************
+* Truven CCAE / MDCR
+*******************************************************************************
+1) New databases are CDM_IBM_CCAE_V870 and CDM_IBM_MDCR_V871
+
+*******************************************************************************
+* Truven MDCD
+*******************************************************************************
+1) New database is CDM_IBM_MDCD_V872
+
+2) HIX-1656 Pregnancy episodes are available in CONDITION_ERA for MDCD
+
+3) HIX-1653 IBM MDCD was dropping records with CONDITION_CONCEPT_ID = 0 but the 
+issue has been fixed and the records are now retained.

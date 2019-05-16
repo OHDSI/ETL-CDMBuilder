@@ -1,1 +1,21 @@
 
+*******************************************************************************
+* CPRD
+*******************************************************************************
+1) New database is CDM_CPRD_V934
+
+2) A fix was made to the READ code mappings. Previously the mappings were not 
+considering case. This is incorrect as READ codes are case sensitive so in 
+sprint 2019.5 it was changed to consider case when mapping to standard concept
+ids.
+	   
+*******************************************************************************
+* JMDC
+*******************************************************************************
+1) New database is CDM_JMDC_V924
+
+*******************************************************************************
+* Optum DOD/SES
+*******************************************************************************
+1) New databases are CDM_OPTUM_EXTENDED_DOD_V936 and CDM_OPTUM_EXTENDED_SES_V937
+

@@ -34,12 +34,12 @@ PROVIDER_ID| |System generated.|
 PROVIDER_NAME| |NULL|
 NPI|NPI|Ignore blanks, 'H' and 'HHHHHHHHHH'|
 DEA|DEA| |
-SPECIALTY_CONCEPT_ID|SPECIALTY_SOURCE_VALUE|**RX_CLAIMS**<br/>Use concept [38004514 (Unknown Physician Specialty)](http://www.ohdsi.org/web/atlas/#/concept/38004514)<br><br>**MEDICAL_CLAIMS** (PROVCAT)<br/> Map it to OMOP VOCABULARY_ID = 'JNJ_OPTUM_P_SPCLTY'|These CONCEPT_IDs fall under VOCABULARY_ID = 'JNJ_OPTUM_P_SPCLTY'.  A record of this vocabulary can be found in Appendix 3.1.<br><br>Set as 38004514 (Unknown Physician Specialty) if SPECIALTY_SOURCE_VALUE has missing value or is NULL or cannot be mapped.
+SPECIALTY_CONCEPT_ID|SPECIALTY_SOURCE_VALUE **(but trim leading zeroes when mapping)**|**RX_CLAIMS**<br/>Use concept [38004514 (Unknown Physician Specialty)](http://www.ohdsi.org/web/atlas/#/concept/38004514)<br><br>**MEDICAL_CLAIMS** (PROVCAT)<br/> Map it to OMOP VOCABULARY_ID = 'JNJ_OPTUM_P_SPCLTY'|These CONCEPT_IDs fall under VOCABULARY_ID = 'JNJ_OPTUM_P_SPCLTY'.  A record of this vocabulary can be found in Appendix 3.1.<br><br>Set as 38004514 (Unknown Physician Specialty) if SPECIALTY_SOURCE_VALUE has missing value or is NULL or cannot be mapped.
 CARE_SITE_ID| |0|
 YEAR_OF_BIRTH| | |
 GENDER_CONCEPT_ID| |0|
 PROVIDER_SOURCE_VALUE|**RX_CLAIMS**<br/>NPI, DEA<br><br>**MEDICAL_CLAIMS**<br/>PROV|For NPI, ignore blanks, H and HHHHHHHHHH.|We pull in both DEA and NPI codes. Some NPI = DEA, however OPTUM has identified that as data coming in with the codes switched and not a duplication of NPI and DEA codes.
-SPECIALTY_SOURCE_VALUE|**RX_CLAIMS**<br/>NULL<br><br>**MEDICAL_CLAIMS**<br/>PROVCAT| |
+SPECIALTY_SOURCE_VALUE|**RX_CLAIMS**<br/>NULL<br><br>**MEDICAL_CLAIMS**<br/>PROVCAT (keep leading zeroes)| |
 SPECIALTY_SOURCE_CONCEPT_ID| |0|
 GENDER_SOURCE_VALUE| | |
 GENDER_SOURCE_CONCEPT_ID| |0|

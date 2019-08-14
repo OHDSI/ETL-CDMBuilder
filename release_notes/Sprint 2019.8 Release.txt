@@ -1,0 +1,54 @@
+*******************************************************************************
+* VOCABULARY UPDATE
+*******************************************************************************
+1) Adopting a new Vocabulary per schedule.
+
+2) A summary of changes by how they play out in raw data can be found on our internal Epi site.
+
+--Moving Domains
+--635 of the domain changes seem to impact our largest claims database, here are the top 10:
+
+	Concept ID	Vocabulary	Old value	New value	Concept name
+	MEASUREMENT	40766642	Measurement	Observation	Are you considering quitting smoking during the next 6 months [PLCO]
+	MEASUREMENT	44786671	Measurement	Observation	Alcoholic drinks per day
+	MEASUREMENT	40766942	Measurement	Observation	How many cigars are you smoking per week now [PhenX]
+	MEASUREMENT	40766928	Measurement	Observation	Do you now smoke cigarettes, as of 1 month ago [PhenX]
+	OBSERVATION	2720870		Observation	Device		Low osmolar contrast material, 300-399 mg/ml iodine concentration, per ml
+	MEASUREMENT	3012697		Measurement	Observation	History of Tobacco use
+	MEASUREMENT	40767149	Measurement	Observation	How do you describe your current health
+	OBSERVATION	2617827		Procedure	Observation	Eligible clinician attests to documenting in the medical record they obtained, updated, or reviewed the patient's current medications
+	MEASUREMENT	40769798	Measurement	Observation	Sigmoidoscopy or colonoscopy [PhenX]
+	MEASUREMENT	3002314		Measurement	Observation	Last menstrual period start date
+
+
+--New Maps
+--30 codes received new mapping or mapping was deprecated.  Here are the top 10 concepts by use that changed (which all are going from no map to receiving a map):
+
+	CURRENT_LOCATION	SOURCE_CODE	SOURCE_VOCABULARY_ID	SOURCE_CONCEPT_NAME												NEW_TARGET_CONCEPT_ID	NEW_DOMAIN_ID	CURRENT_CONCEPT_ID
+	CONDITION_OCCURRENCE	373.32		ICD9CM			Contact and allergic dermatitis of eyelid									4286048			Condition	436985
+	CONDITION_OCCURRENCE	313.82		ICD9CM			Identity disorder of childhood or adolescence									4008565			Condition	436372
+	CONDITION_OCCURRENCE	313.82		ICD9CM			Identity disorder of childhood or adolescence									4281692			Condition	436372
+	CONDITION_OCCURRENCE	985		ICD9CM			Toxic effect of mercury and its compounds									35624506		Condition	434218
+	DRUG_EXPOSURE		64376070616	NDC			Brompheniramine 0.8 MG/ML / Dextromethorphan 6 MG/ML / Pseudoephedrine 12 MG/ML Oral Solution [PSE Brom DM]	789871			Drug		1131227
+	DRUG_EXPOSURE		68820004308	NDC			Cefadroxil 500 MG Oral Capsule [Cefadroxil Monohydate]								19074847		Drug		19074847
+	DRUG_EXPOSURE		172405860	NDC			Cefadroxil 500 MG Oral Capsule [Cefadroxil Monohydate]								19074847		Drug		19074847
+	PROCEDURE_OCCURRENCE	39.64		ICD9Proc		Intraoperative cardiac pacemaker										35622031		Procedure	2002246
+	CONDITION_OCCURRENCE	985.1		ICD9CM			Toxic effect of arsenic and its compounds									35624417		Condition	438927
+	CONDITION_OCCURRENCE	360.33		ICD9CM			Hypotony associated with other ocular disorders									4316074			Condition	377859
+
+--Map Switches
+--7,767 codes switched mappings from one concept to the other. Here are the top 10 source codes that switched. 
+
+	SOURCE_CODE	SOURCE_VOCABULARY_ID	OLD_TARGET_CONCEPT_ID	OLD_TARGET_DEPRECATED	NEW_TARGET_CONCEPT_ID	NEW_TARGET_DOMAIN_ID
+	250		ICD9CM			201826			0			4008576			Condition
+	V04.81		ICD9CM			37109774		0			44784283		Observation
+	719.46		ICD9CM			81112			1			77074			Condition
+	719.46		ICD9CM			81112			1			4024561			Condition
+	296.32		ICD9CM			4077577			0			432883			Condition
+	250.02		ICD9CM			201826			0			443238			Condition
+	250.02		ICD9CM			201826			0			4008576			Condition
+	250.02		ICD9CM			40482801		0			443238			Condition
+	250.02		ICD9CM			40482801		0			4008576			Condition
+	90658		CPT4			40213151		0			40213153		Drug
+
+

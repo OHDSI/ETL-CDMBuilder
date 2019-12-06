@@ -73,7 +73,7 @@ createConditionOccurrenceTests <- function () {
   declareTest(id = patient$person_id, "patient has icd10cm diagnosis in a dx field that overlaps with an icd10 diagnosis, condition record created with icd10cm mapped to snomed. Id is PERSON_ID")
   add_enrollment_detail(enrolid=patient$enrolid, dtend = '2012-12-31', dtstart = '2012-01-01')
   add_inpatient_services(enrolid=patient$enrolid, svcdate = '2012-08-09', tsvcdat = '2012-08-12', dx1='V9001', dxver='0')
-  expect_observation(person_id = patient$person_id, observation_concept_id = '437476')
+  expect_observation(person_id = patient$person_id, observation_concept_id = '4155106')
   expect_no_condition_occurrence(person_id = patient$person_id, condition_concept_id = '4053838')
   
   patient <- createPatient()

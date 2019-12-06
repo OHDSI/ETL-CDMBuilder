@@ -44,7 +44,7 @@ createVisitOccurrenceTests <- function () {
   
   patient <- createPatient()
   encounter <- createEncounter()
-  declareTest(id = patient$person_id, "Two visits created, expect a visit with a PRECEDING_VISIT_OCCURRENCE_ID. Id is PERSON_ID.")
+  declareTest(id = patient$person_id, "Two visits created, expect a visit with a PRECEDING_VISIT_OCCURRENCE_ID. Id is PERSON_ID. (HIX-1521)")
   add_enrollment_detail(enrolid=patient$enrolid, dtend = '2012-12-31', dtstart = '2012-01-01')
   add_inpatient_services(enrolid=patient$enrolid, svcdate = '2012-08-08', tsvcdat = '2012-08-12')
   add_inpatient_services(enrolid=patient$enrolid, svcdate='2012-10-01', tsvcdat = '2012-10-05')

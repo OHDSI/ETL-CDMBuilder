@@ -57,6 +57,13 @@ createDrugExposureTests <- function () {
   add_drug_claims(enrolid = patient$enrolid, ndcnum = '00006032582', year = '2014', svcdate = '09-18-2014')
   expect_drug_exposure(person_id = patient$person_id, drug_concept_id = '45775771', drug_exposure_start_date = '09-18-2014')
   
+  patient <- createPatient()
+  encounter <- createEncounter()
+  declareTest(id = patient$person_id, "Tofacitinib mapps to 11-digit DRUG_SOURCE_CONCEPT_ID instead of 9-digit (HIX-1534)")
+  add_enrollment_detail(enrolid=patient$enrolid, dtend = '2014-12-31', dtstart = '2014-01-01')
+  add_drug_claims(enrolid = patient$enrolid, ndcnum = '00069100101', year = '2014', svcdate = '09-18-2014')
+  expect_drug_exposure(person_id = patient$person_id, drug_source_concept_id = '45332969')
+  
   if (Sys.getenv("truvenType") == "CCAE")
   {
     patient <- createPatient()

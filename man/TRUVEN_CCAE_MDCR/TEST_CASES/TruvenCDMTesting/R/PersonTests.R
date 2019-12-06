@@ -97,9 +97,9 @@ createPersonTests <- function () {
     expect_person(person_id = patient$person_id)
     
     patient <- createPatient()
-    declareTest(id = patient$person_id, "Person with stdrace=1. Id is PERSON_ID.")
+    declareTest(id = patient$person_id, "Person with stdrace=1. Id is PERSON_ID. (HIX-1506)")
     add_enrollment_detail(enrolid=patient$enrolid, stdrace = '1')
-    expect_person(person_id = patient$person_id, race_concept_id = '8527', ethnicity_concept_id = '38003564')
+    expect_person(person_id = patient$person_id, race_concept_id = '8527', ethnicity_concept_id = '0')
     
     patient <- createPatient()
     declareTest(id = patient$person_id, "Person with stdrace=4. Id is PERSON_ID.")

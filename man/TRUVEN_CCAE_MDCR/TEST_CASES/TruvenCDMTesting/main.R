@@ -2,13 +2,13 @@
 
 getSource <- function() {
   if (Sys.getenv("truvenType") =="CCAE") {
-    source('R/TruvenCCAE_TestingFramework_10Jan2018.R')
+    source('R/TruvenCCAE_TestingFramework.R')
   }
   if (Sys.getenv("truvenType") =="MDCR") {
-    source('R/TruvenMDCR_TestingFramework_10Jan2018.R') 
+    source('R/TruvenMDCR_TestingFramework.R') 
   }
   else if (Sys.getenv("truvenType")=="MDCD") {
-    source('R/TruvenMDCD_TestingFramework_10Jan2018.R') 
+    source('R/TruvenMDCD_TestingFramework.R') 
   }
 }
 

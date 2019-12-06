@@ -57,4 +57,12 @@ createDrugEraTests <- function () {
   expect_drug_era(person_id = patient$person_id, drug_concept_id = '1134439', drug_era_start_date ='05-01-2010')
   expect_drug_era(person_id = patient$person_id, drug_concept_id = '1112807', drug_era_start_date ='05-01-2010')
   
+  patient <- createPatient()
+  encounter <- createEncounter()
+  declareTest(id = patient$person_id, "Two drugs with same ingredient within 30 days, one occurs outside of observation_period. Drug era should only include drug inside observation_period. Id is PERSON_ID.")
+  add_enrollment_detail(enrolid=patient$enrolid, dtend = '2012-12-31', dtstart = '2012-01-01')
+  add_drug_claims(enrolid = patient$enrolid, ndcnum = '00463303410', year = '2012', svcdate = '12-12-2011', daysupp = 30)
+  add_drug_claims(enrolid = patient$enrolid, ndcnum = '00463303410', year = '2012', svcdate = '01-08-2012', daysupp = 30)
+  expect_drug_era(person_id = patient$person_id, drug_concept_id = '1134439', drug_era_start_date ='01-08-2012', gap_days = 0)
+  
 }

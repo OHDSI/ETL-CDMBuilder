@@ -8,7 +8,6 @@ createCostTests <- function () {
   add_drug_claims(enrolid = patient$enrolid, copay = '20', ndcnum = '00378510501', svcdate = '2012-02-09', ingcost = '50', dispfee = '25', awp = '20')
   expect_cost(cost_domain_id = 'Drug', paid_patient_copay = '20', paid_ingredient_cost = '50', paid_dispensing_fee = '25', total_cost = '20')
   
-  
   patient <- createPatient()
   encounter <- createEncounter()
   declareTest(id = patient$person_id, "Patient has cost values, cost is correctly associated with cost_domain_id = 10. Id is PERSON_ID.")
@@ -46,10 +45,28 @@ createCostTests <- function () {
   encounter <- createEncounter()
   declareTest(id = patient$person_id, "Testing DRG Populates (HIX-1431). Id is PERSON_ID.")
   add_enrollment_detail(enrolid=patient$enrolid, dtend = '2012-12-31', dtstart = '2012-01-01')
-  add_inpatient_services(caseid = encounter$caseid, enrolid = patient$enrolid, proc1 = NULL, revcode = '0420', svcdate = '2012-06-05', tsvcdat = '2012-06-05', copay = '80', deduct = '20', year = '2012', drg = "007")
+  add_inpatient_services(caseid = encounter$caseid, enrolid = patient$enrolid, proc1 = NULL, revcode = '0420', svcdate = '2012-06-05', tsvcdat = '2012-06-05', copay = '80', deduct = '20', year = '2012')
   add_inpatient_admissions(caseid = encounter$caseid, enrolid = patient$enrolid, year = '2012')
-  expect_cost(cost_domain_id = 'Procedure', paid_patient_copay = '80', paid_patient_deductible = '20', paid_by_patient = '100', drg_concept_id = "38000893")
+  expect_cost(cost_domain_id = 'Procedure', paid_patient_copay = '80', paid_patient_deductible = '20', paid_by_patient = '100')
+
+  patient <- createPatient()
+  encounter <- createEncounter()
+  declareTest(id = patient$person_id, "Patient has cost values, cost is correctly associated with the right event_id (HIX-1515).")
+  add_enrollment_detail(enrolid=patient$enrolid, dtend = '2012-12-31', dtstart = '2012-01-01')
+  add_inpatient_services(caseid = encounter$caseid, enrolid = patient$enrolid, proc1 = '65779', svcdate = '2012-06-11', tsvcdat = '2012-06-30', copay = '40', deduct = '120', year = '2012')
+  add_inpatient_admissions(caseid = encounter$caseid, enrolid = patient$enrolid, year = '2012')
+  event_ID <- lookup_procedure_occurrence(fetchField = "procedure_occurrence_id", person_id = patient$person_id)
+  expect_cost(cost_event_id = event_ID)
   
+  patient <- createPatient()
+  encounter <- createEncounter()
+  declareTest(id = patient$person_id, "Patient has invalid revenue code, REVENUE_CODE_CONCEPT_ID set to 0. Id is PERSON_ID. (HIX-1486)")
+  add_enrollment_detail(enrolid=patient$enrolid, dtend = '2012-12-31', dtstart = '2012-01-01')
+  add_inpatient_services(caseid = encounter$caseid, enrolid = patient$enrolid, proc1 = '65779', revcode = '0000', svcdate = '2012-06-05', tsvcdat = '2012-06-05', copay = '80', deduct = '20', year = '2012')
+  add_inpatient_admissions(caseid = encounter$caseid, enrolid = patient$enrolid, year = '2012')
+  event_ID <- lookup_procedure_occurrence(fetchField = "procedure_occurrence_id", person_id = patient$person_id)
+  expect_cost(cost_event_id = event_ID , revenue_code_concept_id = 0)
+
   if (Sys.getenv("truvenType") == "MDCD")
   {
     patient <- createPatient()

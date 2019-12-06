@@ -17,9 +17,9 @@ Sys.setenv(cdm_db = config$cdm_db)
 Sys.setenv(cdm_schema = config$cdm)
 
 #DON'T FORGET THE CONFIG FILE CHANGE
-#Sys.setenv(truvenType = "CCAE");
+Sys.setenv(truvenType = "CCAE");
 #Sys.setenv(truvenType = "MDCR");
-Sys.setenv(truvenType = "MDCD");
+#Sys.setenv(truvenType = "MDCD");
 
 # STEP 2: Run the getSource function to source the proper framework based on the variable set above and then set defaults
 
@@ -97,7 +97,7 @@ if (Sys.getenv("truvenType") == "CCAE" ){
 DatabaseConnector::disconnect(conn)
 
 
-# STEP 7: Run builder externally
+# STEP 7: Take a break, run builder externally
 #               .--.
 #              (    )
 #                 _/

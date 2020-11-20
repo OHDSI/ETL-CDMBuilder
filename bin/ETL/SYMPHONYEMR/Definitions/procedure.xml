@@ -1,0 +1,31 @@
+﻿<QueryDefinition>
+  <Query>
+    SELECT
+    patient_id
+    , ecntr_id
+    , ecntr_dte_tstmp
+    , ama_cpt_cde
+    from {sc}.procedure
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND patient_id = ch.PERSON_ID
+    order by patient_id
+  </Query>
+  <ProcedureOccurrence>
+    <ProcedureOccurrenceDefinition>
+      <PersonId>patient_id</PersonId>
+      <StartDate>ecntr_dte_tstmp</StartDate>
+      <VisitOccurrenceId>ecntr_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Cpt4</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="ama_cpt_cde" defaultTypeId="32020"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureOccurrenceDefinition>
+  </ProcedureOccurrence>
+</QueryDefinition>

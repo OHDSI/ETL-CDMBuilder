@@ -1,0 +1,118 @@
+﻿<QueryDefinition>
+  <Query>
+    select patid as PERSON_ID,
+    pat_planid,
+    clmid,
+    diag,
+    CASE
+    WHEN diag_position = '01' THEN 44786627
+    ELSE 44786629
+    END as TYPE_CONCEPT_ID,
+    loc_cd,
+    fst_dt as START_DATE,
+    poa,
+    CASE
+    WHEN lower(poa) = 'y' THEN 46236988
+    ELSE 0
+    END as CONDITION_STATUS_CONCEPT_ID,
+    CASE WHEN icd_flag IS NULL OR icd_flag NOT IN ('10', '9') THEN CASE WHEN fst_dt &lt; '10/01/2015' THEN '9' ELSE '10' END ELSE icd_flag END icd_flag
+    from {sc}.med_diagnosis md
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND md.patid = ch.PERSON_ID
+    order by PATID
+  </Query>
+  <ConditionOccurrence>
+
+    <ConditionOccurrenceDefinition>
+      <Condition>{icd_flag} = 9</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>START_DATE</StartDate>
+      <AdditionalFields>
+        <string>pat_planid</string>
+        <string>clmid</string>
+        <string>loc_cd</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ConditionICD9</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="diag" typeId="TYPE_CONCEPT_ID" />
+          </Fields>
+        </Concept>
+        <Concept>
+          <Fields>
+            <Field conceptId="CONDITION_STATUS_CONCEPT_ID" sourceKey="poa" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+
+    <ConditionOccurrenceDefinition>
+      <Condition>{icd_flag} = 10</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>START_DATE</StartDate>
+      <AdditionalFields>
+        <string>pat_planid</string>
+        <string>clmid</string>
+        <string>loc_cd</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ConditionICD10</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="diag" typeId="TYPE_CONCEPT_ID" />
+          </Fields>
+        </Concept>
+        <Concept>
+          <Fields>
+            <Field conceptId="CONDITION_STATUS_CONCEPT_ID" sourceKey="poa" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+  </ConditionOccurrence>
+
+  <Death>
+    <DeathDefinition>
+      <Condition>{icd_flag} = 9</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>START_DATE</StartDate>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>DeathCodes</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="diag" defaultTypeId="32508"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DeathDefinition>
+    <DeathDefinition>
+      <Condition>{icd_flag} = 10</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>START_DATE</StartDate>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>DeathCodesICD10</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="diag" defaultTypeId="32508"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DeathDefinition>
+  </Death>
+</QueryDefinition>

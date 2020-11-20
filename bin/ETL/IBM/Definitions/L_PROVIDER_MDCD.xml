@@ -1,0 +1,40 @@
+﻿<QueryDefinition>
+   <Query database="mdcd">
+     SELECT DISTINCT
+     A.PROV_ID 			AS PROVIDER_SOURCE_VALUE,
+     A.STDPROV					AS SPECIALTY_SOURCE_VALUE
+     FROM {sc}.FACILITY_HEADER A
+     UNION
+     SELECT DISTINCT
+     B.PROV_ID 			AS PROVIDER_SOURCE_VALUE,
+     B.STDPROV					AS SPECIALTY_SOURCE_VALUE
+     FROM {sc}.OUTPATIENT_SERVICES B
+     UNION
+     SELECT DISTINCT
+     C.PROV_ID 			AS PROVIDER_SOURCE_VALUE,
+     C.STDPROV					AS SPECIALTY_SOURCE_VALUE
+     FROM {sc}.INPATIENT_SERVICES C
+     UNION
+     SELECT DISTINCT
+     D.PROV_ID					AS PROVIDER_SOURCE_VALUE,
+     D.STDPROV					AS SPECIALTY_SOURCE_VALUE
+     FROM {sc}.LONG_TERM_CARE D
+   </Query>
+   <Providers>
+      <ProviderDefinition>
+         <ProviderSourceValue>PROVIDER_SOURCE_VALUE</ProviderSourceValue>
+         <Concepts>
+            <Concept>
+               <ConceptIdMappers>
+                  <Mapper>
+                     <Lookup>Specialty</Lookup>
+                  </Mapper>
+               </ConceptIdMappers>
+               <Fields>
+                  <Field key="SPECIALTY_SOURCE_VALUE"/>
+               </Fields>
+            </Concept>
+         </Concepts>
+      </ProviderDefinition>
+   </Providers>
+</QueryDefinition>

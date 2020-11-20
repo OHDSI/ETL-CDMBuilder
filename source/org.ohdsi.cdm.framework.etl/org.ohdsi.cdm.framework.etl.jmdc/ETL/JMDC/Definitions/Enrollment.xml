@@ -1,0 +1,45 @@
+﻿<QueryDefinition>
+  <Query>
+    SELECT CAST(RIGHT(Member_ID, LEN(Member_ID) - 1) AS BIGINT) AS person_id,
+    Member_ID AS person_source_value,
+    left(Month_and_year_of_birth_of_member, 4) AS year_of_birth,
+    right(Month_and_year_of_birth_of_member, 2) AS month_of_birth,
+    lower(Gender_of_member) AS gender_source_value,
+    CAST(CAST(e.observation_start AS VARCHAR(6)) + '01' AS DATE) AS observation_period_start_date,
+    DATEADD(DAY, -1, DATEADD(MONTH, 1, CAST(CAST(e.observation_end AS VARCHAR(6)) + '01' AS DATE))) AS observation_period_end_date,
+    CASE
+    WHEN withdrawal_death_flag = 'true' THEN 1
+    ELSE 0
+    END as died,
+    44814722 as PeriodTypeConceptId
+    FROM {sc}.Enrollment e
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND e.Member_ID = ch.PERSON_SOURCE_VALUE
+    order by CAST(RIGHT(Member_ID, LEN(Member_ID) - 1) AS BIGINT)
+  </Query>
+  <Persons>
+    <PersonDefinition>
+      <PersonId>PERSON_ID</PersonId>
+      <PersonSourceValue>person_source_value</PersonSourceValue>
+      <StartDate>observation_period_start_date</StartDate>
+      <EndDate>observation_period_end_date</EndDate>
+      <Gender>gender_source_value</Gender>
+      <YearOfBirth>year_of_birth</YearOfBirth>
+      <MonthOfBirth>month_of_birth</MonthOfBirth>
+      <PeriodTypeConceptId>PeriodTypeConceptId</PeriodTypeConceptId>
+    </PersonDefinition>
+  </Persons>
+  <Death>
+    <DeathDefinition>
+      <Condition>{died} = 1</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>observation_period_end_date</StartDate>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field defaultConceptId="1" defaultTypeId="38003565"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DeathDefinition>
+  </Death>
+</QueryDefinition>

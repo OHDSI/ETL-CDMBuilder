@@ -1,4 +1,0 @@
-﻿{Source_to_Standard}
-SELECT distinct SOURCE_CODE_DESCRIPTION, TARGET_CONCEPT_ID
-FROM CTE_VOCAB_MAP
-WHERE lower(SOURCE_VOCABULARY_ID) = 'jnj_pmr_p_spclty'

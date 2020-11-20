@@ -1,0 +1,21 @@
+﻿<QueryDefinition>
+  <Query>
+    SELECT distinct pconsult, max(mainspef) mainspef
+    FROM {sc}.episodes
+    where pconsult != '99' or pconsult != '&amp;'
+    group by pconsult
+  </Query>
+  <Providers>
+    <ProviderDefinition>
+      <!--<Id>PROVIDER_ID</Id>-->
+      <ProviderSourceValue>pconsult</ProviderSourceValue>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field key="mainspef" defaultConceptId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProviderDefinition>
+  </Providers>
+</QueryDefinition>

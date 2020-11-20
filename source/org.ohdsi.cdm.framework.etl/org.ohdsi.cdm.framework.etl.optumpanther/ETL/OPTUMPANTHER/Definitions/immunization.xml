@@ -1,0 +1,33 @@
+﻿<QueryDefinition>
+  <Query>
+    select
+    ch.person_id as PersonId,
+    i.immunization_date,
+    i.ndc,
+    SUBSTRING(i.ndc,1,9) ndc_9
+    from {sc}.immunizations as i
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND i.ptid = ch.PERSON_SOURCE_VALUE
+    where pt_reported = 'N' and ndc is not NULL and  i.immunization_date is not null
+    order by 1
+  </Query>
+  <DrugExposure>
+    <DrugExposureDefinition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>immunization_date</StartDate>
+      <EndDate>immunization_date</EndDate>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Drug</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="ndc" defaultTypeId="43542358" />
+            <Field key="ndc_9" sourceKey="ndc"  defaultTypeId="43542358" />
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DrugExposureDefinition>
+  </DrugExposure>
+</QueryDefinition>

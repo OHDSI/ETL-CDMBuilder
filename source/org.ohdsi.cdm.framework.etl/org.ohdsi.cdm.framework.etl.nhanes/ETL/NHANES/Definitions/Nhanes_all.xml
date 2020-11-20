@@ -1,0 +1,56 @@
+﻿<QueryDefinition>
+   <Query>
+     SELECT a.seqn
+     ,a.table_name
+     ,a.variable
+     ,replace(replace(replace(a.value, chr(9), ' '), chr(10), ' '), chr(13), ' ') as value
+     ,replace(replace(replace(d.value_description, chr(9), ' '), chr(10), ' '), chr(13), ' ') as value_description
+     ,1 as fake
+     FROM {sc}.nhanes_all as a
+     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND a.SEQN = ch.PERSON_ID
+     LEFT JOIN {sc}.nhanes_all_descriptions as d on (d.table_name = a.table_name and d.VAR_NAME = a.VARIABLE and d.CODE_OR_VALUE = a.VALUE)
+     order by 1
+   </Query>
+  <Persons>
+    <PersonDefinition>
+      <PersonId>seqn</PersonId>
+      <PersonSourceValue>seqn</PersonSourceValue>
+      <AdditionalFields>
+        <string>table_name</string>
+        <string>variable</string>
+        <string>value</string>
+        <string>value_description</string>
+      </AdditionalFields>
+    </PersonDefinition>
+  </Persons>
+  <ConditionOccurrence>
+    <!-- fake definition, only to load lookups  -->
+    <ConditionOccurrenceDefinition>
+      <Condition>{fake} = 0</Condition>
+      <PersonId>seqn</PersonId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Condition</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="value" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Drug</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="value" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+ 
+  </ConditionOccurrence>
+</QueryDefinition>

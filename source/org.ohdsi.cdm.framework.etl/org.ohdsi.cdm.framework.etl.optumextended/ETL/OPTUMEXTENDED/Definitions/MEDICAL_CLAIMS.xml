@@ -1,0 +1,260 @@
+﻿<QueryDefinition>
+  <Query>
+    with prov as
+    (
+    SELECT distinct pb.prov_unique, pb.prov
+    FROM {sc}.provider_bridge pb
+    join {sc}.provider p on pb.prov_unique = p.prov_unique and (p.prov_type is null or prov_type in ('', '1', 'unknown'))
+    ),
+    care_site as
+    (
+    SELECT distinct pb.prov_unique, pb.prov
+    FROM {sc}.provider_bridge pb
+    join {sc}.provider p on pb.prov_unique = p.prov_unique and (p.prov_type is null or p.prov_type in ('', '2', '3', '4', '5'))
+    )
+
+    SELECT patid as PERSON_ID,
+    pos,
+    fst_dt as START_DATE,
+    lst_dt as END_DATE,
+    case
+    when pos in ('22', '23') and lst_dt - fst_dt > 1 then fst_dt
+    when pos in ('11', '01', '95', '12', '20', '49', '60', '15', '81', '42', '41', '14', '04', '18', '09', '03', '16' ) then fst_dt
+    when pos = '' or pos is null then fst_dt
+    else lst_dt
+    end as VISIT_END_DATE,
+    paid_status,
+    provcat,
+    bill_prov,
+    clmid,
+    clmseq,
+    CONCAT(clmid, CONCAT('-', clmseq)) as VISIT_DETAIL_SOURCE_VALUE,
+    coalesce(pb.prov_unique, 0) as PROVIDER_ID,
+    coalesce(cs.prov_unique, 0) as CARE_SITE_ID,
+    dstatus,
+    proc_cd,
+    ndc,
+    SUBSTRING(ndc,1,9) NDC_SOURCE_VALUE_9,
+    ndc_uom,
+    procmod,
+    units,
+    ndc_qty,
+    pat_planid,
+    loc_cd,
+    CASE WHEN icd_flag IS NULL OR icd_flag NOT IN ('10', '9') THEN CASE WHEN fst_dt &lt; '10/01/2015' THEN '9' ELSE '10' END ELSE icd_flag END icd_flag,
+    1 as DAYS_SUPPLY,
+    CASE
+    WHEN DSTATUS IN ('20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '40', '41', '42') THEN 1
+    ELSE 0
+    END as DIED,
+    conf_id,
+    1 as fake,
+    drg,
+    rvnu_cd
+    FROM {sc}.medical_claims mc
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND mc.patid = ch.PERSON_ID
+    left join prov pb on pb.prov=mc.prov
+    left join care_site cs on cs.prov=mc.bill_prov
+    order by PATID
+  </Query>
+  <DrugExposure>
+    <DrugExposureDefinition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>START_DATE</StartDate>
+      <ProviderId>PROVIDER_ID</ProviderId>
+      <Quantity>ndc_qty</Quantity>
+      <DaysSupply>DAYS_SUPPLY</DaysSupply>
+      <AdditionalFields>
+        <string>pat_planid</string>
+        <string>clmid</string>
+        <string>loc_cd</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>DrugRx</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="NDC" defaultTypeId="32468" eventDate="START_DATE"/>
+            <Field key="NDC_SOURCE_VALUE_9" sourceKey="NDC" defaultTypeId="32468" eventDate="START_DATE"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DrugExposureDefinition>
+  </DrugExposure>
+
+  <ProcedureOccurrence>
+    <ProcedureOccurrenceDefinition>
+      <Condition>{icd_flag} = 9</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>START_DATE</StartDate>
+      <EndDate>END_DATE</EndDate>
+      <ProviderId>PROVIDER_ID</ProviderId>
+      <Quantity>Units</Quantity>
+      <AdditionalFields>
+        <string>pat_planid</string>
+        <string>clmid</string>
+        <string>loc_cd</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ProcedureICD9</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="proc_cd" defaultTypeId="32468" isNullable="true"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Modifier</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="PROCMOD"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureOccurrenceDefinition>
+    <ProcedureOccurrenceDefinition>
+      <Condition>{icd_flag} = 10</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>START_DATE</StartDate>
+      <EndDate>END_DATE</EndDate>
+      <ProviderId>PROVIDER_ID</ProviderId>
+      <Quantity>Units</Quantity>
+      <AdditionalFields>
+        <string>pat_planid</string>
+        <string>clmid</string>
+        <string>loc_cd</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ProcedureICD10</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="proc_cd" defaultTypeId="32468" isNullable="true"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Modifier</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="PROCMOD"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureOccurrenceDefinition>
+  </ProcedureOccurrence>
+
+  <VisitOccurrence>
+    <!-- fake definition, only to load CMSPlaceOfService lookup for Visit Concept Roll-up Logic  -->
+    <VisitOccurrenceDefinition>
+      <Condition>{fake} = 0</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CMSPlaceOfService</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="fake" typeId="1" sourceKey="fake"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </VisitOccurrenceDefinition>
+    <VisitOccurrenceDefinition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>START_DATE</StartDate>
+      <EndDate>VISIT_END_DATE</EndDate>
+      <ProviderId>PROVIDER_ID</ProviderId>
+      <CareSiteId>CARE_SITE_ID</CareSiteId>
+      <DischargeToSourceValue>DSTATUS</DischargeToSourceValue>
+      <AdditionalFields>
+        <string>pat_planid</string>
+        <string>clmid</string>
+        <string>loc_cd</string>
+        <string>clmseq</string>
+        <string>paid_status</string>
+        <string>conf_id</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CMS</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="pos" defaultConceptId="9202" sourceKey="VISIT_DETAIL_SOURCE_VALUE" defaultTypeId="32468" isNullable="true"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </VisitOccurrenceDefinition>
+  </VisitOccurrence>
+
+  <Observation>
+    <ObservationDefinition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>START_DATE</StartDate>
+      <EndDate>END_DATE</EndDate>
+      <ProviderId>PROVIDER_ID</ProviderId>
+      <AdditionalFields>
+        <string>pat_planid</string>
+        <string>clmid</string>
+        <string>loc_cd</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>RevenueCode</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="rvnu_cd" defaultTypeId="32468"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+  </Observation>
+
+  <Death>
+    <DeathDefinition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>END_DATE</StartDate>
+      <Died>DIED</Died>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field key="DSTATUS" defaultConceptId="1" defaultTypeId="32507"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>DrgDeathCodes</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="drg" defaultTypeId="32509"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DeathDefinition>
+  </Death>
+</QueryDefinition>

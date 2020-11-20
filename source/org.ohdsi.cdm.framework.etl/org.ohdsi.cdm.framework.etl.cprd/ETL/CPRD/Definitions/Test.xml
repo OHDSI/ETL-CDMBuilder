@@ -1,0 +1,221 @@
+﻿<QueryDefinition>
+  <Query>
+    select a.patid,
+    a.eventdate,
+    a.staffid,
+    a.read_code,
+    a.value_as_number,
+    a.unit,
+    a.range_low,
+    a.range_high,
+    right(cast(a.patid as varchar),3) as care_site_id,
+    (cast(a.patid as bigint) * 10000000000) +
+    (cast(date_part('year',a.eventdate) as bigint) * 1000000) +
+    (cast(date_part('month',a.eventdate) as bigint) * 10000) +
+    (cast(date_part('day',a.eventdate) as bigint) * 100) + coalesce(a.constype, 99) as visit_occurrence_id,
+    a.constype,
+    case
+    when a.constype = 0 then 'Data Not Entered'
+    when a.constype = 1 then 'Clinic'
+    when a.constype = 2 then 'Night visit, Deputising service'
+    when a.constype = 3 then 'Follow-up/routine visit'
+    when a.constype = 4 then 'Night visit, Local rota'
+    when a.constype = 5 then 'Mail from patient'
+    when a.constype = 6 then 'Night visit , practice'
+    when a.constype = 7 then 'Out of hours, Practice'
+    when a.constype = 8 then 'Out of hours, Non Practice'
+    when a.constype = 9 then 'Surgery consultation'
+    when a.constype = 10 then 'Telephone call from a patient'
+    when a.constype = 11 then 'Acute visit'
+    when a.constype = 12 then 'Discharge details'
+    when a.constype = 13 then 'Letter from Outpatients'
+    when a.constype = 14 then 'Repeat Issue'
+    when a.constype = 15 then 'Other'
+    when a.constype = 16 then 'Results recording'
+    when a.constype = 17 then 'Mail to patient'
+    when a.constype = 18 then 'Emergency Consultation'
+    when a.constype = 19 then 'Administration'
+    when a.constype = 20 then 'Casualty Attendance'
+    when a.constype = 21 then 'Telephone call to a patient'
+    when a.constype = 22 then 'Third Party Consultation'
+    when a.constype = 23 then 'Hospital Admission'
+    when a.constype = 24 then 'Children''s Home Visit'
+    when a.constype = 25 then 'Day Case Report'
+    when a.constype = 26 then 'GOS18 Report'
+    when a.constype = 27 then 'Home Visit'
+    when a.constype = 28 then 'Hotel Visit'
+    when a.constype = 29 then 'NHS Direct Report'
+    when a.constype = 30 then 'Nursing Home Visit'
+    when a.constype = 31 then 'Residential Home Visit'
+    when a.constype = 32 then 'Twilight Visit'
+    when a.constype = 33 then 'Triage'
+    when a.constype = 34 then 'Walk-in Centre'
+    when a.constype = 35 then 'Co-op Telephone advice'
+    when a.constype = 36 then 'Co-op Surgery Consultation'
+    when a.constype = 37 then 'Co-op Home Visit'
+    when a.constype = 38 then 'Minor Injury Service'
+    when a.constype = 39 then 'Medicine Management'
+    when a.constype = 40 then 'Community Clinic'
+    when a.constype = 41 then 'Community Nursing Note'
+    when a.constype = 42 then 'Community Nursing Report'
+    when a.constype = 43 then 'Data Transferred from other system'
+    when a.constype = 44 then 'Health Authority Entry'
+    when a.constype = 45 then 'Health Visitor Note'
+    when a.constype = 46 then 'Health Visitor Report'
+    when a.constype = 47 then 'Hospital Inpatient Report'
+    when a.constype = 48 then 'Initial Post Discharge Review'
+    when a.constype = 49 then 'Laboratory Request'
+    when a.constype = 50 then 'Night Visit'
+    when a.constype = 51 then 'Radiology Request'
+    when a.constype = 52 then 'Radiology Result'
+    when a.constype = 53 then 'Referral Letter'
+    when a.constype = 54 then 'Social Services Report'
+    when a.constype = 55 then 'Telephone Consultation'
+    when a.constype = 56 then 'Template Entry'
+    when a.constype = 57 then 'GP to GP communication transaction'
+    when a.constype = 58 then 'Non-consultation medication data'
+    when a.constype = 59 then 'Non-consultation data'
+    when a.constype = 60 then 'ePharmacy message'
+    when a.constype = 61 then 'Extended Hours'
+    end as visit_description,
+    CASE a.operator
+    WHEN '=' THEN 4172703
+    WHEN '&gt;' THEN 4172704
+    WHEN '&lt;=' THEN 4171754
+    WHEN '&gt;=' THEN 4171755
+    WHEN '&lt;' THEN 4171756
+    WHEN '~' THEN 0
+    WHEN 'Data Not Entered' THEN 0
+    ELSE 0
+    END as operator_concept_id,
+    a.value_source_value,
+    CONCAT(CONCAT(cast(code as varchar),'-'), entity_description) as source_code,
+    medical_description
+    from
+    (
+    SELECT distinct
+    t.patid,
+    t.eventdate,
+    c.constype,
+    t.consid,
+    t.staffid,
+    m.read_code,
+    m.description as medical_description,
+    e.description as entity_description,
+    e.code,
+    e.data_fields,
+    case when t.data1 != 0 --In this case 0 means 'data not entered' so it is set to blank
+    then l.text else '' end as operator,
+    t.data2 as value_as_number,
+    case when t.data3 != 0 then l2.text
+    when e.code = 284 and (t.data2 is not null and t.data2 !=0) then 'week' --Enttype (code) 284 refers to gestational age in weeks so the unit is hard coded
+    else '' end as unit, --Data3 is the coded unit of the laboratory test. The join on line 32 looks up the text value and stores that here.
+    case when t.data4 != 0 then l3.text else '' end as value_source_value, --In this case 0 means 'data not entered' so it is set to blank. Data4 is the coded qualifier (high,low). The join on line 35 looks up the text value and stores that value here.
+    t.data5 as range_low,
+    t.data6 as range_high
+    FROM {sc}.test t
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND t.patid = ch.PERSON_ID
+    JOIN {sc}.entity e ON t.enttype = e.code
+    JOIN {sc}.medical m ON t.medcode = m.medcode
+    left JOIN {sc}.lookup l ON t.data1 = l.code AND l.lookup_type_id = 56 /*OPR - Operator*/
+    left JOIN {sc}.lookup l2 ON t.data3 = l2.code AND l2.lookup_type_id = 83 /*SUM - Specimen Unit of Measure*/
+    left JOIN {sc}.lookup l3 ON t.data4 = l3.code AND l3.lookup_type_id = 85 /*TQU - Test Qualifier*/
+    left join {sc}.consultation c on t.patid = c.patid and t.consid = c.consid
+    WHERE e.data_fields in (7,8) --When data_fields equals 7 or 8 then both operators and units may be present.
+
+    UNION
+
+    SELECT  distinct
+    t.patid,
+    t.eventdate,
+    c.constype,
+    t.consid,
+    t.staffid,
+    m.read_code,
+    m.description as medical_description,
+    e.description as entity_description,
+    e.code,
+    e.data_fields,
+    '' as operator,
+    cast(NULL as int) as value_as_number,
+    '' as unit,
+    case when t.data1 != 0 then l.text else '' end as value_source_value, --In this case 0 means 'data not entered' so it is set to blank. Data1 is the coded value for the qualifier (high,low) so the join on line 64 looks up the value and stores the text here.
+    t.data2 as range_low,
+    t.data3 as range_high
+    FROM {sc}.test t
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND t.patid = ch.PERSON_ID
+    JOIN {sc}.entity e ON t.enttype = e.code
+    JOIN {sc}.medical m ON t.medcode = m.medcode
+    left JOIN {sc}.lookup l ON t.data1 = l.code AND l.lookup_type_id = 85 /*TQU - Test Qualifier*/
+    left join {sc}.consultation c on t.patid = c.patid and t.consid = c.consid
+    WHERE e.data_fields = 4 --When data_fields equals 4 then only the value of the text and qualifier is available.
+    ) as a
+    where a.eventdate is not NULL
+    order by a.patid
+  </Query>
+  <Measurement>
+    <MeasurementDefinition>
+      <PersonId>patid</PersonId>
+      <VisitDetailId>visit_occurrence_id</VisitDetailId>
+      <StartDate>eventdate</StartDate>
+      <ProviderId>staffid</ProviderId>
+      <ValueSourceValue>value_source_value</ValueSourceValue>
+      <ValueAsNumber>value_as_number</ValueAsNumber>
+      <RangeLow>range_low</RangeLow>
+      <RangeHigh>range_high</RangeHigh>
+      <OperatorConceptId>operator_concept_id</OperatorConceptId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Test_Ent</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="source_code" defaultTypeId="44818702" sourceKey="read_code"/> 
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Units</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="unit" defaultTypeId="0" />
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ValueAsConceptId</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="value_source_value" defaultTypeId="0" />
+          </Fields>
+        </Concept>
+      </Concepts>
+    </MeasurementDefinition>
+  </Measurement>
+  <VisitOccurrence>
+    <VisitOccurrenceDefinition>
+      <Id>visit_occurrence_id</Id>
+      <PersonId>patid</PersonId>
+      <StartDate>eventdate</StartDate>
+      <EndDate>eventdate</EndDate>
+      <CareSiteId>care_site_id</CareSiteId>
+      <ProviderId>staffid</ProviderId>
+      <AdditionalFields>
+        <string>constype</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field defaultConceptId="9202" sourceKey="visit_description" defaultTypeId="44818518"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </VisitOccurrenceDefinition>
+  </VisitOccurrence>
+</QueryDefinition>

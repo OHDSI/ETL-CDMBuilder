@@ -1,0 +1,34 @@
+﻿<QueryDefinition>
+  <Query>
+    select
+    patid,
+    spno,
+    admidate,
+    discharged,
+    icd_primary,
+    cast(CONCAT(cast(patid as varchar), cast(spno as varchar)) as bigint) as visit_occurrence_id
+    FROM {sc}.diagnoses_primary_hospitalisation
+    join {sc}._chunks ch ON ch.ChunkId = {0} AND patid = ch.PERSON_ID
+    order by patid
+  </Query>
+  <Observation>
+    <ObservationDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>admidate</StartDate>
+      <EndDate>discharged</EndDate>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>icd10</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="icd_primary" defaultTypeId="44786627"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+  </Observation>
+</QueryDefinition>

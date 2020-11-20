@@ -1,0 +1,133 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ETL\PREMIER\Batch.sql" />
+    <None Remove="ETL\PREMIER\CdmSource.sql" />
+    <None Remove="ETL\PREMIER\Definitions\genlab.xml" />
+    <None Remove="ETL\PREMIER\Definitions\lab_result.xml" />
+    <None Remove="ETL\PREMIER\Definitions\L_CARE_SITE.xml" />
+    <None Remove="ETL\PREMIER\Definitions\L_LOCATION.xml" />
+    <None Remove="ETL\PREMIER\Definitions\L_PROVIDER.xml" />
+    <None Remove="ETL\PREMIER\Definitions\pat.xml" />
+    <None Remove="ETL\PREMIER\Definitions\patbill.xml" />
+    <None Remove="ETL\PREMIER\Definitions\patcpt.xml" />
+    <None Remove="ETL\PREMIER\Definitions\paticd_diag.xml" />
+    <None Remove="ETL\PREMIER\Definitions\paticd_proc.xml" />
+    <None Remove="ETL\PREMIER\Definitions\payor.xml" />
+    <None Remove="ETL\PREMIER\Lookups\Condition.sql" />
+    <None Remove="ETL\PREMIER\Lookups\ConditionIcd.sql" />
+    <None Remove="ETL\PREMIER\Lookups\DeathCodes.sql" />
+    <None Remove="ETL\PREMIER\Lookups\Device.sql" />
+    <None Remove="ETL\PREMIER\Lookups\Drg.sql" />
+    <None Remove="ETL\PREMIER\Lookups\Drug.sql" />
+    <None Remove="ETL\PREMIER\Lookups\Lab.sql" />
+    <None Remove="ETL\PREMIER\Lookups\Lab_Result.sql" />
+    <None Remove="ETL\PREMIER\Lookups\Lab_Units.sql" />
+    <None Remove="ETL\PREMIER\Lookups\Measurement.sql" />
+    <None Remove="ETL\PREMIER\Lookups\Observation.sql" />
+    <None Remove="ETL\PREMIER\Lookups\ObservationICD10.sql" />
+    <None Remove="ETL\PREMIER\Lookups\ObservationICD9.sql" />
+    <None Remove="ETL\PREMIER\Lookups\Procedure.sql" />
+    <None Remove="ETL\PREMIER\Lookups\RevenueCode.sql" />
+    <None Remove="ETL\PREMIER\Lookups\Specialty.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ETL\PREMIER\Batch.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\CdmSource.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Definitions\genlab.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Definitions\lab_result.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Definitions\L_CARE_SITE.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Definitions\L_LOCATION.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Definitions\L_PROVIDER.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Definitions\pat.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Definitions\patbill.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Definitions\patcpt.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Definitions\paticd_diag.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Definitions\paticd_proc.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Definitions\payor.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Lookups\Condition.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Lookups\ConditionIcd.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Lookups\DeathCodes.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Lookups\Device.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Lookups\Drg.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Lookups\Drug.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Lookups\Lab.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Lookups\Lab_Result.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Lookups\Lab_Units.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Lookups\Measurement.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Lookups\Observation.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Lookups\ObservationICD10.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Lookups\ObservationICD9.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Lookups\Procedure.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Lookups\RevenueCode.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\PREMIER\Lookups\Specialty.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\org.ohdsi.cdm.framework.common\org.ohdsi.cdm.framework.common.csproj" />
+  </ItemGroup>
+
+</Project>

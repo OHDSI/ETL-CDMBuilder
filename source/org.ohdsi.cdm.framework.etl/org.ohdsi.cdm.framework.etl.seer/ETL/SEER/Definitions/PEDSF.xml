@@ -1,0 +1,69 @@
+﻿<QueryDefinition>
+  <Query>
+	  SELECT distinct
+	  PATIENT_ID,
+	  Name,
+	  Value,
+	  0 as died,
+	  SrcTable
+	  FROM {sc}.PEDSF
+	  JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND PATIENT_ID = ch.PERSON_SOURCE_VALUE
+	  ORDER BY PATIENT_ID asc, Name desc
+  </Query>
+  <Persons>
+    <PersonDefinition>
+      <PersonId>PATIENT_ID</PersonId>
+      <PersonSourceValue>PATIENT_ID</PersonSourceValue>
+      <AdditionalFields>
+        <string>Name</string>
+        <string>Value</string>
+        <string>SrcTable</string>
+      </AdditionalFields>
+    </PersonDefinition>
+  </Persons>
+  <!-- Only for load Lookups, all pedsf logic for death on SeerPersonBuilder -->
+  <Death>
+    <DeathDefinition>
+      <Condition>{died} = 1</Condition>
+      <PersonId>PATIENT_ID</PersonId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>DeathICD10</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field defaultConceptId="0" defaultTypeId="38003565"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Observation</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field defaultConceptId="0" defaultTypeId="38003565"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DeathDefinition>
+    <DeathDefinition>
+      <Condition>{died} = 1</Condition>
+      <PersonId>PATIENT_ID</PersonId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>DeathICD9</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field defaultConceptId="0" defaultTypeId="38003565"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DeathDefinition>
+  </Death>
+</QueryDefinition>

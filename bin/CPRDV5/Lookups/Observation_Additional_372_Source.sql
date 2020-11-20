@@ -1,4 +1,0 @@
-﻿{Source_to_Standard}
-SELECT distinct SOURCE_CODE, SOURCE_CODE_DESCRIPTION
-FROM CTE_VOCAB_MAP
-WHERE lower(SOURCE_VOCABULARY_ID)='jnj_cprd_score_loinc'

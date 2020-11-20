@@ -1,0 +1,25 @@
+﻿<QueryDefinition>
+  <Query>
+    SELECT DISTINCT
+    ds_prvdr_id,
+    prvdr_spclty_desc
+    FROM {sc}.provider
+  </Query>
+  <Providers>
+    <ProviderDefinition>
+      <ProviderSourceValue>ds_prvdr_id</ProviderSourceValue>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Specialty</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="prvdr_spclty_desc" defaultConceptId="0" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProviderDefinition>
+  </Providers>
+</QueryDefinition>

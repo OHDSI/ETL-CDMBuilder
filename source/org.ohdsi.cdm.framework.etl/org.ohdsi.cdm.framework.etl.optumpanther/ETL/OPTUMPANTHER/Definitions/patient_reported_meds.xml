@@ -1,0 +1,49 @@
+﻿<QueryDefinition>
+  <Query>
+    select
+    ch.person_id as PersonId,
+    pr.provid provid,
+    p.reported_date,
+    p.quantity_of_dose,
+    p.route,
+    p.ndc,
+    SUBSTRING(p.ndc,1,9) ndc_9
+    from {sc}.patient_reported_medications as p
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND p.ptid = ch.PERSON_SOURCE_VALUE
+    left join {sc}.provider pr on p.provid = pr.provid
+    where ndc is not NULL
+    order by 1
+  </Query>
+  <DrugExposure>
+    <DrugExposureDefinition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>reported_date</StartDate>
+      <EndDate>reported_date</EndDate>
+      <ProviderIdKey>provid</ProviderIdKey>
+      <Quantity>quantity_of_dose</Quantity>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Drug</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="ndc" defaultTypeId="44787730" />
+            <Field key="ndc_9" sourceKey="ndc"  defaultTypeId="44787730" />
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Route</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="route" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </DrugExposureDefinition>
+  </DrugExposure>
+</QueryDefinition>

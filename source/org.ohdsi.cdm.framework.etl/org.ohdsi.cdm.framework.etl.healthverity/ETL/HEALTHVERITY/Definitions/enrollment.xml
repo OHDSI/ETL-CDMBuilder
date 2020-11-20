@@ -1,0 +1,36 @@
+﻿<QueryDefinition>
+  <Query>
+    SELECT
+    ch.person_id as PersonId,
+    hvid,
+    patient_gender,
+    patient_year_of_birth,
+    patient_state + '_' + cast(patient_zip3 as varchar) location_source_value,
+    calendar_date,
+    44814724 PeriodTypeConceptId,
+    'Private Source 17' PayerSource
+    FROM {sc}.enrollment
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND hvid = ch.PERSON_SOURCE_VALUE
+    order by 1
+  </Query>
+  <Persons>
+    <PersonDefinition>
+      <PersonId>PersonId</PersonId>
+      <PersonSourceValue>hvid</PersonSourceValue>
+      <StartDate>calendar_date</StartDate>
+      <EndDate>calendar_date</EndDate>
+      <PeriodTypeConceptId>PeriodTypeConceptId</PeriodTypeConceptId>
+      <Gender>patient_gender</Gender>
+      <YearOfBirth>patient_year_of_birth</YearOfBirth>
+      <Location>location_source_value</Location>
+    </PersonDefinition>
+  </Persons>
+  <PayerPlanPeriods>
+    <PayerPlanPeriodDefinition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>calendar_date</StartDate>
+      <EndDate>calendar_date</EndDate>
+      <PayerSource>PayerSource</PayerSource>
+    </PayerPlanPeriodDefinition>
+  </PayerPlanPeriods>
+</QueryDefinition>

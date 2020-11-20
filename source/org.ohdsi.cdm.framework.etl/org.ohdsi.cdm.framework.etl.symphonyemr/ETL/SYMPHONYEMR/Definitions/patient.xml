@@ -1,0 +1,67 @@
+﻿  <QueryDefinition>
+  <Query>
+    SELECT
+    p.patient_id,
+    p.ptnt_brth_yr_nbr,
+    p.gndr_cde,
+    p.etncy_1_desc,
+    CASE p.etncy_1_desc
+    WHEN 'CAUCASIAN' THEN 8527
+    WHEN 'BLACK/AFRICAN AMERICAN' THEN 8516
+    ELSE 0
+    END as RACE_CONCEPT_ID,
+    CASE p.etncy_1_desc
+    WHEN 'HISPANIC' THEN 38003563
+    ELSE 38003564
+    END as ETHNICITY_CONCEPT_ID,
+    e.ecntr_id,
+    e.ecntr_dte_tstmp,
+    e.ecntr_typ_desc,
+    e.ds_prvdr_id,
+    44814722 as PeriodTypeConceptId,
+    CASE ecntr_typ_desc
+    WHEN 'Inpatient' THEN 9201
+    ELSE 9202
+    END VISIT_CONCEPT_ID
+    FROM {sc}.patient p
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND p.patient_id = ch.PERSON_ID
+    JOIN {sc}.encounter e ON e.patient_id  = p.patient_id
+    order by p.patient_id
+  </Query>
+  <Persons>
+    <PersonDefinition>
+      <PersonId>patient_id</PersonId>
+      <PersonSourceValue>patient_id</PersonSourceValue>
+      <Gender>gndr_cde</Gender>
+      <YearOfBirth>ptnt_brth_yr_nbr</YearOfBirth>
+      <Race>etncy_1_desc</Race>
+      <RaceConceptId>RACE_CONCEPT_ID</RaceConceptId>
+      <Ethnicity>etncy_1_desc</Ethnicity>
+      <EthnicityConceptId>ETHNICITY_CONCEPT_ID</EthnicityConceptId>
+
+      <StartDate>ecntr_dte_tstmp</StartDate>
+      <EndDate>ecntr_dte_tstmp</EndDate>
+      <PeriodTypeConceptId>PeriodTypeConceptId</PeriodTypeConceptId>
+    </PersonDefinition>
+  </Persons>
+
+  <VisitOccurrence>
+    <VisitOccurrenceDefinition>
+      <!--<Id>ecntr_id</Id>-->
+      <PersonId>patient_id</PersonId>
+      <StartDate>ecntr_dte_tstmp</StartDate>
+      <EndDate>ecntr_dte_tstmp</EndDate>
+      <ProviderIdKey>ds_prvdr_id</ProviderIdKey>
+      <AdditionalFields>
+        <string>ecntr_id</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field conceptId="VISIT_CONCEPT_ID" sourceKey="ecntr_typ_desc" defaultTypeId="44818518"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </VisitOccurrenceDefinition>
+  </VisitOccurrence>
+</QueryDefinition>

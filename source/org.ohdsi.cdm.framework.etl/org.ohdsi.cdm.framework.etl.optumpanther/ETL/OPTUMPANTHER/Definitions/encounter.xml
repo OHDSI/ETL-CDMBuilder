@@ -1,0 +1,68 @@
+﻿<QueryDefinition>
+  <Query>
+    with a as
+    (
+    select
+    e.encid,
+    ch.person_id as PersonId,
+    e.interaction_type,
+    e.interaction_date,
+    e.interaction_time
+    from {sc}.encounter as e
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND e.ptid = ch.PERSON_SOURCE_VALUE
+    group by encid, ch.person_id, interaction_type, interaction_date, interaction_time
+    )
+
+    select a.*,
+    pr.provid provid,
+    1 as fake,
+    ROW_NUMBER() OVER(partition by a.encid ORDER BY case when lower(provider_role) = 'attending' then 0 else 1 end, provider_role) sort_index
+    from a
+    LEFT JOIN {sc}.encounter_provider as ec ON ec.encid = a.encid
+    left join {sc}.provider pr on ec.provid = pr.provid
+    order by PersonId
+  </Query>
+  <VisitOccurrence>
+    <!-- fake definition, only to load CMSPlaceOfService lookup for Visit Concept Roll-up Logic  -->
+    <VisitOccurrenceDefinition>
+      <Condition>{fake} = 0</Condition>
+      <PersonId>PersonId</PersonId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CMSPlaceOfService</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="fake" typeId="1" sourceKey="fake"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </VisitOccurrenceDefinition>
+    <VisitOccurrenceDefinition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>interaction_date</StartDate>
+      <EndDate>interaction_date</EndDate>
+      <StartTime>interaction_time</StartTime>
+      <EndTime>interaction_time</EndTime>
+      <ProviderIdKey>provid</ProviderIdKey>
+      <AdditionalFields>
+        <string>encid</string>
+        <string>sort_index</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Visits</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="interaction_type" defaultTypeId="44818518"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </VisitOccurrenceDefinition>
+  </VisitOccurrence>
+</QueryDefinition>

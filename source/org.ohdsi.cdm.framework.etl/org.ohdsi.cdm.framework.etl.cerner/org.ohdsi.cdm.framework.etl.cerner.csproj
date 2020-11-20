@@ -1,0 +1,101 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ETL\CERNER\Batch.sql" />
+    <None Remove="ETL\CERNER\CdmSource.sql" />
+    <None Remove="ETL\CERNER\Definitions\hf_d_patient.xml" />
+    <None Remove="ETL\CERNER\Definitions\hf_f_clinical_event.xml" />
+    <None Remove="ETL\CERNER\Definitions\hf_f_diagnosis.xml" />
+    <None Remove="ETL\CERNER\Definitions\hf_f_lab_procedure.xml" />
+    <None Remove="ETL\CERNER\Definitions\hf_f_medication.xml" />
+    <None Remove="ETL\CERNER\Definitions\hf_f_procedure.xml" />
+    <None Remove="ETL\CERNER\Definitions\L_CARE_SITE.xml" />
+    <None Remove="ETL\CERNER\Definitions\L_LOCATION.xml" />
+    <None Remove="ETL\CERNER\Definitions\L_PROVIDER.xml" />
+    <None Remove="ETL\CERNER\Lookups\Caresetting.sql" />
+    <None Remove="ETL\CERNER\Lookups\Condition10.sql" />
+    <None Remove="ETL\CERNER\Lookups\Condition9.sql" />
+    <None Remove="ETL\CERNER\Lookups\Drug.sql" />
+    <None Remove="ETL\CERNER\Lookups\EventCode.sql" />
+    <None Remove="ETL\CERNER\Lookups\Loinc.sql" />
+    <None Remove="ETL\CERNER\Lookups\Procedure.sql" />
+    <None Remove="ETL\CERNER\Lookups\Route.sql" />
+    <None Remove="ETL\CERNER\Lookups\Specialty.sql" />
+    <None Remove="ETL\CERNER\Lookups\Units.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ETL\CERNER\Batch.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\CdmSource.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Definitions\hf_d_patient.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Definitions\hf_f_clinical_event.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Definitions\hf_f_diagnosis.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Definitions\hf_f_lab_procedure.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Definitions\hf_f_medication.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Definitions\hf_f_procedure.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Definitions\L_CARE_SITE.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Definitions\L_LOCATION.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Definitions\L_PROVIDER.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Lookups\Caresetting.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Lookups\Condition10.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Lookups\Condition9.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Lookups\Drug.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Lookups\EventCode.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Lookups\Loinc.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Lookups\Procedure.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Lookups\Route.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Lookups\Specialty.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CERNER\Lookups\Units.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\org.ohdsi.cdm.framework.common\org.ohdsi.cdm.framework.common.csproj" />
+  </ItemGroup>
+
+</Project>

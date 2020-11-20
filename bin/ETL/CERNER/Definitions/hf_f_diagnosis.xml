@@ -1,0 +1,60 @@
+﻿<QueryDefinition>
+  <Query>
+    select cast(p.patient_sk AS BIGINT) AS person_id,
+    d.encounter_id,
+    l.diagnosis_code,
+    case lower(l.diagnosis_type)
+    when 'icd9' then 9
+    when 'icd10-cm' then 10
+    else 9
+    end as diagnosis_type,
+    d.diagnosis_priority,
+    e.admitted_dt_tm
+    FROM {sc}.hf_f_diagnosis as d
+    JOIN {sc}.hf_f_encounter as e on e.encounter_id = d.encounter_id
+    JOIN {sc}.hf_d_patient as p on e.patient_id = p.patient_id
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND p.patient_sk = ch.PERSON_SOURCE_VALUE
+    JOIN {sc}.hf_d_diagnosis  as l on l.diagnosis_id = d.diagnosis_id
+    order by p.patient_sk
+  </Query>
+  <ConditionOccurrence>
+    <ConditionOccurrenceDefinition>
+      <Condition>{diagnosis_type} = 9</Condition>
+      <PersonId>person_id</PersonId>
+      <StartDate>admitted_dt_tm</StartDate>
+      <EndDate>admitted_dt_tm</EndDate>
+      <VisitOccurrenceId>encounter_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+         <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Condition9</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="diagnosis_code" typeId="diagnosis_priority"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+    <ConditionOccurrenceDefinition>
+      <Condition>{diagnosis_type} = 10</Condition>
+      <PersonId>person_id</PersonId>
+      <StartDate>admitted_dt_tm</StartDate>
+      <EndDate>admitted_dt_tm</EndDate>
+      <VisitOccurrenceId>encounter_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Condition10</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="diagnosis_code" typeId="diagnosis_priority"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+  </ConditionOccurrence>
+</QueryDefinition>

@@ -1,4 +1,0 @@
-﻿{Maps_to_Value}
-SELECT REPLACE(SOURCE_CODE, '.', ''), max(TARGET_CONCEPT_ID)
-FROM CTE_VOCAB_MAP
-group by REPLACE(SOURCE_CODE, '.', '')

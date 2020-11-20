@@ -1,0 +1,141 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ETL\IBM\Batch.sql" />
+    <None Remove="ETL\IBM\CdmSourceCCAE.sql" />
+    <None Remove="ETL\IBM\CdmSourceMDCD.sql" />
+    <None Remove="ETL\IBM\CdmSourceMDCR.sql" />
+    <None Remove="ETL\IBM\Definitions\DRUG_CLAIMS.xml" />
+    <None Remove="ETL\IBM\Definitions\ENROLLMENT_DETAIL.xml" />
+    <None Remove="ETL\IBM\Definitions\ENROLLMENT_DETAIL_MDCD.xml" />
+    <None Remove="ETL\IBM\Definitions\FACILITY_HEADER.xml" />
+    <None Remove="ETL\IBM\Definitions\HEALTH_RISK_ASSESSMENT.xml" />
+    <None Remove="ETL\IBM\Definitions\INPATIENT_ADMISSIONS.xml" />
+    <None Remove="ETL\IBM\Definitions\INPATIENT_SERVICES.xml" />
+    <None Remove="ETL\IBM\Definitions\LAB.xml" />
+    <None Remove="ETL\IBM\Definitions\LONG_TERM_CARE.xml" />
+    <None Remove="ETL\IBM\Definitions\L_LOCATION.xml" />
+    <None Remove="ETL\IBM\Definitions\L_PROVIDER.xml" />
+    <None Remove="ETL\IBM\Definitions\L_PROVIDER_MDCD.xml" />
+    <None Remove="ETL\IBM\Definitions\OUTPATIENT_SERVICES.xml" />
+    <None Remove="ETL\IBM\Lookups\Condition.sql" />
+    <None Remove="ETL\IBM\Lookups\Condition_icd10.sql" />
+    <None Remove="ETL\IBM\Lookups\Death.sql" />
+    <None Remove="ETL\IBM\Lookups\DischargeTo.sql" />
+    <None Remove="ETL\IBM\Lookups\Drg.sql" />
+    <None Remove="ETL\IBM\Lookups\Drug.sql" />
+    <None Remove="ETL\IBM\Lookups\HRA.sql" />
+    <None Remove="ETL\IBM\Lookups\Lab.sql" />
+    <None Remove="ETL\IBM\Lookups\Modifier.sql" />
+    <None Remove="ETL\IBM\Lookups\Procedure.sql" />
+    <None Remove="ETL\IBM\Lookups\Revenue.sql" />
+    <None Remove="ETL\IBM\Lookups\Specialty.sql" />
+    <None Remove="ETL\IBM\Lookups\Units.sql" />
+    <None Remove="ETL\IBM\Lookups\Visits.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ETL\IBM\Batch.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\CdmSourceCCAE.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\CdmSourceMDCD.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\CdmSourceMDCR.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Definitions\DRUG_CLAIMS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Definitions\ENROLLMENT_DETAIL.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Definitions\ENROLLMENT_DETAIL_MDCD.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Definitions\FACILITY_HEADER.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Definitions\HEALTH_RISK_ASSESSMENT.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Definitions\INPATIENT_ADMISSIONS.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Definitions\INPATIENT_SERVICES.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Definitions\LAB.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Definitions\LONG_TERM_CARE.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Definitions\L_LOCATION.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Definitions\L_PROVIDER.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Definitions\L_PROVIDER_MDCD.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Definitions\OUTPATIENT_SERVICES.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Lookups\Condition.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Lookups\Condition_icd10.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Lookups\Death.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Lookups\DischargeTo.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Lookups\Drg.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Lookups\Drug.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Lookups\HRA.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Lookups\Lab.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Lookups\Modifier.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Lookups\Procedure.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Lookups\Revenue.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Lookups\Specialty.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Lookups\Units.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\IBM\Lookups\Visits.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\org.ohdsi.cdm.framework.common\org.ohdsi.cdm.framework.common.csproj" />
+  </ItemGroup>
+
+</Project>

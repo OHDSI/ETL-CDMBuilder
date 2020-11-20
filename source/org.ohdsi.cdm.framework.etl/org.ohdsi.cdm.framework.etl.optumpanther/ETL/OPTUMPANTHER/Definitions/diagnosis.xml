@@ -1,0 +1,216 @@
+﻿<QueryDefinition>
+  <Query>
+    with a as
+    (
+    select
+    d.encid,
+    ch.person_id as PersonId,
+    diag_date,
+    case
+    when primary_diagnosis = '1' then 44786627
+    else  44786629
+    end as TypeId,
+    replace(replace(replace(diagnosis_cd, chr(9), ''), chr(10), ''), chr(13), '') as diagnosis_cd,
+    diagnosis_cd_type,
+    case
+    when diagnosis_cd_type IN ('ICD9') then replace(replace(replace(diagnosis_cd, chr(9), ''), chr(10), ''), chr(13), '')
+    else NULL
+    end as icd9,
+    case
+    when diagnosis_cd_type IN ('ICD10') then replace(replace(replace(diagnosis_cd, chr(9), ''), chr(10), ''), chr(13), '')
+    else NULL
+    end as icd10,
+    case
+    when diagnosis_cd_type IN ('UNKNOWN') AND DIAG_DATE &lt; 'October 1, 2015' then replace(replace(replace(diagnosis_cd, chr(9), ''), chr(10), ''), chr(13), '')
+    else NULL
+    end as icd9dots,
+    case
+    when diagnosis_cd_type IN ('UNKNOWN') AND DIAG_DATE &gt;= 'October 1, 2015' then replace(replace(replace(diagnosis_cd, chr(9), ''), chr(10), ''), chr(13), '')
+    else NULL
+    end as icd10dots,
+    case
+    when diagnosis_cd_type IN ('SNOMED') then replace(replace(replace(diagnosis_cd, chr(9), ''), chr(10), ''), chr(13), '')
+    else NULL
+    end as snomed,
+    case
+    when diagnosis_cd_type NOT IN ('ICD9', 'ICD10', 'SNOMED') then replace(replace(replace(diagnosis_cd, chr(9), ''), chr(10), ''), chr(13), '')
+    else NULL
+    end as others,
+    admitting_diagnosis, discharge_diagnosis, poa, primary_diagnosis, diagnosis_status,
+    case
+    when diagnosis_status = 'History of' then 4167529
+    when diagnosis_status = 'Possible diagnosis of' then 4208085
+    when admitting_diagnosis = 1 then 4203942
+    when discharge_diagnosis = 1 then 4230359
+    when primary_diagnosis = 1 then 4307107
+    END as condition_status_concept_id,
+    CASE WHEN admitting_diagnosis = '1' THEN 'ADMITTING_DIAGNOSIS;'  ELSE '' END AS ad,
+    CASE WHEN discharge_diagnosis = '1' THEN 'DISCHARGE_DIAGNOSIS;' ELSE '' END AS dd,
+    CASE WHEN poa = '1' THEN 'POA;' ELSE '' END AS p,
+    CASE WHEN primary_diagnosis = '1' THEN 'PRIMARY_DIAGNOSIS;' ELSE '' END AS pd
+    from {sc}.diagnosis as d
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND d.ptid = ch.PERSON_SOURCE_VALUE
+    )
+
+    select *, diagnosis_status + ';' + ad + dd + p + pd as condition_status_source_value,
+    case
+    when icd9 is null and icd10 is null and icd9dots is null and icd10dots is null and snomed is null and
+    diagnosis_cd_type NOT IN ('ICD9', 'ICD10', 'SNOMED') or diagnosis_cd_type is NULL then 1
+    else 0
+    end as unknown
+    from a
+    order by PersonId
+  </Query>
+  <ConditionOccurrence>
+    <ConditionOccurrenceDefinition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>diag_date</StartDate>
+      <AdditionalFields>
+        <string>encid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ConditionIcd9</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="icd9" typeId="TypeId" />
+          </Fields>
+        </Concept>
+        <Concept>
+          <Fields>
+            <Field conceptId="condition_status_concept_id" sourceKey="condition_status_source_value" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+
+    <ConditionOccurrenceDefinition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>diag_date</StartDate>
+      <AdditionalFields>
+        <string>encid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ConditionIcd9Dots</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="icd9dots" typeId="TypeId" />
+          </Fields>
+        </Concept>
+        <Concept>
+          <Fields>
+            <Field conceptId="condition_status_concept_id" sourceKey="condition_status_source_value" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+
+    <ConditionOccurrenceDefinition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>diag_date</StartDate>
+      <AdditionalFields>
+        <string>encid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ConditionIcd10</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="icd10" typeId="TypeId" />
+          </Fields>
+        </Concept>
+        <Concept>
+          <Fields>
+            <Field conceptId="condition_status_concept_id" sourceKey="condition_status_source_value" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+
+    <ConditionOccurrenceDefinition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>diag_date</StartDate>
+      <AdditionalFields>
+        <string>encid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ConditionIcd10Dots</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="icd10dots" typeId="TypeId" />
+          </Fields>
+        </Concept>
+        <Concept>
+          <Fields>
+            <Field conceptId="condition_status_concept_id" sourceKey="condition_status_source_value" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+
+    <ConditionOccurrenceDefinition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>diag_date</StartDate>
+      <AdditionalFields>
+        <string>encid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <IdRequired>true</IdRequired>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ConditionSNOMED</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="snomed" typeId="TypeId" />
+          </Fields>
+        </Concept>
+        <Concept>
+          <Fields>
+            <Field conceptId="condition_status_concept_id" sourceKey="condition_status_source_value" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+
+    <ConditionOccurrenceDefinition>
+      <Condition>{unknown} = 1</Condition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>diag_date</StartDate>
+      <AdditionalFields>
+        <string>encid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field key="others" typeId="TypeId" isNullable="true"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <Fields>
+            <Field conceptId="condition_status_concept_id" sourceKey="condition_status_source_value" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+  </ConditionOccurrence>
+</QueryDefinition>

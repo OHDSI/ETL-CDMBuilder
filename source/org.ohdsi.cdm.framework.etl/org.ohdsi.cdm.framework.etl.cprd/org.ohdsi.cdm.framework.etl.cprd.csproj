@@ -1,0 +1,100 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Batch.sql" />
+    <None Remove="CdmSource.sql" />
+    <None Remove="CohortDefinition.sql" />
+    <None Remove="ETL\CPRD\Definitions\Additional.xml" />
+    <None Remove="ETL\CPRD\Definitions\Clinical.xml" />
+    <None Remove="ETL\CPRD\Definitions\Immunisation.xml" />
+    <None Remove="ETL\CPRD\Definitions\L_CARE_SITE.xml" />
+    <None Remove="ETL\CPRD\Definitions\L_LOCATION.xml" />
+    <None Remove="ETL\CPRD\Definitions\L_PROVIDER.xml" />
+    <None Remove="ETL\CPRD\Definitions\Patient.xml" />
+    <None Remove="ETL\CPRD\Definitions\Referral.xml" />
+    <None Remove="ETL\CPRD\Definitions\Test.xml" />
+    <None Remove="ETL\CPRD\Definitions\Therapy.xml" />
+    <None Remove="ETL\CPRD\Lookups\Additional.sql" />
+    <None Remove="ETL\CPRD\Lookups\Drug.sql" />
+    <None Remove="ETL\CPRD\Lookups\Read_Code.sql" />
+    <None Remove="ETL\CPRD\Lookups\Specialty.sql" />
+    <None Remove="ETL\CPRD\Lookups\Test_Ent.sql" />
+    <None Remove="ETL\CPRD\Lookups\Units.sql" />
+    <None Remove="ETL\CPRD\Lookups\ValueAsConceptId.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ETL\CPRD\Batch.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\CdmSource.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\CohortDefinition.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\Definitions\Additional.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\Definitions\Clinical.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\Definitions\Immunisation.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\Definitions\L_CARE_SITE.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\Definitions\L_LOCATION.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\Definitions\L_PROVIDER.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\Definitions\Patient.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\Definitions\Referral.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\Definitions\Test.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\Definitions\Therapy.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\Lookups\Additional.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\Lookups\Drug.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\Lookups\Read_Code.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\Lookups\Specialty.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\Lookups\Test_Ent.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\CPRD\Lookups\Units.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ETL\CPRD\Lookups\ValueAsConceptId.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\org.ohdsi.cdm.framework.common\org.ohdsi.cdm.framework.common.csproj" />
+  </ItemGroup>
+
+</Project>

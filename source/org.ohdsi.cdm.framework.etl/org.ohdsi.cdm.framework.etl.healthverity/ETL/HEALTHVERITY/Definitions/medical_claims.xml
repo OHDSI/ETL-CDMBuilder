@@ -1,0 +1,163 @@
+﻿<QueryDefinition>
+  <Query>
+    with a as
+    (
+    SELECT
+    ch.person_id as PersonId,
+    hvid,
+    patient_gender,
+    patient_year_of_birth,
+    patient_state + '_' + cast(patient_zip3 as varchar) location_source_value,
+    date_service as start_date,
+    case
+    when date_service_end > date_service then date_service_end
+    else date_service
+    end as end_date,
+    44814724 PeriodTypeConceptId,
+    case
+    when place_of_service_std_id in ('13','31','32','34')
+    then 'LTC'
+    when place_of_service_std_id in ('21')
+    or (revenue_code >= '0100' and revenue_code &lt;= '0219') /* room and board charges */
+    or (revenue_code >= '0720' and revenue_code &lt;= '0729') /* labor room and delivery */
+    or (revenue_code >= '0800' and revenue_code &lt;= '0809') /* inpatient renal dialysis */
+    then 'IP'
+    else (
+    case
+    when place_of_service_std_id in ('23')
+    or (revenue_code &gt;= '0450' and revenue_code &lt;= '0459')
+    or revenue_code ='0981'
+    or procedure_code in ('99281','99282','99283','99284','99285')
+    then 'ER'
+    else 'OP'
+    end
+    )
+    end as claim_type,
+    prov_rendering_npi,
+    diagnosis_code,
+    case
+    when diagnosis_priority = 1 then 44786627
+    else 44786629
+    end condition_type_concept_id,
+    cast(diagnosis_code_qual as int) as diagnosis_code_qual,
+    procedure_code,
+    case
+    when principal_proc_ind = 1 then 44786630
+    else 44786631
+    end procedure_type_concept_id,
+    procedure_modifier_1,
+    procedure_units_billed procedure_units
+    FROM {sc}.medical_claims
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND hvid = ch.PERSON_SOURCE_VALUE
+    where logical_delete_reason is null or logical_delete_reason = '' or logical_delete_reason = 'null'
+    )
+
+    select *,
+    case
+    when claim_type = 'IP'	then 9201
+    when claim_type = 'OP'	then 9202
+    when claim_type = 'ER'	then 9203
+    when claim_type = 'LTC'	then 42898160
+    end as visit_concept_id
+    from a
+    order by PersonId
+  </Query>
+  <Persons>
+    <PersonDefinition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>start_date</StartDate>
+      <EndDate>end_date</EndDate>
+      <PeriodTypeConceptId>PeriodTypeConceptId</PeriodTypeConceptId>
+      <PersonSourceValue>hvid</PersonSourceValue>
+      <Gender>patient_gender</Gender>
+      <YearOfBirth>patient_year_of_birth</YearOfBirth>
+      <Location>location_source_value</Location>
+    </PersonDefinition>
+  </Persons>
+  <ConditionOccurrence>
+    <ConditionOccurrenceDefinition>
+      <Condition>{diagnosis_code_qual} = 1</Condition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>start_date</StartDate>
+      <EndDate>end_date</EndDate>
+      <ProviderIdKey>prov_rendering_npi</ProviderIdKey>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>icd9</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="diagnosis_code" typeId="condition_type_concept_id"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+    <ConditionOccurrenceDefinition>
+      <Condition>{diagnosis_code_qual} = 2</Condition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>start_date</StartDate>
+      <EndDate>end_date</EndDate>
+      <ProviderIdKey>prov_rendering_npi</ProviderIdKey>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>icd10</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="diagnosis_code" typeId="condition_type_concept_id"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+  </ConditionOccurrence>
+  <ProcedureOccurrence>
+    <ProcedureOccurrenceDefinition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>start_date</StartDate>
+      <EndDate>end_date</EndDate>
+      <ProviderIdKey>prov_rendering_npi</ProviderIdKey>
+      <Quantity>procedure_units</Quantity>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>procedure</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="procedure_code" typeId="procedure_type_concept_id" />
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>modifier</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="procedure_modifier_1"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureOccurrenceDefinition>
+  </ProcedureOccurrence>
+  <VisitOccurrence>
+    <VisitOccurrenceDefinition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>start_date</StartDate>
+      <EndDate>end_date</EndDate>
+      <ProviderIdKey>prov_rendering_npi</ProviderIdKey>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field conceptId="visit_concept_id" sourceKey="claim_type"  defaultTypeId="32021"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </VisitOccurrenceDefinition>
+  </VisitOccurrence>
+</QueryDefinition>

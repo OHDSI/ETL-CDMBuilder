@@ -1,5 +1,0 @@
-﻿{Source_to_Source}
-
-SELECT distinct REPLACE(SOURCE_CODE, '.', '') AS SOURCE_CODE, TARGET_CONCEPT_ID
-FROM CTE_VOCAB_MAP
-WHERE lower(SOURCE_VOCABULARY_ID) in ('icd10cm') AND lower(TARGET_VOCABULARY_ID) in ('icd10cm')

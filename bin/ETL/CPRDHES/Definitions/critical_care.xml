@@ -1,0 +1,56 @@
+﻿<QueryDefinition>
+  <Query>
+    select
+    cc.patid,
+    cc.spno,
+    cc.epikey,
+    cc.ccstartdate,
+    cc.ccdisdate,
+    cc.epistart,
+    cc.epiend,
+    cc.admidate,
+    cc.discharged,
+    cc.ccstarttime,
+    cc.ccdistime,
+    cast(CONCAT(cast(cc.patid as varchar), cast(cc.spno as varchar)) as bigint) as visit_occurrence_id,
+    case when cc.discharged is null or cc.discharged = '' then cc.epiend else cc.discharged end as event_date_end,
+    CONCAT(cast(cc.patid as varchar), cast(cc.epikey as varchar)) as description
+    FROM {sc}.critical_care cc
+    join {sc}._chunks ch ON ch.ChunkId = {0} AND cc.patid = ch.PERSON_ID
+    order by cc.patid
+  </Query>
+  <Observation>
+    <ObservationDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>epistart</StartDate>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <AdditionalFields>
+        <string>description</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field defaultConceptId="38003113" defaultSource=" " defaultTypeId="38000280"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+  </Observation>
+  <VisitDetail>
+    <VisitDetailDefinition>
+      <PersonId>patid</PersonId>
+      <StartDate>ccstartdate</StartDate>
+      <StartTime>ccstarttime</StartTime>
+      <EndDate>ccdisdate</EndDate>
+      <EndTime>ccdistime</EndTime>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field defaultConceptId="32037" sourceKey="description" defaultTypeId="44818518"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </VisitDetailDefinition>
+  </VisitDetail>
+</QueryDefinition>

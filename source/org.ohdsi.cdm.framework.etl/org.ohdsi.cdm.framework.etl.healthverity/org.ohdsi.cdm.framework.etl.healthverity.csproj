@@ -1,0 +1,77 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ETL\HEALTHVERITY\Batch.sql" />
+    <None Remove="ETL\HEALTHVERITY\CdmSource.sql" />
+    <None Remove="ETL\HEALTHVERITY\Definitions\enrollment.xml" />
+    <None Remove="ETL\HEALTHVERITY\Definitions\lab.xml" />
+    <None Remove="ETL\HEALTHVERITY\Definitions\L_CARE_SITE.xml" />
+    <None Remove="ETL\HEALTHVERITY\Definitions\L_LOCATION.xml" />
+    <None Remove="ETL\HEALTHVERITY\Definitions\L_PROVIDER.xml" />
+    <None Remove="ETL\HEALTHVERITY\Definitions\medical_claims.xml" />
+    <None Remove="ETL\HEALTHVERITY\Definitions\pharmacy_claims.xml" />
+    <None Remove="ETL\HEALTHVERITY\Lookups\icd10.sql" />
+    <None Remove="ETL\HEALTHVERITY\Lookups\icd9.sql" />
+    <None Remove="ETL\HEALTHVERITY\Lookups\loinc.sql" />
+    <None Remove="ETL\HEALTHVERITY\Lookups\modifier.sql" />
+    <None Remove="ETL\HEALTHVERITY\Lookups\ndc.sql" />
+    <None Remove="ETL\HEALTHVERITY\Lookups\procedure.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ETL\HEALTHVERITY\Batch.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\HEALTHVERITY\CdmSource.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\HEALTHVERITY\Definitions\enrollment.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\HEALTHVERITY\Definitions\lab.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\HEALTHVERITY\Definitions\L_CARE_SITE.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\HEALTHVERITY\Definitions\L_LOCATION.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\HEALTHVERITY\Definitions\L_PROVIDER.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\HEALTHVERITY\Definitions\medical_claims.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\HEALTHVERITY\Definitions\pharmacy_claims.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\HEALTHVERITY\Lookups\icd10.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\HEALTHVERITY\Lookups\icd9.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\HEALTHVERITY\Lookups\loinc.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\HEALTHVERITY\Lookups\modifier.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\HEALTHVERITY\Lookups\ndc.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\HEALTHVERITY\Lookups\procedure.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\org.ohdsi.cdm.framework.common\org.ohdsi.cdm.framework.common.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,62 @@
+﻿<QueryDefinition>
+  <Query>
+    select patid as PERSON_ID,
+    pat_planid,
+    clmid,
+    proc,
+    CASE
+    WHEN proc_position = '01' THEN 44786630
+    ELSE 44786631
+    END as TYPE_CONCEPT_ID,
+    fst_dt as START_DATE,
+    CASE WHEN icd_flag IS NULL OR icd_flag NOT IN ('10', '9') THEN CASE WHEN fst_dt &lt; '10/01/2015' THEN '9' ELSE '10' END ELSE icd_flag END icd_flag
+    from {sc}.med_procedure mp
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND mp.patid = ch.PERSON_ID
+    order by PATID
+  </Query>
+  <ProcedureOccurrence>
+    <ProcedureOccurrenceDefinition>
+      <Condition>{icd_flag} = 9</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>START_DATE</StartDate>
+      <AdditionalFields>
+        <string>pat_planid</string>
+        <string>clmid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ProcedureICD9</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="proc" typeId="TYPE_CONCEPT_ID" />
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureOccurrenceDefinition>
+
+    <ProcedureOccurrenceDefinition>
+      <Condition>{icd_flag} = 10</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>START_DATE</StartDate>
+      <AdditionalFields>
+        <string>pat_planid</string>
+        <string>clmid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ProcedureICD10</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="proc" typeId="TYPE_CONCEPT_ID" />
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureOccurrenceDefinition>
+  </ProcedureOccurrence>
+</QueryDefinition>

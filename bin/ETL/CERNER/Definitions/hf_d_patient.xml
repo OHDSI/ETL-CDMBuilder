@@ -1,0 +1,122 @@
+﻿<QueryDefinition>
+  <Query>
+    select cast(p.patient_sk AS BIGINT) AS person_id,
+    lower(gender) as gender,
+    race,
+    case
+    when lower(race) = 'caucasian' then 8527
+    when lower(race) = 'african american' then 8516
+    when lower(race) = 'hispanic' then 0
+    when lower(race) = 'asian' then 8515
+    when lower(race) = 'native american' then 8657
+    when lower(race) = 'biracial' then 0
+    when lower(race) = 'pacific islander' then 38003613
+    when lower(race) = 'asian/pacific islander' then 38003613
+    when lower(race) = 'mid eastern indian' then 38003615
+    else 0
+    end as RaceConceptId,
+    case
+    when lower(race) = 'hispanic' then 38003563
+    else 38003564
+    end as EthnicityConceptId,
+    age_in_years,
+    age_in_months,
+    case
+    when age_in_months is null and age_in_years is null then 0
+    when age_in_years &lt; 2 and age_in_months is not null then DATEPART(YEAR, DATEADD(MONTH, -1 * age_in_months, admitted_dt_tm))
+    else DATEPART(YEAR, DATEADD(YEAR, -1 * age_in_years, admitted_dt_tm))
+    end as year_of_birth,
+    DATEPART(MONTH, DATEADD(MONTH, -1 * age_in_months, admitted_dt_tm)) as month_of_birth,
+    admitted_dt_tm,
+    discharged_dt_tm,
+
+    encounter_id as visit_occurrence_id,
+    e.patient_type_id,
+    case
+    when e.patient_type_id = 98 THEN 9202
+    when e.patient_type_id = 84 THEN 9203
+    when e.patient_type_id = 87 THEN 9201
+    when e.patient_type_id in (145,108,86,90) THEN 42898160
+    ELSE 9202
+    end as visit_concept_id,
+    prov.physician_id as provider_id,
+    cast(ISNULL(cast(hospital_id as varchar), '') + ISNULL(cast(e.discharge_caresetting_id as varchar), '') as int) as care_site_id,
+    pt.patient_type_desc as visit_source_value,
+    pr.payer_code_desc,
+    p.marital_status as observation_source_value,
+    case lower(p.marital_status)
+    when 'married' THEN 4338692
+    when 'single' THEN 4053842
+    when 'divorced' THEN 4069297
+    when 'widowed' THEN 4143188
+    when 'legally separated' THEN 4027529
+    when 'life partner' THEN 4212893
+    else 0
+    end as observation_concept_id,
+    e.payer_id
+    FROM {sc}.hf_d_patient as p
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND p.patient_sk = ch.PERSON_SOURCE_VALUE
+    JOIN {sc}.hf_f_encounter as e on e.patient_id = p.patient_id
+    LEFT JOIN {sc}.hf_d_patient_type as pt on pt.patient_type_id = e.patient_type_id
+    LEFT JOIN {sc}.hf_d_payer as pr on pr.payer_id = e.payer_id
+    LEFT JOIN {sc}.hf_d_physician as prov on admitting_physician_id = prov.physician_id
+    order by p.patient_sk
+  </Query>
+  <Persons>
+    <PersonDefinition>
+      <PersonId>person_id</PersonId>
+      <Gender>gender</Gender>
+      <PersonSourceValue>person_id</PersonSourceValue>
+      <Race>race</Race>
+      <RaceConceptId>RaceConceptId</RaceConceptId>
+      <Ethnicity>race</Ethnicity>
+      <EthnicityConceptId>EthnicityConceptId</EthnicityConceptId>
+      <YearOfBirth>year_of_birth</YearOfBirth>
+      <MonthOfBirth>month_of_birth</MonthOfBirth>
+      <StartDate>admitted_dt_tm</StartDate>
+      <EndDate>discharged_dt_tm</EndDate>
+    </PersonDefinition>
+  </Persons>
+  <VisitOccurrence>
+    <VisitOccurrenceDefinition>
+      <Id>visit_occurrence_id</Id>
+      <PersonId>person_id</PersonId>
+      <StartDate>admitted_dt_tm</StartDate>
+      <EndDate>discharged_dt_tm</EndDate>
+      <StartTime>admitted_dt_tm</StartTime>
+      <EndTime>discharged_dt_tm</EndTime>
+      <CareSiteId>care_site_id</CareSiteId>
+      <ProviderId>provider_id</ProviderId>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field conceptId="visit_concept_id" sourceKey="visit_source_value" defaultTypeId="44818518"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </VisitOccurrenceDefinition>
+  </VisitOccurrence>
+  <PayerPlanPeriods>
+    <PayerPlanPeriodDefinition>
+      <Id>payer_id</Id>
+      <PersonId>person_id</PersonId>
+      <StartDate>admitted_dt_tm</StartDate>
+      <EndDate>discharged_dt_tm</EndDate>
+      <PayerSource>payer_code_desc</PayerSource>
+    </PayerPlanPeriodDefinition>
+  </PayerPlanPeriods>
+  <Observation>
+    <ObservationDefinition>
+      <PersonId>person_id</PersonId>
+      <StartDate>admitted_dt_tm</StartDate>
+      <VisitOccurrenceId>visit_occurrence_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field conceptId="observation_concept_id" sourceKey="observation_source_value" defaultTypeId="38000280"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+  </Observation>
+</QueryDefinition>

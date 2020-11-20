@@ -1,0 +1,83 @@
+﻿<QueryDefinition>
+  <Query>
+    with a as
+    (
+    SELECT distinct
+    isnull(hosp_nis, hospid) as hospid,
+    hospst,
+    CASE
+    WHEN hospstco = -9999 THEN NULL
+    ELSE hospstco
+    END as hospstco
+    FROM {sc}.core
+    where hospid is not null or hosp_nis is not null
+    )
+
+    SELECT distinct
+    hospid,
+    cast(
+    CASE SUBSTRING(hospst, 1, 1)
+    WHEN 'A' THEN '1'
+    WHEN 'B' THEN '2'
+    WHEN 'C' THEN '3'
+    WHEN 'D' THEN '4'
+    WHEN 'E' THEN '5'
+    WHEN 'F' THEN '6'
+    WHEN 'G' THEN '7'
+    WHEN 'H' THEN '8'
+    WHEN 'I' THEN '9'
+    WHEN 'K' THEN '10'
+    WHEN 'L' THEN '11'
+    WHEN 'M' THEN '12'
+    WHEN 'N' THEN '13'
+    WHEN 'O' THEN '14'
+    WHEN 'P' THEN '15'
+    WHEN 'Q' THEN '16'
+    WHEN 'R' THEN '17'
+    WHEN 'S' THEN '18'
+    WHEN 'T' THEN '19'
+    WHEN 'V' THEN '20'
+    WHEN 'X' THEN '21'
+    WHEN 'Y' THEN '22'
+    WHEN 'Z' THEN '23'
+    ELSE '999'
+    END +
+    CASE SUBSTRING(hospst, 2, 1)
+    WHEN 'A' THEN '1'
+    WHEN 'B' THEN '2'
+    WHEN 'C' THEN '3'
+    WHEN 'D' THEN '4'
+    WHEN 'E' THEN '5'
+    WHEN 'F' THEN '6'
+    WHEN 'G' THEN '7'
+    WHEN 'H' THEN '8'
+    WHEN 'I' THEN '9'
+    WHEN 'K' THEN '10'
+    WHEN 'L' THEN '11'
+    WHEN 'M' THEN '12'
+    WHEN 'N' THEN '13'
+    WHEN 'O' THEN '14'
+    WHEN 'P' THEN '15'
+    WHEN 'Q' THEN '16'
+    WHEN 'R' THEN '17'
+    WHEN 'S' THEN '18'
+    WHEN 'T' THEN '19'
+    WHEN 'V' THEN '20'
+    WHEN 'X' THEN '21'
+    WHEN 'Y' THEN '22'
+    WHEN 'Z' THEN '23'
+    ELSE '999'
+    END
+    + cast(ISNULL(hospstco, '0') as varchar) as bigint) as location_id,
+    9201 as PlaceOfSvcConceptId
+    FROM a
+  </Query>
+  <CareSites>
+    <CareSiteDefinition>
+      <Id>hospid</Id>
+      <LocationId>location_id</LocationId>
+      <PlaceOfSvcConceptId>PlaceOfSvcConceptId</PlaceOfSvcConceptId>
+      <CareSiteSourceValue>hospid</CareSiteSourceValue>
+    </CareSiteDefinition>
+  </CareSites>
+</QueryDefinition>

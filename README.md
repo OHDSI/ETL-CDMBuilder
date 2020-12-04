@@ -37,6 +37,14 @@ Kicking off a Build
     - Run org.ohdsi.cdm.presentation.builder.exe
     - [settins tab] Through UI specify source, destination and vocabulary settings (server, database name, schema name, user and password)
     - Go [building tab] click start button
+* Linux docker (asp .net core web service)
+    git clone https://github.com/SoftwareCountry/ETL-CDMBuilder.git
+    git pull origin master
+    docker build -f "source/org.ohdsi.cdm.presentation.builderwebapi/Dockerfile" -t cdm_builder_service .
+    docker run -d --network host cdm_builder_service -p 8090:9000
+ 
+docker build -f "source/org.ohdsi.cdm.presentation.builderwebapi/Dockerfile" -t cdm_builder_service_dev .
+docker run -d --network host cdm_builder_service_dev -p 8090:9000
 
 Getting Involved
 =============

@@ -13,35 +13,37 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.presentation.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ETL", "ETL", "{3B51B160-398D-4ACA-8535-A624B26C1392}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.framework.etl.common", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.common\org.ohdsi.cdm.framework.etl.common.csproj", "{BFF5B3CA-D205-4193-8E7D-85E6F97C7E5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.etl.common", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.common\org.ohdsi.cdm.framework.etl.common.csproj", "{BFF5B3CA-D205-4193-8E7D-85E6F97C7E5F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "framework", "framework", "{A14E0415-3B1D-4241-83D4-75E4FC781229}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "presentation", "presentation", "{AFD87C71-89E5-4F7F-AADE-00E4FFC84AFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.framework.etl.ibm", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.ibm\org.ohdsi.cdm.framework.etl.ibm.csproj", "{4F7B0646-B846-4CAD-8D24-2B794406FB43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.etl.ibm", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.ibm\org.ohdsi.cdm.framework.etl.ibm.csproj", "{4F7B0646-B846-4CAD-8D24-2B794406FB43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.framework.etl.symphonyemr", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.symphonyemr\org.ohdsi.cdm.framework.etl.symphonyemr.csproj", "{7AC2C762-044A-4F94-A8D5-8AE0811573A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.etl.symphonyemr", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.symphonyemr\org.ohdsi.cdm.framework.etl.symphonyemr.csproj", "{7AC2C762-044A-4F94-A8D5-8AE0811573A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.framework.etl.seer", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.seer\org.ohdsi.cdm.framework.etl.seer.csproj", "{B9FBF17A-AB24-42DF-9AB1-2D74D35F43A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.etl.seer", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.seer\org.ohdsi.cdm.framework.etl.seer.csproj", "{B9FBF17A-AB24-42DF-9AB1-2D74D35F43A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.framework.etl.premier", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.premier\org.ohdsi.cdm.framework.etl.premier.csproj", "{38A8B2E6-F3E0-484D-8DF8-627E862C759F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.etl.premier", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.premier\org.ohdsi.cdm.framework.etl.premier.csproj", "{38A8B2E6-F3E0-484D-8DF8-627E862C759F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.framework.etl.optumpanther", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.optumpanther\org.ohdsi.cdm.framework.etl.optumpanther.csproj", "{B5251CE4-441F-4BA0-A033-0049DDB8F8DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.etl.optumpanther", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.optumpanther\org.ohdsi.cdm.framework.etl.optumpanther.csproj", "{B5251CE4-441F-4BA0-A033-0049DDB8F8DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.framework.etl.optumextended", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.optumextended\org.ohdsi.cdm.framework.etl.optumextended.csproj", "{C1496909-0C88-482E-842F-15AC224FD8A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.etl.optumextended", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.optumextended\org.ohdsi.cdm.framework.etl.optumextended.csproj", "{C1496909-0C88-482E-842F-15AC224FD8A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.framework.etl.nhanes", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.nhanes\org.ohdsi.cdm.framework.etl.nhanes.csproj", "{6ED1EFCC-4664-41B3-BB0B-8ED64AFA32CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.etl.nhanes", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.nhanes\org.ohdsi.cdm.framework.etl.nhanes.csproj", "{6ED1EFCC-4664-41B3-BB0B-8ED64AFA32CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.framework.etl.jmdc", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.jmdc\org.ohdsi.cdm.framework.etl.jmdc.csproj", "{9109F140-648E-40DA-B12F-F7D963006FB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.etl.jmdc", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.jmdc\org.ohdsi.cdm.framework.etl.jmdc.csproj", "{9109F140-648E-40DA-B12F-F7D963006FB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.framework.etl.healthverity", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.healthverity\org.ohdsi.cdm.framework.etl.healthverity.csproj", "{1A257F15-9F8D-4B91-8EB2-BB838E547123}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.etl.healthverity", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.healthverity\org.ohdsi.cdm.framework.etl.healthverity.csproj", "{1A257F15-9F8D-4B91-8EB2-BB838E547123}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.framework.etl.hcup", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.hcup\org.ohdsi.cdm.framework.etl.hcup.csproj", "{BF788884-7969-442C-A306-66FA8C159967}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.etl.hcup", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.hcup\org.ohdsi.cdm.framework.etl.hcup.csproj", "{BF788884-7969-442C-A306-66FA8C159967}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.framework.etl.cprdhes", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.cprdhes\org.ohdsi.cdm.framework.etl.cprdhes.csproj", "{C3707D21-A501-4B67-94B8-D33351DC949F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.etl.cprdhes", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.cprdhes\org.ohdsi.cdm.framework.etl.cprdhes.csproj", "{C3707D21-A501-4B67-94B8-D33351DC949F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.framework.etl.cerner", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.cerner\org.ohdsi.cdm.framework.etl.cerner.csproj", "{45E0330C-E9DD-43A9-80BB-9A0821694950}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.etl.cerner", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.cerner\org.ohdsi.cdm.framework.etl.cerner.csproj", "{45E0330C-E9DD-43A9-80BB-9A0821694950}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.presentation.builderwebapi", "org.ohdsi.cdm.presentation.builderwebapi\org.ohdsi.cdm.presentation.builderwebapi.csproj", "{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -187,6 +189,14 @@ Global
 		{45E0330C-E9DD-43A9-80BB-9A0821694950}.Release|Any CPU.Build.0 = Release|Any CPU
 		{45E0330C-E9DD-43A9-80BB-9A0821694950}.Release|x64.ActiveCfg = Release|Any CPU
 		{45E0330C-E9DD-43A9-80BB-9A0821694950}.Release|x64.Build.0 = Release|Any CPU
+		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}.Debug|x64.Build.0 = Debug|Any CPU
+		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}.Release|x64.ActiveCfg = Release|Any CPU
+		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -209,6 +219,7 @@ Global
 		{BF788884-7969-442C-A306-66FA8C159967} = {3B51B160-398D-4ACA-8535-A624B26C1392}
 		{C3707D21-A501-4B67-94B8-D33351DC949F} = {3B51B160-398D-4ACA-8535-A624B26C1392}
 		{45E0330C-E9DD-43A9-80BB-9A0821694950} = {3B51B160-398D-4ACA-8535-A624B26C1392}
+		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6} = {AFD87C71-89E5-4F7F-AADE-00E4FFC84AFA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CC6641E1-4C39-46FC-A2D1-21E1BBAC3BAA}

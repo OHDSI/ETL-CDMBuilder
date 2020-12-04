@@ -1,0 +1,17 @@
+﻿<QueryDefinition>
+  <Query>
+    SELECT DISTINCT
+    p.patid
+    FROM {sc}.patient p
+    join {sc}.linkage_eligible le on le.patid = p.patid
+    join {sc}._chunks ch ON ch.ChunkId = {0} AND p.patid = ch.PERSON_ID
+    where n_patid_hes &lt;= 5 and hes_e = 1
+    order by p.patid
+  </Query>
+  <Persons>
+    <PersonDefinition>
+      <PersonId>patid</PersonId>
+      <PersonSourceValue>patid</PersonSourceValue>
+    </PersonDefinition>
+  </Persons>
+</QueryDefinition>

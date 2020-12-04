@@ -1,0 +1,50 @@
+﻿<QueryDefinition>
+  <Query>
+    with a as
+    (
+    SELECT distinct
+    ch.person_id as PersonId,
+    c.encid,
+    c.carearea,
+    c.carearea_date,
+    c.carearea_time
+    FROM {sc}.care_area c
+    join {sc}._chunks ch ON ch.ChunkId = {0} AND c.ptid = ch.PERSON_SOURCE_VALUE
+    where UPPER(c.carearea) not in ('OTHER CARE AREA', 'UNKNOWN CARE AREA')
+    )
+
+    select a.*,
+    pr.provid provid,
+    ROW_NUMBER() OVER(partition by a.encid ORDER BY case when lower(provider_role) = 'attending' then 0 else 1 end, provider_role) sort_index
+    from a
+    left join {sc}.encounter_provider as ec ON ec.encid = a.encid
+    left join {sc}.provider pr on ec.provid = pr.provid
+    order by 1
+  </Query>
+  <VisitOccurrence>
+    <VisitOccurrenceDefinition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>carearea_date</StartDate>
+      <EndDate>carearea_date</EndDate>
+      <StartTime>carearea_time</StartTime>
+      <EndTime>carearea_time</EndTime>
+      <ProviderIdKey>provid</ProviderIdKey>
+      <AdditionalFields>
+        <string>encid</string>
+        <string>sort_index</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Visits</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="carearea" defaultTypeId="44818518"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </VisitOccurrenceDefinition>
+  </VisitOccurrence>
+</QueryDefinition>

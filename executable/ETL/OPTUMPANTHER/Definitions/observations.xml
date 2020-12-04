@@ -1,0 +1,69 @@
+﻿<QueryDefinition>
+  <Query>
+    select
+    ch.person_id as PersonId,
+    o.obs_type,
+    o.obs_date,
+    o.obs_time,
+    o.obs_unit,
+    o.encid,
+    o.obs_result as test_result,
+    'observations' as source,
+    CASE
+    WHEN lower(obs_type) = 'smoke' THEN 1
+    WHEN lower(obs_type) = 'alcohol' THEN 1
+    WHEN lower(obs_type) = 'exercise' THEN 1
+    ELSE 0
+    END AS Observation
+    from {sc}.observations o
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND o.ptid = ch.PERSON_SOURCE_VALUE
+    order by 1
+  </Query>
+  <Observation>
+    <ObservationDefinition>
+      <!--<Condition>{Observation} = 1</Condition>-->
+      <PersonId>PersonId</PersonId>
+      <StartDate>obs_date</StartDate>
+      <Time>obs_time</Time>
+      <ValueSourceValue>test_result</ValueSourceValue>
+      <AdditionalFields>
+        <string>test_result</string>
+        <string>source</string>
+        <string>encid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Obtype</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="obs_type" defaultTypeId="38000280"/>
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Lab_Units</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="obs_unit" defaultTypeId="0" />
+          </Fields>
+        </Concept>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>LabRes</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="test_result" defaultTypeId="0" />
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+  </Observation>
+
+</QueryDefinition>

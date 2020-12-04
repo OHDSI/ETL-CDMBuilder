@@ -1,0 +1,97 @@
+﻿<QueryDefinition>
+  <Query>
+    SELECT
+    patient_id
+    , ecntr_id
+    , icd_09_blng_cde
+    , icd_10_blng_cde
+    , snomed_cde
+    , cpt_cde
+    , prblm_nam
+    , prob_dte_tstmp
+    from {sc}.problem
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND patient_id = ch.PERSON_ID
+    order by patient_id
+  </Query>
+  <ConditionOccurrence>
+    <ConditionOccurrenceDefinition>
+      <PersonId>patient_id</PersonId>
+      <StartDate>prob_dte_tstmp</StartDate>
+      <VisitOccurrenceId>ecntr_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ConditionIcd10Dots</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="icd_10_blng_cde" defaultTypeId="0"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+    <ConditionOccurrenceDefinition>
+      <PersonId>patient_id</PersonId>
+      <StartDate>prob_dte_tstmp</StartDate>
+      <VisitOccurrenceId>ecntr_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ConditionIcd9Dots</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="icd_09_blng_cde" defaultTypeId="1"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+    <ConditionOccurrenceDefinition>
+      <PersonId>patient_id</PersonId>
+      <StartDate>prob_dte_tstmp</StartDate>
+      <VisitOccurrenceId>ecntr_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ConditionSNOMED</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="snomed_cde" defaultTypeId="2"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+    <ConditionOccurrenceDefinition>
+      <PersonId>patient_id</PersonId>
+      <StartDate>prob_dte_tstmp</StartDate>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field sourceKey="prblm_nam" defaultConceptId="0" defaultTypeId="3"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+    <ConditionOccurrenceDefinition>
+      <PersonId>patient_id</PersonId>
+      <StartDate>prob_dte_tstmp</StartDate>
+      <VisitOccurrenceId>ecntr_id</VisitOccurrenceId>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Cpt4</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="cpt_cde" defaultTypeId="4"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+  </ConditionOccurrence>
+</QueryDefinition>

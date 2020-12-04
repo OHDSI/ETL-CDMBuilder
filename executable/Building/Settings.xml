@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-16"?>
+<BuildingSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BuildingState>
+    <CreateDestinationDbStart xsi:nil="true" />
+    <CreateDestinationDbEnd xsi:nil="true" />
+    <CreateChunksStart xsi:nil="true" />
+    <CreateChunksEnd xsi:nil="true" />
+    <CreateLookupStart xsi:nil="true" />
+    <CreateLookupEnd xsi:nil="true" />
+    <BuildingStart xsi:nil="true" />
+    <BuildingEnd xsi:nil="true" />
+    <CopyVocabularyStart xsi:nil="true" />
+    <CopyVocabularyEnd xsi:nil="true" />
+    <CreateIndexesStart xsi:nil="true" />
+    <CreateIndexesEnd xsi:nil="true" />
+    <PostprocessStart xsi:nil="true" />
+    <PostprocessEnd xsi:nil="true" />
+  </BuildingState>
+  <CompletedChunkIds />
+  <ChunksCount>0</ChunksCount>
+</BuildingSettings>

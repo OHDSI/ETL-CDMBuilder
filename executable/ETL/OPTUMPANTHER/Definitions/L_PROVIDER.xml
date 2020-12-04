@@ -1,0 +1,28 @@
+﻿<QueryDefinition>
+  <Query>
+    SELECT provid, specialty
+    FROM (
+    select provid, specialty, prim_spec_ind, row_number() over (      partition by provid order by prim_spec_ind desc, specialty) ordinal
+    from {sc}.provider
+    ) P
+    WHERE P.ordinal = 1
+  </Query>
+  <Providers>
+    <ProviderDefinition>
+      <ProviderSourceValue>provid</ProviderSourceValue>
+      <ProviderIdKey>provid</ProviderIdKey>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>Specialty</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="specialty" />
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProviderDefinition>
+  </Providers>
+</QueryDefinition>

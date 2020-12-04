@@ -134,49 +134,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                 var content = reader.ReadToEnd();
                 if (item.FullName.StartsWith("Definitions"))
                 {
-                    // TMP
-                    content = content.Replace("<Person>", "<Persons>");
-                    content = content.Replace("</Person>", "</Persons>");
-
-                    if (item.Name.Replace(".xml", "").ToLower() == "l_location")
-                    {
-                        content = content.Replace("<Location>", "<Locations>");
-                        content = content.Replace("</Location>", "</Locations>");
-
-                        content = content.Replace("<LocationId>", "<Id>");
-                        content = content.Replace("</LocationId>", "</Id>");
-                    }
-
-                    if (item.Name.Replace(".xml", "").ToLower() == "l_care_site")
-                    {
-                        content = content.Replace("<CareSite>", "<CareSites>");
-                        content = content.Replace("</CareSite>", "</CareSites>");
-
-                        content = content.Replace("<CareSiteId>", "<Id>");
-                        content = content.Replace("</CareSiteId>", "</Id>");
-                    }
-
-                    content = content.Replace("<VisitStartDate>", "<StartDate>");
-                    content = content.Replace("</VisitStartDate>", "</StartDate>");
-
-                    content = content.Replace("<VisitEndDate>", "<EndDate>");
-                    content = content.Replace("</VisitEndDate>", "</EndDate>");
-
-                    content = content.Replace("<ConceptIdMapper>", "<ConceptIdMappers>");
-                    content = content.Replace("</ConceptIdMapper>", "</ConceptIdMappers>");
-
                     var qd = new QueryDefinition().DeserializeFromXml(content);
-
-                    if (qd.Persons != null)
-                    {
-                        if (qd.Persons[0].Concepts.Length > 0)
-                        {
-                            qd.Persons[0].Gender = qd.Persons[0].Concepts[0].Fields[0].SourceKey;
-                        }
-
-                        qd.Persons[0].StartDate = "observation_period_start_date";
-                        qd.Persons[0].EndDate = "observation_period_end_date";
-                    }
 
                     qd.FileName = item.Name.Replace(".xml", "");
                     SourceQueryDefinitions.Add(qd);

@@ -1,0 +1,165 @@
+﻿<QueryDefinition>
+  <Query>
+    with prov as
+    (
+    SELECT distinct pb.prov_unique, pb.prov
+    FROM {sc}.provider_bridge pb
+    join {sc}.provider p on pb.prov_unique = p.prov_unique and (p.prov_type is null or prov_type in ('', '1', 'unknown'))
+    )
+
+    SELECT patid as PERSON_ID
+    , diag1
+    , diag2
+    , diag3
+    , diag4
+    , diag5
+    , proc1
+    , proc2
+    , proc3
+    , proc4
+    , proc5
+    , pos
+    , admit_date as START_DATE
+    , disch_date as END_DATE
+    , conf_id as VISIT_DETAIL_SOURCE_VALUE
+    , pat_planid
+    , coalesce(pb.prov_unique, 0) as PROVIDER_ID
+    , CASE WHEN icd_flag IS NULL OR icd_flag NOT IN ('10', '9') THEN CASE WHEN admit_date &lt; '10/01/2015' THEN '9' ELSE '10' END ELSE icd_flag END icd_flag
+    FROM {sc}.inpatient_confinement c
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND c.patid = ch.PERSON_ID
+    left join prov pb on pb.prov=c.prov
+    order by PATID
+  </Query>
+  <VisitOccurrence>
+    <VisitOccurrenceDefinition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>START_DATE</StartDate>
+      <EndDate>END_DATE</EndDate>
+      <ProviderId>PROVIDER_ID</ProviderId>
+      <AdditionalFields>
+        <string>pat_planid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>CMS</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="pos" defaultConceptId="9201" sourceKey="VISIT_DETAIL_SOURCE_VALUE" defaultTypeId="32023" isNullable="true"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </VisitOccurrenceDefinition>
+  </VisitOccurrence>
+
+  <ConditionOccurrence>
+    <ConditionOccurrenceDefinition>
+      <Condition>{icd_flag} = 9</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>START_DATE</StartDate>
+      <ProviderId>PROVIDER_ID</ProviderId>
+      <AdditionalFields>
+        <string>pat_planid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ConditionICD9</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="diag1" defaultTypeId="44786627"/>
+            <Field key="diag2" defaultTypeId="44786629"/>
+            <Field key="diag3" defaultTypeId="44786629"/>
+            <Field key="diag4" defaultTypeId="44786629"/>
+            <Field key="diag5" defaultTypeId="44786629"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+    <ConditionOccurrenceDefinition>
+      <Condition>{icd_flag} = 10</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>START_DATE</StartDate>
+      <ProviderId>PROVIDER_ID</ProviderId>
+      <AdditionalFields>
+        <string>pat_planid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ConditionICD10</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="diag1" defaultTypeId="44786627"/>
+            <Field key="diag2" defaultTypeId="44786629"/>
+            <Field key="diag3" defaultTypeId="44786629"/>
+            <Field key="diag4" defaultTypeId="44786629"/>
+            <Field key="diag5" defaultTypeId="44786629"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ConditionOccurrenceDefinition>
+  </ConditionOccurrence>
+
+  <ProcedureOccurrence>
+    <ProcedureOccurrenceDefinition>
+      <Condition>{icd_flag} = 9</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>START_DATE</StartDate>
+      <EndDate>END_DATE</EndDate>
+      <ProviderId>PROVIDER_ID</ProviderId>
+      <AdditionalFields>
+        <string>pat_planid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ProcedureICD9</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="proc1" defaultTypeId="44786630"/>
+            <Field key="proc2" defaultTypeId="44786631"/>
+            <Field key="proc3" defaultTypeId="44786631"/>
+            <Field key="proc4" defaultTypeId="44786631"/>
+            <Field key="proc5" defaultTypeId="44786631"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureOccurrenceDefinition>
+    <ProcedureOccurrenceDefinition>
+      <Condition>{icd_flag} = 10</Condition>
+      <PersonId>PERSON_ID</PersonId>
+      <StartDate>START_DATE</StartDate>
+      <EndDate>END_DATE</EndDate>
+      <ProviderId>PROVIDER_ID</ProviderId>
+      <AdditionalFields>
+        <string>pat_planid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <ConceptIdMappers>
+            <Mapper>
+              <Lookup>ProcedureICD10</Lookup>
+            </Mapper>
+          </ConceptIdMappers>
+          <Fields>
+            <Field key="proc1" defaultTypeId="44786630"/>
+            <Field key="proc2" defaultTypeId="44786631"/>
+            <Field key="proc3" defaultTypeId="44786631"/>
+            <Field key="proc4" defaultTypeId="44786631"/>
+            <Field key="proc5" defaultTypeId="44786631"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ProcedureOccurrenceDefinition>
+  </ProcedureOccurrence>
+
+</QueryDefinition>

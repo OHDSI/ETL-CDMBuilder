@@ -1,0 +1,37 @@
+﻿<QueryDefinition>
+  <Query>
+    select distinct
+    cast(pharm as bigint) as CARE_SITE_ID,
+    38004340 as PLACE_OF_SERVICE_CONCEPT_ID,
+    'Pharmacy' as PLACE_OF_SERVICE_SOURCE_VALUE,
+    NULL as Location
+    FROM {sc}.rx_claims
+    where pharm != '' and pharm != '0'
+    union
+    select distinct prov_unique,
+    case
+    when prov_type = '2' then 8717
+    when prov_type = '3' then 38004693
+    else 0
+    end as PLACE_OF_SERVICE_CONCEPT_ID,
+    case
+    when prov_type = '2' then 'Hospital'
+    when prov_type = '3' then 'Group Practice'
+    when prov_type = '4' then 'Other Facility'
+    else 'Unknown'
+    end as PLACE_OF_SERVICE_SOURCE_VALUE,
+    prov_state as Location
+    FROM {sc}.provider p
+    where prov_type is null or prov_type in ('', '2', '3', '4', '5')
+  </Query>
+  <CareSites>
+    <CareSiteDefinition>
+      <Id>CARE_SITE_ID</Id>
+      <Location>Location</Location> 
+      <Name>CARE_SITE_ID</Name>
+      <PlaceOfSvcConceptId>PLACE_OF_SERVICE_CONCEPT_ID</PlaceOfSvcConceptId>
+      <PlaceOfSvcSourceValue>PLACE_OF_SERVICE_SOURCE_VALUE</PlaceOfSvcSourceValue>
+      <CareSiteSourceValue>CARE_SITE_ID</CareSiteSourceValue>
+    </CareSiteDefinition>
+  </CareSites>
+</QueryDefinition>

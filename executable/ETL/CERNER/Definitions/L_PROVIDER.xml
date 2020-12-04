@@ -1,0 +1,44 @@
+﻿<QueryDefinition>
+   <Query>
+     with a as
+     (
+     select
+     physician_id as provider_id,
+     case
+     when
+     medical_specialty is null or medical_specialty in ('', 'NULL', 'Not Mapped', 'Not a Medical Speciality', 'Undefined / Unknown', 'No Value / Undefined', 'Not a Medical Specialty, Not Active', 'Not a Medical Specialty, Obsolete') THEN 1
+     ELSE 0
+     end as spec_idx
+     ,medical_specialty as specialty_source_value
+     from {sc}.hf_d_physician
+     ),
+     b as
+     (
+     select provider_id, min(spec_idx) as min_spec_idx
+     from a
+     group by provider_id
+     )
+
+     select a.provider_id, max(a.specialty_source_value) as specialty_source_value
+     from a
+     join b on a.provider_id = b.provider_id and a.spec_idx = b.min_spec_idx
+     group by a.provider_id
+   </Query>
+   <Providers>
+     <ProviderDefinition>
+       <Id>provider_id</Id>
+       <Concepts>
+         <Concept>
+           <ConceptIdMappers>
+             <Mapper>
+               <Lookup>Specialty</Lookup>
+             </Mapper>
+           </ConceptIdMappers>
+           <Fields>
+             <Field key="specialty_source_value"/>
+           </Fields>
+         </Concept>
+       </Concepts>
+     </ProviderDefinition>
+   </Providers>
+</QueryDefinition>

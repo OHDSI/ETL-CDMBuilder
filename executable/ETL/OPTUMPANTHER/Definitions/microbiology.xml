@@ -1,0 +1,36 @@
+﻿<QueryDefinition>
+  <Query>
+    select
+    ch.person_id as PersonId,
+    m.collect_date,
+    m.collect_time,
+    m.encid,
+    m.specimen_source,
+    m.organism
+
+    from {sc}.microbiology m
+    JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND m.ptid = ch.PERSON_SOURCE_VALUE
+    order by 1
+  </Query>
+  <Observation>
+    <ObservationDefinition>
+      <PersonId>PersonId</PersonId>
+      <StartDate>collect_date</StartDate>
+      <Time>collect_time</Time>
+      <ValuesAsString>
+        <string>organism</string>
+      </ValuesAsString>
+      <ValueSourceValue>organism</ValueSourceValue>
+      <AdditionalFields>
+        <string>encid</string>
+      </AdditionalFields>
+      <Concepts>
+        <Concept>
+          <Fields>
+            <Field key="specimen_source" defaultConceptId="4155370" defaultTypeId="44818702"/>
+          </Fields>
+        </Concept>
+      </Concepts>
+    </ObservationDefinition>
+  </Observation>
+</QueryDefinition>

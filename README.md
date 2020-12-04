@@ -6,7 +6,7 @@ Technology
 
 System Requirements (for each server that will be running CDM Builder)
 ============
-* NET Core 3.1 
+* .NET Core 3.1 
 * Visual Studio 2019+ is only required if you're looking to re-build the solution from source code
 * SQL Server builds: MS SQL ODBC Driver
 * PostgreSQL builds: PostgreSQL ODBC Driver
@@ -25,6 +25,18 @@ Getting Started
     - Connection strings templates (MS SQL, PostgreSQL and MySQL) and Vendor for CDM Builder database can be configured either in the config file (<b>App.config</b>)
 * The CDM Builder comes with several pre-written ETLs, each of which corresponds to a specific data vendor and data product. Select the appropriate vendor from the "Vendor" dropdown
     - The vendors and products can be found here: <a href="https://github.com/OHDSI/ETL-LambdaBuilder/tree/master/docs">https://github.com/OHDSI/ETL-LambdaBuilder/tree/master/docs</a>
+
+Kicking off a Build
+===============
+* Windows environment
+    - Go to the ETL-CDMBuilder\executable\ folder
+    - Update org.ohdsi.cdm.presentation.builder.dll.config file (Uncomment necessary rows):
+        1. Select necessary vendor ("Vendor", "PersonBuilder")
+        2. Select CDM version ("CDM")
+        3. Choose connection string templates (MsSQL, PostgreSQL or MySQL) for source, destination and vocabulary databases. ("SourceConnectionStringTemplate", "DestinationConnectionStringTemplate", "VocabularyConnectionStringTemplate")
+    - Run org.ohdsi.cdm.presentation.builder.exe
+    - [settins tab] Through UI specify source, destination and vocabulary settings (server, database name, schema name, user and password)
+    - Go [building tab] click start button
 
 Getting Involved
 =============

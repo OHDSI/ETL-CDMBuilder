@@ -6,13 +6,13 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic AS build
 WORKDIR /src
-COPY ["org.ohdsi.cdm.presentation.builderwebapi/org.ohdsi.cdm.presentation.builderwebapi.csproj", "org.ohdsi.cdm.presentation.builderwebapi/"]
-COPY ["org.ohdsi.cdm.framework.common/org.ohdsi.cdm.framework.common.csproj", "org.ohdsi.cdm.framework.common/"]
-COPY ["org.ohdsi.cdm.framework.desktop/org.ohdsi.cdm.framework.desktop.csproj", "org.ohdsi.cdm.framework.desktop/"]
-COPY ["org.ohdsi.cdm.framework.etl/org.ohdsi.cdm.framework.etl.common/org.ohdsi.cdm.framework.etl.common.csproj", "org.ohdsi.cdm.framework.etl/org.ohdsi.cdm.framework.etl.common/"]
+COPY ["source/org.ohdsi.cdm.presentation.builderwebapi/org.ohdsi.cdm.presentation.builderwebapi.csproj", "org.ohdsi.cdm.presentation.builderwebapi/"]
+COPY ["source/org.ohdsi.cdm.framework.common/org.ohdsi.cdm.framework.common.csproj", "org.ohdsi.cdm.framework.common/"]
+COPY ["source/org.ohdsi.cdm.framework.desktop/org.ohdsi.cdm.framework.desktop.csproj", "org.ohdsi.cdm.framework.desktop/"]
+COPY ["source/org.ohdsi.cdm.framework.etl/org.ohdsi.cdm.framework.etl.common/org.ohdsi.cdm.framework.etl.common.csproj", "org.ohdsi.cdm.framework.etl/org.ohdsi.cdm.framework.etl.common/"]
 RUN dotnet restore "org.ohdsi.cdm.presentation.builderwebapi/org.ohdsi.cdm.presentation.builderwebapi.csproj"
 COPY . .
-WORKDIR "/src/org.ohdsi.cdm.presentation.builderwebapi"
+WORKDIR "/src/source/org.ohdsi.cdm.presentation.builderwebapi"
 RUN dotnet build "org.ohdsi.cdm.presentation.builderwebapi.csproj" -c Release -o /app/build
 
 FROM build AS publish

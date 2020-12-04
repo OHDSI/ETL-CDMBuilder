@@ -7,8 +7,10 @@ createConditionOccurrenceTests <- function () {
 
   patient <- createPatient();
   declareTest("Diagnosis without ''Diagnosis of'' status is not loaded", source_pid = patient$ptid, cdm_pid = patient$person_id)
+  enc <- createEncounter();
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
   add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Family history of', diagnosis_cd = '7061',
                 diagnosis_cd_type = 'ICD9', diag_date = '2009-01-01')
   expect_no_condition_occurrence(person_id = patient$person_id)
@@ -16,8 +18,10 @@ createConditionOccurrenceTests <- function () {
 
   patient <- createPatient();
   declareTest("Test diag_date to condition_start_date", source_pid = patient$ptid, cdm_pid = patient$person_id)
+  enc <- createEncounter();
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
   add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = '7061',
                 diagnosis_cd_type = 'ICD9', diag_date = '2009-01-01')
   expect_condition_occurrence(person_id = patient$person_id, condition_start_date = '2009-01-01')
@@ -28,26 +32,79 @@ createConditionOccurrenceTests <- function () {
   enc <- createEncounter();
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
   add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = '7061',
                 diagnosis_cd_type = 'ICD9', diag_date = '2009-01-01')
   expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = 141095, condition_source_value = '7061')
 
 
+  # AS - Removing this test since Optum is now issuing ICD10's without a decimal
+  # patient <- createPatient();
+  # declareTest("Test diagnosis code type ICD10", source_pid = patient$ptid, cdm_pid = patient$person_id)
+  # enc <- createEncounter();
+  # add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
+  #             first_month_active = '200701', last_month_active = '201001')
+  # add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
+  # add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = 'H44.611',
+  #               diagnosis_cd_type = 'ICD10', diag_date = '2009-01-01')
+  # expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = 381850, condition_source_value = 'H44.611')
+
   patient <- createPatient();
-  declareTest("Test diagnosis code type ICD10", source_pid = patient$ptid, cdm_pid = patient$person_id)
+  declareTest("Test diagnosis code type ICD10 without decimal", source_pid = patient$ptid, cdm_pid = patient$person_id)
   enc <- createEncounter();
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
-  add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = 'H44.611',
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
+  add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = 'H44611',
                 diagnosis_cd_type = 'ICD10', diag_date = '2009-01-01')
+  expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = 381850, condition_source_value = 'H44611')
+
+  patient <- createPatient();
+  declareTest("Test diagnosis code type UNKNOWN with diag_date greater or equal to 1 Oct 2015 that maps to ICD10", source_pid = patient$ptid, cdm_pid = patient$person_id)
+  enc <- createEncounter();
+  add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
+              first_month_active = '200701', last_month_active = '201701')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
+  add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = 'H44.611',
+                diagnosis_cd_type = 'UNKNOWN', diag_date = '2015-10-01')
   expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = 381850, condition_source_value = 'H44.611')
 
+  patient <- createPatient();
+  declareTest("Test diagnosis code type UNKNOWN with diag_date greater or equal to 1 Oct 2015 that maps to ICD10 without decimal", source_pid = patient$ptid, cdm_pid = patient$person_id)
+  enc <- createEncounter();
+  add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
+              first_month_active = '200701', last_month_active = '201701')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
+  add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = 'H44611',
+                diagnosis_cd_type = 'UNKNOWN', diag_date = '2015-10-01')
+  expect_count_condition_occurrence(rowCount = 0, person_id = patient$person_id)
+
+  patient <- createPatient();
+  declareTest("Test diagnosis code type UNKNOWN with diag_date less than 1 Oct 2015 that maps to ICD9", source_pid = patient$ptid, cdm_pid = patient$person_id)
+  enc <- createEncounter();
+  add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
+              first_month_active = '200701', last_month_active = '201701')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
+  add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = '706.1',
+                diagnosis_cd_type = 'UNKNOWN', diag_date = '2015-09-30')
+  expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = 141095, condition_source_value = '706.1')
+
+  patient <- createPatient();
+  declareTest("Test diagnosis code type UNKNOWN with diag_date less than 1 Oct 2015 that maps to ICD9 without decimal", source_pid = patient$ptid, cdm_pid = patient$person_id)
+  enc <- createEncounter();
+  add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
+              first_month_active = '200701', last_month_active = '201701')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
+  add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = '7061',
+                diagnosis_cd_type = 'UNKNOWN', diag_date = '2015-09-30')
+  expect_count_condition_occurrence(rowCount = 0, person_id = patient$person_id)
 
   patient <- createPatient();
   declareTest("Test primary diagnosis to condition_type_concept_id", source_pid = patient$ptid, cdm_pid = patient$person_id)
   enc <- createEncounter();
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
   add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = '7061',
                 diagnosis_cd_type = 'ICD9', diag_date = '2009-01-01', primary_diagnosis = '1')
   expect_condition_occurrence(person_id = patient$person_id, condition_type_concept_id = 44786627)
@@ -58,6 +115,7 @@ createConditionOccurrenceTests <- function () {
   enc <- createEncounter();
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
   add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = '7061',
                 diagnosis_cd_type = 'ICD9', diag_date = '2009-01-01', primary_diagnosis = '0')
   expect_condition_occurrence(person_id = patient$person_id, condition_type_concept_id = 44786629)
@@ -68,9 +126,10 @@ createConditionOccurrenceTests <- function () {
   enc <- createEncounter();
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
   add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = '44786629',
                 diagnosis_cd_type = 'ICD9', diag_date = '2009-01-01')
-  expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = 0)
+  expect_no_condition_occurrence(person_id = patient$person_id)
 
 
   patient <- createPatient();
@@ -78,6 +137,7 @@ createConditionOccurrenceTests <- function () {
   enc <- createEncounter();
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
   add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = NULL,
                 diagnosis_cd_type = NULL, diag_date = '2009-01-01')
   expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = 0)
@@ -87,6 +147,7 @@ createConditionOccurrenceTests <- function () {
   enc <- createEncounter();
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
   add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = '7061',
                 diagnosis_cd_type = 'ICD9', diag_date = '2009-01-01', poa = '0', admitting_diagnosis = 1)
   expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = 141095, condition_status_concept_id = 4203942)
@@ -96,6 +157,7 @@ createConditionOccurrenceTests <- function () {
   enc <- createEncounter();
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
   add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = '7061',
                 diagnosis_cd_type = 'ICD9', diag_date = '2009-01-01', poa = '0', discharge_diagnosis = 1)
   expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = 141095, condition_status_concept_id = 4230359)
@@ -105,6 +167,7 @@ createConditionOccurrenceTests <- function () {
   enc <- createEncounter();
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
   add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = '7061',
                 diagnosis_cd_type = 'ICD9', diag_date = '2009-01-01', poa = '0', primary_diagnosis = 1)
   expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = 141095, condition_status_concept_id = 3001410)
@@ -114,6 +177,7 @@ createConditionOccurrenceTests <- function () {
   enc <- createEncounter();
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
   add_diagnosis(ptid=patient$ptid, diagnosis_status = 'Diagnosis of', diagnosis_cd = '7061',
                 diagnosis_cd_type = 'ICD9', diag_date = '2009-01-01', poa = '1')
   expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = 141095, condition_status_concept_id = 0)
@@ -126,6 +190,7 @@ createConditionOccurrenceTests <- function () {
   declareTest("Test HCPCS derived condition coming from procedure table", source_pid = patient$ptid, cdm_pid = patient$person_id)
   add_patient(ptid=patient$ptid, birth_yr = 1950, gender = 'Male',
               first_month_active = '200701', last_month_active = '201001')
+  add_encounter(ptid=patient$ptid, encid = enc$encid, interaction_date='2009-01-01')
   add_procedure(ptid=patient$ptid, proc_code = 'G8007', proc_code_type = 'HCPCS', proc_date = '2009-01-01')
   expect_condition_occurrence(person_id = patient$person_id, condition_concept_id = 312327)
 

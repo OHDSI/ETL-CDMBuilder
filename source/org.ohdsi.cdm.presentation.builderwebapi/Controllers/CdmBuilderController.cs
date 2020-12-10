@@ -42,7 +42,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         {
             _queue.Aborted = true;
             _queue.State = "Aborted";
-            WriteLog("Aborted");
+            WriteLog(Status.Canceled, "Aborted");
             return "Aborted";
         }
 
@@ -165,18 +165,19 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         public async Task<HttpResponseMessage> Post(CancellationToken cancellationToken, [FromBody] ConversionSettings settings)
         {
             HttpResponseMessage returnMessage = new HttpResponseMessage();
-            WriteLog("conversion added to ");
 
             _queue.QueueBackgroundWorkItem(async token =>
             {
                 await Task.Run(() =>
                 {
+                    WriteLog(Status.Started, string.Empty);
                     _queue.State = "Running";
 
                     var conversion = new ConversionController(_queue, settings, _configuration, _logHub);
                     conversion.Start();
 
                     _queue.State = "Idle";
+                    WriteLog(Status.Finished, string.Empty);
                 });
             });
 
@@ -184,9 +185,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             return await Task.FromResult(returnMessage);
         }
 
-        private void WriteLog(string message)
+        private void WriteLog(Status status, string message)
         {
-            _logHub.Clients.All.SendAsync("Log", string.Format("{0}| {1}", DateTime.Now, message)).Wait();
+            _logHub.Clients.All.SendAsync("Log", new LogMessage { Status = status, Text = message }).Wait();
         }
     }   
 }

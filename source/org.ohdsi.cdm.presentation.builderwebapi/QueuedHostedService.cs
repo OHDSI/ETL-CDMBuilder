@@ -22,7 +22,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            WriteLog("Queued Hosted Service is starting.");
+            WriteLog(Status.None, "Queued Hosted Service is starting.");
             await BackgroundProcessing(stoppingToken);
         }
 
@@ -39,21 +39,21 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                 }
                 catch (Exception ex)
                 {
-                    WriteLog("Error occurred executing. " + ex.Message);
+                    WriteLog(Status.Error, "Error occurred executing. " + ex.Message);
                 }
             }
         }
 
         public override async Task StopAsync(CancellationToken stoppingToken)
         {
-            WriteLog("Queued Hosted Service is stopping.");
+            WriteLog(Status.None, "Queued Hosted Service is stopping.");
 
             await base.StopAsync(stoppingToken);
         }
 
-        private void WriteLog(string message)
+        private void WriteLog(Status status, string message)
         {
-            _logHub.Clients.All.SendAsync("Log", string.Format("{0}| {1}", DateTime.Now, message)).Wait();
+            _logHub.Clients.All.SendAsync("Log", new LogMessage { Status = status, Text = message }).Wait();
         }
     }
 }

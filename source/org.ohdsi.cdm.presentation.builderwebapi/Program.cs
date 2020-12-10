@@ -18,15 +18,23 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                    webBuilder.UseUrls("http://localhost:9000");
-                    webBuilder.UseKestrel(opts =>
-                    {
-                        opts.ListenAnyIP(9000);
-                    });
-                });
+           Host.CreateDefaultBuilder(args)
+               .ConfigureWebHostDefaults(webBuilder =>
+               {
+                   webBuilder.UseStartup<Startup>();
+                   webBuilder.UseUrls("http://localhost:9000");                   
+               });
+
+        //public static IHostBuilder CreateHostBuilder(string[] args) =>
+        //    Host.CreateDefaultBuilder(args)
+        //        .ConfigureWebHostDefaults(webBuilder =>
+        //        {
+        //            webBuilder.UseStartup<Startup>();
+        //            webBuilder.UseUrls("http://localhost:9000");
+        //            webBuilder.UseKestrel(opts =>
+        //            {
+        //                opts.ListenAnyIP(9000);
+        //            });
+        //        });
     }
 }

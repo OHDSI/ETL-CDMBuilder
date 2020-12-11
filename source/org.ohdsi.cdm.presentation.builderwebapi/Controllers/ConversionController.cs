@@ -33,14 +33,14 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             _taskQueue = taskQueue;
         }
 
-        private void WriteLog(Status status, string message)
+        private void WriteLog(Status status, string message, Double progress)
         {
-            _logHub.Clients.All.SendAsync("Log", new LogMessage { Status = status, Text = message }).Wait();
+            _logHub.Clients.All.SendAsync("Log", new LogMessage { Status = status, Text = message, Progress = progress }).Wait();
         }
 
         public bool CreateDestination()
         {
-            WriteLog(Status.Running, "Creating CDM database...");
+            WriteLog(Status.Running, "Creating CDM database...", 0);
 
             var dbDestination = new DbDestination(_settings.DestinationConnectionString,
                    _settings.ConversionSettings.DestinationSchema);
@@ -48,33 +48,33 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             try
             {
                 dbDestination.CreateDatabase(_settings.CreateCdmDatabaseScript);
-                WriteLog(Status.Running, "CDM database created");
+                WriteLog(Status.Running, "CDM database created", 0);
             }
             catch (Exception e)
             {
-                WriteLog(Status.Running, "Warning: " + e.Message);
+                WriteLog(Status.Running, "Warning: " + e.Message, 0);
             }
 
             bool successful;
             try
             {
                 dbDestination.ExecuteQuery(_settings.CreateCdmTablesScript);
-                WriteLog(Status.Running, "CDM tables created");
+                WriteLog(Status.Running, "CDM tables created", 0);
 
                 successful = true;
             }
             catch (Exception e)
             {
-                WriteLog(Status.Running, "Warning: CDM tables " + e.Message);
+                WriteLog(Status.Running, "Warning: CDM tables " + e.Message, 0);
                 try
                 {
                     dbDestination.ExecuteQuery(_settings.TruncateTablesScript);
-                    WriteLog(Status.Running, "CDM tables truncated");
+                    WriteLog(Status.Running, "CDM tables truncated", 0);
                     successful = true;
                 }
                 catch (Exception e2)
                 {
-                    WriteLog(Status.Failed, e2.Message);
+                    WriteLog(Status.Failed, e2.Message, 0);
                     throw e2;
                 }
             }
@@ -120,7 +120,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         {
             if (_taskQueue.Aborted) return;
             Console.WriteLine("Saving lookups...");
-            WriteLog(Status.Running, "Saving lookups...");
+            WriteLog(Status.Running, "Saving lookups...", 0);
 
             var saver = _settings.DestinationEngine.GetSaver();
             using (saver.Create(_settings.DestinationConnectionString,
@@ -132,31 +132,31 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             }
 
             Console.WriteLine("Lookups was saved ");
-            WriteLog(Status.Running, "Lookups was saved");
+            WriteLog(Status.Running, "Lookups was saved", 0);
             timer.Stop();
 
-            WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, $"Care site, Location and Provider tables were saved to CDM database - {timer.ElapsedMilliseconds} ms"));
+            WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, $"Care site, Location and Provider tables were saved to CDM database - {timer.ElapsedMilliseconds} ms"), 0);
         }
 
         private void LoadProvider(List<Provider> providerConcepts)
         {
             if (_taskQueue.Aborted) return;
             Console.WriteLine("Loading providers...");
-            WriteLog(Status.Running, "Loading providers...");
+            WriteLog(Status.Running, "Loading providers...", 0);
             var provider = _settings.SourceQueryDefinitions.FirstOrDefault(qd => qd.Providers != null);
             if (provider != null)
             {
                 FillList<Provider>(providerConcepts, provider, provider.Providers[0]);
             }
             Console.WriteLine("Providers was loaded");
-            WriteLog(Status.Running, "Providers was loaded");
+            WriteLog(Status.Running, "Providers was loaded", 0);
         }
 
         private void LoadCareSite(List<CareSite> careSiteConcepts)
         {
             if (_taskQueue.Aborted) return;
             Console.WriteLine("Loading care sites...");
-            WriteLog(Status.Running, "Loading care sites...");
+            WriteLog(Status.Running, "Loading care sites...", 0);
 
             var careSite = _settings.SourceQueryDefinitions.FirstOrDefault(qd => qd.CareSites != null);
             if (careSite != null)
@@ -167,14 +167,14 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             if (careSiteConcepts.Count == 0)
                 careSiteConcepts.Add(new CareSite { Id = 0, LocationId = 0, OrganizationId = 0, PlaceOfSvcSourceValue = null });
             Console.WriteLine("Care sites was loaded");
-            WriteLog(Status.Running, "Care sites was loaded");
+            WriteLog(Status.Running, "Care sites was loaded", 0);
         }
 
         private void LoadLocation(List<Location> locationConcepts)
         {
             if (_taskQueue.Aborted) return;
             Console.WriteLine("Loading locations...");
-            WriteLog(Status.Running, "Loading locations...");
+            WriteLog(Status.Running, "Loading locations...", 0);
             var location = _settings.SourceQueryDefinitions.FirstOrDefault(qd => qd.Locations != null);
             if (location != null)
             {
@@ -184,7 +184,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             if (locationConcepts.Count == 0)
                 locationConcepts.Add(new Location { Id = Entity.GetId(null) });
             Console.WriteLine("Locations was loaded");
-            WriteLog(Status.Running, "Locations was loaded");
+            WriteLog(Status.Running, "Locations was loaded", 0);
         }
 
         private void FillList<T>(ICollection<T> list, QueryDefinition qd, EntityDefinition ed) where T : IEntity
@@ -239,7 +239,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 
             WriteLog(Status.Running, string.Format("{0}| {1}",
                 DateTime.Now,
-                $"Conversion to CDM was started"));
+                $"Conversion to CDM was started"), 0);
 
             var step = 100.0 / chunksCount;
             var total = 0.0;
@@ -273,9 +273,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 
                             timer.Stop();
 
-                            WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, $"ChunkId={data.ChunkData.ChunkId} was saved - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb"));
-
-                           total += step;
+                            total += step;
+                            WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, $"ChunkId={data.ChunkData.ChunkId} was saved - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb"), total);
                         }
 
                         _logHub.Clients.All.SendAsync("Progress", Convert.ToInt32(total).ToString()).Wait();

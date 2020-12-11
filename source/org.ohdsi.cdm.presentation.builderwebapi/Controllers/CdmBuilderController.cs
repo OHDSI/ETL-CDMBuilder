@@ -42,7 +42,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         {
             _queue.Aborted = true;
             _queue.State = "Aborted";
-            WriteLog(Status.Canceled, "Aborted");
+            WriteLog(Status.Canceled, "Aborted", 100);
             return "Aborted";
         }
 
@@ -170,14 +170,14 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             {
                 await Task.Run(() =>
                 {
-                    WriteLog(Status.Started, string.Empty);
+                    WriteLog(Status.Started, string.Empty, 0);
                     _queue.State = "Running";
 
                     var conversion = new ConversionController(_queue, settings, _configuration, _logHub);
                     conversion.Start();
 
                     _queue.State = "Idle";
-                    WriteLog(Status.Finished, string.Empty);
+                    WriteLog(Status.Finished, string.Empty, 100);
                 });
             });
 
@@ -185,9 +185,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             return await Task.FromResult(returnMessage);
         }
 
-        private void WriteLog(Status status, string message)
+        private void WriteLog(Status status, string message, Double progress)
         {
-            _logHub.Clients.All.SendAsync("Log", new LogMessage { Status = status, Text = message }).Wait();
+            _logHub.Clients.All.SendAsync("Log", new LogMessage { Status = status, Text = message, Progress = progress }).Wait();
         }
     }   
 }

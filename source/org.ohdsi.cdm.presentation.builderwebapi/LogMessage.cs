@@ -20,5 +20,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
     {
         public Status Status { get; set; }
         public string Text { get; set; }
+
+        public Double Progress { get; set; }
     }
 }

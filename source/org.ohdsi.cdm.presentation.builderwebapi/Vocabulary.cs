@@ -117,7 +117,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     var timer = new Stopwatch();
                                     timer.Start();
 
-                                    WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, conceptIdMapper.Lookup + " - Loading into RAM..."));
+                                    WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, conceptIdMapper.Lookup + " - Loading into RAM..."), 0);
 
                                     using (var connection = SqlConnectionHelper.OpenOdbcConnection(_settings.VocabularyConnectionString))
                                     using (var command = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
@@ -137,7 +137,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     Console.WriteLine(conceptIdMapper.Lookup + " - Done");
                                     timer.Stop();
 
-                                    WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, $"DONE - {timer.ElapsedMilliseconds} ms | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}"));
+                                    WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, $"DONE - {timer.ElapsedMilliseconds} ms | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}"), 0);
 
                                 }
                                 catch (Exception e)
@@ -145,8 +145,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     Console.WriteLine("Lookup error [file]: " + sqlFileDestination);
                                     Console.WriteLine("Lookup error [query]: " + sql);
 
-                                    WriteLog(Status.Failed, string.Format("{0}| {1}", DateTime.Now, "Lookup error [file]: " + sqlFileDestination));
-                                    WriteLog(Status.Failed, string.Format("{0}| {1}", DateTime.Now, "Lookup error [query]: " + sql));
+                                    WriteLog(Status.Failed, string.Format("{0}| {1}", DateTime.Now, "Lookup error [file]: " + sqlFileDestination), 0);
+                                    WriteLog(Status.Failed, string.Format("{0}| {1}", DateTime.Now, "Lookup error [query]: " + sql), 0);
                                     throw;
                                 }
                             }
@@ -223,9 +223,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             return _pregnancyConcepts.GetConcepts(conceptId);
         }
 
-        private void WriteLog(Status status, string message)
+        private void WriteLog(Status status, string message, Double progress)
         {
-            _logHub.Clients.All.SendAsync("Log", new LogMessage { Status = status, Text = message }).Wait();
+            _logHub.Clients.All.SendAsync("Log", new LogMessage { Status = status, Text = message, Progress = progress }).Wait();
         }
     }
 }

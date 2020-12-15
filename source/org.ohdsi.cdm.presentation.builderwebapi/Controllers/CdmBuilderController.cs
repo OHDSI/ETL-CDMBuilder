@@ -59,7 +59,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e);
+                return StatusCode((int)HttpStatusCode.BadRequest, e.Message);
             }
 
             return Ok();
@@ -78,7 +78,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e);
+                return StatusCode((int)HttpStatusCode.BadRequest, e.Message);
             }
 
             return Ok();
@@ -97,7 +97,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e);
+                return StatusCode((int)HttpStatusCode.BadRequest, e.Message);
             }
 
             return Ok();

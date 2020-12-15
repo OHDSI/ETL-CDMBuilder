@@ -33,8 +33,9 @@
      case when RX = '1' then 0 else 1 end as missinginsurance,
      RX
      FROM {sc}.ENROLLMENT_DETAIL
-     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND ENROLID = ch.PERSON_ID)
-
+     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND ENROLID = ch.PERSON_ID),
+     b as
+     (
      select a.*,
      CASE
      WHEN a.DATATYP IN (2,4) THEN 'C '
@@ -49,13 +50,17 @@
      null RACE_SOURCE_VALUE,
      null RACE_CONCEPT_ID,
      null ETHNICITY_SOURCE_VALUE,
-     null ETHNICITY_CONCEPT_ID,
-     e2.ENROLID as baby_person_id,
-     min(CAST((CAST(e2.DOBYR AS VARCHAR) + '-' + DATEPART(MONTH, e2.DTSTART) + '-01') AS DATE)) as baby_dob
+     null ETHNICITY_CONCEPT_ID
      from a
-     left join {sc}.ENROLLMENT_DETAIL e2 on a.ENROLID != e2.ENROLID and a.SEX = '2' and a.RX = '1' and e2.RX = '1' and a.Family = SUBSTRING(RIGHT('00000000000' + cast(e2.ENROLID as VARCHAR), 11), 1,9) and e2.DOBYR - a.DOBYR >= 12 and e2.DOBYR - DATEPART(YEAR, e2.DTSTART) = 0
-     group by a.enrolid, a.sex, a.dobyr, a.dtstart, a.dtend, a.family, a.ps, a.datatyp, a.egeoloc, a.periodtypeconceptid, a.value_as_number, a.missinginsurance, a.rx, payersource, observation_concept_id, observation_source_value, vendor, plankey, race_source_value, race_concept_id, ethnicity_source_value, ethnicity_concept_id, e2.ENROLID
-     ORDER BY ENROLID
+     )
+
+     select b.*,
+     e2.ENROLID as baby_person_id,
+     min(CAST((CAST(e2.DOBYR AS VARCHAR) + '-' + CAST(DATEPART(MONTH, e2.DTSTART) AS VARCHAR) + '-01') AS DATE)) as baby_dob
+     from b
+     left join {sc}.ENROLLMENT_DETAIL e2 on b.ENROLID != e2.ENROLID and b.SEX = '2' and b.RX = '1' and e2.RX = '1' and b.Family = SUBSTRING(RIGHT('00000000000' + cast(e2.ENROLID as VARCHAR), 11), 1,9) and e2.DOBYR - b.DOBYR >= 12 and e2.DOBYR - DATEPART(YEAR, e2.DTSTART) = 0
+     group by b.enrolid, b.sex, b.dobyr, b.dtstart, b.dtend, family, ps, b.datatyp, b.egeoloc, periodtypeconceptid, value_as_number, missinginsurance, b.rx, payersource, observation_concept_id, observation_source_value, vendor, b.plankey, race_source_value, race_concept_id, ethnicity_source_value, ethnicity_concept_id, e2.ENROLID
+     ORDER BY b.ENROLID
    </Query>
    <Persons>
       <PersonDefinition>

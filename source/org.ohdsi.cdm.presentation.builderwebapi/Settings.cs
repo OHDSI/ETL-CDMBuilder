@@ -169,13 +169,16 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 
                     if (qd.Persons != null)
                     {
-                        if (qd.Persons[0].Concepts.Length > 0)
+                        if (qd.Persons[0].Concepts != null && qd.Persons[0].Concepts.Length > 0)
                         {
                             qd.Persons[0].Gender = qd.Persons[0].Concepts[0].Fields[0].SourceKey;
                         }
 
-                        qd.Persons[0].StartDate = "observation_period_start_date";
-                        qd.Persons[0].EndDate = "observation_period_end_date";
+                        if (!string.IsNullOrEmpty(qd.Persons[0].StartDate))
+                        {
+                            qd.Persons[0].StartDate = "observation_period_start_date";
+                            qd.Persons[0].EndDate = "observation_period_end_date";
+                        }
                     }
 
                     qd.FileName = item.Name.Replace(".xml", "");

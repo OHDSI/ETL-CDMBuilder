@@ -174,7 +174,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                             qd.Persons[0].Gender = qd.Persons[0].Concepts[0].Fields[0].SourceKey;
                         }
 
-                        if (!string.IsNullOrEmpty(qd.Persons[0].StartDate))
+                        // TMP
+                        //if (!string.IsNullOrEmpty(qd.Persons[0].StartDate))
                         {
                             qd.Persons[0].StartDate = "observation_period_start_date";
                             qd.Persons[0].EndDate = "observation_period_end_date";

@@ -20,6 +20,8 @@
     <None Remove="ETL\Common\Scripts\MSSQL\v5.3\TruncateLookup.sql" />
     <None Remove="ETL\Common\Scripts\MSSQL\v5.3\TruncateTables.sql" />
     <None Remove="ETL\Common\Scripts\MSSQL\v5.3\TruncateWithoutLookupTables.sql" />
+    <None Remove="ETL\Common\Scripts\MSSQL\v6.0\CreateTables.sql" />
+    <None Remove="ETL\Common\Scripts\MSSQL\v6.0\TruncateTables.sql" />
     <None Remove="ETL\Common\Scripts\MySql\AddUsers.sql" />
     <None Remove="ETL\Common\Scripts\MySql\CreateChunkTable.sql" />
     <None Remove="ETL\Common\Scripts\MySql\CreateDestination.sql" />
@@ -167,6 +169,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ETL\Common\Scripts\MSSQL\v5.3\TruncateWithoutLookupTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MSSQL\v6.0\CreateTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MSSQL\v6.0\TruncateTables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ETL\Common\Scripts\MySql\AddUsers.sql">

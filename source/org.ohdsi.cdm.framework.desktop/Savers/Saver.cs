@@ -266,6 +266,7 @@ namespace org.ohdsi.cdm.framework.desktop.Savers
                         }
 
                     case "DEATH":
+                        yield return null;
                         break;
 
                     default:
@@ -472,6 +473,9 @@ namespace org.ohdsi.cdm.framework.desktop.Savers
             //Logger.Write(chunk.ChunkId, LogMessageTypes.Debug, "START - " + table);
             foreach (var reader in CreateDataReader(chunk, table))
             {
+                if (reader == null)
+                    continue;
+
                 Write(chunk.ChunkId, chunk.SubChunkId, reader, table);
             }
             //Logger.Write(chunk.ChunkId, LogMessageTypes.Debug, "END - " + table);

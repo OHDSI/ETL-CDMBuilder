@@ -18,10 +18,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         {
             get
             {
-                if (ConversionSettings.CdmVersion == "v5.3")
-                    return CdmVersions.V53;
+                if (ConversionSettings.CdmVersion == "v6.0")
+                    return CdmVersions.V6;
 
-                return CdmVersions.V6;
+                return CdmVersions.V53;
             }
         }
 

@@ -65,6 +65,7 @@ namespace org.ohdsi.cdm.framework.common.Definitions
 
         public PersonDefinition[] Persons { get; set; }
         public PayerPlanPeriodDefinition[] PayerPlanPeriods { get; set; }
+        public ObservationPeriodDefinition[] ObservationPeriod { get; set; }
         public ConditionOccurrenceDefinition[] ConditionOccurrence { get; set; }
         public DeathDefinition[] Death { get; set; }
         public DrugExposureDefinition[] DrugExposure { get; set; }

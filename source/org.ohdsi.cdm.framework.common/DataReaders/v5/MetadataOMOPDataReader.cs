@@ -178,7 +178,7 @@ namespace org.ohdsi.cdm.framework.common.DataReaders.v5
                     return typeof(DateTime);
 
                 case 5:
-                    return typeof(TimeSpan);
+                    return typeof(DateTime);
 
                 default:
                     throw new NotImplementedException();

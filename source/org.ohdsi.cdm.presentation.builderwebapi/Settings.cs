@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace org.ohdsi.cdm.presentation.builderwebapi
 {
@@ -162,6 +163,13 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                     content = content.Replace("<VisitEndDate>", "<EndDate>");
                     content = content.Replace("</VisitEndDate>", "</EndDate>");
 
+
+                    content = content.Replace("<ObservationPeriodStartDate>", "<StartDate>");
+                    content = content.Replace("</ObservationPeriodStartDate>", "</StartDate>");
+
+                    content = content.Replace("<ObservationPeriodEndDate>", "<EndDate>");
+                    content = content.Replace("</ObservationPeriodEndDate>", "</EndDate>");
+
                     content = content.Replace("<ConceptIdMapper>", "<ConceptIdMappers>");
                     content = content.Replace("</ConceptIdMapper>", "</ConceptIdMappers>");
 
@@ -171,14 +179,25 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                     {
                         if (qd.Persons[0].Concepts != null && qd.Persons[0].Concepts.Length > 0)
                         {
-                            qd.Persons[0].Gender = qd.Persons[0].Concepts[0].Fields[0].SourceKey;
+                            var gender = qd.Persons[0].Concepts.FirstOrDefault(c => c.Name == "GenderConceptId");
+                        
+                            if(gender != null)
+                                qd.Persons[0].Gender = gender.Fields[0].SourceKey;
                         }
 
-                        // TMP
-                        //if (!string.IsNullOrEmpty(qd.Persons[0].StartDate))
+                        if (qd.ObservationPeriod != null)
                         {
-                            qd.Persons[0].StartDate = "observation_period_start_date";
-                            qd.Persons[0].EndDate = "observation_period_end_date";
+                            qd.Persons[0].StartDate = qd.ObservationPeriod[0].StartDate;
+                            qd.Persons[0].EndDate = qd.ObservationPeriod[0].EndDate;
+                        }
+                    }
+
+                    if (qd.VisitOccurrence != null)
+                    {
+                        foreach (var vo in qd.VisitOccurrence)
+                        {
+                            if (!string.IsNullOrEmpty(vo.VisitOccurrenceId) && string.IsNullOrEmpty(vo.Id))
+                                vo.Id = vo.VisitOccurrenceId;
                         }
                     }
 

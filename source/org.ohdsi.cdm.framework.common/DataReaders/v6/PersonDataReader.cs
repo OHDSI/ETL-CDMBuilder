@@ -197,7 +197,7 @@ namespace org.ohdsi.cdm.framework.common.DataReaders.v6
                 case 2: return typeof(int);
                 case 3: return typeof(int?);
                 case 4: return typeof(int?);
-                case 5: return typeof(DateTime?);
+                case 5: return typeof(TimeSpan?);
                 case 6: return typeof(DateTime?);
                 case 7: return typeof(int);
                 case 8: return typeof(int);

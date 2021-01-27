@@ -554,11 +554,10 @@ namespace org.ohdsi.cdm.framework.common.Base
             person.RaceConceptId = race.RaceConceptId;
             person.RaceSourceValue = race.RaceSourceValue;
 
-            // TODO
-            //if (person.GenderConceptId == 8551) //UNKNOWN
-            //{
-            //    return new KeyValuePair<Person, Attrition>(null, Attrition.UnknownGender);
-            //}
+            if (person.GenderConceptId == 8551) //UNKNOWN
+            {
+                return new KeyValuePair<Person, Attrition>(null, Attrition.UnknownGender);
+            }
 
             return new KeyValuePair<Person, Attrition>(person, Attrition.None);
         }
@@ -635,7 +634,7 @@ namespace org.ohdsi.cdm.framework.common.Base
             ProcedureOccurrence[] procedureOccurrences, Dictionary<long, VisitOccurrence> visitOccurrences,
             ObservationPeriod[] observationPeriods)
         {
-            return BuildEntities(procedureOccurrences, visitOccurrences, observationPeriods, false);
+            return BuildEntities(procedureOccurrences, visitOccurrences, observationPeriods, true);
         }
 
         /// <summary>
@@ -648,14 +647,14 @@ namespace org.ohdsi.cdm.framework.common.Base
         public virtual IEnumerable<Observation> BuildObservations(Observation[] observations,
             Dictionary<long, VisitOccurrence> visitOccurrences, ObservationPeriod[] observationPeriods)
         {
-            return BuildEntities(observations, visitOccurrences, observationPeriods, false);
+            return BuildEntities(observations, visitOccurrences, observationPeriods, true);
         }
 
         public virtual IEnumerable<Measurement> BuildMeasurement(Measurement[] measurements,
             Dictionary<long, VisitOccurrence> visitOccurrences,
             ObservationPeriod[] observationPeriods)
         {
-            return BuildEntities(measurements, visitOccurrences, observationPeriods, false);
+            return BuildEntities(measurements, visitOccurrences, observationPeriods, true);
         }
 
         /// <summary>
@@ -718,7 +717,7 @@ namespace org.ohdsi.cdm.framework.common.Base
             Dictionary<long, VisitOccurrence> visitOccurrences,
             ObservationPeriod[] observationPeriods)
         {
-            return BuildEntities(devExposure, visitOccurrences, observationPeriods, false);
+            return BuildEntities(devExposure, visitOccurrences, observationPeriods, true);
         }
 
         /// <summary>
@@ -1043,6 +1042,8 @@ namespace org.ohdsi.cdm.framework.common.Base
                 switch (entityDomain)
                 {
                     case "Condition":
+                        var obs = entity as Observation;
+                        if (obs == null || obs.ValueAsNumber == 1)
                         {
                             var cond = entity as ConditionOccurrence ??
                                        new ConditionOccurrence(entity)
@@ -1104,6 +1105,21 @@ namespace org.ohdsi.cdm.framework.common.Base
                         ChunkData.AddData(drg);
                         break;
 
+                }
+
+                //HIX-823
+                if (domain == "Procedure" && entityDomain != "Procedure")
+                {
+                    var po = (ProcedureOccurrence)entity;
+                    po.ConceptId = 0;
+                    ChunkData.AddData(po);
+                }
+
+                if (domain == "Observation" && entityDomain != "Observation")
+                {
+                    var o = (Observation)entity;
+                    o.ConceptId = 0;
+                    ChunkData.AddData(o);
                 }
             }
         }

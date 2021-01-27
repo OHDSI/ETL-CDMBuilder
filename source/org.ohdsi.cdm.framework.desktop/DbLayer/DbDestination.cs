@@ -23,10 +23,8 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
             // TMP
             var mySql = _connectionString.ToLower().Contains("mysql");
 
-            if (_connectionString.ToLower().Contains("mysql"))
+            if (mySql)
                 sqlConnectionStringBuilder["database"] = "mysql";
-            else if (_connectionString.ToLower().Contains("postgres"))
-                sqlConnectionStringBuilder["database"] = "postgres";
             else if (_connectionString.ToLower().Contains("amazon redshift"))
                 sqlConnectionStringBuilder["database"] = "poc";
             else
@@ -45,16 +43,18 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
                     }
                 }
             }
+
+            if (!mySql && _schemaName.ToLower().Trim() != "dbo")
+            {
+                CreateSchema();
+            }
         }
 
         public void CreateSchema()
         {
-            if (_connectionString.ToLower().Contains("mysql"))
-                return;
-
             using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
             {
-                var query = $"create schema {_schemaName};";
+                var query = $"create schema [{_schemaName}]";
 
                 using (var command = new OdbcCommand(query, connection))
                 {

@@ -43,7 +43,7 @@ namespace org.ohdsi.cdm.framework.common.DataReaders.v6
                 case 3:
                     return _enumerator.Current.StartDate;
                 case 4:
-                    return _enumerator.Current.StartDate;
+                    return _enumerator.Current.StartDate.TimeOfDay;
                 case 5:
                     return _enumerator.Current.TypeConceptId;
                 case 6:
@@ -228,7 +228,7 @@ namespace org.ohdsi.cdm.framework.common.DataReaders.v6
                 case 1: return typeof(long);
                 case 2: return typeof(int);
                 case 3: return typeof(DateTime?);
-                case 4: return typeof(DateTime);
+                case 4: return typeof(TimeSpan);
                 case 5: return typeof(int);
                 case 6: return typeof(decimal?);
                 case 7: return typeof(string);
@@ -244,7 +244,7 @@ namespace org.ohdsi.cdm.framework.common.DataReaders.v6
                 case 17: return typeof(string);
                 case 18: return typeof(long?);
                 case 19: return typeof(int);
-                case 20: return typeof(DateTime?);
+                case 20: return typeof(TimeSpan?);
 
                 default:
                     throw new NotImplementedException();

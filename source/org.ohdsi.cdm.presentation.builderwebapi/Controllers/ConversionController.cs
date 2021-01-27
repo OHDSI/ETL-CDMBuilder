@@ -55,16 +55,6 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                 WriteLog(Status.Running, "Warning: " + e.Message, 0);
             }
 
-            try
-            {
-                dbDestination.CreateSchema();
-                WriteLog(Status.Running, "Schema created", 0);
-            }
-            catch (Exception e)
-            {
-                WriteLog(Status.Running, "Warning: " + e.Message, 0);
-            }
-
             bool successful;
             try
             {
@@ -88,7 +78,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                     throw e2;
                 }
             }
-                        
+
             return successful;
         }
 

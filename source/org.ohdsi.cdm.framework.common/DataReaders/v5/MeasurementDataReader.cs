@@ -232,7 +232,7 @@ namespace org.ohdsi.cdm.framework.common.DataReaders.v5
                 case 3:
                     return typeof(DateTime);
                 case 4:
-                    return typeof(DateTime);
+                    return typeof(TimeSpan);
                 case 5:
                     return typeof(long);
                 case 6:

@@ -3,15 +3,11 @@ using org.ohdsi.cdm.framework.common.Lookups;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Xml.Serialization;
 
 namespace org.ohdsi.cdm.framework.common.Definitions
 {
     public class Concept
     {
-        [XmlAttribute("name")]
-        public string Name { get; set; }
-
         public Field[] Fields { get; set; }
 
         public Mapper[] ConceptIdMappers { get; set; }

@@ -45,7 +45,7 @@ namespace org.ohdsi.cdm.framework.common.DataReaders.v6
                 case 4:
                     return _enumerator.Current.StartDate;
                 case 5:
-                    return _enumerator.Current.StartDate;
+                    return _enumerator.Current.StartDate.TimeOfDay;
                 case 6:
                     return _enumerator.Current.TypeConceptId;
                 case 7:
@@ -210,7 +210,7 @@ namespace org.ohdsi.cdm.framework.common.DataReaders.v6
                 case 2: return typeof(long?);
                 case 3: return typeof(int);
                 case 4: return typeof(DateTime?);
-                case 5: return typeof(DateTime);
+                case 5: return typeof(TimeSpan);
                 case 6: return typeof(int);
                 case 7: return typeof(int);
                 case 8: return typeof(string);

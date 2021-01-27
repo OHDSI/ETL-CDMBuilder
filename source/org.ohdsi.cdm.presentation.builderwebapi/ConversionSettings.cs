@@ -27,7 +27,7 @@
         public string VocabularyPassword { get; set; }
 
         public string MappingsName { get; set; }
-        public string CdmVersion { get; set; } = "v5.3";
+        public string CdmVersion { get; set; }
 
     }
 }

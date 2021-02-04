@@ -41,9 +41,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             app.UseCors(builder =>
             {
                 builder
-                  .WithOrigins(Configuration["CorsUrl"])
+                  //.WithOrigins(Configuration["CorsUrl"])
                   .AllowAnyHeader()
                   .AllowAnyMethod()
+                  .AllowAnyOrigin()
                   //.SetIsOriginAllowed((host) => true)
                   .AllowCredentials();
             });

@@ -44,7 +44,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                   //.WithOrigins(Configuration["CorsUrl"])
                   .AllowAnyHeader()
                   .AllowAnyMethod()
-                  .AllowAnyOrigin()
+                  //.AllowAnyOrigin()
                   .SetIsOriginAllowed((host) => true)
                   .AllowCredentials();
             });

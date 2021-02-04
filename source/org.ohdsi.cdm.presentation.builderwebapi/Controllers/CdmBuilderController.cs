@@ -15,7 +15,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
+    [Route("cdm-builder/api")]
     [AllowAnonymous]
     public class CdmBuilderController : ControllerBase
     {

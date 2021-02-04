@@ -29,7 +29,7 @@
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": false,
-      "launchUrl": "http://localhost:9000/api/cdmbuilder",
+      "launchUrl": "http://localhost/api/cdmbuilder",
       "useSSL": false
     }
   }

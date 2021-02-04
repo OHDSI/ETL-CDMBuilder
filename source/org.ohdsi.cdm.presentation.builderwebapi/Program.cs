@@ -31,7 +31,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                 {
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseUrls("http://localhost:9000");
-                    webBuilder.UseKestrel();
+                    webBuilder.UseKestrel(opts =>
+                    {
+                        opts.ListenAnyIP(9000);
+                    });
                 });
     }
 }

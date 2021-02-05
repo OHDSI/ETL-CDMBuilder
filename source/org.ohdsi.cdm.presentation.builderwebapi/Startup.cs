@@ -38,17 +38,20 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseAuthentication();
-            app.UseCors(builder =>
-            {
-                builder
-                  //.WithOrigins(Configuration["CorsUrl"])
-                  .WithOrigins("http://cdmwizard.arcadialab.ru")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod()
-                  //.AllowAnyOrigin()
-                  .SetIsOriginAllowed((host) => true)
-                  .AllowCredentials();
-            });
+            //app.UseCors(builder =>
+            //{
+            //    builder
+            //      //.WithOrigins(Configuration["CorsUrl"])
+            //      .WithOrigins("http://cdmwizard.arcadialab.ru")
+            //      .AllowAnyHeader()
+            //      .AllowAnyMethod()
+            //      //.AllowAnyOrigin()
+            //      .SetIsOriginAllowed((host) => true)
+            //      .AllowCredentials();
+            //});
+
+            app.UseCors(
+              options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials());
 
             app.UseRouting();
             app.UseAuthorization();

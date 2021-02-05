@@ -42,7 +42,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             {
                 builder
                   //.WithOrigins(Configuration["CorsUrl"])
-                  .WithOrigins("http://cdmwizard.arcadialab.ru")
+                  .WithOrigins("http://185.134.75.47")
                   .AllowAnyHeader()
                   .AllowAnyMethod()
                   //.AllowAnyOrigin()

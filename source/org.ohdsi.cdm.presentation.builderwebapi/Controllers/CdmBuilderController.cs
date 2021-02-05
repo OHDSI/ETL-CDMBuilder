@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Odbc;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -52,6 +53,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         {
             try
             {
+                AllowCrossOrigin();
                 ChekConnectionString(settings.SourceEngine,
                                      settings.SourceServer,
                                      settings.SourceDatabase,
@@ -65,7 +67,37 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 
             return Ok();
         }
-                
+
+        Uri GetOrigin()
+        {
+            Uri origin = null;
+            var originHeader = Request.Headers["Origin"].FirstOrDefault();
+            if (!String.IsNullOrEmpty(originHeader) && Uri.TryCreate(originHeader, UriKind.Absolute, out origin))
+                return origin;
+            return null;
+        }
+
+        bool IsOriginAllowed(Uri origin)
+        {
+            const string myDomain = "arcadialab.ru";
+            string[] allowedDomains = new[] { "arcadialab.ru", "cdmwizard.arcadialab.ru", "185.134.75.47" };
+
+            return
+                   // allow from a list of domains
+                   allowedDomains.Contains(origin.Host)
+                   // allow any sub-domain
+                   || origin.Host.EndsWith($".{myDomain}");
+        }
+
+        private void AllowCrossOrigin()
+        {
+            Uri origin = GetOrigin();
+
+            if (origin != null && IsOriginAllowed(origin))
+                // If the origin is allowed, add the specific header to the response
+                Response.Headers.Add("Access-Control-Allow-Origin", $"{origin.Scheme}://{origin.Host}");
+        }
+
         [HttpPost("checkdestinationconnection")]
         public IActionResult CheckDestinationConnection([FromBody] ConversionSettings settings)
         {

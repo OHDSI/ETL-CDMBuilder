@@ -25,6 +25,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             {
                 options.EnableDetailedErrors = true;
             });
+
             services.AddHostedService<QueuedHostedService>();
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
         }
@@ -32,6 +33,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseHttpsRedirection();
+
             app.UseCors(builder => builder
                 .AllowAnyHeader()
                 .AllowAnyMethod()

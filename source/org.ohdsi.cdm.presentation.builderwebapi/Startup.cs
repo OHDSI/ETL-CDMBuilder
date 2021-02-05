@@ -46,9 +46,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                   .AllowAnyHeader()
                   .AllowAnyMethod()
                   //.AllowAnyOrigin()
-                  //.SetIsOriginAllowed((host) => true)
+                  .SetIsOriginAllowed((host) => true)
                   .AllowCredentials();
             });
+
 
             app.UseRouting();
             app.UseAuthorization();

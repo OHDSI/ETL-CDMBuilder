@@ -21,11 +21,11 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         {
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
             services.AddControllers();
-            services.AddCors(options =>
-               options.AddDefaultPolicy(builder => builder.AllowAnyOrigin()
-                                                          .AllowAnyHeader()
-                                                          .AllowAnyMethod()
-                                                          .DisallowCredentials()));
+            //services.AddCors(options =>
+            //   options.AddDefaultPolicy(builder => builder.AllowAnyOrigin()
+            //                                              .AllowAnyHeader()
+            //                                              .AllowAnyMethod()
+            //                                              .DisallowCredentials()));
             services.AddSignalR().AddHubOptions<LogHub>(options =>
             {
                 options.EnableDetailedErrors = true;

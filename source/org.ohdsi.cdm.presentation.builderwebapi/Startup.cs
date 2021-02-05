@@ -21,11 +21,20 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         {
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
             services.AddControllers();
-            services.AddCors(options =>
-               options.AddDefaultPolicy(builder => builder.AllowAnyOrigin()
-                                                          .AllowAnyHeader()
-                                                          .AllowAnyMethod()
-                                                          .DisallowCredentials()));
+
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
+            //services.AddCors(options =>
+            //   options.AddDefaultPolicy(builder => builder.AllowAnyOrigin()
+            //                                              .AllowAnyHeader()
+            //                                              .AllowAnyMethod()
+            //                                              .DisallowCredentials()));
+
             services.AddSignalR().AddHubOptions<LogHub>(options =>
             {
                 options.EnableDetailedErrors = true;
@@ -38,17 +47,20 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseAuthentication();
-            app.UseCors(builder =>
-            {
-                builder
-                  //.WithOrigins(Configuration["CorsUrl"])
-                  //.WithOrigins("http://185.134.75.47", "http://185.134.75.47:9000", "http://cdmwizard.arcadialab.ru", "http://cdmwizard.arcadialab.ru:9000")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod()
-                  //.AllowAnyOrigin()
-                  .SetIsOriginAllowed((host) => true)
-                  .AllowCredentials();
-            });
+
+            app.UseCors("MyPolicy");
+
+            //app.UseCors(builder =>
+            //{
+            //    builder
+            //      //.WithOrigins(Configuration["CorsUrl"])
+            //      //.WithOrigins("http://185.134.75.47", "http://185.134.75.47:9000", "http://cdmwizard.arcadialab.ru", "http://cdmwizard.arcadialab.ru:9000")
+            //      .AllowAnyHeader()
+            //      .AllowAnyMethod()
+            //      //.AllowAnyOrigin()
+            //      .SetIsOriginAllowed((host) => true)
+            //      .AllowCredentials();
+            //});
 
 
             app.UseRouting();

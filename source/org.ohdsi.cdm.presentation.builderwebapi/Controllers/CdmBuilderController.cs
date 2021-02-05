@@ -20,7 +20,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
     //[Route("api/[controller]")]
     [Route("cdm-builder/api")]
     [AllowAnonymous]
-    [EnableCors()]
+    [EnableCors("MyPolicy")]
     public class CdmBuilderController : ControllerBase
     {
         private readonly IHubContext<LogHub> _logHub;
@@ -51,7 +51,6 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         }
 
         [HttpPost("checksourceconnection")]
-        [EnableCors()]
         public IActionResult CheckSourceConnection([FromBody] ConversionSettings settings)
         {
             try

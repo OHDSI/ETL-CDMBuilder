@@ -44,10 +44,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                   //.WithOrigins(Configuration["CorsUrl"])
                   .WithOrigins("*")
                   .AllowAnyHeader()
-                  .AllowAnyMethod()
+                  .AllowAnyMethod();
                   //.AllowAnyOrigin()
                   //.SetIsOriginAllowed((host) => true)
-                  .AllowCredentials();
+                  //.AllowCredentials();
             });
 
             app.UseRouting();

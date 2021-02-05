@@ -38,17 +38,17 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseAuthentication();
-            app.UseCors(builder =>
-            {
-                builder
-                  //.WithOrigins(Configuration["CorsUrl"])
-                  .WithOrigins("http://185.134.75.47")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod()
-                  //.AllowAnyOrigin()
-                  //.SetIsOriginAllowed((host) => true)
-                  .AllowCredentials();
-            });
+            //app.UseCors(builder =>
+            //{
+            //    builder
+            //      //.WithOrigins(Configuration["CorsUrl"])
+            //      .WithOrigins("http://185.134.75.47")
+            //      .AllowAnyHeader()
+            //      .AllowAnyMethod()
+            //      //.AllowAnyOrigin()
+            //      //.SetIsOriginAllowed((host) => true)
+            //      .AllowCredentials();
+            //});
 
             app.UseRouting();
             app.UseAuthorization();

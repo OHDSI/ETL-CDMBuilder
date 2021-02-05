@@ -45,8 +45,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             WriteLog(Status.Canceled, "Aborted", 100);
             return "Aborted";
         }
-
+                
         [HttpPost("checksourceconnection")]
+        [HttpPost("/api/checksourceconnection")]
+        [HttpPost("~/api/checksourceconnection")]
         public IActionResult CheckSourceConnection([FromBody] ConversionSettings settings)
         {
             try

@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
@@ -49,6 +50,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         }
 
         [HttpPost("checksourceconnection")]
+        [EnableCors()]
         public IActionResult CheckSourceConnection([FromBody] ConversionSettings settings)
         {
             try

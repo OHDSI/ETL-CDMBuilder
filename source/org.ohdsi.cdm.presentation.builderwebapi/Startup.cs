@@ -19,13 +19,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(IISDefaults.AuthenticationScheme);
+            services.AddCors();
             services.AddControllers();
-            services.AddCors(options =>
-               options.AddDefaultPolicy(builder => builder.AllowAnyOrigin()
-                                                          .AllowAnyHeader()
-                                                          .AllowAnyMethod()
-                                                          .DisallowCredentials()));
             services.AddSignalR().AddHubOptions<LogHub>(options =>
             {
                 options.EnableDetailedErrors = true;
@@ -37,21 +32,13 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseAuthentication();
-            app.UseCors(builder =>
-            {
-                builder
-                  //.WithOrigins(Configuration["CorsUrl"])
-                  .WithOrigins("http://cdmwizard.arcadialab.ru")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod()
-                  //.AllowAnyOrigin()
-                  .SetIsOriginAllowed((host) => true)
-                  .AllowCredentials();
-            });
-
+            app.UseCors(builder => builder
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .SetIsOriginAllowed((host) => true)
+                .AllowCredentials()
+            );
             app.UseRouting();
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

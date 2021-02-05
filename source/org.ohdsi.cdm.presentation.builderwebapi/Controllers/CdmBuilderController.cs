@@ -15,12 +15,8 @@ using org.ohdsi.cdm.presentation.builderwebapi.Hubs;
 
 namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 {
-    [Authorize]
     [ApiController]
-    //[Route("api/[controller]")]
     [Route("cdm-builder/api")]
-    [AllowAnonymous]
-    //[EnableCors("MyPolicy")]
     public class CdmBuilderController : ControllerBase
     {
         private readonly IHubContext<LogHub> _logHub;
@@ -69,36 +65,6 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 
             return Ok();
         }
-
-        //Uri GetOrigin()
-        //{
-        //    Uri origin = null;
-        //    var originHeader = Request.Headers["Origin"].FirstOrDefault();
-        //    if (!String.IsNullOrEmpty(originHeader) && Uri.TryCreate(originHeader, UriKind.Absolute, out origin))
-        //        return origin;
-        //    return null;
-        //}
-
-        //bool IsOriginAllowed(Uri origin)
-        //{
-        //    const string myDomain = "arcadialab.ru";
-        //    string[] allowedDomains = new[] { "arcadialab.ru", "cdmwizard.arcadialab.ru", "185.134.75.47" };
-
-        //    return
-        //           // allow from a list of domains
-        //           allowedDomains.Contains(origin.Host)
-        //           // allow any sub-domain
-        //           || origin.Host.EndsWith($".{myDomain}");
-        //}
-
-        //private void AllowCrossOrigin()
-        //{
-        //    Uri origin = GetOrigin();
-
-        //    if (origin != null && IsOriginAllowed(origin))
-        //        // If the origin is allowed, add the specific header to the response
-        //        Response.Headers.Add("Access-Control-Allow-Origin", $"{origin.Scheme}://{origin.Host}");
-        //}
 
         [HttpPost("checkdestinationconnection")]
         public IActionResult CheckDestinationConnection([FromBody] ConversionSettings settings)

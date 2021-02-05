@@ -42,10 +42,11 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             {
                 builder
                   //.WithOrigins(Configuration["CorsUrl"])
+                  .WithOrigins("http://cdmwizard.arcadialab.ru")
                   .AllowAnyHeader()
                   .AllowAnyMethod()
                   //.AllowAnyOrigin()
-                  .SetIsOriginAllowed((host) => true)
+                  //.SetIsOriginAllowed((host) => true)
                   .AllowCredentials();
             });
 

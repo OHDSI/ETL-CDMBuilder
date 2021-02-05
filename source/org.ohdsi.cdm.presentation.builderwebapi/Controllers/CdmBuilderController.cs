@@ -20,7 +20,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
     //[Route("api/[controller]")]
     [Route("cdm-builder/api")]
     [AllowAnonymous]
-    [EnableCors("MyPolicy")]
+    //[EnableCors("MyPolicy")]
     public class CdmBuilderController : ControllerBase
     {
         private readonly IHubContext<LogHub> _logHub;

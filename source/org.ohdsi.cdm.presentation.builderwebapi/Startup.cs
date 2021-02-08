@@ -29,7 +29,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                 builder =>
                 {
                     builder.WithOrigins("http://cdmwizard.arcadialab.ru",
-                                        "http://185.134.75.47")
+                                        "http://185.134.75.47", 
+                                        "http://185.134.75.47:9000", 
+                                        "http://cdmwizard.arcadialab.ru:9000",
+                                        "http://localhost:9000")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials();

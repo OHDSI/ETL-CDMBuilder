@@ -9,6 +9,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -19,7 +21,20 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
+            //services.AddCors();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("http://cdmwizard.arcadialab.ru",
+                                        "http://185.134.75.47")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+                });
+            });
             services.AddControllers();
             services.AddSignalR().AddHubOptions<LogHub>(options =>
             {
@@ -33,14 +48,17 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(builder => builder
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .SetIsOriginAllowed((host) => true)
-                .AllowCredentials()
-            );
 
-            app.UseHttpsRedirection();
+            app.UseCors(MyAllowSpecificOrigins);
+
+            //app.UseCors(builder => builder
+            //    .AllowAnyHeader()
+            //    .AllowAnyMethod()
+            //    .SetIsOriginAllowed((host) => true)
+            //    .AllowCredentials()
+            //);
+
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

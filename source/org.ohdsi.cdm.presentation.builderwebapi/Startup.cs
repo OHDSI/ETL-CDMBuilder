@@ -28,7 +28,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("http://cdmwizard.arcadialab.ru",
+                    builder
+                    .SetIsOriginAllowedToAllowWildcardSubdomains()
+                    .WithOrigins("http://cdmwizard.arcadialab.ru",
                                         "http://185.134.75.47", 
                                         "http://185.134.75.47:9000", 
                                         "http://cdmwizard.arcadialab.ru:9000",

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using org.ohdsi.cdm.presentation.builderwebapi.Hubs;
 using System;
+using System.Net;
 
 namespace org.ohdsi.cdm.presentation.builderwebapi
 {
@@ -24,6 +25,12 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddCors();
+
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.KnownProxies.Add(IPAddress.Parse("10.110.1.7"));
+                options.KnownProxies.Add(IPAddress.Parse("185.134.75.47"));
+             });
 
             services.AddCors(options =>
             {
@@ -58,7 +65,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
             app.UseCors(MyAllowSpecificOrigins);
 
             //app.UseCors(builder => builder

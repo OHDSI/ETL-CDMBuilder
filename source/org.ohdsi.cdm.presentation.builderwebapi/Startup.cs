@@ -51,12 +51,13 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                     .AllowCredentials();
                 });
             });
-
-            services.AddControllers();
+                        
             services.AddSignalR().AddHubOptions<LogHub>(options =>
             {
                 options.EnableDetailedErrors = true;
             });
+
+            services.AddControllers();
 
             services.AddHostedService<QueuedHostedService>();
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
@@ -84,8 +85,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<LogHub>("/log");
                 endpoints.MapControllers();
+                endpoints.MapHub<LogHub>("/log");
             });
         }
     }

@@ -26,6 +26,16 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             }
         }
 
+        public string GetCdmScriptsFolder
+        {
+            get
+            {
+                if (ConversionSettings.CdmVersion == "v6.0")
+                    return "v6.0";
+
+                return "v5.3";
+            }
+        }
 
         public IDatabaseEngine SourceEngine
         {
@@ -216,23 +226,23 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         }
 
         public string DropVocabularyTablesScript => File.ReadAllText(
-            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, ConversionSettings.CdmVersion, "DropVocabularyTables.sql"));
+            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, GetCdmScriptsFolder, "DropVocabularyTables.sql"));
 
         public string TruncateWithoutLookupTablesScript => File.ReadAllText(
-            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, ConversionSettings.CdmVersion, "TruncateWithoutLookupTables.sql"));
+            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, GetCdmScriptsFolder, "TruncateWithoutLookupTables.sql"));
 
         public string TruncateTablesScript => File.ReadAllText(
-            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, ConversionSettings.CdmVersion, "TruncateTables.sql"));
+            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, GetCdmScriptsFolder, "TruncateTables.sql"));
 
         public string DropTablesScript => File.ReadAllText(
-            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, ConversionSettings.CdmVersion, "DropTables.sql"));
+            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, GetCdmScriptsFolder, "DropTables.sql"));
 
         public string TruncateLookupScript => File.ReadAllText(
-            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, ConversionSettings.CdmVersion, "TruncateLookup.sql"));
+            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, GetCdmScriptsFolder, "TruncateLookup.sql"));
 
         public string CreateCdmTablesScript => File.ReadAllText(
             Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine,
-                         ConversionSettings.CdmVersion, "CreateTables.sql"));
+                         GetCdmScriptsFolder, "CreateTables.sql"));
 
         public string CreateCdmDatabaseScript => File.ReadAllText(
             Path.Combine(new[] {

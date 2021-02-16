@@ -26,7 +26,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         #endregion
 
         #region Methods
-        public DatabaseChunkPart Process(IDatabaseEngine sourceEngine, string sourceSchemaName, List<QueryDefinition> sourceQueryDefinitions, OdbcConnection sourceConnection)
+        //public DatabaseChunkPart Process(IDatabaseEngine sourceEngine, string sourceSchemaName, List<QueryDefinition> sourceQueryDefinitions, OdbcConnection sourceConnection)
+        public DatabaseChunkPart Process(IDatabaseEngine sourceEngine, string sourceSchemaName, List<QueryDefinition> sourceQueryDefinitions, string sourceConnectionString)
         {
             try
             {
@@ -38,7 +39,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                 timer.Start();
 
 
-                var result = part.Load(sourceEngine, sourceSchemaName, sourceQueryDefinitions, sourceConnection, "");
+                //var result = part.Load(sourceEngine, sourceSchemaName, sourceQueryDefinitions, sourceConnection, "");
+                var result = part.Load(sourceEngine, sourceSchemaName, sourceQueryDefinitions, sourceConnectionString, "");
 
                 if (result.Value != null)
                 {

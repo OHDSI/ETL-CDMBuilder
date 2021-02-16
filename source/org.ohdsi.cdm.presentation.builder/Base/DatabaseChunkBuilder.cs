@@ -28,7 +28,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
         #endregion
 
         #region Methods
-        public DatabaseChunkPart Process(IDatabaseEngine sourceEngine, string sourceSchemaName, List<QueryDefinition> sourceQueryDefinitions, OdbcConnection sourceConnection, string vendor)
+        public DatabaseChunkPart Process(IDatabaseEngine sourceEngine, string sourceSchemaName, List<QueryDefinition> sourceQueryDefinitions, string sourceConnection, string vendor)
         {
             try
             {

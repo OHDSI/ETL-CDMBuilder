@@ -88,6 +88,20 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
                 return OpenMssqlConnection(sqlConnection.ConnectionString);
             }
 
+            if (db == Database.Postgre)
+            {
+                var odbc = new OdbcConnectionStringBuilder(odbcConnectionString);
+
+               var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password}";
+
+                var npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
+                    .Replace("{database}", odbc["database"].ToString()).Replace("{username}", odbc["uid"].ToString())
+                    .Replace("{password}", odbc["pwd"].ToString());
+
+                Console.WriteLine("npgsqlConnectionString=" + npgsqlConnectionString);
+                return OpenNpgsqlConnection(npgsqlConnectionString);
+            }
+
             var connection = new OdbcConnection(odbcConnectionString);
             connection.Open();
             return connection;

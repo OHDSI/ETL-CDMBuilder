@@ -325,14 +325,14 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 
                     var chunk = new DatabaseChunkBuilder(chunkId);
 
-                    using var connection =
-                        new OdbcConnection(_settings.SourceConnectionString);
+                    //using var connection =
+                    //    new OdbcConnection(_settings.SourceConnectionString);
 
-                    connection.Open();
+                    //connection.Open();
                     saveQueue.Add(chunk.Process(_settings.SourceEngine,
                         _settings.ConversionSettings.SourceSchema,
                         _settings.SourceQueryDefinitions,
-                        connection));
+                        _settings.SourceConnectionString));
                 });
 
             saveQueue.CompleteAdding();

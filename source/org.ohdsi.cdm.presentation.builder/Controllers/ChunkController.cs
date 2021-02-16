@@ -21,7 +21,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 "Common",
                 "Scripts",
                 Settings.Current.Building.SourceEngine.Database.ToString()
-            }), Settings.Current.Building.SourceSchema);
+            }), Settings.Current.Building.SourceSchema, Settings.Current.Building.SourceEngine);
         }
 
 

@@ -19,7 +19,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         {
             get
             {
-                if (ConversionSettings.CdmVersion == "v6.0")
+                if (ConversionSettings.CdmVersion.ToLower() == "v6.0")
                     return CdmVersions.V6;
 
                 return CdmVersions.V53;
@@ -30,7 +30,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         {
             get
             {
-                if (ConversionSettings.CdmVersion == "v6.0")
+                if (ConversionSettings.CdmVersion.ToLower() == "v6.0")
                     return "v6.0";
 
                 return "v5.3";
@@ -41,10 +41,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         {
             get
             {
-                if (ConversionSettings.SourceEngine == "postgre")
+                if (ConversionSettings.SourceEngine.ToLower() == "postgre")
                     return new PostgreDatabaseEngine();
 
-                if (ConversionSettings.SourceEngine == "mysql")
+                if (ConversionSettings.SourceEngine.ToLower() == "mysql")
                     return new MySqlDatabaseEngine();
 
                 return new MssqlDatabaseEngine();
@@ -55,10 +55,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         {
             get
             {
-                if (ConversionSettings.DestinationEngine == "postgre")
+                if (ConversionSettings.DestinationEngine.ToLower() == "postgre")
                     return new PostgreDatabaseEngine();
 
-                if (ConversionSettings.DestinationEngine == "mysql")
+                if (ConversionSettings.DestinationEngine.ToLower() == "mysql")
                     return new MySqlDatabaseEngine();
 
                 return new MssqlDatabaseEngine();
@@ -69,10 +69,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         {
             get
             {
-                if (ConversionSettings.VocabularyEngine == "postgre")
+                if (ConversionSettings.VocabularyEngine.ToLower() == "postgre")
                     return new PostgreDatabaseEngine();
 
-                if (ConversionSettings.VocabularyEngine == "mysql")
+                if (ConversionSettings.VocabularyEngine.ToLower() == "mysql")
                     return new MySqlDatabaseEngine();
 
                 return new MssqlDatabaseEngine();

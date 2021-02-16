@@ -286,15 +286,19 @@ namespace org.ohdsi.cdm.framework.common.Base
                 case EntityType.Person:
                     {
                         AddEntity((Person)data, PersonRecords);
-                        AddEntity(
-                            new EraEntity
-                            {
-                                PersonId = data.PersonId,
-                                StartDate = data.StartDate,
-                                EndDate = data.EndDate,
-                                TypeConceptId = data.TypeConceptId,
-                                AdditionalFields = data.AdditionalFields
-                            }, ObservationPeriodsRaw);
+
+                        if (data.StartDate > DateTime.MinValue)
+                        {
+                            AddEntity(
+                                new EraEntity
+                                {
+                                    PersonId = data.PersonId,
+                                    StartDate = data.StartDate,
+                                    EndDate = data.EndDate,
+                                    TypeConceptId = data.TypeConceptId,
+                                    AdditionalFields = data.AdditionalFields
+                                }, ObservationPeriodsRaw);
+                        }
                         break;
                     }
 
@@ -826,15 +830,19 @@ namespace org.ohdsi.cdm.framework.common.Base
                 return result.Value;
             }
 
-            var observationPeriods =
-                BuildObservationPeriods(person.ObservationPeriodGap, ObservationPeriodsRaw.ToArray()).ToArray();
+            var observationPeriods = new ObservationPeriod[0];
+            if (ObservationPeriodsRaw.Count > 0)
+            {
+                observationPeriods =
+                    BuildObservationPeriods(person.ObservationPeriodGap, ObservationPeriodsRaw.ToArray()).ToArray();
+            }
 
             // Delete any individual that has an OBSERVATION_PERIOD that is >= 2 years prior to the YEAR_OF_BIRTH
-            if (Excluded(person, observationPeriods))
-            {
-                Complete = true;
-                return Attrition.ImplausibleYOBPostEarliestOP;
-            }
+            //if (Excluded(person, observationPeriods))
+            //{
+            //    Complete = true;
+            //    return Attrition.ImplausibleYOBPostEarliestOP;
+            //}
 
             var payerPlanPeriods = BuildPayerPlanPeriods(PayerPlanPeriodsRaw.ToArray(), null).ToArray();
             var visitOccurrences = new Dictionary<long, VisitOccurrence>();

@@ -477,7 +477,7 @@ CREATE TABLE {sc}.cdm_source
 	cdm_source_name varchar(250) not null,
 	cdm_source_abbreviation varchar(250) not null,
 	cdm_holder varchar(250) not null,
-	source_description varchar not null,
+	source_description varchar(250) not null,
 	source_documentation_reference varchar(250) not null,
 	cdm_etl_reference varchar(250) not null,
 	source_release_date varchar(10) not null,

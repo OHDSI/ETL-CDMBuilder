@@ -140,18 +140,29 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                 _settings.ConversionSettings.DestinationSchema))
             {
                 saver.SaveEntityLookup(_settings.Cdm, locationConcepts, careSiteConcepts, providerConcepts, null);
+            }
 
+            using (saver.Create(_settings.DestinationConnectionString,
+                _settings.Cdm,
+                _settings.ConversionSettings.SourceSchema,
+                _settings.ConversionSettings.DestinationSchema))
+            {
                 var reader = new CdmSourceDataReader(new CdmSource 
                 {
                     CdmSourceName = _settings.ConversionSettings.SourceDatabase,
                     CdmSourceAbbreviation = _settings.ConversionSettings.SourceDatabase,
-                    CdmReleaseDate = DateTime.Now.ToString(),
+                    SourceDescription = _settings.ConversionSettings.SourceDatabase,
+                    CdmEtlReference = "unknown",
+                    SourceDocumentationReference = "None",
+                    CdmReleaseDate = DateTime.Now.ToString("d"),
+                    SourceReleaseDate = DateTime.Now.ToString("d"),
                     CdmVersion = _settings.GetCdmScriptsFolder,
                     VocabularyVersion  = "5.3",
                     CdmHolder = "unknown"
                 });
 
                 saver.Write(null, null, reader, "CDM_SOURCE");
+                saver.Commit();
             }
 
             Console.WriteLine("Lookups was saved ");

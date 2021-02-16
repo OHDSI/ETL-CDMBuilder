@@ -92,7 +92,7 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
             {
                 var odbc = new OdbcConnectionStringBuilder(odbcConnectionString);
 
-               var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password}";
+               var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password};SslMode=Require;Trust Server Certificate=true";
 
                 var npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
                     .Replace("{database}", odbc["database"].ToString()).Replace("{username}", odbc["uid"].ToString())

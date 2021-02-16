@@ -23,6 +23,14 @@ namespace org.ohdsi.cdm.framework.common.DataReaders.v5
             }.GetEnumerator();
         }
 
+        public CdmSourceDataReader(CdmSource cdmSource)
+        {
+            _enumerator = new List<CdmSource>
+            {
+                cdmSource
+            }.GetEnumerator();
+        }
+
         public bool Read()
         {
             return _enumerator.MoveNext();

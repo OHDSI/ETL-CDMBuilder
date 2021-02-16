@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
+using org.ohdsi.cdm.framework.common.DataReaders.v5;
 using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Omop;
 using org.ohdsi.cdm.framework.desktop.Base;
@@ -139,6 +140,18 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                 _settings.ConversionSettings.DestinationSchema))
             {
                 saver.SaveEntityLookup(_settings.Cdm, locationConcepts, careSiteConcepts, providerConcepts, null);
+
+                var reader = new CdmSourceDataReader(new CdmSource 
+                {
+                    CdmSourceName = _settings.ConversionSettings.SourceDatabase,
+                    CdmSourceAbbreviation = _settings.ConversionSettings.SourceDatabase,
+                    CdmReleaseDate = DateTime.Now.ToString(),
+                    CdmVersion = _settings.GetCdmScriptsFolder,
+                    VocabularyVersion  = "5.3",
+                    CdmHolder = "unknown"
+                });
+
+                saver.Write(null, null, reader, "CDM_SOURCE");
             }
 
             Console.WriteLine("Lookups was saved ");

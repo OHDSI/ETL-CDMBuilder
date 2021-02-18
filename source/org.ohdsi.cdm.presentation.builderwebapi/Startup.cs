@@ -44,6 +44,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                         "http://185.134.75.47:9000", 
                                         "http://cdmwizard.arcadialab.ru:9000",
                                         "http://localhost:9000",
+                                        "http://localhost:4200",
                                         "http://10.110.1.7:8080",
                                         "http://10.110.1.7")
                     .AllowAnyHeader()

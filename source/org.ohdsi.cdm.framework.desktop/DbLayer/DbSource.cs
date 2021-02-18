@@ -59,7 +59,7 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
                 foreach (var subQuery in query.Split(new[] { "GO" + "\r\n", "GO" + "\n" },
                     StringSplitOptions.RemoveEmptyEntries))
                 {
-                    using (var command = _dbEngine.GetCommand(query, connection))
+                    using (var command = _dbEngine.GetCommand(subQuery, connection))
                     {
                         command.CommandTimeout = 0;
                         command.ExecuteNonQuery();

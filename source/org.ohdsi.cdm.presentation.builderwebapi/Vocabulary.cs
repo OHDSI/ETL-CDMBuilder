@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Npgsql;
 using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Lookups;
 using org.ohdsi.cdm.framework.common.PregnancyAlgorithm;
@@ -119,8 +120,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 
                                     WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, conceptIdMapper.Lookup + " - Loading into RAM..."), 0);
 
-                                    using (var connection = SqlConnectionHelper.OpenOdbcConnection(_settings.VocabularyConnectionString))
-                                    using (var command = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
+                                    //using (var connection = SqlConnectionHelper.OpenOdbcConnection(_settings.VocabularyConnectionString))
+
+                                    using (var connection = SqlConnectionHelper.OpenConnection(_settings.VocabularyConnectionString, framework.desktop.Enums.Database.Postgre))
+                                    using (var command = new NpgsqlCommand(sql, (NpgsqlConnection)connection))
                                     using (var reader = command.ExecuteReader())
                                     {
                                         Console.WriteLine(conceptIdMapper.Lookup + " - filling");

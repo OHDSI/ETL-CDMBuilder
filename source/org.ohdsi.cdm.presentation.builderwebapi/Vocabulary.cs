@@ -119,11 +119,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     timer.Start();
 
                                     WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, conceptIdMapper.Lookup + " - Loading into RAM..."), 0);
-
-                                    //using (var connection = SqlConnectionHelper.OpenOdbcConnection(_settings.VocabularyConnectionString))
-
-                                    using (var connection = SqlConnectionHelper.OpenConnection(_settings.VocabularyConnectionString, framework.desktop.Enums.Database.Postgre))
-                                    using (var command = new NpgsqlCommand(sql, (NpgsqlConnection)connection))
+                                    
+                                    using (var connection = _settings.VocabularyEngine.GetConnection(_settings.VocabularyConnectionString))
+                                    using (var command = _settings.VocabularyEngine.GetCommand(sql, connection))
                                     using (var reader = command.ExecuteReader())
                                     {
                                         Console.WriteLine(conceptIdMapper.Lookup + " - filling");

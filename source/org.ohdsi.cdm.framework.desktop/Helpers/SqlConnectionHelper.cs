@@ -57,7 +57,16 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
         public static NpgsqlConnection OpenNpgsqlConnection(string connectionString)
         {
             var connection = new NpgsqlConnection(connectionString);
-            connection.Open();
+            try
+            {
+                connection.Open();
+            }
+            catch(Exception)
+            {
+                // TMP
+                connection = new NpgsqlConnection(connectionString + ";SslMode=Require;Trust Server Certificate=true");
+                connection.Open();
+            }
 
             return connection;
         }
@@ -94,6 +103,10 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
 
                //var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password};SslMode=Require;Trust Server Certificate=true";
                 var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password};";
+
+                // TMP
+                if (odbc["server"].ToString() == "10.110.1.7")
+                    connectionStringTemplate = "Server={server};Port=5431;Database={database};User Id={username};Password={password}";
 
                 var npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
                     .Replace("{database}", odbc["database"].ToString()).Replace("{username}", odbc["uid"].ToString())

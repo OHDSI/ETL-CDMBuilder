@@ -42,12 +42,7 @@ Kicking off a Build
     - Run org.ohdsi.cdm.presentation.builder.exe
     - [settins tab] Through UI specify source, destination and vocabulary settings (server, database name, schema name, user and password)
     - Go [building tab] click start button
-
-Getting Involved
-=============
-* Developer questions/comments/feedback: <a href="http://forums.ohdsi.org/c/developers">OHDSI Forum</a>
-* We use the <a href="../../issues">GitHub issue tracker</a> for all bugs/issues/enhancements
-
+    
 License
 =======
 ETL-CDMBuilder is licensed under Apache License 2.0

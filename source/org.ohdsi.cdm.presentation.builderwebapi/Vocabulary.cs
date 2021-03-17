@@ -124,6 +124,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     using (var command = _settings.VocabularyEngine.GetCommand(sql, connection))
                                     {
                                         command.CommandTimeout = 0;
+                                        WriteLog(Status.Running, "CommandTimeout=" + command.CommandTimeout, 0);
                                         using (var reader = command.ExecuteReader())
                                         {
                                             Console.WriteLine(conceptIdMapper.Lookup + " - filling");

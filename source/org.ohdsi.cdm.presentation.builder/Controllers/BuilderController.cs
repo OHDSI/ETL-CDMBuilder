@@ -296,14 +296,14 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                           {
                               var chunk = new DatabaseChunkBuilder(chunkId, CreatePersonBuilder);
 
-                              using (var connection =
-                                  new OdbcConnection(Settings.Current.Building.SourceConnectionString))
+                              //using (var connection =
+                              //    new OdbcConnection(Settings.Current.Building.SourceConnectionString))
                               {
-                                  connection.Open();
+                                  //connection.Open();
                                   saveQueue.Add(chunk.Process(Settings.Current.Building.SourceEngine,
                                       Settings.Current.Building.SourceSchema,
                                       Settings.Current.Building.SourceQueryDefinitions,
-                                      connection,
+                                      Settings.Current.Building.SourceConnectionString,
                                       Settings.Current.Building.Vendor));
                               }
 

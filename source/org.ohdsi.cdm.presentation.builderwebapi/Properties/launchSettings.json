@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/cdmbuilder",
+      "launchUrl": "cdm-builder/api",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,7 +20,7 @@
     "org.ohdsi.cdm.presentation.builderwebapi": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/cdmbuilder",
+      "launchUrl": "cdm-builder/api",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -29,7 +29,7 @@
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": false,
-      "launchUrl": "http://localhost:9000/api/cdmbuilder",
+      "launchUrl": "http://localhost:9000/cdm-builder/api",
       "useSSL": false
     }
   }

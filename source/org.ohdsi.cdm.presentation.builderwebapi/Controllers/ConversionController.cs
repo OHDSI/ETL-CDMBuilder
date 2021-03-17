@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
+using org.ohdsi.cdm.framework.common.DataReaders.v5;
 using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Omop;
 using org.ohdsi.cdm.framework.desktop.Base;
@@ -33,9 +34,14 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             _taskQueue = taskQueue;
         }
 
+        private void WriteLog(Status status, string message, Double progress)
+        {
+            _logHub.Clients.All.SendAsync("Log", new LogMessage { Status = status, Text = message, Progress = progress }).Wait();
+        }
+
         public bool CreateDestination()
         {
-            _logHub.Clients.All.SendAsync("Log", "Creating CDM database...").Wait();
+            WriteLog(Status.Running, "Creating CDM database...", 0);
 
             var dbDestination = new DbDestination(_settings.DestinationConnectionString,
                    _settings.ConversionSettings.DestinationSchema);
@@ -43,36 +49,47 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             try
             {
                 dbDestination.CreateDatabase(_settings.CreateCdmDatabaseScript);
-                _logHub.Clients.All.SendAsync("Log", "CDM database created").Wait();
+                WriteLog(Status.Running, "CDM database created", 0);
             }
             catch (Exception e)
             {
-                _logHub.Clients.All.SendAsync("Log", "Warning: " + e.Message).Wait();
+                WriteLog(Status.Running, "Warning: " + e.Message, 0);
+            }
+
+            try
+            {
+                dbDestination.CreateSchema();
+                WriteLog(Status.Running, "Schema created", 0);
+            }
+            catch (Exception e)
+            {
+                WriteLog(Status.Running, "Warning: " + e.Message, 0);
             }
 
             bool successful;
             try
             {
                 dbDestination.ExecuteQuery(_settings.CreateCdmTablesScript);
-                _logHub.Clients.All.SendAsync("Log", "CDM tables created").Wait();
+                WriteLog(Status.Running, "CDM tables created", 0);
 
                 successful = true;
             }
             catch (Exception e)
             {
-                _logHub.Clients.All.SendAsync("Log", "Warning: CDM tables " + e.Message).Wait();
+                WriteLog(Status.Running, "Warning: CDM tables " + e.Message, 0);
                 try
                 {
                     dbDestination.ExecuteQuery(_settings.TruncateTablesScript);
-                    _logHub.Clients.All.SendAsync("Log", "CDM tables truncated").Wait();
+                    WriteLog(Status.Running, "CDM tables truncated", 0);
                     successful = true;
                 }
                 catch (Exception e2)
                 {
+                    WriteLog(Status.Failed, e2.Message, 0);
                     throw e2;
                 }
             }
-
+                        
             return successful;
         }
 
@@ -114,7 +131,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         {
             if (_taskQueue.Aborted) return;
             Console.WriteLine("Saving lookups...");
-            _logHub.Clients.All.SendAsync("Log", "Saving lookups...").Wait();
+            WriteLog(Status.Running, "Saving lookups...", 0);
+
             var saver = _settings.DestinationEngine.GetSaver();
             using (saver.Create(_settings.DestinationConnectionString,
                 _settings.Cdm,
@@ -124,32 +142,56 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                 saver.SaveEntityLookup(_settings.Cdm, locationConcepts, careSiteConcepts, providerConcepts, null);
             }
 
+            using (saver.Create(_settings.DestinationConnectionString,
+                _settings.Cdm,
+                _settings.ConversionSettings.SourceSchema,
+                _settings.ConversionSettings.DestinationSchema))
+            {
+                var reader = new CdmSourceDataReader(new CdmSource 
+                {
+                    CdmSourceName = _settings.ConversionSettings.SourceDatabase,
+                    CdmSourceAbbreviation = _settings.ConversionSettings.SourceDatabase,
+                    SourceDescription = _settings.ConversionSettings.SourceDatabase,
+                    CdmEtlReference = "unknown",
+                    SourceDocumentationReference = "None",
+                    CdmReleaseDate = DateTime.Now.ToString("d"),
+                    SourceReleaseDate = DateTime.Now.ToString("d"),
+                    CdmVersion = _settings.GetCdmScriptsFolder,
+                    VocabularyVersion  = "5.3",
+                    CdmHolder = "unknown"
+                });
+
+                saver.Write(null, null, reader, "CDM_SOURCE");
+                saver.Commit();
+            }
+
             Console.WriteLine("Lookups was saved ");
-            _logHub.Clients.All.SendAsync("Log", "Lookups was saved").Wait();
+            WriteLog(Status.Running, "Lookups was saved", 0);
             timer.Stop();
 
-            _logHub.Clients.All.SendAsync("Log", string.Format("{0}| {1}", DateTime.Now, $"Care site, Location and Provider tables were saved to CDM database - {timer.ElapsedMilliseconds} ms")).Wait();
+            WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, $"Care site, Location and Provider tables were saved to CDM database - {timer.ElapsedMilliseconds} ms"), 0);
         }
 
         private void LoadProvider(List<Provider> providerConcepts)
         {
             if (_taskQueue.Aborted) return;
             Console.WriteLine("Loading providers...");
-            _logHub.Clients.All.SendAsync("Log", "Loading providers...").Wait();
+            WriteLog(Status.Running, "Loading providers...", 0);
             var provider = _settings.SourceQueryDefinitions.FirstOrDefault(qd => qd.Providers != null);
             if (provider != null)
             {
                 FillList<Provider>(providerConcepts, provider, provider.Providers[0]);
             }
             Console.WriteLine("Providers was loaded");
-            _logHub.Clients.All.SendAsync("Log", "Providers was loaded").Wait();
+            WriteLog(Status.Running, "Providers was loaded", 0);
         }
 
         private void LoadCareSite(List<CareSite> careSiteConcepts)
         {
             if (_taskQueue.Aborted) return;
             Console.WriteLine("Loading care sites...");
-            _logHub.Clients.All.SendAsync("Log", "Loading care sites...").Wait();
+            WriteLog(Status.Running, "Loading care sites...", 0);
+
             var careSite = _settings.SourceQueryDefinitions.FirstOrDefault(qd => qd.CareSites != null);
             if (careSite != null)
             {
@@ -159,14 +201,14 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             if (careSiteConcepts.Count == 0)
                 careSiteConcepts.Add(new CareSite { Id = 0, LocationId = 0, OrganizationId = 0, PlaceOfSvcSourceValue = null });
             Console.WriteLine("Care sites was loaded");
-            _logHub.Clients.All.SendAsync("Log", "Care sites was loaded").Wait();
+            WriteLog(Status.Running, "Care sites was loaded", 0);
         }
 
         private void LoadLocation(List<Location> locationConcepts)
         {
             if (_taskQueue.Aborted) return;
             Console.WriteLine("Loading locations...");
-            _logHub.Clients.All.SendAsync("Log", "Loading locations...").Wait();
+            WriteLog(Status.Running, "Loading locations...", 0);
             var location = _settings.SourceQueryDefinitions.FirstOrDefault(qd => qd.Locations != null);
             if (location != null)
             {
@@ -176,7 +218,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             if (locationConcepts.Count == 0)
                 locationConcepts.Add(new Location { Id = Entity.GetId(null) });
             Console.WriteLine("Locations was loaded");
-            _logHub.Clients.All.SendAsync("Log", "Locations was loaded").Wait();
+            WriteLog(Status.Running, "Locations was loaded", 0);
         }
 
         private void FillList<T>(ICollection<T> list, QueryDefinition qd, EntityDefinition ed) where T : IEntity
@@ -229,10 +271,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 
             _vocabulary.Fill(false, false);
 
-            _logHub.Clients.All.SendAsync("Log", string.Format("{0}| {1}",
+            WriteLog(Status.Running, string.Format("{0}| {1}",
                 DateTime.Now,
-                $"Conversion to CDM was started"))
-                               .Wait();
+                $"Conversion to CDM was started"), 0);
 
             var step = 100.0 / chunksCount;
             var total = 0.0;
@@ -266,12 +307,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 
                             timer.Stop();
 
-                            _logHub.Clients.All.SendAsync("Log", string.Format("{0}| {1}",
-               DateTime.Now,
-              $"ChunkId={data.ChunkData.ChunkId} was saved - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb"))
-                              .Wait();
-
                             total += step;
+                            WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, $"ChunkId={data.ChunkData.ChunkId} was saved - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb"), total);
                         }
 
                         _logHub.Clients.All.SendAsync("Progress", Convert.ToInt32(total).ToString()).Wait();
@@ -288,14 +325,14 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 
                     var chunk = new DatabaseChunkBuilder(chunkId);
 
-                    using var connection =
-                        new OdbcConnection(_settings.SourceConnectionString);
+                    //using var connection =
+                    //    new OdbcConnection(_settings.SourceConnectionString);
 
-                    connection.Open();
+                    //connection.Open();
                     saveQueue.Add(chunk.Process(_settings.SourceEngine,
                         _settings.ConversionSettings.SourceSchema,
                         _settings.SourceQueryDefinitions,
-                        connection));
+                        _settings.SourceConnectionString));
                 });
 
             saveQueue.CompleteAdding();

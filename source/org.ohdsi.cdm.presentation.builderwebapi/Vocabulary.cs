@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Npgsql;
 using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Lookups;
 using org.ohdsi.cdm.framework.common.PregnancyAlgorithm;
@@ -117,10 +118,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     var timer = new Stopwatch();
                                     timer.Start();
 
-                                    _logHub.Clients.All.SendAsync("Log", string.Format("{0}| {1}", DateTime.Now, conceptIdMapper.Lookup + " - Loading into RAM...")).Wait();
-
-                                    using (var connection = SqlConnectionHelper.OpenOdbcConnection(_settings.VocabularyConnectionString))
-                                    using (var command = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
+                                    WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, conceptIdMapper.Lookup + " - Loading into RAM..."), 0);
+                                    
+                                    using (var connection = _settings.VocabularyEngine.GetConnection(_settings.VocabularyConnectionString))
+                                    using (var command = _settings.VocabularyEngine.GetCommand(sql, connection))
                                     using (var reader = command.ExecuteReader())
                                     {
                                         Console.WriteLine(conceptIdMapper.Lookup + " - filling");
@@ -136,8 +137,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 
                                     Console.WriteLine(conceptIdMapper.Lookup + " - Done");
                                     timer.Stop();
-     
-                                    _logHub.Clients.All.SendAsync("Log", string.Format("{0}| {1}", DateTime.Now, $"DONE - {timer.ElapsedMilliseconds} ms | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}")).Wait();
+
+                                    WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, $"DONE - {timer.ElapsedMilliseconds} ms | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}"), 0);
 
                                 }
                                 catch (Exception e)
@@ -145,8 +146,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     Console.WriteLine("Lookup error [file]: " + sqlFileDestination);
                                     Console.WriteLine("Lookup error [query]: " + sql);
 
-                                    _logHub.Clients.All.SendAsync("Log", string.Format("{0}| {1}", DateTime.Now, "Lookup error [file]: " + sqlFileDestination)).Wait();
-                                    _logHub.Clients.All.SendAsync("Log", string.Format("{0}| {1}", DateTime.Now, "Lookup error [query]: " + sql)).Wait();
+                                    WriteLog(Status.Failed, string.Format("{0}| {1}", DateTime.Now, "Lookup error [file]: " + sqlFileDestination), 0);
+                                    WriteLog(Status.Failed, string.Format("{0}| {1}", DateTime.Now, "Lookup error [query]: " + sql), 0);
                                     throw;
                                 }
                             }
@@ -221,6 +222,11 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         public IEnumerable<PregnancyConcept> LookupPregnancyConcept(int conceptId)
         {
             return _pregnancyConcepts.GetConcepts(conceptId);
+        }
+
+        private void WriteLog(Status status, string message, Double progress)
+        {
+            _logHub.Clients.All.SendAsync("Log", new LogMessage { Status = status, Text = message, Progress = progress }).Wait();
         }
     }
 }

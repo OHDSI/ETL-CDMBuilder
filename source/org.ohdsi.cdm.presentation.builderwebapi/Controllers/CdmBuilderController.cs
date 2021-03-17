@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Data.Odbc;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
@@ -13,10 +15,8 @@ using org.ohdsi.cdm.presentation.builderwebapi.Hubs;
 
 namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 {
-    [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
-    [AllowAnonymous]
+    [Route("cdm-builder/api")]
     public class CdmBuilderController : ControllerBase
     {
         private readonly IHubContext<LogHub> _logHub;
@@ -42,15 +42,18 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         {
             _queue.Aborted = true;
             _queue.State = "Aborted";
-            WriteLog("Aborted");
+            WriteLog(Status.Canceled, "Aborted", 100);
             return "Aborted";
         }
-
+                
         [HttpPost("checksourceconnection")]
+        [HttpPost("/api/checksourceconnection")]
+        [HttpPost("~/api/checksourceconnection")]
         public IActionResult CheckSourceConnection([FromBody] ConversionSettings settings)
         {
             try
             {
+                //AllowCrossOrigin();
                 ChekConnectionString(settings.SourceEngine,
                                      settings.SourceServer,
                                      settings.SourceDatabase,
@@ -59,12 +62,12 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e);
+                return StatusCode((int)HttpStatusCode.BadRequest, e.Message);
             }
 
             return Ok();
         }
-                
+
         [HttpPost("checkdestinationconnection")]
         public IActionResult CheckDestinationConnection([FromBody] ConversionSettings settings)
         {
@@ -78,7 +81,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e);
+                return StatusCode((int)HttpStatusCode.BadRequest, e.Message);
             }
 
             return Ok();
@@ -97,7 +100,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, e);
+                return StatusCode((int)HttpStatusCode.BadRequest, e.Message);
             }
 
             return Ok();
@@ -165,18 +168,19 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         public async Task<HttpResponseMessage> Post(CancellationToken cancellationToken, [FromBody] ConversionSettings settings)
         {
             HttpResponseMessage returnMessage = new HttpResponseMessage();
-            WriteLog("conversion added to ");
 
             _queue.QueueBackgroundWorkItem(async token =>
             {
                 await Task.Run(() =>
                 {
+                    WriteLog(Status.Started, string.Empty, 0);
                     _queue.State = "Running";
 
                     var conversion = new ConversionController(_queue, settings, _configuration, _logHub);
                     conversion.Start();
 
                     _queue.State = "Idle";
+                    WriteLog(Status.Finished, string.Empty, 100);
                 });
             });
 
@@ -184,9 +188,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             return await Task.FromResult(returnMessage);
         }
 
-        private void WriteLog(string message)
+        private void WriteLog(Status status, string message, Double progress)
         {
-            _logHub.Clients.All.SendAsync("Log", string.Format("{0}| {1}", DateTime.Now, message)).Wait();
+            _logHub.Clients.All.SendAsync("Log", new LogMessage { Status = status, Text = message, Progress = progress }).Wait();
         }
     }   
 }

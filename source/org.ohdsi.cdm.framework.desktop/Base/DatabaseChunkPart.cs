@@ -32,8 +32,11 @@ namespace org.ohdsi.cdm.framework.desktop.Base
             OffsetManager = new KeyMasterOffsetManager(ChunkId, int.Parse(Prefix), 0);
         }
 
-        public KeyValuePair<string, Exception> Load(IDatabaseEngine sourceEngine, string sourceSchemaName, List<QueryDefinition> sourceQueryDefinitions, OdbcConnection sourceConnection, string vendor)
+        //public KeyValuePair<string, Exception> Load(IDatabaseEngine sourceEngine, string sourceSchemaName, List<QueryDefinition> sourceQueryDefinitions, OdbcConnection sourceConnection, string vendor)
+              public KeyValuePair<string, Exception> Load(IDatabaseEngine sourceEngine, string sourceSchemaName, List<QueryDefinition> sourceQueryDefinitions, string sourceConnectionString, string vendor)
         {
+
+            using var sourceConnection = sourceEngine.GetConnection(sourceConnectionString);
             var fileName = string.Empty;
             var query = string.Empty;
             var connectionString = string.Empty;
@@ -91,8 +94,6 @@ namespace org.ohdsi.cdm.framework.desktop.Base
 
             return new KeyValuePair<string, Exception>(null, null);
         }
-
-
 
 
         public void Build()

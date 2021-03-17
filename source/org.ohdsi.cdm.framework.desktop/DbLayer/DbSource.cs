@@ -1,4 +1,5 @@
 ﻿using org.ohdsi.cdm.framework.common.Extensions;
+using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.framework.desktop.Helpers;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,14 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
         private readonly string _connectionString;
         private readonly string _folder;
         private readonly string _schemaName;
+        private readonly IDatabaseEngine _dbEngine;
 
-        public DbSource(string connectionString, string folder, string schemaName)
+        public DbSource(string connectionString, string folder, string schemaName, IDatabaseEngine dbEngine)
         {
             _connectionString = connectionString;
             _folder = folder;
             _schemaName = schemaName;
+            _dbEngine = dbEngine;
         }
 
         public void CreateChunkTable()
@@ -26,8 +29,9 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
             DropChunkTable();
             var query = File.ReadAllText(Path.Combine(_folder, "CreateChunkTable.sql"));
             query = query.Replace("{sc}", _schemaName);
-            using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
-            using (var cmd = new OdbcCommand(query, connection) { CommandTimeout = 0 })
+ 
+            using (var connection = _dbEngine.GetConnection(_connectionString))
+            using (var cmd = _dbEngine.GetCommand(query, connection))
             {
                 cmd.ExecuteNonQuery();
             }
@@ -37,8 +41,8 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
         {
             var query = File.ReadAllText(Path.Combine(_folder, "DropChunkTable.sql"));
             query = query.Replace("{sc}", _schemaName);
-            using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
-            using (var cmd = new OdbcCommand(query, connection) { CommandTimeout = 0 })
+            using (var connection = _dbEngine.GetConnection(_connectionString))
+            using (var cmd = _dbEngine.GetCommand(query, connection))
             {
                 cmd.ExecuteNonQuery();
             }
@@ -50,12 +54,12 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
             query = query.Replace("{sc}", _schemaName);
             if (string.IsNullOrEmpty(query.Trim())) return;
 
-            using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
+            using (var connection = _dbEngine.GetConnection(_connectionString))
             {
                 foreach (var subQuery in query.Split(new[] { "GO" + "\r\n", "GO" + "\n" },
                     StringSplitOptions.RemoveEmptyEntries))
                 {
-                    using (var command = new OdbcCommand(subQuery, connection))
+                    using (var command = _dbEngine.GetCommand(subQuery, connection))
                     {
                         command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
@@ -71,8 +75,8 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
             var sql = batches > 0
                 ? string.Format(batchScript, "TOP " + batches * batchSize)
                 : string.Format(batchScript, "");
-            using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
-            using (var c = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
+            using (var connection = _dbEngine.GetConnection(_connectionString))
+            using (var c = _dbEngine.GetCommand(sql, connection))
             {
                 using (var reader = c.ExecuteReader())
                 {
@@ -90,8 +94,8 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
             try
             {
                 string query = "SELECT VERSION_DATE VERSION_DATE FROM " + _schemaName + "._Version";
-                using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
-                using (var c = new OdbcCommand(query, connection) { CommandTimeout = 0 })
+                using (var connection = _dbEngine.GetConnection(_connectionString))
+                using (var c = _dbEngine.GetCommand(query, connection))
                 {
                     using (var reader = c.ExecuteReader())
                     {

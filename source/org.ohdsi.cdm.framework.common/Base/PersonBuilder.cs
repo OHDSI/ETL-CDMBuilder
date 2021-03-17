@@ -286,15 +286,19 @@ namespace org.ohdsi.cdm.framework.common.Base
                 case EntityType.Person:
                     {
                         AddEntity((Person)data, PersonRecords);
-                        AddEntity(
-                            new EraEntity
-                            {
-                                PersonId = data.PersonId,
-                                StartDate = data.StartDate,
-                                EndDate = data.EndDate,
-                                TypeConceptId = data.TypeConceptId,
-                                AdditionalFields = data.AdditionalFields
-                            }, ObservationPeriodsRaw);
+
+                        if (data.StartDate > DateTime.MinValue)
+                        {
+                            AddEntity(
+                                new EraEntity
+                                {
+                                    PersonId = data.PersonId,
+                                    StartDate = data.StartDate,
+                                    EndDate = data.EndDate,
+                                    TypeConceptId = data.TypeConceptId,
+                                    AdditionalFields = data.AdditionalFields
+                                }, ObservationPeriodsRaw);
+                        }
                         break;
                     }
 
@@ -554,10 +558,11 @@ namespace org.ohdsi.cdm.framework.common.Base
             person.RaceConceptId = race.RaceConceptId;
             person.RaceSourceValue = race.RaceSourceValue;
 
-            if (person.GenderConceptId == 8551) //UNKNOWN
-            {
-                return new KeyValuePair<Person, Attrition>(null, Attrition.UnknownGender);
-            }
+            // TODO
+            //if (person.GenderConceptId == 8551) //UNKNOWN
+            //{
+            //    return new KeyValuePair<Person, Attrition>(null, Attrition.UnknownGender);
+            //}
 
             return new KeyValuePair<Person, Attrition>(person, Attrition.None);
         }
@@ -634,7 +639,7 @@ namespace org.ohdsi.cdm.framework.common.Base
             ProcedureOccurrence[] procedureOccurrences, Dictionary<long, VisitOccurrence> visitOccurrences,
             ObservationPeriod[] observationPeriods)
         {
-            return BuildEntities(procedureOccurrences, visitOccurrences, observationPeriods, true);
+            return BuildEntities(procedureOccurrences, visitOccurrences, observationPeriods, false);
         }
 
         /// <summary>
@@ -647,14 +652,14 @@ namespace org.ohdsi.cdm.framework.common.Base
         public virtual IEnumerable<Observation> BuildObservations(Observation[] observations,
             Dictionary<long, VisitOccurrence> visitOccurrences, ObservationPeriod[] observationPeriods)
         {
-            return BuildEntities(observations, visitOccurrences, observationPeriods, true);
+            return BuildEntities(observations, visitOccurrences, observationPeriods, false);
         }
 
         public virtual IEnumerable<Measurement> BuildMeasurement(Measurement[] measurements,
             Dictionary<long, VisitOccurrence> visitOccurrences,
             ObservationPeriod[] observationPeriods)
         {
-            return BuildEntities(measurements, visitOccurrences, observationPeriods, true);
+            return BuildEntities(measurements, visitOccurrences, observationPeriods, false);
         }
 
         /// <summary>
@@ -717,7 +722,7 @@ namespace org.ohdsi.cdm.framework.common.Base
             Dictionary<long, VisitOccurrence> visitOccurrences,
             ObservationPeriod[] observationPeriods)
         {
-            return BuildEntities(devExposure, visitOccurrences, observationPeriods, true);
+            return BuildEntities(devExposure, visitOccurrences, observationPeriods, false);
         }
 
         /// <summary>
@@ -825,15 +830,19 @@ namespace org.ohdsi.cdm.framework.common.Base
                 return result.Value;
             }
 
-            var observationPeriods =
-                BuildObservationPeriods(person.ObservationPeriodGap, ObservationPeriodsRaw.ToArray()).ToArray();
+            var observationPeriods = new ObservationPeriod[0];
+            if (ObservationPeriodsRaw.Count > 0)
+            {
+                observationPeriods =
+                    BuildObservationPeriods(person.ObservationPeriodGap, ObservationPeriodsRaw.ToArray()).ToArray();
+            }
 
             // Delete any individual that has an OBSERVATION_PERIOD that is >= 2 years prior to the YEAR_OF_BIRTH
-            if (Excluded(person, observationPeriods))
-            {
-                Complete = true;
-                return Attrition.ImplausibleYOBPostEarliestOP;
-            }
+            //if (Excluded(person, observationPeriods))
+            //{
+            //    Complete = true;
+            //    return Attrition.ImplausibleYOBPostEarliestOP;
+            //}
 
             var payerPlanPeriods = BuildPayerPlanPeriods(PayerPlanPeriodsRaw.ToArray(), null).ToArray();
             var visitOccurrences = new Dictionary<long, VisitOccurrence>();
@@ -1042,8 +1051,6 @@ namespace org.ohdsi.cdm.framework.common.Base
                 switch (entityDomain)
                 {
                     case "Condition":
-                        var obs = entity as Observation;
-                        if (obs == null || obs.ValueAsNumber == 1)
                         {
                             var cond = entity as ConditionOccurrence ??
                                        new ConditionOccurrence(entity)
@@ -1105,21 +1112,6 @@ namespace org.ohdsi.cdm.framework.common.Base
                         ChunkData.AddData(drg);
                         break;
 
-                }
-
-                //HIX-823
-                if (domain == "Procedure" && entityDomain != "Procedure")
-                {
-                    var po = (ProcedureOccurrence)entity;
-                    po.ConceptId = 0;
-                    ChunkData.AddData(po);
-                }
-
-                if (domain == "Observation" && entityDomain != "Observation")
-                {
-                    var o = (Observation)entity;
-                    o.ConceptId = 0;
-                    ChunkData.AddData(o);
                 }
             }
         }

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace org.ohdsi.cdm.presentation.builderwebapi
 {
@@ -18,22 +19,32 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         {
             get
             {
-                if (ConversionSettings.CdmVersion == "v5.3")
-                    return CdmVersions.V53;
+                if (ConversionSettings.CdmVersion.ToLower() == "v6.0")
+                    return CdmVersions.V6;
 
-                return CdmVersions.V6;
+                return CdmVersions.V53;
             }
         }
 
+        public string GetCdmScriptsFolder
+        {
+            get
+            {
+                if (ConversionSettings.CdmVersion.ToLower() == "v6.0")
+                    return "v6.0";
+
+                return "v5.3";
+            }
+        }
 
         public IDatabaseEngine SourceEngine
         {
             get
             {
-                if (ConversionSettings.SourceEngine == "postgre")
+                if (ConversionSettings.SourceEngine.ToLower() == "postgre")
                     return new PostgreDatabaseEngine();
 
-                if (ConversionSettings.SourceEngine == "mysql")
+                if (ConversionSettings.SourceEngine.ToLower() == "mysql")
                     return new MySqlDatabaseEngine();
 
                 return new MssqlDatabaseEngine();
@@ -44,10 +55,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         {
             get
             {
-                if (ConversionSettings.DestinationEngine == "postgre")
+                if (ConversionSettings.DestinationEngine.ToLower() == "postgre")
                     return new PostgreDatabaseEngine();
 
-                if (ConversionSettings.DestinationEngine == "mysql")
+                if (ConversionSettings.DestinationEngine.ToLower() == "mysql")
                     return new MySqlDatabaseEngine();
 
                 return new MssqlDatabaseEngine();
@@ -58,10 +69,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         {
             get
             {
-                if (ConversionSettings.VocabularyEngine == "postgre")
+                if (ConversionSettings.VocabularyEngine.ToLower() == "postgre")
                     return new PostgreDatabaseEngine();
 
-                if (ConversionSettings.VocabularyEngine == "mysql")
+                if (ConversionSettings.VocabularyEngine.ToLower() == "mysql")
                     return new MySqlDatabaseEngine();
 
                 return new MssqlDatabaseEngine();
@@ -134,7 +145,71 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                 var content = reader.ReadToEnd();
                 if (item.FullName.StartsWith("Definitions"))
                 {
+                    // TMP
+                    content = content.Replace("<Person>", "<Persons>");
+                    content = content.Replace("</Person>", "</Persons>");
+
+                    if (item.Name.Replace(".xml", "").ToLower() == "l_location")
+                    {
+                        content = content.Replace("<Location>", "<Locations>");
+                        content = content.Replace("</Location>", "</Locations>");
+
+                        content = content.Replace("<LocationId>", "<Id>");
+                        content = content.Replace("</LocationId>", "</Id>");
+                    }
+
+                    if (item.Name.Replace(".xml", "").ToLower() == "l_care_site")
+                    {
+                        content = content.Replace("<CareSite>", "<CareSites>");
+                        content = content.Replace("</CareSite>", "</CareSites>");
+
+                        content = content.Replace("<CareSiteId>", "<Id>");
+                        content = content.Replace("</CareSiteId>", "</Id>");
+                    }
+
+                    content = content.Replace("<VisitStartDate>", "<StartDate>");
+                    content = content.Replace("</VisitStartDate>", "</StartDate>");
+
+                    content = content.Replace("<VisitEndDate>", "<EndDate>");
+                    content = content.Replace("</VisitEndDate>", "</EndDate>");
+
+
+                    content = content.Replace("<ObservationPeriodStartDate>", "<StartDate>");
+                    content = content.Replace("</ObservationPeriodStartDate>", "</StartDate>");
+
+                    content = content.Replace("<ObservationPeriodEndDate>", "<EndDate>");
+                    content = content.Replace("</ObservationPeriodEndDate>", "</EndDate>");
+
+                    content = content.Replace("<ConceptIdMapper>", "<ConceptIdMappers>");
+                    content = content.Replace("</ConceptIdMapper>", "</ConceptIdMappers>");
+
                     var qd = new QueryDefinition().DeserializeFromXml(content);
+
+                    if (qd.Persons != null)
+                    {
+                        if (qd.Persons[0].Concepts != null && qd.Persons[0].Concepts.Length > 0)
+                        {
+                            var gender = qd.Persons[0].Concepts.FirstOrDefault(c => c.Name == "GenderConceptId");
+                        
+                            if(gender != null)
+                                qd.Persons[0].Gender = gender.Fields[0].SourceKey;
+                        }
+
+                        if (qd.ObservationPeriod != null)
+                        {
+                            qd.Persons[0].StartDate = qd.ObservationPeriod[0].StartDate;
+                            qd.Persons[0].EndDate = qd.ObservationPeriod[0].EndDate;
+                        }
+                    }
+
+                    if (qd.VisitOccurrence != null)
+                    {
+                        foreach (var vo in qd.VisitOccurrence)
+                        {
+                            if (!string.IsNullOrEmpty(vo.VisitOccurrenceId) && string.IsNullOrEmpty(vo.Id))
+                                vo.Id = vo.VisitOccurrenceId;
+                        }
+                    }
 
                     qd.FileName = item.Name.Replace(".xml", "");
                     SourceQueryDefinitions.Add(qd);
@@ -149,25 +224,25 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                 }
             }
         }
-        
+
         public string DropVocabularyTablesScript => File.ReadAllText(
-            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, ConversionSettings.CdmVersion, "DropVocabularyTables.sql"));
+            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, GetCdmScriptsFolder, "DropVocabularyTables.sql"));
 
         public string TruncateWithoutLookupTablesScript => File.ReadAllText(
-            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, ConversionSettings.CdmVersion, "TruncateWithoutLookupTables.sql"));
+            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, GetCdmScriptsFolder, "TruncateWithoutLookupTables.sql"));
 
         public string TruncateTablesScript => File.ReadAllText(
-            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, ConversionSettings.CdmVersion, "TruncateTables.sql"));
+            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, GetCdmScriptsFolder, "TruncateTables.sql"));
 
         public string DropTablesScript => File.ReadAllText(
-            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, ConversionSettings.CdmVersion, "DropTables.sql"));
+            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, GetCdmScriptsFolder, "DropTables.sql"));
 
         public string TruncateLookupScript => File.ReadAllText(
-            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, ConversionSettings.CdmVersion, "TruncateLookup.sql"));
+            Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine, GetCdmScriptsFolder, "TruncateLookup.sql"));
 
         public string CreateCdmTablesScript => File.ReadAllText(
             Path.Combine(Folder, "ETL", "Common", "Scripts", ConversionSettings.DestinationEngine,
-                         ConversionSettings.CdmVersion, "CreateTables.sql"));
+                         GetCdmScriptsFolder, "CreateTables.sql"));
 
         public string CreateCdmDatabaseScript => File.ReadAllText(
             Path.Combine(new[] {
@@ -184,6 +259,6 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             return _configuration[dbType].Replace("{server}", server).Replace("{database}", db).Replace("{username}", user)
                 .Replace("{password}", pswd);
         }
-      
+
     }
 }

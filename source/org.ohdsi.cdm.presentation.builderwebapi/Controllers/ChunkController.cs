@@ -24,7 +24,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                 "Common",
                 "Scripts",
                 settings.ConversionSettings.SourceEngine
-            }), settings.ConversionSettings.SourceSchema);
+            }), settings.ConversionSettings.SourceSchema, settings.SourceEngine);
         }
 
         public void ClenupChunks()

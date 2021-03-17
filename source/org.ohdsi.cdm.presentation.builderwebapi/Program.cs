@@ -17,6 +17,14 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             CreateHostBuilder(args).Build().Run();
         }
 
+        //public static IHostBuilder CreateHostBuilder(string[] args) =>
+        //   Host.CreateDefaultBuilder(args)
+        //       .ConfigureWebHostDefaults(webBuilder =>
+        //       {
+        //           webBuilder.UseStartup<Startup>();
+        //           webBuilder.UseUrls("http://localhost:9000");                   
+        //       });
+
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>

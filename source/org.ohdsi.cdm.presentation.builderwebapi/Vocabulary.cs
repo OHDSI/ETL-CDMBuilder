@@ -119,20 +119,23 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     timer.Start();
 
                                     WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, conceptIdMapper.Lookup + " - Loading into RAM..."), 0);
-                                    
+
                                     using (var connection = _settings.VocabularyEngine.GetConnection(_settings.VocabularyConnectionString))
                                     using (var command = _settings.VocabularyEngine.GetCommand(sql, connection))
-                                    using (var reader = command.ExecuteReader())
                                     {
-                                        Console.WriteLine(conceptIdMapper.Lookup + " - filling");
-                                        var lookup = new Lookup();
-                                        while (reader.Read())
+                                        command.CommandTimeout = 0;
+                                        using (var reader = command.ExecuteReader())
                                         {
-                                            var lv = CreateLookupValue(reader);
-                                            lookup.Add(lv);
-                                        }
+                                            Console.WriteLine(conceptIdMapper.Lookup + " - filling");
+                                            var lookup = new Lookup();
+                                            while (reader.Read())
+                                            {
+                                                var lv = CreateLookupValue(reader);
+                                                lookup.Add(lv);
+                                            }
 
-                                        _lookups.Add(conceptIdMapper.Lookup, lookup);
+                                            _lookups.Add(conceptIdMapper.Lookup, lookup);
+                                        }
                                     }
 
                                     Console.WriteLine(conceptIdMapper.Lookup + " - Done");

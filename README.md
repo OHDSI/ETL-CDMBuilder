@@ -1,4 +1,11 @@
+Introduction
+========
+
+This repository forked from OHDSI/ETL-CDMBuilder https://github.com/OHDSI/ETL-CDMBuilder.
+
 The .Net CDM Builder was developed by Janssen Research & Development as a tool to transform its observational databases into the OMOP Common Data Model. The tool was specifically developed for the Janssen environment: MS SQL Server/PostgreSQL/MySQL.  Additionally, the builder logic designed is based on the input format of the source data that are loaded in our local environment. We have made the tool open-source as a reference for other researchers in the OHDSI community who may be looking ETL their observational data, but we do not expect the tool would execute successfully for others unless they have similar infrastructure and similar source datasets. The tool was not originally designed to support general purpose ETLs across different platforms, and modifications would be required to apply to other systems. Contributions from the community to advance the tool in that direction are welcome and encouraged, as our team cannot support and test the tool in other environments.
+
+This service wraps **CDM-builder** functional in Web-service, that used by **Perseus** https://github.com/SoftwareCountry/Perseus.
 
 Technology
 ============
@@ -20,11 +27,9 @@ Dependencies
 
 Getting Started
 ===============
-* Download from the GitHub CDM Builder https://github.com/OHDSI/ETL-CDMBuilder/tree/master/source.
-* The application requires the configuration of three databases: Source of non-CDM data, Destination (where to build the CDM data), and Vocabulary (the OMOP Vocabulary)
-    - Connection strings templates (MS SQL, PostgreSQL and MySQL) and Vendor for CDM Builder database can be configured either in the config file (<b>App.config</b>)
-* The CDM Builder comes with several pre-written ETLs, each of which corresponds to a specific data vendor and data product. Select the appropriate vendor from the "Vendor" dropdown
-    - The vendors and products can be found here: <a href="https://github.com/OHDSI/ETL-LambdaBuilder/tree/master/docs">https://github.com/OHDSI/ETL-LambdaBuilder/tree/master/docs</a>
+
+    docker build -f "source/org.ohdsi.cdm.presentation.builderwebapi/Dockerfile" -t cdm-builder-service .
+    docker run -d --network host --name cdm-builder-service cdm-builder-service
 
 Kicking off a Build
 ===============
@@ -46,13 +51,3 @@ Getting Involved
 License
 =======
 ETL-CDMBuilder is licensed under Apache License 2.0
-
-Development
-===========
-
-###Development status
-Beta testing, source is not set up properly to deploy an executable this release.
-
-Acknowledgements
-===========
-Janssen Pharmaceutical Research & Development, LLC

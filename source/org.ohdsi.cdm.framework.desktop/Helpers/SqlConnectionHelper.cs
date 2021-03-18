@@ -106,7 +106,7 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
 
                 // TMP
                 if (odbc["server"].ToString() == "10.110.1.7")
-                    connectionStringTemplate = "Server={server};Port=5431;Database={database};User Id={username};Password={password}";
+                    connectionStringTemplate = "Server={server};Port=5431;Database={database};User Id={username};Password={password};SSL=true;SslMode=Require;";
 
                 var npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
                     .Replace("{database}", odbc["database"].ToString()).Replace("{username}", odbc["uid"].ToString())

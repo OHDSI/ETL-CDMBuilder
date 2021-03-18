@@ -79,7 +79,7 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
             return connection;
         }
 
-        const string npgsql = "Server={server};Port=5431;Database={database};User Id={username};Password={password};SSL Mode=Require;Trust Server Certificate=true;Timeout=60;";
+        const string npgsql = "Server={server};Port=5431;Database={database};User Id={username};Password={password};SSL Mode=Disable;Timeout=60;";
 
         public static IDbConnection OpenConnection(string odbcConnectionString, Database db)
         {

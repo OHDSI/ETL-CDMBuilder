@@ -123,7 +123,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     using (var connection = _settings.VocabularyEngine.GetConnection(_settings.VocabularyConnectionString))
                                     using (var command = _settings.VocabularyEngine.GetCommand(sql, connection))
                                     {
-                                        command.CommandTimeout = 0;
+                                        //command.CommandTimeout = 0;
                                         WriteLog(Status.Running, "CommandTimeout=" + command.CommandTimeout, 0);
                                         using (var reader = command.ExecuteReader())
                                         {
@@ -151,6 +151,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     Console.WriteLine("Lookup error [query]: " + sql);
 
                                     WriteLog(Status.Failed, e.Message, 0);
+
+                                    if(e.InnerException != null && e.InnerException.Message != null)
+                                        WriteLog(Status.Failed, e.InnerException.Message, 0);
+                                    
                                     WriteLog(Status.Failed, string.Format("{0}| {1}", DateTime.Now, "Lookup error [file]: " + sqlFileDestination), 0);
                                     WriteLog(Status.Failed, string.Format("{0}| {1}", DateTime.Now, "Lookup error [query]: " + sql), 0);
                                     throw;

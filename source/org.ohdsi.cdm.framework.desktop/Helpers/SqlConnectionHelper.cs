@@ -106,7 +106,7 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
                 var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password};";
 
                 // TMP
-                if (odbc["server"].ToString() == "10.110.1.7")
+                if (odbc["server"].ToString() == "10.110.1.7" || odbc["server"].ToString() == "185.134.75.47")
                     connectionStringTemplate = npgsql;
 
                 var npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
@@ -148,7 +148,7 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
                 var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password};";
 
                 // TMP
-                if (odbc["server"].ToString() == "10.110.1.7")
+                if (odbc["server"].ToString() == "10.110.1.7" || odbc["server"].ToString() == "185.134.75.47")
                     connectionStringTemplate = npgsql;
 
                 var npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())

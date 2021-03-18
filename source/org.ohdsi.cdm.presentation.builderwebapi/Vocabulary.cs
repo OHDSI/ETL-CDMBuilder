@@ -117,8 +117,16 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 
                                     var timer = new Stopwatch();
                                     timer.Start();
-                                                                        
-                                    WriteLog(Status.Running, "Database " + _settings.VocabularyEngine.Database, 0);
+
+                                    var cs = _settings.VocabularyConnectionString.Replace("Port=5432", "Port=5431");
+                                    WriteLog(Status.Running, "0 " + cs, 0);
+                                    using (var odbc = new OdbcConnection(cs))
+                                    {
+                                        odbc.Open();
+                                    }
+                                    WriteLog(Status.Running, "Opened", 0);
+
+
                                     WriteLog(Status.Running, "1 " + _settings.VocabularyConnectionString, 0);
                                     WriteLog(Status.Running, "2 " + SqlConnectionHelper.GetConnection(_settings.VocabularyConnectionString, _settings.VocabularyEngine.Database), 0);
                                     WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, conceptIdMapper.Lookup + " - Loading ..."), 0);

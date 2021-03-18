@@ -119,14 +119,14 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     timer.Start();                                  
 
                                     //WriteLog(Status.Running, "1 " + _settings.VocabularyConnectionString, 0);
-                                    WriteLog(Status.Running, "2 " + SqlConnectionHelper.GetConnection(_settings.VocabularyConnectionString, _settings.VocabularyEngine.Database), 0);
+                                    //WriteLog(Status.Running, "2 " + SqlConnectionHelper.GetConnection(_settings.VocabularyConnectionString, _settings.VocabularyEngine.Database), 0);
                                     WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, conceptIdMapper.Lookup + " - Loading ..."), 0);
                                                                        
 
                                     using (var connection = _settings.VocabularyEngine.GetConnection(_settings.VocabularyConnectionString))
                                     using (var command = _settings.VocabularyEngine.GetCommand(sql, connection))
                                     {
-                                        command.CommandTimeout = 0;
+                                        //command.CommandTimeout = 0;
                                         WriteLog(Status.Running, "CommandTimeout=" + command.CommandTimeout, 0);
                                         using (var reader = command.ExecuteReader())
                                         {

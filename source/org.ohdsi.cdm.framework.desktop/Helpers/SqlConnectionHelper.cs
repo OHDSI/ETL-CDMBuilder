@@ -79,6 +79,7 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
             return connection;
         }
 
+        const string npgsql = "Server={server};Port=5431;Database={database};User Id={username};Password={password};SSL Mode=Require;Trust Server Certificate=true;Timeout=60;";
 
         public static IDbConnection OpenConnection(string odbcConnectionString, Database db)
         {
@@ -106,7 +107,7 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
 
                 // TMP
                 if (odbc["server"].ToString() == "10.110.1.7")
-                    connectionStringTemplate = "Server={server};Port=5431;Database={database};User Id={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+                    connectionStringTemplate = npgsql;
 
                 var npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
                     .Replace("{database}", odbc["database"].ToString()).Replace("{username}", odbc["uid"].ToString())
@@ -148,7 +149,7 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
 
                 // TMP
                 if (odbc["server"].ToString() == "10.110.1.7")
-                    connectionStringTemplate = "Server={server};Port=5431;Database={database};User Id={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+                    connectionStringTemplate = npgsql;
 
                 var npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
                     .Replace("{database}", odbc["database"].ToString()).Replace("{username}", odbc["uid"].ToString())

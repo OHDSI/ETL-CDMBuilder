@@ -154,6 +154,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     Console.WriteLine("Lookup error [file]: " + sqlFileDestination);
                                     Console.WriteLine("Lookup error [query]: " + sql);
 
+                                    WriteLog(Status.Failed, e.StackTrace, 0);
+
                                     if (e.InnerException != null && e.InnerException.Message != null)
                                         WriteLog(Status.Failed, e.InnerException.Message, 0);
 

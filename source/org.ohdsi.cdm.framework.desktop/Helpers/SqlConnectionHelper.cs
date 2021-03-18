@@ -122,6 +122,46 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
 
         }
 
+        public static string GetConnection(string odbcConnectionString, Database db)
+        {
+            var odbcConnection = new OdbcConnectionStringBuilder(odbcConnectionString);
+
+            if (db == Database.MsSql)
+            {
+                var sqlConnection = new SqlConnectionStringBuilder
+                {
+                    ["Data Source"] = odbcConnection["server"],
+                    ["Initial Catalog"] = odbcConnection["database"],
+                    ["User Id"] = odbcConnection["uid"],
+                    ["Password"] = odbcConnection["pwd"]
+                };
+
+                return sqlConnection.ConnectionString;
+            }
+
+            if (db == Database.Postgre)
+            {
+                var odbc = new OdbcConnectionStringBuilder(odbcConnectionString);
+
+                //var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password};SslMode=Require;Trust Server Certificate=true";
+                var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password};";
+
+                // TMP
+                if (odbc["server"].ToString() == "10.110.1.7")
+                    connectionStringTemplate = "Server={server};Port=5431;Database={database};User Id={username};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+
+                var npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
+                    .Replace("{database}", odbc["database"].ToString()).Replace("{username}", odbc["uid"].ToString())
+                    .Replace("{password}", odbc["pwd"].ToString());
+
+                Console.WriteLine("npgsqlConnectionString=" + npgsqlConnectionString);
+                return npgsqlConnectionString;
+            }
+
+            return odbcConnectionString;
+
+        }
+
         private const int DbDeadlockRetryCount = 100;
 
         public static T AttemptActionReturnObject<T>(Func<T> action, Action<int> log)

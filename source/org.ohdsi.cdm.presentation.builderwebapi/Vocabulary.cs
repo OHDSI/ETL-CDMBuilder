@@ -116,16 +116,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     Console.WriteLine(conceptIdMapper.Lookup + " - Loading...");
 
                                     var timer = new Stopwatch();
-                                    timer.Start();
-
-                                    var cs = _settings.VocabularyConnectionString.Replace("Port=5432", "Port=5431");
-                                    WriteLog(Status.Running, "0 " + cs, 0);
-                                    using (var odbc = new OdbcConnection(cs))
-                                    {
-                                        odbc.Open();
-                                    }
-                                    WriteLog(Status.Running, "Opened", 0);
-
+                                    timer.Start();                                  
 
                                     WriteLog(Status.Running, "1 " + _settings.VocabularyConnectionString, 0);
                                     WriteLog(Status.Running, "2 " + SqlConnectionHelper.GetConnection(_settings.VocabularyConnectionString, _settings.VocabularyEngine.Database), 0);
@@ -162,7 +153,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     Console.WriteLine("Lookup error [file]: " + sqlFileDestination);
                                     Console.WriteLine("Lookup error [query]: " + sql);
 
-                                    WriteLog(Status.Failed, e.StackTrace, 0);
+                                    //WriteLog(Status.Failed, e.StackTrace, 0);
 
                                     if (e.InnerException != null && e.InnerException.Message != null)
                                         WriteLog(Status.Failed, e.InnerException.Message, 0);

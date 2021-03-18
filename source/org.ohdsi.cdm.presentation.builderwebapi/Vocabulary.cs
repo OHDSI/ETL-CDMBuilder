@@ -118,7 +118,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     var timer = new Stopwatch();
                                     timer.Start();
 
-                                    WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, conceptIdMapper.Lookup + " - Loading into RAM..."), 0);
+                                    WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, conceptIdMapper.Lookup + " - Loading ..."), 0);
 
                                     using (var connection = _settings.VocabularyEngine.GetConnection(_settings.VocabularyConnectionString))
                                     using (var command = _settings.VocabularyEngine.GetCommand(sql, connection))

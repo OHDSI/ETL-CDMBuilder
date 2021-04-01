@@ -30,6 +30,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             {
                 options.KnownProxies.Add(IPAddress.Parse("10.110.1.7"));
                 options.KnownProxies.Add(IPAddress.Parse("185.134.75.47"));
+                options.KnownProxies.Add(IPAddress.Parse("10.5.10.33"));
              });
 
             services.AddCors(options =>
@@ -46,7 +47,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                         "http://localhost:9000",
                                         "http://localhost:4200",
                                         "http://10.110.1.7:8080",
-                                        "http://10.110.1.7")
+                                        "http://10.110.1.7",
+                                        "http://10.5.10.33/")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials();

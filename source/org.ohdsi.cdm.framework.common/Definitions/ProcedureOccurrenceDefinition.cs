@@ -20,7 +20,11 @@ namespace org.ohdsi.cdm.framework.common.Definitions
             int? modifierConceptId = reader.GetInt(ModifierConceptId) ?? 0;
             if (Concepts.Length == 2)
             {
-                var relevantConcepts = Concepts[1].GetConceptIdValues(Vocabulary, Concepts[1].Fields[0], reader);
+                var secondConcept = Concepts.FirstOrDefault(c => c.Name != "ProcedureConceptId");
+                if (secondConcept == null)
+                    secondConcept = Concepts[1];
+
+                var relevantConcepts = secondConcept.GetConceptIdValues(Vocabulary, secondConcept.Fields[0], reader);
 
                 if (relevantConcepts.Count > 0)
                 {

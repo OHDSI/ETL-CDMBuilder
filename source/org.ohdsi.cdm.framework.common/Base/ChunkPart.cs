@@ -59,6 +59,21 @@ namespace org.ohdsi.cdm.framework.common.Base
             PersonBuilders[entity.PersonId].Value.AddData(entity);
         }
 
+        private Concept GetCoreConcept(Concept[] concepts)
+        {
+            var names = new[] { "VisitConceptId", "ProcedureConceptId", "ObservationConceptId", "DrugConceptId", "DeviceConceptId", "ConditionConceptId", "MeasurementConceptId" };
+
+            foreach (var name in names)
+            {
+                var core = concepts.FirstOrDefault(c => c.Name == name);
+
+                if (core != null)
+                    return core;
+            }
+
+            return concepts[0];
+        }
+
         private void AddEntity(QueryDefinition queryDefinition, IEnumerable<EntityDefinition> definitions,
            IDataRecord reader, Guid recordGuid, string definitionName)
         {
@@ -77,7 +92,7 @@ namespace org.ohdsi.cdm.framework.common.Base
                 {
                     Concept conceptDef = null;
                     if (d.Concepts != null && d.Concepts.Any())
-                        conceptDef = d.Concepts[0];
+                        conceptDef = GetCoreConcept(d.Concepts);
 
                     bool added;
                     var pb =

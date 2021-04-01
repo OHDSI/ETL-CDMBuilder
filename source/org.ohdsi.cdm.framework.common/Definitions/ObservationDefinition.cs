@@ -33,8 +33,12 @@ namespace org.ohdsi.cdm.framework.common.Definitions
             if (Concepts.Length < 2)
                 return new KeyValuePair<int?, string>(null, string.Empty);
 
-            var unitsConcepts = base.GetConcepts(Concepts[1], reader, null).Where(c => c.ConceptId != 0).ToList();
-            var sourceValue = reader.GetString(Concepts[1].Fields[0].Key);
+            var unitsConcept = Concepts.FirstOrDefault(c => c.Name == "UnitConceptId");
+            if (unitsConcept == null)
+                unitsConcept = Concepts[1];
+
+            var unitsConcepts = base.GetConcepts(unitsConcept, reader, null).Where(c => c.ConceptId != 0).ToList();
+            var sourceValue = reader.GetString(unitsConcept.Fields[0].Key);
 
             if (unitsConcepts.Count > 0)
             {

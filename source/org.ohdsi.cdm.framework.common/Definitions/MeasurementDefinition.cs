@@ -26,8 +26,12 @@ namespace org.ohdsi.cdm.framework.common.Definitions
             if (Concepts.Length < 2)
                 return new KeyValuePair<int?, string>(null, string.Empty);
 
-            var unitsConcepts = base.GetConcepts(Concepts[1], reader, null).Where(c => c.ConceptId != 0).ToList();
-            var sourceValue = reader.GetString(Concepts[1].Fields[0].Key);
+            var unitsConcept = Concepts.FirstOrDefault(c => c.Name == "UnitConceptId");
+            if (unitsConcept == null)
+                unitsConcept = Concepts[1];
+
+            var unitsConcepts = base.GetConcepts(unitsConcept, reader, null).Where(c => c.ConceptId != 0).ToList();
+            var sourceValue = reader.GetString(unitsConcept.Fields[0].Key);
 
             if (unitsConcepts.Count > 0)
             {
@@ -51,17 +55,36 @@ namespace org.ohdsi.cdm.framework.common.Definitions
             var unitConcept = GetUnitConcept(reader);
 
             int? valueAsConceptId = null;
+            int? operatorConceptId = null;
             if (Concepts.Length > 2)
             {
-                var valueConcepts = base.GetConcepts(Concepts[2], reader, null).ToList();
+                var valueConcept = Concepts.FirstOrDefault(c => c.Name == "ValueAsConceptId");
+                if (valueConcept == null)
+                    valueConcept = Concepts[2];
+
+                var valueConcepts = base.GetConcepts(valueConcept, reader, null).ToList();
                 if (valueConcepts.Count > 0)
                 {
                     valueAsConceptId = valueConcepts[0].ConceptId;
                 }
+
+                var operatorConcept = Concepts.FirstOrDefault(c => c.Name == "OperatorConceptId");
+                if (operatorConcept == null)
+                    operatorConcept = Concepts[3];
+
+                var operatorConcepts = base.GetConcepts(operatorConcept, reader, null).ToList();
+                if (operatorConcepts.Count > 0)
+                {
+                    operatorConceptId = operatorConcepts[0].ConceptId;
+                }
             }
             else
             {
-                valueAsConceptId = reader.GetInt(ValueAsConceptId);
+                if (operatorConceptId == null)
+                    operatorConceptId = reader.GetInt(OperatorConceptId);
+
+                if (valueAsConceptId == null)
+                    valueAsConceptId = reader.GetInt(ValueAsConceptId);
             }
 
             foreach (var entity in base.GetConcepts(concept, reader, offset))
@@ -75,7 +98,7 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                     RangeLow = reader.GetDecimal(RangeLow),
                     RangeHigh = reader.GetDecimal(RangeHigh),
                     ValueAsNumber = reader.GetDecimal(ValueAsNumber),
-                    OperatorConceptId = reader.GetInt(OperatorConceptId) ?? 0,
+                    OperatorConceptId = operatorConceptId ?? 0,
                     UnitConceptId = unitConcept.Key ?? 0,
                     UnitSourceValue = string.IsNullOrWhiteSpace(unitConcept.Value) ? null : unitConcept.Value,
                     ValueSourceValue = reader.GetString(ValueSourceValue),

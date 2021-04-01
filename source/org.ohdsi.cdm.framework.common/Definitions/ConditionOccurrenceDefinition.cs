@@ -17,8 +17,12 @@ namespace org.ohdsi.cdm.framework.common.Definitions
             string statusSource = null;
             if (Concepts.Length == 2)
             {
-                var statusConcepts = Concepts[1].GetConceptIdValues(Vocabulary, Concepts[1].Fields[0], reader);
-                statusSource = reader.GetString(Concepts[1].Fields[0].Key);
+                var conditionStatusConcept = Concepts.FirstOrDefault(c => c.Name == "ConditionStatusConceptId");
+                if (conditionStatusConcept == null)
+                    conditionStatusConcept = Concepts[1];
+
+                var statusConcepts = conditionStatusConcept.GetConceptIdValues(Vocabulary, conditionStatusConcept.Fields[0], reader);
+                statusSource = reader.GetString(conditionStatusConcept.Fields[0].Key);
 
                 if (statusConcepts.Count > 0)
                 {
@@ -26,10 +30,10 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                     statusSource = statusConcepts.Min(c => c.SourceCode);
 
                     if (string.IsNullOrEmpty(statusSource))
-                        statusSource = reader.GetString(Concepts[1].Fields[0].Key);
+                        statusSource = reader.GetString(conditionStatusConcept.Fields[0].Key);
 
                     if (string.IsNullOrEmpty(statusSource))
-                        statusSource = reader.GetString(Concepts[1].Fields[0].SourceKey);
+                        statusSource = reader.GetString(conditionStatusConcept.Fields[0].SourceKey);
                 }
             }
 

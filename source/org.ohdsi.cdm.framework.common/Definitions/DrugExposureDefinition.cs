@@ -33,8 +33,12 @@ namespace org.ohdsi.cdm.framework.common.Definitions
             string routeSourceValue = null;
             if (Concepts.Length == 2)
             {
-                var routeConcepts = base.GetConcepts(Concepts[1], reader, null).ToList();
-                routeSourceValue = reader.GetString(Concepts[1].Fields[0].Key);
+                var routeConcept = Concepts.FirstOrDefault(c => c.Name == "RouteConceptId");
+                if (routeConcept == null)
+                    routeConcept = Concepts[1];
+
+                var routeConcepts = base.GetConcepts(routeConcept, reader, null).ToList();
+                routeSourceValue = reader.GetString(routeConcept.Fields[0].Key);
                 if (routeConcepts.Count > 0)
                 {
                     routeConceptId = routeConcepts[0].ConceptId;

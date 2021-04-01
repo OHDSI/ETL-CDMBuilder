@@ -29,8 +29,12 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                 string dischargeToSourceValue = null;
                 if (Concepts.Length > 1)
                 {
-                    var dischargeConcepts = base.GetConcepts(Concepts[1], reader, null).ToList();
-                    dischargeToSourceValue = reader.GetString(Concepts[1].Fields[0].Key);
+                    var dischargeConcept = Concepts.FirstOrDefault(c => c.Name == "DischargeToConceptId");
+                    if (dischargeConcept == null)
+                        dischargeConcept = Concepts[1];
+
+                    var dischargeConcepts = base.GetConcepts(dischargeConcept, reader, null).ToList();
+                    dischargeToSourceValue = reader.GetString(dischargeConcept.Fields[0].Key);
                     if (dischargeConcepts.Count > 0)
                     {
                         dischargeToConceptId = dischargeConcepts[0].ConceptId;
@@ -48,8 +52,12 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                 string admittingSourceValue = null;
                 if (Concepts.Length > 2)
                 {
-                    var admittingConcepts = base.GetConcepts(Concepts[2], reader, null).ToList();
-                    admittingSourceValue = reader.GetString(Concepts[2].Fields[0].Key);
+                    var admittingConcept = Concepts.FirstOrDefault(c => c.Name == "AdmittedFromConceptId");
+                    if (admittingConcept == null)
+                        admittingConcept = Concepts[2];
+
+                    var admittingConcepts = base.GetConcepts(admittingConcept, reader, null).ToList();
+                    admittingSourceValue = reader.GetString(admittingConcept.Fields[0].Key);
                     if (admittingConcepts.Count > 0)
                     {
                         admittingSourceConceptId = admittingConcepts[0].ConceptId;

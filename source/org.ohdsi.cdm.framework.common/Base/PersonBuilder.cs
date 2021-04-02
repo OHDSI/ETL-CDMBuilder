@@ -558,6 +558,10 @@ namespace org.ohdsi.cdm.framework.common.Base
             person.RaceConceptId = race.RaceConceptId;
             person.RaceSourceValue = race.RaceSourceValue;
 
+            // TMP
+            if (person.YearOfBirth == null)
+                person.YearOfBirth = 0;
+
             // TODO
             //if (person.GenderConceptId == 8551) //UNKNOWN
             //{

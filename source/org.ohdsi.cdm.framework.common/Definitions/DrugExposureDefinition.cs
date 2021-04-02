@@ -31,7 +31,7 @@ namespace org.ohdsi.cdm.framework.common.Definitions
 
             int routeConceptId = 0;
             string routeSourceValue = null;
-            if (Concepts.Length == 2)
+            if (Concepts != null && Concepts.Length == 2)
             {
                 var routeConcept = Concepts.FirstOrDefault(c => c.Name == "RouteConceptId");
                 if (routeConcept == null)

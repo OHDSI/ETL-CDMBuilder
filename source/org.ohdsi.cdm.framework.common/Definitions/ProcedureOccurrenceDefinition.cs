@@ -18,7 +18,7 @@ namespace org.ohdsi.cdm.framework.common.Definitions
         {
             int? relevantConditionConceptId = null;
             int? modifierConceptId = reader.GetInt(ModifierConceptId) ?? 0;
-            if (Concepts.Length == 2)
+            if (Concepts != null && Concepts.Length == 2)
             {
                 var secondConcept = Concepts.FirstOrDefault(c => c.Name != "ProcedureConceptId");
                 if (secondConcept == null)

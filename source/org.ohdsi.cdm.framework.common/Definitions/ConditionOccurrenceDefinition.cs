@@ -15,7 +15,7 @@ namespace org.ohdsi.cdm.framework.common.Definitions
         {
             int? statusConceptId = 0;
             string statusSource = null;
-            if (Concepts.Length == 2)
+            if (Concepts != null && Concepts.Length == 2)
             {
                 var conditionStatusConcept = Concepts.FirstOrDefault(c => c.Name == "ConditionStatusConceptId");
                 if (conditionStatusConcept == null)

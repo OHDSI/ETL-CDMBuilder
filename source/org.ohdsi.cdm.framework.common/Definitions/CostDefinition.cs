@@ -30,7 +30,7 @@ namespace org.ohdsi.cdm.framework.common.Definitions
 
             if (Concepts == null) return;
 
-            if (Concepts.Length > 0)
+            if (Concepts != null && Concepts.Length > 0)
             {
                 var revenueConcepts = Concepts[0].GetConceptIdValues(Vocabulary, Concepts[0].Fields[0], reader);
                 revenueCodeSource = reader.GetString(Concepts[0].Fields[0].Key);
@@ -42,7 +42,7 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                 }
             }
 
-            if (Concepts.Length == 2)
+            if (Concepts != null && Concepts.Length == 2)
             {
                 var drgConcepts = Concepts[1].GetConceptIdValues(Vocabulary, Concepts[1].Fields[0], reader);
                 drgSource = reader.GetString(Concepts[1].Fields[0].Key);

@@ -23,7 +23,7 @@ namespace org.ohdsi.cdm.framework.common.Definitions
 
         public KeyValuePair<int?, string> GetUnitConcept(IDataRecord reader)
         {
-            if (Concepts.Length < 2)
+            if (Concepts != null && Concepts.Length < 2)
                 return new KeyValuePair<int?, string>(null, string.Empty);
 
             var unitsConcept = Concepts.FirstOrDefault(c => c.Name == "UnitConceptId");
@@ -56,7 +56,7 @@ namespace org.ohdsi.cdm.framework.common.Definitions
 
             int? valueAsConceptId = null;
             int? operatorConceptId = null;
-            if (Concepts.Length > 2)
+            if (Concepts != null && Concepts.Length > 2)
             {
                 var valueConcept = Concepts.FirstOrDefault(c => c.Name == "ValueAsConceptId");
                 if (valueConcept == null)

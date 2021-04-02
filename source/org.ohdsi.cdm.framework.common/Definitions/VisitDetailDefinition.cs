@@ -27,7 +27,7 @@ namespace org.ohdsi.cdm.framework.common.Definitions
             {
                 int? dischargeToConceptId = null;
                 string dischargeToSourceValue = null;
-                if (Concepts.Length > 1)
+                if (Concepts != null && Concepts.Length > 1)
                 {
                     var dischargeConcept = Concepts.FirstOrDefault(c => c.Name == "DischargeToConceptId");
                     if (dischargeConcept == null)
@@ -50,7 +50,7 @@ namespace org.ohdsi.cdm.framework.common.Definitions
 
                 int? admittingSourceConceptId = null;
                 string admittingSourceValue = null;
-                if (Concepts.Length > 2)
+                if (Concepts != null && Concepts.Length > 2)
                 {
                     var admittingConcept = Concepts.FirstOrDefault(c => c.Name == "AdmittedFromConceptId");
                     if (admittingConcept == null)

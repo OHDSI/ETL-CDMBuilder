@@ -24,7 +24,7 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                 }
                 else //Medical claim diagnostic code indicating death
                 {
-                    if (Concepts.Length > 1)
+                    if (Concepts != null && Concepts.Length > 1)
                     {
                         for (int i = 1; i < Concepts.Length; i++)
                         {

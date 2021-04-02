@@ -53,7 +53,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             }
             catch (Exception e)
             {
-                WriteLog(Status.Running, "Warning: " + e.Message, 0);
+                WriteLog(Status.Running, "Warning: CDM database exists", 0);
             }
 
             try
@@ -63,7 +63,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             }
             catch (Exception e)
             {
-                WriteLog(Status.Running, "Warning: " + e.Message, 0);
+                WriteLog(Status.Running, "Warning: CDM schema exists", 0);
             }
 
             bool successful;
@@ -76,7 +76,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             }
             catch (Exception e)
             {
-                WriteLog(Status.Running, "Warning: CDM tables " + e.Message, 0);
+                WriteLog(Status.Running, "Warning: CDM tables exists" , 0);
                 try
                 {
                     dbDestination.ExecuteQuery(_settings.TruncateTablesScript);

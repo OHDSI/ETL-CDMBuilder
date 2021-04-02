@@ -73,82 +73,85 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                     }
                 }
 
-                foreach (var field in concept.Fields)
+                if(concept != null)
                 {
-                    var sourceValue = field.DefaultSource;
-                    if (string.IsNullOrEmpty(sourceValue))
-                        sourceValue = reader.GetString(field.Key);
-
-                    if (!field.IsNullable && string.IsNullOrEmpty(sourceValue) && field.DefaultConceptId == null &&
-                        field.ConceptId == null)
-                        continue;
-
-                    // Used when: field.Key used for conceptId mapping and
-                    // field.SourceKey used for SourceValue (by default field.Key and field.SourceKey are identical)
-                    if (!string.IsNullOrEmpty(field.SourceKey))
-                        sourceValue = reader.GetString(field.SourceKey);
-
-                    foreach (var lookupValue in concept.GetConceptIdValues(Vocabulary, field, reader))
+                    foreach (var field in concept.Fields)
                     {
-                        var cId = lookupValue.ConceptId;
-                        if (!cId.HasValue && field.DefaultConceptId.HasValue)
-                            cId = field.DefaultConceptId;
+                        var sourceValue = field.DefaultSource;
+                        if (string.IsNullOrEmpty(sourceValue))
+                            sourceValue = reader.GetString(field.Key);
 
-                        if (!concept.IdRequired || cId.HasValue)
+                        if (!field.IsNullable && string.IsNullOrEmpty(sourceValue) && field.DefaultConceptId == null &&
+                            field.ConceptId == null)
+                            continue;
+
+                        // Used when: field.Key used for conceptId mapping and
+                        // field.SourceKey used for SourceValue (by default field.Key and field.SourceKey are identical)
+                        if (!string.IsNullOrEmpty(field.SourceKey))
+                            sourceValue = reader.GetString(field.SourceKey);
+
+                        foreach (var lookupValue in concept.GetConceptIdValues(Vocabulary, field, reader))
                         {
+                            var cId = lookupValue.ConceptId;
+                            if (!cId.HasValue && field.DefaultConceptId.HasValue)
+                                cId = field.DefaultConceptId;
 
-                            var providerIdKey = reader.GetString(ProviderIdKey);
-                            if (!string.IsNullOrEmpty(providerIdKey))
-                                providerIdKey = providerIdKey.TrimStart('0');
-
-                            List<int> ingredients = null;
-                            if (lookupValue.Ingredients != null)
+                            if (!concept.IdRequired || cId.HasValue)
                             {
-                                ingredients = new List<int>(lookupValue.Ingredients.Count);
-                                ingredients.AddRange(lookupValue.Ingredients);
-                            }
 
+                                var providerIdKey = reader.GetString(ProviderIdKey);
+                                if (!string.IsNullOrEmpty(providerIdKey))
+                                    providerIdKey = providerIdKey.TrimStart('0');
 
-                            if (!string.IsNullOrEmpty(StartTime))
-                            {
-                                if (DateTime.TryParse(reader.GetString(StartTime), out var dt))
+                                List<int> ingredients = null;
+                                if (lookupValue.Ingredients != null)
                                 {
-                                    startDate = startDate + dt.TimeOfDay;
+                                    ingredients = new List<int>(lookupValue.Ingredients.Count);
+                                    ingredients.AddRange(lookupValue.Ingredients);
                                 }
-                            }
 
-                            if (endDate != DateTime.MinValue && !string.IsNullOrEmpty(EndTime))
-                            {
-                                if (DateTime.TryParse(reader.GetString(EndTime), out var dt))
+
+                                if (!string.IsNullOrEmpty(StartTime))
                                 {
-                                    endDate = endDate + dt.TimeOfDay;
+                                    if (DateTime.TryParse(reader.GetString(StartTime), out var dt))
+                                    {
+                                        startDate = startDate + dt.TimeOfDay;
+                                    }
                                 }
+
+                                if (endDate != DateTime.MinValue && !string.IsNullOrEmpty(EndTime))
+                                {
+                                    if (DateTime.TryParse(reader.GetString(EndTime), out var dt))
+                                    {
+                                        endDate = endDate + dt.TimeOfDay;
+                                    }
+                                }
+
+                                yield return new Entity
+                                {
+                                    IsUnique = IsUnique,
+                                    PersonId = personId.Value,
+                                    SourceValue = sourceValue,
+                                    ConceptId = cId ?? 0,
+                                    TypeConceptId = concept.GetTypeId(field, reader),
+                                    ConceptIdKey = reader.GetString(field.Key),
+                                    StartDate = startDate,
+                                    EndDate = endDate == DateTime.MinValue ? (DateTime?)null : endDate,
+                                    ProviderId = reader.GetLong(ProviderId),
+                                    ProviderKey = providerIdKey,
+                                    VisitOccurrenceId = reader.GetLong(VisitOccurrenceId),
+                                    VisitDetailId = reader.GetLong(VisitDetailId),
+                                    AdditionalFields = additionalFields,
+                                    ValidStartDate = lookupValue.ValidStartDate,
+                                    ValidEndDate = lookupValue.ValidEndDate,
+                                    SourceConceptId = lookupValue.SourceConceptId,
+                                    Domain = lookupValue.Domain,
+                                    //SourceVocabularyId = lookupValue.SourceVocabularyId,
+                                    VocabularySourceValue = lookupValue.SourceCode,
+                                    Ingredients = ingredients
+                                };
+
                             }
-
-                            yield return new Entity
-                            {
-                                IsUnique = IsUnique,
-                                PersonId = personId.Value,
-                                SourceValue = sourceValue,
-                                ConceptId = cId ?? 0,
-                                TypeConceptId = concept.GetTypeId(field, reader),
-                                ConceptIdKey = reader.GetString(field.Key),
-                                StartDate = startDate,
-                                EndDate = endDate == DateTime.MinValue ? (DateTime?)null : endDate,
-                                ProviderId = reader.GetLong(ProviderId),
-                                ProviderKey = providerIdKey,
-                                VisitOccurrenceId = reader.GetLong(VisitOccurrenceId),
-                                VisitDetailId = reader.GetLong(VisitDetailId),
-                                AdditionalFields = additionalFields,
-                                ValidStartDate = lookupValue.ValidStartDate,
-                                ValidEndDate = lookupValue.ValidEndDate,
-                                SourceConceptId = lookupValue.SourceConceptId,
-                                Domain = lookupValue.Domain,
-                                //SourceVocabularyId = lookupValue.SourceVocabularyId,
-                                VocabularySourceValue = lookupValue.SourceCode,
-                                Ingredients = ingredients
-                            };
-
                         }
                     }
                 }

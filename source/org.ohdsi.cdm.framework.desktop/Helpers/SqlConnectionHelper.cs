@@ -107,12 +107,10 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
 
                 var npgsqlConnectionString = "";
                 //// TMP
-                if (odbc["database"].ToString() == "cdm_souffleur" && (
-                    odbc["server"].ToString() == "10.110.1.7" ||
+                if (odbc["server"].ToString() == "10.110.1.7" ||
                     odbc["server"].ToString() == "185.134.75.47" ||
                     odbc["server"].ToString() == "192.168.20.47" ||
                     odbc["server"].ToString() == "10.5.10.33")
-                    )
                 {
                     connectionStringTemplate = npgsql;
 
@@ -137,6 +135,10 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
                             .Replace("{port}", odbc["port"].ToString());
                     }
                 }
+
+                if (npgsqlConnectionString.Contains("{port}"))
+                    npgsqlConnectionString = npgsqlConnectionString.Replace("{port}", "5432");
+
 
                 Console.WriteLine("npgsqlConnectionString=" + npgsqlConnectionString);
                 return OpenNpgsqlConnection(npgsqlConnectionString);

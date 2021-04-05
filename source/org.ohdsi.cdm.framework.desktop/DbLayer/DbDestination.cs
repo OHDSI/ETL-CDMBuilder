@@ -1,4 +1,5 @@
-﻿using org.ohdsi.cdm.framework.desktop.Helpers;
+﻿using org.ohdsi.cdm.framework.desktop.Databases;
+using org.ohdsi.cdm.framework.desktop.Helpers;
 using System;
 using System.Data.Odbc;
 
@@ -8,11 +9,19 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
     {
         private readonly string _connectionString;
         private readonly string _schemaName;
+        IDatabaseEngine _engine;
 
         public DbDestination(string connectionString, string schemaName)
         {
             _connectionString = connectionString;
             _schemaName = schemaName;
+
+            if (_connectionString.ToLower().Contains("mysql"))
+                _engine = new MySqlDatabaseEngine();
+            else if (_connectionString.ToLower().Contains("postgres"))
+                _engine = new PostgreDatabaseEngine();
+            else
+                _engine = new MssqlDatabaseEngine();
         }
 
         public void CreateDatabase(string query)
@@ -32,13 +41,15 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
             else
                 sqlConnectionStringBuilder["database"] = "master";
 
-            using (var connection = SqlConnectionHelper.OpenOdbcConnection(sqlConnectionStringBuilder.ConnectionString))
+            //using (var connection = SqlConnectionHelper.OpenOdbcConnection(sqlConnectionStringBuilder.ConnectionString))
+            using (var connection = _engine.GetConnection(sqlConnectionStringBuilder.ConnectionString))
             {
                 query = string.Format(query, database);
 
                 foreach (var subQuery in query.Split(new[] { "\r\nGO", "\nGO" }, StringSplitOptions.None))
                 {
-                    using (var command = new OdbcCommand(subQuery, connection))
+                    //using (var command = new OdbcCommand(subQuery, connection))
+                    using (var command = _engine.GetCommand(subQuery, connection))
                     {
                         command.CommandTimeout = 30000;
                         command.ExecuteNonQuery();
@@ -52,11 +63,13 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
             if (_connectionString.ToLower().Contains("mysql"))
                 return;
 
-            using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
+            //using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
+            using (var connection = _engine.GetConnection(_connectionString))
             {
                 var query = $"create schema {_schemaName};";
 
-                using (var command = new OdbcCommand(query, connection))
+                //using (var command = new OdbcCommand(query, connection))
+                using (var command = _engine.GetCommand(query, connection))
                 {
                     command.CommandTimeout = 0;
                     command.ExecuteNonQuery();
@@ -66,7 +79,8 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
 
         public void ExecuteQuery(string query)
         {
-            using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
+            //using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
+            using (var connection = _engine.GetConnection(_connectionString))
             {
                 query = query.Replace("{sc}", _schemaName);
 
@@ -75,7 +89,8 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
                     if (string.IsNullOrEmpty(subQuery))
                         continue;
 
-                    using (var command = new OdbcCommand(subQuery, connection))
+                    //using (var command = new OdbcCommand(subQuery, connection))
+                    using (var command = _engine.GetCommand(subQuery, connection))
                     {
                         command.CommandTimeout = 30000;
                         command.ExecuteNonQuery();

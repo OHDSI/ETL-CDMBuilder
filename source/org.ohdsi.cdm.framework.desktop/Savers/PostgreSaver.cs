@@ -24,7 +24,10 @@ namespace org.ohdsi.cdm.framework.desktop.Savers
             var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password}";
 
             //TMP
-            if (odbc["server"].ToString() == "10.110.1.7")
+            if (odbc["server"].ToString() == "10.110.1.7" ||
+                odbc["server"].ToString() == "185.134.75.47" ||
+                odbc["server"].ToString() == "192.168.20.47" ||
+                odbc["server"].ToString() == "10.5.10.33")
                 connectionStringTemplate = "Server={server};Port=5431;Database={database};User Id={username};Password={password}";
 
             var npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())

@@ -59,11 +59,12 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                                      settings.SourceServer,
                                      settings.SourceDatabase,
                                      settings.SourceUser,
-                                     settings.SourcePassword);
+                                     settings.SourcePassword,
+                                     settings.SourcePort.ToString());
             }
             catch (Exception e)
             {
-                return StatusCode((int)HttpStatusCode.BadRequest, e.Message);
+                return StatusCode((int)HttpStatusCode.BadRequest, e.Message + e.InnerException);
             }
 
             return Ok();
@@ -78,11 +79,12 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                                      settings.DestinationServer,
                                      settings.DestinationDatabase,
                                      settings.DestinationUser,
-                                     settings.DestinationPassword);
+                                     settings.DestinationPassword,
+                                     settings.DestinationPort.ToString());
             }
             catch (Exception e)
             {
-                return StatusCode((int)HttpStatusCode.BadRequest, e.Message);
+                return StatusCode((int)HttpStatusCode.BadRequest, e.Message + e.InnerException);
             }
 
             return Ok();
@@ -97,7 +99,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                                      settings.VocabularyServer,
                                      settings.VocabularyDatabase,
                                      settings.VocabularyUser,
-                                     settings.VocabularyPassword);
+                                     settings.VocabularyPassword,
+                                     settings.VocabularyPort.ToString());
             }
             catch (Exception e)
             {
@@ -107,12 +110,13 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             return Ok();
         }
 
-        private void ChekConnectionString(string dbType, string server, string db, string user, string pswd)
+        private void ChekConnectionString(string dbType, string server, string db, string user, string pswd, string port)
         {
             var connection = _configuration[dbType].Replace("{server}", server)
                                                    .Replace("{database}", db)
                                                    .Replace("{username}", user)
-                                                   .Replace("{password}", pswd);
+                                                   .Replace("{password}", pswd)
+                                                   .Replace("{port}", port);
             
             var databaseType = framework.desktop.Enums.Database.Postgre;
 

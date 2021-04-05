@@ -61,7 +61,7 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
             {
                 connection.Open();
             }
-            catch(Exception)
+            catch(Exception e)
             {
                 // TMP
                 connection = new NpgsqlConnection(connectionString + ";SslMode=Require;Trust Server Certificate=true");
@@ -103,17 +103,40 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
                 var odbc = new OdbcConnectionStringBuilder(odbcConnectionString);
 
                //var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password};SslMode=Require;Trust Server Certificate=true";
-                var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password};";
+                var connectionStringTemplate = "Server={server};Port={port};Database={database};User Id={username};Password={password};";
 
-                // TMP
-                if (odbc["server"].ToString() == "10.110.1.7" ||
+                var npgsqlConnectionString = "";
+                //// TMP
+                if (odbc["database"].ToString() == "cdm_souffleur" && (
+                    odbc["server"].ToString() == "10.110.1.7" ||
                     odbc["server"].ToString() == "185.134.75.47" ||
-                    odbc["server"].ToString() == "192.168.20.47")
+                    odbc["server"].ToString() == "192.168.20.47" ||
+                    odbc["server"].ToString() == "10.5.10.33")
+                    )
+                {
                     connectionStringTemplate = npgsql;
 
-                var npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
+                    npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
                     .Replace("{database}", odbc["database"].ToString()).Replace("{username}", odbc["uid"].ToString())
                     .Replace("{password}", odbc["pwd"].ToString());
+                }
+                else
+                {
+                    if (odbc["port"] == null)
+                    {
+                        npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
+                        .Replace("{database}", odbc["database"].ToString()).Replace("{username}", odbc["uid"].ToString())
+                        .Replace("{password}", odbc["pwd"].ToString())
+                        .Replace("{port}", "5432");
+                    }
+                    else
+                    {
+                        npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
+                            .Replace("{database}", odbc["database"].ToString()).Replace("{username}", odbc["uid"].ToString())
+                            .Replace("{password}", odbc["pwd"].ToString())
+                            .Replace("{port}", odbc["port"].ToString());
+                    }
+                }
 
                 Console.WriteLine("npgsqlConnectionString=" + npgsqlConnectionString);
                 return OpenNpgsqlConnection(npgsqlConnectionString);
@@ -125,47 +148,47 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
 
         }
 
-        public static string GetConnection(string odbcConnectionString, Database db)
-        {
-            var odbcConnection = new OdbcConnectionStringBuilder(odbcConnectionString);
+        //public static string GetConnection(string odbcConnectionString, Database db)
+        //{
+        //    var odbcConnection = new OdbcConnectionStringBuilder(odbcConnectionString);
 
-            if (db == Database.MsSql)
-            {
-                var sqlConnection = new SqlConnectionStringBuilder
-                {
-                    ["Data Source"] = odbcConnection["server"],
-                    ["Initial Catalog"] = odbcConnection["database"],
-                    ["User Id"] = odbcConnection["uid"],
-                    ["Password"] = odbcConnection["pwd"]
-                };
+        //    if (db == Database.MsSql)
+        //    {
+        //        var sqlConnection = new SqlConnectionStringBuilder
+        //        {
+        //            ["Data Source"] = odbcConnection["server"],
+        //            ["Initial Catalog"] = odbcConnection["database"],
+        //            ["User Id"] = odbcConnection["uid"],
+        //            ["Password"] = odbcConnection["pwd"]
+        //        };
 
-                return sqlConnection.ConnectionString;
-            }
+        //        return sqlConnection.ConnectionString;
+        //    }
 
-            if (db == Database.Postgre)
-            {
-                var odbc = new OdbcConnectionStringBuilder(odbcConnectionString);
+        //    if (db == Database.Postgre)
+        //    {
+        //        var odbc = new OdbcConnectionStringBuilder(odbcConnectionString);
 
-                //var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password};SslMode=Require;Trust Server Certificate=true";
-                var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password};";
+        //        //var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password};SslMode=Require;Trust Server Certificate=true";
+        //        var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password};";
 
-                // TMP
-                if (odbc["server"].ToString() == "10.110.1.7" || 
-                    odbc["server"].ToString() == "185.134.75.47" ||
-                    odbc["server"].ToString() == "192.168.20.47")
-                    connectionStringTemplate = npgsql;
+        //        // TMP
+        //        if (odbc["server"].ToString() == "10.110.1.7" || 
+        //            odbc["server"].ToString() == "185.134.75.47" ||
+        //            odbc["server"].ToString() == "192.168.20.47")
+        //            connectionStringTemplate = npgsql;
 
-                var npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
-                    .Replace("{database}", odbc["database"].ToString()).Replace("{username}", odbc["uid"].ToString())
-                    .Replace("{password}", odbc["pwd"].ToString());
+        //        var npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
+        //            .Replace("{database}", odbc["database"].ToString()).Replace("{username}", odbc["uid"].ToString())
+        //            .Replace("{password}", odbc["pwd"].ToString());
 
-                Console.WriteLine("npgsqlConnectionString=" + npgsqlConnectionString);
-                return npgsqlConnectionString;
-            }
+        //        Console.WriteLine("npgsqlConnectionString=" + npgsqlConnectionString);
+        //        return npgsqlConnectionString;
+        //    }
 
-            return odbcConnectionString;
+        //    return odbcConnectionString;
 
-        }
+        //}
 
         private const int DbDeadlockRetryCount = 100;
 

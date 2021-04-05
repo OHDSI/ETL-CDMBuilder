@@ -26,6 +26,10 @@
         public string DestinationPassword { get; set; }
         public string VocabularyPassword { get; set; }
 
+        public object SourcePort { get; set; }
+        public object DestinationPort { get; set; }
+        public object VocabularyPort { get; set; }
+
         public string MappingsName { get; set; }
         public string CdmVersion { get; set; } = "v5.3";
 

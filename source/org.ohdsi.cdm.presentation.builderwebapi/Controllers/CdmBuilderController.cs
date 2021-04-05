@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
+using org.ohdsi.cdm.framework.desktop.Helpers;
 using org.ohdsi.cdm.presentation.builderwebapi.Hubs;
 
 namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
@@ -112,9 +113,15 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                                                    .Replace("{database}", db)
                                                    .Replace("{username}", user)
                                                    .Replace("{password}", pswd);
+            
+            var databaseType = framework.desktop.Enums.Database.Postgre;
 
-            using var c = new OdbcConnection(connection);
-            c.Open();
+            if (dbType.ToLower() == "mssql")
+                databaseType = framework.desktop.Enums.Database.MsSql;
+            else if (dbType.ToLower() == "mysql")
+                databaseType = framework.desktop.Enums.Database.MySql;
+
+            using var c = SqlConnectionHelper.OpenConnection(connection, databaseType);
         }
 
         [HttpPost("vocabularyversion")]

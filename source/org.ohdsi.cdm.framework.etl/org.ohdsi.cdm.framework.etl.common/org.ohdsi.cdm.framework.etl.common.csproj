@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -141,6 +141,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ETL\Common\Scripts\Mysql\AddUsers.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\Mysql\CreateChunkTable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\Mysql\CreateDestination.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\Mysql\CreateIndexesChunkTable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\Mysql\DropChunkTable.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\Mysql\v6.0\TruncateLookup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="ETL\Common\Lookups\Base.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -195,25 +216,7 @@
     <Content Include="ETL\Common\Scripts\MSSQL\v6.0\TruncateTables.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ETL\Common\Scripts\Mysql\AddUsers.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ETL\Common\Scripts\Mysql\CreateChunkTable.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ETL\Common\Scripts\Mysql\CreateDestination.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ETL\Common\Scripts\Mysql\CreateIndexesChunkTable.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ETL\Common\Scripts\Mysql\DropChunkTable.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="ETL\Common\Scripts\Mysql\v5.3\CopyVocabulary.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ETL\Common\Scripts\Mysql\v5.3\CreateIndexes.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ETL\Common\Scripts\Mysql\v5.3\CreateTables.sql">
@@ -247,9 +250,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ETL\Common\Scripts\Mysql\v6.0\DropVocabularyTables.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ETL\Common\Scripts\Mysql\v6.0\TruncateLookup.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ETL\Common\Scripts\Mysql\v6.0\TruncateTables.sql">
@@ -541,6 +541,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ETL\Common\Scripts\Spectrum\v6.0\CreateTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ETL\Common\Scripts\Mysql\v5.3\CreateIndexes.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

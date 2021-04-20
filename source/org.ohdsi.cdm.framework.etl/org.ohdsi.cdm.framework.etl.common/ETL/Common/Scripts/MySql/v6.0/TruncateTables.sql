@@ -1,10 +1,7 @@
 ﻿truncate table {sc}.cdm_source;
 truncate table {sc}.care_site; 
-truncate table {sc}.cohort; 
-truncate table {sc}.cohort_attribute; 
 truncate table {sc}.condition_era; 
 truncate table {sc}.condition_occurrence; 
-truncate table {sc}.death; 
 truncate table {sc}.device_exposure; 
 truncate table {sc}.dose_era; 
 truncate table {sc}.drug_era; 

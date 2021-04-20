@@ -35,6 +35,24 @@
     <None Remove="ETL\Common\Scripts\MySql\v5.3\TruncateLookup.sql" />
     <None Remove="ETL\Common\Scripts\MySql\v5.3\TruncateTables.sql" />
     <None Remove="ETL\Common\Scripts\MySql\v5.3\TruncateWithoutLookupTables.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\CopyVocabulary.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\CreateIndexes.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\CreateTables.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\DropTables.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\DropVocabularyTables.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\TruncateLookup.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\TruncateTables.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\TruncateWithoutLookupTables.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\Vocabulary\concept.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\Vocabulary\concept_ancestor.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\Vocabulary\concept_class.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\Vocabulary\concept_relationship.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\Vocabulary\concept_synonym.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\Vocabulary\domain.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\Vocabulary\drug_strength.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\Vocabulary\relationship.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\Vocabulary\source_to_concept_map.sql" />
+    <None Remove="ETL\Common\Scripts\MySql\v6.0\Vocabulary\vocabulary.sql" />
     <None Remove="ETL\Common\Scripts\Postgre\AddUsers.sql" />
     <None Remove="ETL\Common\Scripts\Postgre\CreateChunkTable.sql" />
     <None Remove="ETL\Common\Scripts\Postgre\CreateDestination.sql" />
@@ -214,6 +232,60 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ETL\Common\Scripts\MySql\v5.3\TruncateWithoutLookupTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\CopyVocabulary.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\CreateIndexes.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\CreateTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\DropTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\DropVocabularyTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\TruncateLookup.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\TruncateTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\TruncateWithoutLookupTables.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\Vocabulary\concept.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\Vocabulary\concept_ancestor.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\Vocabulary\concept_class.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\Vocabulary\concept_relationship.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\Vocabulary\concept_synonym.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\Vocabulary\domain.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\Vocabulary\drug_strength.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\Vocabulary\relationship.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\Vocabulary\source_to_concept_map.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ETL\Common\Scripts\MySql\v6.0\Vocabulary\vocabulary.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ETL\Common\Scripts\Postgre\AddUsers.sql">

@@ -45,7 +45,7 @@ namespace org.ohdsi.cdm.framework.desktop.Savers
             var bulkCopy = new MySqlBulkCopy(_connection, _transaction)
             {
                 BulkCopyTimeout = 9999,
-                DestinationTableName = tableName
+                DestinationTableName = tableName.ToLower()
             };
             bulkCopy.WriteToServer(reader);
         }

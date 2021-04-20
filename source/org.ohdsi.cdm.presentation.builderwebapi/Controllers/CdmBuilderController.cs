@@ -180,6 +180,12 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         {
             HttpResponseMessage returnMessage = new HttpResponseMessage();
 
+            if (settings.DestinationEngine.ToLower() == "mysql")
+                settings.DestinationEngine = "MySql";
+
+            if (settings.SourceEngine.ToLower() == "mysql")
+                settings.SourceEngine = "MySql";
+
             _queue.QueueBackgroundWorkItem(async token =>
             {
                 await Task.Run(() =>

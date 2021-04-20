@@ -144,6 +144,22 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
                 return OpenNpgsqlConnection(npgsqlConnectionString);
             }
 
+            if (db == Database.MySql)
+            {
+                var sqlConnection = new MySqlConnectionStringBuilder
+                {
+                    Server = odbcConnection["server"].ToString(),
+                    UserID = odbcConnection["user"].ToString(),
+                    Password = odbcConnection["password"].ToString(),
+                    Database = odbcConnection["database"].ToString(),
+                    DefaultCommandTimeout = 9999,
+                    ConnectionTimeout = 9999,
+                    AllowLoadLocalInfile = true
+                };
+
+                return OpenMySqlConnection(sqlConnection.ConnectionString);
+            }
+
             var connection = new OdbcConnection(odbcConnectionString);
             connection.Open();
             return connection;

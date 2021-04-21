@@ -87,7 +87,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                            ConversionSettings.SourceServer,
                                            ConversionSettings.SourceDatabase,
                                            ConversionSettings.SourceUser,
-                                           ConversionSettings.SourcePassword);
+                                           ConversionSettings.SourcePassword,
+                                           ConversionSettings.SourcePort.ToString());
             }
         }
 
@@ -99,7 +100,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                            ConversionSettings.DestinationServer,
                                            ConversionSettings.DestinationDatabase,
                                            ConversionSettings.DestinationUser,
-                                           ConversionSettings.DestinationPassword);
+                                           ConversionSettings.DestinationPassword,
+                                           ConversionSettings.DestinationPort.ToString());
             }
         }
         public string VocabularyConnectionString
@@ -110,7 +112,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                            ConversionSettings.VocabularyServer,
                                            ConversionSettings.VocabularyDatabase,
                                            ConversionSettings.VocabularyUser,
-                                           ConversionSettings.VocabularyPassword);
+                                           ConversionSettings.VocabularyPassword,
+                                           ConversionSettings.VocabularyPort.ToString());
             }
         }
 
@@ -257,10 +260,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                 "CreateDestination.sql"
             }));
 
-        private string GetConnectionString(string dbType, string server, string db, string user, string pswd)
+        private string GetConnectionString(string dbType, string server, string db, string user, string pswd, string port)
         {
             return _configuration[dbType].Replace("{server}", server).Replace("{database}", db).Replace("{username}", user)
-                .Replace("{password}", pswd);
+                .Replace("{password}", pswd).Replace("{port}", port);
         }
 
     }

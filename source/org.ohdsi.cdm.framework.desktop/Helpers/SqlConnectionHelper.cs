@@ -107,18 +107,18 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
 
                 var npgsqlConnectionString = "";
                 //// TMP
-                if (odbc["server"].ToString() == "10.110.1.7" ||
-                    odbc["server"].ToString() == "185.134.75.47" ||
-                    odbc["server"].ToString() == "192.168.20.47" ||
-                    odbc["server"].ToString() == "10.5.10.33")
-                {
-                    connectionStringTemplate = npgsql;
+                //if (odbc["server"].ToString() == "10.110.1.7" ||
+                //    odbc["server"].ToString() == "185.134.75.47" ||
+                //    odbc["server"].ToString() == "192.168.20.47" ||
+                //    odbc["server"].ToString() == "10.5.10.33")
+                //{
+                //    connectionStringTemplate = npgsql;
 
-                    npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
-                    .Replace("{database}", odbc["database"].ToString()).Replace("{username}", odbc["uid"].ToString())
-                    .Replace("{password}", odbc["pwd"].ToString());
-                }
-                else
+                //    npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
+                //    .Replace("{database}", odbc["database"].ToString()).Replace("{username}", odbc["uid"].ToString())
+                //    .Replace("{password}", odbc["pwd"].ToString());
+                //}
+                //else
                 {
                     if (odbc["port"] == null)
                     {

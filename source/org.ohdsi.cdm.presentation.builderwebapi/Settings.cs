@@ -196,10 +196,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                         
                             if(gender != null)
                                 qd.Persons[0].Gender = gender.Fields[0].SourceKey;
-
-                            if (string.IsNullOrEmpty(qd.Persons[0].PersonSourceValue))
-                                qd.Persons[0].PersonSourceValue = qd.Persons[0].PersonId;
                         }
+
+                        if (string.IsNullOrEmpty(qd.Persons[0].PersonSourceValue))
+                            qd.Persons[0].PersonSourceValue = qd.Persons[0].PersonId;
 
                         if (qd.ObservationPeriod != null)
                         {

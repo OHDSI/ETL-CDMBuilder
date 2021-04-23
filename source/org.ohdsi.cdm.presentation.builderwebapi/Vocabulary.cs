@@ -23,11 +23,13 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         private PregnancyConcepts _pregnancyConcepts;
         private Settings _settings;
         private readonly IHubContext<LogHub> _logHub;
+        private string _authorization;
 
-        public Vocabulary(Settings settings, IHubContext<LogHub> logHub)
+        public Vocabulary(Settings settings, IHubContext<LogHub> logHub, string authorization)
         {
             _settings = settings;
             _logHub = logHub;
+            _authorization = authorization;
         }
 
         private static LookupValue CreateLookupValue(IDataRecord reader)
@@ -240,7 +242,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 
         private void WriteLog(Status status, string message, Double progress)
         {
-            _logHub.Clients.All.SendAsync("Log", new LogMessage { Status = status, Text = message, Progress = progress }).Wait();
+            _logHub.Clients.Group(_authorization).SendAsync("Log", new LogMessage { Status = status, Text = message, Progress = progress }).Wait();
         }
     }
 }

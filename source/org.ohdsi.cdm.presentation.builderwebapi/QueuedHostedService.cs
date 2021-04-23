@@ -22,7 +22,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            WriteLog(Status.None, "Queued Hosted Service is starting.", 0);
+            //WriteLog(Status.None, "Queued Hosted Service is starting.", 0);
             await BackgroundProcessing(stoppingToken);
         }
 
@@ -33,27 +33,27 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                 var workItem =
                     await TaskQueue.DequeueAsync(stoppingToken);
 
-                try
-                {
+                //try
+                //{
                     await workItem(stoppingToken);
-                }
-                catch (Exception ex)
-                {
-                    WriteLog(Status.Error, "Error occurred executing. " + ex.Message, 0);
-                }
+                //}
+                //catch (Exception ex)
+                //{
+                //    WriteLog(Status.Error, "Error occurred executing. " + ex.Message, 0);
+                //}
             }
         }
 
         public override async Task StopAsync(CancellationToken stoppingToken)
         {
-            WriteLog(Status.None, "Queued Hosted Service is stopping.", 0);
+            //WriteLog(Status.None, "Queued Hosted Service is stopping.", 0);
 
             await base.StopAsync(stoppingToken);
         }
 
-        private void WriteLog(Status status, string message, Double progress)
-        {
-            _logHub.Clients.All.SendAsync("Log", new LogMessage { Status = status, Text = message, Progress = progress }).Wait();
-        }
+        //private void WriteLog(string authorization, Status status, string message, Double progress)
+        //{
+        //    _logHub.Clients.Group(authorization).SendAsync("Log", new LogMessage { Status = status, Text = message, Progress = progress }).Wait();
+        //}
     }
 }

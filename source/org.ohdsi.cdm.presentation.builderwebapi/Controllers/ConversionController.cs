@@ -23,20 +23,22 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         private Vocabulary _vocabulary;
         private IHubContext<LogHub> _logHub;
         private IBackgroundTaskQueue _taskQueue;
+        private string _authorization;
 
-        public ConversionController(IBackgroundTaskQueue taskQueue, ConversionSettings settings, IConfiguration configuration, IHubContext<LogHub> logHub)
+        public ConversionController(IBackgroundTaskQueue taskQueue, ConversionSettings settings, IConfiguration configuration, IHubContext<LogHub> logHub, string authorization)
         {
             _logHub = logHub;
             _settings = new Settings(settings, configuration);
 
             _settings.Load();
-            _vocabulary = new Vocabulary(_settings, _logHub);
+            _vocabulary = new Vocabulary(_settings, _logHub, authorization);
             _taskQueue = taskQueue;
+            _authorization = authorization;
         }
 
         private void WriteLog(Status status, string message, Double progress)
         {
-            _logHub.Clients.All.SendAsync("Log", new LogMessage { Status = status, Text = message, Progress = progress }).Wait();
+            _logHub.Clients.Group(_authorization).SendAsync("Log", new LogMessage { Status = status, Text = message, Progress = progress }).Wait();
         }
 
         public bool CreateDestination()
@@ -278,7 +280,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             var step = 100.0 / chunksCount;
             var total = 0.0;
 
-            _logHub.Clients.All.SendAsync("Progress", total.ToString()).Wait();
+            _logHub.Clients.Group(_authorization).SendAsync("Progress", total.ToString()).Wait();
 
             var save = Task.Run(() =>
                 {
@@ -311,7 +313,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                             WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, $"ChunkId={data.ChunkData.ChunkId} was saved - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb"), total);
                         }
 
-                        _logHub.Clients.All.SendAsync("Progress", Convert.ToInt32(total).ToString()).Wait();
+                        _logHub.Clients.Group(_authorization).SendAsync("Progress", Convert.ToInt32(total).ToString()).Wait();
                     }
                 });
 

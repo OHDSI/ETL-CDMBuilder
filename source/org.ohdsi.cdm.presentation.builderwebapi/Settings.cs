@@ -229,6 +229,22 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                     BatchScript = content;
                 }
             }
+
+            var ops = SourceQueryDefinitions.Where(qd => qd.Persons == null && qd.ObservationPeriod != null);
+            if (ops != null && ops.Count() > 0)
+            {
+                var persons = SourceQueryDefinitions.Where(qd => qd.Persons != null && qd.ObservationPeriod == null);
+                if (persons != null && persons.Count() > 0)
+                {
+                    var opQd = ops.First();
+                    foreach (var qd in persons)
+                    {
+                        qd.Persons[0].StartDate = opQd.ObservationPeriod[0].StartDate;
+                        qd.Persons[0].EndDate = opQd.ObservationPeriod[0].EndDate;
+                    }
+                }
+            }
+            
         }
 
         public string DropVocabularyTablesScript => File.ReadAllText(

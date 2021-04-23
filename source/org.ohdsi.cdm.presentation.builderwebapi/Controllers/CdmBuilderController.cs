@@ -184,10 +184,16 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             HttpResponseMessage returnMessage = new HttpResponseMessage();
 
             if (settings.DestinationEngine.ToLower() == "mysql")
+            {
                 settings.DestinationEngine = "MySql";
+                settings.DestinationSchema = null;
+            }
 
             if (settings.SourceEngine.ToLower() == "mysql")
+            {
                 settings.SourceEngine = "MySql";
+                settings.SourceSchema = null;
+            }
 
             _queue.QueueBackgroundWorkItem(async token =>
             {

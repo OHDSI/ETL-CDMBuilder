@@ -40,6 +40,7 @@ namespace org.ohdsi.cdm.framework.common.Base
 
             AddEntity(queryDefinition, queryDefinition.Persons, reader, recordGuid, "Persons");
             AddEntity(queryDefinition, queryDefinition.PayerPlanPeriods, reader, recordGuid, "PayerPlanPeriods");
+            AddEntity(queryDefinition, queryDefinition.ObservationPeriod, reader, recordGuid, "ObservationPeriod");
             AddEntity(queryDefinition, queryDefinition.Death, reader, recordGuid, "Death");
             AddEntity(queryDefinition, queryDefinition.VisitOccurrence, reader, recordGuid, "VisitOccurrence");
             AddEntity(queryDefinition, queryDefinition.VisitDetail, reader, recordGuid, "VisitDetail");

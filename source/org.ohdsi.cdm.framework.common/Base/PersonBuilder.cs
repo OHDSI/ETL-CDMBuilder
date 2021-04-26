@@ -302,6 +302,22 @@ namespace org.ohdsi.cdm.framework.common.Base
                         break;
                     }
 
+                case EntityType.ObservationPeriod:
+                    {
+                        if (data.StartDate > DateTime.MinValue)
+                        {
+                            AddEntity(
+                                new EraEntity
+                                {
+                                    PersonId = data.PersonId,
+                                    StartDate = data.StartDate,
+                                    EndDate = data.EndDate,
+                                    TypeConceptId = data.TypeConceptId
+                                }, ObservationPeriodsRaw);
+                        }
+                        break;
+                    }
+
                 case EntityType.Death:
                     {
                         AddEntity((Death)data, DeathRecords);

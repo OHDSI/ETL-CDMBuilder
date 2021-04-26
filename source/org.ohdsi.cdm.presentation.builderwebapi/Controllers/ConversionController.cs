@@ -322,19 +322,25 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             Parallel.For(0, chunksCount,
                 new ParallelOptions { MaxDegreeOfParallelism = degreeOfParallelism }, (chunkId, state) =>
                 {
+                    try
+                    {
+                        if (_taskQueue.Aborted) return;
 
-                    if (_taskQueue.Aborted) return;
+                        var chunk = new DatabaseChunkBuilder(chunkId);
 
-                    var chunk = new DatabaseChunkBuilder(chunkId);
+                        //using var connection =
+                        //    new OdbcConnection(_settings.SourceConnectionString);
 
-                    //using var connection =
-                    //    new OdbcConnection(_settings.SourceConnectionString);
-
-                    //connection.Open();
-                    saveQueue.Add(chunk.Process(_settings.SourceEngine,
-                        _settings.ConversionSettings.SourceSchema,
-                        _settings.SourceQueryDefinitions,
-                        _settings.SourceConnectionString));
+                        //connection.Open();
+                        saveQueue.Add(chunk.Process(_settings.SourceEngine,
+                            _settings.ConversionSettings.SourceSchema,
+                            _settings.SourceQueryDefinitions,
+                            _settings.SourceConnectionString));
+                    }
+                    catch(Exception e)
+                    {
+                        _logHub.Clients.Group(_authorization).SendAsync("Log", new LogMessage { Status = Status.Error, Text = "Error occurred executing. " + e.Message, Progress = 0 }).Wait();
+                    }
                 });
 
             saveQueue.CompleteAdding();

@@ -33,24 +33,26 @@ namespace org.ohdsi.cdm.framework.common.Definitions
             if (Concepts != null && Concepts.Length < 2)
                 return new KeyValuePair<int?, string>(null, string.Empty);
 
+            var sourceValue = string.Empty;
+
             var unitsConcept = Concepts.FirstOrDefault(c => c.Name == "UnitConceptId");
-            if (unitsConcept == null)
-                unitsConcept = Concepts[1];
-
-            var unitsConcepts = base.GetConcepts(unitsConcept, reader, null).Where(c => c.ConceptId != 0).ToList();
-            var sourceValue = reader.GetString(unitsConcept.Fields[0].Key);
-
-            if (unitsConcepts.Count > 0)
+            if (unitsConcept != null)
             {
-                foreach (var uc in unitsConcepts)
+                var unitsConcepts = base.GetConcepts(unitsConcept, reader, null).Where(c => c.ConceptId != 0).ToList();
+                sourceValue = reader.GetString(unitsConcept.Fields[0].Key);
+
+                if (unitsConcepts.Count > 0)
                 {
-                    if (!string.IsNullOrEmpty(sourceValue) && !string.IsNullOrEmpty(uc.VocabularySourceValue) &&
-                        sourceValue.Equals(uc.VocabularySourceValue, StringComparison.Ordinal))
-                        return new KeyValuePair<int?, string>(uc.ConceptId, sourceValue);
+                    foreach (var uc in unitsConcepts)
+                    {
+                        if (!string.IsNullOrEmpty(sourceValue) && !string.IsNullOrEmpty(uc.VocabularySourceValue) &&
+                            sourceValue.Equals(uc.VocabularySourceValue, StringComparison.Ordinal))
+                            return new KeyValuePair<int?, string>(uc.ConceptId, sourceValue);
+                    }
+
+                    return new KeyValuePair<int?, string>(unitsConcepts[0].ConceptId, unitsConcepts[0].SourceValue);
+
                 }
-
-                return new KeyValuePair<int?, string>(unitsConcepts[0].ConceptId, unitsConcepts[0].SourceValue);
-
             }
 
             return new KeyValuePair<int?, string>(null, sourceValue);

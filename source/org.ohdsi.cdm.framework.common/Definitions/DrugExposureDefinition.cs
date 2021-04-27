@@ -31,18 +31,18 @@ namespace org.ohdsi.cdm.framework.common.Definitions
 
             int routeConceptId = 0;
             string routeSourceValue = null;
-            if (Concepts != null && Concepts.Length == 2)
+            if (Concepts != null)
             {
                 var routeConcept = Concepts.FirstOrDefault(c => c.Name == "RouteConceptId");
-                if (routeConcept == null)
-                    routeConcept = Concepts[1];
-
-                var routeConcepts = base.GetConcepts(routeConcept, reader, null).ToList();
-                routeSourceValue = reader.GetString(routeConcept.Fields[0].Key);
-                if (routeConcepts.Count > 0)
+                if (routeConcept != null)
                 {
-                    routeConceptId = routeConcepts[0].ConceptId;
-                    routeSourceValue = routeConcepts[0].SourceValue;
+                    var routeConcepts = base.GetConcepts(routeConcept, reader, null).ToList();
+                    routeSourceValue = reader.GetString(routeConcept.Fields[0].Key);
+                    if (routeConcepts.Count > 0)
+                    {
+                        routeConceptId = routeConcepts[0].ConceptId;
+                        routeSourceValue = routeConcepts[0].SourceValue;
+                    }
                 }
             }
             else

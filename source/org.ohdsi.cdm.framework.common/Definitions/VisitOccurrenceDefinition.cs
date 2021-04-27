@@ -27,18 +27,18 @@ namespace org.ohdsi.cdm.framework.common.Definitions
             {
                 int dischargeToConceptId = 0;
                 string dischargeToSourceValue = null;
-                if (Concepts != null && Concepts.Length > 1)
+                if (Concepts != null)
                 {
                     var dischargeConcept = Concepts.FirstOrDefault(c => c.Name == "DischargeToConceptId");
-                    if (dischargeConcept == null)
-                        dischargeConcept = Concepts[1];
-
-                    var dischargeConcepts = base.GetConcepts(dischargeConcept, reader, null).ToList();
-                    dischargeToSourceValue = reader.GetString(dischargeConcept.Fields[0].Key);
-                    if (dischargeConcepts.Count > 0)
+                    if (dischargeConcept != null)
                     {
-                        dischargeToConceptId = dischargeConcepts[0].ConceptId;
-                        dischargeToSourceValue = dischargeConcepts[0].SourceValue;
+                        var dischargeConcepts = base.GetConcepts(dischargeConcept, reader, null).ToList();
+                        dischargeToSourceValue = reader.GetString(dischargeConcept.Fields[0].Key);
+                        if (dischargeConcepts.Count > 0)
+                        {
+                            dischargeToConceptId = dischargeConcepts[0].ConceptId;
+                            dischargeToSourceValue = dischargeConcepts[0].SourceValue;
+                        }
                     }
                 }
                 else
@@ -50,18 +50,18 @@ namespace org.ohdsi.cdm.framework.common.Definitions
 
                 int admittingSourceConceptId = 0;
                 string admittingSourceValue = null;
-                if (Concepts != null && Concepts.Length > 2)
+                if (Concepts != null)
                 {
                     var admittingConcept = Concepts.FirstOrDefault(c => c.Name == "AdmittedFromConceptId");
-                    if (admittingConcept == null)
-                        admittingConcept = Concepts[2];
-
-                    var admittingConcepts = base.GetConcepts(admittingConcept, reader, null).ToList();
-                    admittingSourceValue = reader.GetString(admittingConcept.Fields[0].Key);
-                    if (admittingConcepts.Count > 0)
+                    if (admittingConcept != null)
                     {
-                        admittingSourceConceptId = admittingConcepts[0].ConceptId;
-                        admittingSourceValue = admittingConcepts[0].SourceValue;
+                        var admittingConcepts = base.GetConcepts(admittingConcept, reader, null).ToList();
+                        admittingSourceValue = reader.GetString(admittingConcept.Fields[0].Key);
+                        if (admittingConcepts.Count > 0)
+                        {
+                            admittingSourceConceptId = admittingConcepts[0].ConceptId;
+                            admittingSourceValue = admittingConcepts[0].SourceValue;
+                        }
                     }
                 }
                 else

@@ -18,18 +18,18 @@ namespace org.ohdsi.cdm.framework.common.Definitions
         {
             int? relevantConditionConceptId = null;
             int? modifierConceptId = reader.GetInt(ModifierConceptId) ?? 0;
-            if (Concepts != null && Concepts.Length == 2)
+            if (Concepts != null)
             {
                 var secondConcept = Concepts.FirstOrDefault(c => c.Name != "ProcedureConceptId");
-                if (secondConcept == null)
-                    secondConcept = Concepts[1];
-
-                var relevantConcepts = secondConcept.GetConceptIdValues(Vocabulary, secondConcept.Fields[0], reader);
-
-                if (relevantConcepts.Count > 0)
+                if (secondConcept != null)
                 {
-                    relevantConditionConceptId = relevantConcepts.Min(c => c.ConceptId); //CDM v4
-                    modifierConceptId = relevantConditionConceptId; //CDM v5
+                    var relevantConcepts = secondConcept.GetConceptIdValues(Vocabulary, secondConcept.Fields[0], reader);
+
+                    if (relevantConcepts.Count > 0)
+                    {
+                        relevantConditionConceptId = relevantConcepts.Min(c => c.ConceptId); //CDM v4
+                        modifierConceptId = relevantConditionConceptId; //CDM v5
+                    }
                 }
             }
 

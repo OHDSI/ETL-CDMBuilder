@@ -15,25 +15,25 @@ namespace org.ohdsi.cdm.framework.common.Definitions
         {
             int? statusConceptId = 0;
             string statusSource = null;
-            if (Concepts != null && Concepts.Length == 2)
+            if (Concepts != null)
             {
                 var conditionStatusConcept = Concepts.FirstOrDefault(c => c.Name == "ConditionStatusConceptId");
-                if (conditionStatusConcept == null)
-                    conditionStatusConcept = Concepts[1];
-
-                var statusConcepts = conditionStatusConcept.GetConceptIdValues(Vocabulary, conditionStatusConcept.Fields[0], reader);
-                statusSource = reader.GetString(conditionStatusConcept.Fields[0].Key);
-
-                if (statusConcepts.Count > 0)
+                if (conditionStatusConcept != null)
                 {
-                    statusConceptId = statusConcepts.Min(c => c.ConceptId);
-                    statusSource = statusConcepts.Min(c => c.SourceCode);
+                    var statusConcepts = conditionStatusConcept.GetConceptIdValues(Vocabulary, conditionStatusConcept.Fields[0], reader);
+                    statusSource = reader.GetString(conditionStatusConcept.Fields[0].Key);
 
-                    if (string.IsNullOrEmpty(statusSource))
-                        statusSource = reader.GetString(conditionStatusConcept.Fields[0].Key);
+                    if (statusConcepts.Count > 0)
+                    {
+                        statusConceptId = statusConcepts.Min(c => c.ConceptId);
+                        statusSource = statusConcepts.Min(c => c.SourceCode);
 
-                    if (string.IsNullOrEmpty(statusSource))
-                        statusSource = reader.GetString(conditionStatusConcept.Fields[0].SourceKey);
+                        if (string.IsNullOrEmpty(statusSource))
+                            statusSource = reader.GetString(conditionStatusConcept.Fields[0].Key);
+
+                        if (string.IsNullOrEmpty(statusSource))
+                            statusSource = reader.GetString(conditionStatusConcept.Fields[0].SourceKey);
+                    }
                 }
             }
 

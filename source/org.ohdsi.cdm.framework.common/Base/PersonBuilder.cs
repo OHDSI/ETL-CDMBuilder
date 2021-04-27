@@ -540,7 +540,9 @@ namespace org.ohdsi.cdm.framework.common.Base
         public virtual Death BuildDeath(Death[] death, Dictionary<long, VisitOccurrence> visitOccurrences,
             ObservationPeriod[] observationPeriods)
         {
-            var ds = Clean(death, observationPeriods, true).ToList();
+            // TMP
+            //var ds = Clean(death, observationPeriods, true).ToList();
+            var ds = Clean(death, observationPeriods, false).ToList();
             if (ds.Any())
             {
                 var pd = ds.Where(d => d.Primary).ToList();
@@ -596,13 +598,17 @@ namespace org.ohdsi.cdm.framework.common.Base
         public virtual IEnumerable<VisitOccurrence> BuildVisitOccurrences(VisitOccurrence[] visitOccurrences,
             ObservationPeriod[] observationPeriods)
         {
-            return Clean(visitOccurrences, observationPeriods, true).Distinct();
+            // TMP
+            //return Clean(visitOccurrences, observationPeriods, true).Distinct();
+            return Clean(visitOccurrences, observationPeriods, false).Distinct();
         }
 
         public virtual IEnumerable<VisitDetail> BuildVisitDetails(VisitDetail[] visitDetails, VisitOccurrence[] visitOccurrences,
             ObservationPeriod[] observationPeriods)
         {
-            return Clean(visitDetails, observationPeriods, true).Distinct();
+            // TMP
+            // return Clean(visitDetails, observationPeriods, true).Distinct();
+            return Clean(visitDetails, observationPeriods, false).Distinct();
         }
 
         public IEnumerable<Note> BuildNote(Note[] notes, Dictionary<long, VisitOccurrence> visitOccurrences,
@@ -692,8 +698,13 @@ namespace org.ohdsi.cdm.framework.common.Base
         /// <returns>Enumeration of condition era</returns>
         public virtual IEnumerable<EraEntity> BuildConditionEra(ConditionOccurrence[] conditionOccurrences, ObservationPeriod[] observationPeriods)
         {
+            // TMP
+            //foreach (var eraEntity in EraHelper.GetEras(
+            //    Clean(conditionOccurrences, observationPeriods, true).Where(c => string.IsNullOrEmpty(c.Domain) || c.Domain == "Condition"), 30,
+            //    38000247))
+
             foreach (var eraEntity in EraHelper.GetEras(
-                Clean(conditionOccurrences, observationPeriods, true).Where(c => string.IsNullOrEmpty(c.Domain) || c.Domain == "Condition"), 30,
+                Clean(conditionOccurrences, observationPeriods, false).Where(c => string.IsNullOrEmpty(c.Domain) || c.Domain == "Condition"), 30,
                 38000247))
             {
                 eraEntity.Id = Offset.GetKeyOffset(eraEntity.PersonId).ConditionEraId;
@@ -712,8 +723,12 @@ namespace org.ohdsi.cdm.framework.common.Base
         /// <returns>Enumeration of drug era</returns>
         public virtual IEnumerable<EraEntity> BuildDrugEra(DrugExposure[] drugExposures, ObservationPeriod[] observationPeriods)
         {
+            // TMP
+            //foreach (var eraEntity in EraHelper.GetEras(
+            //  Clean(drugExposures, observationPeriods, true).Where(d => string.IsNullOrEmpty(d.Domain) || d.Domain == "Drug"), 30, 38000182))
+
             foreach (var eraEntity in EraHelper.GetEras(
-                Clean(drugExposures, observationPeriods, true).Where(d => string.IsNullOrEmpty(d.Domain) || d.Domain == "Drug"), 30, 38000182))
+            Clean(drugExposures, observationPeriods, false).Where(d => string.IsNullOrEmpty(d.Domain) || d.Domain == "Drug"), 30, 38000182))
             {
                 eraEntity.Id = Offset.GetKeyOffset(eraEntity.PersonId).DrugEraId;
                 yield return eraEntity;
@@ -815,7 +830,13 @@ namespace org.ohdsi.cdm.framework.common.Base
             var uniqueEntities = new HashSet<T>();
             foreach (var e in Clean(entitiesToBuild, observationPeriods, withinTheObservationPeriod))
             {
-                if (e.VisitOccurrenceId == null || visitOccurrences.ContainsKey(e.VisitOccurrenceId.Value))
+                // TMP
+                if(e.VisitOccurrenceId.HasValue && !visitOccurrences.ContainsKey(e.VisitOccurrenceId.Value))
+                {
+                    e.VisitOccurrenceId = null;
+                }
+
+                //if (e.VisitOccurrenceId == null || visitOccurrences.ContainsKey(e.VisitOccurrenceId.Value))
                 {
                     if (e.IsUnique)
                     {
@@ -857,6 +878,12 @@ namespace org.ohdsi.cdm.framework.common.Base
                     BuildObservationPeriods(person.ObservationPeriodGap, ObservationPeriodsRaw.ToArray()).ToArray();
             }
 
+            foreach (var op in observationPeriods)
+            {
+                if (!op.TypeConceptId.HasValue)
+                    op.TypeConceptId = 0;
+            }
+
             // Delete any individual that has an OBSERVATION_PERIOD that is >= 2 years prior to the YEAR_OF_BIRTH
             //if (Excluded(person, observationPeriods))
             //{
@@ -872,11 +899,21 @@ namespace org.ohdsi.cdm.framework.common.Base
                 if (visitOccurrence.IdUndefined)
                     visitOccurrence.Id = Offset.GetKeyOffset(visitOccurrence.PersonId).VisitOccurrenceId;
 
-                visitOccurrences.Add(visitOccurrence.Id, visitOccurrence);
+                if(!visitOccurrences.ContainsKey(visitOccurrence.Id))
+                    visitOccurrences.Add(visitOccurrence.Id, visitOccurrence);
+
+                if (!visitOccurrence.EndDate.HasValue)
+                    visitOccurrence.EndDate = visitOccurrence.StartDate;
             }
 
             var visitDetails = BuildVisitDetails(VisitDetailsRaw.ToArray(), VisitOccurrencesRaw.ToArray(),
                 observationPeriods).ToArray();
+
+            foreach (var vd in visitDetails)
+            {
+                if (!vd.EndDate.HasValue)
+                    vd.EndDate = vd.StartDate;
+            }
 
             var drugExposures =
                 BuildDrugExposures(DrugExposuresRaw.ToArray(), visitOccurrences, observationPeriods).ToArray();

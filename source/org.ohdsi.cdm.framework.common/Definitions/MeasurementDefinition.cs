@@ -23,26 +23,24 @@ namespace org.ohdsi.cdm.framework.common.Definitions
 
         public KeyValuePair<int?, string> GetUnitConcept(IDataRecord reader)
         {
-            if (Concepts != null && Concepts.Length < 2)
-                return new KeyValuePair<int?, string>(null, string.Empty);
-
+            var sourceValue = string.Empty;
             var unitsConcept = Concepts.FirstOrDefault(c => c.Name == "UnitConceptId");
-            if (unitsConcept == null)
-                unitsConcept = Concepts[1];
-
-            var unitsConcepts = base.GetConcepts(unitsConcept, reader, null).Where(c => c.ConceptId != 0).ToList();
-            var sourceValue = reader.GetString(unitsConcept.Fields[0].Key);
-
-            if (unitsConcepts.Count > 0)
+            if (unitsConcept != null)
             {
-                foreach (var uc in unitsConcepts)
-                {
-                    if (!string.IsNullOrEmpty(sourceValue) && !string.IsNullOrEmpty(uc.VocabularySourceValue) &&
-                        sourceValue.Equals(uc.VocabularySourceValue, StringComparison.Ordinal))
-                        return new KeyValuePair<int?, string>(uc.ConceptId, sourceValue);
-                }
+                var unitsConcepts = base.GetConcepts(unitsConcept, reader, null).Where(c => c.ConceptId != 0).ToList();
+                sourceValue = reader.GetString(unitsConcept.Fields[0].Key);
 
-                return new KeyValuePair<int?, string>(unitsConcepts[0].ConceptId, unitsConcepts[0].SourceValue);
+                if (unitsConcepts.Count > 0)
+                {
+                    foreach (var uc in unitsConcepts)
+                    {
+                        if (!string.IsNullOrEmpty(sourceValue) && !string.IsNullOrEmpty(uc.VocabularySourceValue) &&
+                            sourceValue.Equals(uc.VocabularySourceValue, StringComparison.Ordinal))
+                            return new KeyValuePair<int?, string>(uc.ConceptId, sourceValue);
+                    }
+
+                    return new KeyValuePair<int?, string>(unitsConcepts[0].ConceptId, unitsConcepts[0].SourceValue);
+                }
             }
 
             return new KeyValuePair<int?, string>(null, sourceValue);
@@ -56,26 +54,26 @@ namespace org.ohdsi.cdm.framework.common.Definitions
 
             int? valueAsConceptId = null;
             int? operatorConceptId = null;
-            if (Concepts != null && Concepts.Length > 2)
+            if (Concepts != null)
             {
                 var valueConcept = Concepts.FirstOrDefault(c => c.Name == "ValueAsConceptId");
-                if (valueConcept == null)
-                    valueConcept = Concepts[2];
-
-                var valueConcepts = base.GetConcepts(valueConcept, reader, null).ToList();
-                if (valueConcepts.Count > 0)
+                if (valueConcept != null)
                 {
-                    valueAsConceptId = valueConcepts[0].ConceptId;
+                    var valueConcepts = base.GetConcepts(valueConcept, reader, null).ToList();
+                    if (valueConcepts.Count > 0)
+                    {
+                        valueAsConceptId = valueConcepts[0].ConceptId;
+                    }
                 }
 
                 var operatorConcept = Concepts.FirstOrDefault(c => c.Name == "OperatorConceptId");
-                if (operatorConcept == null)
-                    operatorConcept = Concepts[3];
-
-                var operatorConcepts = base.GetConcepts(operatorConcept, reader, null).ToList();
-                if (operatorConcepts.Count > 0)
+                if (operatorConcept != null)
                 {
-                    operatorConceptId = operatorConcepts[0].ConceptId;
+                    var operatorConcepts = base.GetConcepts(operatorConcept, reader, null).ToList();
+                    if (operatorConcepts.Count > 0)
+                    {
+                        operatorConceptId = operatorConcepts[0].ConceptId;
+                    }
                 }
             }
             else

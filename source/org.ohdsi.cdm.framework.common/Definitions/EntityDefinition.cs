@@ -73,7 +73,7 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                     }
                 }
 
-                if(concept != null)
+                if(concept != null && concept.Fields != null)
                 {
                     foreach (var field in concept.Fields)
                     {
@@ -133,7 +133,7 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                                     PersonId = personId.Value,
                                     SourceValue = sourceValue,
                                     ConceptId = cId ?? 0,
-                                    TypeConceptId = concept.GetTypeId(field, reader),
+                                    TypeConceptId = concept.GetTypeId(field, reader) ?? 0,
                                     ConceptIdKey = reader.GetString(field.Key),
                                     StartDate = startDate,
                                     EndDate = endDate == DateTime.MinValue ? (DateTime?)null : endDate,

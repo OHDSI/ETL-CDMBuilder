@@ -63,51 +63,59 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                 int stopReasonSourceConceptId = 0;
                 string stopReasonSource = null;
 
-                if (Concepts != null && Concepts.Length > 0) // payer_concept_id
+                if (Concepts != null) // payer_concept_id
                 {
-                    var payerConcepts = base.GetConcepts(Concepts[0], reader, null).ToList();
-                    payerSourceValue = reader.GetString(Concepts[0].Fields[0].Key);
-
-                    if (payerConcepts.Count > 0)
+                    var payerConcept = Concepts.FirstOrDefault(c => c.Name == "PayerConceptId");
+                    if (payerConcept != null)
                     {
-                        payerConceptId = payerConcepts[0].ConceptId;
-                        payerSourceConceptId = payerConcepts[0].SourceConceptId;
+                        var payerConcepts = base.GetConcepts(payerConcept, reader, null).ToList();
+                        payerSourceValue = reader.GetString(payerConcept.Fields[0].Key);
+
+                        if (payerConcepts.Count > 0)
+                        {
+                            payerConceptId = payerConcepts[0].ConceptId;
+                            payerSourceConceptId = payerConcepts[0].SourceConceptId;
+                        }
                     }
-                }
 
-                if (Concepts != null && Concepts.Length > 1) // plan_concept_id
-                {
-                    var planConcepts = base.GetConcepts(Concepts[1], reader, null).ToList();
-                    planSource = reader.GetString(Concepts[1].Fields[0].Key);
 
-                    if (planConcepts.Count > 0)
+                    var planConcept = Concepts.FirstOrDefault(c => c.Name == "PlanConceptId");
+                    if (planConcept != null)
                     {
-                        planConceptId = planConcepts[0].ConceptId;
-                        planSourceConceptId = planConcepts[0].SourceConceptId;
+                        var planConcepts = base.GetConcepts(planConcept, reader, null).ToList();
+                        planSource = reader.GetString(planConcept.Fields[0].Key);
+
+                        if (planConcepts.Count > 0)
+                        {
+                            planConceptId = planConcepts[0].ConceptId;
+                            planSourceConceptId = planConcepts[0].SourceConceptId;
+                        }
                     }
-                }
 
-                if (Concepts != null && Concepts.Length > 2) //sponsor_concept_id
-                {
-                    var sponsorConcepts = base.GetConcepts(Concepts[2], reader, null).ToList();
-                    sponsorSource = reader.GetString(Concepts[2].Fields[0].Key);
-
-                    if (sponsorConcepts.Count > 0)
+                    var sponsorConcept = Concepts.FirstOrDefault(c => c.Name == "SponsorConceptId");
+                    if (sponsorConcept != null)
                     {
-                        sponsorConceptId = sponsorConcepts[0].ConceptId;
-                        sponsorSourceConceptId = sponsorConcepts[0].SourceConceptId;
+                        var sponsorConcepts = base.GetConcepts(sponsorConcept, reader, null).ToList();
+                        sponsorSource = reader.GetString(sponsorConcept.Fields[0].Key);
+
+                        if (sponsorConcepts.Count > 0)
+                        {
+                            sponsorConceptId = sponsorConcepts[0].ConceptId;
+                            sponsorSourceConceptId = sponsorConcepts[0].SourceConceptId;
+                        }
                     }
-                }
 
-                if (Concepts != null && Concepts.Length > 3) //stop_reason_concept_id
-                {
-                    var stopReasonConcepts = base.GetConcepts(Concepts[3], reader, null).ToList();
-                    stopReasonSource = reader.GetString(Concepts[3].Fields[0].Key);
-
-                    if (stopReasonConcepts.Count > 0)
+                    var stopReasonConcept = Concepts.FirstOrDefault(c => c.Name == "StopReasonConceptId");
+                    if (stopReasonConcept != null)
                     {
-                        stopReasonConceptId = stopReasonConcepts[0].ConceptId;
-                        stopReasonSourceConceptId = stopReasonConcepts[0].SourceConceptId;
+                        var stopReasonConcepts = base.GetConcepts(stopReasonConcept, reader, null).ToList();
+                        stopReasonSource = reader.GetString(stopReasonConcept.Fields[0].Key);
+
+                        if (stopReasonConcepts.Count > 0)
+                        {
+                            stopReasonConceptId = stopReasonConcepts[0].ConceptId;
+                            stopReasonSourceConceptId = stopReasonConcepts[0].SourceConceptId;
+                        }
                     }
                 }
 

@@ -180,35 +180,51 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         public async Task<HttpResponseMessage> Post(CancellationToken cancellationToken, [FromBody] ConversionSettings settings)
         {
             var authorization = this.HttpContext.Request.Headers["Authorization"].ToString();
-
             HttpResponseMessage returnMessage = new HttpResponseMessage();
 
-            if (settings.DestinationEngine.ToLower() == "mysql")
+            try
             {
-                settings.DestinationEngine = "MySql";
-                settings.DestinationSchema = null;
-            }
+                _queue.Aborted = false;
+                               
 
-            if (settings.SourceEngine.ToLower() == "mysql")
-            {
-                settings.SourceEngine = "MySql";
-                settings.SourceSchema = null;
-            }
-
-            _queue.QueueBackgroundWorkItem(async token =>
-            {
-                await Task.Run(() =>
+                if (settings.DestinationEngine.ToLower() == "mysql")
                 {
-                    WriteLog(authorization, Status.Started, string.Empty, 0);
-                    _queue.State = "Running";
+                    settings.DestinationEngine = "MySql";
+                    settings.DestinationSchema = null;
+                }
 
-                    var conversion = new ConversionController(_queue, settings, _configuration, _logHub, authorization);
-                    conversion.Start();
+                if (settings.SourceEngine.ToLower() == "mysql")
+                {
+                    settings.SourceEngine = "MySql";
+                    settings.SourceSchema = null;
+                }
 
-                    _queue.State = "Idle";
-                    WriteLog(authorization, Status.Finished, string.Empty, 100);
+                _queue.QueueBackgroundWorkItem(async token =>
+                {
+                    await Task.Run(() =>
+                    {
+                        try
+                        {
+                            WriteLog(authorization, Status.Started, string.Empty, 0);
+                            _queue.State = "Running";
+
+                            var conversion = new ConversionController(_queue, settings, _configuration, _logHub, authorization);
+                            conversion.Start();
+
+                            _queue.State = "Idle";
+                            WriteLog(authorization, Status.Finished, string.Empty, 100);
+                        }
+                        catch (Exception e)
+                        {
+                            WriteLog(authorization, Status.Error, e.Message, 100);
+                        }
+                    });
                 });
-            });
+            }
+            catch(Exception ex)
+            {
+                WriteLog(authorization, Status.Error, ex.Message, 100);
+            }
 
             //WriteLog("conversion done");
             return await Task.FromResult(returnMessage);

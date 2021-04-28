@@ -231,10 +231,11 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             if (string.IsNullOrEmpty(sql)) return;
 
             var keys = new Dictionary<string, bool>();
-            using (var connection = new OdbcConnection(_settings.SourceConnectionString))
+            using var connection = _settings.SourceEngine.GetConnection(_settings.SourceConnectionString);
+            //using (var connection = new OdbcConnection(_settings.SourceConnectionString))
             {
-                connection.Open();
-                using (var c = new OdbcCommand(sql, connection))
+                //using (var c = new OdbcCommand(sql, connection))
+                using (var c = _settings.SourceEngine.GetCommand(sql, connection))
                 {
                     c.CommandTimeout = 30000;
                     using (var reader = c.ExecuteReader())

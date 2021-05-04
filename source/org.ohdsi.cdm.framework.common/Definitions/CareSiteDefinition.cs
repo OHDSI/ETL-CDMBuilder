@@ -37,9 +37,9 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                 }
             }
 
-            var careSiteSourceValue = string.IsNullOrEmpty(CareSiteSourceValue)
-                ? id.Value.ToString(CultureInfo.InvariantCulture)
-                : reader.GetString(CareSiteSourceValue);
+            //var careSiteSourceValue = string.IsNullOrEmpty(CareSiteSourceValue)
+            //    ? id.Value.ToString(CultureInfo.InvariantCulture)
+            //    : reader.GetString(CareSiteSourceValue);
 
             if (concept == null)
             {
@@ -49,8 +49,8 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                     PlaceOfSvcSourceValue = reader.GetString(PlaceOfSvcSourceValue),
                     ConceptId = conceptId,
                     Name = reader.GetString(Name),
-                    SourceValue = careSiteSourceValue
-                };
+                    SourceValue = reader.GetString(CareSiteSourceValue)
+            };
 
                 if (id.Value == -1)
                 {
@@ -89,7 +89,7 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                     PlaceOfSvcSourceValue = source,
                     ConceptId = placeOfSvcConceptId ?? defaultConceptId,
                     Name = reader.GetString(Name),
-                    SourceValue = careSiteSourceValue
+                    SourceValue = reader.GetString(CareSiteSourceValue)
                 };
 
                 if (id.Value == -1)

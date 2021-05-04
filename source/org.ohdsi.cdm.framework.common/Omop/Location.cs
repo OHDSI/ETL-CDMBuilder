@@ -17,8 +17,11 @@
 
         public override string GetKey()
         {
-            if (string.IsNullOrEmpty(SourceValue))
+            if (string.IsNullOrEmpty(SourceValue) && (!string.IsNullOrEmpty(Address1) || !string.IsNullOrEmpty(Address2)))
                 return Address1 + " " + Address2;
+
+            if (string.IsNullOrEmpty(SourceValue))
+                return Id.ToString();
 
             return SourceValue;
         }

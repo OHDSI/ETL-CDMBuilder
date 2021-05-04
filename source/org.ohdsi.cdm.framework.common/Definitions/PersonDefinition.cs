@@ -14,6 +14,7 @@ namespace org.ohdsi.cdm.framework.common.Definitions
         public string YearOfBirth { get; set; }
         public string MonthOfBirth { get; set; }
         public string DayOfBirth { get; set; }
+        public string DeathDatetime { get; set; }
         public string Location { get; set; }
         public string Country { get; set; }
 
@@ -74,6 +75,8 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                 if (tob > DateTime.MinValue)
                     timeOfBirth = tob;
 
+                var deathDatetime = reader.GetDateTime(DeathDatetime);
+
                 yield return new Person
                 {
                     ObservationPeriodGap = reader.GetInt(ObservationPeriodGap) ?? 32,
@@ -88,6 +91,7 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                     YearOfBirth = reader.GetInt(YearOfBirth),
                     MonthOfBirth = reader.GetInt(MonthOfBirth),
                     DayOfBirth = reader.GetInt(DayOfBirth),
+                    TimeOfDeath = deathDatetime == DateTime.MinValue ? (DateTime?)null : deathDatetime,
                     LocationSourceValue = locationSourceValue,
                     CareSiteId = reader.GetLong(CareSiteId),
                     EthnicitySourceValue = reader.GetString(Ethnicity),

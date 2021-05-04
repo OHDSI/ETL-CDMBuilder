@@ -170,6 +170,15 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                         content = content.Replace("</CareSiteId>", "</Id>");
                     }
 
+                    if (item.Name.Replace(".xml", "").ToLower() == "l_provider")
+                    {
+                        content = content.Replace("<Provider>", "<Providers>");
+                        content = content.Replace("</Provider>", "</Providers>");
+
+                        content = content.Replace("<ProviderId>", "<Id>");
+                        content = content.Replace("</ProviderId>", "</Id>");
+                    }
+
                     content = content.Replace("<VisitStartDate>", "<StartDate>");
                     content = content.Replace("</VisitStartDate>", "</StartDate>");
 
@@ -185,6 +194,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 
                     content = content.Replace("<ConceptIdMapper>", "<ConceptIdMappers>");
                     content = content.Replace("</ConceptIdMapper>", "</ConceptIdMappers>");
+
+                    content = content.Replace("<Refills>", "<Refill>");
+                    content = content.Replace("</Refills>", "</Refill>");
 
                     var qd = new QueryDefinition().DeserializeFromXml(content);
 

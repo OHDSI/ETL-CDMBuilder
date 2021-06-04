@@ -216,14 +216,14 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                         }
                         catch (Exception e)
                         {
-                            WriteLog(authorization, Status.Error, e.Message, 100);
+                            WriteLog(authorization, Status.Failed, e.Message, 100);
                         }
                     });
                 });
             }
             catch(Exception ex)
             {
-                WriteLog(authorization, Status.Error, ex.Message, 100);
+                WriteLog(authorization, Status.Failed, ex.Message, 100);
             }
 
             //WriteLog("conversion done");

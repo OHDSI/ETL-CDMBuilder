@@ -340,7 +340,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                     }
                     catch(Exception e)
                     {
-                        _logHub.Clients.Group(_authorization).SendAsync("Log", new LogMessage { Status = Status.Error, Text = "Error occurred executing. " + e.Message, Progress = 0 }).Wait();
+                        _logHub.Clients.Group(_authorization).SendAsync("Log", new LogMessage { Status = Status.Failed, Text = "Error occurred executing. " + e.Message, Progress = 0 }).Wait();
                     }
                 });
 

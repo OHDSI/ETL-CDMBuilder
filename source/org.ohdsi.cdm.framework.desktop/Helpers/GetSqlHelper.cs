@@ -76,6 +76,8 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
         private static string Trim(string query)
         {
             var rg = new Regex(@"\strim\(.*?\)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            query = query.Replace("(trim(", "( trim(", StringComparison.InvariantCultureIgnoreCase);
+            query = query.Replace(",trim(", ", trim(", StringComparison.InvariantCultureIgnoreCase);
 
             foreach (var m in rg.Matches(query))
             {
@@ -93,7 +95,7 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
             if (db != Database.MsSql && db != Database.MySql)
                 return query;
 
-            var rg = new Regex(@"(\+.*\d\s\*\sinterval\s.*\))", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            var rg = new Regex(@"\+.*\d\s\*\sinterval\s.[^)]*\)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
             var subs = new List<string>();
             foreach (var sq in query.Split(','))
             {

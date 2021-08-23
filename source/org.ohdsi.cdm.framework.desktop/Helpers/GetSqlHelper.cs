@@ -95,74 +95,46 @@ namespace org.ohdsi.cdm.framework.desktop.Helpers
             if (db != Database.MsSql && db != Database.MySql)
                 return query;
 
-            var rg = new Regex(@"\+.*\d\s\*\sinterval\s.[^)]*\)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
-            var subs = new List<string>();
-            foreach (var sq in query.Split(','))
+            var rg = new Regex(@"\s[^,]*\s*\+\s*\(\s*-?\d*\s*\*\s*interval\s.[^)]*\)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            foreach (var m in rg.Matches(query))
             {
-                var newSubQuery = sq;
-                var matches = rg.Matches(sq);
-
-                if (matches.Count == 0)
-                {
-                    subs.Add(newSubQuery);
-                    continue;
-                }
-
-                foreach (var m in matches)
-                {
-                    var match = m.ToString();
-                    newSubQuery = newSubQuery.Replace(match, "", StringComparison.InvariantCultureIgnoreCase);
-                    newSubQuery = newSubQuery.Replace(";", "", StringComparison.InvariantCultureIgnoreCase);
-
-                    match = match.Replace("+", "", StringComparison.InvariantCultureIgnoreCase)
-                        .Replace("*", "", StringComparison.InvariantCultureIgnoreCase)
+                var parts = m.ToString().Split('+');
+                var match = parts[1].Replace("*", "", StringComparison.InvariantCultureIgnoreCase)
                         .Replace("interval", "", StringComparison.InvariantCultureIgnoreCase)
                         .Replace("(", "", StringComparison.InvariantCultureIgnoreCase)
                         .Replace(")", "", StringComparison.InvariantCultureIgnoreCase)
                         .Replace("'", "", StringComparison.InvariantCultureIgnoreCase);
-                    var newMatch = "";
-
-                    if (match.Contains("Year", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        newMatch = UpdateDATEADD("Year", match, db);
-                    }
-                    else if (match.Contains("Month", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        newMatch = UpdateDATEADD("Month", match, db);
-                    }
-                    else if (match.Contains("Day", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        newMatch = UpdateDATEADD("Day", match, db);
-                    }
-                    else if (match.Contains("Hour", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        newMatch = UpdateDATEADD("Hour", match, db);
-                    }
-                    else if (match.Contains("Minute", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        newMatch = UpdateDATEADD("Minute", match, db);
-                    }
-                    else if (match.Contains("Second", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        newMatch = UpdateDATEADD("Second", match, db);
-                    }
-
-                    if (newSubQuery.Contains("select", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        var date = newSubQuery.Replace("select", "", StringComparison.InvariantCultureIgnoreCase).Trim();
-                        newSubQuery = "select " + newMatch.Replace("[date]", date);
-                    }
-                    else
-                    {
-                        newSubQuery = newMatch.Replace("[date]", newSubQuery);
-                    }
+                var newMatch = "";
+                if (match.Contains("Year", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    newMatch = UpdateDATEADD("Year", match, db);
+                }
+                else if (match.Contains("Month", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    newMatch = UpdateDATEADD("Month", match, db);
+                }
+                else if (match.Contains("Day", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    newMatch = UpdateDATEADD("Day", match, db);
+                }
+                else if (match.Contains("Hour", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    newMatch = UpdateDATEADD("Hour", match, db);
+                }
+                else if (match.Contains("Minute", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    newMatch = UpdateDATEADD("Minute", match, db);
+                }
+                else if (match.Contains("Second", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    newMatch = UpdateDATEADD("Second", match, db);
                 }
 
-                //newQuery.Append(newSubQuery);
-                subs.Add(newSubQuery);
+                var date = parts[0].Trim();
+                newMatch = newMatch.Replace("[date]", date);
+                query = query.Replace(m.ToString(), " " + newMatch);
             }
-
-            return string.Join(',', subs);
+            return query;
         }
 
         private static string UpdateDATEADD(string interval, string query, Database db)

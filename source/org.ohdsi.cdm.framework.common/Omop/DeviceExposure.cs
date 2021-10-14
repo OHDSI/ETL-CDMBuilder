@@ -7,7 +7,13 @@ namespace org.ohdsi.cdm.framework.common.Omop
     public class DeviceExposure : Entity, IEquatable<DeviceExposure>
     {
         public string UniqueDeviceId { get; set; }
+        public string ProductionId { get; set; }
+        
         public int Quantity { get; set; }
+
+        public int UnitConceptId { get; set; }
+        public int UnitSourceConceptId { get; set; }
+        public string UnitSourceValue { get; set; }
 
         public List<DeviceCost> DeviceCosts { get; set; }
 

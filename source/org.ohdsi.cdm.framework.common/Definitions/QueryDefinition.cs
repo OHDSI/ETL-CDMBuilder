@@ -90,6 +90,10 @@ namespace org.ohdsi.cdm.framework.common.Definitions
         public CareSiteDefinition[] CareSites { get; set; }
         public ProviderDefinition[] Providers { get; set; }
 
+
+        public EpisodeDefinition[] Episode { get; set; }
+        public EpisodeEventDefinition[] EpisodeEvent { get; set; }
+
         public void RowProcessed()
         {
             //Interlocked.Increment(ref _processedRowCount);
@@ -189,6 +193,11 @@ namespace org.ohdsi.cdm.framework.common.Definitions
             if (Note != null && Note.Any())
             {
                 return Note[0].PersonId;
+            }
+
+            if (Episode != null && Episode.Any())
+            {
+                return Episode[0].PersonId;
             }
 
             throw new Exception("Cant find PersonId FieldName " + this.FileName);

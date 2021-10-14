@@ -205,6 +205,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                     Load(qd.Measurement);
                     Load(qd.DeviceExposure);
                     Load(qd.Note);
+                    Load(qd.Episode);
+                    Load(qd.EpisodeEvent);
 
                     Load(qd.VisitCost);
                     Load(qd.ProcedureCost);

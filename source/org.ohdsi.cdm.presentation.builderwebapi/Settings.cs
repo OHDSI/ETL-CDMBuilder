@@ -22,6 +22,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                 if (ConversionSettings.CdmVersion.ToLower() == "v6.0")
                     return CdmVersions.V6;
 
+                if (ConversionSettings.CdmVersion.ToLower() == "v5.4")
+                    return CdmVersions.V54;
+
                 return CdmVersions.V53;
             }
         }
@@ -32,6 +35,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             {
                 if (ConversionSettings.CdmVersion.ToLower() == "v6.0")
                     return "v6.0";
+
+                if (ConversionSettings.CdmVersion.ToLower() == "v5.4")
+                    return "v5.4";
 
                 return "v5.3";
             }

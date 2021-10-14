@@ -15,6 +15,9 @@
 
         public decimal? Longitude { get; set; }
 
+        public int CountryConceptId { get; set; }
+        public string CountrySourceValue { get; set; }
+  
         public override string GetKey()
         {
             if (string.IsNullOrEmpty(SourceValue) && (!string.IsNullOrEmpty(Address1) || !string.IsNullOrEmpty(Address2)))

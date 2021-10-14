@@ -15,7 +15,7 @@ namespace org.ohdsi.cdm.framework.common.DataReaders.v5
             _enumerator = new List<CdmSource> { new CdmSource() }.GetEnumerator();
         }
 
-        public CdmSourceDataReader(string sourceReleaseDate, string vocabularyVersion)
+        public CdmSourceDataReader(DateTime sourceReleaseDate, string vocabularyVersion)
         {
             _enumerator = new List<CdmSource>
             {
@@ -196,9 +196,9 @@ namespace org.ohdsi.cdm.framework.common.DataReaders.v5
                 case 5:
                     return typeof(string);
                 case 6:
-                    return typeof(string);
+                    return typeof(DateTime);
                 case 7:
-                    return typeof(string);
+                    return typeof(DateTime);
                 case 8:
                     return typeof(string);
                 case 9:

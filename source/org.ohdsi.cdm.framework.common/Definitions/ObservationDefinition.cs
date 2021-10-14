@@ -31,6 +31,11 @@ namespace org.ohdsi.cdm.framework.common.Definitions
         public string QualifierConceptId { get; set; }
         public string QualifierSourceValue { get; set; }
 
+        public string ValueSourceValue { get; set; }
+        public string EventId { get; set; }
+        public string EventFieldConceptId { get; set; }
+
+
         public KeyValuePair<int?, string> GetUnitConcept(IDataRecord reader, string conceptName)
         {
             var sourceValue = string.Empty;
@@ -80,6 +85,9 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                     ValueAsConceptId = reader.GetInt(ValueAsConceptId) ?? 0,
                     QualifierConceptId = qualifierConcept.Key ?? 0,
                     QualifierSourceValue = string.IsNullOrWhiteSpace(qualifierConcept.Value) ? null : qualifierConcept.Value,
+                    ValueSourceValue = reader.GetString(ValueSourceValue),
+                    EventId = reader.GetLong(EventId) ?? 0,
+                    EventFieldConceptId = reader.GetInt(EventFieldConceptId) ?? 0
                     //RelevantConditionConceptId = relevantConditionConceptId ?? 0
                 });
 

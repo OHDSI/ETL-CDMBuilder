@@ -480,8 +480,8 @@ CREATE TABLE {sc}.cdm_source
 	source_description varchar(250) not null,
 	source_documentation_reference varchar(250) not null,
 	cdm_etl_reference varchar(250) not null,
-	source_release_date varchar(10) not null,
-	cdm_release_date varchar(10) not null,
+	source_release_date date not null,
+	cdm_release_date date not null,
 	cdm_version varchar(250) not null,
 	vocabulary_version varchar(250) not null
 );

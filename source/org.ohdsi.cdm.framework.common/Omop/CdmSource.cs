@@ -1,4 +1,6 @@
-﻿namespace org.ohdsi.cdm.framework.common.Omop
+﻿using System;
+
+namespace org.ohdsi.cdm.framework.common.Omop
 {
     public class CdmSource
     {
@@ -8,9 +10,10 @@
         public string SourceDescription { get; set; }
         public string SourceDocumentationReference { get; set; }
         public string CdmEtlReference { get; set; }
-        public string SourceReleaseDate { get; set; }
-        public string CdmReleaseDate { get; set; }
+        public DateTime SourceReleaseDate { get; set; }
+        public DateTime CdmReleaseDate { get; set; }
         public string CdmVersion { get; set; }
+        public int CdmVersionConceptId { get; set; }
         public string VocabularyVersion { get; set; }
 
         public CdmSource()

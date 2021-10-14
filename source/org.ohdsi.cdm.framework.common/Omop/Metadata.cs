@@ -30,12 +30,15 @@ namespace org.ohdsi.cdm.framework.common.Omop
 
     public class MetadataOMOP
     {
+        public int Id { get; set; }
         public int MetadataConceptId { get; set; }
         public string Name { get; set; }
 
         public string ValueAsString { get; set; }
 
         public int ValueAsConceptId { get; set; }
+
+        public decimal ValueAsNumber { get; set; }
 
         public DateTime MetadataDate { get; set; }
 

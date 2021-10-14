@@ -23,6 +23,7 @@ namespace org.ohdsi.cdm.framework.common.Omop
 
         public List<ObservationCost> ObservationCost { get; set; }
 
+        public string ValueSourceValue { get; set; }
         public long EventId { get; set; }
         public int EventFieldConceptId { get; set; }
         public DateTime? ValueAsDatetime { get; set; }

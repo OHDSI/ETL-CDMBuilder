@@ -15,6 +15,8 @@ namespace org.ohdsi.cdm.framework.common.Definitions
 
         public string Title { get; set; }
         public string Text { get; set; }
+        public string EventId { get; set; }
+        public string EventFieldConceptId { get; set; }
 
         public IEnumerable<Note> GetNotes(Concept concept, IDataRecord reader,
             KeyMasterOffsetManager offset)
@@ -41,7 +43,9 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                                 SourceValue = e.SourceValue,
                                 ProviderId = e.ProviderId,
 
-                                AdditionalFields = e.AdditionalFields
+                                AdditionalFields = e.AdditionalFields,
+                                EventId = reader.GetLong(EventId) ?? 0,
+                                EventFieldConceptId = reader.GetInt(EventFieldConceptId) ?? 0
                             });
         }
 

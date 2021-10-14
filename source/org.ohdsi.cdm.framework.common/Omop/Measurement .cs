@@ -16,6 +16,10 @@ namespace org.ohdsi.cdm.framework.common.Omop
         public string UnitSourceValue { get; set; }
         public string ValueSourceValue { get; set; }
 
+        public int UnitSourceConceptId { get; set; }
+        public long EventId { get; set; }
+        public int EventFieldConceptId { get; set; }
+
         public List<MeasurementCost> MeasurementCost { get; set; }
 
         public Measurement(IEntity ent)

@@ -52,6 +52,8 @@ namespace org.ohdsi.cdm.framework.common.Base
             AddEntity(queryDefinition, queryDefinition.Measurement, reader, recordGuid, "Measurement");
             AddEntity(queryDefinition, queryDefinition.DeviceExposure, reader, recordGuid, "DeviceExposure");
             AddEntity(queryDefinition, queryDefinition.Note, reader, recordGuid, "Note");
+            AddEntity(queryDefinition, queryDefinition.Episode, reader, recordGuid, "Episode");
+            AddEntity(queryDefinition, queryDefinition.EpisodeEvent, reader, recordGuid, "EpisodeEvent");
         }
 
 

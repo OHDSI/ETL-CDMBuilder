@@ -20,8 +20,10 @@ namespace org.ohdsi.cdm.framework.common.Definitions
         public string RangeHigh { get; set; }
         public string UnitSourceValue { get; set; }
         public string ValueSourceValue { get; set; }
+        public string EventId { get; set; }
+        public string EventFieldConceptId { get; set; }
 
-        public KeyValuePair<int?, string> GetUnitConcept(IDataRecord reader)
+        public Tuple<int?, int?, string> GetUnitConcept(IDataRecord reader)
         {
             var sourceValue = string.Empty;
             var unitsConcept = Concepts.FirstOrDefault(c => c.Name == "UnitConceptId");
@@ -36,14 +38,14 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                     {
                         if (!string.IsNullOrEmpty(sourceValue) && !string.IsNullOrEmpty(uc.VocabularySourceValue) &&
                             sourceValue.Equals(uc.VocabularySourceValue, StringComparison.Ordinal))
-                            return new KeyValuePair<int?, string>(uc.ConceptId, sourceValue);
+                            return new Tuple<int?, int?, string>(uc.ConceptId, uc.SourceConceptId, sourceValue);
                     }
 
-                    return new KeyValuePair<int?, string>(unitsConcepts[0].ConceptId, unitsConcepts[0].SourceValue);
+                    return new Tuple<int?, int?, string>(unitsConcepts[0].ConceptId, unitsConcepts[0].SourceConceptId, unitsConcepts[0].SourceValue);
                 }
             }
 
-            return new KeyValuePair<int?, string>(null, sourceValue);
+            return new Tuple<int?, int?, string>(null, null, sourceValue);
         }
 
         public override IEnumerable<IEntity> GetConcepts(Concept concept, IDataRecord reader,
@@ -97,11 +99,14 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                     RangeHigh = reader.GetDecimal(RangeHigh),
                     ValueAsNumber = reader.GetDecimal(ValueAsNumber),
                     OperatorConceptId = operatorConceptId ?? 0,
-                    UnitConceptId = unitConcept.Key ?? 0,
-                    UnitSourceValue = string.IsNullOrWhiteSpace(unitConcept.Value) ? null : unitConcept.Value,
+                    UnitConceptId = unitConcept.Item1 ?? 0,
+                    UnitSourceConceptId = unitConcept.Item2 ?? 0,
+                    UnitSourceValue = string.IsNullOrWhiteSpace(unitConcept.Item3) ? null : unitConcept.Item3,
                     ValueSourceValue = reader.GetString(ValueSourceValue),
                     ValueAsConceptId = valueAsConceptId ?? 0,
-                    Time = reader.GetString(Time)
+                    Time = reader.GetString(Time),
+                    EventId = reader.GetLong(EventId) ?? 0,
+                    EventFieldConceptId = reader.GetInt(EventFieldConceptId) ?? 0
                 };
             }
         }

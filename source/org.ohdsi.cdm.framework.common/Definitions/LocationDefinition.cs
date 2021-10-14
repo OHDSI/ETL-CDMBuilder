@@ -15,6 +15,11 @@ namespace org.ohdsi.cdm.framework.common.Definitions
         public string Address1 { get; set; }
         public string Address2 { get; set; }
 
+        public string CountryConceptId { get; set; }
+        public string CountrySourceValue { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
+
         public override IEnumerable<IEntity> GetConcepts(Concept concept, IDataRecord reader,
             KeyMasterOffsetManager keyOffset)
         {
@@ -25,7 +30,11 @@ namespace org.ohdsi.cdm.framework.common.Definitions
                 County = reader.GetString(Country),
                 Address1 = reader.GetString(Address1),
                 Address2 = reader.GetString(Address2),
-                Zip = reader.GetString(Zip)
+                Zip = reader.GetString(Zip),
+                CountryConceptId = reader.GetInt(CountryConceptId) ?? 0,
+                CountrySourceValue = reader.GetString(CountrySourceValue),
+                Latitude = reader.GetDecimal(Latitude),
+                Longitude = reader.GetDecimal(Longitude)
             };
 
             loc.Id = string.IsNullOrEmpty(Id) ? Entity.GetId(loc.GetKey()) : reader.GetLong(Id).Value;

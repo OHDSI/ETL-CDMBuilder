@@ -33,10 +33,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         {
             get
             {
-                if (ConversionSettings.CdmVersion.ToLower() == "v6.0")
+                if (ConversionSettings.CdmVersion.ToLower().Contains("6.0"))
                     return "v6.0";
 
-                if (ConversionSettings.CdmVersion.ToLower() == "v5.4")
+                if (ConversionSettings.CdmVersion.ToLower().Contains("5.4"))
                     return "v5.4";
 
                 return "v5.3";

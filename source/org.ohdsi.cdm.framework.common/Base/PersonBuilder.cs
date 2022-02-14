@@ -55,8 +55,20 @@ namespace org.ohdsi.cdm.framework.common.Base
 
         protected List<Note> NoteRecords = new List<Note>();
 
-        #endregion
+        private BuildSettings _settings;
 
+        private readonly Dictionary<Guid, VisitOccurrence> _rawVisits = new Dictionary<Guid, VisitOccurrence>();
+        private readonly Dictionary<long, List<VisitDetail>> _visitDetails = new Dictionary<long, List<VisitDetail>>();
+        #endregion
+        public PersonBuilder(BuildSettings settings)
+        {
+            _settings = settings;
+        }
+
+        public PersonBuilder()
+        {
+            _settings = new BuildSettings();
+        }
 
         #region Methods
 
@@ -528,6 +540,20 @@ namespace org.ohdsi.cdm.framework.common.Base
                    current.PayerSourceValue == other.PayerSourceValue;
         }
 
+        private bool WithinTheObservationPeriod(EntityType table)
+        {
+            if(_settings.TableSettings != null)
+            {
+                var settings = _settings.TableSettings.FirstOrDefault(s => s.Table == table);
+
+                if (settings != null)
+                    return settings.WithinTheObservationPeriod;
+            }
+
+            return false;
+        }
+
+
         /// <summary>
         /// Projects death entity from the raw set of death entities.
         /// During build:
@@ -540,9 +566,8 @@ namespace org.ohdsi.cdm.framework.common.Base
         public virtual Death BuildDeath(Death[] death, Dictionary<long, VisitOccurrence> visitOccurrences,
             ObservationPeriod[] observationPeriods)
         {
-            // TMP
-            //var ds = Clean(death, observationPeriods, true).ToList();
-            var ds = Clean(death, observationPeriods, false).ToList();
+    
+            var ds = Clean(death, observationPeriods, WithinTheObservationPeriod(EntityType.Death)).ToList();
             if (ds.Any())
             {
                 var pd = ds.Where(d => d.Primary).ToList();
@@ -562,6 +587,21 @@ namespace org.ohdsi.cdm.framework.common.Base
             if (records == null || records.Count == 0)
                 return new KeyValuePair<Person, Attrition>(null, Attrition.UnacceptablePatientQuality);
 
+            if (records.All(p => p.GenderConceptId == 8551))
+            {
+                return new KeyValuePair<Person, Attrition>(null, Attrition.UnknownGender);
+            }
+
+            if (_settings.ImplausibleYearOfBirthBefore != 0 && records.All(p => p.YearOfBirth < _settings.ImplausibleYearOfBirthBefore))
+            {
+                return new KeyValuePair<Person, Attrition>(null, Attrition.ImplausibleYOBPast);
+            }
+
+            if (_settings.ImplausibleYearOfBirthAfter != 0 && records.All(p => p.YearOfBirth > _settings.ImplausibleYearOfBirthAfter))
+            {
+                return new KeyValuePair<Person, Attrition>(null, Attrition.ImplausibleYOBFuture);
+            }
+
             var ordered = records.OrderByDescending(p => p.StartDate).ToArray();
             var person = ordered.Take(1).First();
             person.StartDate = ordered.Take(1).Last().StartDate;
@@ -576,15 +616,36 @@ namespace org.ohdsi.cdm.framework.common.Base
             person.RaceConceptId = race.RaceConceptId;
             person.RaceSourceValue = race.RaceSourceValue;
 
+            if (!_settings.AllowUnknownYearOfBirth && !person.YearOfBirth.HasValue)
+            {
+                return new KeyValuePair<Person, Attrition>(null, Attrition.UnknownYearOfBirth);
+            }
+
             // TMP
             if (person.YearOfBirth == null)
                 person.YearOfBirth = 0;
 
-            // TODO
-            //if (person.GenderConceptId == 8551) //UNKNOWN
-            //{
-            //    return new KeyValuePair<Person, Attrition>(null, Attrition.UnknownGender);
-            //}
+            if (!_settings.AllowUnknownGender && person.GenderConceptId == 8551) //UNKNOWN
+            {
+                return new KeyValuePair<Person, Attrition>(null, Attrition.UnknownGender);
+            }
+
+            if (!_settings.AllowGenderChanges && records.Any(r => r.GenderConceptId != 8551 && r.GenderConceptId != person.GenderConceptId))
+            {
+                return new KeyValuePair<Person, Attrition>(null, Attrition.GenderChanges); // Gender changed over different enrollment period 
+            }
+
+            if (_settings.ImplausibleYearOfBirthBefore != 0 && person.YearOfBirth < _settings.ImplausibleYearOfBirthBefore)
+                return new KeyValuePair<Person, Attrition>(null, Attrition.ImplausibleYOBPast);
+
+            if (_settings.ImplausibleYearOfBirthAfter != 0 && person.YearOfBirth > _settings.ImplausibleYearOfBirthAfter)
+                return new KeyValuePair<Person, Attrition>(null, Attrition.ImplausibleYOBFuture);
+
+            if (!_settings.AllowMultipleYearsOfBirth && records.Where(r => r.YearOfBirth.HasValue && r.YearOfBirth > 1900).Max(r => r.YearOfBirth) -
+              records.Where(r => r.YearOfBirth.HasValue && r.YearOfBirth > 1900).Min(r => r.YearOfBirth) > 2)
+            {
+                return new KeyValuePair<Person, Attrition>(null, Attrition.MultipleYearsOfBirth);
+            }
 
             return new KeyValuePair<Person, Attrition>(person, Attrition.None);
         }
@@ -598,17 +659,212 @@ namespace org.ohdsi.cdm.framework.common.Base
         public virtual IEnumerable<VisitOccurrence> BuildVisitOccurrences(VisitOccurrence[] visitOccurrences,
             ObservationPeriod[] observationPeriods)
         {
-            // TMP
-            //return Clean(visitOccurrences, observationPeriods, true).Distinct();
-            return Clean(visitOccurrences, observationPeriods, false).Distinct();
+            if (_settings.UseVisitRollupLogic)
+                return BuildVisitOccurrencesWithRollup(visitOccurrences, observationPeriods);
+
+            return Clean(visitOccurrences, observationPeriods, WithinTheObservationPeriod(EntityType.VisitOccurrence)).Distinct();
+        }
+
+        private List<VisitOccurrence> CollapseVisits(IEnumerable<VisitOccurrence> visits)
+        {
+            var collaped = new List<VisitOccurrence>();
+            foreach (var claim in visits.OrderBy(vo => vo.StartDate)
+                .ThenBy(vo => vo.EndDate))
+            {
+                if (collaped.Count > 0)
+                {
+                    var previousClaim = collaped.Last();
+                    if (claim.StartDate <= previousClaim.EndDate.Value.AddDays(1))
+                    {
+                        if (claim.EndDate >= previousClaim.EndDate)
+                        {
+                            previousClaim.EndDate = claim.EndDate;
+                        }
+
+                        AddRawVisitOccurrence(claim, previousClaim);
+                        continue;
+                    }
+                }
+
+                AddRawVisitOccurrence(claim, claim);
+                collaped.Add(claim);
+            }
+
+            return collaped;
+        }
+
+
+        private void AddRawVisitOccurrence(VisitOccurrence rawVisit, VisitOccurrence finalVisit)
+        {
+            if (!_rawVisits.ContainsKey(rawVisit.SourceRecordGuid))
+                _rawVisits.Add(rawVisit.SourceRecordGuid, finalVisit);
+            else
+                _rawVisits[rawVisit.SourceRecordGuid] = finalVisit;
+        }
+
+        public IEnumerable<VisitOccurrence> BuildVisitOccurrencesWithRollup(VisitOccurrence[] rawVisitOccurrences,
+          ObservationPeriod[] observationPeriods)
+        {
+            var ipVisitsRaw = new List<VisitOccurrence>();
+            var erVisitsRaw = new List<VisitOccurrence>();
+            var erVisits = new List<VisitOccurrence>();
+            var nonHospitalVisitsRaw = new List<VisitOccurrence>();
+            var othersRaw = new List<VisitOccurrence>();
+            var remainingRaw = new List<VisitOccurrence>();
+            var remaining = new List<VisitOccurrence>();
+
+            foreach (var visitOccurrence in rawVisitOccurrences)
+            {
+                if (!visitOccurrence.EndDate.HasValue)
+                    visitOccurrence.EndDate = visitOccurrence.StartDate;
+
+
+                if (visitOccurrence.StartDate > visitOccurrence.EndDate.Value)
+                    visitOccurrence.EndDate = visitOccurrence.StartDate;
+
+                var result = Vocabulary.Lookup(visitOccurrence.ConceptId.ToString(), "CMSPlaceOfService",
+                    DateTime.MinValue);
+
+                var conceptId = result.Any() ? result[0].ConceptId ?? 0 : 0;
+                visitOccurrence.ConceptId = conceptId;
+
+                if (conceptId == 9201)
+                {
+                    ipVisitsRaw.Add(visitOccurrence);
+                }
+                else if (conceptId == 9203)
+                {
+                    erVisitsRaw.Add(visitOccurrence);
+                }
+                else
+                {
+                    othersRaw.Add(visitOccurrence);
+                }
+            }
+
+
+            var ipVisits = CollapseVisits(ipVisitsRaw);
+
+            // Collapse records that have the same VISIT_DETAIL_START_DATETIME into one Visit.
+            foreach (var erGroup in erVisitsRaw.GroupBy(v => v.StartDate))
+            {
+                var erVisit = erGroup.First();
+                erVisit.EndDate = erGroup.Max(v => v.EndDate);
+
+                var ip = ipVisits.FirstOrDefault(v => erVisit.StartDate.Between(v.StartDate, v.EndDate.Value));
+                VisitOccurrence visit = null;
+                if (ip != null)
+                {
+                    //    If an emergency room visit starts on the first day of an Inpatient visit(defined in the step above), then
+                    //    Assign the emergency room visit the autogenerated VISIT_OCCURRENCE_ID of the Inpatient visit.
+                    //    Set VISIT_CONCEPT_ID = 262(it would previously have been 9201).
+                    if (ip.StartDate == erVisit.StartDate)
+                    {
+                        ip.ConceptId = 262;
+                    }
+
+                    if (ip.EndDate < erVisit.EndDate)
+                        ip.EndDate = erVisit.EndDate;
+
+                    visit = ip;
+                }
+                else
+                {
+                    visit = erVisit;
+                    erVisits.Add(visit);
+                }
+
+                foreach (var visitOccurrence in erGroup)
+                {
+                    AddRawVisitOccurrence(visitOccurrence, visit);
+                }
+            }
+
+            // Rolling additional visit detail into Inpatient
+            foreach (var otherVisit in othersRaw)
+            {
+                var ip = ipVisits.FirstOrDefault(v => otherVisit.StartDate.Between(v.StartDate, v.EndDate.Value));
+
+                //For all other VISIT_DETAIL records, first look to see if they occur at any point within a previously defined inpatient visit.
+                if (ip != null)
+                {
+                    AddRawVisitOccurrence(otherVisit, ip);
+                }
+                else
+                {
+                    if (otherVisit.ConceptId == 42898160)
+                    {
+                        nonHospitalVisitsRaw.Add(otherVisit);
+                    }
+                    else
+                    {
+                        remainingRaw.Add(otherVisit);
+                    }
+                }
+            }
+
+            var nonHospitalVisits = CollapseVisits(nonHospitalVisitsRaw);
+            // Rolling additional visit detail into Non-hospital institution visit
+            foreach (var remainingVisit in remainingRaw)
+            {
+                var nonHospital =
+                    nonHospitalVisits.FirstOrDefault(
+                        v => remainingVisit.StartDate.Between(v.StartDate, v.EndDate.Value));
+                if (nonHospital != null)
+                {
+                    AddRawVisitOccurrence(remainingVisit, nonHospital);
+                }
+                else
+                {
+                    remaining.Add(remainingVisit);
+                }
+            }
+
+            // All other VISIT_DETAIL records
+            foreach (var byStart in remaining.GroupBy(v => v.StartDate))
+            {
+                foreach (var byEnd in byStart.GroupBy(v => v.EndDate))
+                {
+                    foreach (var byCareSiteId in byEnd.GroupBy(v => v.CareSiteId))
+                    {
+                        var visit = byCareSiteId.OrderBy(v => v.ConceptId).First();
+
+                        //var startDate = byCareSiteId.Min(v => v.StartDate);
+                        //var endDate = byCareSiteId.Max(v => v.EndDate);
+
+                        //visit.StartDate = startDate;
+                        //visit.EndDate = endDate;
+
+                        foreach (var vo in byCareSiteId)
+                        {
+                            AddRawVisitOccurrence(vo, visit);
+                        }
+
+                        yield return visit;
+                    }
+                }
+            }
+
+            foreach (var visitOccurrence in ipVisits)
+            {
+                yield return visitOccurrence;
+            }
+
+            foreach (var visitOccurrence in erVisits)
+            {
+                yield return visitOccurrence;
+            }
+
+            foreach (var visitOccurrence in nonHospitalVisits)
+            {
+                yield return visitOccurrence;
+            }
         }
 
         public virtual IEnumerable<VisitDetail> BuildVisitDetails(VisitDetail[] visitDetails, VisitOccurrence[] visitOccurrences,
             ObservationPeriod[] observationPeriods)
         {
-            // TMP
-            // return Clean(visitDetails, observationPeriods, true).Distinct();
-            return Clean(visitDetails, observationPeriods, false).Distinct();
+            return Clean(visitDetails, observationPeriods, WithinTheObservationPeriod(EntityType.VisitDetail)).Distinct();
         }
 
         public IEnumerable<Note> BuildNote(Note[] notes, Dictionary<long, VisitOccurrence> visitOccurrences,
@@ -637,7 +893,7 @@ namespace org.ohdsi.cdm.framework.common.Base
         public virtual IEnumerable<DrugExposure> BuildDrugExposures(DrugExposure[] drugExposures,
             Dictionary<long, VisitOccurrence> visitOccurrences, ObservationPeriod[] observationPeriods)
         {
-            return BuildEntities(drugExposures, visitOccurrences, observationPeriods, false);
+            return BuildEntities(drugExposures, visitOccurrences, observationPeriods, WithinTheObservationPeriod(EntityType.DrugExposure));
         }
 
         /// <summary>
@@ -651,7 +907,7 @@ namespace org.ohdsi.cdm.framework.common.Base
             ConditionOccurrence[] conditionOccurrences, Dictionary<long, VisitOccurrence> visitOccurrences,
             ObservationPeriod[] observationPeriods)
         {
-            return BuildEntities(conditionOccurrences, visitOccurrences, observationPeriods, false);
+            return BuildEntities(conditionOccurrences, visitOccurrences, observationPeriods, WithinTheObservationPeriod(EntityType.ConditionOccurrence));
         }
 
         /// <summary>
@@ -665,7 +921,7 @@ namespace org.ohdsi.cdm.framework.common.Base
             ProcedureOccurrence[] procedureOccurrences, Dictionary<long, VisitOccurrence> visitOccurrences,
             ObservationPeriod[] observationPeriods)
         {
-            return BuildEntities(procedureOccurrences, visitOccurrences, observationPeriods, false);
+            return BuildEntities(procedureOccurrences, visitOccurrences, observationPeriods, WithinTheObservationPeriod(EntityType.ProcedureOccurrence));
         }
 
         /// <summary>
@@ -678,14 +934,14 @@ namespace org.ohdsi.cdm.framework.common.Base
         public virtual IEnumerable<Observation> BuildObservations(Observation[] observations,
             Dictionary<long, VisitOccurrence> visitOccurrences, ObservationPeriod[] observationPeriods)
         {
-            return BuildEntities(observations, visitOccurrences, observationPeriods, false);
+            return BuildEntities(observations, visitOccurrences, observationPeriods, WithinTheObservationPeriod(EntityType.Observation));
         }
 
         public virtual IEnumerable<Measurement> BuildMeasurement(Measurement[] measurements,
             Dictionary<long, VisitOccurrence> visitOccurrences,
             ObservationPeriod[] observationPeriods)
         {
-            return BuildEntities(measurements, visitOccurrences, observationPeriods, false);
+            return BuildEntities(measurements, visitOccurrences, observationPeriods, WithinTheObservationPeriod(EntityType.Measurement));
         }
 
         /// <summary>
@@ -698,14 +954,21 @@ namespace org.ohdsi.cdm.framework.common.Base
         /// <returns>Enumeration of condition era</returns>
         public virtual IEnumerable<EraEntity> BuildConditionEra(ConditionOccurrence[] conditionOccurrences, ObservationPeriod[] observationPeriods)
         {
-            // TMP
-            //foreach (var eraEntity in EraHelper.GetEras(
-            //    Clean(conditionOccurrences, observationPeriods, true).Where(c => string.IsNullOrEmpty(c.Domain) || c.Domain == "Condition"), 30,
-            //    38000247))
+            var gap = 30;
+            var conceptId = 38000247;
+            if (_settings.EraSettings != null)
+            {
+                var settings = _settings.EraSettings.FirstOrDefault(s => s.Table == EntityType.DrugEra);
+                if (settings != null)
+                {
+                    gap = settings.GapWindow;
+                    conceptId = settings.ConceptId;
+                }
+            }
 
             foreach (var eraEntity in EraHelper.GetEras(
-                Clean(conditionOccurrences, observationPeriods, false).Where(c => string.IsNullOrEmpty(c.Domain) || c.Domain == "Condition"), 30,
-                38000247))
+                Clean(conditionOccurrences, observationPeriods, WithinTheObservationPeriod(EntityType.ConditionEra)).Where(c => string.IsNullOrEmpty(c.Domain) || c.Domain == "Condition"), gap,
+                conceptId))
             {
                 eraEntity.Id = Offset.GetKeyOffset(eraEntity.PersonId).ConditionEraId;
                 yield return eraEntity;
@@ -723,12 +986,20 @@ namespace org.ohdsi.cdm.framework.common.Base
         /// <returns>Enumeration of drug era</returns>
         public virtual IEnumerable<EraEntity> BuildDrugEra(DrugExposure[] drugExposures, ObservationPeriod[] observationPeriods)
         {
-            // TMP
-            //foreach (var eraEntity in EraHelper.GetEras(
-            //  Clean(drugExposures, observationPeriods, true).Where(d => string.IsNullOrEmpty(d.Domain) || d.Domain == "Drug"), 30, 38000182))
+            var gap = 30;
+            var conceptId = 38000182;
+            if (_settings.EraSettings != null)
+            {
+                var settings = _settings.EraSettings.FirstOrDefault(s => s.Table == EntityType.DrugEra);
+                if(settings != null)
+                {
+                    gap = settings.GapWindow;
+                    conceptId = settings.ConceptId;
+                }
+            }
 
             foreach (var eraEntity in EraHelper.GetEras(
-            Clean(drugExposures, observationPeriods, false).Where(d => string.IsNullOrEmpty(d.Domain) || d.Domain == "Drug"), 30, 38000182))
+            Clean(drugExposures, observationPeriods, WithinTheObservationPeriod(EntityType.DrugEra)).Where(d => string.IsNullOrEmpty(d.Domain) || d.Domain == "Drug"), gap, conceptId))
             {
                 eraEntity.Id = Offset.GetKeyOffset(eraEntity.PersonId).DrugEraId;
                 yield return eraEntity;
@@ -757,7 +1028,7 @@ namespace org.ohdsi.cdm.framework.common.Base
             Dictionary<long, VisitOccurrence> visitOccurrences,
             ObservationPeriod[] observationPeriods)
         {
-            return BuildEntities(devExposure, visitOccurrences, observationPeriods, false);
+            return BuildEntities(devExposure, visitOccurrences, observationPeriods, WithinTheObservationPeriod(EntityType.DeviceExposure));
         }
 
         /// <summary>
@@ -855,6 +1126,23 @@ namespace org.ohdsi.cdm.framework.common.Base
             }
         }
 
+        private VisitOccurrence GetVisitOccurrence(IEntity ent)
+        {
+            if (_rawVisits.ContainsKey(ent.SourceRecordGuid))
+            {
+                var vo = _rawVisits[ent.SourceRecordGuid];
+                if (vo.Id == 0 && _rawVisits.ContainsKey(vo.SourceRecordGuid) &&
+                    _rawVisits[vo.SourceRecordGuid].SourceRecordGuid != ent.SourceRecordGuid)
+                {
+                    vo = _rawVisits[vo.SourceRecordGuid];
+                }
+
+                return vo;
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Build person entity and all person related entities like: DrugExposures, ConditionOccurrences, ProcedureOccurrences... from raw data sets 
         /// </summary>
@@ -871,11 +1159,33 @@ namespace org.ohdsi.cdm.framework.common.Base
                 return result.Value;
             }
 
+            if (!_settings.AllowInvalidObservationTime)
+            {
+                var op = ObservationPeriodsRaw.Where(op =>
+                   op.StartDate.Year >= person.YearOfBirth &&
+                   op.EndDate.Value.Year >= person.YearOfBirth &&
+                   op.StartDate.Year <= DateTime.Now.Year).ToArray();
+
+                if (op.Length == 0)
+                    return Attrition.InvalidObservationTime;
+            }
+
             var observationPeriods = new ObservationPeriod[0];
             if (ObservationPeriodsRaw.Count > 0)
             {
+                var gap = 32;
+
+                if (_settings.EraSettings != null)
+                {
+                    var settings = _settings.EraSettings.FirstOrDefault(s => s.Table == EntityType.ObservationPeriod);
+                    if (settings != null)
+                    {
+                        gap = settings.GapWindow;
+                    }
+                }
+
                 observationPeriods =
-                    BuildObservationPeriods(person.ObservationPeriodGap, ObservationPeriodsRaw.ToArray()).ToArray();
+                    BuildObservationPeriods(gap, ObservationPeriodsRaw.ToArray()).ToArray();
             }
 
             foreach (var op in observationPeriods)
@@ -892,27 +1202,66 @@ namespace org.ohdsi.cdm.framework.common.Base
             //}
 
             var payerPlanPeriods = BuildPayerPlanPeriods(PayerPlanPeriodsRaw.ToArray(), null).ToArray();
-            var visitOccurrences = new Dictionary<long, VisitOccurrence>();
 
+            //var visitOccurrences = new Dictionary<long, VisitOccurrence>();
+            //foreach (var visitOccurrence in BuildVisitOccurrences(VisitOccurrencesRaw.ToArray(), observationPeriods))
+            //{
+            //    if (visitOccurrence.IdUndefined)
+            //        visitOccurrence.Id = Offset.GetKeyOffset(visitOccurrence.PersonId).VisitOccurrenceId;
+
+            //    if(!visitOccurrences.ContainsKey(visitOccurrence.Id))
+            //        visitOccurrences.Add(visitOccurrence.Id, visitOccurrence);
+
+            //    if (!visitOccurrence.EndDate.HasValue)
+            //        visitOccurrence.EndDate = visitOccurrence.StartDate;
+            //}
+
+            //var visitDetails = BuildVisitDetails(VisitDetailsRaw.ToArray(), VisitOccurrencesRaw.ToArray(),
+            //    observationPeriods).ToArray();
+
+            //foreach (var vd in visitDetails)
+            //{
+            //    if (!vd.EndDate.HasValue)
+            //        vd.EndDate = vd.StartDate;
+            //}
+
+            var visitDetails = BuildVisitDetails(null, VisitOccurrencesRaw.ToArray(), observationPeriods).ToArray();
+
+            var visitOccurrences = new Dictionary<long, VisitOccurrence>();
+            var visitIds = new List<long>();
             foreach (var visitOccurrence in BuildVisitOccurrences(VisitOccurrencesRaw.ToArray(), observationPeriods))
             {
-                if (visitOccurrence.IdUndefined)
-                    visitOccurrence.Id = Offset.GetKeyOffset(visitOccurrence.PersonId).VisitOccurrenceId;
+                visitOccurrence.Id = Offset.GetKeyOffset(visitOccurrence.PersonId).VisitOccurrenceId;
 
-                if(!visitOccurrences.ContainsKey(visitOccurrence.Id))
+                if (!visitOccurrences.ContainsKey(visitOccurrence.Id))
+                {
                     visitOccurrences.Add(visitOccurrence.Id, visitOccurrence);
-
-                if (!visitOccurrence.EndDate.HasValue)
-                    visitOccurrence.EndDate = visitOccurrence.StartDate;
+                    visitIds.Add(visitOccurrence.Id);
+                }
             }
 
-            var visitDetails = BuildVisitDetails(VisitDetailsRaw.ToArray(), VisitOccurrencesRaw.ToArray(),
-                observationPeriods).ToArray();
-
-            foreach (var vd in visitDetails)
+            foreach (var visitDetail in visitDetails)
             {
-                if (!vd.EndDate.HasValue)
-                    vd.EndDate = vd.StartDate;
+                var vo = GetVisitOccurrence(visitDetail);
+                visitDetail.VisitOccurrenceId = vo?.Id ?? 0;
+
+                if (visitDetail.VisitOccurrenceId.HasValue && !_visitDetails.ContainsKey(visitDetail.VisitOccurrenceId.Value))
+                {
+                    _visitDetails.Add(visitDetail.VisitOccurrenceId.Value, new List<VisitDetail>());
+                }
+
+                _visitDetails[visitDetail.VisitOccurrenceId.Value].Add(visitDetail);
+            }
+
+            long? prevVisitId = null;
+            foreach (var visitId in visitIds.OrderBy(v => v))
+            {
+                if (prevVisitId.HasValue)
+                {
+                    visitOccurrences[visitId].PrecedingVisitOccurrenceId = prevVisitId;
+                }
+
+                prevVisitId = visitId;
             }
 
             var drugExposures =

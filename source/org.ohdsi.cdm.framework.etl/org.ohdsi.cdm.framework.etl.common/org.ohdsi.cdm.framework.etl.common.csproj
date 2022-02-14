@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <None Remove="ETL\Common\Lookups\Base.sql" />
+    <None Remove="ETL\Common\Lookups\CMSPlaceOfService.sql" />
     <None Remove="ETL\Common\Lookups\PregnancyDrug.sql" />
     <None Remove="ETL\Common\Scripts\MSSQL\AddUsers.sql" />
     <None Remove="ETL\Common\Scripts\MSSQL\CreateChunkTable.sql" />
@@ -185,6 +186,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ETL\Common\Lookups\CMSPlaceOfService.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ETL\Common\Scripts\MSSQL\v5.4\CopyVocabulary.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

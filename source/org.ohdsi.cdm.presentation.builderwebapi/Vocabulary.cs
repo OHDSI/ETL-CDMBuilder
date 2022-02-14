@@ -1,14 +1,11 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using Npgsql;
 using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Lookups;
 using org.ohdsi.cdm.framework.common.PregnancyAlgorithm;
-using org.ohdsi.cdm.framework.desktop.Helpers;
 using org.ohdsi.cdm.presentation.builderwebapi.Hubs;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Odbc;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -80,6 +77,66 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             return; //TMP
         }
 
+        private void LoadVisitRollupLogic()
+        {
+            var sqlFileDestination = string.Empty;
+
+            string baseSql = File.ReadAllText(Path.Combine(_settings.Folder, "ETL", "Common", "Lookups", "Base.sql"));
+            string sql = File.ReadAllText(Path.Combine(_settings.Folder, "ETL", "Common", "Lookups", "CMSPlaceOfService.sql"));
+
+            sql = sql.Replace("{base}", baseSql);
+            sql = sql.Replace("{sc}", _settings.ConversionSettings.VocabularySchema);
+
+            _settings.Lookups.Add("CMSPlaceOfService", sql);
+
+            
+            try
+            {
+                Console.WriteLine("CMSPlaceOfService - Loading...");
+
+                var timer = new Stopwatch();
+                timer.Start();
+
+                WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, "CMSPlaceOfService - Loading ..."), 0);
+
+                using (var connection = _settings.VocabularyEngine.GetConnection(_settings.VocabularyConnectionString))
+                using (var command = _settings.VocabularyEngine.GetCommand(sql, connection))
+                {
+                    command.CommandTimeout = 0;
+
+                    using var reader = command.ExecuteReader();
+                    Console.WriteLine("CMSPlaceOfService -  filling");
+                    var lookup = new Lookup();
+                    while (reader.Read())
+                    {
+                        var lv = CreateLookupValue(reader);
+                        lookup.Add(lv);
+                    }
+
+                    _lookups.Add("CMSPlaceOfService", lookup);
+                }
+
+                Console.WriteLine("CMSPlaceOfService - Done");
+                timer.Stop();
+
+                WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, $"DONE - {timer.ElapsedMilliseconds} ms | KeysCount={_lookups["CMSPlaceOfService"].KeysCount}"), 0);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Lookup error [file]: " + sqlFileDestination);
+                Console.WriteLine("Lookup error [query]: " + sql);
+
+                if (e.InnerException != null && e.InnerException.Message != null)
+                    WriteLog(Status.Failed, e.InnerException.Message, 0);
+
+                WriteLog(Status.Failed, e.Message, 0);
+
+                WriteLog(Status.Failed, string.Format("{0}| {1}", DateTime.Now, "Lookup error [file]: " + sqlFileDestination), 0);
+                WriteLog(Status.Failed, string.Format("{0}| {1}", DateTime.Now, "Lookup error [query]: " + sql), 0);
+                throw;
+            }
+        }
 
         private void Load(IEnumerable<EntityDefinition> definitions)
         {
@@ -217,6 +274,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                 }
             }
             LoadPregnancyDrug();
+            LoadVisitRollupLogic();
         }
 
 

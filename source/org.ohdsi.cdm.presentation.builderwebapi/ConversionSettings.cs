@@ -1,4 +1,6 @@
-﻿namespace org.ohdsi.cdm.presentation.builderwebapi
+﻿using org.ohdsi.cdm.framework.common.Base;
+
+namespace org.ohdsi.cdm.presentation.builderwebapi
 {
     public class ConversionSettings
     {
@@ -33,5 +35,6 @@
         public string MappingsName { get; set; }
         public string CdmVersion { get; set; } = "v5.3";
 
+        public BuildSettings BuildSettings { get; set; }
     }
 }

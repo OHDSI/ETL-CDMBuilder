@@ -375,7 +375,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                         saveQueue.Add(chunk.Process(_settings.SourceEngine,
                             _settings.ConversionSettings.SourceSchema,
                             _settings.SourceQueryDefinitions,
-                            _settings.SourceConnectionString));
+                            _settings.SourceConnectionString,
+                            _settings.ConversionSettings.BuildSettings));
                     }
                     catch(Exception e)
                     {

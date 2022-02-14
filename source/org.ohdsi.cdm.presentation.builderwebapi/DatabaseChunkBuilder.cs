@@ -26,25 +26,22 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         #endregion
 
         #region Methods
-        //public DatabaseChunkPart Process(IDatabaseEngine sourceEngine, string sourceSchemaName, List<QueryDefinition> sourceQueryDefinitions, OdbcConnection sourceConnection)
-        public DatabaseChunkPart Process(IDatabaseEngine sourceEngine, string sourceSchemaName, List<QueryDefinition> sourceQueryDefinitions, string sourceConnectionString)
+        public DatabaseChunkPart Process(IDatabaseEngine sourceEngine, string sourceSchemaName, List<QueryDefinition> sourceQueryDefinitions, string sourceConnectionString, BuildSettings settings)
         {
             try
             {
                 Console.WriteLine("DatabaseChunkBuilder");
 
-                var part = new DatabaseChunkPart(_chunkId, () => new PersonBuilder(), "0", 0);
+                var part = new DatabaseChunkPart(_chunkId, () => new PersonBuilder(settings), "0", 0);
 
                 var timer = new Stopwatch();
                 timer.Start();
 
 
-                //var result = part.Load(sourceEngine, sourceSchemaName, sourceQueryDefinitions, sourceConnection, "");
                 var result = part.Load(sourceEngine, sourceSchemaName, sourceQueryDefinitions, sourceConnectionString, "");
 
                 if (result.Value != null)
                 {
-                    //Logger.Write(_chunkId, LogMessageTypes.Info, result.Key);
                     throw result.Value;
                 }
 

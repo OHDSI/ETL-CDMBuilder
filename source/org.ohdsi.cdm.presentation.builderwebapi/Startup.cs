@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using org.ohdsi.cdm.presentation.builderwebapi.Hubs;
-using System;
+using org.ohdsi.cdm.presentation.builderwebapi.Database;
 using System.Net;
 
 namespace org.ohdsi.cdm.presentation.builderwebapi
@@ -30,6 +28,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             {
                 options.KnownProxies.Add(IPAddress.Parse("10.110.1.7"));
                 options.KnownProxies.Add(IPAddress.Parse("185.134.75.47"));
+                options.KnownProxies.Add(IPAddress.Parse("192.168.0.107"));
                 options.KnownProxies.Add(IPAddress.Parse("10.5.10.33"));
              });
 
@@ -46,6 +45,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                         "http://cdmwizard.arcadialab.ru:9000",
                                         "http://localhost:9000",
                                         "http://localhost:4200",
+                                        "http://192.168.0.107",
+                                        "http://192.168.0.107:8080",
                                         "http://10.110.1.7:8080",
                                         "http://10.110.1.7",
                                         "http://10.5.10.33/")
@@ -54,16 +55,19 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                     .AllowCredentials();
                 });
             });
-                        
-            services.AddSignalR().AddHubOptions<LogHub>(options =>
-            {
-                options.EnableDetailedErrors = true;
-            });
 
             services.AddControllers();
 
+            services.AddHostedService<ETLService>();
+            services.AddHostedService<ConversionService>();
             services.AddHostedService<QueuedHostedService>();
+            
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            services.AddHttpContextAccessor();
+
+          
+
+            DatabaseInitializer.Run(Configuration).Wait();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,8 +93,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<LogHub>("/log");
             });
+            
         }
     }
 }

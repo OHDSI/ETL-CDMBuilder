@@ -1,6 +1,8 @@
 ﻿using org.ohdsi.cdm.framework.desktop;
 using org.ohdsi.cdm.framework.desktop.DbLayer;
 using org.ohdsi.cdm.framework.desktop.Helpers;
+using org.ohdsi.cdm.presentation.builderwebapi.Database;
+using org.ohdsi.cdm.presentation.builderwebapi.ETL;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,16 +29,14 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             }), settings.ConversionSettings.SourceSchema, settings.SourceEngine);
         }
 
-        public void ClenupChunks()
-        {
-            _dbSource.DropChunkTable();
-        }
-
-        public int CreateChunks()
+        public int CreateChunks(string connectionString, int conversionId)
         {
             var chunks = new List<ChunkRecord>();
 
             Console.WriteLine("Generating chunk ids...");
+
+            DBBuilder.ClearChunks(connectionString, conversionId);
+
             _dbSource.CreateChunkTable();
             _dbSource.CreateIndexesChunkTable();
 
@@ -51,6 +51,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             {
                 foreach (var chunk in GetPersonKeys(ChunkSize))
                 {
+                    DBBuilder.AddChunk(connectionString, chunkId, conversionId);
                     chunks.AddRange(chunk.Select(c =>
                         new ChunkRecord { Id = chunkId, PersonId = Convert.ToInt64(c.Key), PersonSource = c.Value }));
 
@@ -70,12 +71,12 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             return chunkId;
         }
 
-        public IEnumerable<List<KeyValuePair<string, string>>> GetPersonKeys(int batchSize)
+        private IEnumerable<List<KeyValuePair<string, string>>> GetPersonKeys(int batchSize)
         {
             return GetPersonKeys(0, batchSize);
         }
 
-        public IEnumerable<List<KeyValuePair<string, string>>> GetPersonKeys(long batches, int batchSize)
+        private IEnumerable<List<KeyValuePair<string, string>>> GetPersonKeys(long batches, int batchSize)
         {
             var batch = new List<KeyValuePair<string, string>>(batchSize);
 

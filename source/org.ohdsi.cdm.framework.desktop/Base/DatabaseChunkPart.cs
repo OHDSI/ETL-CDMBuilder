@@ -16,8 +16,6 @@ namespace org.ohdsi.cdm.framework.desktop.Base
     {
         public ChunkData ChunkData { get; private set; }
 
-
-
         public DatabaseChunkPart(int chunkId, Func<IPersonBuilder> createPersonBuilder, string prefix, int attempt) : base(chunkId, createPersonBuilder, prefix, attempt)
         {
             ChunkData = new ChunkData(ChunkId, int.Parse(Prefix));

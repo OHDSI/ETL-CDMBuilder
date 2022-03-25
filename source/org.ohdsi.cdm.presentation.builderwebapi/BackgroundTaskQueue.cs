@@ -7,8 +7,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 {
     public interface IBackgroundTaskQueue
     {
-        string State { get; set; }
-        bool Aborted { get; set; }
+        string State { get; }
+        
         void QueueBackgroundWorkItem(Func<CancellationToken, Task> workItem);
 
         Task<Func<CancellationToken, Task>> DequeueAsync(
@@ -20,15 +20,15 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         private ConcurrentQueue<Func<CancellationToken, Task>> _workItems =
             new ConcurrentQueue<Func<CancellationToken, Task>>();
         private SemaphoreSlim _signal = new SemaphoreSlim(0);
-
-        public bool Aborted { get; set; }
-        public string State { get; set; }
-
-        public BackgroundTaskQueue()
-        {
-            State = "Idle";
+        
+        public string State 
+        { 
+            get
+            {
+                return _workItems.Count.ToString();
+            }
         }
-
+        
         public void QueueBackgroundWorkItem(
             Func<CancellationToken, Task> workItem)
         {
@@ -37,7 +37,6 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                 throw new ArgumentNullException(nameof(workItem));
             }
 
-            Aborted = false;
             _workItems.Enqueue(workItem);
             _signal.Release();
         }

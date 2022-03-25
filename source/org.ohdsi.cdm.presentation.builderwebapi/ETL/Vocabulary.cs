@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using org.ohdsi.cdm.framework.common.Definitions;
+﻿using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Lookups;
 using org.ohdsi.cdm.framework.common.PregnancyAlgorithm;
-using org.ohdsi.cdm.presentation.builderwebapi.Hubs;
+using org.ohdsi.cdm.presentation.builderwebapi.Enums;
+using org.ohdsi.cdm.presentation.builderwebapi.Log;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,8 +10,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-
-namespace org.ohdsi.cdm.presentation.builderwebapi
+namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
 {
     public class Vocabulary : IVocabulary
     {
@@ -19,14 +18,15 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         private GenderLookup _genderConcepts;
         private PregnancyConcepts _pregnancyConcepts;
         private Settings _settings;
-        private readonly IHubContext<LogHub> _logHub;
-        private string _authorization;
 
-        public Vocabulary(Settings settings, IHubContext<LogHub> logHub, string authorization)
+        private int _conversionId;
+        private string _connectionString;
+
+        public Vocabulary(Settings settings, string connectionString, int conversionId)
         {
             _settings = settings;
-            _logHub = logHub;
-            _authorization = authorization;
+            _conversionId = conversionId;
+            _connectionString = connectionString;
         }
 
         private static LookupValue CreateLookupValue(IDataRecord reader)
@@ -89,7 +89,6 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 
             _settings.Lookups.Add("CMSPlaceOfService", sql);
 
-            
             try
             {
                 Console.WriteLine("CMSPlaceOfService - Loading...");
@@ -97,7 +96,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                 var timer = new Stopwatch();
                 timer.Start();
 
-                WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, "CMSPlaceOfService - Loading ..."), 0);
+                WriteLog(LogType.Info, "CMSPlaceOfService - Loading ...", 0);
 
                 using (var connection = _settings.VocabularyEngine.GetConnection(_settings.VocabularyConnectionString))
                 using (var command = _settings.VocabularyEngine.GetCommand(sql, connection))
@@ -119,8 +118,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                 Console.WriteLine("CMSPlaceOfService - Done");
                 timer.Stop();
 
-                WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, $"DONE - {timer.ElapsedMilliseconds} ms | KeysCount={_lookups["CMSPlaceOfService"].KeysCount}"), 0);
-
+                WriteLog(LogType.Info, $"DONE - {timer.ElapsedMilliseconds} ms | KeysCount={_lookups["CMSPlaceOfService"].KeysCount}", 0);
             }
             catch (Exception e)
             {
@@ -128,12 +126,12 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                 Console.WriteLine("Lookup error [query]: " + sql);
 
                 if (e.InnerException != null && e.InnerException.Message != null)
-                    WriteLog(Status.Failed, e.InnerException.Message, 0);
+                    WriteLog(LogType.Error, e.InnerException.Message, 0);
 
-                WriteLog(Status.Failed, e.Message, 0);
+                WriteLog(LogType.Error, e.Message, 0);
 
-                WriteLog(Status.Failed, string.Format("{0}| {1}", DateTime.Now, "Lookup error [file]: " + sqlFileDestination), 0);
-                WriteLog(Status.Failed, string.Format("{0}| {1}", DateTime.Now, "Lookup error [query]: " + sql), 0);
+                WriteLog(LogType.Error, "Lookup error [file]: " + sqlFileDestination, 0);
+                WriteLog(LogType.Error, "Lookup error [query]: " + sql, 0);
                 throw;
             }
         }
@@ -159,12 +157,12 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                             if (!_lookups.ContainsKey(conceptIdMapper.Lookup))
                             {
                                 string sql = string.Empty;
-                                
+
                                 var baseSql = string.Empty;
                                 var sqlFileDestination = string.Empty;
 
                                 baseSql = File.ReadAllText(Path.Combine(_settings.Folder, "ETL", "Common", "Lookups", "Base.sql"));
-                                                               
+
                                 sql = _settings.Lookups[conceptIdMapper.Lookup];
 
                                 sql = sql.Replace("{base}", baseSql);
@@ -175,12 +173,12 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     Console.WriteLine(conceptIdMapper.Lookup + " - Loading...");
 
                                     var timer = new Stopwatch();
-                                    timer.Start();                                  
+                                    timer.Start();
 
                                     //WriteLog(Status.Running, "1 " + _settings.VocabularyConnectionString, 0);
                                     //WriteLog(Status.Running, "2 " + SqlConnectionHelper.GetConnection(_settings.VocabularyConnectionString, _settings.VocabularyEngine.Database), 0);
-                                    WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, conceptIdMapper.Lookup + " - Loading ..."), 0);
-                                                                       
+                                    WriteLog(LogType.Info, conceptIdMapper.Lookup + " - Loading ...", 0);
+
 
                                     using (var connection = _settings.VocabularyEngine.GetConnection(_settings.VocabularyConnectionString))
                                     using (var command = _settings.VocabularyEngine.GetCommand(sql, connection))
@@ -204,7 +202,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     Console.WriteLine(conceptIdMapper.Lookup + " - Done");
                                     timer.Stop();
 
-                                    WriteLog(Status.Running, string.Format("{0}| {1}", DateTime.Now, $"DONE - {timer.ElapsedMilliseconds} ms | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}"), 0);
+                                    WriteLog(LogType.Info, $"DONE - {timer.ElapsedMilliseconds} ms | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}", 0);
 
                                 }
                                 catch (Exception e)
@@ -212,15 +210,15 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     Console.WriteLine("Lookup error [file]: " + sqlFileDestination);
                                     Console.WriteLine("Lookup error [query]: " + sql);
 
-                                    //WriteLog(Status.Failed, e.StackTrace, 0);
+                                    WriteLog(LogType.Error, e.StackTrace, 0);
 
                                     if (e.InnerException != null && e.InnerException.Message != null)
-                                        WriteLog(Status.Failed, e.InnerException.Message, 0);
+                                        WriteLog(LogType.Error, e.InnerException.Message, 0);
 
-                                    WriteLog(Status.Failed, e.Message, 0);
+                                    WriteLog(LogType.Error, e.Message, 0);
 
-                                    WriteLog(Status.Failed, string.Format("{0}| {1}", DateTime.Now, "Lookup error [file]: " + sqlFileDestination), 0);
-                                    WriteLog(Status.Failed, string.Format("{0}| {1}", DateTime.Now, "Lookup error [query]: " + sql), 0);
+                                    WriteLog(LogType.Error, "Lookup error [file]: " + sqlFileDestination, 0);
+                                    WriteLog(LogType.Error, "Lookup error [query]: " + sql, 0);
                                     throw;
                                 }
                             }
@@ -273,8 +271,12 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                     Load(qd.DrugCost);
                 }
             }
-            LoadPregnancyDrug();
-            LoadVisitRollupLogic();
+
+            if (!forLookup)
+            {
+                LoadPregnancyDrug();
+                LoadVisitRollupLogic();
+            }
         }
 
 
@@ -300,9 +302,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             return _pregnancyConcepts.GetConcepts(conceptId);
         }
 
-        private void WriteLog(Status status, string message, Double progress)
+        private void WriteLog(LogType status, string message, double progress)
         {
-            _logHub.Clients.Group(_authorization).SendAsync("Log", new LogMessage { Status = status, Text = message, Progress = progress }).Wait();
+            Logger.Write(_connectionString, new LogMessage { ConversionId = _conversionId, Type = status, Text = message });
         }
     }
 }

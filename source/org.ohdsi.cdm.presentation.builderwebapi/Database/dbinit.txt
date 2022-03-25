@@ -1,0 +1,52 @@
+﻿CREATE TABLE IF NOT EXISTS builder.conversion
+(
+   id     integer    PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+   user_name  varchar(250)   NOT NULL,
+   name       varchar(250)   NOT NULL,
+   started        timestamptz,
+   completed      timestamptz,
+   canceled       timestamptz,
+   failed         timestamptz,
+   UNIQUE (user_name, name)
+);
+
+CREATE TABLE IF NOT EXISTS builder.conversion_parameters
+(
+   conversion_id  integer    NOT NULL,
+   name        varchar(50)   NOT NULL,
+   value       varchar(250)  NOT NULL,
+   UNIQUE (conversion_id, name)
+);
+
+CREATE TABLE IF NOT EXISTS builder.log
+(
+   id           integer    PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+   conversion_id  integer     NULL,
+   step_id       integer,
+   chunk_id     integer,
+   time         timestamptz,
+   type         varchar(20)    NOT NULL,
+   description  varchar
+);
+
+CREATE TABLE IF NOT EXISTS builder.chunk
+(
+   id             integer    NOT NULL,
+   conversion_id  integer     NOT NULL,
+   started        timestamptz,
+   completed      timestamptz,
+   canceled       timestamptz,
+   failed         timestamptz 
+);
+
+CREATE TABLE IF NOT EXISTS builder.steps
+(
+   id             integer    PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+   name           varchar(50)    NOT NULL,
+   conversion_id  integer        NOT NULL,
+   started        timestamptz ,
+   completed      timestamptz ,
+   canceled       timestamptz ,
+   failed         timestamptz ,
+   UNIQUE (name, conversion_id)
+);

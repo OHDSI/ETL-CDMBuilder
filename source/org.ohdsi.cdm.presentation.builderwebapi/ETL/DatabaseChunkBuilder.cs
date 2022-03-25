@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Data.Odbc;
 using System.Diagnostics;
 
-namespace org.ohdsi.cdm.presentation.builderwebapi
+namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
 {
     public class DatabaseChunkBuilder
     {

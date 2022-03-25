@@ -662,7 +662,12 @@ namespace org.ohdsi.cdm.framework.common.Base
             if (_settings.UseVisitRollupLogic)
                 return BuildVisitOccurrencesWithRollup(visitOccurrences, observationPeriods);
 
-            return Clean(visitOccurrences, observationPeriods, WithinTheObservationPeriod(EntityType.VisitOccurrence)).Distinct();
+            var result = Clean(visitOccurrences, observationPeriods, WithinTheObservationPeriod(EntityType.VisitOccurrence));
+
+            if(result != null)
+                return result.Distinct();
+
+            return Enumerable.Empty<VisitOccurrence>();
         }
 
         private List<VisitOccurrence> CollapseVisits(IEnumerable<VisitOccurrence> visits)
@@ -864,7 +869,12 @@ namespace org.ohdsi.cdm.framework.common.Base
         public virtual IEnumerable<VisitDetail> BuildVisitDetails(VisitDetail[] visitDetails, VisitOccurrence[] visitOccurrences,
             ObservationPeriod[] observationPeriods)
         {
-            return Clean(visitDetails, observationPeriods, WithinTheObservationPeriod(EntityType.VisitDetail)).Distinct();
+            var result = Clean(visitDetails, observationPeriods, WithinTheObservationPeriod(EntityType.VisitDetail));
+
+            if(result != null)
+                return result.Distinct();
+
+            return Enumerable.Empty<VisitDetail>();
         }
 
         public IEnumerable<Note> BuildNote(Note[] notes, Dictionary<long, VisitOccurrence> visitOccurrences,

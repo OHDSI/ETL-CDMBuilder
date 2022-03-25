@@ -8,8 +8,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net.Http;
 
-namespace org.ohdsi.cdm.presentation.builderwebapi
+namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
 {
     public class Settings
     {
@@ -145,7 +146,16 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             var mappingsDir = Path.Combine(Folder, "mappings");
             var mappingsFile = Path.Combine(mappingsDir, ConversionSettings.MappingsName + ".zip");
 
-            using ZipArchive archive = ZipFile.OpenRead(mappingsFile);
+            var actionUrl = _configuration.GetSection("AppSettings").GetSection("FilesManagerUrl").Value;
+            actionUrl += $"/{ConversionSettings.ContentKey}";
+            using var client = new HttpClient();
+            var data = client.GetByteArrayAsync(actionUrl);
+            data.Wait();
+            using MemoryStream memoryStream = new MemoryStream();
+            memoryStream.Write(data.Result, 0, data.Result.Length);
+
+            //using ZipArchive archive = ZipFile.OpenRead(mappingsFile);
+            using ZipArchive archive = new ZipArchive(memoryStream);
             foreach (var item in archive.Entries)
             {
                 using var stream = item.Open();
@@ -211,7 +221,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                         if (qd.Persons[0].Concepts != null && qd.Persons[0].Concepts.Length > 0)
                         {
                             var gender = qd.Persons[0].Concepts.FirstOrDefault(c => c.Name == "GenderConceptId");
-                            if(gender != null)
+                            if (gender != null)
                                 qd.Persons[0].Gender = gender.Fields[0].SourceKey;
 
                             var race = qd.Persons[0].Concepts.FirstOrDefault(c => c.Name == "RaceConceptId");
@@ -231,12 +241,6 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 
                         if (string.IsNullOrEmpty(qd.Persons[0].PersonSourceValue))
                             qd.Persons[0].PersonSourceValue = qd.Persons[0].PersonId;
-
-                        //if (qd.ObservationPeriod != null)
-                        //{
-                        //    qd.Persons[0].StartDate = qd.ObservationPeriod[0].StartDate;
-                        //    qd.Persons[0].EndDate = qd.ObservationPeriod[0].EndDate;
-                        //}
                     }
 
                     if (qd.VisitOccurrence != null)
@@ -260,22 +264,6 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                     BatchScript = content;
                 }
             }
-
-            //var ops = SourceQueryDefinitions.Where(qd => qd.Persons == null && qd.ObservationPeriod != null);
-            //if (ops != null && ops.Count() > 0)
-            //{
-            //    var persons = SourceQueryDefinitions.Where(qd => qd.Persons != null && qd.ObservationPeriod == null);
-            //    if (persons != null && persons.Count() > 0)
-            //    {
-            //        var opQd = ops.First();
-            //        foreach (var qd in persons)
-            //        {
-            //            qd.Persons[0].StartDate = opQd.ObservationPeriod[0].StartDate;
-            //            qd.Persons[0].EndDate = opQd.ObservationPeriod[0].EndDate;
-            //        }
-            //    }
-            //}
-            
         }
 
         public string DropVocabularyTablesScript => File.ReadAllText(
@@ -312,6 +300,5 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             return _configuration[dbType].Replace("{server}", server).Replace("{database}", db).Replace("{username}", user)
                 .Replace("{password}", pswd).Replace("{port}", port);
         }
-
     }
 }

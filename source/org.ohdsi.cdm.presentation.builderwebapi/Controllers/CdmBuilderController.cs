@@ -1,18 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Odbc;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json.Linq;
 using org.ohdsi.cdm.framework.desktop.Helpers;
-using org.ohdsi.cdm.presentation.builderwebapi.Hubs;
+using org.ohdsi.cdm.presentation.builderwebapi.Database;
+using org.ohdsi.cdm.presentation.builderwebapi.Enums;
+using org.ohdsi.cdm.presentation.builderwebapi.ETL;
+using org.ohdsi.cdm.presentation.builderwebapi.Extensions;
+using org.ohdsi.cdm.presentation.builderwebapi.Log;
 
 namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 {
@@ -20,13 +21,11 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
     [Route("cdm-builder/api")]
     public class CdmBuilderController : ControllerBase
     {
-        private readonly IHubContext<LogHub> _logHub;
         private readonly IBackgroundTaskQueue _queue;
         private IConfiguration _configuration;
 
-        public CdmBuilderController(IConfiguration configuration, IHubContext<LogHub> hub, IBackgroundTaskQueue queue)
+        public CdmBuilderController(IConfiguration configuration, IBackgroundTaskQueue queue)
         {
-            _logHub = hub;
             _queue = queue;
             _configuration = configuration;
         }
@@ -34,17 +33,51 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         [HttpGet]
         public string Get()
         {
-            return _queue.State;
+            return "Running...";
         }
 
-
-        [HttpGet("abort")]
-        public string Abort()
+        [HttpGet]
+        [Route("log")]
+        public ConversionLogMessage GetLog(int conversionId, int? logId)
         {
-            _queue.Aborted = true;
-            _queue.State = "Aborted";
-            var authorization = this.HttpContext.Request.Headers["Authorization"].ToString();
-            WriteLog(authorization, Status.Canceled, "Aborted", 100);
+            var message = new ConversionLogMessage() { id = conversionId, logs = new List<Log.Message>(), statusName = "IN_PROGRESS", statusCode = 1 };
+            var connectionString = _configuration.GetConnectionString("DefaultConnection");
+            foreach (var l in DBBuilder.GetLog(connectionString, conversionId, logId))
+            {
+                if(l.percent == 100)
+                {
+                    message.statusName = "COMPLETED";
+                    message.statusCode = 2;
+                }
+
+                if (l.statusName == "Error")
+                {
+                    message.statusName = "FAILED";
+                    message.statusCode = 4;
+                }
+
+                message.logs.Add(l);
+            }
+
+            if (DBBuilder.IsConversionAborted(connectionString, conversionId))
+            {
+                message.statusName = "ABORTED";
+                message.statusCode = 3;
+            }
+
+            return message;
+        }
+
+        [HttpGet]
+        [Route("abort")]
+        public string Abort(int conversionId)
+        {
+            var username = this.HttpContext.Request.Headers["username"].ToString();
+            var connectionString = _configuration.GetConnectionString("DefaultConnection");
+
+            DBBuilder.AbortConversion(connectionString, conversionId);
+            Logger.Write(connectionString, new LogMessage { User = username, ConversionId = conversionId, Type = LogType.Info, Text = "Conversion aborted." });
+
             return "Aborted";
         }
                 
@@ -159,34 +192,48 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         }
 
         [HttpPost("addmappings")]
-        public async Task<IActionResult> AddMappings([FromForm] Mappings mappings)
+        public async Task<ConversionLogMessage> AddMappings([FromForm] Mappings mappings)
         {
-            var dir = Path.Combine(AppContext.BaseDirectory, "mappings");
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
+            var connectionString = _configuration.GetConnectionString("DefaultConnection");
+            var username = this.HttpContext.Request.Headers["username"].ToString();
+            var actionUrl = _configuration.GetSection("AppSettings").GetSection("FilesManagerUrl").Value;
 
-            var filePath = Path.Combine(dir, mappings.Name + ".zip");
-
-            using (var stream = System.IO.File.Create(filePath))
+            var conversionId = DBBuilder.AddConversion(connectionString, username, mappings.Name);
+            using (var client = new HttpClient())
+            using (var formData = new MultipartFormDataContent())
             {
-                await mappings.File.CopyToAsync(stream);
+                formData.Add(new StringContent(username), "username");
+                formData.Add(new StringContent(mappings.Name), "dataKey");
+
+                var file = mappings.File.OpenReadStream().GetByteArray();
+                formData.Add(new ByteArrayContent(file), "file", "file.zip");
+                
+                var response = await client.PostAsync(actionUrl, formData);
+                var content = response.Content.ReadAsStringAsync();
+                content.Wait();
+                
+                dynamic data = JToken.Parse(content.Result);
+                string contentKey = data.id;
+                var key = _configuration.GetSection("AppSettings").GetSection("Key").Value;
+                DBBuilder.StoreParameters(connectionString, key, conversionId, new List<Tuple<string, string>>() { new Tuple<string, string>("ContentKey", contentKey) });
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new ConversionLogMessage() { id = conversionId, statusName = "FAILED", statusCode = 4 };
+                }
             }
-
-            return Ok();
+            return new ConversionLogMessage() { id = conversionId, statusName = "IN_PROGRESS", statusCode = 1 };
         }
-
 
         [HttpPost]
         public async Task<HttpResponseMessage> Post(CancellationToken cancellationToken, [FromBody] ConversionSettings settings)
         {
-            var authorization = this.HttpContext.Request.Headers["Authorization"].ToString();
-            HttpResponseMessage returnMessage = new HttpResponseMessage();
+            var username = this.HttpContext.Request.Headers["username"].ToString();
+            var connectionString = _configuration.GetConnectionString("DefaultConnection");
+            int? conversionId = int.Parse(settings.ConversionId);
 
             try
             {
-                _queue.Aborted = false;
-                               
-
                 if (settings.DestinationEngine.ToLower() == "mysql")
                 {
                     settings.DestinationEngine = "MySql";
@@ -198,6 +245,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                     settings.SourceEngine = "MySql";
                     settings.SourceSchema = null;
                 }
+                
+                var key = _configuration.GetSection("AppSettings").GetSection("Key").Value;
+                var properties = ConversionSettings.GetProperties(settings);
 
                 _queue.QueueBackgroundWorkItem(async token =>
                 {
@@ -205,35 +255,23 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                     {
                         try
                         {
-                            WriteLog(authorization, Status.Started, string.Empty, 0);
-                            _queue.State = "Running";
-
-                            var conversion = new ConversionController(_queue, settings, _configuration, _logHub, authorization);
-                            conversion.Start();
-
-                            _queue.State = "Idle";
-                            WriteLog(authorization, Status.Finished, string.Empty, 100);
+                            DBBuilder.AddConversion(connectionString, username, settings.MappingsName);
+                            Logger.Write(connectionString, new LogMessage { User = username, ConversionId = conversionId, Type = LogType.Info, Text = "Conversion started" });
+                            DBBuilder.StoreParameters(connectionString, key, conversionId.Value, properties);
                         }
                         catch (Exception e)
                         {
-                            WriteLog(authorization, Status.Failed, e.Message, 100);
+                            Logger.Write(connectionString, new LogMessage { User = username, ConversionId = conversionId, Type = LogType.Error, Text = e.Message });
                         }
                     });
                 });
             }
             catch(Exception ex)
             {
-                WriteLog(authorization, Status.Failed, ex.Message, 100);
+                Logger.Write(connectionString, new LogMessage { User = username, ConversionId = conversionId, Type = LogType.Error, Text = ex.Message });
             }
-
-            //WriteLog("conversion done");
-            return await Task.FromResult(returnMessage);
-        }
-
-        private void WriteLog(string authorization, Status status, string message, Double progress)
-        {
-            //_logHub.Groups.
-            _logHub.Clients.Group(authorization).SendAsync("Log", new LogMessage { Status = status, Text = message, Progress = progress }).Wait();
+  
+            return await Task.FromResult(new HttpResponseMessage() { StatusCode = HttpStatusCode.OK });
         }
     }   
 }

@@ -198,10 +198,15 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             var connectionString = _configuration.GetConnectionString("DefaultConnection");
             var username = this.HttpContext.Request.Headers["username"].ToString();
             var actionUrl = _configuration.GetSection("AppSettings").GetSection("FilesManagerUrl").Value;
+            var key = _configuration.GetSection("AppSettings").GetSection("Key").Value;
 
+            Logger.Write(connectionString, new LogMessage { User = username, Type = LogType.Debug, Text = $"AddMappings {username} | {actionUrl}" });
             try
             {
                 conversionId = DBBuilder.AddConversion(connectionString, username, mappings.Name);
+
+                Logger.Write(connectionString, new LogMessage { User = username, Type = LogType.Debug, Text = $"AddMappings conversionId {conversionId.Value}" });
+
                 using (var client = new HttpClient())
                 using (var formData = new MultipartFormDataContent())
                 {
@@ -211,14 +216,22 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                     var file = mappings.File.OpenReadStream().GetByteArray();
                     formData.Add(new ByteArrayContent(file), "file", "file.zip");
 
+                    Logger.Write(connectionString, new LogMessage { User = username, Type = LogType.Debug, Text = $"AddMappings stream opened" });
+
                     var response = await client.PostAsync(actionUrl, formData);
                     var content = response.Content.ReadAsStringAsync();
                     content.Wait();
 
+                    Logger.Write(connectionString, new LogMessage { User = username, Type = LogType.Debug, Text = $"AddMappings data saved" });
+
                     dynamic data = JToken.Parse(content.Result);
                     string contentKey = data.id;
-                    var key = _configuration.GetSection("AppSettings").GetSection("Key").Value;
+
+                    Logger.Write(connectionString, new LogMessage { User = username, Type = LogType.Debug, Text = $"AddMappings contentKey {contentKey}" });
+                    
                     DBBuilder.StoreParameters(connectionString, key, conversionId.Value, new List<Tuple<string, string>>() { new Tuple<string, string>("ContentKey", contentKey) });
+
+                    Logger.Write(connectionString, new LogMessage { User = username, Type = LogType.Debug, Text = $"AddMappings parameters stored" });
 
                     if (!response.IsSuccessStatusCode)
                     {

@@ -194,35 +194,45 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         [HttpPost("addmappings")]
         public async Task<ConversionLogMessage> AddMappings([FromForm] Mappings mappings)
         {
+            int? conversionId = null;
             var connectionString = _configuration.GetConnectionString("DefaultConnection");
             var username = this.HttpContext.Request.Headers["username"].ToString();
             var actionUrl = _configuration.GetSection("AppSettings").GetSection("FilesManagerUrl").Value;
 
-            var conversionId = DBBuilder.AddConversion(connectionString, username, mappings.Name);
-            using (var client = new HttpClient())
-            using (var formData = new MultipartFormDataContent())
+            try
             {
-                formData.Add(new StringContent(username), "username");
-                formData.Add(new StringContent(mappings.Name), "dataKey");
-
-                var file = mappings.File.OpenReadStream().GetByteArray();
-                formData.Add(new ByteArrayContent(file), "file", "file.zip");
-                
-                var response = await client.PostAsync(actionUrl, formData);
-                var content = response.Content.ReadAsStringAsync();
-                content.Wait();
-                
-                dynamic data = JToken.Parse(content.Result);
-                string contentKey = data.id;
-                var key = _configuration.GetSection("AppSettings").GetSection("Key").Value;
-                DBBuilder.StoreParameters(connectionString, key, conversionId, new List<Tuple<string, string>>() { new Tuple<string, string>("ContentKey", contentKey) });
-
-                if (!response.IsSuccessStatusCode)
+                conversionId = DBBuilder.AddConversion(connectionString, username, mappings.Name);
+                using (var client = new HttpClient())
+                using (var formData = new MultipartFormDataContent())
                 {
-                    return new ConversionLogMessage() { id = conversionId, statusName = "FAILED", statusCode = 4 };
+                    formData.Add(new StringContent(username), "username");
+                    formData.Add(new StringContent(mappings.Name), "dataKey");
+
+                    var file = mappings.File.OpenReadStream().GetByteArray();
+                    formData.Add(new ByteArrayContent(file), "file", "file.zip");
+
+                    var response = await client.PostAsync(actionUrl, formData);
+                    var content = response.Content.ReadAsStringAsync();
+                    content.Wait();
+
+                    dynamic data = JToken.Parse(content.Result);
+                    string contentKey = data.id;
+                    var key = _configuration.GetSection("AppSettings").GetSection("Key").Value;
+                    DBBuilder.StoreParameters(connectionString, key, conversionId.Value, new List<Tuple<string, string>>() { new Tuple<string, string>("ContentKey", contentKey) });
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return new ConversionLogMessage() { id = conversionId.Value, statusName = "FAILED", statusCode = 4 };
+                    }
                 }
             }
-            return new ConversionLogMessage() { id = conversionId, statusName = "IN_PROGRESS", statusCode = 1 };
+            catch (Exception e)
+            {
+                Logger.Write(connectionString, new LogMessage { User = username, ConversionId = conversionId, Type = LogType.Error, Text = e.Message });
+                return new ConversionLogMessage() { id = conversionId.Value, statusName = "FAILED", statusCode = 4, logs = new List<Message> { new Message { message = e.Message } } };
+            }
+                        
+            return new ConversionLogMessage() { id = conversionId.Value, statusName = "IN_PROGRESS", statusCode = 1 };
         }
 
         [HttpPost]

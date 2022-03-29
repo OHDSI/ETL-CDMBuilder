@@ -56,7 +56,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
                     continue;
 
                 object value = prp.GetValue(atype, new object[] { });
-                result.Add(new Tuple<string, string>(prp.Name, value == null ? "" : value.ToString()));
+                if (value == null)
+                    continue;
+
+                result.Add(new Tuple<string, string>(prp.Name, value.ToString()));
             }
             return result;
         }

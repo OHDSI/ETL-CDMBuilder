@@ -253,7 +253,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         {
             var username = this.HttpContext.Request.Headers["username"].ToString();
             var connectionString = _configuration.GetConnectionString("DefaultConnection");
-            int? conversionId = int.Parse(settings.ConversionId);
+            int conversionId = int.Parse(settings.ConversionId.ToString());
 
             try
             {
@@ -280,7 +280,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                         {
                             DBBuilder.AddConversion(connectionString, username, settings.MappingsName);
                             Logger.Write(connectionString, new LogMessage { User = username, ConversionId = conversionId, Type = LogType.Info, Text = "Conversion started" });
-                            DBBuilder.StoreParameters(connectionString, key, conversionId.Value, properties);
+                            DBBuilder.StoreParameters(connectionString, key, conversionId, properties);
                         }
                         catch (Exception e)
                         {

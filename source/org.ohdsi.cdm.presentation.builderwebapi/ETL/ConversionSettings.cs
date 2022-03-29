@@ -7,7 +7,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
 {
     public class ConversionSettings
     {
-        public string ConversionId { get; set; }
+        public object ConversionId { get; set; }
         public string ContentKey { get; set; }
         public string SourceEngine { get; set; }
         public string DestinationEngine { get; set; }

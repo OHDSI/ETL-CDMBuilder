@@ -1,6 +1,8 @@
-﻿using org.ohdsi.cdm.framework.common.Definitions;
+﻿using Newtonsoft.Json.Linq;
+using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Lookups;
 using org.ohdsi.cdm.framework.common.PregnancyAlgorithm;
+using org.ohdsi.cdm.presentation.builderwebapi.Database;
 using org.ohdsi.cdm.presentation.builderwebapi.Enums;
 using org.ohdsi.cdm.presentation.builderwebapi.Log;
 using System;
@@ -8,7 +10,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Net.Http;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
 {
@@ -27,6 +32,11 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
             _settings = settings;
             _conversionId = conversionId;
             _connectionString = connectionString;
+
+            _genderConcepts = new GenderLookup();
+            _genderConcepts.Load();
+
+            _pregnancyConcepts = new PregnancyConcepts();
         }
 
         private static LookupValue CreateLookupValue(IDataRecord reader)
@@ -234,11 +244,6 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
         /// <param name="forLookup">true - fill vocab. for: CareSites, Providers, Locations; false - rest of us</param>
         public void Fill(bool forLookup, bool readFromS3)
         {
-            _genderConcepts = new GenderLookup();
-            _genderConcepts.Load();
-
-            _pregnancyConcepts = new PregnancyConcepts();
-
             foreach (var qd in _settings.SourceQueryDefinitions)
             {
                 if (forLookup)
@@ -279,6 +284,42 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
             }
         }
 
+        private void Attach()
+        {
+            foreach (var qd in _settings.SourceQueryDefinitions)
+            {
+                Attach(qd.Persons);
+                Attach(qd.ConditionOccurrence);
+                Attach(qd.DrugExposure);
+                Attach(qd.ProcedureOccurrence);
+                Attach(qd.Observation);
+                Attach(qd.VisitOccurrence);
+                Attach(qd.VisitDetail);
+                Attach(qd.Death);
+                Attach(qd.Measurement);
+                Attach(qd.DeviceExposure);
+                Attach(qd.Note);
+                Attach(qd.Episode);
+                Attach(qd.EpisodeEvent);
+
+                Attach(qd.VisitCost);
+                Attach(qd.ProcedureCost);
+                Attach(qd.DeviceCost);
+                Attach(qd.ObservationCost);
+                Attach(qd.MeasurementCost);
+                Attach(qd.DrugCost);
+            }
+        }
+
+        private void Attach(IEnumerable<EntityDefinition> definitions)
+        {
+            if (definitions == null) return;
+
+            foreach (var ed in definitions)
+            {
+                ed.Vocabulary = this;
+            }
+        }
 
         public List<LookupValue> Lookup(string sourceValue, string key, DateTime eventDate)
         {
@@ -305,6 +346,114 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
         private void WriteLog(LogType status, string message, double progress)
         {
             Logger.Write(_connectionString, new LogMessage { ConversionId = _conversionId, Type = status, Text = message });
+        }
+
+        private static MemoryStream Compress(Stream inputStream)
+        {
+            inputStream.Position = 0;
+            var outputStream = new MemoryStream();
+            using (var gz = new BufferedStream(new GZipStream(outputStream, CompressionLevel.Optimal, true)))
+            {
+                inputStream.CopyTo(gz);
+            }
+
+            outputStream.Position = 0;
+
+            return outputStream;
+        }
+
+        private static byte[] Decompress(byte[] compressed)
+        {
+            using var from = new MemoryStream(compressed);
+            using var to = new MemoryStream();
+            using var gZipStream = new GZipStream(from, CompressionMode.Decompress);
+            gZipStream.CopyTo(to);
+            return to.ToArray();
+        }
+
+        public void LoadVocabularyFromFileManager(string fileManagerUrl, string secureKey)
+        {
+            foreach (var l in DBBuilder.GetLookups(_connectionString, secureKey, _conversionId))
+            {
+                var name = l.Key.Replace("Lookup:", "");
+                var contentKey = l.Value;
+
+                WriteLog(LogType.Info, name + " - Downloading from File Manager...", 0);
+
+                using var client = new HttpClient();
+                var data = client.GetByteArrayAsync(fileManagerUrl + $"/{contentKey}");
+                data.Wait();
+
+                var content = Decompress(data.Result);
+                using MemoryStream memoryStream = new MemoryStream();
+                memoryStream.Write(content, 0, content.Length);
+
+                BinaryFormatter bf = new BinaryFormatter();
+                memoryStream.Position = 0;
+                var lookupContent = bf.Deserialize(memoryStream);
+
+                var lookup = new Lookup();
+                lookup.Fill((Dictionary<string, Dictionary<int, LookupValue>>)lookupContent);
+                _lookups.Add(name, lookup);
+
+                Attach();
+
+                WriteLog(LogType.Info, name + " - Downloading DONE", 0);
+            }
+        }
+
+        public void StoreToFileManager(string userName, string fileManagerUrl, string secureKey)
+        {
+            var lookupNames = new List<Tuple<string, string>>();
+            foreach (var l in _lookups)
+            {
+                var name = l.Key;
+                var lookup = l.Value;
+
+                WriteLog(LogType.Info, name + " - Uploading to File Manager...", 0);
+
+                byte[] zipBytes;
+
+                BinaryFormatter bf = new BinaryFormatter();
+                using (var sourceStream = new MemoryStream())
+                {
+                    bf.Serialize(sourceStream, lookup.Content);
+                    var res = sourceStream.ToArray();
+
+                    zipBytes = Compress(sourceStream).ToArray();
+                }
+
+                //byte[] hash;
+                //using (var md5 = System.Security.Cryptography.MD5.Create())
+                //{
+                //    md5.TransformFinalBlock(zipBytes, 0, zipBytes.Length);
+                //    hash = md5.Hash;
+                //}
+
+                //string hashPassword = BitConverter.ToString(hash).Replace("-", "");
+
+                using var client = new HttpClient();
+                using var formData = new MultipartFormDataContent();
+                {
+                    formData.Add(new StringContent(userName), "username");
+                    formData.Add(new StringContent(name), "dataKey");
+                    formData.Add(new ByteArrayContent(zipBytes), "file", "file.zip");
+
+                    var response = client.PostAsync(fileManagerUrl, formData);
+                    response.Wait();
+                    var content = response.Result.Content.ReadAsStringAsync();
+                    content.Wait();
+
+                    dynamic data = JToken.Parse(content.Result);
+                    string contentKey = data.id;
+
+                    lookupNames.Add(new Tuple<string, string>("Lookup:" + name, contentKey));
+                };
+
+                DBBuilder.StoreParameters(_connectionString, secureKey, _conversionId, lookupNames);
+
+                WriteLog(LogType.Info, name + " - Uploading DONE", 0);
+            }
         }
     }
 }

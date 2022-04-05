@@ -14,7 +14,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
 {
     public class Settings
     {
-        private readonly IConfiguration _configuration;
+        //private readonly IConfiguration _configuration;
+        private readonly string _filesManagerUrl;
+        private readonly Dictionary<string, string> _connectionStringTemplates;
 
         public CdmVersions Cdm
         {
@@ -131,14 +133,16 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
 
         public List<QueryDefinition> SourceQueryDefinitions { get; private set; }
 
-        public Settings(ConversionSettings settings, IConfiguration configuration)
+        public Settings(ConversionSettings settings, string filesManagerUrl, Dictionary<string, string> connectionStringTemplates)
         {
-            _configuration = configuration;
             Folder = AppContext.BaseDirectory;
 
             ConversionSettings = settings;
             Lookups = new Dictionary<string, string>();
             SourceQueryDefinitions = new List<QueryDefinition>();
+            _filesManagerUrl = filesManagerUrl;
+
+            _connectionStringTemplates = connectionStringTemplates;
         }
 
         public void Load()
@@ -146,7 +150,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
             var mappingsDir = Path.Combine(Folder, "mappings");
             var mappingsFile = Path.Combine(mappingsDir, ConversionSettings.MappingsName + ".zip");
 
-            var actionUrl = _configuration.GetSection("AppSettings").GetSection("FilesManagerUrl").Value;
+            var actionUrl = _filesManagerUrl;
             actionUrl += $"/{ConversionSettings.ContentKey}";
             using var client = new HttpClient();
             var data = client.GetByteArrayAsync(actionUrl);
@@ -297,7 +301,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
 
         private string GetConnectionString(string dbType, string server, string db, string user, string pswd, string port)
         {
-            return _configuration[dbType].Replace("{server}", server).Replace("{database}", db).Replace("{username}", user)
+            return _connectionStringTemplates[dbType].Replace("{server}", server).Replace("{database}", db).Replace("{username}", user)
                 .Replace("{password}", pswd).Replace("{port}", port);
         }
     }

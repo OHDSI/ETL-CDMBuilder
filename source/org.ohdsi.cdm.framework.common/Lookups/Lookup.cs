@@ -9,6 +9,14 @@ namespace org.ohdsi.cdm.framework.common.Lookups
     {
         private Dictionary<string, Dictionary<int, LookupValue>> _lookup;
 
+        public Dictionary<string, Dictionary<int, LookupValue>> Content 
+        {
+            get
+            {
+                return _lookup;
+            }
+        }
+
         public int KeysCount
         {
             get
@@ -42,6 +50,11 @@ namespace org.ohdsi.cdm.framework.common.Lookups
 
             if (lv.Ingredients != null && lv.Ingredients.Count > 0)
                 _lookup[lv.SourceCode][lv.ConceptId.Value].Ingredients.Add(lv.Ingredients.First());
+        }
+
+        public void Fill(Dictionary<string, Dictionary<int, LookupValue>> content)
+        {
+            _lookup = content;
         }
 
         public IEnumerable<LookupValue> LookupValues(string sourceCode, DateTime? eventDate)

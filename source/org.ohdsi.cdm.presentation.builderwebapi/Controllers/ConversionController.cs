@@ -22,6 +22,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 
         private int _conversionId;
         private string _connectionString;
+        private string _fileManagerUrl;
+        private string _userName;
+        private string _secureKey;
 
         public ConversionController(int conversionId)
         {
@@ -31,11 +34,20 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         public void Init(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
-            var key = configuration.GetSection("AppSettings").GetSection("Key").Value;
+            _fileManagerUrl = configuration.GetSection("AppSettings").GetSection("FilesManagerUrl").Value;
+            _secureKey = configuration.GetSection("AppSettings").GetSection("Key").Value;
 
-            ConversionSettings settings = ConversionSettings.SetProperties(DBBuilder.GetParameters(_connectionString, key, _conversionId));
-            _settings = new Settings(settings, configuration);
+            ConversionSettings settings = ConversionSettings.SetProperties(DBBuilder.GetParameters(_connectionString, _secureKey, _conversionId));
+
+            Dictionary<string, string> connectionStringTemplates = new Dictionary<string, string>();
+            connectionStringTemplates.TryAdd(settings.SourceEngine, configuration[settings.SourceEngine]);
+            connectionStringTemplates.TryAdd(settings.DestinationEngine, configuration[settings.DestinationEngine]);
+            connectionStringTemplates.TryAdd(settings.VocabularyEngine, configuration[settings.VocabularyEngine]);
+
+            _settings = new Settings(settings, _fileManagerUrl, connectionStringTemplates);
             _settings.Load();
+
+            _userName = DBBuilder.GetUsername(_connectionString, _conversionId);
         }
 
         public void Start()
@@ -43,6 +55,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             if (CreateDestination())
             {
                 CreateLookup();
+                StoreVocabularyToFileManager();
                 CreateChunks();
             }
         }
@@ -169,6 +182,13 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             GC.Collect();
             GC.WaitForPendingFinalizers();
             DBBuilder.CompleteStep(_connectionString, _conversionId, Steps.ConvertHealthSystemData);
+        }
+
+        private void StoreVocabularyToFileManager()
+        {
+            var vocabulary = new Vocabulary(_settings, _connectionString, _conversionId);
+            vocabulary.Fill(false, false);
+            vocabulary.StoreToFileManager(_userName, _fileManagerUrl, _secureKey);
         }
 
         private void SaveLookup(Stopwatch timer, List<Location> locationConcepts, List<CareSite> careSiteConcepts, List<Provider> providerConcepts)

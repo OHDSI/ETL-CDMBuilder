@@ -24,7 +24,6 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Database
             using var c = new NpgsqlCommand(query, connection);
             c.Parameters.AddWithValue("@user_name", user);
             c.Parameters.AddWithValue("@name", conversionName);
-            //c.Parameters.AddWithValue("@started", DateTime.UtcNow);
 
             var result = c.ExecuteScalar();
             int conversionId;
@@ -87,6 +86,33 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Database
 
                 c.ExecuteNonQuery();
             }
+        }
+
+        public static Dictionary<string, string> GetLookups(string connectionString, string secureKey, int conversionId)
+        {
+            var parameters = new Dictionary<string, string>();
+            var query = "SELECT name, value FROM builder.conversion_parameters WHERE conversion_id = @conversionId and name like 'Lookup:%'";
+
+            using var connection = new NpgsqlConnection(connectionString);
+            connection.Open();
+
+            using var c = new NpgsqlCommand(query, connection);
+            c.Parameters.AddWithValue("@conversionId", conversionId);
+
+            using (var reader = c.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    try
+                    {
+                        parameters.Add(reader[0].ToString(), EncryptProvider.AESDecrypt(reader[1].ToString(), secureKey));
+                    }
+                    catch (Exception e)
+                    {
+                    }
+                }
+            }
+            return parameters;
         }
 
         public static Dictionary<string, string> GetParameters(string connectionString, string secureKey, int conversionId)
@@ -542,6 +568,21 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Database
                     percent = Convert.ToInt32(reader.GetDouble(4))
                 };
             }
+        }
+
+        public static string GetUsername(string connectionString, int conversionId)
+        {
+            var query = "SELECT user_name " +
+                "FROM builder.conversion " +
+                "where id = @conversion_id";
+
+            using var connection = new NpgsqlConnection(connectionString);
+            connection.Open();
+
+            using var c = new NpgsqlCommand(query, connection);
+            c.Parameters.AddWithValue("@conversion_id", conversionId);
+
+            return (string)c.ExecuteScalar();
         }
     }
 }

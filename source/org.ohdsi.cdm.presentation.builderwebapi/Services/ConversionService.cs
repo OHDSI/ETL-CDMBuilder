@@ -6,6 +6,9 @@ using org.ohdsi.cdm.presentation.builderwebapi.ETL;
 using org.ohdsi.cdm.presentation.builderwebapi.Log;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,6 +22,14 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         private string _connectionString;
 
         private ConcurrentDictionary<int, Lazy<Settings>> _settings;
+
+        public bool UseAureFunctions 
+        { 
+            get
+            {
+                return bool.Parse(_configuration.GetSection("AppSettings").GetSection("UseAureFunctions").Value);
+            } 
+        }
 
 
         public ConversionService(IConfiguration configuration)
@@ -36,17 +47,24 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         private Settings GetSettings(int conversionId)
         {
             var key = _configuration.GetSection("AppSettings").GetSection("Key").Value;
+            var actionUrl = _configuration.GetSection("AppSettings").GetSection("FilesManagerUrl").Value;
+
             var settings = _settings.GetOrAdd(conversionId,
                 x => new Lazy<Settings>(
                     () =>
                     {
                         Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, Type = LogType.Info, Text = "Loading Vocabulary..." });
                         ConversionSettings cs = ConversionSettings.SetProperties(DBBuilder.GetParameters(_connectionString, key, conversionId));
-                        var settings = new Settings(cs, _configuration);
+                        Dictionary<string, string> connectionStringTemplates = new Dictionary<string, string>();
+                        connectionStringTemplates.TryAdd(cs.SourceEngine, _configuration[cs.SourceEngine]);
+                        connectionStringTemplates.TryAdd(cs.DestinationEngine, _configuration[cs.DestinationEngine]);
+                        connectionStringTemplates.TryAdd(cs.VocabularyEngine, _configuration[cs.VocabularyEngine]);
+
+                        var settings = new Settings(cs, actionUrl, connectionStringTemplates);
                         settings.Load();
 
                         var vocabulary = new Vocabulary(settings, _connectionString, conversionId);
-                        vocabulary.Fill(false, false);
+                        vocabulary.LoadVocabularyFromFileManager(actionUrl, key);
                         Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, Type = LogType.Info, Text = "Vocabulary DONE." });
 
                         return settings;
@@ -90,22 +108,46 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     return;
                                 }
 
-                                var settings = GetSettings(conversionId);
+                                if (UseAureFunctions)
+                                {
+                                    var azureFunctionUrl = _configuration.GetSection("AppSettings").GetSection("AureFunctionsUrl").Value;
+                                    azureFunctionUrl += $"?conversionId={conversionId}&chunkId={chunkId}";
 
-                                var chunkBuilder = new DatabaseChunkBuilder(chunkId);
-                                var chunkData = chunkBuilder.Process(settings.SourceEngine,
-                                    settings.ConversionSettings.SourceSchema,
-                                    settings.SourceQueryDefinitions,
-                                    settings.SourceConnectionString,
-                                    settings.ConversionSettings.BuildSettings);
-                                chunkData.Save(settings.Cdm,
-                                    settings.DestinationConnectionString,
-                                    settings.DestinationEngine,
-                                    settings.ConversionSettings.SourceSchema,
-                                    settings.ConversionSettings.DestinationSchema);
+                                    var secureKey = _configuration.GetSection("AppSettings").GetSection("Key").Value;
+                                    ConversionSettings cs = ConversionSettings.SetProperties(DBBuilder.GetParameters(_connectionString, secureKey, conversionId));
 
-                                DBBuilder.CompleteChunk(_connectionString, conversionId, chunkId);
-                                Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, ChunkId = chunkId, Type = LogType.Info, Text = chunkId + " - Chunk coverted" });
+                                    var json = "{ \"connectionString\": \"" + _connectionString + "\", " +
+                                    "\"secureKey\": \"" + secureKey + "\", " +
+                                    "\"fileManagerUrl\": \"" + _configuration.GetSection("AppSettings").GetSection("FilesManagerUrl").Value + "\", " +
+
+                                    "\"sourceTemplate\": \"" + _configuration[cs.SourceEngine] + "\", " +
+                                    "\"destinationTemplate\": \"" + _configuration[cs.DestinationEngine] + "\", " +
+                                    "\"vocabularyTemplate\": \"" + _configuration[cs.VocabularyEngine] + "\" }";
+
+                                    using var client = new HttpClient();
+                                    using var content = new StringContent(json, Encoding.UTF8, "application/json");
+                                    var response = client.PostAsync(azureFunctionUrl, content);
+                                    response.Wait();
+                                }
+                                else
+                                {
+                                    var settings = GetSettings(conversionId);
+
+                                    var chunkBuilder = new DatabaseChunkBuilder(chunkId);
+                                    var chunkData = chunkBuilder.Process(settings.SourceEngine,
+                                        settings.ConversionSettings.SourceSchema,
+                                        settings.SourceQueryDefinitions,
+                                        settings.SourceConnectionString,
+                                        settings.ConversionSettings.BuildSettings);
+                                    chunkData.Save(settings.Cdm,
+                                        settings.DestinationConnectionString,
+                                        settings.DestinationEngine,
+                                        settings.ConversionSettings.SourceSchema,
+                                        settings.ConversionSettings.DestinationSchema);
+
+                                    DBBuilder.CompleteChunk(_connectionString, conversionId, chunkId);
+                                    Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, ChunkId = chunkId, Type = LogType.Info, Text = chunkId + " - Chunk coverted" });
+                                }
 
                                 if (DBBuilder.AreAllChunksConverted(_connectionString, conversionId))
                                 {
@@ -133,7 +175,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                             if (chunk.Item1.HasValue && chunk.Item2.HasValue)
                             {
                                 chunksQueue.Add(new Tuple<int, int>(chunk.Item1.Value, chunk.Item2.Value));
-                                while (chunksQueue.Count > MAX_PARALLEL)
+                                while (!UseAureFunctions && chunksQueue.Count > MAX_PARALLEL)
                                 {
                                     Thread.Sleep(5 * 1000);
                                 }

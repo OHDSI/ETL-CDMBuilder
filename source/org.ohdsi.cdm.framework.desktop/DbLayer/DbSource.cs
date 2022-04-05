@@ -68,7 +68,6 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
             }
         }
 
-
         public IEnumerable<IDataReader> GetPersonKeys(string batchScript, long batches, int batchSize)
         {
             batchScript = batchScript.Replace("{sc}", _schemaName);

@@ -166,7 +166,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
                 using StreamReader reader = new StreamReader(stream);
 
                 var content = reader.ReadToEnd();
-                if (item.FullName.StartsWith("Definitions"))
+                if (item.FullName.StartsWith("Definitions", StringComparison.OrdinalIgnoreCase))
                 {
                     // TMP
                     content = content.Replace("<Person>", "<Persons>");
@@ -259,11 +259,11 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
                     qd.FileName = item.Name.Replace(".xml", "");
                     SourceQueryDefinitions.Add(qd);
                 }
-                else if (item.FullName.StartsWith("Lookups"))
+                else if (item.FullName.StartsWith("Lookups", StringComparison.OrdinalIgnoreCase))
                 {
                     Lookups.Add(item.Name.Replace(".sql", ""), content);
                 }
-                else if (item.FullName.StartsWith("Batch.sql"))
+                else if (item.FullName.StartsWith("Batch.sql", StringComparison.OrdinalIgnoreCase))
                 {
                     BatchScript = content;
                 }

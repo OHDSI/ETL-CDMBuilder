@@ -154,6 +154,12 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                     DBBuilder.CompleteStep(_connectionString, conversionId, Steps.ConvertChunks);
                                     DBBuilder.CompleteConversion(_connectionString, conversionId);
                                     Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, ChunkId = chunkId, Type = LogType.Info, Text = "Conversion to CDM - DONE" });
+
+                                    _settings[conversionId] = null;
+                                    _settings.TryRemove(conversionId, out Lazy<Settings> res);
+
+                                    GC.Collect();
+                                    GC.WaitForPendingFinalizers();
                                 }
                             }
                             catch (Exception ex)

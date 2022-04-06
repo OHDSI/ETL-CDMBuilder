@@ -532,12 +532,13 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Database
 
         public static IEnumerable<Message> GetLog(string connectionString, int conversionId, int? logId)
         {
-            var query = "with a as ( select conversion_id, (count(completed)/count(*)::float) * 100 as progress FROM builder.chunk " +
-                "WHERE conversion_id = @conversion_id group by conversion_id) " +
+            var query = "with a as ( select ch.conversion_id, (count(ch.completed)/count(*)::float) * 100 as progress FROM builder.chunk ch " +
+                "JOIN builder.conversion c ON c.id = ch.conversion_id and ch.started >= c.started " +
+                "WHERE ch.conversion_id = @conversion_id group by ch.conversion_id) " +
                 "SELECT l.id, time, type, description, coalesce(progress, 0) progress " +
                 "FROM builder.log l " +
                 "LEFT JOIN a on a.conversion_id = l.conversion_id " +
-                "JOIN conversion c ON c.id = @conversion_id and l.time >= c.started " +
+                "JOIN builder.conversion c ON c.id = @conversion_id and l.time >= c.started " +
                 "WHERE l.conversion_id = @conversion_id";
 
             if (logId.HasValue)

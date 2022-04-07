@@ -6,6 +6,7 @@ using org.ohdsi.cdm.presentation.builderwebapi.Enums;
 using org.ohdsi.cdm.presentation.builderwebapi.Log;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,6 +35,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             var conversionsQueue = new BlockingCollection<int>();
             Task сonversion = null;
             Task checker = null;
+            var tasks = new List<Task>();
 
             try
             {
@@ -53,16 +55,20 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 
                         if (сonversionId.HasValue)
                         {
-                            try
+                            var cId = сonversionId.Value;
+                            tasks.Add(Task.Run(() =>
                             {
-                                var conversionController = new ConversionController(сonversionId.Value);
-                                conversionController.Init(_configuration);
-                                conversionController.Start();
-                            }
-                            catch (Exception ex)
-                            {
-                                Logger.Write(_connectionString, new LogMessage { ConversionId = сonversionId.Value, Type = LogType.Error, Text = ex.Message });
-                            }
+                                try
+                                {
+                                    var conversionController = new ConversionController(cId);
+                                    conversionController.Init(_configuration);
+                                    conversionController.Start();
+                                }
+                                catch (Exception ex)
+                                {
+                                    Logger.Write(_connectionString, new LogMessage { ConversionId = cId, Type = LogType.Error, Text = ex.Message });
+                                }
+                            }));
                         }
                     }
                 });
@@ -103,6 +109,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                 //conversionsQueue.CompleteAdding();
                 await сonversion;
                 await checker;
+
+                Task.WaitAll(tasks.ToArray());
             }
         }
 

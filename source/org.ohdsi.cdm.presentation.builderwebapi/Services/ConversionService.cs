@@ -73,11 +73,83 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             return settings.Value;
         }
 
+        private void ConvertChunk(int conversionId, int chunkId)
+        {
+            try
+            {
+                if (DBBuilder.IsConversionAborted(_connectionString, conversionId))
+                {
+                    DBBuilder.CancelChunk(_connectionString, conversionId, chunkId);
+                    return;
+                }
+
+                if (UseAureFunctions)
+                {
+                    var azureFunctionUrl = _configuration.GetSection("AppSettings").GetSection("AureFunctionsUrl").Value;
+                    azureFunctionUrl += $"?conversionId={conversionId}&chunkId={chunkId}";
+
+                    var secureKey = _configuration.GetSection("AppSettings").GetSection("Key").Value;
+                    ConversionSettings cs = ConversionSettings.SetProperties(DBBuilder.GetParameters(_connectionString, secureKey, conversionId));
+
+                    var json = "{ \"connectionString\": \"" + _connectionString + "\", " +
+                    "\"secureKey\": \"" + secureKey + "\", " +
+                    "\"fileManagerUrl\": \"" + _configuration.GetSection("AppSettings").GetSection("FilesManagerUrl").Value + "\", " +
+
+                    "\"sourceTemplate\": \"" + _configuration[cs.SourceEngine] + "\", " +
+                    "\"destinationTemplate\": \"" + _configuration[cs.DestinationEngine] + "\", " +
+                    "\"vocabularyTemplate\": \"" + _configuration[cs.VocabularyEngine] + "\" }";
+
+                    using var client = new HttpClient();
+                    using var content = new StringContent(json, Encoding.UTF8, "application/json");
+                    var response = client.PostAsync(azureFunctionUrl, content);
+                    response.Wait();
+                }
+                else
+                {
+                    var settings = GetSettings(conversionId);
+
+                    var chunkBuilder = new DatabaseChunkBuilder(chunkId);
+                    var chunkData = chunkBuilder.Process(settings.SourceEngine,
+                        settings.ConversionSettings.SourceSchema,
+                        settings.SourceQueryDefinitions,
+                        settings.SourceConnectionString,
+                        settings.ConversionSettings.BuildSettings);
+                    chunkData.Save(settings.Cdm,
+                        settings.DestinationConnectionString,
+                        settings.DestinationEngine,
+                        settings.ConversionSettings.SourceSchema,
+                        settings.ConversionSettings.DestinationSchema);
+
+                    DBBuilder.CompleteChunk(_connectionString, conversionId, chunkId);
+                    Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, ChunkId = chunkId, Type = LogType.Info, Text = chunkId + " - Chunk coverted" });
+                }
+
+                if (DBBuilder.AreAllChunksConverted(_connectionString, conversionId))
+                {
+                    DBBuilder.CompleteStep(_connectionString, conversionId, Steps.ConvertChunks);
+                    DBBuilder.CompleteConversion(_connectionString, conversionId);
+                    Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, ChunkId = chunkId, Type = LogType.Info, Text = "Conversion to CDM - DONE" });
+
+                    _settings[conversionId] = null;
+                    _settings.TryRemove(conversionId, out Lazy<Settings> res);
+
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                }
+            }
+            catch (Exception ex)
+            {
+                DBBuilder.FailChunk(_connectionString, conversionId, chunkId);
+                Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, ChunkId = chunkId, Type = LogType.Error, Text = ex.Message });
+            }
+        }
+
         private async Task BackgroundProcessing(CancellationToken stoppingToken)
         {
             var chunksQueue = new BlockingCollection<Tuple<int, int>>();
             Task convertChunk = null;
             Task checker = null;
+            var tasks = new List<Task>();
 
             try
             {
@@ -100,73 +172,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                             var conversionId = chunk.Item1;
                             var chunkId = chunk.Item2;
 
-                            try
+                            tasks.Add(Task.Run(() =>
                             {
-                                if (DBBuilder.IsConversionAborted(_connectionString, conversionId))
-                                {
-                                    DBBuilder.CancelChunk(_connectionString, conversionId, chunkId);
-                                    return;
-                                }
-
-                                if (UseAureFunctions)
-                                {
-                                    var azureFunctionUrl = _configuration.GetSection("AppSettings").GetSection("AureFunctionsUrl").Value;
-                                    azureFunctionUrl += $"?conversionId={conversionId}&chunkId={chunkId}";
-
-                                    var secureKey = _configuration.GetSection("AppSettings").GetSection("Key").Value;
-                                    ConversionSettings cs = ConversionSettings.SetProperties(DBBuilder.GetParameters(_connectionString, secureKey, conversionId));
-
-                                    var json = "{ \"connectionString\": \"" + _connectionString + "\", " +
-                                    "\"secureKey\": \"" + secureKey + "\", " +
-                                    "\"fileManagerUrl\": \"" + _configuration.GetSection("AppSettings").GetSection("FilesManagerUrl").Value + "\", " +
-
-                                    "\"sourceTemplate\": \"" + _configuration[cs.SourceEngine] + "\", " +
-                                    "\"destinationTemplate\": \"" + _configuration[cs.DestinationEngine] + "\", " +
-                                    "\"vocabularyTemplate\": \"" + _configuration[cs.VocabularyEngine] + "\" }";
-
-                                    using var client = new HttpClient();
-                                    using var content = new StringContent(json, Encoding.UTF8, "application/json");
-                                    var response = client.PostAsync(azureFunctionUrl, content);
-                                    response.Wait();
-                                }
-                                else
-                                {
-                                    var settings = GetSettings(conversionId);
-
-                                    var chunkBuilder = new DatabaseChunkBuilder(chunkId);
-                                    var chunkData = chunkBuilder.Process(settings.SourceEngine,
-                                        settings.ConversionSettings.SourceSchema,
-                                        settings.SourceQueryDefinitions,
-                                        settings.SourceConnectionString,
-                                        settings.ConversionSettings.BuildSettings);
-                                    chunkData.Save(settings.Cdm,
-                                        settings.DestinationConnectionString,
-                                        settings.DestinationEngine,
-                                        settings.ConversionSettings.SourceSchema,
-                                        settings.ConversionSettings.DestinationSchema);
-
-                                    DBBuilder.CompleteChunk(_connectionString, conversionId, chunkId);
-                                    Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, ChunkId = chunkId, Type = LogType.Info, Text = chunkId + " - Chunk coverted" });
-                                }
-
-                                if (DBBuilder.AreAllChunksConverted(_connectionString, conversionId))
-                                {
-                                    DBBuilder.CompleteStep(_connectionString, conversionId, Steps.ConvertChunks);
-                                    DBBuilder.CompleteConversion(_connectionString, conversionId);
-                                    Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, ChunkId = chunkId, Type = LogType.Info, Text = "Conversion to CDM - DONE" });
-
-                                    _settings[conversionId] = null;
-                                    _settings.TryRemove(conversionId, out Lazy<Settings> res);
-
-                                    GC.Collect();
-                                    GC.WaitForPendingFinalizers();
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                DBBuilder.FailChunk(_connectionString, conversionId, chunkId);
-                                Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, ChunkId = chunkId, Type = LogType.Error, Text = ex.Message });
-                            }
+                                ConvertChunk(conversionId, chunkId);
+                            }));
                         }
                     }
                 });
@@ -193,7 +202,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                         }
                         finally
                         {
-                            Thread.Sleep(10 * 1000);
+                            Thread.Sleep(3 * 1000);
                         }
                     }
                 });
@@ -206,6 +215,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             {
                 await convertChunk;
                 await checker;
+
+                Task.WaitAll(tasks.ToArray());
             }
         }
 

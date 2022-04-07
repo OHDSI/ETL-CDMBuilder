@@ -95,7 +95,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                         }
                         finally
                         {
-                            Thread.Sleep(10 * 1000);
+                            Thread.Sleep(3 * 1000);
                         }
                     }
                 });

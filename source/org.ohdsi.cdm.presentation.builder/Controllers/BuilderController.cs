@@ -285,6 +285,11 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     CurrentState = BuilderState.Stopped;
                 });
 
+                if(Settings.Current.OnlyEvenChunks)
+                    Logger.Write(null, LogMessageTypes.Info, "Only even chunk ids will be processed on this machine");
+
+                if (Settings.Current.OnlyOddChunks)
+                    Logger.Write(null, LogMessageTypes.Info, "Only odd chunk ids will be processed on this machine");
 
                 Parallel.For(0, Settings.Current.Building.ChunksCount,
                     new ParallelOptions { MaxDegreeOfParallelism = Settings.Current.DegreeOfParallelism }, (chunkId, state) =>
@@ -294,6 +299,23 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
                           if (!Settings.Current.Building.CompletedChunkIds.Contains(chunkId))
                           {
+                              if(IsOdd(chunkId))
+                              {
+                                  if (Settings.Current.OnlyEvenChunks)
+                                  {
+                                      Logger.Write(null, LogMessageTypes.Info, $"{chunkId} was skipped");
+                                      return;
+                                  }
+                              }
+                              else
+                              {
+                                  if (Settings.Current.OnlyOddChunks)
+                                  {
+                                      Logger.Write(null, LogMessageTypes.Info, $"{chunkId} was skipped");
+                                      return;
+                                  }
+                              }
+
                               var chunk = new DatabaseChunkBuilder(chunkId, CreatePersonBuilder);
 
                               using (var connection =
@@ -322,6 +344,10 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             });
         }
 
+        public static bool IsOdd(int value)
+        {
+            return value % 2 != 0;
+        }
         private static IPersonBuilder CreatePersonBuilder()
         {
             var objectType = Type.GetType(Settings.Current.Building.PersonBuilder);

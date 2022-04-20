@@ -14,6 +14,9 @@ namespace org.ohdsi.cdm.presentation.builder
 
         public int DegreeOfParallelism => int.Parse(ConfigurationManager.AppSettings["DegreeOfParallelism"]);
 
+        public bool OnlyEvenChunks => bool.Parse(ConfigurationManager.AppSettings["OnlyEvenChunks"]);
+        public bool OnlyOddChunks => bool.Parse(ConfigurationManager.AppSettings["OnlyOddChunks"]);
+
 
         static Settings()
         {

@@ -291,6 +291,9 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 if (Settings.Current.OnlyOddChunks)
                     Logger.Write(null, LogMessageTypes.Info, "Only odd chunk ids will be processed on this machine");
 
+                if(Settings.Current.ChunksTo > 0)
+                    Logger.Write(null, LogMessageTypes.Info, $"ChunkIds from {Settings.Current.ChunksFrom} to {Settings.Current.ChunksTo} will be converted");
+
                 Parallel.For(0, Settings.Current.Building.ChunksCount,
                     new ParallelOptions { MaxDegreeOfParallelism = Settings.Current.DegreeOfParallelism }, (chunkId, state) =>
                       {
@@ -314,6 +317,18 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                                       Logger.Write(null, LogMessageTypes.Info, $"{chunkId} was skipped");
                                       return;
                                   }
+                              }
+
+                              if(chunkId <= Settings.Current.ChunksFrom)
+                              {
+                                  Logger.Write(null, LogMessageTypes.Info, $"{chunkId} was skipped");
+                                  return;
+                              }
+
+                              if (chunkId > Settings.Current.ChunksTo)
+                              {
+                                  Logger.Write(null, LogMessageTypes.Info, $"{chunkId} was skipped");
+                                  return;
                               }
 
                               var chunk = new DatabaseChunkBuilder(chunkId, CreatePersonBuilder);

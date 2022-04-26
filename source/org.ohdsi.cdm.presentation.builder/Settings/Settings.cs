@@ -17,6 +17,9 @@ namespace org.ohdsi.cdm.presentation.builder
         public bool OnlyEvenChunks => bool.Parse(ConfigurationManager.AppSettings["OnlyEvenChunks"]);
         public bool OnlyOddChunks => bool.Parse(ConfigurationManager.AppSettings["OnlyOddChunks"]);
 
+        public int ChunksFrom => int.Parse(ConfigurationManager.AppSettings["ChunksFrom"]);
+        public int ChunksTo => int.Parse(ConfigurationManager.AppSettings["ChunksTo"]);
+
 
         static Settings()
         {

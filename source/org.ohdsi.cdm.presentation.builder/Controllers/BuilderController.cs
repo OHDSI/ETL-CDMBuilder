@@ -319,7 +319,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                                   }
                               }
 
-                              if(chunkId <= Settings.Current.ChunksFrom)
+                              if(chunkId < Settings.Current.ChunksFrom)
                               {
                                   Logger.Write(null, LogMessageTypes.Info, $"{chunkId} was skipped");
                                   return;

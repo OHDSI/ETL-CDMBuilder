@@ -257,18 +257,40 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 
             try
             {
+                if (settings.SourceEngine == null)
+                {
+                    settings.SourceEngine = _configuration.GetSection("AppSettings").GetSection("SourceEngine").Value;
+                    settings.SourceServer = _configuration.GetSection("AppSettings").GetSection("SourceServer").Value;
+                    settings.SourcePort = _configuration.GetSection("AppSettings").GetSection("SourcePort").Value;
+                    settings.SourceDatabase = _configuration.GetSection("AppSettings").GetSection("SourceDatabase").Value;
+                    settings.SourceUser = _configuration.GetSection("AppSettings").GetSection("SourceUser").Value;
+                    settings.SourcePassword = _configuration.GetSection("AppSettings").GetSection("SourcePassword").Value;
+
+                    settings.SourceSchema = username;
+                }
+                else if (settings.SourceEngine.ToLower() == "mysql")
+                {
+                    settings.SourceEngine = "MySql";
+                    settings.SourceSchema = null;
+                }
+
                 if (settings.DestinationEngine.ToLower() == "mysql")
                 {
                     settings.DestinationEngine = "MySql";
                     settings.DestinationSchema = null;
                 }
 
-                if (settings.SourceEngine.ToLower() == "mysql")
+                if (settings.VocabularyEngine == null)
                 {
-                    settings.SourceEngine = "MySql";
-                    settings.SourceSchema = null;
+                    settings.VocabularyEngine = _configuration.GetSection("AppSettings").GetSection("VocabularyEngine").Value;
+                    settings.VocabularyServer = _configuration.GetSection("AppSettings").GetSection("VocabularyServer").Value;
+                    settings.VocabularyPort = _configuration.GetSection("AppSettings").GetSection("VocabularyPort").Value;
+                    settings.VocabularyDatabase = _configuration.GetSection("AppSettings").GetSection("VocabularyDatabase").Value;
+                    settings.VocabularySchema = _configuration.GetSection("AppSettings").GetSection("VocabularySchema").Value;
+                    settings.VocabularyUser = _configuration.GetSection("AppSettings").GetSection("VocabularyUser").Value;
+                    settings.VocabularyPassword = _configuration.GetSection("AppSettings").GetSection("VocabularyPassword").Value;
                 }
-                
+
                 var key = _configuration.GetSection("AppSettings").GetSection("Key").Value;
                 var properties = ConversionSettings.GetProperties(settings);
 

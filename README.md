@@ -5,7 +5,7 @@ This repository forked from OHDSI/ETL-CDMBuilder https://github.com/OHDSI/ETL-CD
 
 The .Net CDM Builder was developed by Janssen Research & Development as a tool to transform its observational databases into the OMOP Common Data Model. The tool was specifically developed for the Janssen environment: MS SQL Server/PostgreSQL/MySQL.  Additionally, the builder logic designed is based on the input format of the source data that are loaded in our local environment. We have made the tool open-source as a reference for other researchers in the OHDSI community who may be looking ETL their observational data, but we do not expect the tool would execute successfully for others unless they have similar infrastructure and similar source datasets. The tool was not originally designed to support general purpose ETLs across different platforms, and modifications would be required to apply to other systems. Contributions from the community to advance the tool in that direction are welcome and encouraged, as our team cannot support and test the tool in other environments.
 
-This service wraps **CDM-builder** functional in Web-service, that used by **Perseus** https://github.com/SoftwareCountry/Perseus.
+This service wraps **CDM-builder** functional in Web-service, that used by **Perseus** https://github.com/SoftwareCountry/Perseus. 
 
 Technology
 ============

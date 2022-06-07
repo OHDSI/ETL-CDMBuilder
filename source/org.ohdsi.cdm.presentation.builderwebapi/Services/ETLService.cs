@@ -15,14 +15,14 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
     public class ETLService : BackgroundService
     {
 
-        private IConfiguration _configuration;
+        private IConfiguration _conf;
         private string _connectionString;
         const int MAX_PARALLEL = 5;
 
         public ETLService(IConfiguration configuration)
         {
-            _configuration = configuration;
-            _connectionString = _configuration.GetConnectionString("DefaultConnection");
+            _conf = configuration;
+            _connectionString = $"Server={_conf["SharedDbHost"]};Port={_conf["SharedDbPort"]};Database={_conf["SharedDbName"]};User Id={_conf["SharedDbBuilderUser"]};Password={_conf["SharedDbBuilderPass"]};";
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -61,7 +61,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                                 try
                                 {
                                     var conversionController = new ConversionController(cId);
-                                    conversionController.Init(_configuration);
+                                    conversionController.Init(_conf);
                                     conversionController.Start();
                                 }
                                 catch (Exception ex)

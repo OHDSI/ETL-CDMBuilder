@@ -31,18 +31,18 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             _conversionId = conversionId;
         }
 
-        public void Init(IConfiguration configuration)
+        public void Init(IConfiguration conf)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
-            _fileManagerUrl = configuration.GetSection("AppSettings").GetSection("FilesManagerUrl").Value;
-            _secureKey = configuration.GetSection("AppSettings").GetSection("Key").Value;
+            _connectionString = $"Server={conf["SharedDbHost"]};Port={conf["SharedDbPort"]};Database={conf["SharedDbName"]};User Id={conf["SharedDbBuilderUser"]};Password={conf["SharedDbBuilderPass"]};";
+            _fileManagerUrl = conf["FilesManagerUrl"];
+            _secureKey = conf["BuilderSecretKey"];
 
             ConversionSettings settings = ConversionSettings.SetProperties(DBBuilder.GetParameters(_connectionString, _secureKey, _conversionId));
 
             Dictionary<string, string> connectionStringTemplates = new Dictionary<string, string>();
-            connectionStringTemplates.TryAdd(settings.SourceEngine, configuration[settings.SourceEngine]);
-            connectionStringTemplates.TryAdd(settings.DestinationEngine, configuration[settings.DestinationEngine]);
-            connectionStringTemplates.TryAdd(settings.VocabularyEngine, configuration[settings.VocabularyEngine]);
+            connectionStringTemplates.TryAdd(settings.SourceEngine, conf[settings.SourceEngine]);
+            connectionStringTemplates.TryAdd(settings.DestinationEngine, conf[settings.DestinationEngine]);
+            connectionStringTemplates.TryAdd(settings.VocabularyEngine, conf[settings.VocabularyEngine]);
 
             _settings = new Settings(settings, _fileManagerUrl, connectionStringTemplates);
             _settings.Load();

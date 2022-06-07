@@ -22,12 +22,12 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
     public class CdmBuilderController : ControllerBase
     {
         private readonly IBackgroundTaskQueue _queue;
-        private IConfiguration _configuration;
+        private IConfiguration _conf;
 
         public CdmBuilderController(IConfiguration configuration, IBackgroundTaskQueue queue)
         {
             _queue = queue;
-            _configuration = configuration;
+            _conf = configuration;
         }
 
         [HttpGet]
@@ -41,7 +41,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         public ConversionLogMessage GetLog(int conversionId, int? logId)
         {
             var message = new ConversionLogMessage() { id = conversionId, logs = new List<Log.Message>(), statusName = "IN_PROGRESS", statusCode = 1 };
-            var connectionString = _configuration.GetConnectionString("DefaultConnection");
+            var connectionString = $"Server={_conf["SharedDbHost"]};Port={_conf["SharedDbPort"]};Database={_conf["SharedDbName"]};User Id={_conf["SharedDbBuilderUser"]};Password={_conf["SharedDbBuilderPass"]};";
             foreach (var l in DBBuilder.GetLog(connectionString, conversionId, logId))
             {
                 if(l.percent == 100)
@@ -73,7 +73,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         public string Abort(int conversionId)
         {
             var username = this.HttpContext.Request.Headers["username"].ToString();
-            var connectionString = _configuration.GetConnectionString("DefaultConnection");
+            var connectionString = $"Server={_conf["SharedDbHost"]};Port={_conf["SharedDbPort"]};Database={_conf["SharedDbName"]};User Id={_conf["SharedDbBuilderUser"]};Password={_conf["SharedDbBuilderPass"]};";
 
             DBBuilder.AbortConversion(connectionString, conversionId);
             Logger.Write(connectionString, new LogMessage { User = username, ConversionId = conversionId, Type = LogType.Info, Text = "Conversion aborted." });
@@ -146,7 +146,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 
         private void ChekConnectionString(string dbType, string server, string db, string user, string pswd, string port)
         {
-            var connection = _configuration[dbType].Replace("{server}", server)
+            var connection = _conf[dbType].Replace("{server}", server)
                                                    .Replace("{database}", db)
                                                    .Replace("{username}", user)
                                                    .Replace("{password}", pswd)
@@ -169,7 +169,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 
             try
             {
-                var cs = _configuration[settings.VocabularyEngine]
+                var cs = _conf[settings.VocabularyEngine]
                     .Replace("{server}", settings.VocabularyServer)
                     .Replace("{database}", settings.VocabularyDatabase)
                     .Replace("{username}", settings.VocabularyUser)
@@ -195,10 +195,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         public async Task<ConversionLogMessage> AddMappings([FromForm] Mappings mappings)
         {
             int? conversionId = null;
-            var connectionString = _configuration.GetConnectionString("DefaultConnection");
+            var connectionString = $"Server={_conf["SharedDbHost"]};Port={_conf["SharedDbPort"]};Database={_conf["SharedDbName"]};User Id={_conf["SharedDbBuilderUser"]};Password={_conf["SharedDbBuilderPass"]};";
             var username = this.HttpContext.Request.Headers["username"].ToString();
-            var actionUrl = _configuration.GetSection("AppSettings").GetSection("FilesManagerUrl").Value;
-            var key = _configuration.GetSection("AppSettings").GetSection("Key").Value;
+            var actionUrl = _conf["FilesManagerUrl"];
+            var key = _conf["BuilderSecretKey"];
 
             Logger.Write(connectionString, new LogMessage { User = username, Type = LogType.Debug, Text = $"AddMappings {username} | {actionUrl}" });
             try
@@ -252,19 +252,19 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         public async Task<HttpResponseMessage> Post(CancellationToken cancellationToken, [FromBody] ConversionSettings settings)
         {
             var username = this.HttpContext.Request.Headers["username"].ToString();
-            var connectionString = _configuration.GetConnectionString("DefaultConnection");
+            var connectionString = $"Server={_conf["SharedDbHost"]};Port={_conf["SharedDbPort"]};Database={_conf["SharedDbName"]};User Id={_conf["SharedDbBuilderUser"]};Password={_conf["SharedDbBuilderPass"]};";
             int conversionId = int.Parse(settings.ConversionId.ToString());
 
             try
             {
                 if (settings.SourceEngine == null)
                 {
-                    settings.SourceEngine = _configuration.GetSection("AppSettings").GetSection("SourceEngine").Value;
-                    settings.SourceServer = _configuration.GetSection("AppSettings").GetSection("SourceServer").Value;
-                    settings.SourcePort = _configuration.GetSection("AppSettings").GetSection("SourcePort").Value;
-                    settings.SourceDatabase = _configuration.GetSection("AppSettings").GetSection("SourceDatabase").Value;
-                    settings.SourceUser = _configuration.GetSection("AppSettings").GetSection("SourceUser").Value;
-                    settings.SourcePassword = _configuration.GetSection("AppSettings").GetSection("SourcePassword").Value;
+                    settings.SourceEngine = _conf["SourceDbType"];
+                    settings.SourceServer = _conf["SourceDbHost"];
+                    settings.SourcePort = _conf["SourceDbPort"];
+                    settings.SourceDatabase = _conf["SourceDbName"];
+                    settings.SourceUser = _conf["SourceDbUser"];
+                    settings.SourcePassword = _conf["SourceDbPass"];
 
                     settings.SourceSchema = username;
                 }
@@ -282,16 +282,16 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 
                 if (settings.VocabularyEngine == null)
                 {
-                    settings.VocabularyEngine = _configuration.GetSection("AppSettings").GetSection("VocabularyEngine").Value;
-                    settings.VocabularyServer = _configuration.GetSection("AppSettings").GetSection("VocabularyServer").Value;
-                    settings.VocabularyPort = _configuration.GetSection("AppSettings").GetSection("VocabularyPort").Value;
-                    settings.VocabularyDatabase = _configuration.GetSection("AppSettings").GetSection("VocabularyDatabase").Value;
-                    settings.VocabularySchema = _configuration.GetSection("AppSettings").GetSection("VocabularySchema").Value;
-                    settings.VocabularyUser = _configuration.GetSection("AppSettings").GetSection("VocabularyUser").Value;
-                    settings.VocabularyPassword = _configuration.GetSection("AppSettings").GetSection("VocabularyPassword").Value;
+                    settings.VocabularyEngine = _conf["VocabularyDbType"];
+                    settings.VocabularyServer = _conf["VocabularyDbHost"];
+                    settings.VocabularyPort = _conf["VocabularyDbPort"];
+                    settings.VocabularyDatabase = _conf["VocabularyDbName"];
+                    settings.VocabularySchema = _conf["VocabularyDbSchema"];
+                    settings.VocabularyUser = _conf["VocabularyDbUser"];
+                    settings.VocabularyPassword = _conf["VocabularyDbPass"];
                 }
 
-                var key = _configuration.GetSection("AppSettings").GetSection("Key").Value;
+                var key = _conf["BuilderSecretKey"];
                 var properties = ConversionSettings.GetProperties(settings);
 
                 _queue.QueueBackgroundWorkItem(async token =>

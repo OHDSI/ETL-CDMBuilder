@@ -18,7 +18,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
     {
         const int MAX_PARALLEL = 5;
 
-        private IConfiguration _configuration;
+        private IConfiguration _conf;
         private string _connectionString;
 
         private ConcurrentDictionary<int, Lazy<Settings>> _settings;
@@ -27,15 +27,15 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         { 
             get
             {
-                return bool.Parse(_configuration.GetSection("AppSettings").GetSection("UseAureFunctions").Value);
+                return bool.Parse(_conf["UseAureFunctions"]);
             } 
         }
 
 
         public ConversionService(IConfiguration configuration)
         {
-            _configuration = configuration;
-            _connectionString = _configuration.GetConnectionString("DefaultConnection");
+            _conf = configuration;
+            _connectionString = $"Server={_conf["SharedDbHost"]};Port={_conf["SharedDbPort"]};Database={_conf["SharedDbName"]};User Id={_conf["SharedDbBuilderUser"]};Password={_conf["SharedDbBuilderPass"]};";
             _settings = new ConcurrentDictionary<int, Lazy<Settings>>();
         }
 
@@ -46,8 +46,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 
         private Settings GetSettings(int conversionId)
         {
-            var key = _configuration.GetSection("AppSettings").GetSection("Key").Value;
-            var actionUrl = _configuration.GetSection("AppSettings").GetSection("FilesManagerUrl").Value;
+            var key = _conf["BuilderSecretKey"];
+            var actionUrl = _conf["FilesManagerUrl"];
 
             var settings = _settings.GetOrAdd(conversionId,
                 x => new Lazy<Settings>(
@@ -56,9 +56,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                         Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, Type = LogType.Info, Text = "Loading Vocabulary..." });
                         ConversionSettings cs = ConversionSettings.SetProperties(DBBuilder.GetParameters(_connectionString, key, conversionId));
                         Dictionary<string, string> connectionStringTemplates = new Dictionary<string, string>();
-                        connectionStringTemplates.TryAdd(cs.SourceEngine, _configuration[cs.SourceEngine]);
-                        connectionStringTemplates.TryAdd(cs.DestinationEngine, _configuration[cs.DestinationEngine]);
-                        connectionStringTemplates.TryAdd(cs.VocabularyEngine, _configuration[cs.VocabularyEngine]);
+                        connectionStringTemplates.TryAdd(cs.SourceEngine, _conf[cs.SourceEngine]);
+                        connectionStringTemplates.TryAdd(cs.DestinationEngine, _conf[cs.DestinationEngine]);
+                        connectionStringTemplates.TryAdd(cs.VocabularyEngine, _conf[cs.VocabularyEngine]);
 
                         var settings = new Settings(cs, actionUrl, connectionStringTemplates);
                         settings.Load();
@@ -85,19 +85,19 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 
                 if (UseAureFunctions)
                 {
-                    var azureFunctionUrl = _configuration.GetSection("AppSettings").GetSection("AureFunctionsUrl").Value;
+                    var azureFunctionUrl = _conf["BuilderAzureFunctionsUrl"];
                     azureFunctionUrl += $"?conversionId={conversionId}&chunkId={chunkId}";
 
-                    var secureKey = _configuration.GetSection("AppSettings").GetSection("Key").Value;
+                    var secureKey = _conf["BuilderSecretKey"];
                     ConversionSettings cs = ConversionSettings.SetProperties(DBBuilder.GetParameters(_connectionString, secureKey, conversionId));
 
                     var json = "{ \"connectionString\": \"" + _connectionString + "\", " +
                     "\"secureKey\": \"" + secureKey + "\", " +
-                    "\"fileManagerUrl\": \"" + _configuration.GetSection("AppSettings").GetSection("FilesManagerUrl").Value + "\", " +
+                    "\"fileManagerUrl\": \"" + _conf["FilesManagerUrl"] + "\", " +
 
-                    "\"sourceTemplate\": \"" + _configuration[cs.SourceEngine] + "\", " +
-                    "\"destinationTemplate\": \"" + _configuration[cs.DestinationEngine] + "\", " +
-                    "\"vocabularyTemplate\": \"" + _configuration[cs.VocabularyEngine] + "\" }";
+                    "\"sourceTemplate\": \"" + _conf[cs.SourceEngine] + "\", " +
+                    "\"destinationTemplate\": \"" + _conf[cs.DestinationEngine] + "\", " +
+                    "\"vocabularyTemplate\": \"" + _conf[cs.VocabularyEngine] + "\" }";
 
                     using var client = new HttpClient();
                     using var content = new StringContent(json, Encoding.UTF8, "application/json");

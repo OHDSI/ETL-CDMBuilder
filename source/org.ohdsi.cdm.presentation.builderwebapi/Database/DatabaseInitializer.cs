@@ -7,9 +7,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Database
 {
     public class DatabaseInitializer
     {
-        public static async Task Run(IConfiguration configuration)
+        public static async Task Run(IConfiguration conf)
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = $"Server={conf["SharedDbHost"]};Port={conf["SharedDbPort"]};Database={conf["SharedDbName"]};User Id={conf["SharedDbBuilderUser"]};Password={conf["SharedDbBuilderPass"]};";
             var script = File.ReadAllText(Path.Combine("Database", "dbinit.txt"));
             using var connection = new NpgsqlConnection(connectionString);
             connection.Open();

@@ -3,6 +3,7 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-bionic AS base
 WORKDIR /app
 EXPOSE 8090
 EXPOSE 443
+EXPOSE 2222
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic AS build
 WORKDIR /src
@@ -37,5 +38,15 @@ RUN apt-get install -y odbc-postgresql
 #RUN apt-get update
 #RUN apt-get install -y mysql-connector-odbc
 
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends openssh-server \
+    && export ROOTPASS=$(head -c 12 /dev/urandom |base64 -) && echo "root:$ROOTPASS" | chpasswd
+
+COPY sshd_config /etc/ssh/
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "org.ohdsi.cdm.presentation.builderwebapi.dll"]
+
+COPY entrypoint.sh entrypoint.sh
+RUN chmod +x entrypoint.sh
+
+ENTRYPOINT ["./entrypoint.sh"]
+#ENTRYPOINT ["dotnet", "org.ohdsi.cdm.presentation.builderwebapi.dll"]

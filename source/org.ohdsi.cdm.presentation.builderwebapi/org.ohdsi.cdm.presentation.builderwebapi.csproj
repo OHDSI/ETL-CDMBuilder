@@ -21,7 +21,7 @@
     <PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="3.1.24" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
     <PackageReference Include="NETCore.Encrypt" Version="2.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>

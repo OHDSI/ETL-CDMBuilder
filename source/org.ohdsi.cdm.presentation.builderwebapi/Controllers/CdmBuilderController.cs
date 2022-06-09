@@ -223,6 +223,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                     content.Wait();
 
                     Logger.Write(connectionString, new LogMessage { User = username, Type = LogType.Debug, Text = $"AddMappings data saved" });
+                    Logger.Write(connectionString, new LogMessage { User = username, Type = LogType.Debug, Text = response.ToString() });
 
                     dynamic data = JToken.Parse(content.Result);
                     string contentKey = data.id;

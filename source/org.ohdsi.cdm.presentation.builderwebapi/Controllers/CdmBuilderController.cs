@@ -197,7 +197,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             int? conversionId = null;
             var connectionString = $"Server={_conf["SharedDbHost"]};Port={_conf["SharedDbPort"]};Database={_conf["SharedDbName"]};User Id={_conf["SharedDbBuilderUser"]};Password={_conf["SharedDbBuilderPass"]};";
             var username = this.HttpContext.Request.Headers["username"].ToString();
-            var actionUrl = _conf["FilesManagerUrl"];
+            var actionUrl = _conf["FilesManagerUrl"] + "/api";
             var key = _conf["BuilderSecretKey"];
 
             Logger.Write(connectionString, new LogMessage { User = username, Type = LogType.Debug, Text = $"AddMappings {username} | {actionUrl}" });

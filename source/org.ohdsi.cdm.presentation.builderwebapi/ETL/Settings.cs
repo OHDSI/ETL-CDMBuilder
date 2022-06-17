@@ -50,7 +50,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
         {
             get
             {
-                if (ConversionSettings.SourceEngine.ToLower() == "postgre")
+                if (ConversionSettings.SourceEngine.ToLower() == "postgre" ||
+                    ConversionSettings.SourceEngine.ToLower() == "postgresql" ||
+                    ConversionSettings.SourceEngine.ToLower().Contains("postgre"))
                     return new PostgreDatabaseEngine();
 
                 if (ConversionSettings.SourceEngine.ToLower() == "mysql")
@@ -64,7 +66,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
         {
             get
             {
-                if (ConversionSettings.DestinationEngine.ToLower() == "postgre")
+                if (ConversionSettings.DestinationEngine.ToLower() == "postgre" ||
+                    ConversionSettings.DestinationEngine.ToLower() == "postgresql" ||
+                    ConversionSettings.DestinationEngine.ToLower().Contains("postgre"))
                     return new PostgreDatabaseEngine();
 
                 if (ConversionSettings.DestinationEngine.ToLower() == "mysql")
@@ -78,7 +82,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
         {
             get
             {
-                if (ConversionSettings.VocabularyEngine.ToLower() == "postgre")
+                if (ConversionSettings.VocabularyEngine.ToLower() == "postgre" || 
+                    ConversionSettings.VocabularyEngine.ToLower() == "postgresql" || 
+                    ConversionSettings.VocabularyEngine.ToLower().Contains("postgre"))
                     return new PostgreDatabaseEngine();
 
                 if (ConversionSettings.VocabularyEngine.ToLower() == "mysql")

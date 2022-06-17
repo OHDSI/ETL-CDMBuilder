@@ -34,7 +34,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         public void Init(IConfiguration conf)
         {
             _connectionString = $"Server={conf["SharedDbHost"]};Port={conf["SharedDbPort"]};Database={conf["SharedDbName"]};User Id={conf["SharedDbBuilderUser"]};Password={conf["SharedDbBuilderPass"]};";
-            _fileManagerUrl = conf["FilesManagerUrl"];
+            _fileManagerUrl = conf["FilesManagerUrl"] + "/api";
             _secureKey = conf["BuilderSecretKey"];
 
             ConversionSettings settings = ConversionSettings.SetProperties(DBBuilder.GetParameters(_connectionString, _secureKey, _conversionId));

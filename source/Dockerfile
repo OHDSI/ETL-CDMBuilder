@@ -3,17 +3,16 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-bionic AS base
 WORKDIR /app
 EXPOSE 8090
 EXPOSE 443
-EXPOSE 2222
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic AS build
 WORKDIR /src
-COPY ["source/org.ohdsi.cdm.presentation.builderwebapi/org.ohdsi.cdm.presentation.builderwebapi.csproj", "org.ohdsi.cdm.presentation.builderwebapi/"]
-COPY ["source/org.ohdsi.cdm.framework.common/org.ohdsi.cdm.framework.common.csproj", "org.ohdsi.cdm.framework.common/"]
-COPY ["source/org.ohdsi.cdm.framework.desktop/org.ohdsi.cdm.framework.desktop.csproj", "org.ohdsi.cdm.framework.desktop/"]
-COPY ["source/org.ohdsi.cdm.framework.etl/org.ohdsi.cdm.framework.etl.common/org.ohdsi.cdm.framework.etl.common.csproj", "org.ohdsi.cdm.framework.etl/org.ohdsi.cdm.framework.etl.common/"]
+COPY ["org.ohdsi.cdm.presentation.builderwebapi/org.ohdsi.cdm.presentation.builderwebapi.csproj", "org.ohdsi.cdm.presentation.builderwebapi/"]
+COPY ["org.ohdsi.cdm.framework.common/org.ohdsi.cdm.framework.common.csproj", "org.ohdsi.cdm.framework.common/"]
+COPY ["org.ohdsi.cdm.framework.desktop/org.ohdsi.cdm.framework.desktop.csproj", "org.ohdsi.cdm.framework.desktop/"]
+COPY ["org.ohdsi.cdm.framework.etl/org.ohdsi.cdm.framework.etl.common/org.ohdsi.cdm.framework.etl.common.csproj", "org.ohdsi.cdm.framework.etl/org.ohdsi.cdm.framework.etl.common/"]
 RUN dotnet restore "org.ohdsi.cdm.presentation.builderwebapi/org.ohdsi.cdm.presentation.builderwebapi.csproj"
 COPY . .
-WORKDIR "/src/source/org.ohdsi.cdm.presentation.builderwebapi"
+WORKDIR "/src/org.ohdsi.cdm.presentation.builderwebapi"
 RUN dotnet build "org.ohdsi.cdm.presentation.builderwebapi.csproj" -c Release -o /app/build
 
 FROM build AS publish
@@ -38,15 +37,5 @@ RUN apt-get install -y odbc-postgresql
 #RUN apt-get update
 #RUN apt-get install -y mysql-connector-odbc
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends openssh-server \
-    && export ROOTPASS=$(head -c 12 /dev/urandom |base64 -) && echo "root:$ROOTPASS" | chpasswd
-
-COPY sshd_config /etc/ssh/
 COPY --from=publish /app/publish .
-
-COPY entrypoint.sh entrypoint.sh
-RUN chmod +x entrypoint.sh
-
-ENTRYPOINT ["./entrypoint.sh"]
-#ENTRYPOINT ["dotnet", "org.ohdsi.cdm.presentation.builderwebapi.dll"]
+ENTRYPOINT ["dotnet", "org.ohdsi.cdm.presentation.builderwebapi.dll"]

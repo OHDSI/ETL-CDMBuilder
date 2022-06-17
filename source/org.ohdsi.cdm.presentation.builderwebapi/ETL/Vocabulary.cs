@@ -108,6 +108,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.ETL
 
                 WriteLog(LogType.Info, "CMSPlaceOfService - Loading ...", 0);
 
+                //WriteLog(LogType.Debug, "VocabularyConnectionString: " + _settings.VocabularyConnectionString, 0);
                 using (var connection = _settings.VocabularyEngine.GetConnection(_settings.VocabularyConnectionString))
                 using (var command = _settings.VocabularyEngine.GetCommand(sql, connection))
                 {

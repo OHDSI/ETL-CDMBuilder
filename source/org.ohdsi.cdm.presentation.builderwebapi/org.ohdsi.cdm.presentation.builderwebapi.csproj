@@ -32,5 +32,11 @@
     <ProjectReference Include="..\org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.common\org.ohdsi.cdm.framework.etl.common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="sshd_config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>

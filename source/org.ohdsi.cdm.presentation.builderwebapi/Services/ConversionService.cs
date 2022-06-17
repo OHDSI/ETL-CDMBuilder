@@ -47,7 +47,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         private Settings GetSettings(int conversionId)
         {
             var key = _conf["BuilderSecretKey"];
-            var actionUrl = _conf["FilesManagerUrl"];
+            var actionUrl = _conf["FilesManagerUrl"] + "/api";
 
             var settings = _settings.GetOrAdd(conversionId,
                 x => new Lazy<Settings>(
@@ -93,7 +93,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 
                     var json = "{ \"connectionString\": \"" + _connectionString + "\", " +
                     "\"secureKey\": \"" + secureKey + "\", " +
-                    "\"fileManagerUrl\": \"" + _conf["FilesManagerUrl"] + "\", " +
+                    "\"fileManagerUrl\": \"" + _conf["FilesManagerUrl"] + "\api" + "\", " +
 
                     "\"sourceTemplate\": \"" + _conf[cs.SourceEngine] + "\", " +
                     "\"destinationTemplate\": \"" + _conf[cs.DestinationEngine] + "\", " +

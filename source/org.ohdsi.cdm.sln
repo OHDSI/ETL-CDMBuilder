@@ -45,7 +45,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.etl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.presentation.builderwebapi", "org.ohdsi.cdm.presentation.builderwebapi\org.ohdsi.cdm.presentation.builderwebapi.csproj", "{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.presentation.azurebuilder", "org.ohdsi.cdm.presentation.azurebuilder\org.ohdsi.cdm.presentation.azurebuilder.csproj", "{9550FC2B-A29F-4253-8659-44D40956C05C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.presentation.azurebuilder", "org.ohdsi.cdm.presentation.azurebuilder\org.ohdsi.cdm.presentation.azurebuilder.csproj", "{9550FC2B-A29F-4253-8659-44D40956C05C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1E0E0935-907A-474E-A967-E5BA2B413495}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		Dockerfile = Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

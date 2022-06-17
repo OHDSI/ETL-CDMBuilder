@@ -60,9 +60,13 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                             {
                                 try
                                 {
+                                    Logger.Write(_connectionString, new LogMessage { Type = LogType.Debug, ConversionId = cId, Text = $"ETLService Task.Run() сonversionId={cId}" });
+
                                     var conversionController = new ConversionController(cId);
                                     conversionController.Init(_conf);
+                                    Logger.Write(_connectionString, new LogMessage { Type = LogType.Debug, ConversionId = cId, Text = $"conversionController.Init() сonversionId={cId}" });
                                     conversionController.Start();
+                                    Logger.Write(_connectionString, new LogMessage { Type = LogType.Debug, ConversionId = cId, Text = $"conversionController.Start() сonversionId={cId}" });
                                 }
                                 catch (Exception ex)
                                 {
@@ -83,8 +87,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                             if (id.HasValue)
                             {
                                 conversionsQueue.Add(id.Value);
+                                Logger.Write(_connectionString, new LogMessage { Type = LogType.Debug, ConversionId = id.Value, Text = $"conversionsQueue.Add({id.Value})" });
                                 while (conversionsQueue.Count > MAX_PARALLEL)
                                 {
+                                    Logger.Write(_connectionString, new LogMessage { Type = LogType.Debug, ConversionId = id.Value, Text = $"conversionsQueue.Count > MAX_PARALLEL | {conversionsQueue.Count} > {MAX_PARALLEL}" });
                                     Thread.Sleep(5 * 1000);
                                 }
                             }

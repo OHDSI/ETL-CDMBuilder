@@ -7,21 +7,35 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Log
     {
         public static void Write(string connectionString, LogMessage message)
         {
-            var query = "INSERT INTO builder.log (conversion_id, step_id, chunk_id, time, type, description) " +
+            try
+            {
+                var query = "INSERT INTO builder.log (conversion_id, step_id, chunk_id, time, type, description) " +
                 "VALUES(@conversion_id, @step_id, @chunk_id, @time, @type, @description);";
 
-            using var connection = new NpgsqlConnection(connectionString);
-            connection.Open();
+                using var connection = new NpgsqlConnection(connectionString);
+                connection.Open();
 
-            using var c = new NpgsqlCommand(query, connection);
-            c.Parameters.AddWithValue("@conversion_id", (object)message.ConversionId ?? DBNull.Value);
-            c.Parameters.AddWithValue("@step_id", (object)message.StepId ?? DBNull.Value);
-            c.Parameters.AddWithValue("@chunk_id", (object)message.ChunkId ?? DBNull.Value);
-            c.Parameters.AddWithValue("@time", DateTime.UtcNow);
-            c.Parameters.AddWithValue("@type", message.Type.ToString());
-            c.Parameters.AddWithValue("@description", message.Text);
+                using var c = new NpgsqlCommand(query, connection);
+                c.Parameters.AddWithValue("@conversion_id", (object)message.ConversionId ?? DBNull.Value);
+                c.Parameters.AddWithValue("@step_id", (object)message.StepId ?? DBNull.Value);
+                c.Parameters.AddWithValue("@chunk_id", (object)message.ChunkId ?? DBNull.Value);
+                c.Parameters.AddWithValue("@time", DateTime.UtcNow);
+                c.Parameters.AddWithValue("@type", message.Type.ToString());
+                c.Parameters.AddWithValue("@description", message.Text);
 
-            var result = c.ExecuteScalar();
+                var result = c.ExecuteScalar();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(message.Text);
+                Console.WriteLine(e.Message);
+
+                System.Diagnostics.Trace.TraceError(message.Text);
+                System.Diagnostics.Trace.TraceError(e.Message);
+
+                throw;
+            }
+            
         }
     }
 }

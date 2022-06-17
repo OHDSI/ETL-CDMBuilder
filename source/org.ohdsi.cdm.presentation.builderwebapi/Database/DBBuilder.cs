@@ -539,7 +539,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Database
                 "FROM builder.log l " +
                 "LEFT JOIN a on a.conversion_id = l.conversion_id " +
                 "JOIN builder.conversion c ON c.id = @conversion_id and l.time >= c.started " +
-                "WHERE l.conversion_id = @conversion_id";
+                "WHERE l.conversion_id = @conversion_id and l.type != 'Debug'";
 
             if (logId.HasValue)
                 query += " and l.id > @log_id";

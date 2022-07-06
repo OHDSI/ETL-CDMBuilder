@@ -1,5 +1,5 @@
 Introduction
-========
+============
 
 This repository forked from OHDSI/ETL-CDMBuilder https://github.com/OHDSI/ETL-CDMBuilder.
 
@@ -13,7 +13,7 @@ Technology
 
 System Requirements (for each server that will be running CDM Builder)
 ============
-* .NET Core 3.1 
+* .NET Core 3.1
 * Visual Studio 2019+ is only required if you're looking to re-build the solution from source code
 * SQL Server builds: MS SQL ODBC Driver
 * PostgreSQL builds: PostgreSQL ODBC Driver
@@ -28,7 +28,7 @@ Dependencies
 Getting Started
 ===============
 
-    docker build -f "source/org.ohdsi.cdm.presentation.builderwebapi/Dockerfile" -t cdm-builder-service .
+    docker build -f "source/Dockerfile" -t cdm-builder-service .
     docker run -d --network host --name cdm-builder-service cdm-builder-service
 
 Kicking off a Build
@@ -42,7 +42,7 @@ Kicking off a Build
     - Run org.ohdsi.cdm.presentation.builder.exe
     - [settins tab] Through UI specify source, destination and vocabulary settings (server, database name, schema name, user and password)
     - Go [building tab] click start button
-    
+
 License
 =======
 ETL-CDMBuilder is licensed under Apache License 2.0

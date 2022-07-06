@@ -23,7 +23,6 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddCors();
-
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.KnownProxies.Add(IPAddress.Parse("10.110.1.7"));

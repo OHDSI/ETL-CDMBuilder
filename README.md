@@ -28,8 +28,9 @@ Dependencies
 Getting Started
 ===============
 
-    docker build -f "source/Dockerfile" -t cdm-builder-service .
-    docker run -d --network host --name cdm-builder-service cdm-builder-service
+    cd source
+    docker build -t cdm-builder . 
+    docker run --name cdm-builder -d -p 9000:9000 --network=perseus-net cdm-builder
 
 Kicking off a Build
 ===============

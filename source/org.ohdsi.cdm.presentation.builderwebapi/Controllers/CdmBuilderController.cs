@@ -158,6 +158,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                 databaseType = framework.desktop.Enums.Database.MsSql;
             else if (dbType.ToLower() == "mysql")
                 databaseType = framework.desktop.Enums.Database.MySql;
+            else if (dbType.ToLower() == "azure")
+                databaseType = framework.desktop.Enums.Database.MsSql;
 
             using var c = SqlConnectionHelper.OpenConnection(connection, databaseType);
         }
@@ -279,6 +281,16 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                 {
                     settings.DestinationEngine = "MySql";
                     settings.DestinationSchema = null;
+                }
+
+                if (settings.SourceEngine.ToLower() == "azure")
+                {
+                    settings.SourceEngine = "MSSQL";
+                }
+
+                if (settings.DestinationEngine.ToLower() == "azure")
+                {
+                    settings.DestinationEngine = "MSSQL";
                 }
 
                 if (settings.VocabularyEngine == null)

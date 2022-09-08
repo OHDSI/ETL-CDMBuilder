@@ -19,13 +19,18 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
         public ChunkController(Settings settings)
         {
             _settings = settings;
+
+            var sourceEngine = settings.ConversionSettings.SourceEngine;
+            if (sourceEngine == "PostgreSQL")
+                sourceEngine = "Postgre";
+
             _dbSource = new DbSource(settings.SourceConnectionString, Path.Combine(new[]
             {
                 settings.Folder,
                 "ETL",
                 "Common",
                 "Scripts",
-                settings.ConversionSettings.SourceEngine
+                sourceEngine
             }), settings.ConversionSettings.SourceSchema, settings.SourceEngine);
         }
 

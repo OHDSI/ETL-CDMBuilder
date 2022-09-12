@@ -21,7 +21,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         private IConfiguration _conf;
         private string _connectionString;
 
-        private ConcurrentDictionary<int, Lazy<Settings>> _settings;
+        //private ConcurrentDictionary<int, Lazy<Settings>> _settings;
 
         public bool UseAureFunctions 
         { 
@@ -36,7 +36,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
         {
             _conf = configuration;
             _connectionString = $"Server={_conf["SharedDbHost"]};Port={_conf["SharedDbPort"]};Database={_conf["SharedDbName"]};User Id={_conf["SharedDbBuilderUser"]};Password={_conf["SharedDbBuilderPass"]};";
-            _settings = new ConcurrentDictionary<int, Lazy<Settings>>();
+            //_settings = new ConcurrentDictionary<int, Lazy<Settings>>();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -49,28 +49,44 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             var key = _conf["BuilderSecretKey"];
             var actionUrl = _conf["FilesManagerUrl"] + "/api";
 
-            var settings = _settings.GetOrAdd(conversionId,
-                x => new Lazy<Settings>(
-                    () =>
-                    {
-                        Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, Type = LogType.Info, Text = "Loading Vocabulary..." });
-                        ConversionSettings cs = ConversionSettings.SetProperties(DBBuilder.GetParameters(_connectionString, key, conversionId));
-                        Dictionary<string, string> connectionStringTemplates = new Dictionary<string, string>();
-                        connectionStringTemplates.TryAdd(cs.SourceEngine, _conf[cs.SourceEngine]);
-                        connectionStringTemplates.TryAdd(cs.DestinationEngine, _conf[cs.DestinationEngine]);
-                        connectionStringTemplates.TryAdd(cs.VocabularyEngine, _conf[cs.VocabularyEngine]);
+            Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, Type = LogType.Info, Text = "Loading Vocabulary..." });
+            ConversionSettings cs = ConversionSettings.SetProperties(DBBuilder.GetParameters(_connectionString, key, conversionId));
+            Dictionary<string, string> connectionStringTemplates = new Dictionary<string, string>();
+            connectionStringTemplates.TryAdd(cs.SourceEngine, _conf[cs.SourceEngine]);
+            connectionStringTemplates.TryAdd(cs.DestinationEngine, _conf[cs.DestinationEngine]);
+            connectionStringTemplates.TryAdd(cs.VocabularyEngine, _conf[cs.VocabularyEngine]);
 
-                        var settings = new Settings(cs, actionUrl, connectionStringTemplates);
-                        settings.Load();
+            var settings = new Settings(cs, actionUrl, connectionStringTemplates);
+            settings.Load();
 
-                        var vocabulary = new Vocabulary(settings, _connectionString, conversionId);
-                        vocabulary.LoadVocabularyFromFileManager(actionUrl, key);
-                        Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, Type = LogType.Info, Text = "Vocabulary DONE." });
+            var vocabulary = new Vocabulary(settings, _connectionString, conversionId);
+            vocabulary.LoadVocabularyFromFileManager(actionUrl, key);
+            Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, Type = LogType.Info, Text = "Vocabulary DONE." });
 
-                        return settings;
-                    }));
+            return settings;
 
-            return settings.Value;
+            //var settings = _settings.GetOrAdd(conversionId,
+            //    x => new Lazy<Settings>(
+            //        () =>
+            //        {
+            //            Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, Type = LogType.Info, Text = "Loading Vocabulary..." });
+            //            ConversionSettings cs = ConversionSettings.SetProperties(DBBuilder.GetParameters(_connectionString, key, conversionId));
+            //            Dictionary<string, string> connectionStringTemplates = new Dictionary<string, string>();
+            //            connectionStringTemplates.TryAdd(cs.SourceEngine, _conf[cs.SourceEngine]);
+            //            connectionStringTemplates.TryAdd(cs.DestinationEngine, _conf[cs.DestinationEngine]);
+            //            connectionStringTemplates.TryAdd(cs.VocabularyEngine, _conf[cs.VocabularyEngine]);
+
+            //            var settings = new Settings(cs, actionUrl, connectionStringTemplates);
+            //            settings.Load();
+
+            //            var vocabulary = new Vocabulary(settings, _connectionString, conversionId);
+            //            vocabulary.LoadVocabularyFromFileManager(actionUrl, key);
+            //            Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, Type = LogType.Info, Text = "Vocabulary DONE." });
+
+            //            return settings;
+            //        }));
+
+            //return settings.Value;
         }
 
         private void ConvertChunk(int conversionId, int chunkId)
@@ -130,8 +146,8 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
                     DBBuilder.CompleteConversion(_connectionString, conversionId);
                     Logger.Write(_connectionString, new LogMessage { ConversionId = conversionId, ChunkId = chunkId, Type = LogType.Info, Text = "Conversion to CDM - DONE" });
 
-                    _settings[conversionId] = null;
-                    _settings.TryRemove(conversionId, out Lazy<Settings> res);
+                    //_settings[conversionId] = null;
+                    //_settings.TryRemove(conversionId, out Lazy<Settings> res);
 
                     GC.Collect();
                     GC.WaitForPendingFinalizers();

@@ -4,6 +4,7 @@ using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace org.ohdsi.cdm.presentation.builderwebapi
 {
@@ -29,7 +30,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
 
                 //if (!context.HostingEnvironment.IsDevelopment())
                 {
-                    var keyVaultEndpoint = settings["VaultURI"];
+                    var keyVaultEndpoint = Environment.GetEnvironmentVariable("AZURE_KEY_VAULT_ENDPOINT");
+
+                    if (string.IsNullOrEmpty(keyVaultEndpoint))
+                        keyVaultEndpoint = settings["VaultURI"];
 
                     if (!string.IsNullOrEmpty(keyVaultEndpoint))
                     {

@@ -1,10 +1,10 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/core/aspnet:3.1-bionic AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-bionic AS base
 WORKDIR /app
 EXPOSE 8090
 EXPOSE 443
 
-FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/core/sdk:3.1-bionic AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic AS build
 WORKDIR /src
 COPY ["/source/org.ohdsi.cdm.presentation.builderwebapi/org.ohdsi.cdm.presentation.builderwebapi.csproj", "org.ohdsi.cdm.presentation.builderwebapi/"]
 COPY ["/source/org.ohdsi.cdm.framework.common/org.ohdsi.cdm.framework.common.csproj", "org.ohdsi.cdm.framework.common/"]

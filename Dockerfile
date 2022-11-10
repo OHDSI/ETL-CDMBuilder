@@ -1,10 +1,10 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-bionic AS base
+FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/core/aspnet:3.1-bionic AS base
 WORKDIR /app
 EXPOSE 8090
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic AS build
+FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/core/sdk:3.1-bionic AS build
 WORKDIR /src
 COPY ["/source/org.ohdsi.cdm.presentation.builderwebapi/org.ohdsi.cdm.presentation.builderwebapi.csproj", "org.ohdsi.cdm.presentation.builderwebapi/"]
 COPY ["/source/org.ohdsi.cdm.framework.common/org.ohdsi.cdm.framework.common.csproj", "org.ohdsi.cdm.framework.common/"]
@@ -31,11 +31,6 @@ RUN curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > /etc/apt
 RUN apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql17
 
 RUN apt-get install -y odbc-postgresql
-
-#RUN curl https://dev.mysql.com/get/Downloads/Connector-ODBC/8.0/mysql-connector-odbc_8.0.22-1ubuntu18.04_amd64.deb
-#RUN dpkg -i mysql-apt-config_*.deb
-#RUN apt-get update
-#RUN apt-get install -y mysql-connector-odbc
 
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "org.ohdsi.cdm.presentation.builderwebapi.dll"]

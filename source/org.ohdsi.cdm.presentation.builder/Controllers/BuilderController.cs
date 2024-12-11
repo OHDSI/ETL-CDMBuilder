@@ -52,6 +52,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
             try
             {
+                //Logger.Write(null, LogMessageTypes.Info, 
+                //    "--Starting act: " + act.Method.ToString());
                 act();
             }
             catch (Exception e)
@@ -66,6 +68,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         public void CreateDestination()
         {
+            Logger.Write(null, LogMessageTypes.Info, 
+                "Creating destination db...");
             PerformAction(() =>
             {
                 var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
@@ -74,14 +78,20 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 dbDestination.CreateDatabase(Settings.Current.CreateCdmDatabaseScript);
                 dbDestination.ExecuteQuery(Settings.Current.CreateCdmTablesScript);
             });
+            Logger.Write(null, LogMessageTypes.Info, 
+                "Destination db created.");
         }
 
         public void CreateTablesStep()
         {
+            Logger.Write(null, LogMessageTypes.Info, 
+                "Creating destination tables...");
             var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
                 Settings.Current.Building.CdmSchema);
 
             dbDestination.ExecuteQuery(Settings.Current.CreateCdmTablesScript);
+            Logger.Write(null, LogMessageTypes.Info, 
+                "Destination tables created.");
         }
 
         public void DropDestination()
@@ -126,6 +136,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         public void CreateLookup(IVocabulary vocabulary)
         {
+            Logger.Write(null, LogMessageTypes.Info,
+                "Starting CreateLookup...");
             PerformAction(() =>
             {
                 var timer = new Stopwatch();

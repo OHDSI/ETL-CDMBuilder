@@ -22,6 +22,7 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
 
             // TMP
             var mySql = _connectionString.ToLower().Contains("mysql");
+            var postgres = _connectionString.ToLower().Contains("postgres");
 
             if (mySql)
                 sqlConnectionStringBuilder["database"] = "mysql";
@@ -44,7 +45,7 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
                 }
             }
 
-            if (!mySql && _schemaName.ToLower().Trim() != "dbo")
+            if (!mySql && !postgres && _schemaName.ToLower().Trim() != "dbo")
             {
                 CreateSchema();
             }

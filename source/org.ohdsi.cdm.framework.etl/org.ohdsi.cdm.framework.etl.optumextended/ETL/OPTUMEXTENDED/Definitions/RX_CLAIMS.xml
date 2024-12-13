@@ -48,7 +48,7 @@
     END	AS DAYS_SUPPLY,
     ndc DRUG_SOURCE_VALUE,
     SUBSTRING(ndc,1,9) DRUG_SOURCE_VALUE_9
-    FROM {sc}.rx_claims rx
+    FROM {sc}.rx rx
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND rx.patid = ch.PERSON_ID
     left join prov on prov.prov = prescriber_prov
     left join npi on prov.prov_unique is null and rx.npi != '' and rx.npi is not null and npi.npi = rx.npi

@@ -1,5 +1,5 @@
 ﻿<QueryDefinition>
-  <Query>
+  <Query database="na">
     SELECT patid,
     loinc_cd,
     proc_cd,

@@ -228,7 +228,10 @@
       },
       "org.ohdsi.cdm.framework.common/1.0.0": {
         "runtime": {
-          "org.ohdsi.cdm.framework.common.dll": {}
+          "org.ohdsi.cdm.framework.common.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "org.ohdsi.cdm.framework.desktop/1.0.0": {
@@ -243,7 +246,10 @@
           "org.ohdsi.cdm.framework.common": "1.0.0"
         },
         "runtime": {
-          "org.ohdsi.cdm.framework.desktop.dll": {}
+          "org.ohdsi.cdm.framework.desktop.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "org.ohdsi.cdm.framework.etl.cerner/1.0.0": {
@@ -251,12 +257,18 @@
           "org.ohdsi.cdm.framework.common": "1.0.0"
         },
         "runtime": {
-          "org.ohdsi.cdm.framework.etl.cerner.dll": {}
+          "org.ohdsi.cdm.framework.etl.cerner.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "org.ohdsi.cdm.framework.etl.common/1.0.0": {
         "runtime": {
-          "org.ohdsi.cdm.framework.etl.common.dll": {}
+          "org.ohdsi.cdm.framework.etl.common.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "org.ohdsi.cdm.framework.etl.cprd/1.0.0": {
@@ -264,7 +276,10 @@
           "org.ohdsi.cdm.framework.common": "1.0.0"
         },
         "runtime": {
-          "org.ohdsi.cdm.framework.etl.cprd.dll": {}
+          "org.ohdsi.cdm.framework.etl.cprd.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "org.ohdsi.cdm.framework.etl.cprdhes/1.0.0": {
@@ -272,7 +287,10 @@
           "org.ohdsi.cdm.framework.common": "1.0.0"
         },
         "runtime": {
-          "org.ohdsi.cdm.framework.etl.cprdhes.dll": {}
+          "org.ohdsi.cdm.framework.etl.cprdhes.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "org.ohdsi.cdm.framework.etl.hcup/1.0.0": {
@@ -280,7 +298,10 @@
           "org.ohdsi.cdm.framework.common": "1.0.0"
         },
         "runtime": {
-          "org.ohdsi.cdm.framework.etl.hcup.dll": {}
+          "org.ohdsi.cdm.framework.etl.hcup.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "org.ohdsi.cdm.framework.etl.healthverity/1.0.0": {
@@ -288,7 +309,10 @@
           "org.ohdsi.cdm.framework.common": "1.0.0"
         },
         "runtime": {
-          "org.ohdsi.cdm.framework.etl.healthverity.dll": {}
+          "org.ohdsi.cdm.framework.etl.healthverity.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "org.ohdsi.cdm.framework.etl.ibm/1.0.0": {
@@ -296,7 +320,10 @@
           "org.ohdsi.cdm.framework.common": "1.0.0"
         },
         "runtime": {
-          "org.ohdsi.cdm.framework.etl.ibm.dll": {}
+          "org.ohdsi.cdm.framework.etl.ibm.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "org.ohdsi.cdm.framework.etl.jmdc/1.0.0": {
@@ -304,7 +331,10 @@
           "org.ohdsi.cdm.framework.common": "1.0.0"
         },
         "runtime": {
-          "org.ohdsi.cdm.framework.etl.jmdc.dll": {}
+          "org.ohdsi.cdm.framework.etl.jmdc.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "org.ohdsi.cdm.framework.etl.nhanes/1.0.0": {
@@ -312,7 +342,10 @@
           "org.ohdsi.cdm.framework.common": "1.0.0"
         },
         "runtime": {
-          "org.ohdsi.cdm.framework.etl.nhanes.dll": {}
+          "org.ohdsi.cdm.framework.etl.nhanes.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "org.ohdsi.cdm.framework.etl.optumextended/1.0.0": {
@@ -320,7 +353,10 @@
           "org.ohdsi.cdm.framework.common": "1.0.0"
         },
         "runtime": {
-          "org.ohdsi.cdm.framework.etl.optumextended.dll": {}
+          "org.ohdsi.cdm.framework.etl.optumextended.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "org.ohdsi.cdm.framework.etl.optumpanther/1.0.0": {
@@ -328,7 +364,10 @@
           "org.ohdsi.cdm.framework.common": "1.0.0"
         },
         "runtime": {
-          "org.ohdsi.cdm.framework.etl.optumpanther.dll": {}
+          "org.ohdsi.cdm.framework.etl.optumpanther.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "org.ohdsi.cdm.framework.etl.premier/1.0.0": {
@@ -336,7 +375,10 @@
           "org.ohdsi.cdm.framework.common": "1.0.0"
         },
         "runtime": {
-          "org.ohdsi.cdm.framework.etl.premier.dll": {}
+          "org.ohdsi.cdm.framework.etl.premier.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "org.ohdsi.cdm.framework.etl.seer/1.0.0": {
@@ -344,7 +386,10 @@
           "org.ohdsi.cdm.framework.common": "1.0.0"
         },
         "runtime": {
-          "org.ohdsi.cdm.framework.etl.seer.dll": {}
+          "org.ohdsi.cdm.framework.etl.seer.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "org.ohdsi.cdm.framework.etl.symphonyemr/1.0.0": {
@@ -352,7 +397,10 @@
           "org.ohdsi.cdm.framework.common": "1.0.0"
         },
         "runtime": {
-          "org.ohdsi.cdm.framework.etl.symphonyemr.dll": {}
+          "org.ohdsi.cdm.framework.etl.symphonyemr.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
@@ -380,7 +428,7 @@
     "Microsoft.CSharp/4.4.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Mg7IqHdgGsyeXSApz85limYBHCUk4dQF4EPnSqcIfFiFA2C6bH4jdtYTsLeYnRN03BkPlNHXtbwlzGn8ASq8LA==",
+      "sha512": "sha512-vvVR/B08YVghQ4jHEloxqw2ZWzEGE1AOA5E0DioUM3ujbXz6FD3AfB/0Jl2ohJPd0nXYGwmPe1En6HTsSriq1A==",
       "path": "microsoft.csharp/4.4.0",
       "hashPath": "microsoft.csharp.4.4.0.nupkg.sha512"
     },

@@ -5,7 +5,7 @@
     38004340 as PLACE_OF_SERVICE_CONCEPT_ID,
     'Pharmacy' as PLACE_OF_SERVICE_SOURCE_VALUE,
     NULL as Location
-    FROM {sc}.rx_claims
+    FROM {sc}.rx
     where pharm != '' and pharm != '0'
     union
     select distinct prov_unique,

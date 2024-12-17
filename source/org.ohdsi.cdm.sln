@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30011.22
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35521.163 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.common", "org.ohdsi.cdm.framework.common\org.ohdsi.cdm.framework.common.csproj", "{E161BA99-E961-495B-B094-35066EDB5DE0}"
 EndProject
@@ -59,8 +59,8 @@ Global
 		{E161BA99-E961-495B-B094-35066EDB5DE0}.Debug|x64.Build.0 = Debug|Any CPU
 		{E161BA99-E961-495B-B094-35066EDB5DE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E161BA99-E961-495B-B094-35066EDB5DE0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E161BA99-E961-495B-B094-35066EDB5DE0}.Release|x64.ActiveCfg = Release|x64
-		{E161BA99-E961-495B-B094-35066EDB5DE0}.Release|x64.Build.0 = Release|x64
+		{E161BA99-E961-495B-B094-35066EDB5DE0}.Release|x64.ActiveCfg = Release|Any CPU
+		{E161BA99-E961-495B-B094-35066EDB5DE0}.Release|x64.Build.0 = Release|Any CPU
 		{08E2E022-3310-4B41-BEF0-8E4ABDFC04BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{08E2E022-3310-4B41-BEF0-8E4ABDFC04BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08E2E022-3310-4B41-BEF0-8E4ABDFC04BA}.Debug|x64.ActiveCfg = Debug|Any CPU

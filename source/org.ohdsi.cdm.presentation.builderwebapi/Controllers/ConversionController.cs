@@ -38,7 +38,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             _logHub.Clients.All.SendAsync("Log", "Creating CDM database...").Wait();
 
             var dbDestination = new DbDestination(_settings.DestinationConnectionString,
-                   _settings.ConversionSettings.DestinationSchema);
+                   _settings.ConversionSettings.DestinationSchema, _settings.ConversionSettings.DestinationDatabase);
 
             try
             {

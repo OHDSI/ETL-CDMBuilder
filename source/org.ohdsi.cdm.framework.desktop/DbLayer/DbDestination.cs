@@ -8,11 +8,13 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
     {
         private readonly string _connectionString;
         private readonly string _schemaName;
+        private readonly string _database;
 
-        public DbDestination(string connectionString, string schemaName)
+        public DbDestination(string connectionString, string schemaName, string database)
         {
             _connectionString = connectionString;
             _schemaName = schemaName;
+            _database = database;
         }
 
         public void CreateDatabase(string query)
@@ -24,7 +26,10 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
             var mySql = _connectionString.ToLower().Contains("mysql");
             var postgres = _connectionString.ToLower().Contains("postgres");
 
-            if (mySql)
+            // if the db name is not specified, it's hardcoded based on the database type
+            if (_database != null)
+                sqlConnectionStringBuilder["database"] = _database;
+            else if (mySql)
                 sqlConnectionStringBuilder["database"] = "mysql";
             else if (_connectionString.ToLower().Contains("amazon redshift"))
                 sqlConnectionStringBuilder["database"] = "poc";
@@ -47,15 +52,17 @@ namespace org.ohdsi.cdm.framework.desktop.DbLayer
 
             if (!mySql && !postgres && _schemaName.ToLower().Trim() != "dbo")
             {
-                CreateSchema();
+                CreateSchema(postgres);
             }
         }
 
-        public void CreateSchema()
+        public void CreateSchema(bool isPostgres)
         {
             using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
             {
-                var query = $"create schema [{_schemaName}]";
+                string query;
+                if (isPostgres) query = $"CREATE SCHEMA IF NOT EXISTS {_schemaName}";
+                else query = $"create schema [{_schemaName}]";
 
                 using (var command = new OdbcCommand(query, connection))
                 {

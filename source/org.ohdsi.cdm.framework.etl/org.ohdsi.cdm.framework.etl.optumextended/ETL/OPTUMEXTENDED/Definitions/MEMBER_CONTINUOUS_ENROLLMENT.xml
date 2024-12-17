@@ -1,18 +1,18 @@
 ﻿<QueryDefinition>
   <Variables>
-    <Variable name="sesJoin" database="ses">LEFT JOIN {sc}.SES on mce.PATID = SES.PATID</Variable>
+    <Variable name="sesJoin" database="ses">LEFT JOIN {sc}.SES on mce.PATID = SES._PATID</Variable>
     <Variable name="sesJoin" database="dod"></Variable>
 
-    <Variable name="raceConceptId" database="ses">CASE SES.D_RACE_CODE WHEN 'W' THEN 8527 WHEN 'A' THEN 8515 WHEN 'U' THEN 0 WHEN 'H' THEN 0 WHEN 'B' THEN 8516 ELSE 0 END as RaceConceptId</Variable>
+    <Variable name="raceConceptId" database="ses">CASE SES._D_RACE_CODE WHEN 'W' THEN 8527 WHEN 'A' THEN 8515 WHEN 'U' THEN 0 WHEN 'H' THEN 0 WHEN 'B' THEN 8516 ELSE 0 END as RaceConceptId</Variable>
     <Variable name="raceConceptId" database="dod">0 as RaceConceptId</Variable>
 
-    <Variable name="ethnicityConceptId" database="ses">CASE SES.D_RACE_CODE WHEN 'W' THEN 38003564 WHEN 'A' THEN 38003564 WHEN 'U' THEN 0 WHEN 'H' THEN 38003563 WHEN 'B' THEN 38003564 ELSE 0 END as EthnicityConceptId</Variable>
+    <Variable name="ethnicityConceptId" database="ses">CASE SES._D_RACE_CODE WHEN 'W' THEN 38003564 WHEN 'A' THEN 38003564 WHEN 'U' THEN 0 WHEN 'H' THEN 38003563 WHEN 'B' THEN 38003564 ELSE 0 END as EthnicityConceptId</Variable>
     <Variable name="ethnicityConceptId" database="dod">0 as EthnicityConceptId</Variable>
 
-    <Variable name="race" database="ses">CASE SES.D_RACE_CODE WHEN 'W' THEN D_RACE_CODE WHEN 'A' THEN D_RACE_CODE WHEN 'B' THEN D_RACE_CODE ELSE NULL END AS RACE</Variable>
+    <Variable name="race" database="ses">CASE SES._D_RACE_CODE WHEN 'W' THEN _D_RACE_CODE WHEN 'A' THEN _D_RACE_CODE WHEN 'B' THEN _D_RACE_CODE ELSE NULL END AS RACE</Variable>
     <Variable name="race" database="dod">NULL AS RACE</Variable>
 
-    <Variable name="ethnicity" database="ses">CASE SES.D_RACE_CODE WHEN 'H' THEN D_RACE_CODE ELSE NULL END AS ETHNICITY</Variable>
+    <Variable name="ethnicity" database="ses">CASE SES._D_RACE_CODE WHEN 'H' THEN _D_RACE_CODE ELSE NULL END AS ETHNICITY</Variable>
     <Variable name="ethnicity" database="dod">NULL AS ETHNICITY</Variable>
 
     <Variable name="location" database="ses">NULL as Location</Variable>

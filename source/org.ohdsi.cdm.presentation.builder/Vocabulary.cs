@@ -117,6 +117,9 @@ namespace org.ohdsi.cdm.presentation.builder
 
                                     Logger.Write(null, LogMessageTypes.Info, conceptIdMapper.Lookup + " - Loading into RAM...");
 
+                                    //Logger.Write(null, LogMessageTypes.Info, conceptIdMapper.Lookup + " - Query: " + sql);
+                                    Logger.Write(null, LogMessageTypes.Info, conceptIdMapper.Lookup + " - Query: " + sqlFileDestination);
+
                                     using (var connection = SqlConnectionHelper.OpenOdbcConnection(Settings.Current.Building.VocabularyConnectionString))
                                     using (var command = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
                                     using (var reader = command.ExecuteReader())

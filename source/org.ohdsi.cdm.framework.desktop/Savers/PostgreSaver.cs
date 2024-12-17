@@ -20,11 +20,18 @@ namespace org.ohdsi.cdm.framework.desktop.Savers
 
             var odbc = new OdbcConnectionStringBuilder(connectionString);
 
-            var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password};SslMode=Require;Trust Server Certificate=true";
+            //var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password};SslMode=Require;Trust Server Certificate=true";
+            var connectionStringTemplate = "Server={server};Port={port};Database={database};User Id={username};Password={password};";
 
             var npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
                 .Replace("{database}", odbc["database"].ToString()).Replace("{username}", odbc["uid"].ToString())
-                .Replace("{password}", odbc["pwd"].ToString());
+                .Replace("{password}", odbc["pwd"].ToString())
+                .Replace("{port}", odbc["port"].ToString());
+           
+            if ((odbc.ContainsKey("SslMode")) && (odbc["SslMode"].ToString() == "Require"))
+            {
+                npgsqlConnectionString = npgsqlConnectionString + "SslMode=Require;Trust Server Certificate=true";
+            }
 
             Console.WriteLine("npgsqlConnectionString=" + npgsqlConnectionString);
             _connection = SqlConnectionHelper.OpenNpgsqlConnection(npgsqlConnectionString);

@@ -25,7 +25,7 @@
     , pat_planid
     , coalesce(pb.prov_unique, 0) as PROVIDER_ID
     , CASE WHEN icd_flag IS NULL OR icd_flag NOT IN ('10', '9') THEN CASE WHEN admit_date &lt; '10/01/2015' THEN '9' ELSE '10' END ELSE icd_flag END icd_flag
-    FROM {sc}.inpatient_confinement c
+    FROM {sc}.confinement c
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND c.patid = ch.PERSON_ID
     left join prov pb on pb.prov=c.prov
     order by PATID

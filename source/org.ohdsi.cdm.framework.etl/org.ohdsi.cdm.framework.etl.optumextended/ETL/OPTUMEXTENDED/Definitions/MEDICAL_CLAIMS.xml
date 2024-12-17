@@ -24,7 +24,7 @@
     else lst_dt
     end as VISIT_END_DATE,
     paid_status,
-    provcat,
+    provcat_,
     bill_prov,
     clmid,
     clmseq,
@@ -51,7 +51,7 @@
     1 as fake,
     drg,
     rvnu_cd
-    FROM {sc}.medical_claims mc
+    FROM {sc}.medical mc
     JOIN {sc}._chunks ch ON ch.ChunkId = {0} AND mc.patid = ch.PERSON_ID
     left join prov pb on pb.prov=mc.prov
     left join care_site cs on cs.prov=mc.bill_prov

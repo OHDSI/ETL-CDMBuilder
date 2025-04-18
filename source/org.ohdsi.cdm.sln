@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30011.22
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.common", "org.ohdsi.cdm.framework.common\org.ohdsi.cdm.framework.common.csproj", "{E161BA99-E961-495B-B094-35066EDB5DE0}"
 EndProject
@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.etl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.framework.etl.cerner", "org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.cerner\org.ohdsi.cdm.framework.etl.cerner.csproj", "{45E0330C-E9DD-43A9-80BB-9A0821694950}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.presentation.builderwebapi", "org.ohdsi.cdm.presentation.builderwebapi\org.ohdsi.cdm.presentation.builderwebapi.csproj", "{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.presentation.builderwebapi", "org.ohdsi.cdm.presentation.builderwebapi\org.ohdsi.cdm.presentation.builderwebapi.csproj", "{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

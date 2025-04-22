@@ -1,10 +1,12 @@
-﻿using org.ohdsi.cdm.framework.desktop;
+﻿using org.ohdsi.cdm.framework.common;
+using org.ohdsi.cdm.framework.desktop;
 using org.ohdsi.cdm.framework.desktop.DbLayer;
 using org.ohdsi.cdm.framework.desktop.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 
 namespace org.ohdsi.cdm.presentation.builder.Controllers
 {
@@ -25,27 +27,20 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
         }
 
 
-        public void ClenupChunks()
-        {
-            _dbSource.DropChunkTable();
-        }
 
-        public int CreateChunks()
+        public int CreateChunks(string chunksSchema)
         {
             var chunks = new List<ChunkRecord>();
 
             Console.WriteLine("Generating chunk ids...");
-            _dbSource.CreateChunkTable();
-            _dbSource.CreateIndexesChunkTable();
+            _dbSource.CreateChunkTable(chunksSchema);
+            _dbSource.CreateIndexesChunkTable(chunksSchema);
 
             var chunkId = 0;
             var k = 0;
 
             using (var saver = Settings.Current.Building.SourceEngine.GetSaver()
-                .Create(Settings.Current.Building.SourceConnectionString,
-                Settings.Current.Building.Cdm,
-                Settings.Current.Building.SourceSchema,
-                Settings.Current.Building.CdmSchema))
+                .Create(Settings.Current.Building.SourceConnectionString))
             {
                 foreach (var chunk in GetPersonKeys(Settings.Current.Building.ChunkSize))
                 {
@@ -57,7 +52,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
                 if (chunks.Count > 0)
                 {
-                    saver.AddChunk(chunks, k);
+                    saver.AddChunk(chunks, k, chunksSchema);
                 }
 
                 saver.Commit();

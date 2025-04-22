@@ -62,6 +62,38 @@ namespace org.ohdsi.cdm.presentation.builder
             }
         }
 
+        public string VendorFolder
+        {
+            get
+            {
+                switch (Vendor)
+                {
+                    default:
+                        throw new NotImplementedException($"Vendor {Vendor} is not supported");
+                    case "Seer":
+                        return @"ETL\SEER";
+                    case "Nhanes":
+                        return @"ETL\NHANES";
+                    case "OptumPanther":
+                        return @"ETL\OPTUMPANTHER";
+                    case "Cerner":
+                        return @"ETL\CERNER";
+                    case "HealthVerity":
+                        return @"ETL\HEALTHVERITY";
+                    case "Premier":
+                        return @"ETL\PREMIER";
+                    case "Jmdc":
+                        return @"ETL\JMDC";
+                    case "Cprd":
+                        return @"ETL\CPRD";
+                    case "Hcup":
+                        return @"ETL\HCUP";
+                    case "CprdHES":
+                        return @"ETL\CPRDHES";
+                }
+            }
+        }
+
         public CdmVersions Cdm
         {
             get
@@ -163,17 +195,10 @@ namespace org.ohdsi.cdm.presentation.builder
             _threadlock = new object();
         }
 
-        [XmlIgnore]
-        public string VendorFolder { get; set; }
-
         #region Methods
 
         private void SetVendorSettings()
-        {
-            var objectType = Type.GetType(PersonBuilder);
-            IPersonBuilder instantiatedObject = Activator.CreateInstance(objectType) as IPersonBuilder;
-            VendorFolder = instantiatedObject.GetFolder();
-
+        { 
             var batch = "Batch.sql";
             if (File.Exists(Path.Combine(VendorFolder, batch)))
             {

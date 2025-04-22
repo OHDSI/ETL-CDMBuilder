@@ -1,12 +1,15 @@
 ﻿using org.ohdsi.cdm.framework.common.Base;
 using org.ohdsi.cdm.framework.common.Definitions;
+using org.ohdsi.cdm.framework.common.Enums;
 using org.ohdsi.cdm.framework.common.Lookups;
 using org.ohdsi.cdm.framework.common.Omop;
+using org.ohdsi.cdm.framework.common.Utility;
 using org.ohdsi.cdm.framework.desktop.Base;
 using org.ohdsi.cdm.framework.desktop.DbLayer;
 using org.ohdsi.cdm.framework.desktop.Enums;
 using org.ohdsi.cdm.framework.desktop.Helpers;
 using org.ohdsi.cdm.presentation.builder.Base;
+using org.ohdsi.cdm.presentation.builder.Helpers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -15,15 +18,32 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using DatabaseChunkBuilder = org.ohdsi.cdm.presentation.builder.Base.DatabaseChunkBuilder;
 
 
 namespace org.ohdsi.cdm.presentation.builder.Controllers
 {
     public class BuilderController
     {
+
+        #region Enums
+
+        public enum BuilderState
+        {
+            Unknown,
+            Idle,
+            Running,
+            Stopping,
+            Stopped,
+            Error
+        }
+
+        #endregion
+
         #region Variables
 
         private readonly ChunkController _chunkController;
+        private readonly string _etlLibraryPath;
 
         #endregion
 
@@ -36,9 +56,10 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         #region Constructor
 
-        public BuilderController()
+        public BuilderController(string etlLibraryPath)
         {
             _chunkController = new ChunkController();
+            _etlLibraryPath = etlLibraryPath;
         }
 
         #endregion
@@ -124,7 +145,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             dbDestination.ExecuteQuery(Settings.Current.DropVocabularyTablesScript);
         }
 
-        public void CreateLookup(IVocabulary vocabulary)
+        public void CreateLookup(IVocabulary vocabulary, string chunkSchema)
         {
             PerformAction(() =>
             {
@@ -139,7 +160,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 var location = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.Locations != null);
                 if (location != null)
                 {
-                    FillList<Location>(locationConcepts, location, location.Locations[0]);
+                    FillList<Location>(locationConcepts, location, location.Locations[0], _etlLibraryPath, chunkSchema);
                 }
 
                 if (locationConcepts.Count == 0)
@@ -150,7 +171,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 var careSite = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.CareSites != null);
                 if (careSite != null)
                 {
-                    FillList<CareSite>(careSiteConcepts, careSite, careSite.CareSites[0]);
+                    FillList<CareSite>(careSiteConcepts, careSite, careSite.CareSites[0], _etlLibraryPath, chunkSchema);
                 }
 
                 if (careSiteConcepts.Count == 0)
@@ -161,23 +182,20 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 var provider = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.Providers != null);
                 if (provider != null)
                 {
-                    FillList<Provider>(providerConcepts, provider, provider.Providers[0]);
+                    FillList<Provider>(providerConcepts, provider, provider.Providers[0], _etlLibraryPath, chunkSchema);
                 }
                 Console.WriteLine("Providers was loaded");
 
                 Console.WriteLine("Saving lookups...");
                 var saver = Settings.Current.Building.DestinationEngine.GetSaver();
-                using (saver.Create(Settings.Current.Building.DestinationConnectionString,
-                    Settings.Current.Building.Cdm,
-                    Settings.Current.Building.SourceSchema,
-                    Settings.Current.Building.CdmSchema))
+                using (saver.Create(Settings.Current.Building.DestinationConnectionString))
                 {
                     saver.SaveEntityLookup(Settings.Current.Building.Cdm, locationConcepts, careSiteConcepts, providerConcepts, null);
                 }
 
                 Console.WriteLine("Lookups was saved ");
                 timer.Stop();
-                Logger.Write(null, LogMessageTypes.Info,
+                Logger.Write(null, Logger.LogMessageTypes.Info,
                     $"Care site, Location and Provider tables were saved to CDM database - {timer.ElapsedMilliseconds} ms");
 
                 locationConcepts.Clear();
@@ -190,10 +208,11 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             });
         }
 
-        private void FillList<T>(ICollection<T> list, QueryDefinition qd, EntityDefinition ed) where T : IEntity
+        private void FillList<T>(ICollection<T> list, QueryDefinition qd, EntityDefinition ed, string etlLibraryPath, string chunkSchema) where T : IEntity
         {
+            var vendor = EtlLibrary.CreateVendorInstance(etlLibraryPath, Settings.Current.Building.Vendor);
             var sql = GetSqlHelper.GetSql(Settings.Current.Building.SourceEngine.Database,
-                qd.GetSql(Settings.Current.Building.Vendor, Settings.Current.Building.SourceSchema), Settings.Current.Building.SourceSchema);
+                qd.GetSql(vendor, Settings.Current.Building.SourceSchema, chunkSchema), Settings.Current.Building.SourceSchema);
 
             if (string.IsNullOrEmpty(sql)) return;
 
@@ -232,7 +251,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             }
         }
 
-        public void Build(IVocabulary vocabulary)
+        public void Build(IVocabulary vocabulary, string chunksSchema)
         {
             var saveQueue = new BlockingCollection<DatabaseChunkPart>();
 
@@ -240,12 +259,12 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             {
                 if (Settings.Current.Building.ChunksCount == 0)
                 {
-                    Settings.Current.Building.ChunksCount = _chunkController.CreateChunks();
+                    Settings.Current.Building.ChunksCount = _chunkController.CreateChunks(chunksSchema); 
                 }
 
                 vocabulary.Fill(false, false);
 
-                Logger.Write(null, LogMessageTypes.Info,
+                Logger.Write(null, Logger.LogMessageTypes.Info,
                     $"==================== Conversion to CDM was started ====================");
 
                 var save = Task.Run(() =>
@@ -267,14 +286,10 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                         {
                             var timer = new Stopwatch();
                             timer.Start();
-                            data.Save(Settings.Current.Building.Cdm,
-                                Settings.Current.Building.DestinationConnectionString,
-                                Settings.Current.Building.DestinationEngine,
-                                Settings.Current.Building.SourceSchema,
-                                Settings.Current.Building.CdmSchema);
+                            data.Save();
                             Settings.Current.Building.CompletedChunkIds.Add(data.ChunkData.ChunkId);
                             timer.Stop();
-                            Logger.Write(data.ChunkData.ChunkId, LogMessageTypes.Info,
+                            Logger.Write(data.ChunkData.ChunkId, Logger.LogMessageTypes.Info,
                                 $"ChunkId={data.ChunkData.ChunkId} was saved - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
                         }
 
@@ -286,13 +301,13 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 });
 
                 if(Settings.Current.OnlyEvenChunks)
-                    Logger.Write(null, LogMessageTypes.Info, "Only even chunk ids will be processed on this machine");
+                    Logger.Write(null, Logger.LogMessageTypes.Info, "Only even chunk ids will be processed on this machine");
 
                 if (Settings.Current.OnlyOddChunks)
-                    Logger.Write(null, LogMessageTypes.Info, "Only odd chunk ids will be processed on this machine");
+                    Logger.Write(null, Logger.LogMessageTypes.Info, "Only odd chunk ids will be processed on this machine");
 
                 if(Settings.Current.ChunksTo > 0)
-                    Logger.Write(null, LogMessageTypes.Info, $"ChunkIds from {Settings.Current.ChunksFrom} to {Settings.Current.ChunksTo} will be converted");
+                    Logger.Write(null, Logger.LogMessageTypes.Info, $"ChunkIds from {Settings.Current.ChunksFrom} to {Settings.Current.ChunksTo} will be converted");
 
                 Parallel.For(0, Settings.Current.Building.ChunksCount,
                     new ParallelOptions { MaxDegreeOfParallelism = Settings.Current.DegreeOfParallelism }, (chunkId, state) =>
@@ -306,7 +321,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                               {
                                   if (Settings.Current.OnlyEvenChunks)
                                   {
-                                      Logger.Write(null, LogMessageTypes.Info, $"{chunkId} was skipped");
+                                      Logger.Write(null, Logger.LogMessageTypes.Info, $"{chunkId} was skipped");
                                       return;
                                   }
                               }
@@ -314,20 +329,20 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                               {
                                   if (Settings.Current.OnlyOddChunks)
                                   {
-                                      Logger.Write(null, LogMessageTypes.Info, $"{chunkId} was skipped");
+                                      Logger.Write(null, Logger.LogMessageTypes.Info, $"{chunkId} was skipped");
                                       return;
                                   }
                               }
 
                               if(chunkId < Settings.Current.ChunksFrom)
                               {
-                                  Logger.Write(null, LogMessageTypes.Info, $"{chunkId} was skipped");
+                                  Logger.Write(null, Logger.LogMessageTypes.Info, $"{chunkId} was skipped");
                                   return;
                               }
 
                               if (chunkId > Settings.Current.ChunksTo)
                               {
-                                  Logger.Write(null, LogMessageTypes.Info, $"{chunkId} was skipped");
+                                  Logger.Write(null, Logger.LogMessageTypes.Info, $"{chunkId} was skipped");
                                   return;
                               }
 
@@ -338,10 +353,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                               {
                                   connection.Open();
                                   saveQueue.Add(chunk.Process(Settings.Current.Building.SourceEngine,
-                                      Settings.Current.Building.SourceSchema,
-                                      Settings.Current.Building.SourceQueryDefinitions,
-                                      connection,
-                                      Settings.Current.Building.Vendor));
+                                      Settings.Current.Building.SourceSchema));
                               }
 
                               Settings.Current.Save(false);

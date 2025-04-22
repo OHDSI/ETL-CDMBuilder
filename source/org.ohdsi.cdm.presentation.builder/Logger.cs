@@ -8,7 +8,16 @@ namespace org.ohdsi.cdm.presentation.builder
 {
     public class Logger
     {
-        private static object _threadlock;
+
+        public enum LogMessageTypes
+        {
+            Debug,
+            Info,
+            Warning,
+            Error
+        }
+
+    private static object _threadlock;
 
         static Logger()
         {

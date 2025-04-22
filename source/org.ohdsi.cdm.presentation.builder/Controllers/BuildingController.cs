@@ -3,6 +3,7 @@ using org.ohdsi.cdm.framework.desktop.Enums;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using static org.ohdsi.cdm.presentation.builder.Controllers.BuilderController;
 
 namespace org.ohdsi.cdm.presentation.builder.Controllers
 {
@@ -26,9 +27,9 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         #region Constructor
 
-        public BuildingController()
+        public BuildingController(string etlLibraryPath)
         {
-            _builderController = new BuilderController();
+            _builderController = new BuilderController(etlLibraryPath);
         }
 
         #endregion
@@ -91,7 +92,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             if (Settings.Current.Building.BuildingState.LookupCreated) return;
 
             UpdateDate("CreateLookupStart");
-            _builderController.CreateLookup(vocabulary);
+            _builderController.CreateLookup(vocabulary, Settings.Current.Building.CdmSchema);
             UpdateDate("CreateLookupEnd");
         }
 
@@ -118,7 +119,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     UpdateDate("BuildingStart");
                 }
 
-                _builderController.Build(vocabulary);
+                _builderController.Build(vocabulary, Settings.Current.Building.CdmSchema);
 
                 if (_builderController.CurrentState != BuilderState.Error)
                 {

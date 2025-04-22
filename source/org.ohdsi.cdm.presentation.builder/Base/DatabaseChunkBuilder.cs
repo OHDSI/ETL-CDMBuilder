@@ -1,5 +1,6 @@
 ﻿using org.ohdsi.cdm.framework.common.Base;
 using org.ohdsi.cdm.framework.common.Definitions;
+using org.ohdsi.cdm.framework.common.DataReaders;
 using org.ohdsi.cdm.framework.desktop.Base;
 using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.framework.desktop.Enums;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Odbc;
 using System.Diagnostics;
+using IPersonBuilder = org.ohdsi.cdm.framework.common.Base.IPersonBuilder;
 
 namespace org.ohdsi.cdm.presentation.builder.Base
 {
@@ -28,7 +30,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
         #endregion
 
         #region Methods
-        public DatabaseChunkPart Process(IDatabaseEngine sourceEngine, string sourceSchemaName, List<QueryDefinition> sourceQueryDefinitions, OdbcConnection sourceConnection, string vendor)
+        public DatabaseChunkPart Process(IDatabaseEngine sourceEngine, string sourceSchemaName)
         {
             try
             {
@@ -39,16 +41,15 @@ namespace org.ohdsi.cdm.presentation.builder.Base
                 var timer = new Stopwatch();
                 timer.Start();
 
-
-                var result = part.Load(sourceEngine, sourceSchemaName, sourceQueryDefinitions, sourceConnection, vendor);
+                var result = part.Load();
 
                 if (result.Value != null)
                 {
-                    Logger.Write(_chunkId, LogMessageTypes.Info, result.Key);
+                    Logger.Write(_chunkId, Logger.LogMessageTypes.Info, result.Key);
                     throw result.Value;
                 }
 
-                Logger.Write(_chunkId, LogMessageTypes.Info,
+                Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
                     $"ChunkId={_chunkId} was loaded - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
 
                 part.Build();

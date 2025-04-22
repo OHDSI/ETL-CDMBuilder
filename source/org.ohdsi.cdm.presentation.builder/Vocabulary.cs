@@ -47,12 +47,13 @@ namespace org.ohdsi.cdm.presentation.builder
                 Domain = string.Intern(reader[2].ToString().Trim()),
                 ValidStartDate = validStartDate,
                 ValidEndDate = validEndDate,
-                Ingredients = new HashSet<int>()
+                Ingredients = new HashSet<long>()
             };
 
             if (reader.FieldCount > 5)
             {
-                lv.SourceConceptId = int.TryParse(reader[6].ToString(), out var scptId) ? scptId : 0;
+                var sourceConceptId = int.TryParse(reader[6].ToString(), out var scptId) ? scptId : 0;
+                lv.SourceConcepts = new HashSet<SourceConcepts>() { new SourceConcepts() { ConceptId = sourceConceptId } };
 
                 if (int.TryParse(reader[9].ToString(), out var ingredient))
                     lv.Ingredients.Add(ingredient);
@@ -115,7 +116,7 @@ namespace org.ohdsi.cdm.presentation.builder
                                     timer.Start();
 
 
-                                    Logger.Write(null, LogMessageTypes.Info, conceptIdMapper.Lookup + " - Loading into RAM...");
+                                    Logger.Write(null, Logger.LogMessageTypes.Info, conceptIdMapper.Lookup + " - Loading into RAM...");
 
                                     using (var connection = SqlConnectionHelper.OpenOdbcConnection(Settings.Current.Building.VocabularyConnectionString))
                                     using (var command = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
@@ -134,7 +135,7 @@ namespace org.ohdsi.cdm.presentation.builder
 
                                     Console.WriteLine(conceptIdMapper.Lookup + " - Done");
                                     timer.Stop();
-                                    Logger.Write(null, LogMessageTypes.Info,
+                                    Logger.Write(null, Logger.LogMessageTypes.Info,
                                         $"DONE - {timer.ElapsedMilliseconds} ms | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}");
                                 }
                                 catch (Exception e)
@@ -161,7 +162,7 @@ namespace org.ohdsi.cdm.presentation.builder
             _genderConcepts = new GenderLookup();
             _genderConcepts.Load();
 
-            _pregnancyConcepts = new PregnancyConcepts();
+            _pregnancyConcepts = new PregnancyConcepts(null);
 
             foreach (var qd in Settings.Current.Building.SourceQueryDefinitions)
             {
@@ -214,9 +215,19 @@ namespace org.ohdsi.cdm.presentation.builder
             return res;
         }
 
-        public IEnumerable<PregnancyConcept> LookupPregnancyConcept(int conceptId)
+        public IEnumerable<PregnancyConcept> LookupPregnancyConcept(long conceptId)
         {
             return _pregnancyConcepts.GetConcepts(conceptId);
+        }
+
+        public string GetSourceVocabularyId(long conceptId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetSourceDomain(long conceptId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

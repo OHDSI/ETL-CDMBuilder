@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using org.ohdsi.cdm.framework.common.Definitions;
+using org.ohdsi.cdm.framework.common.Enums;
 using org.ohdsi.cdm.framework.common.Omop;
 using org.ohdsi.cdm.framework.desktop.Base;
 using org.ohdsi.cdm.framework.desktop.DbLayer;
 using org.ohdsi.cdm.framework.desktop.Helpers;
+using org.ohdsi.cdm.presentation.builder.Helpers;
 using org.ohdsi.cdm.presentation.builderwebapi.Hubs;
 using System;
 using System.Collections.Concurrent;
@@ -69,23 +71,23 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                 }
                 catch (Exception e2)
                 {
-                    throw e2;
+                    throw;
                 }
             }
 
             return successful;
         }
 
-        public void Start()
+        public void Start(string chunkSchema)
         {
             if (CreateDestination())
             {
-                CreateLookup();
+                CreateLookup(chunkSchema);
                 Build();
             }
         }
 
-        public void CreateLookup()
+        public void CreateLookup(string chunkSchema)
         {
             if (_taskQueue.Aborted) return;
 
@@ -96,9 +98,9 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             var careSiteConcepts = new List<CareSite>();
             var providerConcepts = new List<Provider>();
 
-            LoadLocation(locationConcepts);
-            LoadCareSite(careSiteConcepts);
-            LoadProvider(providerConcepts);
+            LoadLocation(locationConcepts, chunkSchema);
+            LoadCareSite(careSiteConcepts, chunkSchema);
+            LoadProvider(providerConcepts, chunkSchema);
             SaveLookup(timer, locationConcepts, careSiteConcepts, providerConcepts);
 
             locationConcepts.Clear();
@@ -116,10 +118,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             Console.WriteLine("Saving lookups...");
             _logHub.Clients.All.SendAsync("Log", "Saving lookups...").Wait();
             var saver = _settings.DestinationEngine.GetSaver();
-            using (saver.Create(_settings.DestinationConnectionString,
-                _settings.Cdm,
-                _settings.ConversionSettings.SourceSchema,
-                _settings.ConversionSettings.DestinationSchema))
+            using (saver.Create(_settings.DestinationConnectionString))
             {
                 saver.SaveEntityLookup(_settings.Cdm, locationConcepts, careSiteConcepts, providerConcepts, null);
             }
@@ -131,7 +130,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             _logHub.Clients.All.SendAsync("Log", string.Format("{0}| {1}", DateTime.Now, $"Care site, Location and Provider tables were saved to CDM database - {timer.ElapsedMilliseconds} ms")).Wait();
         }
 
-        private void LoadProvider(List<Provider> providerConcepts)
+        private void LoadProvider(List<Provider> providerConcepts, string chunkSchema)
         {
             if (_taskQueue.Aborted) return;
             Console.WriteLine("Loading providers...");
@@ -139,13 +138,13 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             var provider = _settings.SourceQueryDefinitions.FirstOrDefault(qd => qd.Providers != null);
             if (provider != null)
             {
-                FillList<Provider>(providerConcepts, provider, provider.Providers[0]);
+                FillList<Provider>(providerConcepts, provider, provider.Providers[0], chunkSchema);
             }
             Console.WriteLine("Providers was loaded");
             _logHub.Clients.All.SendAsync("Log", "Providers was loaded").Wait();
         }
 
-        private void LoadCareSite(List<CareSite> careSiteConcepts)
+        private void LoadCareSite(List<CareSite> careSiteConcepts, string chunkSchema)
         {
             if (_taskQueue.Aborted) return;
             Console.WriteLine("Loading care sites...");
@@ -153,7 +152,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             var careSite = _settings.SourceQueryDefinitions.FirstOrDefault(qd => qd.CareSites != null);
             if (careSite != null)
             {
-                FillList<CareSite>(careSiteConcepts, careSite, careSite.CareSites[0]);
+                FillList<CareSite>(careSiteConcepts, careSite, careSite.CareSites[0], chunkSchema);
             }
 
             if (careSiteConcepts.Count == 0)
@@ -162,7 +161,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             _logHub.Clients.All.SendAsync("Log", "Care sites was loaded").Wait();
         }
 
-        private void LoadLocation(List<Location> locationConcepts)
+        private void LoadLocation(List<Location> locationConcepts, string chunkSchema)
         {
             if (_taskQueue.Aborted) return;
             Console.WriteLine("Loading locations...");
@@ -170,7 +169,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             var location = _settings.SourceQueryDefinitions.FirstOrDefault(qd => qd.Locations != null);
             if (location != null)
             {
-                FillList<Location>(locationConcepts, location, location.Locations[0]);
+                FillList<Location>(locationConcepts, location, location.Locations[0], chunkSchema);
             }
 
             if (locationConcepts.Count == 0)
@@ -179,10 +178,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             _logHub.Clients.All.SendAsync("Log", "Locations was loaded").Wait();
         }
 
-        private void FillList<T>(ICollection<T> list, QueryDefinition qd, EntityDefinition ed) where T : IEntity
+        private void FillList<T>(ICollection<T> list, QueryDefinition qd, EntityDefinition ed, string chunkSchema) where T : IEntity
         {
             var sql = GetSqlHelper.GetSql(_settings.SourceEngine.Database,
-                qd.GetSql("", _settings.ConversionSettings.SourceSchema), _settings.ConversionSettings.SourceSchema);
+                qd.GetSql(null, _settings.ConversionSettings.SourceSchema, chunkSchema), _settings.ConversionSettings.SourceSchema);
 
             if (string.IsNullOrEmpty(sql)) return;
 
@@ -258,11 +257,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                         {
                             var timer = new Stopwatch();
                             timer.Start();
-                            data.Save(_settings.Cdm,
-                                _settings.DestinationConnectionString,
-                                _settings.DestinationEngine,
-                                _settings.ConversionSettings.SourceSchema,
-                                _settings.ConversionSettings.DestinationSchema);
+                            data.Save();
 
                             timer.Stop();
 

@@ -8,7 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.2" />
-    <PackageReference Include="org.ohdsi.cdm.framework.common" Version="1.0.0" />
+    <PackageReference Include="org.ohdsi.cdm.framework" Version="1.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\org.ohdsi.cdm.presentation.builder\org.ohdsi.cdm.presentation.builder.csproj" />
   </ItemGroup>
 
 

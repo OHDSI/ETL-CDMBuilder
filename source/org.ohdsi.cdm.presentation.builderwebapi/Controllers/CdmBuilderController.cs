@@ -174,7 +174,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
                     _queue.State = "Running";
 
                     var conversion = new ConversionController(_queue, settings, _configuration, _logHub);
-                    conversion.Start();
+                    conversion.Start(settings.SourceSchema);
 
                     _queue.State = "Idle";
                 });

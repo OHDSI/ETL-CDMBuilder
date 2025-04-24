@@ -32,23 +32,10 @@ namespace org.ohdsi.cdm.presentation.builderwebapi
             {
                 Console.WriteLine("DatabaseChunkBuilder");
 
-                var part = new DatabaseChunkPart(_chunkId, () => new PersonBuilder(), "0", 0);
+                DatabaseChunkBuilder builder = new DatabaseChunkBuilder(_chunkId);
+                var result = builder.Process(sourceEngine, sourceSchemaName, sourceQueryDefinitions, sourceConnection);
 
-                var timer = new Stopwatch();
-                timer.Start();
-
-
-                var result = part.Load(sourceEngine, sourceSchemaName, sourceQueryDefinitions, sourceConnection, "");
-
-                if (result.Value != null)
-                {
-                    //Logger.Write(_chunkId, LogMessageTypes.Info, result.Key);
-                    throw result.Value;
-                }
-
-                part.Build();
-
-                return part;
+                return result;
             }
             catch (Exception e)
             {

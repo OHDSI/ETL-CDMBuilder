@@ -27,27 +27,25 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
             }), settings.ConversionSettings.SourceSchema);
         }
 
-        public void ClenupChunks()
+        public void ClenupChunks(string chunkSchemaName)
         {
-            _dbSource.DropChunkTable();
+            _dbSource.DropChunkTable(chunkSchemaName);
         }
 
         public int CreateChunks()
         {
             var chunks = new List<ChunkRecord>();
+            var chunkSchemaName = _settings.ConversionSettings.SourceSchema;
 
             Console.WriteLine("Generating chunk ids...");
-            _dbSource.CreateChunkTable();
-            _dbSource.CreateIndexesChunkTable();
+            _dbSource.CreateChunkTable(chunkSchemaName);
+            _dbSource.CreateIndexesChunkTable(chunkSchemaName);
 
             var chunkId = 0;
             var k = 0;
 
             using (var saver = _settings.SourceEngine.GetSaver()
-                .Create(_settings.SourceConnectionString,
-                _settings.Cdm,
-                _settings.ConversionSettings.SourceSchema,
-                _settings.ConversionSettings.DestinationSchema))
+                .Create(_settings.SourceConnectionString))
             {
                 foreach (var chunk in GetPersonKeys(ChunkSize))
                 {
@@ -59,7 +57,7 @@ namespace org.ohdsi.cdm.presentation.builderwebapi.Controllers
 
                 if (chunks.Count > 0)
                 {
-                    saver.AddChunk(chunks, k);
+                    saver.AddChunk(chunks, k, chunkSchemaName);
                 }
 
                 saver.Commit();

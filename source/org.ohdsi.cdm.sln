@@ -5,9 +5,7 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.presentation.builder", "org.ohdsi.cdm.presentation.builder\org.ohdsi.cdm.presentation.builder.csproj", "{24F011BA-0091-46D7-84BC-7F7A88E0CAC0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "presentation", "presentation", "{AFD87C71-89E5-4F7F-AADE-00E4FFC84AFA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.presentation.builderwebapi", "org.ohdsi.cdm.presentation.builderwebapi\org.ohdsi.cdm.presentation.builderwebapi.csproj", "{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunLocal", "RunLocal\RunLocal.csproj", "{FFDC8FE6-7FC2-482B-B76E-7D0B24AFA874}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,21 +23,17 @@ Global
 		{24F011BA-0091-46D7-84BC-7F7A88E0CAC0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{24F011BA-0091-46D7-84BC-7F7A88E0CAC0}.Release|x64.ActiveCfg = Release|Any CPU
 		{24F011BA-0091-46D7-84BC-7F7A88E0CAC0}.Release|x64.Build.0 = Release|Any CPU
-		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}.Debug|x64.Build.0 = Debug|Any CPU
-		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}.Release|x64.ActiveCfg = Release|Any CPU
-		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6}.Release|x64.Build.0 = Release|Any CPU
+		{FFDC8FE6-7FC2-482B-B76E-7D0B24AFA874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFDC8FE6-7FC2-482B-B76E-7D0B24AFA874}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFDC8FE6-7FC2-482B-B76E-7D0B24AFA874}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FFDC8FE6-7FC2-482B-B76E-7D0B24AFA874}.Debug|x64.Build.0 = Debug|Any CPU
+		{FFDC8FE6-7FC2-482B-B76E-7D0B24AFA874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFDC8FE6-7FC2-482B-B76E-7D0B24AFA874}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFDC8FE6-7FC2-482B-B76E-7D0B24AFA874}.Release|x64.ActiveCfg = Release|Any CPU
+		{FFDC8FE6-7FC2-482B-B76E-7D0B24AFA874}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{24F011BA-0091-46D7-84BC-7F7A88E0CAC0} = {AFD87C71-89E5-4F7F-AADE-00E4FFC84AFA}
-		{F8145D41-EEC7-469F-9FE5-9DBD8A212FD6} = {AFD87C71-89E5-4F7F-AADE-00E4FFC84AFA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CC6641E1-4C39-46FC-A2D1-21E1BBAC3BAA}

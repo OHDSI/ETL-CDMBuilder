@@ -64,6 +64,7 @@ namespace org.ohdsi.cdm.presentation.builder
             {
                 File.AppendAllText($@"{buildingFolder}\log.txt", $@"{DateTime.Now:G}| {message}{Environment.NewLine}");
             }
+            Console.WriteLine(message);
         }
 
         public static IEnumerable<string> GetErrors()

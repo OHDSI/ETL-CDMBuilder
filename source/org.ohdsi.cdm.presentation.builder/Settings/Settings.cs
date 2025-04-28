@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using System.IO;
+using System.Reflection;
 
 namespace org.ohdsi.cdm.presentation.builder
 {
@@ -20,63 +21,63 @@ namespace org.ohdsi.cdm.presentation.builder
         public int ChunksFrom => int.Parse(ConfigurationManager.AppSettings["ChunksFrom"]);
         public int ChunksTo => int.Parse(ConfigurationManager.AppSettings["ChunksTo"]);
 
+        public string DropVocabularyTablesScript { get; private set; } = ReadEmbeddedResource("DropVocabularyTables.sql");
+
+        public string TruncateWithoutLookupTablesScript { get; private set; } = ReadEmbeddedResource("TruncateWithoutLookupTables.sql");
+
+        public string TruncateTablesScript { get; private set; } = ReadEmbeddedResource("TruncateTables.sql");
+
+        public string DropTablesScript { get; private set; } = ReadEmbeddedResource("DropTables.sql");
+
+        public string TruncateLookupScript { get; private set; } = ReadEmbeddedResource("TruncateLookup.sql");
+
+        public string CreateCdmTablesScript { get; private set; } = ReadEmbeddedResource("CreateTables.sql");
+
+        public string CreateCdmDatabaseScript { get; private set; } = ReadEmbeddedResource("CreateDestination.sql");
+
+        #endregion
 
         static Settings()
         {
             Current = new Settings();
-        }
-
-        public string DropVocabularyTablesScript => File.ReadAllText(
-            Path.Combine(BuilderFolder, "ETL", "Common", "Scripts", Building.DestinationEngine.Database.ToString(), GetCdmVersionFolder(), "DropVocabularyTables.sql"));
-
-        public string TruncateWithoutLookupTablesScript => File.ReadAllText(
-            Path.Combine(BuilderFolder, "ETL", "Common", "Scripts", Building.DestinationEngine.Database.ToString(), GetCdmVersionFolder(), "TruncateWithoutLookupTables.sql"));
-
-        public string TruncateTablesScript => File.ReadAllText(
-            Path.Combine(BuilderFolder, "ETL", "Common", "Scripts", Building.DestinationEngine.Database.ToString(), GetCdmVersionFolder(), "TruncateTables.sql"));
-
-        public string DropTablesScript => File.ReadAllText(
-            Path.Combine(BuilderFolder, "ETL", "Common", "Scripts", Building.DestinationEngine.Database.ToString(), GetCdmVersionFolder(), "DropTables.sql"));
-
-        public string TruncateLookupScript => File.ReadAllText(
-            Path.Combine(BuilderFolder, "ETL", "Common", "Scripts", Building.DestinationEngine.Database.ToString(), GetCdmVersionFolder(), "TruncateLookup.sql"));
-
-        public string CreateCdmTablesScript => File.ReadAllText(
-            Path.Combine(BuilderFolder, "ETL", "Common", "Scripts", Building.DestinationEngine.Database.ToString(),
-                         GetCdmVersionFolder(), "CreateTables.sql"));
-
-        public string CreateCdmDatabaseScript => File.ReadAllText(
-            Path.Combine(new[] {
-                BuilderFolder,
-                "ETL",
-                "Common",
-                "Scripts",
-                Building.DestinationEngine.Database.ToString(),
-                "CreateDestination.sql"
-            }));
-
-        #endregion
-
-        #region Methods
-        public static void Initialize()
-        {
             Current.Building = new BuildingSettings();
             Current.Building.Load();
         }
+
+        #region Methods
 
         public void Save(bool reloadVendorSettings)
         {
             Current.Building.Save(reloadVendorSettings);
         }
 
-        public void Load()
+        private static string ReadEmbeddedResource(string resourceName)
         {
-            Current.Building.Load();
-        }
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var assembly in assemblies)
+            {
+                var resourceNames = assembly.GetManifestResourceNames();
+                foreach (var resource in resourceNames)
+                {
+                    if (resource.EndsWith(resourceName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        using (var stream = assembly.GetManifestResourceStream(resource))
+                        {
+                            if (stream == null)
+                            {
+                                throw new FileNotFoundException($"Embedded resource '{resource}' not found in assembly '{assembly.FullName}'.");
+                            }
 
-        private string GetCdmVersionFolder()
-        {
-            return ConfigurationManager.AppSettings["CDM"];
+                            using (var reader = new StreamReader(stream))
+                            {
+                                return reader.ReadToEnd();
+                            }
+                        }
+                    }
+                }
+            }
+
+            throw new FileNotFoundException($"Embedded resource '{resourceName}' not found in any loaded assembly.");
         }
 
         #endregion

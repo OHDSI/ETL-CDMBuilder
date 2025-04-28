@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net8.0-windows</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="org.ohdsi.cdm.framework" Version="1.0.3" />
+	  <PackageReference Include="org.ohdsi.cdm.framework.etl" Version="1.0.0" />
 	</ItemGroup>
 
 </Project>

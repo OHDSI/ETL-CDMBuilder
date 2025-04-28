@@ -1,10 +1,4 @@
-﻿
-using System.Configuration;
-using System.Data;
-using System.Diagnostics.SymbolStore;
-using System.Numerics;
-using System.Reflection;
-using System.Runtime.InteropServices;
+﻿using System.Data;
 using CommandLine;
 using CommandLine.Text;
 using org.ohdsi.cdm.framework.common.Enums;
@@ -19,82 +13,82 @@ namespace RunLocal
         internal class Options
         {
 
-            [Option("vendorName", Required = true, HelpText = "Name of the vendor")]
+            [Option("VendorName", Required = true, HelpText = "Name of the vendor")]
             public string VendorName { get; set; }
 
-            [Option("etlLibraryPath", Required = false, HelpText = "Path to the library with Vendor definition")]
-            public string EtlLibraryPath { get; set; } = "";
+            //[Option("etlLibraryPath", Required = false, HelpText = "Path to the library with Vendor definition")]
+            //public string EtlLibraryPath { get; set; } = "";
 
             #region source
 
-            [Option("sourceEngine", Required = true, HelpText = "Source engine")]
+            [Option("SourceEngine", Required = true, HelpText = "Source engine")]
             public string SourceEngine { get; set; }
 
-            [Option("sourceServer", Required = true, HelpText = "Source server")]
+            [Option("SourceServer", Required = true, HelpText = "Source server")]
             public string SourceServer { get; set; }
 
-            [Option("sourceDatabase", Required = true, HelpText = "Source database")]
+            [Option("SourceDatabase", Required = true, HelpText = "Source database")]
             public string SourceDatabase { get; set; }
 
-            [Option("sourceSchema", Required = true, HelpText = "Source schema")]
+            [Option("SourceSchema", Required = true, HelpText = "Source schema")]
             public string SourceSchema { get; set; }
 
-            [Option("sourceUser", Required = true, HelpText = "Source user")]
+            [Option("SourceUser", Required = true, HelpText = "Source user")]
             public string SourceUser { get; set; }
 
-            [Option("sourcePassword", Required = true, HelpText = "Source password")]
+            [Option("SourcePassword", Required = true, HelpText = "Source password")]
             public string SourcePassword { get; set; }
 
             #endregion
 
             #region destination
 
-            [Option("destinationEngine", Required = true, HelpText = "Destination engine")]
+            [Option("DestinationEngine", Required = true, HelpText = "Destination engine")]
             public string DestinationEngine { get; set; }
 
-            [Option("destinationServer", Required = true, HelpText = "Destination server")]
+            [Option("DestinationServer", Required = true, HelpText = "Destination server")]
             public string DestinationServer { get; set; }
 
-            [Option("destinationDatabase", Required = true, HelpText = "Destination database")]
+            [Option("DestinationDatabase", Required = true, HelpText = "Destination database")]
             public string DestinationDatabase { get; set; }
 
-            [Option("destinationSchema", Required = true, HelpText = "Destination schema")]
+            [Option("DestinationSchema", Required = true, HelpText = "Destination schema")]
             public string DestinationSchema { get; set; }
 
-            [Option("destinationUser", Required = true, HelpText = "Destination user")]
+            [Option("DestinationUser", Required = true, HelpText = "Destination user")]
             public string DestinationUser { get; set; }
 
-            [Option("destinationPassword", Required = true, HelpText = "Destination password")]
+            [Option("DestinationPassword", Required = true, HelpText = "Destination password")]
             public string DestinationPassword { get; set; }
 
             #endregion
 
             #region Vocabulary
 
-            [Option("vocabularyEngine", Required = true, HelpText = "Vocabulary engine")]
+            [Option("VocabularyEngine", Required = true, HelpText = "Vocabulary engine")]
             public string VocabularyEngine { get; set; }
 
-            [Option("vocabularyServer", Required = true, HelpText = "Vocabulary server")]
+            [Option("VocabularyServer", Required = true, HelpText = "Vocabulary server")]
             public string VocabularyServer { get; set; }
 
-            [Option("vocabularyDatabase", Required = true, HelpText = "Vocabulary database")]
+            [Option("VocabularyDatabase", Required = true, HelpText = "Vocabulary database")]
             public string VocabularyDatabase { get; set; }
 
-            [Option("vocabularySchema", Required = true, HelpText = "Vocabulary schema")]
+            [Option("VocabularySchema", Required = true, HelpText = "Vocabulary schema")]
             public string VocabularySchema { get; set; }
 
-            [Option("vocabularyUser", Required = true, HelpText = "Vocabulary user")]
+            [Option("VocabularyUser", Required = true, HelpText = "Vocabulary user")]
             public string VocabularyUser { get; set; }
 
-            [Option("vocabularyPassword", Required = true, HelpText = "Vocabulary password")]
+            [Option("VocabularyPassword", Required = true, HelpText = "Vocabulary password")]
             public string VocabularyPassword { get; set; }
 
             #endregion
 
-            [Option("mappingsName", Required = true, HelpText = "Mappings name")]
+            [Option("MappingsName", Required = true, HelpText = "Mappings name")]
             public string MappingsName { get; set; }
 
-            [Option("cdmVersion", Required = true, HelpText = "CDM version")]
+            [Option("CdmVersion", Required = true, HelpText = "CDM version")]
             public string CdmVersion { get; set; }
 
             [Usage(ApplicationAlias = "RunLocal")]
@@ -102,31 +96,34 @@ namespace RunLocal
             {
                 get
                 {
-                    yield return new Example("Process vendor CDM with all options", new Options
+                    var options = new Options()
                     {
-                        VendorName = "CDM",
-                        EtlLibraryPath = Directory.GetCurrentDirectory(),
-                        SourceEngine = "Redshift",
-                        SourceServer = "192.168.0.1",
-                        SourceDatabase = "SourceDB",
+                        VendorName = "VendorName",
+                        //EtlLibraryPath = Directory.GetCurrentDirectory(),
+                        SourceEngine = "SourceEngine",
+                        SourceServer = "SourceServer",
+                        SourceDatabase = "SourceDatabase",
                         SourceSchema = "SourceSchema",
                         SourceUser = "SourceUser",
                         SourcePassword = "SourcePassword",
-                        DestinationEngine = "Redshift",
-                        DestinationServer = "192.168.0.1",
-                        DestinationDatabase = "DestinationDB",
-                        DestinationSchema = "public",
+                        DestinationEngine = "DestinationEngine",
+                        DestinationServer = "DestinationServer",
+                        DestinationDatabase = "DestinationDatabase",
+                        DestinationSchema = "DestinationSchema",
                         DestinationUser = "DestinationUser",
                         DestinationPassword = "DestinationPassword",
-                        VocabularyEngine = "Postgre",
-                        VocabularyServer = "192.168.0.1",
-                        VocabularyDatabase = "VocabularyDB",
+                        VocabularyEngine = "VocabularyEngine",
+                        VocabularyServer = "VocabularyServer",
+                        VocabularyDatabase = "VocabularyDatabase",
                         VocabularySchema = "VocabularySchema",
                         VocabularyUser = "VocabularyUser",
                         VocabularyPassword = "VocabularyPassword",
                         MappingsName = "MappingsName",
-                        CdmVersion = "5.4"
-                    });
+                        CdmVersion = "CdmVersion"
+                    };
+                    var example = new Example("Example with placeholder arguments", options);
+                    string txt = "RunLocal " + string.Join(" ", options.GetType().GetProperties().Where(s => s.Name != "Examples").Select(s => "--" + s.Name + "=\"" + s.Name + "\"")); // to fill program args
+                    yield return example;
                 }
             }
         }
@@ -143,13 +140,13 @@ namespace RunLocal
         static void RunWithOptions(Options opts)
         {
             SetSettings(opts);
-            /*
-            Vendor vendor = EtlLibrary.CreateVendorInstance(opts.EtlLibraryPath, opts.VendorName);
-            if (vendor is null)
-                throw new NoNullAllowedException("Failed to setup the vendor!");
-            */
-            BuildingController buildingController = new BuildingController(opts.EtlLibraryPath);
+
+            Vendor vendor = EtlLibrary.CreateVendorInstance(Directory.GetCurrentDirectory(), opts.VendorName)
+                ?? throw new NoNullAllowedException("Failed to setup the vendor!");
+
+            BuildingController buildingController = new BuildingController(Directory.GetCurrentDirectory());
             buildingController.Process();
+            buildingController.Refresh();
         }
 
         static void HandleParseError(IEnumerable<Error> errs)
@@ -164,33 +161,39 @@ namespace RunLocal
         static void SetSettings(Options opts)
         {
             Console.WriteLine("Options:");
+
             Console.WriteLine($"VendorName: {opts.VendorName}");
-            Console.WriteLine($"EtlLibraryPath: {opts.EtlLibraryPath}");
+            //Console.WriteLine($"EtlLibraryPath: {opts.EtlLibraryPath}");
+
             Console.WriteLine($"SourceEngine: {opts.SourceEngine}");
             Console.WriteLine($"SourceServer: {opts.SourceServer}");
             Console.WriteLine($"SourceDatabase: {opts.SourceDatabase}");
             Console.WriteLine($"SourceSchema: {opts.SourceSchema}");
             Console.WriteLine($"SourceUser: {opts.SourceUser}");
-            Console.WriteLine($"SourcePassword: {opts.SourcePassword}");
+            Console.WriteLine($"SourcePassword: ******");
+
             Console.WriteLine($"DestinationEngine: {opts.DestinationEngine}");
             Console.WriteLine($"DestinationServer: {opts.DestinationServer}");
             Console.WriteLine($"DestinationDatabase: {opts.DestinationDatabase}");
             Console.WriteLine($"DestinationSchema: {opts.DestinationSchema}");
             Console.WriteLine($"DestinationUser: {opts.DestinationUser}");
-            Console.WriteLine($"DestinationPassword: {opts.DestinationPassword}");
+            Console.WriteLine($"DestinationPassword: ******");
+
             Console.WriteLine($"VocabularyEngine: {opts.VocabularyEngine}");
             Console.WriteLine($"VocabularyServer: {opts.VocabularyServer}");
             Console.WriteLine($"VocabularyDatabase: {opts.VocabularyDatabase}");
             Console.WriteLine($"VocabularySchema: {opts.VocabularySchema}");
             Console.WriteLine($"VocabularyUser: {opts.VocabularyUser}");
-            Console.WriteLine($"VocabularyPassword: {opts.VocabularyPassword}");
+            Console.WriteLine($"VocabularyPassword: ******");
+
             Console.WriteLine($"MappingsName: {opts.MappingsName}");
             Console.WriteLine($"CdmVersion: {opts.CdmVersion}");
+
             Console.WriteLine();
 
             Settings.Current = new Settings()
             {
-                BuilderFolder = opts.EtlLibraryPath,
+                //BuilderFolder = opts.EtlLibraryPath,
                 Building = new BuildingSettings()
                 {
                     Batches = 1,
@@ -212,7 +215,8 @@ namespace RunLocal
                     VocabSchema = opts.VocabularySchema,
                     VocabUser = opts.VocabularyUser,
                     VocabPswd = opts.VocabularyPassword
-                }
+                },
+                BuilderFolder = Directory.GetCurrentDirectory(),
             };
         }
     }

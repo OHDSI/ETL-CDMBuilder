@@ -9,7 +9,6 @@ using org.ohdsi.cdm.framework.desktop.DbLayer;
 using org.ohdsi.cdm.framework.desktop.Enums;
 using org.ohdsi.cdm.framework.desktop.Helpers;
 using org.ohdsi.cdm.presentation.builder.Base;
-using org.ohdsi.cdm.presentation.builder.Helpers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

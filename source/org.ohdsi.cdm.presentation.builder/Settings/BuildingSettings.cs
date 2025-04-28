@@ -1,13 +1,8 @@
-﻿using org.ohdsi.cdm.framework.common.Base;
-using org.ohdsi.cdm.framework.common.Definitions;
+﻿using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Enums;
 using org.ohdsi.cdm.framework.common.Extensions;
 using org.ohdsi.cdm.framework.desktop.Databases;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
-using System.Linq;
 using System.Xml.Serialization;
 
 namespace org.ohdsi.cdm.presentation.builder
@@ -125,13 +120,26 @@ namespace org.ohdsi.cdm.presentation.builder
         {
             get
             {
-                if (ConfigurationManager.ConnectionStrings["SourceConnectionStringTemplate"].ConnectionString.ToLower().Contains("postgre"))
-                    return new PostgreDatabaseEngine();
+                var conStrings = ConfigurationManager.ConnectionStrings;
+                foreach (var conString in conStrings)
+                {
+                    var conStringTyped = (ConnectionStringSettings)conString;
+                    if (!conStringTyped.Name.Contains("Source"))
+                        continue;
 
-                if (ConfigurationManager.ConnectionStrings["SourceConnectionStringTemplate"].ConnectionString.ToLower().Contains("mysql"))
-                    return new MySqlDatabaseEngine();
+                    if (conStringTyped.Name.ToLower().Contains("postgre"))
+                        return new PostgreDatabaseEngine();
 
-                return new MssqlDatabaseEngine();
+                    if (conStringTyped.Name.ToLower().Contains("mysql"))
+                        return new MySqlDatabaseEngine();
+
+                    if (conStringTyped.Name.ToLower().Contains("redshift"))
+                        return new RedshiftDatabaseEngine();
+
+                    if (conStringTyped.Name.ToLower().Contains("mssql"))
+                        return new MssqlDatabaseEngine();
+                }
+                throw new KeyNotFoundException("Failed to find relevant DB engine!");
             }
         }
 
@@ -140,13 +148,54 @@ namespace org.ohdsi.cdm.presentation.builder
         {
             get
             {
-                if (ConfigurationManager.ConnectionStrings["DestinationConnectionStringTemplate"].ConnectionString.ToLower().Contains("postgre"))
-                    return new PostgreDatabaseEngine();
+                var conStrings = ConfigurationManager.ConnectionStrings;
+                foreach (var conString in conStrings)
+                {
+                    var conStringTyped = (ConnectionStringSettings)conString;
+                    if (!conStringTyped.Name.Contains("Destination"))
+                        continue;
 
-                if (ConfigurationManager.ConnectionStrings["DestinationConnectionStringTemplate"].ConnectionString.ToLower().Contains("mysql"))
-                    return new MySqlDatabaseEngine();
+                    if (conStringTyped.Name.ToLower().Contains("postgre"))
+                        return new PostgreDatabaseEngine();
 
-                return new MssqlDatabaseEngine();
+                    if (conStringTyped.Name.ToLower().Contains("mysql"))
+                        return new MySqlDatabaseEngine();
+
+                    if (conStringTyped.Name.ToLower().Contains("redshift"))
+                        return new RedshiftDatabaseEngine();
+
+                    if (conStringTyped.Name.ToLower().Contains("mssql"))
+                        return new MssqlDatabaseEngine();
+                }
+                throw new KeyNotFoundException("Failed to find relevant DB engine!");
+            }
+        }
+
+        [XmlIgnore]
+        public IDatabaseEngine VocabularyEngine
+        {
+            get
+            {
+                var conStrings = ConfigurationManager.ConnectionStrings;
+                foreach (var conString in conStrings)
+                {
+                    var conStringTyped = (ConnectionStringSettings)conString;
+                    if (!conStringTyped.Name.Contains("Vocabulary"))
+                        continue;
+
+                    if (conStringTyped.Name.ToLower().Contains("postgre"))
+                        return new PostgreDatabaseEngine();
+
+                    if (conStringTyped.Name.ToLower().Contains("mysql"))
+                        return new MySqlDatabaseEngine();
+
+                    if (conStringTyped.Name.ToLower().Contains("redshift"))
+                        return new RedshiftDatabaseEngine();
+
+                    if (conStringTyped.Name.ToLower().Contains("mssql"))
+                        return new MssqlDatabaseEngine();
+                }
+                throw new KeyNotFoundException("Failed to find relevant DB engine!");
             }
         }
 
@@ -155,9 +204,23 @@ namespace org.ohdsi.cdm.presentation.builder
         {
             get
             {
-                var odbc = ConfigurationManager.ConnectionStrings["DestinationConnectionStringTemplate"].ConnectionString;
-                return odbc.Replace("{server}", CdmServer).Replace("{database}", CdmDb).Replace("{username}", CdmUser)
-                    .Replace("{password}", CdmPswd);
+                var conStrings = ConfigurationManager.ConnectionStrings;
+                foreach (var conString in conStrings)
+                {
+                    var conStringTyped = (ConnectionStringSettings)conString;
+
+                    if (!conStringTyped.Name.Contains("Destination"))
+                        continue;
+                    if (!conStringTyped.Name.Contains(SourceEngine.Database.ToName()))
+                        continue;
+
+                    var result = conStringTyped.ConnectionString.Replace("{server}", CdmServer)
+                        .Replace("{database}", CdmDb).Replace("{username}", CdmUser)
+                        .Replace("{password}", CdmPswd);
+
+                    return result;
+                }
+                throw new KeyNotFoundException(CdmServer + " connection string for CDM was not found!");
             }
         }
 
@@ -166,10 +229,23 @@ namespace org.ohdsi.cdm.presentation.builder
         {
             get
             {
-                var odbc = ConfigurationManager.ConnectionStrings["SourceConnectionStringTemplate"].ConnectionString;
-                return odbc.Replace("{server}", SourceServer).Replace("{database}", SourceDb)
-                    .Replace("{username}", SourceUser)
-                    .Replace("{password}", SourcePswd);
+                var conStrings = ConfigurationManager.ConnectionStrings;
+                foreach (var conString in conStrings)
+                {
+                    var conStringTyped = (ConnectionStringSettings)conString;
+
+                    if (!conStringTyped.Name.Contains("Source"))
+                        continue;
+                    if (!conStringTyped.Name.Contains(SourceEngine.Database.ToName()))
+                        continue;
+
+                    var result = conStringTyped.ConnectionString.Replace("{server}", SourceServer)
+                        .Replace("{database}", SourceDb).Replace("{username}", SourceUser)
+                        .Replace("{password}", SourcePswd);
+
+                    return result;
+                }
+                throw new KeyNotFoundException(SourceServer + " connection string for source was not found!"); 
             }
         }
 
@@ -178,10 +254,23 @@ namespace org.ohdsi.cdm.presentation.builder
         {
             get
             {
-                var odbc = ConfigurationManager.ConnectionStrings["VocabularyConnectionStringTemplate"].ConnectionString;
-                return odbc.Replace("{server}", VocabServer).Replace("{database}", VocabDb)
-                    .Replace("{username}", VocabUser)
-                    .Replace("{password}", VocabPswd);
+                var conStrings = ConfigurationManager.ConnectionStrings;
+                foreach (var conString in conStrings)
+                {
+                    var conStringTyped = (ConnectionStringSettings)conString;
+
+                    if (!conStringTyped.Name.Contains("Vocabulary"))
+                        continue;
+                    if (!conStringTyped.Name.Contains(SourceEngine.Database.ToName()))
+                        continue;
+
+                    var result = conStringTyped.ConnectionString.Replace("{server}", VocabServer)
+                        .Replace("{database}", VocabDb).Replace("{username}", VocabUser)
+                        .Replace("{password}", VocabPswd);
+
+                    return result;
+                }
+                throw new KeyNotFoundException(VocabServer + " connection string for vocabulary was not found!");
             }
         }
 

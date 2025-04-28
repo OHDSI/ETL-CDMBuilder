@@ -2,7 +2,7 @@
 using System;
 using System.Data.Odbc;
 
-namespace org.ohdsi.cdm.presentation.builder.Helpers
+namespace org.ohdsi.cdm.presentation.builder.Base
 {
     public class DbDestination
     {

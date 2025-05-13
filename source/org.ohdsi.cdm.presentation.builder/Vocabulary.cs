@@ -90,7 +90,7 @@ namespace org.ohdsi.cdm.presentation.builder
                             if (!_lookups.ContainsKey(conceptIdMapper.Lookup))
                             {
                                 string sql = string.Empty;
-                                var vendorFolder = Settings.Current.Building.VendorFolder;
+                                var vendorFolder = Settings.Current.Building.VendorToProcess.Folder;
 
                                 var baseSql = string.Empty;
                                 var sqlFileDestination = string.Empty;
@@ -159,11 +159,14 @@ namespace org.ohdsi.cdm.presentation.builder
         /// <param name="forLookup">true - fill vocab. for: CareSites, Providers, Locations; false - rest of us</param>
         public void Fill(bool forLookup, bool readFromS3)
         {
+            if (Settings.Current.Building.SourceQueryDefinitions == null)
+                throw new NoNullAllowedException("Settings.Current.Building.SourceQueryDefinitions is null!");
+
             _genderConcepts = new GenderLookup();
             _genderConcepts.Load();
 
             _pregnancyConcepts = new PregnancyConcepts(null);
-
+                        
             foreach (var qd in Settings.Current.Building.SourceQueryDefinitions)
             {
                 if (forLookup)

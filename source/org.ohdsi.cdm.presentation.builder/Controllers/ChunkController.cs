@@ -2,6 +2,7 @@
 using org.ohdsi.cdm.framework.desktop;
 using org.ohdsi.cdm.framework.desktop.DbLayer;
 using org.ohdsi.cdm.framework.desktop.Helpers;
+using org.ohdsi.cdm.framework.desktop.Savers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,14 +17,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         public ChunkController()
         {
-            _dbSource = new DbSource(Settings.Current.Building.SourceConnectionString, Path.Combine(new[]
-            {
-                Settings.Current.BuilderFolder,
-                "ETL",
-                "Common",
-                "Scripts",
-                Settings.Current.Building.SourceEngine.Database.ToString()
-            }), Settings.Current.Building.SourceSchema);
+            _dbSource = new DbSource(Settings.Current.Building.SourceConnectionString,
+                Settings.Current.Building.SourceEngine.Database.ToString());
         }
 
 
@@ -33,9 +28,11 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             var chunks = new List<ChunkRecord>();
 
             Console.WriteLine("Generating chunk ids...");
+
+            _dbSource.CreateChunkSchema(chunksSchema);
             _dbSource.CreateChunkTable(chunksSchema);
             _dbSource.CreateIndexesChunkTable(chunksSchema);
-
+            
             var chunkId = 0;
             var k = 0;
 
@@ -43,7 +40,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 .Create(Settings.Current.Building.SourceConnectionString))
             {
                 foreach (var chunk in GetPersonKeys(Settings.Current.Building.ChunkSize))
-                {
+                 {
                     chunks.AddRange(chunk.Select(c =>
                         new ChunkRecord { Id = chunkId, PersonId = Convert.ToInt64(c.Key), PersonSource = c.Value }));
 
@@ -74,7 +71,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
             var query = GetSqlHelper.GetSql(Settings.Current.Building.SourceEngine.Database, Settings.Current.Building.BatchScript, Settings.Current.Building.SourceSchema);
 
-            foreach (var reader in _dbSource.GetPersonKeys(query, batches, batchSize))
+            foreach (var reader in _dbSource.GetPersonKeys(query, batches, batchSize, Settings.Current.Building.SourceSchema))
             {
                 if (batch.Count == batchSize)
                 {

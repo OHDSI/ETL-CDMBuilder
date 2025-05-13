@@ -1,4 +1,6 @@
-﻿using org.ohdsi.cdm.framework.common.Lookups;
+﻿using org.ohdsi.cdm.framework.common.Enums;
+using org.ohdsi.cdm.framework.common.Lookups;
+using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.framework.desktop.Enums;
 using System;
 using System.Collections.Generic;
@@ -70,9 +72,16 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
             if (_builderController.CurrentState == BuilderState.Running)
             {
-                CreateDestination();
+                //remove if after implementing ddl for other engines
+                if (Settings.Current.Building.CdmEngine is MssqlDatabaseEngine)
+                    CreateDestination();
+                else
+                    Console.WriteLine("\r\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" +
+                        "\r\nOnly DDL for MSSQL is supported for now. DDL for databases on other engines must have been executed manually before" +
+                        "\r\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\r\n");
 
                 var vocabulary = new Vocabulary();
+                var x = Settings.Current.Building;
                 CreateLookup(vocabulary);
                 Build(vocabulary);
             }
@@ -119,7 +128,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     UpdateDate("BuildingStart");
                 }
 
-                _builderController.Build(vocabulary, Settings.Current.Building.CdmSchema);
+                var chunkSchema = Settings.Current.Building.SourceSchema;
+                _builderController.Build(vocabulary, chunkSchema);
 
                 if (_builderController.CurrentState != BuilderState.Error)
                 {

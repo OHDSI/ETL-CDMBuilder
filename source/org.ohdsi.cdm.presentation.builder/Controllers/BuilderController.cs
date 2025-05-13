@@ -8,6 +8,7 @@ using org.ohdsi.cdm.framework.desktop.Base;
 using org.ohdsi.cdm.framework.desktop.DbLayer;
 using org.ohdsi.cdm.framework.desktop.Enums;
 using org.ohdsi.cdm.framework.desktop.Helpers;
+using org.ohdsi.cdm.framework.desktop.Savers;
 using org.ohdsi.cdm.presentation.builder.Base;
 using System;
 using System.Collections.Concurrent;
@@ -15,6 +16,7 @@ using System.Collections.Generic;
 using System.Data.Odbc;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using DatabaseChunkBuilder = org.ohdsi.cdm.presentation.builder.Base.DatabaseChunkBuilder;
@@ -164,7 +166,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
                 if (locationConcepts.Count == 0)
                     locationConcepts.Add(new Location { Id = Entity.GetId(null) });
-                Console.WriteLine("Locations was loaded");
+                Console.WriteLine("Locations were loaded");
 
                 Console.WriteLine("Loading care sites...");
                 var careSite = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.CareSites != null);
@@ -175,7 +177,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
                 if (careSiteConcepts.Count == 0)
                     careSiteConcepts.Add(new CareSite { Id = 0, LocationId = 0, OrganizationId = 0, PlaceOfSvcSourceValue = null });
-                Console.WriteLine("Care sites was loaded");
+                Console.WriteLine("Care sites were loaded");
 
                 Console.WriteLine("Loading providers...");
                 var provider = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.Providers != null);
@@ -183,16 +185,26 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 {
                     FillList<Provider>(providerConcepts, provider, provider.Providers[0], _etlLibraryPath, chunkSchema);
                 }
-                Console.WriteLine("Providers was loaded");
+                Console.WriteLine("Providers were loaded");
 
-                Console.WriteLine("Saving lookups...");
-                var saver = Settings.Current.Building.DestinationEngine.GetSaver();
-                using (saver.Create(Settings.Current.Building.DestinationConnectionString))
+                try
                 {
-                    saver.SaveEntityLookup(Settings.Current.Building.Cdm, locationConcepts, careSiteConcepts, providerConcepts, null);
+                    Console.WriteLine("Saving lookups...");
+
+                    var saver = Settings.Current.Building.CdmEngine.GetSaver();
+                    using (saver.Create(Settings.Current.Building.DestinationConnectionString))
+                    {
+                            
+                        saver.SaveEntityLookup(Settings.Current.Building.Cdm, locationConcepts, careSiteConcepts, providerConcepts, null); 
+                            //System.NullReferenceException: 'Object reference not set to an instance of an object.'
+                            
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //throw;
                 }
 
-                Console.WriteLine("Lookups was saved ");
                 timer.Stop();
                 Logger.Write(null, Logger.LogMessageTypes.Info,
                     $"Care site, Location and Provider tables were saved to CDM database - {timer.ElapsedMilliseconds} ms");
@@ -207,9 +219,11 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             });
         }
 
+
+
         private void FillList<T>(ICollection<T> list, QueryDefinition qd, EntityDefinition ed, string etlLibraryPath, string chunkSchema) where T : IEntity
         {
-            var vendor = EtlLibrary.CreateVendorInstance(etlLibraryPath, Settings.Current.Building.Vendor);
+            var vendor = Settings.Current.Building.VendorToProcess;
             var sql = GetSqlHelper.GetSql(Settings.Current.Building.SourceEngine.Database,
                 qd.GetSql(vendor, Settings.Current.Building.SourceSchema, chunkSchema), Settings.Current.Building.SourceSchema);
 
@@ -345,6 +359,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                                   return;
                               }
 
+                              //should this be replaced with?
+                              //var chunkBuilder = new org.ohdsi.cdm.framework.desktop.Base.DatabaseChunkBuilder(chunkId, CreatePersonBuilder);
                               var chunk = new DatabaseChunkBuilder(chunkId, CreatePersonBuilder);
 
                               using (var connection =
@@ -374,12 +390,12 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
         {
             return value % 2 != 0;
         }
-        private static IPersonBuilder CreatePersonBuilder()
-        {
-            var objectType = Type.GetType(Settings.Current.Building.PersonBuilder);
-            IPersonBuilder builder = Activator.CreateInstance(objectType) as IPersonBuilder;
 
-            return builder;
+        private PersonBuilder CreatePersonBuilder()
+        {
+            var constructorInfo = EtlLibrary.GetBuilderConstructor(_etlLibraryPath, Settings.Current.Building.VendorToProcess);
+            var handle = (PersonBuilder)constructorInfo.Invoke([Settings.Current.Building.VendorToProcess]);
+            return handle;
         }
 
         #endregion

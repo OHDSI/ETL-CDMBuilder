@@ -1,9 +1,15 @@
-﻿using org.ohdsi.cdm.framework.common.Definitions;
+﻿using org.ohdsi.cdm.framework.common.Base;
+using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Enums;
 using org.ohdsi.cdm.framework.common.Extensions;
+using org.ohdsi.cdm.framework.common.Utility;
 using org.ohdsi.cdm.framework.desktop.Databases;
+using org.ohdsi.cdm.presentation.builder.Utility;
 using System.Configuration;
+using System.Reflection;
 using System.Xml.Serialization;
+using static org.ohdsi.cdm.framework.etl.Transformation.Truven.TruvenPersonBuilder;
+using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings.Settings;
 
 namespace org.ohdsi.cdm.presentation.builder
 {
@@ -11,6 +17,9 @@ namespace org.ohdsi.cdm.presentation.builder
     {
 
         private static object _threadlock;
+
+
+        #region Properties
 
         [XmlIgnore]
         public string Folder { get; private set; }
@@ -41,56 +50,13 @@ namespace org.ohdsi.cdm.presentation.builder
 
         public int ChunksCount { get; set; }
 
-        public string PersonBuilder
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["PersonBuilder"];
-            }
-        }
+        [XmlIgnore]
+        public Vendor VendorToProcess { get; set; }
 
-        public string Vendor
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["Vendor"];
-            }
-        }
-
-        public string VendorFolder
-        {
-            get
-            {
-                switch (Vendor)
-                {
-                    default:
-                        throw new NotImplementedException($"Vendor {Vendor} is not supported");
-                    case "Seer":
-                        return @"ETL\SEER";
-                    case "Nhanes":
-                        return @"ETL\NHANES";
-                    case "OptumPanther":
-                        return @"ETL\OPTUMPANTHER";
-                    case "Cerner":
-                        return @"ETL\CERNER";
-                    case "HealthVerity":
-                        return @"ETL\HEALTHVERITY";
-                    case "Premier":
-                        return @"ETL\PREMIER";
-                    case "Jmdc":
-                        return @"ETL\JMDC";
-                    case "Cprd":
-                        return @"ETL\CPRD";
-                    case "Hcup":
-                        return @"ETL\HCUP";
-                    case "CprdHES":
-                        return @"ETL\CPRDHES";
-                }
-            }
-        }
-
+        [XmlIgnore]
         public CdmVersions Cdm
-        {
+        { 
+            //should this be replaced with CdmVersion from org.ohdsi.cdm.framework.common
             get
             {
                 if (ConfigurationManager.AppSettings["CDM"] == "v5.3")
@@ -99,9 +65,6 @@ namespace org.ohdsi.cdm.presentation.builder
                 return CdmVersions.V6;
             }
         }
-
-
-        #region Properties
 
         [XmlIgnore]
         public List<QueryDefinition> SourceQueryDefinitions { get; set; }
@@ -116,88 +79,13 @@ namespace org.ohdsi.cdm.presentation.builder
         public string BatchScript { get; set; }
 
         [XmlIgnore]
-        public IDatabaseEngine SourceEngine
-        {
-            get
-            {
-                var conStrings = ConfigurationManager.ConnectionStrings;
-                foreach (var conString in conStrings)
-                {
-                    var conStringTyped = (ConnectionStringSettings)conString;
-                    if (!conStringTyped.Name.Contains("Source"))
-                        continue;
-
-                    if (conStringTyped.Name.ToLower().Contains("postgre"))
-                        return new PostgreDatabaseEngine();
-
-                    if (conStringTyped.Name.ToLower().Contains("mysql"))
-                        return new MySqlDatabaseEngine();
-
-                    if (conStringTyped.Name.ToLower().Contains("redshift"))
-                        return new RedshiftDatabaseEngine();
-
-                    if (conStringTyped.Name.ToLower().Contains("mssql"))
-                        return new MssqlDatabaseEngine();
-                }
-                throw new KeyNotFoundException("Failed to find relevant DB engine!");
-            }
-        }
+        public IDatabaseEngine SourceEngine { get; private set; }
 
         [XmlIgnore]
-        public IDatabaseEngine DestinationEngine
-        {
-            get
-            {
-                var conStrings = ConfigurationManager.ConnectionStrings;
-                foreach (var conString in conStrings)
-                {
-                    var conStringTyped = (ConnectionStringSettings)conString;
-                    if (!conStringTyped.Name.Contains("Destination"))
-                        continue;
-
-                    if (conStringTyped.Name.ToLower().Contains("postgre"))
-                        return new PostgreDatabaseEngine();
-
-                    if (conStringTyped.Name.ToLower().Contains("mysql"))
-                        return new MySqlDatabaseEngine();
-
-                    if (conStringTyped.Name.ToLower().Contains("redshift"))
-                        return new RedshiftDatabaseEngine();
-
-                    if (conStringTyped.Name.ToLower().Contains("mssql"))
-                        return new MssqlDatabaseEngine();
-                }
-                throw new KeyNotFoundException("Failed to find relevant DB engine!");
-            }
-        }
+        public IDatabaseEngine CdmEngine { get; private set; }
 
         [XmlIgnore]
-        public IDatabaseEngine VocabularyEngine
-        {
-            get
-            {
-                var conStrings = ConfigurationManager.ConnectionStrings;
-                foreach (var conString in conStrings)
-                {
-                    var conStringTyped = (ConnectionStringSettings)conString;
-                    if (!conStringTyped.Name.Contains("Vocabulary"))
-                        continue;
-
-                    if (conStringTyped.Name.ToLower().Contains("postgre"))
-                        return new PostgreDatabaseEngine();
-
-                    if (conStringTyped.Name.ToLower().Contains("mysql"))
-                        return new MySqlDatabaseEngine();
-
-                    if (conStringTyped.Name.ToLower().Contains("redshift"))
-                        return new RedshiftDatabaseEngine();
-
-                    if (conStringTyped.Name.ToLower().Contains("mssql"))
-                        return new MssqlDatabaseEngine();
-                }
-                throw new KeyNotFoundException("Failed to find relevant DB engine!");
-            }
-        }
+        public IDatabaseEngine VocabularyEngine { get; private set; }
 
         [XmlIgnore]
         public string DestinationConnectionString
@@ -214,8 +102,10 @@ namespace org.ohdsi.cdm.presentation.builder
                     if (!conStringTyped.Name.Contains(SourceEngine.Database.ToName()))
                         continue;
 
-                    var result = conStringTyped.ConnectionString.Replace("{server}", CdmServer)
-                        .Replace("{database}", CdmDb).Replace("{username}", CdmUser)
+                    var result = conStringTyped.ConnectionString
+                        .Replace("{server}", CdmServer)
+                        .Replace("{database}", CdmDb)
+                        .Replace("{username}", CdmUser)
                         .Replace("{password}", CdmPswd);
 
                     return result;
@@ -239,8 +129,10 @@ namespace org.ohdsi.cdm.presentation.builder
                     if (!conStringTyped.Name.Contains(SourceEngine.Database.ToName()))
                         continue;
 
-                    var result = conStringTyped.ConnectionString.Replace("{server}", SourceServer)
-                        .Replace("{database}", SourceDb).Replace("{username}", SourceUser)
+                    var result = conStringTyped.ConnectionString
+                        .Replace("{server}", SourceServer)
+                        .Replace("{database}", SourceDb)
+                        .Replace("{username}", SourceUser)
                         .Replace("{password}", SourcePswd);
 
                     return result;
@@ -264,8 +156,10 @@ namespace org.ohdsi.cdm.presentation.builder
                     if (!conStringTyped.Name.Contains(SourceEngine.Database.ToName()))
                         continue;
 
-                    var result = conStringTyped.ConnectionString.Replace("{server}", VocabServer)
-                        .Replace("{database}", VocabDb).Replace("{username}", VocabUser)
+                    var result = conStringTyped.ConnectionString
+                        .Replace("{server}", VocabServer)
+                        .Replace("{database}", VocabDb)
+                        .Replace("{username}", VocabUser)
                         .Replace("{password}", VocabPswd);
 
                     return result;
@@ -276,43 +170,44 @@ namespace org.ohdsi.cdm.presentation.builder
 
         #endregion
 
-        public BuildingSettings()
+        /// <summary>
+        /// This constructor is only for XML serialization
+        /// </summary>
+        [Obsolete]
+        public BuildingSettings() { }
+
+        public BuildingSettings(IDatabaseEngine sourceDatabaseEngine, IDatabaseEngine cdmDatabaseEngine, IDatabaseEngine vocabularyDatabaseEngine, Vendor vendor)
         {
             CompletedChunkIds = new List<int>();
             BuildingState = new Building();
             ChunksCount = 0;
             _threadlock = new object();
+            SourceEngine = sourceDatabaseEngine;
+            CdmEngine = cdmDatabaseEngine;
+            VocabularyEngine = vocabularyDatabaseEngine;
+            VendorToProcess = vendor;            
+            SetVendorSettings(sourceDatabaseEngine.Database.ToName());
         }
 
         #region Methods
 
-        private void SetVendorSettings()
-        { 
-            var batch = "Batch.sql";
-            if (File.Exists(Path.Combine(VendorFolder, batch)))
-            {
-                BatchScript = File.ReadAllText(Path.Combine(VendorFolder, batch));
-            }
+        private void SetVendorSettings(string databaseEngineName)
+        {
+            var relatedResources = EmbeddedResourceManager.ReadEmbeddedResources("ETL", VendorToProcess.Folder, StringComparison.InvariantCultureIgnoreCase);
+            BatchScript = relatedResources.FirstOrDefault(s => s.Key.Contains("Batch.sql")).Value;
 
-            var folder = Path.Combine(VendorFolder, "Definitions");
-            if (Directory.Exists(folder))
-            {
-                var files = Directory.GetFiles(folder);
-                if (files.Length > 0)
+            SourceQueryDefinitions = relatedResources
+                .Where(s => s.Key.Contains("Definitions"))
+                .Select(s => new QueryDefinition()
                 {
-                    SourceQueryDefinitions = files.Select(
-                        definition =>
-                        {
-                            var qd = new QueryDefinition().DeserializeFromXml(File.ReadAllText(definition));
-                            var fileInfo = new FileInfo(definition);
-                            qd.FileName = fileInfo.Name.Replace(fileInfo.Extension, "");
-
-                            return qd;
-                        }).ToList();
-                }
-            }
-
-            Settings.Current.Building.SourceQueryDefinitions = SourceQueryDefinitions;
+                    Query = new Query()
+                    {
+                        Database = databaseEngineName,
+                        Text = s.Value,
+                    },
+                    FileName = s.Key,                   
+                })
+                .ToList();
         }
 
         public void Load()
@@ -382,7 +277,7 @@ namespace org.ohdsi.cdm.presentation.builder
                 }
             }
             else
-                Settings.Current.Building = new BuildingSettings();
+                Settings.Current.Building = new BuildingSettings(SourceEngine, CdmEngine, VocabularyEngine, VendorToProcess);
         }
 
         public void Reset()
@@ -424,7 +319,23 @@ namespace org.ohdsi.cdm.presentation.builder
             }
 
             if (reloadVendorSettings)
-                SetVendorSettings();
+                SetVendorSettings(Settings.Current.Building.CdmEngine.Database.ToName());
+        }
+
+        /// <summary>
+        /// This should only be called once after everything's set up
+        /// </summary>
+        public void CopyBuildingSettingsToFrameworkBuildingSettings()
+        {
+            var fb = FrameworkSettings.Current.Building;
+            //this sc=<schema>; modification is required due to hardcode in the library. A standart [dbo]. is used otherwise
+            fb.RawSourceConnectionString = RawSourceConnectionString + "sc=" + SourceSchema + ";";
+            fb.RawDestinationConnectionString = RawDestinationConnectionString + "sc=" + CdmSchema + ";";
+            fb.RawVocabularyConnectionString = RawVocabularyConnectionString + "sc=" + VocabSchema + ";";
+
+            fb.Vendor = VendorToProcess;
+
+            fb.SourceQueryDefinitions = SourceQueryDefinitions;            
         }
 
         #endregion

@@ -12,6 +12,9 @@ using IPersonBuilder = org.ohdsi.cdm.framework.common.Base.IPersonBuilder;
 
 namespace org.ohdsi.cdm.presentation.builder.Base
 {
+    /// <summary>
+    /// Should this be replaced with Framework.DatabaseChunkBuilder?
+    /// </summary>
     public class DatabaseChunkBuilder
     {
         #region Variables

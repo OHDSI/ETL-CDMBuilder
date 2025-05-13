@@ -1,6 +1,8 @@
 ﻿using System.Configuration;
 using System.IO;
 using System.Reflection;
+using org.ohdsi.cdm.framework.desktop.Databases;
+using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings.Settings;
 
 namespace org.ohdsi.cdm.presentation.builder
 {
@@ -8,41 +10,116 @@ namespace org.ohdsi.cdm.presentation.builder
     {
 
         #region Properties
+
         public static Settings Current { get; set; }
-        public BuildingSettings Building { get; set; }
 
-        public string BuilderFolder { get; set; }
+        #region public BuildingSettings Building
+        public BuildingSettings Building 
+        {
+            get => building;
+            set 
+            {
+                building = value;
+                FrameworkSettings.Current.Building = new framework.desktop.Settings.BuildingSettings(value.DestinationConnectionString);
+                value.CopyBuildingSettingsToFrameworkBuildingSettings();
+            }
+        }
+        private BuildingSettings building; 
+        #endregion
 
-        public int DegreeOfParallelism => int.Parse(ConfigurationManager.AppSettings["DegreeOfParallelism"]);
+        #region public string BuilderFolder
+        public string BuilderFolder
+        {
+            get => builderFolder;
+            set
+            {
+                builderFolder = value;
+                FrameworkSettings.Current.CDMFolder = value;
+            }
+        }
+        private string builderFolder;
+        #endregion
 
-        public bool OnlyEvenChunks => bool.Parse(ConfigurationManager.AppSettings["OnlyEvenChunks"]);
-        public bool OnlyOddChunks => bool.Parse(ConfigurationManager.AppSettings["OnlyOddChunks"]);
+        #region public int DegreeOfParallelism
+        public int DegreeOfParallelism
+        {
+            get => int.Parse(ConfigurationManager.AppSettings["DegreeOfParallelism"]);
+            set 
+            {
+                degreeOfParallelism = value;
+                FrameworkSettings.Current.ParallelChunks = FrameworkSettings.Current.ParallelQueries = value;                
+            }
+        }
+        private int degreeOfParallelism;
+        #endregion
 
-        public int ChunksFrom => int.Parse(ConfigurationManager.AppSettings["ChunksFrom"]);
-        public int ChunksTo => int.Parse(ConfigurationManager.AppSettings["ChunksTo"]);
 
-        public string DropVocabularyTablesScript { get; private set; } = ReadEmbeddedResource("DropVocabularyTables.sql");
+        #region public int OnlyEvenChunks
+        public bool OnlyEvenChunks
+        {
+            get => bool.Parse(ConfigurationManager.AppSettings["OnlyEvenChunks"]);
+            set
+            {
+                onlyEvenChunks = value;                
+            }
+        }
+        private bool onlyEvenChunks;
+        #endregion
 
-        public string TruncateWithoutLookupTablesScript { get; private set; } = ReadEmbeddedResource("TruncateWithoutLookupTables.sql");
+        #region public bool OnlyOddChunks
+        public bool OnlyOddChunks
+        { 
+            get => bool.Parse(ConfigurationManager.AppSettings["OnlyOddChunks"]);
+            set
+            {
+                onlyOddChunks = value;
+            }
+        }
+        private bool onlyOddChunks;
+        #endregion
 
-        public string TruncateTablesScript { get; private set; } = ReadEmbeddedResource("TruncateTables.sql");
+        #region public int ChunksFrom
+        public int ChunksFrom
+        {
+            get => int.Parse(ConfigurationManager.AppSettings["ChunksFrom"]);
+            set 
+            {
+                chunksFrom = value;
+            }
+        }
+        private int chunksFrom;
+        #endregion
 
-        public string DropTablesScript { get; private set; } = ReadEmbeddedResource("DropTables.sql");
+        #region public int ChunksTo
+        public int ChunksTo
+        {
+            get => int.Parse(ConfigurationManager.AppSettings["ChunksTo"]);
+            set
+            {
+                chunksTo = value;
+            }
+        }
+        private int chunksTo;
+        #endregion
+        
+        //scripts below in FrameworkSettings only have getters
 
-        public string TruncateLookupScript { get; private set; } = ReadEmbeddedResource("TruncateLookup.sql");
+        public string DropVocabularyTablesScript => ReadEmbeddedResource("DropVocabularyTables.sql");
 
-        public string CreateCdmTablesScript { get; private set; } = ReadEmbeddedResource("CreateTables.sql");
+        public string TruncateWithoutLookupTablesScript => ReadEmbeddedResource("TruncateWithoutLookupTables.sql");
 
-        public string CreateCdmDatabaseScript { get; private set; } = ReadEmbeddedResource("CreateDestination.sql");
+        public string TruncateTablesScript => ReadEmbeddedResource("TruncateTables.sql");
+
+        public string DropTablesScript => ReadEmbeddedResource("DropTables.sql");
+
+        public string TruncateLookupScript => ReadEmbeddedResource("TruncateLookup.sql");
+
+        public string CreateCdmTablesScript => ReadEmbeddedResource("CreateTables.sql");
+
+        public string CreateCdmDatabaseScript => ReadEmbeddedResource("CreateDestination.sql");
 
         #endregion
 
-        static Settings()
-        {
-            Current = new Settings();
-            Current.Building = new BuildingSettings();
-            Current.Building.Load();
-        }
 
         #region Methods
 

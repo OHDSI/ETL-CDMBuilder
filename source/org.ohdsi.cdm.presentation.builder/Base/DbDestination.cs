@@ -20,47 +20,82 @@ namespace org.ohdsi.cdm.presentation.builder.Base
             var sqlConnectionStringBuilder = new OdbcConnectionStringBuilder(_connectionString);
             var database = sqlConnectionStringBuilder["database"];
 
-            // TMP
-            var mySql = _connectionString.ToLower().Contains("mysql");
-
-            if (mySql)
-                sqlConnectionStringBuilder["database"] = "mysql";
-            else if (_connectionString.ToLower().Contains("amazon redshift"))
-                sqlConnectionStringBuilder["database"] = "poc";
-            else
-                sqlConnectionStringBuilder["database"] = "master";
+            var mySql = _connectionString.Contains("mySql", StringComparison.InvariantCultureIgnoreCase);
 
             using (var connection = SqlConnectionHelper.OpenOdbcConnection(sqlConnectionStringBuilder.ConnectionString))
             {
-                query = string.Format(query, database);
+                var preciseQuery = string.Format(query, database);
 
-                foreach (var subQuery in query.Split(new[] { "\r\nGO", "\nGO" }, StringSplitOptions.None))
+                foreach (var subQuery in preciseQuery.Split(new[] { "\r\nGO", "\nGO" }, StringSplitOptions.None))
                 {
+                    if (!_connectionString.Contains("SQL Server")
+                        && subQuery.Contains("SET RECOVERY", StringComparison.InvariantCultureIgnoreCase))
+                        continue; //only works for SQL SERVER
+
                     using (var command = new OdbcCommand(subQuery, connection))
                     {
-                        command.CommandTimeout = 30000;
-                        command.ExecuteNonQuery();
+                        try
+                        {
+                            command.CommandTimeout = 30000;
+                            command.ExecuteNonQuery();
+                        }
+                        catch (OdbcException ex)
+                        {
+                            if (new[] { "database", "already exists" }.All(s => ex.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                            {
+                                // ignore
+                            }
+                            else
+                            {
+                                Console.WriteLine();
+                                Console.WriteLine(@"Failed to execute command: {0}", command.CommandText);
+                                Console.WriteLine(ex.Message);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw;
+                        }
                     }
                 }
             }
 
             if (!mySql && _schemaName.ToLower().Trim() != "dbo")
-            {
                 CreateSchema();
-            }
         }
 
         public void CreateSchema()
         {
-            using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
-            {
-                var query = $"create schema [{_schemaName}]";
+            var query = $"create schema {_schemaName}";
 
-                using (var command = new OdbcCommand(query, connection))
+            try
+            {
+                using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
                 {
-                    command.CommandTimeout = 0;
-                    command.ExecuteNonQuery();
+                    using (var command = new OdbcCommand(query, connection))
+                    {
+                        command.CommandTimeout = 0;
+                        command.ExecuteNonQuery();
+                    }
                 }
+            }
+            catch (OdbcException ex)
+            {
+                if (new[] { "schema", "already exists" }.All(s => ex.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                {
+                    // ignore
+                }
+                else
+                {
+                    Console.WriteLine();
+                    Console.WriteLine(@"Failed to execute command: {0}", query);
+                    Console.WriteLine(ex.Message);
+                    throw;
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
             }
         }
 

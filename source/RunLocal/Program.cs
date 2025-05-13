@@ -1,10 +1,13 @@
-﻿using System.Data;
+﻿using System.Configuration;
+using System.Data;
 using CommandLine;
 using CommandLine.Text;
 using org.ohdsi.cdm.framework.common.Enums;
 using org.ohdsi.cdm.framework.common.Utility;
+using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.presentation.builder;
 using org.ohdsi.cdm.presentation.builder.Controllers;
+using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
 
 namespace RunLocal
 {
@@ -134,15 +137,13 @@ namespace RunLocal
                 .WithParsed(RunWithOptions)
                 .WithNotParsed(HandleParseError);
 
+            Console.WriteLine("\r\nThe program finished!");
             Console.ReadLine();
         }
 
         static void RunWithOptions(Options opts)
         {
             SetSettings(opts);
-
-            Vendor vendor = EtlLibrary.CreateVendorInstance(Directory.GetCurrentDirectory(), opts.VendorName)
-                ?? throw new NoNullAllowedException("Failed to setup the vendor!");
 
             BuildingController buildingController = new BuildingController(Directory.GetCurrentDirectory());
             buildingController.Process();
@@ -191,10 +192,20 @@ namespace RunLocal
 
             Console.WriteLine();
 
+            Vendor vendor = EtlLibrary.CreateVendorInstance(Directory.GetCurrentDirectory(), opts.VendorName)
+                ?? throw new NoNullAllowedException("Failed to setup the vendor!");
+
+            var sourceEngine = GetDatabaseEngine(opts.SourceEngine);
+            var cdmEngine = GetDatabaseEngine(opts.DestinationEngine);
+            var vocabEngine = GetDatabaseEngine(opts.VocabularyEngine);
+
+            //create instance, nothing drastic is done at init, properties are copied at BuildingSettings properties Set
+            //these properties must be filled at the moment of the interaction with the db
+            FrameworkSettings.Settings.Initialize("", "");            
+
             Settings.Current = new Settings()
             {
-                //BuilderFolder = opts.EtlLibraryPath,
-                Building = new BuildingSettings()
+                Building = new BuildingSettings(sourceEngine, cdmEngine, vocabEngine, vendor)
                 {
                     Batches = 1,
 
@@ -216,7 +227,20 @@ namespace RunLocal
                     VocabUser = opts.VocabularyUser,
                     VocabPswd = opts.VocabularyPassword
                 },
+                //BuilderFolder = opts.EtlLibraryPath,
                 BuilderFolder = Directory.GetCurrentDirectory(),
+            };            
+        }
+
+        static IDatabaseEngine GetDatabaseEngine(string engine)
+        {
+            return engine switch
+            {
+                "postgresql" => new PostgreDatabaseEngine(),
+                "mysql" => new MySqlDatabaseEngine(),
+                "redshift" => new RedshiftDatabaseEngine(),
+                "mssql" => new MssqlDatabaseEngine(),
+                _ => throw new NotSupportedException($"The database engine '{engine}' is not supported.")
             };
         }
     }

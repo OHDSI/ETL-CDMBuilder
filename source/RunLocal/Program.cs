@@ -229,7 +229,8 @@ namespace RunLocal
                 },
                 //BuilderFolder = opts.EtlLibraryPath,
                 BuilderFolder = Directory.GetCurrentDirectory(),
-            };            
+            };
+            Settings.Current.Building.CopyBuildingSettingsToFrameworkBuildingSettings();
         }
 
         static IDatabaseEngine GetDatabaseEngine(string engine)

@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Data.Odbc;
 using System.Diagnostics;
 using IPersonBuilder = org.ohdsi.cdm.framework.common.Base.IPersonBuilder;
+using org.ohdsi.cdm.framework.common.Enums;
+using DatabaseChunkPartAdapter = org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.DatabaseChunkPartAdapter;
 
 namespace org.ohdsi.cdm.presentation.builder.Base
 {
@@ -21,6 +23,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
 
         private readonly int _chunkId;
         private readonly Func<IPersonBuilder> _createPersonBuilder;
+        private readonly framework.desktop.Settings.BuildingSettings _frameworkBuildingSettings; //this is here for debug purposes to quickly check it
         #endregion
 
         #region Constructors
@@ -29,17 +32,18 @@ namespace org.ohdsi.cdm.presentation.builder.Base
         {
             _chunkId = chunkId;
             _createPersonBuilder = createPersonBuilder;
+            _frameworkBuildingSettings = framework.desktop.Settings.Settings.Current.Building;
         }
         #endregion
 
         #region Methods
-        public DatabaseChunkPart Process(IDatabaseEngine sourceEngine, string sourceSchemaName)
+        public DatabaseChunkPartAdapter Process(IDatabaseEngine sourceEngine, string sourceSchemaName)
         {
             try
             {
                 Console.WriteLine("DatabaseChunkBuilder");
 
-                var part = new DatabaseChunkPart(_chunkId, _createPersonBuilder, "0", 0);
+                var part = new DatabaseChunkPartAdapter(_createPersonBuilder, _chunkId, "0", 0);
 
                 var timer = new Stopwatch();
                 timer.Start();

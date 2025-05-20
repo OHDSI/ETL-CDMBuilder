@@ -359,16 +359,14 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                                   return;
                               }
 
-                              //should this be replaced with?
-                              //var chunkBuilder = new org.ohdsi.cdm.framework.desktop.Base.DatabaseChunkBuilder(chunkId, CreatePersonBuilder);
                               var chunk = new DatabaseChunkBuilder(chunkId, CreatePersonBuilder);
 
                               using (var connection =
                                   new OdbcConnection(Settings.Current.Building.SourceConnectionString))
                               {
                                   connection.Open();
-                                  saveQueue.Add(chunk.Process(Settings.Current.Building.SourceEngine,
-                                      Settings.Current.Building.SourceSchema));
+                                  var result = chunk.Process(Settings.Current.Building.SourceEngine, Settings.Current.Building.SourceSchema);
+                                  saveQueue.Add(result.GetDatabaseChunkPart());
                               }
 
                               Settings.Current.Save(false);

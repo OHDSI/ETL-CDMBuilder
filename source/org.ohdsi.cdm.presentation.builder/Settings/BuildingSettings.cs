@@ -329,9 +329,9 @@ namespace org.ohdsi.cdm.presentation.builder
         {
             var fb = FrameworkSettings.Current.Building;
             //this sc=<schema>; modification is required due to hardcode in the library. A standart [dbo]. is used otherwise
-            fb.RawSourceConnectionString = RawSourceConnectionString + "sc=" + SourceSchema + ";";
-            fb.RawDestinationConnectionString = RawDestinationConnectionString + "sc=" + CdmSchema + ";";
-            fb.RawVocabularyConnectionString = RawVocabularyConnectionString + "sc=" + VocabSchema + ";";
+            fb.RawSourceConnectionString = SourceConnectionString + "sc=" + SourceSchema + ";";
+            fb.RawDestinationConnectionString = DestinationConnectionString + "sc=" + CdmSchema + ";";
+            fb.RawVocabularyConnectionString = VocabularyConnectionString + "sc=" + VocabSchema + ";";
 
             fb.Vendor = VendorToProcess;
 

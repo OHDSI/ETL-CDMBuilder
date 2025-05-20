@@ -7,18 +7,19 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport;
 
 
 namespace org.ohdsi.cdm.presentation.builder.Controllers
 {
     public class ChunkController
     {
-        private readonly DbSource _dbSource;
+        private readonly DbSourceAdapter _dbSource;
 
         public ChunkController()
         {
-            _dbSource = new DbSource(Settings.Current.Building.SourceConnectionString,
-                Settings.Current.Building.SourceEngine.Database.ToString());
+            _dbSource = new DbSourceAdapter(Settings.Current.Building.SourceConnectionString,
+                Settings.Current.Building.SourceEngine.Database.ToString(), Settings.Current.Building.SourceSchema);
         }
 
 
@@ -69,7 +70,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
         {
             var batch = new List<KeyValuePair<string, string>>(batchSize);
 
-            var query = GetSqlHelper.GetSql(Settings.Current.Building.SourceEngine.Database, Settings.Current.Building.BatchScript, Settings.Current.Building.SourceSchema);
+            var query = Utility.CdmFrameworkImport.GetSqlHelper.GetSql(Settings.Current.Building.SourceEngine.Database, Settings.Current.Building.BatchScript, Settings.Current.Building.SourceSchema, "0");
 
             foreach (var reader in _dbSource.GetPersonKeys(query, batches, batchSize, Settings.Current.Building.SourceSchema))
             {

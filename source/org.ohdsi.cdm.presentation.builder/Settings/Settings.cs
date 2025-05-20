@@ -21,7 +21,6 @@ namespace org.ohdsi.cdm.presentation.builder
             {
                 building = value;
                 FrameworkSettings.Current.Building = new framework.desktop.Settings.BuildingSettings(value.DestinationConnectionString);
-                value.CopyBuildingSettingsToFrameworkBuildingSettings();
             }
         }
         private BuildingSettings building; 

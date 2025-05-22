@@ -3,18 +3,18 @@ using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Enums;
 using org.ohdsi.cdm.framework.common.Extensions;
 using org.ohdsi.cdm.framework.common.Utility;
+using org.ohdsi.cdm.framework.Common.Base;
 using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.presentation.builder.Utility;
 using System.Configuration;
 using System.Reflection;
 using System.Xml.Serialization;
-using static org.ohdsi.cdm.framework.etl.Transformation.Truven.TruvenPersonBuilder;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings.Settings;
 
 namespace org.ohdsi.cdm.presentation.builder
 {
     public class BuildingSettings
-    {
+    {        
 
         private static object _threadlock;
 
@@ -325,8 +325,10 @@ namespace org.ohdsi.cdm.presentation.builder
         /// <summary>
         /// This should only be called once after everything's set up
         /// </summary>
-        public void CopyBuildingSettingsToFrameworkBuildingSettings()
+        public void SetFrameworkBuildingSettings()
         {
+            FrameworkSettings.Initialize(SourceConnectionString, "");
+
             var fb = FrameworkSettings.Current.Building;
             //this sc=<schema>; modification is required due to hardcode in the library. A standart [dbo]. is used otherwise
             fb.RawSourceConnectionString = SourceConnectionString + "sc=" + SourceSchema + ";";
@@ -335,7 +337,35 @@ namespace org.ohdsi.cdm.presentation.builder
 
             fb.Vendor = VendorToProcess;
 
-            fb.SourceQueryDefinitions = SourceQueryDefinitions;            
+            #region set SourceQueryDefinitions
+
+            var buildingSettings = new CdmFrameworkImport.BuildingSettings(0, VendorToProcess, Directory.GetCurrentDirectory());
+            EtlLibrary.LoadVendorSettings(Directory.GetCurrentDirectory(), buildingSettings);
+
+            foreach (var sourceQueryDefinion in buildingSettings.SourceQueryDefinitions)
+            {
+                var match = SourceQueryDefinitions.FirstOrDefault(s => s.FileName.Replace(".xml", "").Split('.').Last() == sourceQueryDefinion.FileName);
+                if (match == null)
+                    continue;
+
+                // set matching properties
+                var sourceProps = sourceQueryDefinion.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                var targetProps = match.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+                foreach (var sourceProp in sourceProps)
+                {
+                    var targetProp = targetProps.FirstOrDefault(p => p.Name == sourceProp.Name && p.CanWrite);
+                    if (targetProp != null && targetProp.PropertyType.IsAssignableFrom(sourceProp.PropertyType))
+                    {
+                        var value = sourceProp.GetValue(sourceQueryDefinion);
+                        targetProp.SetValue(match, value);
+                    }
+                }
+            }
+
+            fb.SourceQueryDefinitions = SourceQueryDefinitions;
+
+            #endregion
         }
 
         #endregion

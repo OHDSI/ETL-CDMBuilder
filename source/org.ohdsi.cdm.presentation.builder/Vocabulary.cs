@@ -10,6 +10,7 @@ using System.Data.Odbc;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings.Settings;
 
 namespace org.ohdsi.cdm.presentation.builder
 {
@@ -18,6 +19,9 @@ namespace org.ohdsi.cdm.presentation.builder
         private readonly Dictionary<string, Lookup> _lookups = new Dictionary<string, Lookup>();
         private GenderLookup _genderConcepts;
         private PregnancyConcepts _pregnancyConcepts;
+
+        private string _baseSql;
+        private Dictionary<string, string> _vendorLookups;
 
         private static LookupValue CreateLookupValue(IDataRecord reader)
         {
@@ -89,23 +93,9 @@ namespace org.ohdsi.cdm.presentation.builder
                         {
                             if (!_lookups.ContainsKey(conceptIdMapper.Lookup))
                             {
-                                string sql = string.Empty;
-                                var vendorFolder = Settings.Current.Building.VendorToProcess.Folder;
+                                string sql = _vendorLookups.First(s => s.Key.EndsWith("." + conceptIdMapper.Lookup + ".sql")).Value;
 
-                                var baseSql = string.Empty;
-                                var sqlFileDestination = string.Empty;
-
-                                baseSql = File.ReadAllText(Path.Combine(Settings.Current.BuilderFolder,
-                                    @"ETL\Common\Lookups\Base.sql"));
-
-                                sqlFileDestination = Path.Combine(Settings.Current.BuilderFolder,
-                                                                  vendorFolder,
-                                                                  "Lookups",
-                                                                  conceptIdMapper.Lookup + ".sql");
-
-                                sql = File.ReadAllText(sqlFileDestination);
-
-                                sql = sql.Replace("{base}", baseSql);
+                                sql = sql.Replace("{base}", _baseSql);
                                 sql = sql.Replace("{sc}", Settings.Current.Building.VocabSchema);
 
                                 try
@@ -140,9 +130,9 @@ namespace org.ohdsi.cdm.presentation.builder
                                 }
                                 catch (Exception e)
                                 {
-                                    Console.WriteLine("Lookup error [file]: " + sqlFileDestination);
+                                    Console.WriteLine("Lookup error [file]: " + conceptIdMapper.Lookup);
                                     Console.WriteLine("Lookup error [query]: " + sql);
-                                    Logger.WriteWarning("Lookup error [file]: " + sqlFileDestination);
+                                    Logger.WriteWarning("Lookup error [file]: " + conceptIdMapper.Lookup);
                                     Logger.WriteWarning("Lookup error [query]: " + sql);
                                     throw;
                                 }
@@ -156,7 +146,7 @@ namespace org.ohdsi.cdm.presentation.builder
         /// <summary>
         /// Fill vocabulary for source to conceptId mapping
         /// </summary>
-        /// <param name="forLookup">true - fill vocab. for: CareSites, Providers, Locations; false - rest of us</param>
+        /// <param name="forLookup">true - fill vocab. for: CareSites, Providers, Locations; false - rest of them</param>
         public void Fill(bool forLookup, bool readFromS3)
         {
             if (Settings.Current.Building.SourceQueryDefinitions == null)
@@ -166,7 +156,12 @@ namespace org.ohdsi.cdm.presentation.builder
             _genderConcepts.Load();
 
             _pregnancyConcepts = new PregnancyConcepts(null);
-                        
+
+            var vendorFolder = Settings.Current.Building.VendorToProcess.Folder;
+            _baseSql = Utility.EmbeddedResourceManager.ReadEmbeddedResources(null, "Base.sql").Values.First();
+            _vendorLookups = Utility.EmbeddedResourceManager.ReadEmbeddedResources(null, vendorFolder + ".Lookups");
+
+
             foreach (var qd in Settings.Current.Building.SourceQueryDefinitions)
             {
                 if (forLookup)

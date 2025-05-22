@@ -14,6 +14,13 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 {
     public class ChunkController
     {
+        public enum AssignEmptyPersonIdSettings
+        {
+            DoNothing,
+            AssignIfNoPersonIdSet,
+            AssignAll
+        }
+
         private readonly DbSourceAdapter _dbSource;
 
         public ChunkController()
@@ -24,7 +31,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
 
 
-        public int CreateChunks(string chunksSchema)
+        public int CreateChunks(string chunksSchema, AssignEmptyPersonIdSettings assignEmptyPersonIdSettings = AssignEmptyPersonIdSettings.AssignIfNoPersonIdSet)
         {
             var chunks = new List<ChunkRecord>();
 
@@ -35,7 +42,6 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             _dbSource.CreateIndexesChunkTable(chunksSchema);
             
             var chunkId = 0;
-            var k = 0;
 
             using (var saver = Settings.Current.Building.SourceEngine.GetSaver()
                 .Create(Settings.Current.Building.SourceConnectionString))
@@ -50,13 +56,23 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
                 if (chunks.Count > 0)
                 {
-                    saver.AddChunk(chunks, k, chunksSchema);
+                    saver.AddChunk(chunks, 0, chunksSchema);
                 }
 
                 saver.Commit();
             }
 
-            Console.WriteLine("Chunk ids were generated and saved, total count=" + chunkId);
+            if (assignEmptyPersonIdSettings == AssignEmptyPersonIdSettings.AssignAll
+                || (assignEmptyPersonIdSettings == AssignEmptyPersonIdSettings.AssignIfNoPersonIdSet
+                    && chunks.All(s => s.PersonId == 0)))
+            {
+                chunks.Sort((x, y) => x.PersonSource.CompareTo(y.PersonSource));
+                for (int i = 0; i < chunks.Count; i++)
+                    chunks[i].PersonId = i;
+            }
+
+            int idsCount = chunks.Count();
+            Console.WriteLine("Chunk ids were generated and saved, total count=" + chunkId + " (" + idsCount + " persons)");
 
             return chunkId;
         }

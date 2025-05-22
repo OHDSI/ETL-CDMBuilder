@@ -19,6 +19,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
+using static org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport;
 using DatabaseChunkBuilder = org.ohdsi.cdm.presentation.builder.Base.DatabaseChunkBuilder;
 
 
@@ -224,7 +225,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
         private void FillList<T>(ICollection<T> list, QueryDefinition qd, EntityDefinition ed, string etlLibraryPath, string chunkSchema) where T : IEntity
         {
             var vendor = Settings.Current.Building.VendorToProcess;
-            var sql = GetSqlHelper.GetSql(Settings.Current.Building.SourceEngine.Database,
+            var sql = framework.desktop.Helpers.GetSqlHelper.GetSql(Settings.Current.Building.SourceEngine.Database,
                 qd.GetSql(vendor, Settings.Current.Building.SourceSchema, chunkSchema), Settings.Current.Building.SourceSchema);
 
             if (string.IsNullOrEmpty(sql)) return;

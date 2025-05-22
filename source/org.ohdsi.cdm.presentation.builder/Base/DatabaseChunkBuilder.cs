@@ -61,6 +61,8 @@ namespace org.ohdsi.cdm.presentation.builder.Base
 
                 part.Build();
 
+                part.Save();
+
                 return part;
             }
             catch (Exception e)

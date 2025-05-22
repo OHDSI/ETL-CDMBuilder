@@ -81,7 +81,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                         "\r\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\r\n");
 
                 var vocabulary = new Vocabulary();
-                var x = Settings.Current.Building;
+                vocabulary.Fill(false, false);
+
                 CreateLookup(vocabulary);
                 Build(vocabulary);
             }

@@ -9,6 +9,8 @@ using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Enums;
 using org.ohdsi.cdm.framework.common.Extensions;
 using org.ohdsi.cdm.framework.common.Omop;
+using org.ohdsi.cdm.framework.Common.Base;
+using org.ohdsi.cdm.framework.common.Utility;
 using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.framework.desktop.DataReaders;
 using org.ohdsi.cdm.framework.desktop.Enums;
@@ -23,6 +25,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Numerics;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
@@ -199,6 +202,31 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                 }
 
                 return "unknown";
+            }
+        }
+
+        public class DatabaseChunkBuilderAdapter
+        {
+            private readonly framework.desktop.Base.DatabaseChunkBuilder _databaseChunkBuilder;
+            private readonly FrameworkSettings.BuildingSettings _frameworkBuildingSettings; //to quickly check it
+            
+            private int _chunkId;
+            private Func<IPersonBuilder> _createPersonBuilder;
+
+
+            public DatabaseChunkBuilderAdapter(int chunkId, Func<IPersonBuilder> createPersonBuilder)
+            {
+                _chunkId = chunkId;
+                _createPersonBuilder = createPersonBuilder;
+                _frameworkBuildingSettings = FrameworkSettings.Settings.Current.Building;
+
+                _databaseChunkBuilder = new framework.desktop.Base.DatabaseChunkBuilder(chunkId, createPersonBuilder);
+            }
+
+            
+            public void Process()
+            {
+                _databaseChunkBuilder.Process();
             }
         }
 
@@ -653,9 +681,33 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                             //////////////////////////
                             #region database level
 
-                            #region Truven dstatus fix
+                            #region Truven
                             if (new[] { "ccae", "mdcr", "mdcd" }.Any(s => schemaName.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                             {
+                                #region fix _chunks join 
+                                // = ch.person_id
+                                // -> -> ->
+                                // = ch.person_source_value
+                                query = Regex.Replace(
+                                    query,
+                                    @"=(\s*)ch\.person_id\b",
+                                    "= $1ch.person_source_value",
+                                    RegexOptions.IgnoreCase
+                                );
+
+                                // t.ENROLID = ch.person_source_value
+                                // -> -> ->
+                                // cast(t.ENROLID as varchar) = ch.person_source_value
+                                //t. is optional
+                                queryChanged = Regex.Replace(
+                                    queryChanged,
+                                    @"\b(\w+\.)?ENROLID\s*=\s*ch\.person_source_value\b",
+                                    "cast($1ENROLID as varchar) = ch.person_source_value",
+                                    RegexOptions.IgnoreCase
+                                );
+                                #endregion
+
+                                #region dstatus fix
                                 // look for a number that’s either
                                 // - right after "IN("  or
                                 // - right after the previous comma (\G, )
@@ -667,6 +719,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                                     "'$1'",
                                     RegexOptions.IgnoreCase
                                 );
+                                #endregion
                             }
                             #endregion
 
@@ -732,5 +785,29 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                 return true;
             }
         }
+
+        /// <summary>
+        /// Can't reference org.ohdsi.cdm.presentation.lambdabuilder from ETL-LambdaBuilder, so hard copy with a constructor
+        /// </summary>
+        public class BuildingSettings : IVendorSettings
+        {
+            public int? Id { get; set; }
+
+            public Vendor Vendor { get; set; }
+            public List<QueryDefinition> SourceQueryDefinitions { get; set; }
+            public List<LookupDefinition> CombinedLookupDefinitions { get; set; }
+
+            public int LoadId { get; set; }
+
+            public string BatchScript { get; set; }
+
+            public BuildingSettings(int buildingId, Vendor vendor, string etlLibraryPath)
+            {
+                this.Id = buildingId;
+                this.Vendor = vendor;
+                EtlLibrary.LoadVendorSettings(etlLibraryPath, this);
+            }
+        }
+
     }
 }

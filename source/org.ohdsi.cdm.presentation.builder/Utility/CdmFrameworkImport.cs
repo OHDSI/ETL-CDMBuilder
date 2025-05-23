@@ -232,6 +232,11 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
 
         public class DatabaseChunkPartAdapter
         {
+            private static readonly string[] tableExclusionArray = new string[] 
+            {
+            "ccae_tests_native.LONG_TERM_CARE"
+            };
+
             private readonly framework.desktop.Base.DatabaseChunkPart _databaseChunkPart;
             private readonly KeyMasterOffsetManager _offsetManager;
             private readonly int _chunkId;
@@ -279,8 +284,12 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                         sqlClean = GetSqlHelper.GetSql(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql, building.SourceSchemaName, _chunkId.ToString());
                         if (string.IsNullOrEmpty(sqlClean))                        
                             continue;
-                        
-                        if (building.SourceEngine.Database != Database.Redshift)
+
+                        //debug
+                        if (tableExclusionArray.Any(s => sqlClean.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                            continue;
+
+                            if (building.SourceEngine.Database != Database.Redshift)
                         {
                             sourceConnectionString = building.SourceConnectionString;
                             sourceEngine = building.SourceEngine.Database.ToString();
@@ -301,7 +310,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                             _databaseChunkPart.PopulateData(sourceQueryDefinition, dataReader2);
                         }
                     }
-                    stopwatch.Stop();
+                    stopwatch.Stop();                    
                 }
                 catch (Exception value2)
                 {
@@ -332,7 +341,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
             {
                 Console.WriteLine($"Saving chunkId={_chunkId} ...");
                 Console.WriteLine("DestinationConnectionString=" + FrameworkSettings.Settings.Current.Building.DestinationConnectionString);
-                if (FrameworkSettings.Settings.Current.Building.Vendor.Name != "PregnancyAlgorithm" && FrameworkSettings.Settings.Current.Building.Vendor.Name != "Era" && _databaseChunkPart.ChunkData.Persons.Count == 0)
+                if (FrameworkSettings.Settings.Current.Building.Vendor.Name != "PregnancyAlgorithm" 
+                    && FrameworkSettings.Settings.Current.Building.Vendor.Name != "Era" 
+                    && _databaseChunkPart.ChunkData.Persons.Count == 0)
                 {
                     _databaseChunkPart.ChunkData.Clean();
                     return;
@@ -422,38 +433,91 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
         /// </summary>
         public static class GetSqlHelper
         {
-            public static string GetSql(Vendor vendor, Database sourceDatabase, string query, string schemaName, string chunkId)
+            /// <summary>
+            /// Translate from MsSql to other SQL dialects
+            /// </summary>
+            /// <param name="vendor"></param>
+            /// <param name="sourceDatabase"></param>
+            /// <param name="query"></param>
+            /// <param name="schemaName"></param>
+            /// <param name="chunkId">Should be left null or blank for batch sqcript</param>
+            /// <returns></returns>
+            public static string GetSql(Vendor vendor, Database sourceDatabase, string query, string schemaName, string chunkId = "")
             {
-                if (string.IsNullOrEmpty(query)) return query;
-
-                string queryPart = query;
-                string queryPartChanged = query;
-
-                if (!queryPartChanged.StartsWith("<"))
-                    return finalizeXmlToDbQueryConversion(queryPartChanged, chunkId, schemaName);
-
-                var xeQueryDefinition = XElement.Parse(queryPartChanged);
-                var xeVariables = xeQueryDefinition.Element("Variables");
-                var xeQuery = xeQueryDefinition.Element("Query") ?? throw new Exception("Can't find Query tag in QueryDefinitions!");
-
-                if (!isDatabaseMatch(xeQuery, vendor, schemaName))
-                    return null; //do not process this query due to database mismatch
+                try
+                {
+                    string tableName = getTableNameFromQuery(query);
+                    var queryChanged = translateFromMsSql(query, sourceDatabase, schemaName, tableName);
+                    queryChanged = finalizeXmlToDbQueryConversion(queryChanged, chunkId, schemaName);
+                    return queryChanged;
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+                finally
+                { 
                 
-                queryPart = queryPartChanged = xeQuery.Value;
+                }
+            }
 
-                string tableName = getTableNameFromQuery(queryPartChanged);
+            /// <summary>
+            /// This should not be used since the Framework handles the query now after Settings.SourceQueryDefinitions are set. 
+            /// TO BE DELETED
+            /// </summary>
+            /// <param name="vendor"></param>
+            /// <param name="sourceDatabase"></param>
+            /// <param name="query"></param>
+            /// <param name="schemaName"></param>
+            /// <param name="chunkId"></param>
+            /// <param name="isBatchScript"></param>
+            /// <returns></returns>
+            /// <exception cref="Exception"></exception>
+            [Obsolete]
+            public static string GetSqlFromXml(Vendor vendor, Database sourceDatabase, string query, string schemaName, string chunkId, bool isBatchScript = false)
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(query)) return query;
 
-                queryPartChanged = assignVariables(queryPartChanged, xeQueryDefinition, schemaName);
+                    string queryPart = query;
+                    string queryPartChanged = query;
 
-                queryPartChanged = translateFromMsSql(queryPartChanged, sourceDatabase, schemaName, tableName); 
+                    if (isBatchScript)
+                        //return finalizeXmlToDbQueryConversion(queryPartChanged, chunkId, schemaName);
+                        return query;
 
-                return finalizeXmlToDbQueryConversion(queryPartChanged, chunkId, schemaName);
+                    var xeQueryDefinition = XElement.Parse(queryPartChanged);
+                    var xeVariables = xeQueryDefinition.Element("Variables");
+                    var xeQuery = xeQueryDefinition.Element("Query") ?? throw new Exception("Can't find Query tag in QueryDefinitions!");
+
+                    if (!isDatabaseMatch(xeQuery, vendor, schemaName))
+                        return null; //do not process this query due to database mismatch
+
+                    queryPart = queryPartChanged = xeQuery.Value;
+
+                    string tableName = getTableNameFromQuery(queryPartChanged);
+
+                    queryPartChanged = assignVariables(queryPartChanged, xeQueryDefinition, schemaName);
+
+                    queryPartChanged = translateFromMsSql(queryPartChanged, sourceDatabase, schemaName, tableName);
+
+                    return finalizeXmlToDbQueryConversion(queryPartChanged, chunkId, schemaName);
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+                finally
+                { 
+                
+                }
             }
 
             static string finalizeXmlToDbQueryConversion(string source, string chunkId, string schemaName)
             {
                 var result = source
-                        .Replace("{0}", chunkId)
+                        .Replace("{0}", chunkId ?? "")
                         .Replace("{sc}", schemaName)
                         .Replace("&gt;", ">")
                         .Replace("&lt;", "<")
@@ -655,7 +719,13 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                             // -> -> ->
                             //ROUND(CAST(field AS NUMERIC), 0) AS QUANTITY
                             queryChanged = Regex.Replace(queryChanged,
-                                @"ROUND\(([^,]+),\s*(\d+)\)",
+                                @"\bROUND\s*\(\s*([^,]+)\s*,\s*(\d+)\s*\)",
+                                "ROUND(CAST($1 AS NUMERIC), $2)",
+                                RegexOptions.IgnoreCase);
+
+                            var dbg = "\r\n\t\t ROUND(METQTY,0) AS QUANTITY,";
+                            var dbg_res = Regex.Replace(dbg,
+                                @"\bROUND\s*\(\s*([^,]+)\s*,\s*(\d+)\s*\)",
                                 "ROUND(CAST($1 AS NUMERIC), $2)",
                                 RegexOptions.IgnoreCase);
                             #endregion
@@ -684,12 +754,25 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                             #region Truven
                             if (new[] { "ccae", "mdcr", "mdcd" }.Any(s => schemaName.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                             {
+                                #region cast enrolid as varchar
+                                // ENROLID AS PERSON_ID
+                                // -> -> ->
+                                // CAST(ENROLID AS VARCHAR(50)) AS PERSON_ID
+                                //t. is optional
+                                queryChanged = Regex.Replace(
+                                    queryChanged,
+                                    @"\b(\w+\.)?ENROLID\s*AS\s*PERSON_ID\b",
+                                    "cast($1ENROLID AS VARCHAR(50)) AS PERSON_ID",
+                                    RegexOptions.IgnoreCase
+                                );
+                                #endregion
+
                                 #region fix _chunks join 
                                 // = ch.person_id
                                 // -> -> ->
                                 // = ch.person_source_value
-                                query = Regex.Replace(
-                                    query,
+                                queryChanged = Regex.Replace(
+                                    queryChanged,
                                     @"=(\s*)ch\.person_id\b",
                                     "= $1ch.person_source_value",
                                     RegexOptions.IgnoreCase

@@ -72,6 +72,10 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
             if (_builderController.CurrentState == BuilderState.Running)
             {
+                Console.WriteLine("\r\nFilling vocabulary");
+                var vocabulary = new Vocabulary();
+                vocabulary.Fill(false, false);
+
                 //remove if after implementing ddl for other engines
                 if (Settings.Current.Building.CdmEngine is MssqlDatabaseEngine)
                     CreateDestination();
@@ -79,9 +83,6 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     Console.WriteLine("\r\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" +
                         "\r\nOnly DDL for MSSQL is supported for now. DDL for databases on other engines must have been executed manually before" +
                         "\r\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\r\n");
-
-                var vocabulary = new Vocabulary();
-                vocabulary.Fill(false, false);
 
                 CreateLookup(vocabulary);
                 Build(vocabulary);

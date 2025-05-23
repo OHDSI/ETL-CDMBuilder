@@ -100,19 +100,14 @@ namespace org.ohdsi.cdm.presentation.builder
 
                                 try
                                 {
-                                    Console.WriteLine(conceptIdMapper.Lookup + " - Loading...");
 
                                     var timer = new Stopwatch();
                                     timer.Start();
-
-
-                                    Logger.Write(null, Logger.LogMessageTypes.Info, conceptIdMapper.Lookup + " - Loading into RAM...");
 
                                     using (var connection = SqlConnectionHelper.OpenOdbcConnection(Settings.Current.Building.VocabularyConnectionString))
                                     using (var command = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
                                     using (var reader = command.ExecuteReader())
                                     {
-                                        Console.WriteLine(conceptIdMapper.Lookup + " - filling");
                                         var lookup = new Lookup();
                                         while (reader.Read())
                                         {
@@ -123,10 +118,9 @@ namespace org.ohdsi.cdm.presentation.builder
                                         _lookups.Add(conceptIdMapper.Lookup, lookup);
                                     }
 
-                                    Console.WriteLine(conceptIdMapper.Lookup + " - Done");
                                     timer.Stop();
                                     Logger.Write(null, Logger.LogMessageTypes.Info,
-                                        $"DONE - {timer.ElapsedMilliseconds} ms | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}");
+                                        $"{conceptIdMapper.Lookup} - DONE - {timer.ElapsedMilliseconds} ms | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}");
                                 }
                                 catch (Exception e)
                                 {

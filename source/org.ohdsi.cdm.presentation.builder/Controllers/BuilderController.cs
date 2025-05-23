@@ -95,7 +95,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     Settings.Current.Building.CdmSchema);
 
                 dbDestination.CreateDatabase(Settings.Current.CreateCdmDatabaseScript);
-                dbDestination.ExecuteQuery(Settings.Current.CreateCdmTablesScript);
+                dbDestination.ExecuteQuery(Settings.Current.CreateCdmTablesScript, Settings.Current.Building.CdmEngine);
             });
         }
 
@@ -104,7 +104,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
                 Settings.Current.Building.CdmSchema);
 
-            dbDestination.ExecuteQuery(Settings.Current.CreateCdmTablesScript);
+            dbDestination.ExecuteQuery(Settings.Current.CreateCdmTablesScript, Settings.Current.Building.CdmEngine);
         }
 
         public void DropDestination()
@@ -112,7 +112,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
                 Settings.Current.Building.CdmSchema);
 
-            dbDestination.ExecuteQuery(Settings.Current.DropTablesScript);
+            dbDestination.ExecuteQuery(Settings.Current.DropTablesScript, Settings.Current.Building.CdmEngine);
         }
 
         public void TruncateLookup()
@@ -120,7 +120,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
                 Settings.Current.Building.CdmSchema);
 
-            dbDestination.ExecuteQuery(Settings.Current.TruncateLookupScript);
+            dbDestination.ExecuteQuery(Settings.Current.TruncateLookupScript, Settings.Current.Building.CdmEngine);
         }
 
         public void TruncateTables()
@@ -128,7 +128,9 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
                 Settings.Current.Building.CdmSchema);
 
-            dbDestination.ExecuteQuery(Settings.Current.TruncateTablesScript);
+            var sqlTranslated = Utility.CdmFrameworkImport.GetSqlHelper.TranslateSqlTruncate(Settings.Current.Building.CdmEngine, Settings.Current.TruncateTablesScript);
+
+            dbDestination.ExecuteQuery(sqlTranslated, Settings.Current.Building.CdmEngine);
         }
 
         public void TruncateWithoutLookupTables()
@@ -136,7 +138,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
                 Settings.Current.Building.CdmSchema);
 
-            dbDestination.ExecuteQuery(Settings.Current.TruncateWithoutLookupTablesScript);
+            dbDestination.ExecuteQuery(Settings.Current.TruncateWithoutLookupTablesScript, Settings.Current.Building.CdmEngine);
         }
 
         public void ResetVocabularyStep()
@@ -144,7 +146,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
                 Settings.Current.Building.CdmSchema);
 
-            dbDestination.ExecuteQuery(Settings.Current.DropVocabularyTablesScript);
+            dbDestination.ExecuteQuery(Settings.Current.DropVocabularyTablesScript, Settings.Current.Building.CdmEngine);
         }
 
         public void CreateLookup(IVocabulary vocabulary, string chunkSchema)

@@ -63,7 +63,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             _builderController.CurrentState = BuilderState.Stopped;
         }
 
-        public void Refresh()
+        public void Refresh(bool truncateTargetTables = true)
         {
             if (Settings.Current.Building.BuildingState == null) return;
 
@@ -83,6 +83,12 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     Console.WriteLine("\r\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" +
                         "\r\nOnly DDL for MSSQL is supported for now. DDL for databases on other engines must have been executed manually before" +
                         "\r\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\r\n");
+
+                if (truncateTargetTables)
+                {
+                    Console.WriteLine("\r\nTruncating tables");
+                    _builderController.TruncateTables();
+                }
 
                 CreateLookup(vocabulary);
                 Build(vocabulary);

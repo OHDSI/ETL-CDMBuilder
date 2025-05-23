@@ -265,7 +265,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
             public KeyValuePair<string, Exception> Load()
             {
                 var building = FrameworkSettings.Settings.Current.Building;
-                
+
                 string sqlClean = "";
                 string sourceConnectionString = "";
                 string sourceEngine = "";
@@ -277,19 +277,19 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                     foreach (var sourceQueryDefinition in building.SourceQueryDefinitions)
                     {
                         var sourceQueryDefinitionTyped = new QueryDefinitionAdapter(sourceQueryDefinition);
-                        if (sourceQueryDefinitionTyped.HasAnyProvidersLocationsCareSites)                        
+                        if (sourceQueryDefinitionTyped.HasAnyProvidersLocationsCareSites)
                             continue;
 
                         string sourceQueryDefinitionSql = sourceQueryDefinitionTyped.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
-                        sqlClean = GetSqlHelper.GetSql(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql, building.SourceSchemaName, _chunkId.ToString());
-                        if (string.IsNullOrEmpty(sqlClean))                        
+                        sqlClean = GetSqlHelper.TranslateSql(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql, building.SourceSchemaName, _chunkId.ToString());
+                        if (string.IsNullOrEmpty(sqlClean))
                             continue;
 
                         //debug
                         if (tableExclusionArray.Any(s => sqlClean.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                             continue;
 
-                            if (building.SourceEngine.Database != Database.Redshift)
+                        if (building.SourceEngine.Database != Database.Redshift)
                         {
                             sourceConnectionString = building.SourceConnectionString;
                             sourceEngine = building.SourceEngine.Database.ToString();
@@ -310,7 +310,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                             _databaseChunkPart.PopulateData(sourceQueryDefinition, dataReader2);
                         }
                     }
-                    stopwatch.Stop();                    
+                    stopwatch.Stop();
                 }
                 catch (Exception value2)
                 {
@@ -434,7 +434,45 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
         public static class GetSqlHelper
         {
             /// <summary>
-            /// Translate from MsSql to other SQL dialects
+            /// Will error in case the table does not exist
+            /// </summary>
+            /// <param name="targetDatabase"></param>
+            /// <param name="query"></param>
+            /// <returns></returns>
+            /// <exception cref="NotImplementedException"></exception>
+            public static string TranslateSqlTruncate(IDatabaseEngine targetDatabase, string query)
+            {
+                var queryChanged = query;
+                switch (targetDatabase)
+                {
+                    default: 
+                        throw new NotImplementedException($"Database {targetDatabase.Database.ToName()} is not supported for truncate translation");
+                    
+                    case PostgreDatabaseEngine:
+                        {
+                            // IF OBJECT_ID (N'{sc}.MY_TABLE', N'U') IS NOT NULL truncate table {sc}.MY_TABLE;
+                            //   →   →   →
+                            // DO $$ BEGIN EXECUTE 'TRUNCATE TABLE {sc}.MY_TABLE'; EXCEPTION WHEN undefined_table THEN NULL; END; $$ LANGUAGE plpgsql;
+                            #region truncate_if_exists → DO $$ ... EXCEPTION WHEN undefined_table
+                            // IF OBJECT_ID (N'schema.table', N'U') IS NOT NULL truncate table schema.table;
+                            // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+                            queryChanged = Regex.Replace(
+                               queryChanged,
+                               @"(?im)^\s*IF\s+OBJECT_ID\s*\(\s*N?'([^']+)'\s*,\s*N?'U'\s*\)\s+IS\s+NOT\s+NULL\s+truncate\s+table\s+\1\s*;",
+                               @"DO $ BEGIN EXECUTE 'TRUNCATE TABLE $1'; EXCEPTION WHEN undefined_table THEN NULL; END; $$ LANGUAGE plpgsql;",
+                               RegexOptions.Multiline | RegexOptions.IgnoreCase
+                            );
+                            queryChanged = queryChanged.Replace("DO $", "DO $$").Replace("END $", "END $$");
+                            #endregion
+
+                            break;
+                        }
+                }
+                return queryChanged;
+            }
+
+            /// <summary>
+            /// Translate select from MsSql to other SQL dialects
             /// </summary>
             /// <param name="vendor"></param>
             /// <param name="sourceDatabase"></param>
@@ -442,7 +480,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
             /// <param name="schemaName"></param>
             /// <param name="chunkId">Should be left null or blank for batch sqcript</param>
             /// <returns></returns>
-            public static string GetSql(Vendor vendor, Database sourceDatabase, string query, string schemaName, string chunkId = "")
+            public static string TranslateSql(Vendor vendor, Database sourceDatabase, string query, string schemaName, string chunkId = "")
             {
                 try
                 {
@@ -462,7 +500,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
             }
 
             /// <summary>
-            /// This should not be used since the Framework handles the query now after Settings.SourceQueryDefinitions are set. 
+            /// Translate select from MsSql to other SQL dialects. 
             /// TO BE DELETED
             /// </summary>
             /// <param name="vendor"></param>
@@ -473,8 +511,8 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
             /// <param name="isBatchScript"></param>
             /// <returns></returns>
             /// <exception cref="Exception"></exception>
-            [Obsolete]
-            public static string GetSqlFromXml(Vendor vendor, Database sourceDatabase, string query, string schemaName, string chunkId, bool isBatchScript = false)
+            [Obsolete("This should not be used since the Framework handles the query now after Settings.SourceQueryDefinitions are set. ")]
+            public static string TranslateSqlFromXml(Vendor vendor, Database sourceDatabase, string query, string schemaName, string chunkId, bool isBatchScript = false)
             {
                 try
                 {

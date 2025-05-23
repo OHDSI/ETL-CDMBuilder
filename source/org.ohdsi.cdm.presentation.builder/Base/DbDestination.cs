@@ -1,4 +1,5 @@
-﻿using org.ohdsi.cdm.framework.desktop.Helpers;
+﻿using org.ohdsi.cdm.framework.desktop.Databases;
+using org.ohdsi.cdm.framework.desktop.Helpers;
 using System;
 using System.Data.Odbc;
 
@@ -99,23 +100,43 @@ namespace org.ohdsi.cdm.presentation.builder.Base
             }
         }
 
-        public void ExecuteQuery(string query)
+        public void ExecuteQuery(string query, IDatabaseEngine engine)
         {
-            using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
+            try
             {
-                query = query.Replace("{sc}", _schemaName);
-
-                foreach (var subQuery in query.Split(new[] { "\r\nGO", "\nGO", ";" }, StringSplitOptions.None))
+                using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
                 {
-                    if (string.IsNullOrEmpty(subQuery))
-                        continue;
+                    var queryAltered = "\n" + query.Replace("{sc}", _schemaName);
 
-                    using (var command = new OdbcCommand(subQuery, connection))
+                    string commandSeparator = engine switch
                     {
-                        command.CommandTimeout = 30000;
-                        command.ExecuteNonQuery();
+                        MssqlDatabaseEngine => "\nGO",
+                        PostgreDatabaseEngine => "\nDO",
+                        _ => throw new NotImplementedException("Unknown DbEngine for separating SQL commands!")
+                    };
+
+                    var subQueries = queryAltered
+                        .Split(new[] { commandSeparator }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(s => commandSeparator + s)
+                        .ToList();
+                    foreach (var subQuery in subQueries)
+                    {
+                        if (string.IsNullOrEmpty(subQuery))
+                            continue;
+
+                        var restoredQuery = subQuery.StartsWith(commandSeparator) ? subQuery : commandSeparator + subQuery;
+
+                        using (var command = new OdbcCommand(restoredQuery, connection))
+                        {
+                            command.CommandTimeout = 30000;
+                            command.ExecuteNonQuery();
+                        }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                throw;
             }
         }
     }

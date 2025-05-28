@@ -39,11 +39,12 @@ namespace org.ohdsi.cdm.presentation.builder.Base
         #region Methods
         public DatabaseChunkPartAdapter Process(IDatabaseEngine sourceEngine, string sourceSchemaName)
         {
+            DatabaseChunkPartAdapter part;
             try
             {
                 Console.WriteLine("DatabaseChunkBuilder");
 
-                var part = new DatabaseChunkPartAdapter(_createPersonBuilder, _chunkId, "0", 0);
+                part = new DatabaseChunkPartAdapter(_createPersonBuilder, _chunkId, "0", 0);
 
                 var timer = new Stopwatch();
                 timer.Start();
@@ -60,7 +61,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
                     $"ChunkId={_chunkId} was loaded - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
 
                 part.Build();
-
+                //part.MakeDatabaseSpecificDataPreparations(Settings.Current.Building.CdmEngine.Database);
                 part.Save();
 
                 return part;

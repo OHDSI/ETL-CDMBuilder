@@ -33,6 +33,7 @@ using System.Xml.Serialization;
 using cdm6 = org.ohdsi.cdm.framework.common.DataReaders.v6;
 using CohortDefinition = org.ohdsi.cdm.framework.common.Definitions.CohortDefinition;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
+using System.ComponentModel.DataAnnotations;
 
 namespace org.ohdsi.cdm.presentation.builder.Utility
 {
@@ -337,28 +338,120 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                 Console.WriteLine($"Building CDM chunkId={_chunkId} - complete");
             }
 
+            /// <summary>
+            /// Make database specific data preparations
+            /// </summary>
+            /// <param name="engine"></param>
+            /// <exception cref="NotImplementedException"></exception>
+            public void MakeDatabaseSpecificDataPreparations(Database engine)
+            {
+                Console.WriteLine($"Make database specific preparations...");
+                switch (engine)
+                {
+                    // avoid SQL Error: 22021: invalid byte sequence for encoding "UTF8": 0x00
+                    // postgre npgsql driver does not support null characters in strings
+                    // so solution is to replace all null strings with "" across all properties in all lists
+                    // alse replace "\0" with ""
+                    case Database.Postgre:
+                        {
+                            Console.WriteLine($"Make preparations for Postgre...");
+                            var listProperties = _databaseChunkPart.ChunkData.GetType()
+                                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                                .Where(p => p.PropertyType.IsGenericType
+                                            && p.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
+                                .ToList();
+
+                            foreach (var chunkDataList in listProperties)
+                            {
+                                var listObject = chunkDataList.GetValue(_databaseChunkPart.ChunkData);
+                                if (listObject is not System.Collections.IEnumerable listTyped)
+                                    throw new NullReferenceException("Failed to get list of data to prepare for Postgre!");
+
+                                var listElementType = chunkDataList.PropertyType.GetGenericArguments().First();
+                                var stringProperties = listElementType
+                                    .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                                    .Where(p => p.PropertyType == typeof(string))
+                                    .ToList();
+
+                                foreach (var listElement in listTyped)
+                                {
+                                    foreach (var prop in stringProperties)
+                                    {
+                                        var value = prop.GetValue(listElement) as string;
+
+                                        if (value == null)
+                                        {
+                                            prop.SetValue(listElement, string.Empty);
+                                        }
+                                        else
+                                        {
+                                            var valueNew = value.Replace("\0", "");
+                                            prop.SetValue(listElement, valueNew);
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        }
+
+                    default:
+                        throw new NotImplementedException("Data preparation for " + Database.Postgre.ToName() + " is not implemented!");
+
+                }
+                Console.WriteLine($"Make database specific preparations... - DONE");
+            }
+
             public void Save()
             {
-                Console.WriteLine($"Saving chunkId={_chunkId} ...");
-                Console.WriteLine("DestinationConnectionString=" + FrameworkSettings.Settings.Current.Building.DestinationConnectionString);
-                if (FrameworkSettings.Settings.Current.Building.Vendor.Name != "PregnancyAlgorithm" 
-                    && FrameworkSettings.Settings.Current.Building.Vendor.Name != "Era" 
-                    && _databaseChunkPart.ChunkData.Persons.Count == 0)
+                try
                 {
+                    Console.WriteLine($"Saving chunkId={_chunkId} ...");
+                    Console.WriteLine("DestinationConnectionString=" + FrameworkSettings.Settings.Current.Building.DestinationConnectionString);
+                    if (FrameworkSettings.Settings.Current.Building.Vendor.Name != "PregnancyAlgorithm"
+                        && FrameworkSettings.Settings.Current.Building.Vendor.Name != "Era"
+                        && _databaseChunkPart.ChunkData.Persons.Count == 0)
+                    {
+                        _databaseChunkPart.ChunkData.Clean();
+                        return;
+                    }
+                    ISaver saver = FrameworkSettings.Settings.Current.Building.DestinationEngine.GetSaver();
+                    Stopwatch stopwatch = new Stopwatch();
+                    stopwatch.Start();
+                    using (saver)
+                    {
+                        #region debug 
+                        //Clear is added since these lists cause sql error in postgres - 22021: invalid byte sequence for encoding "UTF8": 0x00
+                        var listProperties = _databaseChunkPart.ChunkData.GetType()
+                            .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                            .Where(p => p.PropertyType.IsGenericType &&
+                                        p.PropertyType.GetGenericTypeDefinition() == typeof(List<>));
+
+                        foreach (var prop in listProperties)
+                        {
+                            //whitelist
+                            if (new[] { "Persons" }
+                                    .Any(s => s.Equals(prop.Name, StringComparison.CurrentCultureIgnoreCase)))
+                                continue;
+
+                            var list = prop.GetValue(_databaseChunkPart.ChunkData) as System.Collections.IList;
+                            list?.Clear();
+                        }
+
+
+                        #endregion
+                        //observation
+                        saver.Create(FrameworkSettings.Settings.Current.Building.DestinationConnectionString).Save(_databaseChunkPart.ChunkData, _offsetManager);
+                    }
+                    stopwatch.Stop();
+                    Console.WriteLine($"Saving chunkId={_chunkId} - complete");
                     _databaseChunkPart.ChunkData.Clean();
-                    return;
+                    GC.Collect();
                 }
-                ISaver saver = FrameworkSettings.Settings.Current.Building.DestinationEngine.GetSaver();
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-                using (saver)
+                catch(Exception e)
                 {
-                    saver.Create(FrameworkSettings.Settings.Current.Building.DestinationConnectionString).Save(_databaseChunkPart.ChunkData, _offsetManager);
+                    string eMes = e.Message;
+                    throw;
                 }
-                stopwatch.Stop();
-                Console.WriteLine($"Saving chunkId={_chunkId} - complete");
-                _databaseChunkPart.ChunkData.Clean();
-                GC.Collect();
             }
 
             public void Clean()
@@ -462,7 +555,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                                @"DO $ BEGIN EXECUTE 'TRUNCATE TABLE $1'; EXCEPTION WHEN undefined_table THEN NULL; END; $$ LANGUAGE plpgsql;",
                                RegexOptions.Multiline | RegexOptions.IgnoreCase
                             );
-                            queryChanged = queryChanged.Replace("DO $", "DO $$").Replace("END $", "END $$");
+                            queryChanged = queryChanged.Replace("DO $", "DO $$").Replace("END; $", "END; $$");
                             #endregion
 
                             break;
@@ -929,6 +1022,5 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                 EtlLibrary.LoadVendorSettings(etlLibraryPath, this);
             }
         }
-
-    }
+     }
 }

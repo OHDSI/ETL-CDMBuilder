@@ -6,6 +6,7 @@ using org.ohdsi.cdm.framework.common.Utility;
 using org.ohdsi.cdm.framework.Common.Base;
 using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.presentation.builder.Utility;
+using org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImportComposition;
 using System.Configuration;
 using System.Reflection;
 using System.Xml.Serialization;
@@ -339,7 +340,7 @@ namespace org.ohdsi.cdm.presentation.builder
 
             #region set SourceQueryDefinitions
 
-            var buildingSettings = new CdmFrameworkImport.BuildingSettings(0, VendorToProcess, Directory.GetCurrentDirectory());
+            var buildingSettings = new Utility.CdmFrameworkImportComposition.BuildingSettings(0, VendorToProcess, Directory.GetCurrentDirectory());
             EtlLibrary.LoadVendorSettings(Directory.GetCurrentDirectory(), buildingSettings);
 
             foreach (var sourceQueryDefinion in buildingSettings.SourceQueryDefinitions)

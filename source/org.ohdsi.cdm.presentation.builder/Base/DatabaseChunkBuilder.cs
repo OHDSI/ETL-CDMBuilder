@@ -10,7 +10,7 @@ using System.Data.Odbc;
 using System.Diagnostics;
 using IPersonBuilder = org.ohdsi.cdm.framework.common.Base.IPersonBuilder;
 using org.ohdsi.cdm.framework.common.Enums;
-using DatabaseChunkPartAdapter = org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.DatabaseChunkPartAdapter;
+using DatabaseChunkPartAdapter = org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImportComposition.DatabaseChunkPartAdapter;
 
 namespace org.ohdsi.cdm.presentation.builder.Base
 {

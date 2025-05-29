@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
 
-namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImportComposition
+namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 {
     public class DatabaseChunkPartAdapter
     {
@@ -123,69 +123,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImportCompositi
             Console.WriteLine($"Building CDM chunkId={_chunkId} - complete");
         }
 
-        /// <summary>
-        /// Make database specific data preparations
-        /// </summary>
-        /// <param name="engine"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        public void MakeDatabaseSpecificDataPreparations(Database engine)
-        {
-            Console.WriteLine($"Make database specific preparations...");
-            switch (engine)
-            {
-                // avoid SQL Error: 22021: invalid byte sequence for encoding "UTF8": 0x00
-                // postgre npgsql driver does not support null characters in strings
-                // so solution is to replace all null strings with "" across all properties in all lists
-                // alse replace "\0" with ""
-                case Database.Postgre:
-                    {
-                        Console.WriteLine($"Make preparations for Postgre...");
-                        var listProperties = _databaseChunkPart.ChunkData.GetType()
-                            .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                            .Where(p => p.PropertyType.IsGenericType
-                                        && p.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
-                            .ToList();
-
-                        foreach (var chunkDataList in listProperties)
-                        {
-                            var listObject = chunkDataList.GetValue(_databaseChunkPart.ChunkData);
-                            if (listObject is not System.Collections.IEnumerable listTyped)
-                                throw new NullReferenceException("Failed to get list of data to prepare for Postgre!");
-
-                            var listElementType = chunkDataList.PropertyType.GetGenericArguments().First();
-                            var stringProperties = listElementType
-                                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                                .Where(p => p.PropertyType == typeof(string))
-                                .ToList();
-
-                            foreach (var listElement in listTyped)
-                            {
-                                foreach (var prop in stringProperties)
-                                {
-                                    var value = prop.GetValue(listElement) as string;
-
-                                    if (value == null)
-                                    {
-                                        prop.SetValue(listElement, string.Empty);
-                                    }
-                                    else
-                                    {
-                                        var valueNew = value.Replace("\0", "");
-                                        prop.SetValue(listElement, valueNew);
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    }
-
-                default:
-                    throw new NotImplementedException("Data preparation for " + Database.Postgre.ToName() + " is not implemented!");
-
-            }
-            Console.WriteLine($"Make database specific preparations... - DONE");
-        }
-
         public void Save()
         {
             Console.WriteLine($"Saving chunkId={_chunkId} ...");
@@ -197,36 +134,15 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImportCompositi
                 _databaseChunkPart.ChunkData.Clean();
                 return;
             }
-            ISaver saver = FrameworkSettings.Settings.Current.Building.DestinationEngine.GetSaver();
+            ISaver frameworkSaver = FrameworkSettings.Settings.Current.Building.DestinationEngine.GetSaver();
+            var saver = Utility.CdmFrameworkImport.Savers.Saver.GetSaverFromFrameworkSaver(frameworkSaver);
             Stopwatch stopwatch = new Stopwatch();
 
             try
             {
                 stopwatch.Start();
                 using (saver)
-                {
-                    #region debug 
-                    // Clear is added since these lists cause sql error in postgres - 22021: invalid byte sequence for encoding "UTF8": 0x00
-                    // Persons = Npgsql.PostgresException: '42601: syntax error at or near ","
-                    var listProperties = _databaseChunkPart.ChunkData.GetType()
-                        .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                        .Where(p => p.PropertyType.IsGenericType &&
-                                    p.PropertyType.GetGenericTypeDefinition() == typeof(List<>));
-
-                    foreach (var prop in listProperties)
-                    {
-                        if (true) continue;
-
-                        //whitelist
-                        if (new[] { "Persons" }
-                                .Any(s => s.Equals(prop.Name, StringComparison.CurrentCultureIgnoreCase)))
-                            continue;
-
-                        var list = prop.GetValue(_databaseChunkPart.ChunkData) as System.Collections.IList;
-                        list?.Clear();
-                    }
-                    //observation
-                    #endregion
+                {                    
                     var createdSaver = saver.Create(FrameworkSettings.Settings.Current.Building.DestinationConnectionString);
                     createdSaver.Save(_databaseChunkPart.ChunkData, _offsetManager);
                 }

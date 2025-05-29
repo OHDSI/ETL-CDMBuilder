@@ -10,7 +10,7 @@ using org.ohdsi.cdm.framework.desktop.Enums;
 using org.ohdsi.cdm.framework.desktop.Helpers;
 using org.ohdsi.cdm.framework.desktop.Savers;
 using org.ohdsi.cdm.presentation.builder.Base;
-using org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImportComposition;
+using org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -128,7 +128,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
                 Settings.Current.Building.CdmSchema);
 
-            var sqlTranslated = Utility.CdmFrameworkImportComposition.GetSqlHelper.TranslateSqlTruncate(Settings.Current.Building.CdmEngine, Settings.Current.TruncateTablesScript);
+            var sqlTranslated = Utility.CdmFrameworkImport.GetSqlHelper.TranslateSqlTruncate(Settings.Current.Building.CdmEngine, Settings.Current.TruncateTablesScript);
 
             dbDestination.ExecuteQuery(sqlTranslated, Settings.Current.Building.CdmEngine);
         }

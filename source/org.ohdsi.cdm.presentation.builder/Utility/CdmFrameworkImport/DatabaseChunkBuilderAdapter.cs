@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
 
-namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImportComposition
+namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 {
     public class DatabaseChunkBuilderAdapter
     {

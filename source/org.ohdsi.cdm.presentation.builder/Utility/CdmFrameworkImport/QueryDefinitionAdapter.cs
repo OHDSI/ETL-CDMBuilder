@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImportComposition
+namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 {
     [XmlInclude(typeof(QueryDefinition))]
     [Serializable]

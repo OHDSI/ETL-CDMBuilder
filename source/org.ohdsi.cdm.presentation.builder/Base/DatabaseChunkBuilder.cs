@@ -10,7 +10,7 @@ using System.Data.Odbc;
 using System.Diagnostics;
 using IPersonBuilder = org.ohdsi.cdm.framework.common.Base.IPersonBuilder;
 using org.ohdsi.cdm.framework.common.Enums;
-using DatabaseChunkPartAdapter = org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImportComposition.DatabaseChunkPartAdapter;
+using DatabaseChunkPartAdapter = org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.DatabaseChunkPartAdapter;
 
 namespace org.ohdsi.cdm.presentation.builder.Base
 {
@@ -61,7 +61,6 @@ namespace org.ohdsi.cdm.presentation.builder.Base
                     $"ChunkId={_chunkId} was loaded - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
 
                 part.Build();
-                //part.MakeDatabaseSpecificDataPreparations(Settings.Current.Building.CdmEngine.Database);
                 part.Save();
 
                 return part;

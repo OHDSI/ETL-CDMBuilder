@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImportComposition
+namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 {
     /// <summary>
     /// Can't reference org.ohdsi.cdm.presentation.lambdabuilder from ETL-LambdaBuilder, so hard copy with a constructor

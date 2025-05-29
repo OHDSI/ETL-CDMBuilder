@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImportComposition
+namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 {
     public class DbSourceAdapter
     {

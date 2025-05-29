@@ -97,6 +97,8 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                     }
                 }
                 stopwatch.Stop();
+                Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
+                    $"ChunkId={_chunkId} was loaded - {stopwatch.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
             }
             catch (Exception value2)
             {
@@ -112,7 +114,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 
         public void Build()
         {
-            Console.WriteLine($"Building CDM chunkId={_chunkId} ...");
+            var timer = new Stopwatch();
+            timer.Start();
+
             foreach (KeyValuePair<long, Lazy<IPersonBuilder>> personBuilder in _databaseChunkPart.PersonBuilders)
             {
                 Attrition attrition = personBuilder.Value.Value.Build(_databaseChunkPart.ChunkData, _offsetManager);
@@ -120,13 +124,13 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             }
             _databaseChunkPart.PersonBuilders.Clear();
             _databaseChunkPart.PersonBuilders = null;
-            Console.WriteLine($"Building CDM chunkId={_chunkId} - complete");
+
+            Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
+                $"ChunkId={_chunkId} was built - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb | {_databaseChunkPart.ChunkData.Persons.Count} persons");
         }
 
         public void Save()
         {
-            Console.WriteLine($"Saving chunkId={_chunkId} ...");
-            Console.WriteLine("DestinationConnectionString=" + FrameworkSettings.Settings.Current.Building.DestinationConnectionString);
             if (FrameworkSettings.Settings.Current.Building.Vendor.Name != "PregnancyAlgorithm"
                 && FrameworkSettings.Settings.Current.Building.Vendor.Name != "Era"
                 && _databaseChunkPart.ChunkData.Persons.Count == 0)
@@ -147,7 +151,8 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                     createdSaver.Save(_databaseChunkPart.ChunkData, _offsetManager);
                 }
                 stopwatch.Stop();
-                Console.WriteLine($"Saving chunkId={_chunkId} - complete");
+                Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
+                    $"ChunkId={_chunkId} was saved - {stopwatch.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
                 _databaseChunkPart.ChunkData.Clean();
                 GC.Collect();
             }

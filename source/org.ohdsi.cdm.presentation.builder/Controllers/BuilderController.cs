@@ -222,8 +222,6 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             });
         }
 
-
-
         private void FillList<T>(ICollection<T> list, QueryDefinition qd, EntityDefinition ed, string etlLibraryPath, string chunkSchema) where T : IEntity
         {
             var vendor = Settings.Current.Building.VendorToProcess;
@@ -269,127 +267,38 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         public void Build(IVocabulary vocabulary, string chunksSchema)
         {
-            var saveQueue = new BlockingCollection<DatabaseChunkPart>();
+            if (Settings.Current.Building.ChunksCount == 0)
+                Settings.Current.Building.ChunksCount = _chunkController.CreateChunks(chunksSchema);
 
-            PerformAction(() =>
+            vocabulary.Fill(false, false);
+
+            Logger.Write(null, Logger.LogMessageTypes.Info,
+                "==================== Conversion to CDM was started ====================");
+
+            if (Settings.Current.ChunksTo > 0)
+                Logger.Write(null, Logger.LogMessageTypes.Info, $"ChunkIds from {Settings.Current.ChunksFrom} to {Settings.Current.ChunksTo} will be converted");
+
+            for (int chunkId = 0; chunkId < Settings.Current.Building.ChunksCount; chunkId++)
             {
-                if (Settings.Current.Building.ChunksCount == 0)
-                {
-                    Settings.Current.Building.ChunksCount = _chunkController.CreateChunks(chunksSchema); 
-                }
+                if (Settings.Current.Building.CompletedChunkIds.Contains(chunkId)
+                    || chunkId < Settings.Current.ChunksFrom
+                    || (chunkId > Settings.Current.ChunksTo && Settings.Current.ChunksTo > 0))
+                    continue;
 
-                vocabulary.Fill(false, false);
-
-                Logger.Write(null, Logger.LogMessageTypes.Info,
-                    $"==================== Conversion to CDM was started ====================");
-
-                var save = Task.Run(() =>
-                {
-                    while (!saveQueue.IsCompleted)
-                    {
-
-                        DatabaseChunkPart data = null;
-                        try
-                        {
-                            data = saveQueue.Take();
-                        }
-                        catch (InvalidOperationException)
-                        {
-
-                        }
-
-                        if (data != null)
-                        {
-                            var timer = new Stopwatch();
-                            timer.Start();
-                            data.Save();
-                            Settings.Current.Building.CompletedChunkIds.Add(data.ChunkData.ChunkId);
-                            timer.Stop();
-                            Logger.Write(data.ChunkData.ChunkId, Logger.LogMessageTypes.Info,
-                                $"ChunkId={data.ChunkData.ChunkId} was saved - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
-                        }
-
-                        if (CurrentState != BuilderState.Running)
-                            break;
-                    }
-
-                    CurrentState = BuilderState.Stopped;
-                });
-
-                if(Settings.Current.OnlyEvenChunks)
-                    Logger.Write(null, Logger.LogMessageTypes.Info, "Only even chunk ids will be processed on this machine");
-
-                if (Settings.Current.OnlyOddChunks)
-                    Logger.Write(null, Logger.LogMessageTypes.Info, "Only odd chunk ids will be processed on this machine");
-
-                if(Settings.Current.ChunksTo > 0)
-                    Logger.Write(null, Logger.LogMessageTypes.Info, $"ChunkIds from {Settings.Current.ChunksFrom} to {Settings.Current.ChunksTo} will be converted");
-
-                Parallel.For(0, Settings.Current.Building.ChunksCount,
-                    new ParallelOptions { MaxDegreeOfParallelism = Settings.Current.DegreeOfParallelism }, (chunkId, state) =>
-                      {
-                          if (CurrentState != BuilderState.Running)
-                              state.Break();
-
-                          if (!Settings.Current.Building.CompletedChunkIds.Contains(chunkId))
-                          {
-                              if(IsOdd(chunkId))
-                              {
-                                  if (Settings.Current.OnlyEvenChunks)
-                                  {
-                                      Logger.Write(null, Logger.LogMessageTypes.Info, $"{chunkId} was skipped");
-                                      return;
-                                  }
-                              }
-                              else
-                              {
-                                  if (Settings.Current.OnlyOddChunks)
-                                  {
-                                      Logger.Write(null, Logger.LogMessageTypes.Info, $"{chunkId} was skipped");
-                                      return;
-                                  }
-                              }
-
-                              if(chunkId < Settings.Current.ChunksFrom)
-                              {
-                                  Logger.Write(null, Logger.LogMessageTypes.Info, $"{chunkId} was skipped");
-                                  return;
-                              }
-
-                              if (chunkId > Settings.Current.ChunksTo)
-                              {
-                                  Logger.Write(null, Logger.LogMessageTypes.Info, $"{chunkId} was skipped");
-                                  return;
-                              }
-
-                              var chunk = new DatabaseChunkBuilder(chunkId, CreatePersonBuilder);
-
-                              using (var connection =
-                                  new OdbcConnection(Settings.Current.Building.SourceConnectionString))
-                              {
-                                  connection.Open();
-                                  var result = chunk.Process(Settings.Current.Building.SourceEngine, Settings.Current.Building.SourceSchema);
-                                  saveQueue.Add(result.GetDatabaseChunkPart());
-                              }
-
-                              Settings.Current.Save(false);
-
-                              while (saveQueue.Count > 0)
-                              {
-                                  Thread.Sleep(1000);
-                              }
-                          }
-                      });
-
-                saveQueue.CompleteAdding();
-
-                save.Wait();
-            });
+                ProcessChunkId(chunkId);
+            }
         }
 
-        public static bool IsOdd(int value)
+        void ProcessChunkId(int chunkId)
         {
-            return value % 2 != 0;
+            var chunk = new DatabaseChunkBuilder(chunkId, CreatePersonBuilder);
+            using (var connection = new OdbcConnection(Settings.Current.Building.SourceConnectionString))
+            {
+                connection.Open();
+                chunk.Process(Settings.Current.Building.SourceEngine, Settings.Current.Building.SourceSchema);
+            }
+
+            Settings.Current.Save(false);
         }
 
         private PersonBuilder CreatePersonBuilder()

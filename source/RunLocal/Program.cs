@@ -145,9 +145,7 @@ namespace RunLocal
         {
             SetSettings(opts);
 
-            BuildingController buildingController = new BuildingController(Directory.GetCurrentDirectory());
-            buildingController.Process();
-            buildingController.Refresh();
+            Build(Settings.Current.Building.SourceSchema, Directory.GetCurrentDirectory(), true);
         }
 
         static void HandleParseError(IEnumerable<Error> errs)
@@ -234,15 +232,41 @@ namespace RunLocal
         }
 
         static IDatabaseEngine GetDatabaseEngine(string engine)
-        {
+        {            
             return engine switch
             {
                 "postgresql" => new PostgreDatabaseEngine(),
                 "mysql" => new MySqlDatabaseEngine(),
                 "redshift" => new RedshiftDatabaseEngine(),
                 "mssql" => new MssqlDatabaseEngine(),
-                _ => throw new NotSupportedException($"The database engine '{engine}' is not supported.")
+                _ => throw new NotSupportedException($"The database engine '{engine}' is not supported!")
             };
+        }
+
+        static void Build(string chunkSchema, string etlLibraryPath, bool truncateTargetTables = false)
+        {
+            var vocabulary = new Vocabulary();
+            vocabulary.Fill(false, false);
+
+            BuilderController builder = new BuilderController(etlLibraryPath);
+
+            //remove this if after implementing ddl for other engines
+            if (Settings.Current.Building.CdmEngine is MssqlDatabaseEngine)
+                builder.CreateDestination();
+            else
+                Console.WriteLine("\r\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" +
+                    "\r\nOnly DDL for MSSQL is supported for now. DDL for databases on other engines must have been executed manually before" +
+                    "\r\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\r\n");
+
+            if (truncateTargetTables)
+            {
+                Console.WriteLine("\r\nTruncating tables");
+                builder.TruncateTables();
+                Console.WriteLine("\r\nTruncating tables - DONE");
+            }
+
+            builder.CreateLookup(vocabulary, chunkSchema);
+            builder.Build(vocabulary, chunkSchema);
         }
     }
 }

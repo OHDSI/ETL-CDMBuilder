@@ -156,6 +156,7 @@ namespace org.ohdsi.cdm.presentation.builder
             _vendorLookups = Utility.EmbeddedResourceManager.ReadEmbeddedResources(null, vendorFolder + ".Lookups");
 
 
+            Console.WriteLine("\r\nLoading lookups");
             foreach (var qd in Settings.Current.Building.SourceQueryDefinitions)
             {
                 if (forLookup)
@@ -186,7 +187,7 @@ namespace org.ohdsi.cdm.presentation.builder
                     Load(qd.DrugCost);
                 }
             }
-            LoadPregnancyDrug();
+            LoadPregnancyDrug(); 
         }
 
 

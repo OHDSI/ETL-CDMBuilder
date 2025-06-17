@@ -94,6 +94,9 @@ namespace RunLocal
             [Option("CdmVersion", Required = true, HelpText = "CDM version")]
             public string CdmVersion { get; set; }
 
+            [Option("EtlLibraryPath", Required = false, HelpText = "ETL Library Folder path")]
+            public string EtlLibraryPath { get; set; }
+
             [Usage(ApplicationAlias = "RunLocal")]
             public static IEnumerable<Example> Examples
             {
@@ -102,7 +105,7 @@ namespace RunLocal
                     var options = new Options()
                     {
                         VendorName = "VendorName",
-                        //EtlLibraryPath = Directory.GetCurrentDirectory(),
+                        EtlLibraryPath = Directory.GetCurrentDirectory(),
                         SourceEngine = "SourceEngine",
                         SourceServer = "SourceServer",
                         SourceDatabase = "SourceDatabase",
@@ -137,7 +140,7 @@ namespace RunLocal
                 .WithParsed(RunWithOptions)
                 .WithNotParsed(HandleParseError);
 
-            Console.WriteLine("\r\nThe program finished!");
+            Console.WriteLine("\r\nThe program has finished!");
             Console.ReadLine();
         }
 
@@ -162,7 +165,7 @@ namespace RunLocal
             Console.WriteLine("Options:");
 
             Console.WriteLine($"VendorName: {opts.VendorName}");
-            //Console.WriteLine($"EtlLibraryPath: {opts.EtlLibraryPath}");
+            Console.WriteLine($"EtlLibraryPath: {opts.EtlLibraryPath}");
 
             Console.WriteLine($"SourceEngine: {opts.SourceEngine}");
             Console.WriteLine($"SourceServer: {opts.SourceServer}");
@@ -199,7 +202,7 @@ namespace RunLocal
 
             //create instance, nothing drastic is done at init, properties are copied at BuildingSettings properties Set
             //these properties must be filled at the moment of the interaction with the db
-            FrameworkSettings.Settings.Initialize("", "");            
+            FrameworkSettings.Settings.Initialize("", "");
 
             Settings.Current = new Settings()
             {
@@ -225,8 +228,7 @@ namespace RunLocal
                     VocabUser = opts.VocabularyUser,
                     VocabPswd = opts.VocabularyPassword
                 },
-                //BuilderFolder = opts.EtlLibraryPath,
-                BuilderFolder = Directory.GetCurrentDirectory(),
+                BuilderFolder = !string.IsNullOrEmpty(opts.EtlLibraryPath) ? opts.EtlLibraryPath : Directory.GetCurrentDirectory(),
             };
             Settings.Current.Building.SetFrameworkBuildingSettings();
         }

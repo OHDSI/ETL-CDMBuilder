@@ -10,9 +10,6 @@ using System.Threading.Tasks;
 
 namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 {
-    /// <summary>
-    /// Can't reference org.ohdsi.cdm.presentation.lambdabuilder from ETL-LambdaBuilder, so hard copy with a constructor
-    /// </summary>
     public class BuildingSettings : IVendorSettings
     {
         public int? Id { get; set; }

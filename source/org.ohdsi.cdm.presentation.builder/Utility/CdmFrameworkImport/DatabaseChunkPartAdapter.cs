@@ -3,6 +3,7 @@ using org.ohdsi.cdm.framework.common.Builder;
 using org.ohdsi.cdm.framework.common.Extensions;
 using org.ohdsi.cdm.framework.common.Omop;
 using org.ohdsi.cdm.framework.desktop.Enums;
+using org.ohdsi.cdm.framework.desktop.Helpers;
 using org.ohdsi.cdm.framework.desktop.Savers;
 using System;
 using System.Collections.Generic;
@@ -50,65 +51,26 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 
         public KeyValuePair<string, Exception> Load()
         {
-            var building = FrameworkSettings.Settings.Current.Building;
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
-            string sqlClean = "";
-            string sourceConnectionString = "";
-            string sourceEngine = "";
-
-            try
-            {
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-                foreach (var sourceQueryDefinition in building.SourceQueryDefinitions)
+            var queries = FrameworkSettings.Settings.Current.Building.SourceQueryDefinitions;
+            for (int i = 0; i < queries.Count; i++)
+                try
                 {
-                    var sourceQueryDefinitionTyped = new QueryDefinitionAdapter(sourceQueryDefinition);
-                    if (sourceQueryDefinitionTyped.HasAnyProvidersLocationsCareSites)
-                        continue;
-
-                    string sourceQueryDefinitionSql = sourceQueryDefinitionTyped.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
-                    sqlClean = GetSqlHelper.TranslateSql(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql, building.SourceSchemaName, _chunkId.ToString());
-                    if (string.IsNullOrEmpty(sqlClean))
-                        continue;
-
-                    //debug
-                    if (tableExclusionArray.Any(s => sqlClean.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
-                        continue;
-
-                    if (building.SourceEngine.Database != Database.Redshift)
-                    {
-                        sourceConnectionString = building.SourceConnectionString;
-                        sourceEngine = building.SourceEngine.Database.ToString();
-                        using (IDbConnection dbConnection = building.SourceEngine.GetConnection(building.SourceConnectionString))
-                        {
-                            using IDbCommand cmd = building.SourceEngine.GetCommand(sqlClean, dbConnection);
-                            using IDataReader dataReader = building.SourceEngine.ReadChunkData(dbConnection, cmd, sourceQueryDefinition, _chunkId, _prefix);
-                            while (dataReader.Read())
-                            {
-                                _databaseChunkPart.PopulateData(sourceQueryDefinition, dataReader);
-                            }
-                        }
-                        continue;
-                    }
-                    using IDataReader dataReader2 = building.SourceEngine.ReadChunkData(null, null, sourceQueryDefinition, _chunkId, _prefix);
-                    while (dataReader2.Read())
-                    {
-                        _databaseChunkPart.PopulateData(sourceQueryDefinition, dataReader2);
-                    }
+                    LoadQuery(queries[i]);
                 }
-                stopwatch.Stop();
-                Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
-                    $"ChunkId={_chunkId} was loaded - {stopwatch.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
-            }
-            catch (Exception value2)
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendLine("SourceEngine=" + sourceEngine);
-                stringBuilder.AppendLine("SourceConnectionString=" + sourceConnectionString);
-                stringBuilder.AppendLine("Query:");
-                stringBuilder.AppendLine(sqlClean);
-                return new KeyValuePair<string, Exception>(stringBuilder.ToString(), value2);
-            }
+                catch(Exception e)
+                {
+                    //error info is written in LoadQuery catch
+                    Console.WriteLine("Query number is " + i);
+                    throw;
+                }
+
+            stopwatch.Stop();
+            Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
+                $"ChunkId={_chunkId} was loaded - {stopwatch.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
+
             return new KeyValuePair<string, Exception>(null, null);
         }
 
@@ -166,6 +128,65 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
         public void Clean()
         {
             _databaseChunkPart.ChunkData.Clean();
+        }
+
+        private void LoadQuery(framework.common.Definitions.QueryDefinition sourceQueryDefinition)
+        {
+            var building = FrameworkSettings.Settings.Current.Building;
+
+            string sqlClean = "";
+            string sourceConnectionString = "";
+            string sourceEngine = "";
+
+            try
+            {
+                var sourceQueryDefinitionTyped = new QueryDefinitionAdapter(sourceQueryDefinition);
+                if (sourceQueryDefinitionTyped.HasAnyProvidersLocationsCareSites)
+                    return;
+
+                string sourceQueryDefinitionSql = sourceQueryDefinitionTyped.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
+                sqlClean = GetSqlHelper.TranslateSql(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql, building.SourceSchemaName, _chunkId.ToString());
+                if (string.IsNullOrEmpty(sqlClean))
+                    return;
+
+                //debug
+                if (tableExclusionArray.Any(s => sqlClean.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                    return;
+
+                if (building.SourceEngine.Database == Database.Redshift)
+                {
+                    using IDataReader dataReader2 = building.SourceEngine.ReadChunkData(null, null, sourceQueryDefinition, _chunkId, _prefix);
+                    while (dataReader2.Read())
+                    {
+                        _databaseChunkPart.PopulateData(sourceQueryDefinition, dataReader2);
+                    }
+                    return;
+                }
+                sourceConnectionString = building.SourceConnectionString;
+                sourceEngine = building.SourceEngine.Database.ToString();
+                using (var dbConnection = SqlConnectionHelper.OpenOdbcConnection(building.SourceConnectionString))
+                //using (IDbConnection dbConnection = building.SourceEngine.GetConnection(building.SourceConnectionString))
+                {
+                    using IDbCommand cmd = building.SourceEngine.GetCommand(sqlClean, dbConnection);
+                    using IDataReader dataReader = building.SourceEngine.ReadChunkData(dbConnection, cmd, sourceQueryDefinition, _chunkId, _prefix);
+                    while (dataReader.Read())
+                    {
+                        _databaseChunkPart.PopulateData(sourceQueryDefinition, dataReader);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.AppendLine(ex.Message);
+                stringBuilder.AppendLine("SourceEngine=" + sourceEngine);
+                stringBuilder.AppendLine("SourceConnectionString=" + sourceConnectionString);
+                stringBuilder.AppendLine("Query:");
+                stringBuilder.AppendLine(sqlClean);
+                Logger.WriteError(_chunkId, new Exception(stringBuilder.ToString(), ex));
+
+                throw;
+            }
         }
     }
 }

@@ -273,7 +273,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             vocabulary.Fill(false, false);
 
             Logger.Write(null, Logger.LogMessageTypes.Info,
-                "==================== Conversion to CDM was started ====================");
+                "==================== Conversion to CDM has started ====================");
 
             if (Settings.Current.ChunksTo > 0)
                 Logger.Write(null, Logger.LogMessageTypes.Info, $"ChunkIds from {Settings.Current.ChunksFrom} to {Settings.Current.ChunksTo} will be converted");

@@ -12,9 +12,6 @@ using System.Xml.Linq;
 
 namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 {
-    /// <summary>
-    /// This is imported from Framework, but it has completely new massive logic
-    /// </summary>
     public static class GetSqlHelper
     {
         /// <summary>
@@ -31,6 +28,11 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             {
                 default:
                     throw new NotImplementedException($"Database {targetDatabase.Database.ToName()} is not supported for truncate translation");
+
+                case MssqlDatabaseEngine:
+                    {
+                        break;
+                    }
 
                 case PostgreDatabaseEngine:
                     {
@@ -380,7 +382,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 
 
 
-
+                            
                         //////////////////////////
                         #region table level
 
@@ -407,6 +409,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 
                 case Database.Redshift:
                     {
+                        throw new NotImplementedException("Translation to Redshift is not ready!");
                         //foreach (Match match in Regex.Matches(queryChanged, @"\[(.*?)\]", RegexOptions.IgnoreCase).Cast<Match>())
                         //{
                         //    var originalValue = match.Value;

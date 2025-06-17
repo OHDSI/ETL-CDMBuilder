@@ -82,7 +82,8 @@ namespace org.ohdsi.cdm.presentation.builder.Base
             }
             catch (OdbcException ex)
             {
-                if (new[] { "schema", "already exists" }.All(s => ex.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                if (new[] { "schema", "already exists" }.All(s => ex.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)) //pgsql
+                    || new[] { "There is already an object named", "in the database" }.All(s => ex.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase))) //mssql
                 {
                     // ignore
                 }
@@ -106,30 +107,42 @@ namespace org.ohdsi.cdm.presentation.builder.Base
             {
                 using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
                 {
-                    var queryAltered = "\n" + query.Replace("{sc}", _schemaName);
-
-                    string commandSeparator = engine switch
-                    {
-                        MssqlDatabaseEngine => "\nGO",
-                        PostgreDatabaseEngine => "\nDO",
-                        _ => throw new NotImplementedException("Unknown DbEngine for separating SQL commands!")
-                    };
+                    string queryAltered = "\n" + query.Replace("{sc}", _schemaName);
 
                     var subQueries = queryAltered
-                        .Split(new[] { commandSeparator }, StringSplitOptions.RemoveEmptyEntries)
-                        .Select(s => commandSeparator + s)
+                        .Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(s => s.Trim())
+                        .Where(s => !string.IsNullOrWhiteSpace(s))
                         .ToList();
+
                     foreach (var subQuery in subQueries)
                     {
-                        if (string.IsNullOrEmpty(subQuery))
-                            continue;
-
-                        var restoredQuery = subQuery.StartsWith(commandSeparator) ? subQuery : commandSeparator + subQuery;
-
-                        using (var command = new OdbcCommand(restoredQuery, connection))
+                        try
                         {
-                            command.CommandTimeout = 30000;
-                            command.ExecuteNonQuery();
+                            using (var command = new OdbcCommand(subQuery, connection))
+                            {
+                                command.CommandTimeout = 30000;
+                                command.ExecuteNonQuery();
+                            }
+                        }
+                        catch (OdbcException odbcEx)
+                        {
+                            if (new[] { "table", "already exists" }.All(s => odbcEx.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)) //pgsql
+                                || new[] { "There is already an object named", "in the database" }.All(s => odbcEx.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase))) //mssql
+                            {
+                                // ignore
+                            }
+                            else
+                            {
+                                Console.WriteLine();
+                                Console.WriteLine(@"Failed to execute command: {0}", query);
+                                Console.WriteLine(odbcEx.Message);
+                                throw;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            throw;
                         }
                     }
                 }

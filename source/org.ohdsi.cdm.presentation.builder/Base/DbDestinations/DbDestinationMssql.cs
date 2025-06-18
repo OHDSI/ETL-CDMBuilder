@@ -1,27 +1,26 @@
 ﻿using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.framework.desktop.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Data.Odbc;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace org.ohdsi.cdm.presentation.builder.Base
+namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
 {
-    public class DbDestination
+    public class DbDestinationMssql : DbDestination
     {
-        private readonly string _connectionString;
-        private readonly string _schemaName;
-
-        public DbDestination(string connectionString, string schemaName)
-        {
-            _connectionString = connectionString;
-            _schemaName = schemaName;
+        public DbDestinationMssql(string connectionString, IDatabaseEngine dbEngine, string schemaName)
+            : base(connectionString, dbEngine, schemaName)
+        { 
+        
         }
 
-        public void CreateDatabase(string query)
+        public override ActionStatus CreateDatabase(string query)
         {
-            var sqlConnectionStringBuilder = new OdbcConnectionStringBuilder(_connectionString);
+            var sqlConnectionStringBuilder = new OdbcConnectionStringBuilder(ConnectionString);
             var database = sqlConnectionStringBuilder["database"];
-
-            var mySql = _connectionString.Contains("mySql", StringComparison.InvariantCultureIgnoreCase);
 
             using (var connection = SqlConnectionHelper.OpenOdbcConnection(sqlConnectionStringBuilder.ConnectionString))
             {
@@ -29,10 +28,6 @@ namespace org.ohdsi.cdm.presentation.builder.Base
 
                 foreach (var subQuery in preciseQuery.Split(new[] { "\r\nGO", "\nGO" }, StringSplitOptions.None))
                 {
-                    if (!_connectionString.Contains("SQL Server")
-                        && subQuery.Contains("SET RECOVERY", StringComparison.InvariantCultureIgnoreCase))
-                        continue; //only works for SQL SERVER
-
                     using (var command = new OdbcCommand(subQuery, connection))
                     {
                         try
@@ -45,12 +40,14 @@ namespace org.ohdsi.cdm.presentation.builder.Base
                             if (new[] { "database", "already exists" }.All(s => ex.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                             {
                                 // ignore
+                                return ActionStatus.AlreadyExists;
                             }
                             else
                             {
                                 Console.WriteLine();
                                 Console.WriteLine(@"Failed to execute command: {0}", command.CommandText);
                                 Console.WriteLine(ex.Message);
+                                throw;
                             }
                         }
                         catch (Exception e)
@@ -61,17 +58,20 @@ namespace org.ohdsi.cdm.presentation.builder.Base
                 }
             }
 
-            if (!mySql && _schemaName.ToLower().Trim() != "dbo")
-                CreateSchema();
+            return ActionStatus.Success;
         }
 
-        public void CreateSchema()
+        public override ActionStatus CreateSchema()
         {
-            var query = $"create schema {_schemaName}";
+
+            if (SchemaName.ToLower().Trim() == "dbo")
+                return ActionStatus.AlreadyExists;
+
+            var query = $"create schema {SchemaName}";
 
             try
             {
-                using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
+                using (var connection = SqlConnectionHelper.OpenOdbcConnection(ConnectionString))
                 {
                     using (var command = new OdbcCommand(query, connection))
                     {
@@ -79,13 +79,14 @@ namespace org.ohdsi.cdm.presentation.builder.Base
                         command.ExecuteNonQuery();
                     }
                 }
+                return ActionStatus.Success;
             }
             catch (OdbcException ex)
             {
-                if (new[] { "schema", "already exists" }.All(s => ex.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)) //pgsql
-                    || new[] { "There is already an object named", "in the database" }.All(s => ex.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase))) //mssql
+                if (new[] { "There is already an object named", "in the database" }.All(s => ex.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                 {
                     // ignore
+                    return ActionStatus.AlreadyExists;
                 }
                 else
                 {
@@ -101,13 +102,13 @@ namespace org.ohdsi.cdm.presentation.builder.Base
             }
         }
 
-        public void ExecuteQuery(string query, IDatabaseEngine engine)
+        public override ActionStatus ExecuteQuery(string query)
         {
             try
             {
-                using (var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString))
+                using (var connection = SqlConnectionHelper.OpenOdbcConnection(ConnectionString))
                 {
-                    string queryAltered = "\n" + query.Replace("{sc}", _schemaName);
+                    string queryAltered = "\n" + query.Replace("{sc}", SchemaName);
 
                     var subQueries = queryAltered
                         .Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries)
@@ -127,10 +128,10 @@ namespace org.ohdsi.cdm.presentation.builder.Base
                         }
                         catch (OdbcException odbcEx)
                         {
-                            if (new[] { "table", "already exists" }.All(s => odbcEx.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)) //pgsql
-                                || new[] { "There is already an object named", "in the database" }.All(s => odbcEx.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase))) //mssql
+                            if (new[] { "There is already an object named", "in the database" }.All(s => odbcEx.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                             {
                                 // ignore
+                                // don't return because we need to execute all subqueries
                             }
                             else
                             {
@@ -146,6 +147,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
                         }
                     }
                 }
+                return ActionStatus.Success;
             }
             catch (Exception e)
             {

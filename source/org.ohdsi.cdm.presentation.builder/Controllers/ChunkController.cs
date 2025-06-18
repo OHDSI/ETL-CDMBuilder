@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport;
 
 
 namespace org.ohdsi.cdm.presentation.builder.Controllers
@@ -87,7 +86,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
         {
             var batch = new List<KeyValuePair<string, string>>(batchSize);
 
-            var query = Utility.CdmFrameworkImport.GetSqlHelper.TranslateSql(Settings.Current.Building.VendorToProcess, Settings.Current.Building.SourceEngine.Database, Settings.Current.Building.BatchScript, Settings.Current.Building.SourceSchema);
+            var query = Utility.GetSqlHelper.TranslateSql(Settings.Current.Building.VendorToProcess, Settings.Current.Building.SourceEngine.Database, Settings.Current.Building.BatchScript, Settings.Current.Building.SourceSchema);
 
             foreach (var reader in _dbSource.GetPersonKeys(query, batches, batchSize, Settings.Current.Building.SourceSchema))
             {

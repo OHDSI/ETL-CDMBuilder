@@ -1,7 +1,9 @@
 ﻿using System.Configuration;
 using System.IO;
 using System.Reflection;
+using org.ohdsi.cdm.framework.common.Extensions;
 using org.ohdsi.cdm.framework.desktop.Databases;
+using org.ohdsi.cdm.presentation.builder.Utility;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings.Settings;
 
 namespace org.ohdsi.cdm.presentation.builder
@@ -129,31 +131,11 @@ namespace org.ohdsi.cdm.presentation.builder
 
         private static string ReadEmbeddedResource(string resourceName)
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach (var assembly in assemblies)
-            {
-                var resourceNames = assembly.GetManifestResourceNames();
-                foreach (var resource in resourceNames)
-                {
-                    if (resource.EndsWith(resourceName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        using (var stream = assembly.GetManifestResourceStream(resource))
-                        {
-                            if (stream == null)
-                            {
-                                throw new FileNotFoundException($"Embedded resource '{resource}' not found in assembly '{assembly.FullName}'.");
-                            }
+            var resources = EmbeddedResourceManager.ReadEmbeddedResources("org.ohdsi.cdm.framework", resourceName, StringComparison.CurrentCultureIgnoreCase);
 
-                            using (var reader = new StreamReader(stream))
-                            {
-                                return reader.ReadToEnd();
-                            }
-                        }
-                    }
-                }
-            }
+            var script = resources.First(s => s.Key.Contains(Current.Building.CdmEngine.Database.ToName()));
 
-            throw new FileNotFoundException($"Embedded resource '{resourceName}' not found in any loaded assembly.");
+            return script.Value;
         }
 
         #endregion

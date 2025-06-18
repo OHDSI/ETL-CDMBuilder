@@ -252,20 +252,11 @@ namespace RunLocal
 
             BuilderController builder = new BuilderController(etlLibraryPath);
 
-            //remove this if after implementing ddl for other engines
-            if (Settings.Current.Building.CdmEngine is MssqlDatabaseEngine)
-                builder.CreateDestination();
-            else
-                Console.WriteLine("\r\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" +
-                    "\r\nOnly DDL for MSSQL is supported for now. DDL for databases on other engines must have been executed manually before" +
-                    "\r\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\r\n");
+            builder.CreateDestination();
 
             if (truncateTargetTables)
-            {
-                Console.WriteLine("\r\nTruncating tables");
                 builder.TruncateTables();
-                Console.WriteLine("\r\nTruncating tables - DONE");
-            }
+            
 
             builder.CreateLookup(vocabulary, chunkSchema);
             builder.Build(vocabulary, chunkSchema);

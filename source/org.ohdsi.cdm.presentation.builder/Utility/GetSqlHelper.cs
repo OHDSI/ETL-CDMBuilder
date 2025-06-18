@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
+namespace org.ohdsi.cdm.presentation.builder.Utility
 {
     public static class GetSqlHelper
     {

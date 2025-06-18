@@ -57,11 +57,21 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             var queries = FrameworkSettings.Settings.Current.Building.SourceQueryDefinitions;
             for (int i = 0; i < queries.Count; i++)
                 try
-                {
+                {                    
                     LoadQuery(queries[i]);
                 }
                 catch(Exception e)
                 {
+                    /*i=1
+                     ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'payersource'.
+ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'payersource'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_concept_id'.
+ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'payersource'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_concept_id'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_source_value'.
+ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'payersource'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_concept_id'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'vendor'.
+ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'payersource'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_concept_id'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'vendor'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'race_source_value'.
+ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'payersource'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_concept_id'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'vendor'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'race_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'race_concept_id'.
+ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'payersource'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_concept_id'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'vendor'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'race_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'race_concept_id'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'ethnicity_source_value'.
+ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'payersource'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_concept_id'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'vendor'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'race_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'race_concept_id'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'ethnicity_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'ethnicity_concept_id'.
+                     */
                     //error info is written in LoadQuery catch
                     Console.WriteLine("Query number is " + i);
                     throw;
@@ -69,7 +79,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 
             stopwatch.Stop();
             Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
-                $"ChunkId={_chunkId} was loaded - {stopwatch.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
+                $"ChunkId={_chunkId} has been loaded - {stopwatch.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
 
             return new KeyValuePair<string, Exception>(null, null);
         }
@@ -88,7 +98,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             _databaseChunkPart.PersonBuilders = null;
 
             Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
-                $"ChunkId={_chunkId} was built - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb | {_databaseChunkPart.ChunkData.Persons.Count} persons");
+                $"ChunkId={_chunkId} has been built - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb | {_databaseChunkPart.ChunkData.Persons.Count} persons");
         }
 
         public void Save()
@@ -104,25 +114,29 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             var saver = Utility.CdmFrameworkImport.Savers.Saver.GetSaverFromFrameworkSaver(frameworkSaver);
             Stopwatch stopwatch = new Stopwatch();
 
-            try
-            {
-                stopwatch.Start();
-                using (saver)
-                {                    
-                    var createdSaver = saver.Create(FrameworkSettings.Settings.Current.Building.DestinationConnectionString);
-                    createdSaver.Save(_databaseChunkPart.ChunkData, _offsetManager);
-                }
-                stopwatch.Stop();
-                Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
-                    $"ChunkId={_chunkId} was saved - {stopwatch.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
-                _databaseChunkPart.ChunkData.Clean();
-                GC.Collect();
-            }
-            catch (Exception e)
-            {
-                string eMes = e.Message;
-                throw;
-            }
+            while (true) try //dbg
+                {
+                    try
+                    {
+                        stopwatch.Start();
+                        using (saver)
+                        {
+                            var createdSaver = saver.Create(FrameworkSettings.Settings.Current.Building.DestinationConnectionString);
+                            createdSaver.Save(_databaseChunkPart.ChunkData, _offsetManager);
+                        }
+                        stopwatch.Stop();
+                        Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
+                            $"ChunkId={_chunkId} was saved - {stopwatch.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
+                        _databaseChunkPart.ChunkData.Clean();
+                        GC.Collect();
+                        break; //dbg
+                    }
+                    catch (Exception e)
+                    {
+                        string eMes = e.Message;
+                        throw;
+                    }
+                } catch { } //dbg
         }
 
         public void Clean()

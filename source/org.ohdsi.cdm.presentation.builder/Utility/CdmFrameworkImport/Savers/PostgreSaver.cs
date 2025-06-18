@@ -1,5 +1,6 @@
 ﻿using Npgsql;
 using NpgsqlTypes;
+using org.ohdsi.cdm.framework.common.Extensions;
 using org.ohdsi.cdm.framework.desktop.Helpers;
 using System.Data.Odbc;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
@@ -49,28 +50,64 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
 
             var q = $"COPY {tableName} ({string.Join(",", fields)}) from STDIN (FORMAT BINARY)";
 
-            using var inStream = _connection.BeginBinaryImport(q);
-            while (reader.Read())
+            //this is for debugging ease
+            var rowData = new List<(int ColIndex, string ColName, Type ClrType, object Value, NpgsqlDbType PgType)>();
+            int row = -1;
+
+            try
             {
-                inStream.StartRow();
-
-                for (var i = 0; i < reader.FieldCount; i++)
+                using var importer = _connection.BeginBinaryImport(q);
+                while (reader.Read())
                 {
-                    var value = reader.GetValue(i);
+                    row++;
+                    rowData.Clear();
 
-                    if (value is null)
+                    for (int col = 0; col < reader.FieldCount; col++)
                     {
-                        inStream.WriteNull();
+                        var name = reader.GetName(col);
+                        var clrType = reader.GetFieldType(col);
+                        var value = reader.IsDBNull(col) ? null : reader.GetValue(col);
+
+                        //this is here to avoid placing bytes for int8 type into int4 causing errors
+                        //although, best solution would be to alter create table statement in ETL-LambdaBuilder
+                        Type newClrType = clrType;
+                        object newValue = value;
+                        if (clrType == typeof(long)
+                            && value is long l
+                            && l >= int.MinValue
+                            && l <= int.MaxValue)
+                        {
+                            newClrType = typeof(int);
+                            newValue = (int)l;
+                        }
+
+                        var pgType = newValue == null
+                                      ? NpgsqlDbType.Unknown
+                                      : GetFieldType(newClrType, name);                        
+
+                        rowData.Add((col, name, newClrType, newValue, pgType));
                     }
-                    else
+
+                    if (rowData.Count != reader.FieldCount)
+                        throw new InvalidOperationException(
+                            $"Row {row}: expected {reader.FieldCount} columns but got {rowData.Count}");
+
+                    importer.StartRow();
+                    foreach (var (ColIndex, ColName, ClrType, Value, PgType) in rowData)
                     {
-                        var fd = GetFieldType(reader.GetFieldType(i), reader.GetName(i));
-                        inStream.Write(value, fd);
-                        //Console.Write("|| " + fd.ToString() + Environment.NewLine);
+                        if (Value is null)
+                            importer.WriteNull();
+                        else
+                            importer.Write(Value, PgType); 
                     }
                 }
+                importer.Complete();
             }
-            inStream.Complete();
+            catch (Exception e)
+            {
+                var personId = rowData.FirstOrDefault().Value?.ToString() ?? "unknown";
+                throw new Exception($"Error importing row {row} Id {personId} into {tableName}", e);
+            }
         }
 
         private static NpgsqlDbType GetFieldType(Type type, string fieldName)
@@ -84,7 +121,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
 
             switch (name)
             {
-                case "Int64":
+                case "Int64":                    
                     return NpgsqlDbType.Bigint;
                 case "Int32":
                     return NpgsqlDbType.Integer;

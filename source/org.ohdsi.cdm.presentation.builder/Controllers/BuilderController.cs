@@ -10,6 +10,7 @@ using org.ohdsi.cdm.framework.desktop.Enums;
 using org.ohdsi.cdm.framework.desktop.Helpers;
 using org.ohdsi.cdm.framework.desktop.Savers;
 using org.ohdsi.cdm.presentation.builder.Base;
+using org.ohdsi.cdm.presentation.builder.Base.DbDestinations;
 using org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport;
 using System;
 using System.Collections.Concurrent;
@@ -91,62 +92,55 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
         {
             PerformAction(() =>
             {
-                var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
+                var dbDestination = DbDestinationFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
                     Settings.Current.Building.CdmSchema);
 
                 dbDestination.CreateDatabase(Settings.Current.CreateCdmDatabaseScript);
-                dbDestination.ExecuteQuery(Settings.Current.CreateCdmTablesScript, Settings.Current.Building.CdmEngine);
+                dbDestination.CreateSchema();
+                dbDestination.ExecuteQuery(Settings.Current.CreateCdmTablesScript);
+                Console.WriteLine("DDL complete!");
             });
-        }
-
-        public void CreateTablesStep()
-        {
-            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
-                Settings.Current.Building.CdmSchema);
-
-            dbDestination.ExecuteQuery(Settings.Current.CreateCdmTablesScript, Settings.Current.Building.CdmEngine);
         }
 
         public void DropDestination()
         {
-            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
+            var dbDestination = DbDestinationFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
                 Settings.Current.Building.CdmSchema);
 
-            dbDestination.ExecuteQuery(Settings.Current.DropTablesScript, Settings.Current.Building.CdmEngine);
+            dbDestination.ExecuteQuery(Settings.Current.DropTablesScript);
         }
 
         public void TruncateLookup()
         {
-            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
+            var dbDestination = DbDestinationFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
                 Settings.Current.Building.CdmSchema);
 
-            dbDestination.ExecuteQuery(Settings.Current.TruncateLookupScript, Settings.Current.Building.CdmEngine);
+            dbDestination.ExecuteQuery(Settings.Current.TruncateLookupScript);
         }
 
         public void TruncateTables()
         {
-            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
+            var dbDestination = DbDestinationFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
                 Settings.Current.Building.CdmSchema);
 
-            var sqlTranslated = Utility.CdmFrameworkImport.GetSqlHelper.TranslateSqlTruncate(Settings.Current.Building.CdmEngine, Settings.Current.TruncateTablesScript);
-
-            dbDestination.ExecuteQuery(sqlTranslated, Settings.Current.Building.CdmEngine);
+            dbDestination.ExecuteQuery(Settings.Current.TruncateTablesScript);
+            Console.WriteLine("Table truncation complete!");
         }
 
         public void TruncateWithoutLookupTables()
         {
-            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
+            var dbDestination = DbDestinationFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
                 Settings.Current.Building.CdmSchema);
 
-            dbDestination.ExecuteQuery(Settings.Current.TruncateWithoutLookupTablesScript, Settings.Current.Building.CdmEngine);
+            dbDestination.ExecuteQuery(Settings.Current.TruncateWithoutLookupTablesScript);
         }
 
         public void ResetVocabularyStep()
         {
-            var dbDestination = new DbDestination(Settings.Current.Building.DestinationConnectionString,
+            var dbDestination = DbDestinationFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
                 Settings.Current.Building.CdmSchema);
 
-            dbDestination.ExecuteQuery(Settings.Current.DropVocabularyTablesScript, Settings.Current.Building.CdmEngine);
+            dbDestination.ExecuteQuery(Settings.Current.DropVocabularyTablesScript);
         }
 
         public void CreateLookup(IVocabulary vocabulary, string chunkSchema)
@@ -273,7 +267,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             vocabulary.Fill(false, false);
 
             Logger.Write(null, Logger.LogMessageTypes.Info,
-                "==================== Conversion to CDM has started ====================");
+                "==================== Conversion to CDM has been started ====================");
 
             if (Settings.Current.ChunksTo > 0)
                 Logger.Write(null, Logger.LogMessageTypes.Info, $"ChunkIds from {Settings.Current.ChunksFrom} to {Settings.Current.ChunksTo} will be converted");

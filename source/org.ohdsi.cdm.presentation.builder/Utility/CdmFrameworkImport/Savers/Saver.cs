@@ -277,17 +277,18 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
 
         public virtual void Write(ChunkData chunk, string table)
         {
-            try
+
+            foreach (var reader in CreateDataReader(chunk, table))
             {
-                foreach (var reader in CreateDataReader(chunk, table))
+                try
                 {
                     Write(chunk.ChunkId, chunk.SubChunkId, reader, table);
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Failed to write to table " + table + "! " + e.Message);
-                throw;
+                catch (Exception e)
+                {
+                    Console.WriteLine("Failed to write to table " + table + "! " + e.Message);
+                    throw;
+                }
             }
         }
 

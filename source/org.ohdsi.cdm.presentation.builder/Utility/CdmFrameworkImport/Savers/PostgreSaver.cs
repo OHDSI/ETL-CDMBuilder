@@ -1,5 +1,6 @@
 ﻿using Npgsql;
 using NpgsqlTypes;
+using org.ohdsi.cdm.framework.common.Builder;
 using org.ohdsi.cdm.framework.common.Extensions;
 using org.ohdsi.cdm.framework.desktop.Helpers;
 using System.Data.Odbc;
@@ -29,6 +30,110 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
         }
 
         public override void Write(int? chunkId, int? subChunkId, System.Data.IDataReader reader, string tableName)
+        {
+            //WriteBinary(chunkId, subChunkId, reader, tableName);
+            WriteText(chunkId, subChunkId, reader, tableName);
+        }
+
+        public void WriteText(int? chunkId, int? subChunkId, System.Data.IDataReader reader, string tableName)
+        {
+            if (reader == null)
+                return;
+
+            #region get copyCommand
+            if (tableName.StartsWith("_chunks", StringComparison.CurrentCultureIgnoreCase))
+            {
+                tableName = FrameworkSettings.Settings.Current.Building.SourceSchemaName + "." + tableName;
+            }
+            else
+            {
+                tableName = FrameworkSettings.Settings.Current.Building.DestinationSchemaName + "." + tableName;
+            }
+
+            var fields = new string[reader.FieldCount];
+            for (var i = 0; i < reader.FieldCount; i++)
+            {
+                fields[i] = reader.GetName(i);
+            }
+
+            // Default delimiter is TAB, null marker is \N
+            var copyCommand = $"COPY {tableName} ({string.Join(",", fields)}) FROM STDIN";
+            #endregion
+
+            var rowData = new List<(int ColIndex, string ColName, Type ClrType, object Value)>();
+            int row = -1;
+
+            try
+            {
+                using var writer = _connection.BeginTextImport(copyCommand);
+
+                while (reader.Read())
+                {
+                    row++;
+                    rowData.Clear();
+
+                    #region get rowData
+                    for (int col = 0; col < reader.FieldCount; col++)
+                    {
+                        var name = reader.GetName(col);
+                        var clrType = reader.GetFieldType(col);
+                        var value = reader.IsDBNull(col) ? null : reader.GetValue(col);
+
+                        rowData.Add((col, name, clrType, value));
+                    }
+
+                    if (rowData.Count != reader.FieldCount)
+                        throw new InvalidOperationException(
+                            $"Row {row}: expected {reader.FieldCount} columns but got {rowData.Count}");
+                    #endregion
+
+                    #region parts = array for one text line with TABs and proper escaping
+                    var parts = new string[reader.FieldCount];
+                    foreach (var (colIndex, colName, clrType, val) in rowData)
+                    {
+                        if (val is null)
+                        {
+                            // PostgreSQL default null marker in text COPY
+                            parts[colIndex] = "\\N";
+                        }
+                        else if (val is string s)
+                        {
+                            // escape backslash, tab, newline
+                            parts[colIndex] = s
+                                .Replace("\\", "\\\\")
+                                .Replace("\t", "\\t")
+                                .Replace("\n", "\\n")
+                                .Replace("\r", "\\r");
+                        }
+                        else if (val is DateTime dt)
+                        {
+                            // ISO 8601 format is accepted by COPY
+                            parts[colIndex] = dt.ToString("yyyy-MM-dd HH:mm:ss.FFFFFF");
+                        }
+                        else
+                        {
+                            // numbers, GUIDs, booleans, etc.
+                            parts[colIndex] = val.ToString();
+                        }
+                    }
+                    #endregion
+
+                    writer.WriteLine(string.Join('\t', parts));
+                }
+
+                // signal end-of-copy
+                writer.Dispose();
+
+            }
+            catch (Exception e)
+            {
+                var personId = rowData.FirstOrDefault().Value?.ToString() ?? "unknown";
+                throw new Exception($"Error importing row {row} Id {personId} into {tableName}", e);
+            }
+        }
+
+        [Obsolete("Causes errors either of byte length mismatch or database and Clr types mismatch")]
+        public void WriteBinary(int? chunkId, int? subChunkId, System.Data.IDataReader reader, string tableName)
         {
             if (reader == null)
                 return;

@@ -98,7 +98,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 dbDestination.CreateDatabase(Settings.Current.CreateCdmDatabaseScript);
                 dbDestination.CreateSchema();
                 dbDestination.ExecuteQuery(Settings.Current.CreateCdmTablesScript);
-                Console.WriteLine("DDL complete!");
+                Console.WriteLine("\r\nDDL complete!");
             });
         }
 
@@ -124,7 +124,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 Settings.Current.Building.CdmSchema);
 
             dbDestination.ExecuteQuery(Settings.Current.TruncateTablesScript);
-            Console.WriteLine("Table truncation complete!");
+            Console.WriteLine("\r\nTable truncation complete!");
         }
 
         public void TruncateWithoutLookupTables()

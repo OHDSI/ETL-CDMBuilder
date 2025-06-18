@@ -62,8 +62,8 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 }
                 catch(Exception e)
                 {
-                    /*i=1
-                    {"ERROR [42000] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near '<'.\r\nERROR [42000] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near '<'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near ')'.\r\nERROR [42000] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near '<'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near ')'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near the keyword 'WHERE'.\r\nERROR [42000] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near '<'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near ')'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near the keyword 'WHERE'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near '<'."}
+                    /*
+                     * 
                      */
                     //error info is written in LoadQuery catch
                     Console.WriteLine("Query number is " + i);

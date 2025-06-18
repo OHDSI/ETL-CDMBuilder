@@ -167,23 +167,81 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
 
                 case Database.MsSql:
                     {
-                        queryChanged = queryChanged.Replace(schemaName + ".procedure ", schemaName + ".[procedure] ");
-                        queryChanged = queryChanged.Replace("chr(", "char(");
-                        queryChanged = queryChanged.Replace("||", "+");
-                        queryChanged = queryChanged.Replace("date_part('year'", "datepart(year");
-                        queryChanged = queryChanged.Replace("date_part('month'", "datepart(month");
-                        queryChanged = queryChanged.Replace("date_part('day'", "datepart(day");
+                        //////////////////////////
+                        #region engine level
 
-                        foreach (Match match in Regex.Matches(queryChanged, @"\[(.*?)\]", RegexOptions.IgnoreCase).Cast<Match>())
-                        {
-                            var originalValue = match.Value;
-                            // Remove [ and ] and replace spaces as _
-                            var forRedshift = originalValue.Replace(" ", "_").Replace("-", "_").Trim();
-                            queryChanged = queryChanged.Replace(originalValue, forRedshift);
-                        }
+                        // GETDATE() instead of CURRENT_TIMESTAMP
+                        queryChanged = queryChanged
+                            .Replace("CURRENT_TIMESTAMP", "GETDATE()", StringComparison.InvariantCultureIgnoreCase);
+
+                        #region datepart translation (EXTRACT → DATEPART)
+                        queryChanged = Regex.Replace(
+                            queryChanged,
+                            // EXTRACT(MONTH FROM col) → DATEPART(MONTH, col)
+                            @"\bEXTRACT\s*\(\s*([A-Za-z_][A-Za-z0-9_]*)\s+FROM\s+([^)]+?)\)",
+                            "DATEPART($1, $2)",
+                            RegexOptions.IgnoreCase);
+                        #endregion
+
+                        #region coalesce → isnull
+                        // COALESCE(col, 'val') → ISNULL(col, 'val')
+                        queryChanged = Regex.Replace(
+                            queryChanged,
+                            @"\bCOALESCE\s*\(\s*([^,]+?)\s*,\s*([^)]+?)\)",
+                            "ISNULL($1, $2)",
+                            RegexOptions.IgnoreCase);
+                        #endregion
+
+                        #region null::type → CAST(NULL AS type)
+                        // NULL::NUMERIC → CAST(NULL AS NUMERIC)
+                        queryChanged = Regex.Replace(
+                            queryChanged,
+                            @"NULL::\s*(NUMERIC|DECIMAL|DOUBLE PRECISION)",
+                            "CAST(NULL AS $1)",
+                            RegexOptions.IgnoreCase);
+                        #endregion
+
+                        #region string concatenation (|| → +)
+                        // 'foo' || col → 'foo' + col   and   col || 'bar' → col + 'bar'
+                        queryChanged = Regex.Replace(
+                            queryChanged,
+                            @"\|\|",
+                            "+",
+                            RegexOptions.None);
+                        #endregion
+
+                        #region LEFT(LPAD(...)) → SUBSTRING(RIGHT(REPLICATE(...)))
+                        // LEFT(LPAD(col::text,11,'0'),9) →
+                        // SUBSTRING(RIGHT(REPLICATE('0',11) + CAST(col AS VARCHAR(11)),11),1,9)
+                        queryChanged = Regex.Replace(
+                            queryChanged,
+                            @"LEFT\s*\(\s*LPAD\s*\(\s*(\w+)::text\s*,\s*11\s*,\s*'0'\s*\)\s*,\s*9\s*\)",
+                            "SUBSTRING(RIGHT(REPLICATE('0',11) + CAST($1 AS VARCHAR(11)),11),1,9)",
+                            RegexOptions.IgnoreCase);
+                        #endregion
+
+                        #endregion
+                        //////////////////////////
+
+
+                        //////////////////////////
+                        #region database level
+
+
+                        #endregion
+                        //////////////////////////
+
+
+                        //////////////////////////
+                        #region table level
+
+
+                        #endregion
+                        //////////////////////////
 
                         break;
                     }
+
 
                 case Database.Postgre:
                     {
@@ -379,10 +437,10 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
 
                         #endregion
                         //////////////////////////
+                        
+                        
 
 
-
-                            
                         //////////////////////////
                         #region table level
 

@@ -63,14 +63,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 catch(Exception e)
                 {
                     /*i=1
-                     ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'payersource'.
-ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'payersource'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_concept_id'.
-ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'payersource'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_concept_id'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_source_value'.
-ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'payersource'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_concept_id'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'vendor'.
-ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'payersource'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_concept_id'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'vendor'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'race_source_value'.
-ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'payersource'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_concept_id'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'vendor'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'race_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'race_concept_id'.
-ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'payersource'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_concept_id'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'vendor'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'race_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'race_concept_id'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'ethnicity_source_value'.
-ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'payersource'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_concept_id'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'observation_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'vendor'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'race_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'race_concept_id'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'ethnicity_source_value'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid column name 'ethnicity_concept_id'.
+                    {"ERROR [42000] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near '<'.\r\nERROR [42000] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near '<'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near ')'.\r\nERROR [42000] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near '<'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near ')'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near the keyword 'WHERE'.\r\nERROR [42000] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near '<'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near ')'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near the keyword 'WHERE'.[Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Incorrect syntax near '<'."}
                      */
                     //error info is written in LoadQuery catch
                     Console.WriteLine("Query number is " + i);
@@ -114,29 +107,25 @@ ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid colu
             var saver = Utility.CdmFrameworkImport.Savers.Saver.GetSaverFromFrameworkSaver(frameworkSaver);
             Stopwatch stopwatch = new Stopwatch();
 
-            while (true) try //dbg
+            try
+            {
+                stopwatch.Start();
+                using (saver)
                 {
-                    try
-                    {
-                        stopwatch.Start();
-                        using (saver)
-                        {
-                            var createdSaver = saver.Create(FrameworkSettings.Settings.Current.Building.DestinationConnectionString);
-                           createdSaver.Save(_databaseChunkPart.ChunkData, _offsetManager);
-                        }
-                        stopwatch.Stop();
-                        Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
-                            $"ChunkId={_chunkId} was saved - {stopwatch.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
-                        _databaseChunkPart.ChunkData.Clean();
-                        GC.Collect();
-                        break; //dbg
-                    }
-                    catch (Exception e)
-                    {
-                        string eMes = e.Message;
-                        throw;
-                    }
-                } catch { } //dbg
+                    var createdSaver = saver.Create(FrameworkSettings.Settings.Current.Building.DestinationConnectionString);
+                    createdSaver.Save(_databaseChunkPart.ChunkData, _offsetManager);
+                }
+                stopwatch.Stop();
+                Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
+                    $"ChunkId={_chunkId} was saved - {stopwatch.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
+                _databaseChunkPart.ChunkData.Clean();
+                GC.Collect();
+            }
+            catch (Exception e)
+            {
+                string eMes = e.Message;
+                throw;
+            }
         }
 
         public void Clean()
@@ -159,7 +148,7 @@ ERROR [42S22] [Microsoft][ODBC Driver 17 for SQL Server][SQL Server]Invalid colu
                     return;
 
                 string sourceQueryDefinitionSql = sourceQueryDefinitionTyped.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
-                sqlClean = GetSqlHelper.TranslateSql(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql, building.SourceSchemaName, _chunkId.ToString());
+                sqlClean = GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql, building.SourceSchemaName, _chunkId.ToString());
                 if (string.IsNullOrEmpty(sqlClean))
                     return;
 

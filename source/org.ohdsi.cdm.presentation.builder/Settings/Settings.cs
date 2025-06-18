@@ -133,7 +133,7 @@ namespace org.ohdsi.cdm.presentation.builder
         {
             var resources = EmbeddedResourceManager.ReadEmbeddedResources("org.ohdsi.cdm.framework", resourceName, StringComparison.CurrentCultureIgnoreCase);
 
-            var script = resources.First(s => s.Key.Contains(Current.Building.CdmEngine.Database.ToName()));
+            var script = resources.First(s => s.Key.Contains(Current.Building.CdmEngine.Database.ToName(), StringComparison.InvariantCultureIgnoreCase));
 
             return script.Value;
         }

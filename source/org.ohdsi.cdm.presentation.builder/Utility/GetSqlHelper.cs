@@ -21,7 +21,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
         /// <param name="query"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static string TranslateSqlTruncate(IDatabaseEngine targetDatabase, string query)
+        public static string TranslateSqlTruncateFromRedshift(IDatabaseEngine targetDatabase, string query)
         {
             var queryChanged = query;
             switch (targetDatabase)
@@ -58,7 +58,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
         }
 
         /// <summary>
-        /// Translate select from MsSql to other SQL dialects
+        /// Translate select from Redshift to other SQL dialects
         /// </summary>
         /// <param name="vendor"></param>
         /// <param name="sourceDatabase"></param>
@@ -66,12 +66,12 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
         /// <param name="schemaName"></param>
         /// <param name="chunkId">Should be left null or blank for batch sqcript</param>
         /// <returns></returns>
-        public static string TranslateSql(Vendor vendor, Database sourceDatabase, string query, string schemaName, string chunkId = "")
+        public static string TranslateSqlFromRedshift(Vendor vendor, Database sourceDatabase, string query, string schemaName, string chunkId = "")
         {
             try
             {
                 string tableName = getTableNameFromQuery(query);
-                var queryChanged = translateFromMsSql(query, sourceDatabase, schemaName, tableName);
+                var queryChanged = translateFromRedshift(query, sourceDatabase, schemaName, tableName);
                 queryChanged = finalizeXmlToDbQueryConversion(queryChanged, chunkId, schemaName);
                 return queryChanged;
             }
@@ -147,7 +147,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
             return result;
         }
 
-        static string translateFromMsSql(string query, Database requiredEngine, string schemaName, string tableName)
+        static string translateFromRedshift(string query, Database requiredEngine, string schemaName, string tableName)
         {
             var queryChanged = query;
 
@@ -405,22 +405,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                         //////////////////////////
 
                         break;
-                    }
-
-                case Database.Redshift:
-                    {
-                        throw new NotImplementedException("Translation to Redshift is not ready!");
-                        //foreach (Match match in Regex.Matches(queryChanged, @"\[(.*?)\]", RegexOptions.IgnoreCase).Cast<Match>())
-                        //{
-                        //    var originalValue = match.Value;
-                        //    // Remove [ and ] and replace spaces as _
-                        //    var forRedshift = originalValue.Replace("[", @"""").Replace("]", @"""").Replace(" ", "_")
-                        //        .Replace("-", "_").Trim();
-                        //    working = working.Replace(originalValue, forRedshift);
-                        //}
-
-                        break;
-
                     }
             }
             return queryChanged;

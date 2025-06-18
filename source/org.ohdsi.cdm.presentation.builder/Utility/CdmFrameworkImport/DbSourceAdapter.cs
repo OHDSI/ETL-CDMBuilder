@@ -22,32 +22,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             _dbSource = new framework.desktop.DbLayer.DbSource(connectionString, dbType, schemaName);
         }
 
-
-        public void CreateChunkSchema(string name)
-        {
-            try
-            {
-                var query = "CREATE SCHEMA IF NOT EXISTS {sc};";
-                query = query.Replace("{sc}", name);
-                using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
-                using var cmd = new OdbcCommand(query, connection);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Can't create chunk schema");
-            }
-        }
-
-        private string GetQuery(string fileName, string schemaName)
-        {
-            var resources = EmbeddedResourceManager.ReadEmbeddedResources("ohdsi", fileName, StringComparison.InvariantCultureIgnoreCase);
-            var query = resources
-                .FirstOrDefault(s => s.Key.Contains(_dbType, StringComparison.InvariantCultureIgnoreCase))
-                .Value.Replace("{sc}", schemaName);
-            return query;
-        }
-
         public void CreateChunkTable(string schemaName, bool withDrop = true)
         {
             if (withDrop)
@@ -169,6 +143,15 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             }
 
             return "unknown";
+        }
+
+        private string GetQuery(string fileName, string schemaName)
+        {
+            var resources = EmbeddedResourceManager.ReadEmbeddedResources("ohdsi", fileName, StringComparison.InvariantCultureIgnoreCase);
+            var query = resources
+                .FirstOrDefault(s => s.Key.Contains(_dbType, StringComparison.InvariantCultureIgnoreCase))
+                .Value.Replace("{sc}", schemaName);
+            return query;
         }
     }
 }

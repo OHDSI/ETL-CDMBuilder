@@ -55,7 +55,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
                 if (chunks.Count > 0)
                 {
-                    saver.AddChunk(chunks, 0, chunksSchema);
+                     saver.AddChunk(chunks, 0, chunksSchema);
                 }
 
                 saver.Commit();

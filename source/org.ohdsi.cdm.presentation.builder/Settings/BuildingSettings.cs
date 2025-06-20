@@ -100,7 +100,7 @@ namespace org.ohdsi.cdm.presentation.builder
 
                     if (!conStringTyped.Name.Contains("Destination"))
                         continue;
-                    if (!conStringTyped.Name.Contains(SourceEngine.Database.ToName()))
+                    if (!conStringTyped.Name.Contains(CdmEngine.Database.ToName()))
                         continue;
 
                     var result = conStringTyped.ConnectionString
@@ -108,6 +108,9 @@ namespace org.ohdsi.cdm.presentation.builder
                         .Replace("{database}", CdmDb)
                         .Replace("{username}", CdmUser)
                         .Replace("{password}", CdmPswd);
+
+                    //if (result.Contains("Mysql", StringComparison.InvariantCultureIgnoreCase))
+                    //    result = result.Replace("database=" + CdmDb + ";", "", StringComparison.InvariantCultureIgnoreCase);
 
                     return result;
                 }
@@ -136,6 +139,9 @@ namespace org.ohdsi.cdm.presentation.builder
                         .Replace("{username}", SourceUser)
                         .Replace("{password}", SourcePswd);
 
+                    //if (result.Contains("Mysql", StringComparison.InvariantCultureIgnoreCase))
+                    //    result = result.Replace("database=" + SourceDb + ";", "", StringComparison.InvariantCultureIgnoreCase);
+
                     return result;
                 }
                 throw new KeyNotFoundException(SourceServer + " connection string for source was not found!"); 
@@ -154,7 +160,7 @@ namespace org.ohdsi.cdm.presentation.builder
 
                     if (!conStringTyped.Name.Contains("Vocabulary"))
                         continue;
-                    if (!conStringTyped.Name.Contains(SourceEngine.Database.ToName()))
+                    if (!conStringTyped.Name.Contains(VocabularyEngine.Database.ToName()))
                         continue;
 
                     var result = conStringTyped.ConnectionString
@@ -162,6 +168,9 @@ namespace org.ohdsi.cdm.presentation.builder
                         .Replace("{database}", VocabDb)
                         .Replace("{username}", VocabUser)
                         .Replace("{password}", VocabPswd);
+
+                    //if (result.Contains("Mysql", StringComparison.InvariantCultureIgnoreCase))
+                    //    result = result.Replace("database=" + VocabDb + ";", "", StringComparison.InvariantCultureIgnoreCase);
 
                     return result;
                 }
@@ -171,10 +180,7 @@ namespace org.ohdsi.cdm.presentation.builder
 
         #endregion
 
-        /// <summary>
-        /// This constructor is only for XML serialization
-        /// </summary>
-        [Obsolete]
+        [Obsolete("This constructor is only for XML serialization")]
         public BuildingSettings() { }
 
         public BuildingSettings(IDatabaseEngine sourceDatabaseEngine, IDatabaseEngine cdmDatabaseEngine, IDatabaseEngine vocabularyDatabaseEngine, Vendor vendor)

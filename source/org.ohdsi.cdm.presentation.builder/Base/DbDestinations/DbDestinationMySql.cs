@@ -9,13 +9,15 @@ using System.Threading.Tasks;
 
 namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
 {
-    public class DbDestinationMsSql : DbDestination
+    public class DbDestinationMySql : DbDestination
     {
-        public DbDestinationMsSql(string connectionString, IDatabaseEngine dbEngine, string schemaName)
+        public DbDestinationMySql(string connectionString, IDatabaseEngine dbEngine, string schemaName)
             : base(connectionString, dbEngine, schemaName)
         { 
         
         }
+
+        string localInfileCommand = "SET GLOBAL local_infile = ON;";
 
         public override ActionStatus CreateDatabase(string query)
         {
@@ -37,8 +39,9 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                         }
                         catch (OdbcException ex)
                         {
-                            if (new[] { "database", "already exists" }.All(s => ex.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                            if (new[] { "database exists" }.All(s => ex.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                             {
+                                ExecuteQuery(localInfileCommand);
                                 // ignore
                                 return ActionStatus.AlreadyExists;
                             }
@@ -56,6 +59,8 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                         }
                     }
                 }
+
+                ExecuteQuery(localInfileCommand);
             }
 
             return ActionStatus.Success;
@@ -63,43 +68,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
 
         public override ActionStatus CreateSchema()
         {
-
-            if (SchemaName.ToLower().Trim() == "dbo")
-                return ActionStatus.AlreadyExists;
-
-            var query = $"create schema {SchemaName}";
-
-            try
-            {
-                using (var connection = SqlConnectionHelper.OpenOdbcConnection(ConnectionString))
-                {
-                    using (var command = new OdbcCommand(query, connection))
-                    {
-                        command.CommandTimeout = 0;
-                        command.ExecuteNonQuery();
-                    }
-                }
-                return ActionStatus.Success;
-            }
-            catch (OdbcException ex)
-            {
-                if (new[] { "There is already an object named", "in the database" }.All(s => ex.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    // ignore
-                    return ActionStatus.AlreadyExists;
-                }
-                else
-                {
-                    Console.WriteLine();
-                    Console.WriteLine(@"Failed to execute command: {0}", query);
-                    Console.WriteLine(ex.Message);
-                    throw;
-                }
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            return ActionStatus.Success; // MySQL does not use schemas
         }
 
         public override ActionStatus ExecuteQuery(string query)
@@ -128,7 +97,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                         }
                         catch (OdbcException odbcEx)
                         {
-                            if (new[] { "There is already an object named", "in the database" }.All(s => odbcEx.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                            if (new[] { "Table", "already exists" }.All(s => odbcEx.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                             {
                                 // ignore
                                 // don't return because we need to execute all subqueries

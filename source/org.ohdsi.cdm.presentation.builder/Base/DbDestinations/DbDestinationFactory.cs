@@ -17,7 +17,10 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                     new DbDestinationPostgres(connectionString, pg, schemaName),
 
                 MssqlDatabaseEngine ms =>
-                    new DbDestinationMssql(connectionString, ms, schemaName),
+                    new DbDestinationMsSql(connectionString, ms, schemaName),
+
+                MySqlDatabaseEngine ms =>
+                    new DbDestinationMySql(connectionString, ms, schemaName),
 
                 _ => throw new NotSupportedException(
                        $"DbDestinationFactory -> Engine '{dbEngine.GetType().Name}' not supported.")

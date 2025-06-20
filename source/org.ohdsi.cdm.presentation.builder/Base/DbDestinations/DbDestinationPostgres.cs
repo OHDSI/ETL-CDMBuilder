@@ -124,8 +124,8 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
 
                     var subQueries = queryAltered
                         .Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries)
-                        .Select(s => s.Trim())
-                        .Where(s => !string.IsNullOrWhiteSpace(s))
+                        .Select(s => new string(s.Skip(s.IndexOf("CREATE", StringComparison.CurrentCultureIgnoreCase)).ToArray()).Trim() + ";")
+                        .Where(s => s.Contains("CREATE", StringComparison.CurrentCultureIgnoreCase))
                         .ToList();
 
                     foreach (var subQuery in subQueries)

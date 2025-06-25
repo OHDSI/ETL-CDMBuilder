@@ -153,7 +153,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                     return;
 
                 //debug
-                if (tableExclusionArray.Any(s => sqlClean.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                if (tableExclusionArray.Any(s => sqlClean.Replace("`", "").Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                     return;
 
                 if (building.SourceEngine.Database == Database.Redshift)

@@ -10,7 +10,6 @@ using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.presentation.builder;
 using org.ohdsi.cdm.presentation.builder.Controllers;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
-using System.Xml.Linq;
 
 namespace RunLocal
 {
@@ -91,12 +90,6 @@ namespace RunLocal
 
             #endregion
 
-            [Option("MappingsName", Required = true, HelpText = "Mappings name")]
-            public string MappingsName { get; set; }
-
-            [Option("CdmVersion", Required = true, HelpText = "CDM version")]
-            public string CdmVersion { get; set; }
-
             [Usage(ApplicationAlias = "RunLocal")]
             public static IEnumerable<Example> Examples
             {
@@ -123,9 +116,7 @@ namespace RunLocal
                         VocabularyDatabase = "VocabularyDatabase",
                         VocabularySchema = "VocabularySchema",
                         VocabularyUser = "VocabularyUser",
-                        VocabularyPassword = "VocabularyPassword",
-                        MappingsName = "MappingsName",
-                        CdmVersion = "CdmVersion"
+                        VocabularyPassword = "VocabularyPassword"
                     };
                     var example = new Example("Example with placeholder arguments", options);
                     string txt = "RunLocal " + string.Join(" ", options.GetType().GetProperties().Where(s => s.Name != "Examples").Select(s => "--" + s.Name + "=\"" + s.Name + "\"")); // to fill program args
@@ -214,36 +205,10 @@ namespace RunLocal
                 Console.WriteLine($"VocabularyUser: {opts.VocabularyUser}");
                 Console.WriteLine($"VocabularyPassword: ******");
 
-                Console.WriteLine($"MappingsName: {opts.MappingsName}");
-                Console.WriteLine($"CdmVersion: {opts.CdmVersion}");
-
                 Console.WriteLine();
 
-                //Vendor vendor = EtlLibrary.CreateVendorInstance(etlLibraryPath, opts.VendorName)
-                //    ?? throw new NoNullAllowedException("Failed to setup the vendor!");
-                //this is errorous due to LoadFrom should be used instead of LoadFile 
-                #region this should be removed after fixing EtlLibrary in Etl-LambdaBuilder
-                Vendor vendor = null;
-                var assembly = Assembly.LoadFrom(Path.Combine(etlLibraryPath, "org.ohdsi.cdm.framework.etl.dll"));
-                var vendorTypes = assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(Vendor)) && !t.IsAbstract);
-                var vendorType = vendorTypes.FirstOrDefault(a => a.Name.Contains(opts.VendorName, StringComparison.CurrentCultureIgnoreCase));
-
-                if (vendorType == null)
-                {
-                    var name = opts.VendorName.ToLower().Replace("v5", "").Replace("full", "");
-
-                    vendorType = vendorTypes.FirstOrDefault(a => a.Name.Contains(name, StringComparison.CurrentCultureIgnoreCase));
-                }
-
-                if (vendorType != null)
-                {
-                    Console.WriteLine("CreateVendorInstance | assembly: " + assembly.GetName().Name);
-                    Console.WriteLine("CreateVendorInstance | vendorType: " + vendorType);
-                    Console.WriteLine();
-
-                    vendor = Activator.CreateInstance(vendorType) as Vendor;
-                }
-                #endregion
+                Vendor vendor = EtlLibrary.CreateVendorInstance(etlLibraryPath, opts.VendorName)
+                    ?? throw new NoNullAllowedException("Failed to setup the vendor!");
 
                 var sourceEngine = GetDatabaseEngine(opts.SourceEngine);
                 var cdmEngine = GetDatabaseEngine(opts.DestinationEngine);

@@ -132,10 +132,19 @@ namespace org.ohdsi.cdm.presentation.builder
         private static string ReadEmbeddedResource(string resourceName)
         {
             var resources = EmbeddedResourceManager.ReadEmbeddedResources("org.ohdsi.cdm.framework", resourceName, StringComparison.CurrentCultureIgnoreCase);
+            var databased = resources
+                .Where(s => s.Key.Contains(Current.Building.CdmEngine.Database.ToName(), StringComparison.InvariantCultureIgnoreCase))
+                .OrderByDescending(s => s.Key)
+                .ToList();
+            var requiredVersion = new string(Settings.Current.Building.Cdm.ToName().Where(s => Char.IsDigit(s)).ToArray()).PadLeft(3, '0');
+            foreach(var resource in databased)
+            {
+                var version = new string(resource.Key.Where(s => Char.IsDigit(s)).ToArray()).PadLeft(3, '0');
+                if (string.Compare(version, requiredVersion) < 0) //version < requiredVersion
+                    return resource.Value;
+            }
 
-            var script = resources.First(s => s.Key.Contains(Current.Building.CdmEngine.Database.ToName(), StringComparison.InvariantCultureIgnoreCase));
-
-            return script.Value;
+            throw new KeyNotFoundException(resourceName + " could not be found!");
         }
 
         #endregion

@@ -18,6 +18,4 @@
 --VocabularySchema="vocab" 
 --VocabularyUser="mssql" 
 --VocabularyPassword=""
---MappingsName="MappingsName" 
---CdmVersion="V5.4" 
 --EtlLibraryPath=""C:\repos\OPEN SOURCE\ETL-LambdaBuilder\ETL-LambdaBuilder\sources\Tests\RunLocal\bin\Debug\net8.0-windows"

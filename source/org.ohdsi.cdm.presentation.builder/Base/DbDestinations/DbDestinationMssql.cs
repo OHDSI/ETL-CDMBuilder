@@ -22,7 +22,25 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
             var sqlConnectionStringBuilder = new OdbcConnectionStringBuilder(ConnectionString);
             var database = sqlConnectionStringBuilder["database"];
 
-            using (var connection = SqlConnectionHelper.OpenOdbcConnection(sqlConnectionStringBuilder.ConnectionString))
+
+            #region OdbcConnection connection = SqlConnectionHelper.OpenOdbcConnection(sqlConnectionStringBuilder.ConnectionString)
+            OdbcConnection connection;
+            try
+            {
+                connection = SqlConnectionHelper.OpenOdbcConnection(sqlConnectionStringBuilder.ConnectionString);
+            }
+            catch (Exception e)
+            {
+                if (new[] { "database ", " does not exist" }.All(s => e.Message.Contains(s)))
+                {
+                    var CSwithDefaultDatabase = sqlConnectionStringBuilder.ConnectionString.Replace(database.ToString(), "master");
+                    connection = SqlConnectionHelper.OpenOdbcConnection(CSwithDefaultDatabase);
+                }
+                else
+                    throw;
+            }
+            #endregion
+            using (connection)
             {
                 var preciseQuery = string.Format(query, database);
 

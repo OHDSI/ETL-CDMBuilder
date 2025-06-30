@@ -9,6 +9,7 @@ using org.ohdsi.cdm.presentation.builder.Utility;
 using org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport;
 using System.Configuration;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings.Settings;
 
@@ -55,17 +56,7 @@ namespace org.ohdsi.cdm.presentation.builder
         public Vendor VendorToProcess { get; set; }
 
         [XmlIgnore]
-        public CdmVersions Cdm
-        { 
-            //should this be replaced with CdmVersion from org.ohdsi.cdm.framework.common
-            get
-            {
-                if (ConfigurationManager.AppSettings["CDM"] == "v5.3")
-                    return CdmVersions.V53;
-
-                return CdmVersions.V6;
-            }
-        }
+        public CdmVersions Cdm => FrameworkSettings.Current.Building.Cdm;
 
         [XmlIgnore]
         public List<QueryDefinition> SourceQueryDefinitions { get; set; }
@@ -349,7 +340,7 @@ namespace org.ohdsi.cdm.presentation.builder
             var buildingSettings = new Utility.CdmFrameworkImport.BuildingSettings(0, VendorToProcess, Directory.GetCurrentDirectory());
             EtlLibrary.LoadVendorSettings(Directory.GetCurrentDirectory(), buildingSettings);
 
-            debug_Fix_EnrollemntDetailQuery(buildingSettings);
+            FixQueries(buildingSettings);
 
             foreach (var sourceQueryDefinion in buildingSettings.SourceQueryDefinitions)
             {
@@ -378,10 +369,10 @@ namespace org.ohdsi.cdm.presentation.builder
         }
 
         /// <summary>
-        /// This is to be removed after updating Truven_CCAE codebase
+        /// tesmporary solution not to affect Etl-LambdaBuilder
         /// </summary>
         /// <param name="buildingSettings"></param>
-        void debug_Fix_EnrollemntDetailQuery(Utility.CdmFrameworkImport.BuildingSettings buildingSettings)
+        void FixQueries(Utility.CdmFrameworkImport.BuildingSettings buildingSettings)
         {
 
             if (VendorToProcess.Name == "Truven_CCAE")
@@ -390,8 +381,16 @@ namespace org.ohdsi.cdm.presentation.builder
                 if (!enrollment_detail.Query.Text.Contains(", b as\r\n(\r\nSELECT")) //new cte
                 {
                     Console.WriteLine("\r\n***DEBUG*** Fixing Enrollment Detail query for Truven_CCAE...");
-                    enrollment_detail.Query.Text = "WITH a AS (\r\n    SELECT \r\n        ENROLID,\r\n        SEX,\r\n        DOBYR,\r\n        DTSTART,\r\n        DTEND,\r\n        SUBSTRING(RIGHT('00000000000' + CAST(ENROLID AS VARCHAR), 11), 1, 9) AS Family,\r\n        CASE PLANTYP\r\n            WHEN 1 THEN '{prefix} Basic/Major Medical'\r\n            WHEN 2 THEN '{prefix} Comprehensive'\r\n            WHEN 3 THEN '{prefix} EPO'\r\n            WHEN 4 THEN '{prefix} HMO'\r\n            WHEN 5 THEN '{prefix} POS'\r\n            WHEN 6 THEN '{prefix} PPO'\r\n            WHEN 7 THEN '{prefix} POS with Capitation'\r\n            WHEN 8 THEN '{prefix} CDHP'\r\n            WHEN 9 THEN '{prefix} HDHP'\r\n            ELSE '{prefix} Other'\r\n        END AS ps,\r\n        DATATYP,\r\n        EGEOLOC,\r\n        32813 AS PeriodTypeConceptId,\r\n        ISNULL(MHSACOVG, '0') AS VALUE_AS_NUMBER,\r\n        CASE WHEN RX = '1' THEN 0 ELSE 1 END AS missinginsurance,\r\n        RX\r\n    FROM {sc}.ENROLLMENT_DETAIL t1\r\n    JOIN {ch_sc}._chunks ch ON ch.ChunkId = {0} AND ENROLID = ch.person_source_value\r\n)\r\n\r\n, b as\r\n(\r\nSELECT \r\n\t  t1.ENROLID\r\n\t, SUBSTRING(RIGHT('00000000000' + CAST(t1.ENROLID AS VARCHAR), 11), 1, 9) as family\r\n\t, MIN(t1.DOBYR) DOBYR\r\n\t, MIN(CAST(CAST(t1.DOBYR AS VARCHAR) + '-' + CAST(DATEPART(MONTH, t1.DTSTART) AS VARCHAR) + '-01' AS DATE)) DOBYR_DATE\r\nFROM {sc}.ENROLLMENT_DETAIL t1\r\nJOIN {ch_sc}._chunks ch ON ch.ChunkId = {0} AND ENROLID = ch.person_source_value\r\nWHERE 1=1\r\nAND t1.RX = '1' \r\nAND t1.DOBYR = DATEPART(YEAR, t1.DTSTART)\r\nGROUP BY t1.ENROLID\r\n)\r\n\r\nSELECT DISTINCT\r\n    a.*,\r\n    CASE\r\n        WHEN a.DATATYP IN (2, 4) THEN 'C '\r\n        ELSE 'N '\r\n    END + ps AS PayerSource,\r\n    900000010 AS OBSERVATION_CONCEPT_ID,\r\n    'MHSACOVG' AS OBSERVATION_SOURCE_VALUE,\r\n    'ccae' AS vendor,\r\n    NULL AS PLANKEY,\r\n    NULL AS RACE_SOURCE_VALUE,\r\n    NULL AS RACE_CONCEPT_ID,\r\n    NULL AS ETHNICITY_SOURCE_VALUE,\r\n    NULL AS ETHNICITY_CONCEPT_ID,\r\n    b.ENROLID AS baby_person_id,\r\n    b.DOBYR_DATE AS baby_dob\r\nFROM a\r\nLEFT JOIN b\r\nON a.SEX = '2'\r\nAND a.RX = '1'\r\nAND a.FAMILY = b.FAMILY\r\nAND b.DOBYR - a.DOBYR >= 12\r\nAND a.ENROLID != b.ENROLID\r\nORDER BY ENROLID\r\n  ";
+                    var queryResources = EmbeddedResourceManager.ReadEmbeddedResources("presentation.builder", "ENROLLMENT_DETAIL.xml", StringComparison.CurrentCultureIgnoreCase);
+                    var match = Regex.Match(queryResources.First().Value, @"<Query\b[^>]*>(.*?)<\/Query>", RegexOptions.Singleline);
+                    if (match.Success)
+                    {
+                        string querySql = match.Groups[1].Value;
+                        enrollment_detail.Query.Text = querySql;
+                    }                    
                 }
+
+                var createTablesScripts = EmbeddedResourceManager.ReadEmbeddedResources("CreateTables.sql");
             }
         }
 

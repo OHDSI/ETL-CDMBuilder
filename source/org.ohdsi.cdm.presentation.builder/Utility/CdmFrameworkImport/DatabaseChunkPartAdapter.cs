@@ -137,6 +137,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
         {
             var building = FrameworkSettings.Settings.Current.Building;
 
+            string sourceQueryDefinitionSql = "";
             string sqlClean = "";
             string sourceConnectionString = "";
             string sourceEngine = "";
@@ -146,14 +147,14 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 var sourceQueryDefinitionTyped = new QueryDefinitionAdapter(sourceQueryDefinition);
                 if (sourceQueryDefinitionTyped.HasAnyProvidersLocationsCareSites)
                     return;
-
-                string sourceQueryDefinitionSql = sourceQueryDefinitionTyped.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
+                                
+                sourceQueryDefinitionSql = sourceQueryDefinitionTyped.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
                 sqlClean = GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql, building.SourceSchemaName, _chunkId.ToString());
                 if (string.IsNullOrEmpty(sqlClean))
                     return;
 
                 //debug
-                if (tableExclusionArray.Any(s => sqlClean.Replace("`", "").Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+               if (tableExclusionArray.Any(s => sqlClean.Replace("`", "").Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                     return;
 
                 if (building.SourceEngine.Database == Database.Redshift)

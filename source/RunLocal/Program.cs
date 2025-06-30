@@ -219,8 +219,31 @@ namespace RunLocal
 
                 Console.WriteLine();
 
-                Vendor vendor = EtlLibrary.CreateVendorInstance(etlLibraryPath, opts.VendorName)
-                    ?? throw new NoNullAllowedException("Failed to setup the vendor!");
+                //Vendor vendor = EtlLibrary.CreateVendorInstance(etlLibraryPath, opts.VendorName)
+                //    ?? throw new NoNullAllowedException("Failed to setup the vendor!");
+                //this is errorous due to LoadFrom should be used instead of LoadFile 
+                #region this should be removed after fixing EtlLibrary in Etl-LambdaBuilder
+                Vendor vendor = null;
+                var assembly = Assembly.LoadFrom(Path.Combine(etlLibraryPath, "org.ohdsi.cdm.framework.etl.dll"));
+                var vendorTypes = assembly.GetTypes().Where(t => t.IsSubclassOf(typeof(Vendor)) && !t.IsAbstract);
+                var vendorType = vendorTypes.FirstOrDefault(a => a.Name.Contains(opts.VendorName, StringComparison.CurrentCultureIgnoreCase));
+
+                if (vendorType == null)
+                {
+                    var name = opts.VendorName.ToLower().Replace("v5", "").Replace("full", "");
+
+                    vendorType = vendorTypes.FirstOrDefault(a => a.Name.Contains(name, StringComparison.CurrentCultureIgnoreCase));
+                }
+
+                if (vendorType != null)
+                {
+                    Console.WriteLine("CreateVendorInstance | assembly: " + assembly.GetName().Name);
+                    Console.WriteLine("CreateVendorInstance | vendorType: " + vendorType);
+                    Console.WriteLine();
+
+                    vendor = Activator.CreateInstance(vendorType) as Vendor;
+                }
+                #endregion
 
                 var sourceEngine = GetDatabaseEngine(opts.SourceEngine);
                 var cdmEngine = GetDatabaseEngine(opts.DestinationEngine);

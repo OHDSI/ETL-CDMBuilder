@@ -1,5 +1,7 @@
 ﻿using System.Configuration;
 using System.Data;
+using System.Reflection.Metadata;
+using System.Reflection;
 using CommandLine;
 using CommandLine.Text;
 using org.ohdsi.cdm.framework.common.Enums;
@@ -8,6 +10,7 @@ using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.presentation.builder;
 using org.ohdsi.cdm.presentation.builder.Controllers;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
+using System.Xml.Linq;
 
 namespace RunLocal
 {
@@ -19,8 +22,8 @@ namespace RunLocal
             [Option("VendorName", Required = true, HelpText = "Name of the vendor")]
             public string VendorName { get; set; }
 
-            //[Option("etlLibraryPath", Required = false, HelpText = "Path to the library with Vendor definition")]
-            //public string EtlLibraryPath { get; set; } = "";
+            [Option("EtlLibraryPath", Required = false, HelpText = "Path to the library with Vendor definition")]
+            public string EtlLibraryPath { get; set; } = "";
 
             #region source
 
@@ -94,9 +97,6 @@ namespace RunLocal
             [Option("CdmVersion", Required = true, HelpText = "CDM version")]
             public string CdmVersion { get; set; }
 
-            [Option("EtlLibraryPath", Required = false, HelpText = "ETL Library Folder path")]
-            public string EtlLibraryPath { get; set; }
-
             [Usage(ApplicationAlias = "RunLocal")]
             public static IEnumerable<Example> Examples
             {
@@ -136,7 +136,29 @@ namespace RunLocal
 
         static void Main(string[] args)
         {
-            Parser.Default.ParseArguments<Options>(args)
+            string[] paramsLines = new string[0];
+            try
+            {
+                var paramsFile = Path.Combine(Directory.GetCurrentDirectory(), "params.txt");
+                var text = File.ReadAllText(paramsFile);
+                paramsLines = text
+                    .Replace("\"", "")
+                    .Split(new[] { "--"}, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(s => "--" + s.Trim().Replace("\\\\", "\\")) //these get doubled for some reason while in double quotes
+                    .Where(s => s != "--RunLocal")
+                    .Prepend("RunLocal")
+                    .ToArray();
+            }
+            catch (Exception e)
+            { 
+            
+            }
+
+            string[] argsFinal = args.Length != 0 
+                ? args
+                : paramsLines;
+
+            Parser.Default.ParseArguments<Options>(argsFinal)
                 .WithParsed(RunWithOptions)
                 .WithNotParsed(HandleParseError);
 
@@ -162,75 +184,84 @@ namespace RunLocal
 
         static void SetSettings(Options opts)
         {
-            Console.WriteLine("Options:");
-
-            Console.WriteLine($"VendorName: {opts.VendorName}");
-            Console.WriteLine($"EtlLibraryPath: {opts.EtlLibraryPath}");
-
-            Console.WriteLine($"SourceEngine: {opts.SourceEngine}");
-            Console.WriteLine($"SourceServer: {opts.SourceServer}");
-            Console.WriteLine($"SourceDatabase: {opts.SourceDatabase}");
-            Console.WriteLine($"SourceSchema: {opts.SourceSchema}");
-            Console.WriteLine($"SourceUser: {opts.SourceUser}");
-            Console.WriteLine($"SourcePassword: ******");
-
-            Console.WriteLine($"DestinationEngine: {opts.DestinationEngine}");
-            Console.WriteLine($"DestinationServer: {opts.DestinationServer}");
-            Console.WriteLine($"DestinationDatabase: {opts.DestinationDatabase}");
-            Console.WriteLine($"DestinationSchema: {opts.DestinationSchema}");
-            Console.WriteLine($"DestinationUser: {opts.DestinationUser}");
-            Console.WriteLine($"DestinationPassword: ******");
-
-            Console.WriteLine($"VocabularyEngine: {opts.VocabularyEngine}");
-            Console.WriteLine($"VocabularyServer: {opts.VocabularyServer}");
-            Console.WriteLine($"VocabularyDatabase: {opts.VocabularyDatabase}");
-            Console.WriteLine($"VocabularySchema: {opts.VocabularySchema}");
-            Console.WriteLine($"VocabularyUser: {opts.VocabularyUser}");
-            Console.WriteLine($"VocabularyPassword: ******");
-
-            Console.WriteLine($"MappingsName: {opts.MappingsName}");
-            Console.WriteLine($"CdmVersion: {opts.CdmVersion}");
-
-            Console.WriteLine();
-
-            Vendor vendor = EtlLibrary.CreateVendorInstance(Directory.GetCurrentDirectory(), opts.VendorName)
-                ?? throw new NoNullAllowedException("Failed to setup the vendor!");
-
-            var sourceEngine = GetDatabaseEngine(opts.SourceEngine);
-            var cdmEngine = GetDatabaseEngine(opts.DestinationEngine);
-            var vocabEngine = GetDatabaseEngine(opts.VocabularyEngine);
-
-            //create instance, nothing drastic is done at init, properties are copied at BuildingSettings properties Set
-            //these properties must be filled at the moment of the interaction with the db
-            FrameworkSettings.Settings.Initialize("", "");
-
-            Settings.Current = new Settings()
+            try
             {
-                Building = new BuildingSettings(sourceEngine, cdmEngine, vocabEngine, vendor)
+                var etlLibraryPath = !string.IsNullOrEmpty(opts.EtlLibraryPath) ? opts.EtlLibraryPath : Directory.GetCurrentDirectory();                
+
+                Console.WriteLine("Options:");
+
+                Console.WriteLine($"VendorName: {opts.VendorName}");
+                Console.WriteLine($"EtlLibraryPath: {etlLibraryPath}");
+
+                Console.WriteLine($"SourceEngine: {opts.SourceEngine}");
+                Console.WriteLine($"SourceServer: {opts.SourceServer}");
+                Console.WriteLine($"SourceDatabase: {opts.SourceDatabase}");
+                Console.WriteLine($"SourceSchema: {opts.SourceSchema}");
+                Console.WriteLine($"SourceUser: {opts.SourceUser}");
+                Console.WriteLine($"SourcePassword: ******");
+
+                Console.WriteLine($"DestinationEngine: {opts.DestinationEngine}");
+                Console.WriteLine($"DestinationServer: {opts.DestinationServer}");
+                Console.WriteLine($"DestinationDatabase: {opts.DestinationDatabase}");
+                Console.WriteLine($"DestinationSchema: {opts.DestinationSchema}");
+                Console.WriteLine($"DestinationUser: {opts.DestinationUser}");
+                Console.WriteLine($"DestinationPassword: ******");
+
+                Console.WriteLine($"VocabularyEngine: {opts.VocabularyEngine}");
+                Console.WriteLine($"VocabularyServer: {opts.VocabularyServer}");
+                Console.WriteLine($"VocabularyDatabase: {opts.VocabularyDatabase}");
+                Console.WriteLine($"VocabularySchema: {opts.VocabularySchema}");
+                Console.WriteLine($"VocabularyUser: {opts.VocabularyUser}");
+                Console.WriteLine($"VocabularyPassword: ******");
+
+                Console.WriteLine($"MappingsName: {opts.MappingsName}");
+                Console.WriteLine($"CdmVersion: {opts.CdmVersion}");
+
+                Console.WriteLine();
+
+                Vendor vendor = EtlLibrary.CreateVendorInstance(etlLibraryPath, opts.VendorName)
+                    ?? throw new NoNullAllowedException("Failed to setup the vendor!");
+
+                var sourceEngine = GetDatabaseEngine(opts.SourceEngine);
+                var cdmEngine = GetDatabaseEngine(opts.DestinationEngine);
+                var vocabEngine = GetDatabaseEngine(opts.VocabularyEngine);
+
+                //create instance, nothing drastic is done at init, properties are copied at BuildingSettings properties Set
+                //these properties must be filled at the moment of the interaction with the db
+                FrameworkSettings.Settings.Initialize("", "");
+
+                Settings.Current = new Settings()
                 {
-                    Batches = 1,
+                    Building = new BuildingSettings(sourceEngine, cdmEngine, vocabEngine, vendor)
+                    {
+                        Batches = 1,
 
-                    SourceServer = opts.SourceServer,
-                    SourceDb = opts.SourceDatabase,
-                    SourceSchema = opts.SourceSchema,
-                    SourceUser = opts.SourceUser,
-                    SourcePswd = opts.SourcePassword,
+                        SourceServer = opts.SourceServer,
+                        SourceDb = opts.SourceDatabase,
+                        SourceSchema = opts.SourceSchema,
+                        SourceUser = opts.SourceUser,
+                        SourcePswd = opts.SourcePassword,
 
-                    CdmServer = opts.DestinationServer,
-                    CdmDb = opts.DestinationDatabase,
-                    CdmSchema = opts.DestinationSchema,
-                    CdmUser = opts.DestinationUser,
-                    CdmPswd = opts.DestinationPassword,
+                        CdmServer = opts.DestinationServer,
+                        CdmDb = opts.DestinationDatabase,
+                        CdmSchema = opts.DestinationSchema,
+                        CdmUser = opts.DestinationUser,
+                        CdmPswd = opts.DestinationPassword,
 
-                    VocabServer = opts.VocabularyServer,
-                    VocabDb = opts.VocabularyDatabase,
-                    VocabSchema = opts.VocabularySchema,
-                    VocabUser = opts.VocabularyUser,
-                    VocabPswd = opts.VocabularyPassword
-                },
-                BuilderFolder = !string.IsNullOrEmpty(opts.EtlLibraryPath) ? opts.EtlLibraryPath : Directory.GetCurrentDirectory(),
-            };
-            Settings.Current.Building.SetFrameworkBuildingSettings();
+                        VocabServer = opts.VocabularyServer,
+                        VocabDb = opts.VocabularyDatabase,
+                        VocabSchema = opts.VocabularySchema,
+                        VocabUser = opts.VocabularyUser,
+                        VocabPswd = opts.VocabularyPassword
+                    },
+                    BuilderFolder = !string.IsNullOrEmpty(opts.EtlLibraryPath) ? opts.EtlLibraryPath : Directory.GetCurrentDirectory(),
+                };
+                Settings.Current.Building.SetFrameworkBuildingSettings();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         static IDatabaseEngine GetDatabaseEngine(string engine)

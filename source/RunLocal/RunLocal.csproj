@@ -17,4 +17,10 @@
     <ProjectReference Include="..\org.ohdsi.cdm.presentation.builder\org.ohdsi.cdm.presentation.builder.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="params.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

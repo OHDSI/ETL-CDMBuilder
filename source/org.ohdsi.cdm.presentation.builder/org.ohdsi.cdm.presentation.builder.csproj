@@ -7,11 +7,23 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Utility\CdmFrameworkImport\Transformation\Definitions\ENROLLMENT_DETAIL.xml" />
+	  <None Remove="CdmFrameworkImport\DDL\MsSql\V5.4\CreateTables.sql" />
+	  <None Remove="CdmFrameworkImport\DDL\MySql\v5.4\CreateTables.sql" />
+	  <None Remove="CdmFrameworkImport\DDL\Postgre\V5.4\CreateTables.sql" />
+	  <None Remove="CdmFrameworkImport\Transformation\Definitions\ENROLLMENT_DETAIL.xml" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Utility\CdmFrameworkImport\Transformation\Definitions\ENROLLMENT_DETAIL.xml">
+	  <EmbeddedResource Include="CdmFrameworkImport\DDL\MsSql\V5.4\CreateTables.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\DDL\MySql\v5.4\CreateTables.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\DDL\Postgre\V5.4\CreateTables.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Transformation\Definitions\ENROLLMENT_DETAIL.xml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	</ItemGroup>

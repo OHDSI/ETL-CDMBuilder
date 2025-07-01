@@ -131,20 +131,35 @@ namespace org.ohdsi.cdm.presentation.builder
 
         private static string ReadEmbeddedResource(string resourceName)
         {
-            var resources = EmbeddedResourceManager.ReadEmbeddedResources("org.ohdsi.cdm.framework", resourceName, StringComparison.CurrentCultureIgnoreCase);
+            var frameworkResources = EmbeddedResourceManager.ReadEmbeddedResources("org.ohdsi.cdm.framework", resourceName, StringComparison.CurrentCultureIgnoreCase);
+            var presentationResources = EmbeddedResourceManager.ReadEmbeddedResources("org.ohdsi.cdm.presentation.builder", resourceName, StringComparison.CurrentCultureIgnoreCase);
+            var resources = frameworkResources.Union(presentationResources).ToList();
+
             var databased = resources
                 .Where(s => s.Key.Contains(Current.Building.CdmEngine.Database.ToName(), StringComparison.InvariantCultureIgnoreCase))
-                .OrderByDescending(s => s.Key)
-                .ToList();
-            var requiredVersion = new string(Settings.Current.Building.Cdm.ToName().Where(s => Char.IsDigit(s)).ToArray()).PadLeft(3, '0');
-            foreach(var resource in databased)
-            {
-                var version = new string(resource.Key.Where(s => Char.IsDigit(s)).ToArray()).PadLeft(3, '0');
-                if (string.Compare(version, requiredVersion) < 0) //version < requiredVersion
-                    return resource.Value;
-            }
+                .OrderByDescending(s => getVersion(s.Key))
+                .ToList()
+                ;
 
-            throw new KeyNotFoundException(resourceName + " could not be found!");
+            var requiredVersion = getVersion(Settings.Current.Building.Cdm.ToName());
+
+            var result = databased.First(s => getVersion(s.Key) <= requiredVersion);
+
+            return result.Value;
+        }
+
+        static float getVersion(string resourceKey)
+        {
+            var cleaned = new string(resourceKey.Where(s => char.IsDigit(s) || s == '.').ToArray()).Trim('.');
+            if (!cleaned.Contains(".") && cleaned.Length > 0)
+                cleaned = cleaned.Insert(cleaned.Length - 1, ".");
+            
+            if (float.TryParse(cleaned, out float result))
+            {                
+                return result;
+            }
+            else
+                return 0;            
         }
 
         #endregion

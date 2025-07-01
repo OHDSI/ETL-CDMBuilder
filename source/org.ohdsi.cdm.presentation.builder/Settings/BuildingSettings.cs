@@ -389,8 +389,6 @@ namespace org.ohdsi.cdm.presentation.builder
                         enrollment_detail.Query.Text = querySql;
                     }                    
                 }
-
-                var createTablesScripts = EmbeddedResourceManager.ReadEmbeddedResources("CreateTables.sql");
             }
         }
 

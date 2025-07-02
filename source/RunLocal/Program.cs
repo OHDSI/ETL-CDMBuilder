@@ -161,7 +161,7 @@ namespace RunLocal
         {
             SetSettings(opts);
 
-            Build(Settings.Current.Building.SourceSchema, Directory.GetCurrentDirectory(), true);
+            Build(Settings.Current.Building.SourceSchema, Settings.Current.Building.EtlLibraryPath, true);
         }
 
         static void HandleParseError(IEnumerable<Error> errs)
@@ -240,9 +240,10 @@ namespace RunLocal
                         VocabDb = opts.VocabularyDatabase,
                         VocabSchema = opts.VocabularySchema,
                         VocabUser = opts.VocabularyUser,
-                        VocabPswd = opts.VocabularyPassword
+                        VocabPswd = opts.VocabularyPassword,
+                        EtlLibraryPath = etlLibraryPath
                     },
-                    BuilderFolder = !string.IsNullOrEmpty(opts.EtlLibraryPath) ? opts.EtlLibraryPath : Directory.GetCurrentDirectory(),
+                    BuilderFolder = vendor.Folder
                 };
                 Settings.Current.Building.SetFrameworkBuildingSettings();
             }

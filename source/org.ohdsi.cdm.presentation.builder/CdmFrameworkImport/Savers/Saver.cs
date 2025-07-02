@@ -286,6 +286,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
                 }
                 catch (Exception e)
                 {
+                    var personIds = chunk.Persons.Select(s => s.PersonId).OrderBy(s => s).ToList();
                     Console.WriteLine("Failed to write to table " + table + "! " + e.Message);
                     throw;
                 }

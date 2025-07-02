@@ -7,75 +7,62 @@
     <Variable name="vendor" database="mdcd">'mdcd' as vendor</Variable>
   </Variables>
    <Query database="ccae,mdcr">
-WITH a AS (
-    SELECT 
-        ENROLID,
-        SEX,
-        DOBYR,
-        DTSTART,
-        DTEND,
-        SUBSTRING(RIGHT('00000000000' + CAST(ENROLID AS VARCHAR), 11), 1, 9) AS Family,
-        CASE PLANTYP
-            WHEN 1 THEN '{prefix} Basic/Major Medical'
-            WHEN 2 THEN '{prefix} Comprehensive'
-            WHEN 3 THEN '{prefix} EPO'
-            WHEN 4 THEN '{prefix} HMO'
-            WHEN 5 THEN '{prefix} POS'
-            WHEN 6 THEN '{prefix} PPO'
-            WHEN 7 THEN '{prefix} POS with Capitation'
-            WHEN 8 THEN '{prefix} CDHP'
-            WHEN 9 THEN '{prefix} HDHP'
-            ELSE '{prefix} Other'
-        END AS ps,
-        DATATYP,
-        EGEOLOC,
-        32813 AS PeriodTypeConceptId,
-        ISNULL(MHSACOVG, '0') AS VALUE_AS_NUMBER,
-        CASE WHEN RX = '1' THEN 0 ELSE 1 END AS missinginsurance,
-        RX
-    FROM {sc}.ENROLLMENT_DETAIL t1
-    JOIN {ch_sc}._chunks ch ON ch.ChunkId = {0} AND ENROLID = ch.person_source_value
-)
+	   with a as (
+	   SELECT ENROLID,
+	   SEX,
+	   DOBYR,
+	   DTSTART,
+	   DTEND,
+	   SUBSTRING(RIGHT('00000000000' + cast(ENROLID as VARCHAR), 11), 1,9) Family,
+	   CASE PLANTYP
+	   WHEN 1 THEN '{prefix} Basic/Major Medical'
+	   WHEN 2 THEN '{prefix} Comprehensive'
+	   WHEN 3 THEN '{prefix} EPO'
+	   WHEN 4 THEN '{prefix} HMO'
+	   WHEN 5 THEN '{prefix} POS'
+	   WHEN 6 THEN '{prefix} PPO'
+	   WHEN 7 THEN '{prefix} POS with Capitation'
+	   WHEN 8 THEN '{prefix} CDHP'
+	   WHEN 9 THEN '{prefix} HDHP'
+	   ELSE '{prefix} Other'
+	   END as ps,
+	   DATATYP,
+	   EGEOLOC,
+	   32813 PeriodTypeConceptId,
+	   CASE WHEN MHSACOVG IS NULL THEN '0' ELSE MHSACOVG END AS VALUE_AS_NUMBER,
+	   case when RX = '1' then 0 else 1 end as missinginsurance,
+	   RX
+	   FROM {sc}.ENROLLMENT_DETAIL
+	   JOIN {ch_sc}._chunks ch ON ch.ChunkId = {0} AND ENROLID = ch.PERSON_ID),
 
-, b as
-(
-SELECT 
-	  t1.ENROLID
-	, SUBSTRING(RIGHT('00000000000' + CAST(t1.ENROLID AS VARCHAR), 11), 1, 9) as family
-	, MIN(t1.DOBYR) DOBYR
-	, MIN(CAST(CAST(t1.DOBYR AS VARCHAR) + '-' + CAST(DATEPART(MONTH, t1.DTSTART) AS VARCHAR) + '-01' AS DATE)) DOBYR_DATE
-FROM {sc}.ENROLLMENT_DETAIL t1
-JOIN {ch_sc}._chunks ch ON ch.ChunkId = {0} AND ENROLID = ch.person_source_value
-WHERE 1=1
-AND t1.RX = '1' 
-AND t1.DOBYR = DATEPART(YEAR, t1.DTSTART)
-GROUP BY t1.ENROLID
-)
+	   b AS
+	   (
+	   select a.*,
+	   CASE
+	   WHEN a.DATATYP IN (2,4) THEN 'C '
+	   ELSE 'N '
+	   END
+	   + ps
+	   PayerSource,
+	   900000010 AS OBSERVATION_CONCEPT_ID,
+	   'MHSACOVG' AS OBSERVATION_SOURCE_VALUE,
+	   {vendor},
+	   null PLANKEY,
+	   null RACE_SOURCE_VALUE,
+	   null RACE_CONCEPT_ID,
+	   null ETHNICITY_SOURCE_VALUE,
+	   null ETHNICITY_CONCEPT_ID,
+	   e2.ENROLID as baby_person_id,
+	   CAST((CAST(e2.DOBYR AS VARCHAR) + '-' +  CAST(DATEPART(MONTH, e2.DTSTART) as VARCHAR) + '-01') AS DATE) as baby_dob
+	   from a
+	   left join {sc}.ENROLLMENT_DETAIL e2 on a.ENROLID != e2.ENROLID and a.SEX = '2' and a.RX = '1' and e2.RX = '1' and a.Family = SUBSTRING(RIGHT('00000000000' + cast(e2.ENROLID as VARCHAR), 11), 1,9) and e2.DOBYR - a.DOBYR >= 12 and e2.DOBYR - DATEPART(YEAR, e2.DTSTART) = 0
+	   )
 
-SELECT DISTINCT
-    a.*,
-    CASE
-        WHEN a.DATATYP IN (2, 4) THEN 'C '
-        ELSE 'N '
-    END + ps AS PayerSource,
-    900000010 AS OBSERVATION_CONCEPT_ID,
-    'MHSACOVG' AS OBSERVATION_SOURCE_VALUE,
-    'ccae' AS vendor,
-    NULL AS PLANKEY,
-    NULL AS RACE_SOURCE_VALUE,
-    NULL AS RACE_CONCEPT_ID,
-    NULL AS ETHNICITY_SOURCE_VALUE,
-    NULL AS ETHNICITY_CONCEPT_ID,
-    b.ENROLID AS baby_person_id,
-    b.DOBYR_DATE AS baby_dob
-FROM a
-LEFT JOIN b
-ON a.SEX = '2'
-AND a.RX = '1'
-AND a.FAMILY = b.FAMILY
-AND b.DOBYR - a.DOBYR >= 12
-AND a.ENROLID != b.ENROLID
-ORDER BY ENROLID
+	   select b.*,
+	   min(baby_dob) as baby_dob
+	   from b
+	   group by enrolid, sex, dobyr, dtstart, dtend, family, ps, datatyp, egeoloc, periodtypeconceptid, value_as_number, missinginsurance, rx, payersource, observation_concept_id, observation_source_value, vendor, plankey, race_source_value, race_concept_id, ethnicity_source_value, ethnicity_concept_id, baby_person_id, baby_dob
+	   ORDER BY ENROLID
    </Query>
    <Persons>
       <PersonDefinition>

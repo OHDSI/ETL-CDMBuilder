@@ -55,6 +55,8 @@ namespace org.ohdsi.cdm.presentation.builder
         [XmlIgnore]
         public Vendor VendorToProcess { get; set; }
 
+        public string EtlLibraryPath { get; set; }
+
         [XmlIgnore]
         public CdmVersions Cdm => FrameworkSettings.Current.Building.Cdm;
 
@@ -337,10 +339,8 @@ namespace org.ohdsi.cdm.presentation.builder
 
             #region set SourceQueryDefinitions
 
-            var buildingSettings = new Utility.CdmFrameworkImport.BuildingSettings(0, VendorToProcess, Directory.GetCurrentDirectory());
-            EtlLibrary.LoadVendorSettings(Directory.GetCurrentDirectory(), buildingSettings);
-
-            FixQueries(buildingSettings);
+            var buildingSettings = new Utility.CdmFrameworkImport.BuildingSettings(0, VendorToProcess, EtlLibraryPath);
+            EtlLibrary.LoadVendorSettings(EtlLibraryPath, buildingSettings);
 
             foreach (var sourceQueryDefinion in buildingSettings.SourceQueryDefinitions)
             {
@@ -366,30 +366,6 @@ namespace org.ohdsi.cdm.presentation.builder
             fb.SourceQueryDefinitions = SourceQueryDefinitions;
 
             #endregion
-        }
-
-        /// <summary>
-        /// tesmporary solution not to affect Etl-LambdaBuilder
-        /// </summary>
-        /// <param name="buildingSettings"></param>
-        void FixQueries(Utility.CdmFrameworkImport.BuildingSettings buildingSettings)
-        {
-
-            if (VendorToProcess.Name == "Truven_CCAE")
-            {
-                var enrollment_detail = buildingSettings.SourceQueryDefinitions.First(s => s.FileName.EndsWith("ENROLLMENT_DETAIL"));
-                if (!enrollment_detail.Query.Text.Contains(", b as\r\n(\r\nSELECT")) //new cte
-                {
-                    Console.WriteLine("\r\n***DEBUG*** Fixing Enrollment Detail query for Truven_CCAE...");
-                    var queryResources = EmbeddedResourceManager.ReadEmbeddedResources("presentation.builder", "ENROLLMENT_DETAIL.xml", StringComparison.CurrentCultureIgnoreCase);
-                    var match = Regex.Match(queryResources.First().Value, @"<Query\b[^>]*>(.*?)<\/Query>", RegexOptions.Singleline);
-                    if (match.Success)
-                    {
-                        string querySql = match.Groups[1].Value;
-                        enrollment_detail.Query.Text = querySql;
-                    }                    
-                }
-            }
         }
 
         #endregion

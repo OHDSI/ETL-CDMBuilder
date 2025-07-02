@@ -131,7 +131,8 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                     var subQueries = queryAltered
                         .Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => new string(s.Skip(s.IndexOf("CREATE", StringComparison.CurrentCultureIgnoreCase)).ToArray()).Trim() + ";")
-                        .Where(s => s.Contains("CREATE", StringComparison.CurrentCultureIgnoreCase))
+                        .Where(s => s.Contains("CREATE", StringComparison.CurrentCultureIgnoreCase)
+                                 || s.Contains("truncate", StringComparison.CurrentCultureIgnoreCase))
                         .ToList();
 
                     foreach (var subQuery in subQueries)

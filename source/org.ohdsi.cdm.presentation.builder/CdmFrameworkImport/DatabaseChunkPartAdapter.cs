@@ -79,19 +79,28 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 
         public void Build()
         {
-            var timer = new Stopwatch();
-            timer.Start();
-
-            foreach (KeyValuePair<long, Lazy<IPersonBuilder>> personBuilder in _databaseChunkPart.PersonBuilders)
+            while(true) //debug
+            try
             {
-                Attrition attrition = personBuilder.Value.Value.Build(_databaseChunkPart.ChunkData, _offsetManager);
-                _databaseChunkPart.ChunkData.AddAttrition(personBuilder.Key, attrition);
-            }
-            _databaseChunkPart.PersonBuilders.Clear();
-            _databaseChunkPart.PersonBuilders = null;
+                var timer = new Stopwatch();
+                timer.Start();
 
-            Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
-                $"ChunkId={_chunkId} has been built - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb | {_databaseChunkPart.ChunkData.Persons.Count} persons");
+                foreach (KeyValuePair<long, Lazy<IPersonBuilder>> personBuilder in _databaseChunkPart.PersonBuilders)
+                {
+                    Attrition attrition = personBuilder.Value.Value.Build(_databaseChunkPart.ChunkData, _offsetManager);
+                    _databaseChunkPart.ChunkData.AddAttrition(personBuilder.Key, attrition);
+                }
+                _databaseChunkPart.PersonBuilders.Clear();
+                _databaseChunkPart.PersonBuilders = null;
+
+                Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
+                    $"ChunkId={_chunkId} has been built - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb | {_databaseChunkPart.ChunkData.Persons.Count} persons");
+                    break;
+            }
+            catch (Exception e)
+            {
+                //throw;
+            }
         }
 
         public void Save()
@@ -153,7 +162,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 if (string.IsNullOrEmpty(sqlClean))
                     return;
 
-                //debug
                if (tableExclusionArray.Any(s => sqlClean.Replace("`", "").Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                     return;
 
@@ -180,7 +188,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 }
             }
             catch (Exception ex)
-            {
+            {                
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.AppendLine(ex.Message);
                 stringBuilder.AppendLine("SourceEngine=" + sourceEngine);
@@ -189,7 +197,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 stringBuilder.AppendLine(sqlClean);
                 Logger.WriteError(_chunkId, new Exception(stringBuilder.ToString(), ex));
 
-                throw;
+                //throw;
             }
         }
     }

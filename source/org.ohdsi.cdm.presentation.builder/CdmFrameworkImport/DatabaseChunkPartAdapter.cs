@@ -19,11 +19,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 {
     public class DatabaseChunkPartAdapter
     {
-        private static readonly string[] tableExclusionArray = new string[]
-        {
-            "ccae_tests_native.LONG_TERM_CARE"
-        };
-
         private readonly framework.desktop.Base.DatabaseChunkPart _databaseChunkPart;
         private readonly KeyMasterOffsetManager _offsetManager;
         private readonly int _chunkId;
@@ -79,28 +74,19 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 
         public void Build()
         {
-            while(true) //debug
-            try
-            {
-                var timer = new Stopwatch();
-                timer.Start();
+            var timer = new Stopwatch();
+            timer.Start();
 
-                foreach (KeyValuePair<long, Lazy<IPersonBuilder>> personBuilder in _databaseChunkPart.PersonBuilders)
-                {
-                    Attrition attrition = personBuilder.Value.Value.Build(_databaseChunkPart.ChunkData, _offsetManager);
-                    _databaseChunkPart.ChunkData.AddAttrition(personBuilder.Key, attrition);
-                }
-                _databaseChunkPart.PersonBuilders.Clear();
-                _databaseChunkPart.PersonBuilders = null;
-
-                Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
-                    $"ChunkId={_chunkId} has been built - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb | {_databaseChunkPart.ChunkData.Persons.Count} persons");
-                    break;
-            }
-            catch (Exception e)
+            foreach (KeyValuePair<long, Lazy<IPersonBuilder>> personBuilder in _databaseChunkPart.PersonBuilders)
             {
-                //throw;
+                Attrition attrition = personBuilder.Value.Value.Build(_databaseChunkPart.ChunkData, _offsetManager);
+                _databaseChunkPart.ChunkData.AddAttrition(personBuilder.Key, attrition);
             }
+            _databaseChunkPart.PersonBuilders.Clear();
+            _databaseChunkPart.PersonBuilders = null;
+
+            Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
+                $"ChunkId={_chunkId} has been built - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb | {_databaseChunkPart.ChunkData.Persons.Count} persons");
         }
 
         public void Save()
@@ -162,9 +148,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 if (string.IsNullOrEmpty(sqlClean))
                     return;
 
-               if (tableExclusionArray.Any(s => sqlClean.Replace("`", "").Contains(s, StringComparison.InvariantCultureIgnoreCase)))
-                    return;
-
                 if (building.SourceEngine.Database == Database.Redshift)
                 {
                     using IDataReader dataReader2 = building.SourceEngine.ReadChunkData(null, null, sourceQueryDefinition, _chunkId, _prefix);
@@ -197,7 +180,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 stringBuilder.AppendLine(sqlClean);
                 Logger.WriteError(_chunkId, new Exception(stringBuilder.ToString(), ex));
 
-                //throw;
+                throw;
             }
         }
     }

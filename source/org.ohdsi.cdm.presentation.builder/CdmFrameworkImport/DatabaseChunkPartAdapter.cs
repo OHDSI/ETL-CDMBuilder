@@ -52,7 +52,14 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             var queries = FrameworkSettings.Settings.Current.Building.SourceQueryDefinitions;
             for (int i = 0; i < queries.Count; i++)
                 try
-                {                    
+                {
+                    if (queries[i].Query.Database != null)
+                    {
+                        var settingsDb = Settings.Current.Building.SourceDb + "." + Settings.Current.Building.SourceSchema;
+                        var dbs = queries[i].Query.Database.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                        if (!dbs.Any(s => settingsDb.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                            continue; //do not process query if the database requirements are not met
+                    }
                     LoadQuery(queries[i]);
                 }
                 catch(Exception e)

@@ -11,6 +11,7 @@ using org.ohdsi.cdm.framework.desktop.Helpers;
 using org.ohdsi.cdm.framework.desktop.Savers;
 using org.ohdsi.cdm.presentation.builder.Base;
 using org.ohdsi.cdm.presentation.builder.Base.DbDestinations;
+using org.ohdsi.cdm.presentation.builder.Utility;
 using org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport;
 using System;
 using System.Collections.Concurrent;
@@ -219,8 +220,19 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
         private void FillList<T>(ICollection<T> list, QueryDefinition qd, EntityDefinition ed, string etlLibraryPath, string chunkSchema) where T : IEntity
         {
             var vendor = Settings.Current.Building.VendorToProcess;
-            var sql = framework.desktop.Helpers.GetSqlHelper.GetSql(Settings.Current.Building.SourceEngine.Database,
-                qd.GetSql(vendor, Settings.Current.Building.SourceSchema, chunkSchema), Settings.Current.Building.SourceSchema);
+            var origQuery = qd.GetSql(vendor, Settings.Current.Building.SourceSchema, chunkSchema);
+
+            if (string.IsNullOrEmpty(origQuery)) return;
+
+            var db = Settings.Current.Building.VocabularyEngine switch
+            {
+                framework.desktop.Databases.MssqlDatabaseEngine => Database.MsSql,
+                framework.desktop.Databases.PostgreDatabaseEngine => Database.Postgre,
+                framework.desktop.Databases.MySqlDatabaseEngine => Database.MySql,
+                _ => throw new NotImplementedException(Settings.Current.Building.VocabularyEngine + " is not supported!")
+            };
+
+            var sql = Utility.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess, db, origQuery, chunkSchema);
 
             if (string.IsNullOrEmpty(sql)) return;
 

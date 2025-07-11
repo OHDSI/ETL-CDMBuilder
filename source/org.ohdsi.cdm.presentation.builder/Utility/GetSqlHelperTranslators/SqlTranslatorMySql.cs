@@ -33,8 +33,19 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
         {
             var queryChanged = query;
 
+            queryChanged = queryChanged.Replace("  ", " ", StringComparison.InvariantCultureIgnoreCase);
+
+            queryChanged = queryChanged.Replace("bigint)", "double)", StringComparison.InvariantCultureIgnoreCase);
+
             // ISNULL(a,b) → IFNULL(a,b)
             queryChanged = Regex.Replace(queryChanged, @"\bISNULL\(", "IFNULL(", RegexOptions.IgnoreCase);
+
+            // chr → char
+            queryChanged = Regex.Replace(queryChanged, @"\bchr\(", "char(", RegexOptions.IgnoreCase);
+
+            queryChanged = queryChanged.Replace("nvl(", "COALESCE(", StringComparison.InvariantCultureIgnoreCase);
+
+            queryChanged = queryChanged.Replace("isnull(", "COALESCE(", StringComparison.InvariantCultureIgnoreCase);
 
             // DATEPART(YEAR, t1.DTSTART) → YEAR(t1.DTSTART)
             queryChanged = Regex.Replace(

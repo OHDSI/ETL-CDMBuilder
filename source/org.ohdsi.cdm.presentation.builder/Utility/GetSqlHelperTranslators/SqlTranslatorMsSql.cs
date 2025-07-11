@@ -31,8 +31,16 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
         {
             var queryChanged = query;
 
-            queryChanged = queryChanged
-                .Replace("CURRENT_TIMESTAMP", "GETDATE()", StringComparison.InvariantCultureIgnoreCase);
+            queryChanged = queryChanged.Replace("  ", " ", StringComparison.InvariantCultureIgnoreCase);
+
+            queryChanged = queryChanged.Replace("getdate()", "CURRENT_TIMESTAMP", StringComparison.InvariantCultureIgnoreCase);
+
+            queryChanged = queryChanged.Replace("nvl(", "COALESCE(", StringComparison.InvariantCultureIgnoreCase);
+
+            queryChanged = queryChanged.Replace("isnull(", "COALESCE(", StringComparison.InvariantCultureIgnoreCase);
+
+            // chr → char
+            queryChanged = Regex.Replace(queryChanged, @"\bchr\(", "char(", RegexOptions.IgnoreCase);
 
             #region datepart translation (EXTRACT → DATEPART)
             queryChanged = Regex.Replace(

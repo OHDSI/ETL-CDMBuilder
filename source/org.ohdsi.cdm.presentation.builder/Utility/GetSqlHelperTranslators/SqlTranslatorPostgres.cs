@@ -44,6 +44,10 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             #region simple replaces
 
+            queryChanged = queryChanged.Replace("  ", " ", StringComparison.InvariantCultureIgnoreCase);
+
+            queryChanged = queryChanged.Replace("bigint)", "decimal)", StringComparison.InvariantCultureIgnoreCase);
+
             queryChanged = queryChanged.Replace("getdate()", "CURRENT_TIMESTAMP", StringComparison.InvariantCultureIgnoreCase);
 
             queryChanged = queryChanged.Replace("nvl(", "COALESCE(", StringComparison.InvariantCultureIgnoreCase);

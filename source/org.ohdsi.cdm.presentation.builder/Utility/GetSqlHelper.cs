@@ -4,6 +4,7 @@ using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.framework.desktop.Enums;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -91,7 +92,24 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
             //////////////////////////
             #region engine level 
 
+            #region remove ' ' before '(' if its not within quotes
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"((?:[^']*'[^']*')*[^']*) \(",
+                "$1(",
+                RegexOptions.IgnoreCase
+            );
+            #endregion
+
+            #region simple replaces
+
             queryChanged = queryChanged.Replace("getdate()", "CURRENT_TIMESTAMP", StringComparison.InvariantCultureIgnoreCase);
+
+            queryChanged = queryChanged.Replace("nvl(", "COALESCE(", StringComparison.InvariantCultureIgnoreCase);
+
+            queryChanged = queryChanged.Replace("isnull(", "COALESCE(", StringComparison.InvariantCultureIgnoreCase);
+
+            #endregion
 
             #region datepart translation
             // DATEPART(MONTH, e2.DTSTART)
@@ -125,18 +143,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                 queryChanged,
                 @"CAST\(\s*''\s+AS\s+(?:NUMERIC|DOUBLE\s+PRECISION|DECIMAL)\)",
                 "NULL::${1}",
-                RegexOptions.IgnoreCase
-            );
-            #endregion
-
-            #region isnull to coalesce
-            // ISNULL(name, 'PROVID')
-            // -> -> ->
-            // COALESCE(name, 'PROVID')
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"\bISNULL\s*\(\s*([^,]+?)\s*,\s*([^)]+?)\s*\)",
-                "COALESCE($1, $2)",
                 RegexOptions.IgnoreCase
             );
             #endregion
@@ -193,13 +199,15 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
             queryChanged = Regex.Replace(queryChanged,
                 @"\bROUND\s*\(\s*([^,]+)\s*,\s*(\d+)\s*\)",
                 "ROUND(CAST($1 AS NUMERIC), $2)",
-                RegexOptions.IgnoreCase);
+                RegexOptions.IgnoreCase
+            );
 
             var dbg = "\r\n\t\t ROUND(METQTY,0) AS QUANTITY,";
             var dbg_res = Regex.Replace(dbg,
                 @"\bROUND\s*\(\s*([^,]+)\s*,\s*(\d+)\s*\)",
                 "ROUND(CAST($1 AS NUMERIC), $2)",
-                RegexOptions.IgnoreCase);
+                RegexOptions.IgnoreCase
+            );
             #endregion
 
             #region left(lpad) translation
@@ -275,31 +283,51 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                     RegexOptions.IgnoreCase
                 );
                 #endregion
+
+                #region ccae.drug_claims fixes
+                if (new[] { "ccae", "mdcr", "mdcd" }.Any(s => schemaName.Contains(s, StringComparison.InvariantCultureIgnoreCase))
+                    && tableName.Equals("drug_claims", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    // wrap any bare integer after “RXMR” and one of the operators =, !=, <, >, <=, >=
+                    queryChanged = Regex.Replace(
+                        queryChanged,
+                        // capture “RXMR” + whitespace + one of the ops + whitespace, then the number
+                        @"\b(RXMR\s*(?:!=|>=|<=|=|>|<)\s*)(\d+)\b",
+                        "$1'$2'",
+                        RegexOptions.IgnoreCase
+                    );
+                }
+                #endregion
             }
             #endregion
 
-            #endregion
-            //////////////////////////
-
-
-
-
-            //////////////////////////
-            #region table level
-
-            #region ccae.drug_claims.rxmr fix
-            if (new[] { "ccae", "mdcr", "mdcd" }.Any(s => schemaName.Contains(s, StringComparison.InvariantCultureIgnoreCase))
-                && tableName.Equals("drug_claims", StringComparison.InvariantCultureIgnoreCase))
+            #region Premier
+            if (schemaName.Contains("premier", StringComparison.InvariantCultureIgnoreCase))
             {
-                // wrap any bare integer after “RXMR” and one of the operators =, !=, <, >, <=, >=
+                #region cast medrec_key as varchar
+                // t.medrec_key = ch.person_source_value
+                // -> -> ->
+                // cast(t.medrec_key as varchar) = ch.person_source_value
                 queryChanged = Regex.Replace(
                     queryChanged,
-                    // capture “RXMR” + whitespace + one of the ops + whitespace, then the number
-                    @"\b(RXMR\s*(?:!=|>=|<=|=|>|<)\s*)(\d+)\b",
-                    "$1'$2'",
+                    @"\b(\w+\.)?medrec_key\s*=\s*ch\.person_source_value\b",
+                    "cast(medrec_key as varchar) = ch.person_source_value",
                     RegexOptions.IgnoreCase
                 );
+                #endregion
+
+                #region premier.patbill fixes
+                if (schemaName.Contains("premier", StringComparison.InvariantCultureIgnoreCase)
+                    && tableName.Equals("patbill", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    queryChanged = queryChanged.Replace("chg.std_chg_code != 360360000530008", "chg.std_chg_code != '360360000530008'");
+
+                    queryChanged = queryChanged.Replace("len(pat.ms_drg)", "length(cast(pat.ms_drg as varchar))");
+                }
+                #endregion
+
             }
+
             #endregion
 
             #endregion
@@ -372,14 +400,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
 
             //////////////////////////
             #region database level
-
-
-            #endregion
-            //////////////////////////
-
-
-            //////////////////////////
-            #region table level
 
 
             #endregion
@@ -481,15 +501,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
 
             }
             #endregion
-
-            #endregion
-            //////////////////////////
-
-
-
-
-            //////////////////////////
-            #region table level
 
             #endregion
             //////////////////////////

@@ -51,26 +51,26 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 
             var queries = FrameworkSettings.Settings.Current.Building.SourceQueryDefinitions;
             for (int i = 0; i < queries.Count; i++)
+            {
+                var query = queries[i];
                 try
                 {
-                    if (queries[i].Query.Database != null)
+                    if (query.Query.Database != null)
                     {
                         var settingsDb = Settings.Current.Building.SourceDb + "." + Settings.Current.Building.SourceSchema;
-                        var dbs = queries[i].Query.Database.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                        var dbs = query.Query.Database.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                         if (!dbs.Any(s => settingsDb.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                             continue; //do not process query if the database requirements are not met
                     }
-                    LoadQuery(queries[i]);
+                    LoadQuery(query);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
-                    /*
-                     * 
-                     */
                     //error info is written in LoadQuery catch
                     Console.WriteLine("Query number is " + i);
                     throw;
                 }
+            }
 
             stopwatch.Stop();
             Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
@@ -140,7 +140,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             var building = FrameworkSettings.Settings.Current.Building;
 
             string sourceQueryDefinitionSql = "";
-            string sqlClean = "";
             string sourceConnectionString = "";
             string sourceEngine = "";
 
@@ -151,8 +150,8 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                     return;
                                 
                 sourceQueryDefinitionSql = sourceQueryDefinitionTyped.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
-                sqlClean = GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql, building.SourceSchemaName, _chunkId.ToString());
-                if (string.IsNullOrEmpty(sqlClean))
+                sourceQueryDefinition.Query.Text = GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql, building.SourceSchemaName, _chunkId.ToString());
+                if (string.IsNullOrEmpty(sourceQueryDefinition.Query.Text))
                     return;
 
                 if (building.SourceEngine.Database == Database.Redshift)
@@ -169,7 +168,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 using (var dbConnection = SqlConnectionHelper.OpenOdbcConnection(building.SourceConnectionString))
                 //using (IDbConnection dbConnection = building.SourceEngine.GetConnection(building.SourceConnectionString))
                 {
-                    using IDbCommand cmd = building.SourceEngine.GetCommand(sqlClean, dbConnection);
+                    using IDbCommand cmd = building.SourceEngine.GetCommand(sourceQueryDefinition.Query.Text, dbConnection);
                     using IDataReader dataReader = building.SourceEngine.ReadChunkData(dbConnection, cmd, sourceQueryDefinition, _chunkId, _prefix);
                     while (dataReader.Read())
                     {
@@ -184,7 +183,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 stringBuilder.AppendLine("SourceEngine=" + sourceEngine);
                 stringBuilder.AppendLine("SourceConnectionString=" + sourceConnectionString);
                 stringBuilder.AppendLine("Query:");
-                stringBuilder.AppendLine(sqlClean);
+                stringBuilder.AppendLine(sourceQueryDefinition.Query.Text);
                 Logger.WriteError(_chunkId, new Exception(stringBuilder.ToString(), ex));
 
                 throw;

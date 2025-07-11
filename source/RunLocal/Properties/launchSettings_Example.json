@@ -1,0 +1,60 @@
+{
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "CCAE MsSql v5.4": {
+      "commandName": "Project",
+      "commandLineArgs": "RunLocal --VendorName=\"Truven_CCAE\" --SourceEngine=\"mssql\" --SourceServer=\"localhost\" --SourceDatabase=\"mssql\" --SourceSchema=\"ccae_tests_native\" --SourceUser=\"mssql\" --SourcePassword=\"\" --DestinationEngine=\"mssql\" --DestinationServer=\"localhost\" --DestinationDatabase=\"mssql\" --DestinationSchema=\"ccae_tests_cdm\" --DestinationUser=\"mssql\" --DestinationPassword=\"\" --VocabularyEngine=\"mssql\" --VocabularyServer=\"localhost\" --VocabularyDatabase=\"mssql\" --VocabularySchema=\"vocab\" --VocabularyUser=\"mssql\" --VocabularyPassword=\"\" --EtlLibraryPath \"C:\\repos\\OPEN SOURCE\\ETL-LambdaBuilder\\My\\fixed ccae enrollment_detail master\""
+    },
+    "CCAE Postgres v5.4": {
+      "commandName": "Project",
+      "commandLineArgs": "RunLocal --VendorName=\"Truven_CCAE\" --SourceEngine=\"postgresql\" --SourceServer=\"localhost\" --SourceDatabase=\"truven\" --SourceSchema=\"ccae_tests_native\" --SourceUser=\"postgres\" --SourcePassword=\"\" --DestinationEngine=\"postgresql\" --DestinationServer=\"localhost\" --DestinationDatabase=\"truven\" --DestinationSchema=\"ccae_tests_cdm\" --DestinationUser=\"postgres\" --DestinationPassword=\"\" --VocabularyEngine=\"postgresql\" --VocabularyServer=\"localhost\" --VocabularyDatabase=\"postgres\" --VocabularySchema=\"vocab\" --VocabularyUser=\"postgres\" --VocabularyPassword=\"\" --EtlLibraryPath \"C:\\repos\\OPEN SOURCE\\ETL-LambdaBuilder\\My\\fixed ccae enrollment_detail master\""
+    },
+    "CCAE Postgres v5.4 mine": {
+      "commandName": "Project",
+      "commandLineArgs": "RunLocal --VendorName=\"Truven_CCAE\" --SourceEngine=\"postgresql\" --SourceServer=\"localhost\" --SourceDatabase=\"truven\" --SourceSchema=\"ccae_tests_native\" --SourceUser=\"postgres\" --SourcePassword=\"\" --DestinationEngine=\"postgresql\" --DestinationServer=\"localhost\" --DestinationDatabase=\"truven\" --DestinationSchema=\"ccae_tests_cdm\" --DestinationUser=\"postgres\" --DestinationPassword=\"\" --VocabularyEngine=\"postgresql\" --VocabularyServer=\"localhost\" --VocabularyDatabase=\"postgres\" --VocabularySchema=\"vocab\" --VocabularyUser=\"postgres\" --VocabularyPassword=\"\" --EtlLibraryPath \"C:\\repos\\OPEN SOURCE\\ETL-LambdaBuilder\\My\\fixed ccae enrollment_detail mine\""
+    },
+    "CCAE MySql VocMs v5.4": {
+      "commandName": "Project",
+      "commandLineArgs": "RunLocal --VendorName=\"Truven_CCAE\" --SourceEngine=\"mysql\" --SourceServer=\"localhost\" --SourceDatabase=\"ccae_tests_native\" --SourceSchema=\"ccae_tests_native\" --SourceUser=\"mysql\" --SourcePassword=\"\" --DestinationEngine=\"mysql\" --DestinationServer=\"localhost\" --DestinationDatabase=\"ccae_tests_cdm\" --DestinationSchema=\"ccae_tests_cdm\" --DestinationUser=\"mysql\" --DestinationPassword=\"\" --VocabularyEngine=\"mssql\" --VocabularyServer=\"localhost\" --VocabularyDatabase=\"mssql\" --VocabularySchema=\"vocab\" --VocabularyUser=\"mssql\" --VocabularyPassword=\"\" --EtlLibraryPath \"C:\\repos\\OPEN SOURCE\\ETL-LambdaBuilder\\My\\fixed ccae enrollment_detail master\""
+    },
+    "MDCD MsSql v5.4": {
+      "commandName": "Project",
+      "commandLineArgs": "RunLocal --VendorName=\"Truven_MDCD\" --SourceEngine=\"mssql\" --SourceServer=\"localhost\" --SourceDatabase=\"mssql\" --SourceSchema=\"mdcd_tests_native\" --SourceUser=\"mssql\" --SourcePassword=\"\" --DestinationEngine=\"mssql\" --DestinationServer=\"localhost\" --DestinationDatabase=\"mssql\" --DestinationSchema=\"mdcd_tests_cdm\" --DestinationUser=\"mssql\" --DestinationPassword=\"\" --VocabularyEngine=\"mssql\" --VocabularyServer=\"localhost\" --VocabularyDatabase=\"mssql\" --VocabularySchema=\"vocab\" --VocabularyUser=\"mssql\" --VocabularyPassword=\"\" --EtlLibraryPath \"C:\\repos\\OPEN SOURCE\\ETL-LambdaBuilder\\My\\fixed ccae enrollment_detail master\""
+    },
+    "MDCD MySql VocMs v5.4": {
+      "commandName": "Project",
+      "commandLineArgs": "RunLocal --VendorName=\"Truven_MDCD\" --SourceEngine=\"mysql\" --SourceServer=\"localhost\" --SourceDatabase=\"mdcd_tests_native\" --SourceSchema=\"mdcd_tests_native\" --SourceUser=\"mysql\" --SourcePassword=\"\" --DestinationEngine=\"mysql\" --DestinationServer=\"localhost\" --DestinationDatabase=\"mdcd_tests_cdm\" --DestinationSchema=\"mdcd_tests_cdm\" --DestinationUser=\"mysql\" --DestinationPassword=\"\" --VocabularyEngine=\"mssql\" --VocabularyServer=\"localhost\" --VocabularyDatabase=\"mssql\" --VocabularySchema=\"vocab\" --VocabularyUser=\"mssql\" --VocabularyPassword=\"\" --EtlLibraryPath \"C:\\repos\\OPEN SOURCE\\ETL-LambdaBuilder\\My\\fixed ccae enrollment_detail master\""
+    },
+    "MDCD Postgres v5.4": {
+      "commandName": "Project",
+      "commandLineArgs": "RunLocal --VendorName=\"Truven_MDCD\" --SourceEngine=\"postgresql\" --SourceServer=\"localhost\" --SourceDatabase=\"truven\" --SourceSchema=\"mdcd_tests_native\" --SourceUser=\"postgres\" --SourcePassword=\"\" --DestinationEngine=\"postgresql\" --DestinationServer=\"localhost\" --DestinationDatabase=\"truven\" --DestinationSchema=\"mdcd_tests_cdm\" --DestinationUser=\"postgres\" --DestinationPassword=\"\" --VocabularyEngine=\"postgresql\" --VocabularyServer=\"localhost\" --VocabularyDatabase=\"postgres\" --VocabularySchema=\"vocab\" --VocabularyUser=\"postgres\" --VocabularyPassword=\"\" --EtlLibraryPath \"C:\\repos\\OPEN SOURCE\\ETL-LambdaBuilder\\My\\fixed ccae enrollment_detail master\""
+    },
+    "MDCR MsSql v5.4": {
+      "commandName": "Project",
+      "commandLineArgs": "RunLocal --VendorName=\"Truven_MDCR\" --SourceEngine=\"mssql\" --SourceServer=\"localhost\" --SourceDatabase=\"mssql\" --SourceSchema=\"mdcr_tests_native\" --SourceUser=\"mssql\" --SourcePassword=\"\" --DestinationEngine=\"mssql\" --DestinationServer=\"localhost\" --DestinationDatabase=\"mssql\" --DestinationSchema=\"mdcr_tests_cdm\" --DestinationUser=\"mssql\" --DestinationPassword=\"\" --VocabularyEngine=\"mssql\" --VocabularyServer=\"localhost\" --VocabularyDatabase=\"mssql\" --VocabularySchema=\"vocab\" --VocabularyUser=\"mssql\" --VocabularyPassword=\"\" --EtlLibraryPath \"C:\\repos\\OPEN SOURCE\\ETL-LambdaBuilder\\My\\fixed ccae enrollment_detail master\""
+    },
+    "MDCR MySql VocMs v5.4": {
+      "commandName": "Project",
+      "commandLineArgs": "RunLocal --VendorName=\"Truven_MDCR\" --SourceEngine=\"mysql\" --SourceServer=\"localhost\" --SourceDatabase=\"mdcr_tests_native\" --SourceSchema=\"mdcr_tests_native\" --SourceUser=\"mysql\" --SourcePassword=\"\" --DestinationEngine=\"mysql\" --DestinationServer=\"localhost\" --DestinationDatabase=\"mdcr_tests_cdm\" --DestinationSchema=\"mdcr_tests_cdm\" --DestinationUser=\"mysql\" --DestinationPassword=\"\" --VocabularyEngine=\"mssql\" --VocabularyServer=\"localhost\" --VocabularyDatabase=\"mssql\" --VocabularySchema=\"vocab\" --VocabularyUser=\"mssql\" --VocabularyPassword=\"\" --EtlLibraryPath \"C:\\repos\\OPEN SOURCE\\ETL-LambdaBuilder\\My\\fixed ccae enrollment_detail master\""
+    },
+    "MDCR Postgres v5.4": {
+      "commandName": "Project",
+      "commandLineArgs": "RunLocal --VendorName=\"Truven_MDCR\" --SourceEngine=\"postgresql\" --SourceServer=\"localhost\" --SourceDatabase=\"truven\" --SourceSchema=\"mdcr_tests_native\" --SourceUser=\"postgres\" --SourcePassword=\"\" --DestinationEngine=\"postgresql\" --DestinationServer=\"localhost\" --DestinationDatabase=\"truven\" --DestinationSchema=\"mdcr_tests_cdm\" --DestinationUser=\"postgres\" --DestinationPassword=\"\" --VocabularyEngine=\"postgresql\" --VocabularyServer=\"localhost\" --VocabularyDatabase=\"postgres\" --VocabularySchema=\"vocab\" --VocabularyUser=\"postgres\" --VocabularyPassword=\"\" --EtlLibraryPath \"C:\\repos\\OPEN SOURCE\\ETL-LambdaBuilder\\My\\fixed ccae enrollment_detail master\""
+    },
+    "Premier MsSql v5.4": {
+      "commandName": "Project",
+      "commandLineArgs": "RunLocal --VendorName=\"Premier\" --SourceEngine=\"mssql\" --SourceServer=\"localhost\" --SourceDatabase=\"mssql\" --SourceSchema=\"Premier_tests_native\" --SourceUser=\"mssql\" --SourcePassword=\"\" --DestinationEngine=\"mssql\" --DestinationServer=\"localhost\" --DestinationDatabase=\"mssql\" --DestinationSchema=\"Premier_tests_cdm\" --DestinationUser=\"mssql\" --DestinationPassword=\"\" --VocabularyEngine=\"mssql\" --VocabularyServer=\"localhost\" --VocabularyDatabase=\"mssql\" --VocabularySchema=\"vocab\" --VocabularyUser=\"mssql\" --VocabularyPassword=\"\" --EtlLibraryPath \"C:\\repos\\OPEN SOURCE\\ETL-LambdaBuilder\\My\\fixed ccae enrollment_detail master\""
+    },
+    "Premier MySql VocMs v5.4": {
+      "commandName": "Project",
+      "commandLineArgs": "RunLocal --VendorName=\"Premier\" --SourceEngine=\"mysql\" --SourceServer=\"localhost\" --SourceDatabase=\"premier_tests_native\" --SourceSchema=\"Premier_tests_native\" --SourceUser=\"mysql\" --SourcePassword=\"\" --DestinationEngine=\"mysql\" --DestinationServer=\"localhost\" --DestinationDatabase=\"Premier_tests_cdm\" --DestinationSchema=\"premier_tests_cdm\" --DestinationUser=\"mysql\" --DestinationPassword=\"\" --VocabularyEngine=\"mssql\" --VocabularyServer=\"localhost\" --VocabularyDatabase=\"mssql\" --VocabularySchema=\"vocab\" --VocabularyUser=\"mssql\" --VocabularyPassword=\"\" --EtlLibraryPath \"C:\\repos\\OPEN SOURCE\\ETL-LambdaBuilder\\My\\fixed ccae enrollment_detail master\""
+    },
+    "Premier Postgres v5.4": {
+      "commandName": "Project",
+      "commandLineArgs": "RunLocal --VendorName=\"Premier\" --SourceEngine=\"postgresql\" --SourceServer=\"localhost\" --SourceDatabase=\"Premier\" --SourceSchema=\"Premier_tests_native\" --SourceUser=\"postgres\" --SourcePassword=\"\" --DestinationEngine=\"postgresql\" --DestinationServer=\"localhost\" --DestinationDatabase=\"Premier\" --DestinationSchema=\"premier_tests_cdm\" --DestinationUser=\"postgres\" --DestinationPassword=\"\" --VocabularyEngine=\"postgresql\" --VocabularyServer=\"localhost\" --VocabularyDatabase=\"postgres\" --VocabularySchema=\"vocab\" --VocabularyUser=\"postgres\" --VocabularyPassword=\"\" --EtlLibraryPath \"C:\\repos\\OPEN SOURCE\\ETL-LambdaBuilder\\My\\fixed ccae enrollment_detail master\""
+    }
+  }
+}

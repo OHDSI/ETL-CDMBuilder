@@ -10,9 +10,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
     internal class SqlTranslatorMsSql : ISqlTranslator
     {
         private readonly string _schema;
-        private readonly string _table;
+        private readonly string? _table;
 
-        public SqlTranslatorMsSql(string schemaName, string tableName)
+        public SqlTranslatorMsSql(string schemaName, string? tableName)
         {
             _schema = schemaName;
             _table = tableName;
@@ -94,6 +94,28 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
         string translateDatabaseLevelCommands(string query)
         {
             var queryChanged = query;
+
+            if (_schema.Contains("premier", StringComparison.CurrentCultureIgnoreCase))
+                queryChanged = translatePremier(queryChanged);
+
+            return queryChanged;
+        }
+
+        string translatePremier(string query)
+        {
+            var queryChanged = query;
+
+
+
+            if(string.IsNullOrEmpty(_table))
+                return queryChanged;
+
+            if (_table.Equals("patbill", StringComparison.CurrentCultureIgnoreCase))
+                queryChanged = queryChanged.Replace("chg.std_chg_code != 360360000530008", "chg.std_chg_code != '360360000530008'");
+
+            if (_table.Equals("vitals", StringComparison.CurrentCultureIgnoreCase))
+                queryChanged = queryChanged.Replace("regexp_replace(lab_test, '\\\\(.*\\\\)', '') snomed", 
+                    "STUFF(lab_test, \r\n PATINDEX('%([(]%)%', lab_test), \r\n CHARINDEX(')', lab_test + ')') - PATINDEX('%([(]%)%', lab_test) + 1, \r\n '')");
 
             return queryChanged;
         }

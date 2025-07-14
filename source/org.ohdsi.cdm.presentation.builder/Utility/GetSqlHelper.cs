@@ -25,11 +25,10 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
         /// <param name="schemaName"></param>
         /// <param name="chunkId">Should be left null or blank for batch sqcript</param>
         /// <returns></returns>
-        public static string TranslateSqlFromRedshift(Vendor vendor, Database sourceDatabase, string query, string schemaName, string chunkId = "")
+        public static string TranslateSqlFromRedshift(Vendor vendor, Database sourceDatabase, string query, string schemaName, string? tableName, string chunkId = "")
         {
             try
             {
-                string tableName = GetTableNameFromQuery(query);
                 var translator = TranslatorFactory.GetTranslator(sourceDatabase, schemaName, tableName);
                 var translated = translator.Translate(query);
                 var finalized = FinalizeXmlToDbQueryConversion(translated, chunkId, schemaName);
@@ -53,23 +52,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                     .Trim()
                     ;
             return result;
-        }
-
-        static string GetTableNameFromQuery(string query)
-        {
-            var tableLines = query
-                    .Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries)
-                    .Where(s => new string[] { "from", "join" }.Any(a => s.Contains(a, StringComparison.InvariantCultureIgnoreCase)))
-                    .Where(s => !s.Contains("_chunks", StringComparison.InvariantCultureIgnoreCase));
-
-            string tableName = new string(tableLines
-                .First(s => s.Contains(".")) //get first qualified table name
-                .SkipWhile(s => s != '.')
-                .Skip(1)
-                .TakeWhile(s => s != ' ')
-                .ToArray());
-
-            return tableName;
         }
     }
 }

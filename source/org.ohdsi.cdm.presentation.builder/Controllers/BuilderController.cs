@@ -232,7 +232,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 _ => throw new NotImplementedException(Settings.Current.Building.VocabularyEngine + " is not supported!")
             };
 
-            var sql = Utility.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess, db, origQuery, chunkSchema);
+            var sql = Utility.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess, db, origQuery, chunkSchema, null);
 
             if (string.IsNullOrEmpty(sql)) return;
 

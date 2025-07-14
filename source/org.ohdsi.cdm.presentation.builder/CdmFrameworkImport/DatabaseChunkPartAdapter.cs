@@ -148,9 +148,10 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 var sourceQueryDefinitionTyped = new QueryDefinitionAdapter(sourceQueryDefinition);
                 if (sourceQueryDefinitionTyped.HasAnyProvidersLocationsCareSites)
                     return;
-                                
+
+                var tableName = sourceQueryDefinition.FileName;
                 sourceQueryDefinitionSql = sourceQueryDefinitionTyped.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
-                sourceQueryDefinition.Query.Text = GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql, building.SourceSchemaName, _chunkId.ToString());
+                sourceQueryDefinition.Query.Text = GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql, building.SourceSchemaName, tableName, _chunkId.ToString());
                 if (string.IsNullOrEmpty(sourceQueryDefinition.Query.Text))
                     return;
 

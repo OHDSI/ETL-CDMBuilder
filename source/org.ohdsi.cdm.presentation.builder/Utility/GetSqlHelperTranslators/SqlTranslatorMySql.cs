@@ -10,9 +10,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
     internal class SqlTranslatorMySql : ISqlTranslator
     {
         private readonly string _schema;
-        private readonly string _table;
+        private readonly string? _table;
 
-        public SqlTranslatorMySql(string schemaName, string tableName)
+        public SqlTranslatorMySql(string schemaName, string? tableName)
         {
             _schema = schemaName;
             _table = tableName;
@@ -46,6 +46,8 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
             queryChanged = queryChanged.Replace("nvl(", "COALESCE(", StringComparison.InvariantCultureIgnoreCase);
 
             queryChanged = queryChanged.Replace("isnull(", "COALESCE(", StringComparison.InvariantCultureIgnoreCase);
+
+            queryChanged = queryChanged.Replace("len(", "char_length(", StringComparison.InvariantCultureIgnoreCase);
 
             // DATEPART(YEAR, t1.DTSTART) → YEAR(t1.DTSTART)
             queryChanged = Regex.Replace(

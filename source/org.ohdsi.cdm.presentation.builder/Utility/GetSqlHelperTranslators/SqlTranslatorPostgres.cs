@@ -10,9 +10,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
     internal class SqlTranslatorPostgres : ISqlTranslator
     {
         private readonly string _schema;
-        private readonly string _table;
+        private readonly string? _table;
 
-        public SqlTranslatorPostgres(string schemaName, string tableName)
+        public SqlTranslatorPostgres(string schemaName, string? tableName)
         {
             _schema = schemaName;
             _table = tableName;
@@ -267,6 +267,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
                 RegexOptions.IgnoreCase
             );
             #endregion
+
+            if (string.IsNullOrEmpty(_table))
+                return queryChanged;
 
             if (_table.Equals("patbill", StringComparison.InvariantCultureIgnoreCase))
             {

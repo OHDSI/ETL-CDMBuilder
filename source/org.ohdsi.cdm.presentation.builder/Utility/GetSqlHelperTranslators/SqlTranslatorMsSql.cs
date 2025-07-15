@@ -111,11 +111,14 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
                 return queryChanged;
 
             if (_table.Equals("patbill", StringComparison.CurrentCultureIgnoreCase))
-                queryChanged = queryChanged.Replace("chg.std_chg_code != 360360000530008", "chg.std_chg_code != '360360000530008'");
+                queryChanged = queryChanged.Replace("chg.std_chg_code != 360360000530008", 
+                    "chg.std_chg_code != '360360000530008'",
+                    StringComparison.CurrentCultureIgnoreCase);
 
             if (_table.Equals("vitals", StringComparison.CurrentCultureIgnoreCase))
                 queryChanged = queryChanged.Replace("regexp_replace(lab_test, '\\\\(.*\\\\)', '') snomed", 
-                    "STUFF(lab_test, \r\n PATINDEX('%([(]%)%', lab_test), \r\n CHARINDEX(')', lab_test + ')') - PATINDEX('%([(]%)%', lab_test) + 1, \r\n '')");
+                    "STUFF(lab_test, \r\n PATINDEX('%([(]%)%', lab_test), \r\n CHARINDEX(')', lab_test + ')') - PATINDEX('%([(]%)%', lab_test) + 1, \r\n '')",
+                    StringComparison.CurrentCultureIgnoreCase);
 
             return queryChanged;
         }

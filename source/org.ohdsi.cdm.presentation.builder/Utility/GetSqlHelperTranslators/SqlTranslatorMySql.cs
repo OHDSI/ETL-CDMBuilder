@@ -130,7 +130,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
                 match => $"`{_schema}`.`{match.Groups[1].Value}`",
                 RegexOptions.IgnoreCase);
 
-            queryChanged = queryChanged.Replace("10/01/2015", "2015-10-01");
+            queryChanged = queryChanged.Replace("10/01/2015",
+                "2015-10-01",
+                StringComparison.CurrentCultureIgnoreCase);
 
             return queryChanged;
         }

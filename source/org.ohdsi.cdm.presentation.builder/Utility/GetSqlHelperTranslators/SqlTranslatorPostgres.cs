@@ -63,10 +63,18 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
             queryChanged = Regex.Replace(
                 queryChanged,
                 // \bDATEPART, then “(”, capture part, “,”, capture expr, “)”
-                @"\bDATEPART\s*\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*,\s*([^)]+?)\s*\)",
+                @"\bDATEPART\b*\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*,\s*([^)]+?)\s*\)",
                 match => $"EXTRACT({match.Groups[1].Value.ToUpper()} FROM {match.Groups[2].Value})",
                 RegexOptions.IgnoreCase
             );
+            queryChanged = Regex.Replace(
+                queryChanged,
+                // \bDATEPART, then “(”, capture part, “,”, capture expr, “)”
+                @"\bDATE_PART\b*\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*,\s*([^)]+?)\s*\)",
+                match => $"EXTRACT({match.Groups[1].Value.ToUpper()} FROM {match.Groups[2].Value})",
+                RegexOptions.IgnoreCase
+            );
+
             #endregion
 
             #region convert '' to null when context demands it
@@ -167,6 +175,19 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
             );
             #endregion
 
+            #region to_date fix
+            // to_date(text_date, 'YYYYMMDD', FALSE)
+            // -> -> ->
+            // to_date(text_date, 'YYYYMMDD')
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\bto_date\s*\(\s*([^,]+?)\s*,\s*'([^']+?)'\s*,\s*false\s*\)",
+                "to_date($1, '$2')",
+                RegexOptions.IgnoreCase
+            );
+            #endregion
+
+
             return queryChanged;
         }
 
@@ -179,6 +200,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             if (_schema.Contains("premier", StringComparison.InvariantCultureIgnoreCase))
                 queryChanged = translatePremier(queryChanged);
+
+            if (new[] { "optum_panther", "optumpanther", "ehr" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                queryChanged = translateOptumPantherEhr(queryChanged);
 
             return queryChanged;
         }
@@ -273,9 +297,44 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             if (_table.Equals("patbill", StringComparison.InvariantCultureIgnoreCase))
             {
-                queryChanged = queryChanged.Replace("chg.std_chg_code != 360360000530008", "chg.std_chg_code != '360360000530008'");
+                queryChanged = queryChanged.Replace("chg.std_chg_code != 360360000530008", 
+                    "chg.std_chg_code != '360360000530008'",
+                    StringComparison.CurrentCultureIgnoreCase);
 
-                queryChanged = queryChanged.Replace("len(pat.ms_drg)", "length(cast(pat.ms_drg as varchar))");
+                queryChanged = queryChanged.Replace("len(pat.ms_drg)", 
+                    "length(cast(pat.ms_drg as varchar))",
+                    StringComparison.CurrentCultureIgnoreCase);
+            }
+
+            return queryChanged;
+        }
+
+        string translateOptumPantherEhr(string query)
+        {
+            var queryChanged = query;
+
+            if (string.IsNullOrEmpty(_table))
+                return queryChanged;
+
+            //add cast as varchar
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\bEXTRACT\s*\(\s*YEAR\s+FROM\s+((?:\w+\.)*)note_date\s*\)\s*=",
+                "cast(EXTRACT(YEAR FROM $1note_date) as varchar) =",
+                RegexOptions.IgnoreCase
+            );
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\bEXTRACT\s*\(\s*MONTH\s+FROM\s+((?:\w+\.)*)note_date\s*\)\s*=",
+                "cast(EXTRACT(MONTH FROM $1note_date) as varchar) =",
+                RegexOptions.IgnoreCase
+            );
+
+            if (_table.Equals("diagnosis", StringComparison.InvariantCultureIgnoreCase))
+            {
+                queryChanged = queryChanged.Replace("diagnosis_status || ';' || ad + dd + p + pd as condition_status_source_value", 
+                    "diagnosis_status || ';' || ad || dd || p || pd as condition_status_source_value",
+                    StringComparison.CurrentCultureIgnoreCase);
             }
 
             return queryChanged;

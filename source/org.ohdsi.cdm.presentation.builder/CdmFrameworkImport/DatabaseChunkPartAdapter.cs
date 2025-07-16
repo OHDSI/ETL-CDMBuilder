@@ -67,7 +67,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 catch (Exception e)
                 {
                     //error info is written in LoadQuery catch
-                    Console.WriteLine("Query number is " + i);
+                    Console.WriteLine("FileName is " + queries[i].FileName + ". Query number is " + i);
                     throw;
                 }
             }
@@ -154,6 +154,17 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 var sourceQueryDefinitionTyped = new QueryDefinitionAdapter(sourceQueryDefinition);
                 if (sourceQueryDefinitionTyped.HasAnyProvidersLocationsCareSites)
                     return;
+
+                #region debug remove this after fixing core package
+                //NoteDefinition.GetConcepts throws NotImplementedException
+                if (new[] { "alz_problem", "nlp_biomarker", "nlp_drug_rationale", "nlp_measurements", "nlp_sds", "nlp_sds_family" }
+                    .Any(s => s == sourceQueryDefinition.FileName))
+                    return;
+                //error at lookup
+                if (new[] { "alz_biomarker" }
+                    .Any(s => s == sourceQueryDefinition.FileName))
+                    return;
+                #endregion
 
                 sourceQueryDefinitionSql = sourceQueryDefinitionTyped.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
                 sourceQueryDefinition.Query.Text = GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql, 

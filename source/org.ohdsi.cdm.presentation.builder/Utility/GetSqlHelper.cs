@@ -25,7 +25,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
         /// <param name="schemaName"></param>
         /// <param name="chunkId">Should be left null or blank for batch sqcript</param>
         /// <returns></returns>
-        public static string TranslateSqlFromRedshift(Vendor vendor, Database sourceDatabase, string query, string schemaName, string? tableName, string chunkId = "")
+        public static string TranslateSqlFromRedshift(Vendor vendor, Database sourceDatabase, string query, string schemaName, string? tableName, string? chunkId = "")
         {
             try
             {
@@ -40,7 +40,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
             }
         }
 
-        static string FinalizeXmlToDbQueryConversion(string source, string chunkId, string schemaName)
+        static string FinalizeXmlToDbQueryConversion(string source, string? chunkId, string schemaName)
         {
             var result = source
                     .Replace("{0}", chunkId ?? "0")

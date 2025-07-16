@@ -1,4 +1,5 @@
 ﻿using org.ohdsi.cdm.framework.common.Definitions;
+using org.ohdsi.cdm.framework.common.Extensions;
 using org.ohdsi.cdm.framework.common.Lookups;
 using org.ohdsi.cdm.framework.common.PregnancyAlgorithm;
 using org.ohdsi.cdm.framework.desktop.Enums;
@@ -77,64 +78,62 @@ namespace org.ohdsi.cdm.presentation.builder
         {
             if (definitions == null) return;
 
-            foreach (var ed in definitions)
+            foreach (var item in definitions)
+                if (item != null)
+                    item.Vocabulary = this;
+
+            var conceptIdMappers = definitions
+                .Where(s => s != null)
+                .Where(s => s.Concepts != null)
+                .SelectMany(s => s.Concepts)
+                .Where(s => s.ConceptIdMappers != null)
+                .SelectMany(s => s.ConceptIdMappers)
+                .Where(s => !string.IsNullOrEmpty(s.Lookup))
+                .Where(s => !_lookups.ContainsKey(s.Lookup))
+                .ToList();
+
+            foreach (var conceptIdMapper in conceptIdMappers)
             {
-                ed.Vocabulary = this;
+                string sqlRedshift = _vendorLookups.First(s => s.Key.EndsWith("." + conceptIdMapper.Lookup + ".sql")).Value;
+                sqlRedshift = sqlRedshift.Replace("{base}", _baseSql);
+                sqlRedshift = sqlRedshift.Replace("{sc}", Settings.Current.Building.VocabSchema);
 
-                if (ed.Concepts == null) continue;
+                var sql = Utility.GetSqlHelper.TranslateSqlFromRedshift(FrameworkSettings.Current.Building.Vendor, Settings.Current.Building.VocabularyEngine.Database,
+                    sqlRedshift, FrameworkSettings.Current.Building.VocabularySchemaName, null, null);
 
-                foreach (var c in ed.Concepts)
+                try
                 {
-                    if (c.ConceptIdMappers == null) continue;
+                    var timer = new Stopwatch();
+                    timer.Start();
 
-                    foreach (var conceptIdMapper in c.ConceptIdMappers)
+                    using (var connection = SqlConnectionHelper.OpenOdbcConnection(Settings.Current.Building.VocabularyConnectionString))
+                    using (var command = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
+                    using (var reader = command.ExecuteReader())
                     {
-                        if (!string.IsNullOrEmpty(conceptIdMapper.Lookup))
+                        var lookup = new Lookup();
+                        while (reader.Read())
                         {
-                            if (!_lookups.ContainsKey(conceptIdMapper.Lookup))
-                            {
-                                string sql = _vendorLookups.First(s => s.Key.EndsWith("." + conceptIdMapper.Lookup + ".sql")).Value;
-
-                                sql = sql.Replace("{base}", _baseSql);
-                                sql = sql.Replace("{sc}", Settings.Current.Building.VocabSchema);
-
-                                try
-                                {
-
-                                    var timer = new Stopwatch();
-                                    timer.Start();
-
-                                    using (var connection = SqlConnectionHelper.OpenOdbcConnection(Settings.Current.Building.VocabularyConnectionString))
-                                    using (var command = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
-                                    using (var reader = command.ExecuteReader())
-                                    {
-                                        var lookup = new Lookup();
-                                        while (reader.Read())
-                                        {
-                                            var lv = CreateLookupValue(reader);
-                                            lookup.Add(lv);
-                                        }
-
-                                        _lookups.Add(conceptIdMapper.Lookup, lookup);
-                                    }
-
-                                    timer.Stop();
-                                    Logger.Write(null, Logger.LogMessageTypes.Info,
-                                        $"{conceptIdMapper.Lookup} - DONE - {timer.ElapsedMilliseconds} ms | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}");
-                                }
-                                catch (Exception e)
-                                {
-                                    Console.WriteLine("Lookup error [file]: " + conceptIdMapper.Lookup);
-                                    Console.WriteLine("Lookup error [query]: " + sql);
-                                    Logger.WriteWarning("Lookup error [file]: " + conceptIdMapper.Lookup);
-                                    Logger.WriteWarning("Lookup error [query]: " + sql);
-                                    throw;
-                                }
-                            }
+                            var lv = CreateLookupValue(reader);
+                            lookup.Add(lv);
                         }
+
+                        _lookups.Add(conceptIdMapper.Lookup, lookup);
                     }
+
+                    timer.Stop();
+                    Logger.Write(null, Logger.LogMessageTypes.Info,
+                        $"{conceptIdMapper.Lookup} - DONE - {timer.ElapsedMilliseconds} ms | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Lookup error [file]: " + conceptIdMapper.Lookup);
+                    Console.WriteLine("Lookup error [query]: " + sql);
+                    Logger.WriteWarning("Lookup error [file]: " + conceptIdMapper.Lookup);
+                    Logger.WriteWarning("Lookup error [query]: " + sql);
+                    throw;
                 }
             }
+
         }
 
         /// <summary>
@@ -158,36 +157,47 @@ namespace org.ohdsi.cdm.presentation.builder
 
             Console.WriteLine("\r\nLoading lookups");
             foreach (var qd in Settings.Current.Building.SourceQueryDefinitions)
-            {
-                if (forLookup)
+                try
                 {
-                    Load(qd.CareSites);
-                    Load(qd.Providers);
-                    Load(qd.Locations);
-                }
-                else
-                {
-                    Load(qd.Persons);
-                    Load(qd.ConditionOccurrence);
-                    Load(qd.DrugExposure);
-                    Load(qd.ProcedureOccurrence);
-                    Load(qd.Observation);
-                    Load(qd.VisitOccurrence);
-                    Load(qd.VisitDetail);
-                    Load(qd.Death);
-                    Load(qd.Measurement);
-                    Load(qd.DeviceExposure);
-                    Load(qd.Note);
+                    //#region debug, remove after fixing Lookup
+                    //if (qd.FileName == "alz_biomarker")
+                    //    continue;
+                    //#endregion
 
-                    Load(qd.VisitCost);
-                    Load(qd.ProcedureCost);
-                    Load(qd.DeviceCost);
-                    Load(qd.ObservationCost);
-                    Load(qd.MeasurementCost);
-                    Load(qd.DrugCost);
+                    if (forLookup)
+                    {
+                        Load(qd.CareSites);
+                        Load(qd.Providers);
+                        Load(qd.Locations);
+                    }
+                    else
+                    {
+                        Load(qd.Persons);
+                        Load(qd.ConditionOccurrence);
+                        Load(qd.DrugExposure);
+                        Load(qd.ProcedureOccurrence);
+                        Load(qd.Observation);
+                        Load(qd.VisitOccurrence);
+                        Load(qd.VisitDetail);
+                        Load(qd.Death);
+                        Load(qd.Measurement);
+                        Load(qd.DeviceExposure);
+                        Load(qd.Note);
+
+                        Load(qd.VisitCost);
+                        Load(qd.ProcedureCost);
+                        Load(qd.DeviceCost);
+                        Load(qd.ObservationCost);
+                        Load(qd.MeasurementCost);
+                        Load(qd.DrugCost);
+                    }
                 }
-            }
-            LoadPregnancyDrug(); 
+                catch( Exception e)
+                {
+                    throw;
+                }
+            LoadPregnancyDrug();
+            Console.WriteLine("Loading lookups - DONE\r\n");
         }
 
 

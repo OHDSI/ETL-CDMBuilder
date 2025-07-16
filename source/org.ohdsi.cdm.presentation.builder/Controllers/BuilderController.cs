@@ -224,15 +224,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
             if (string.IsNullOrEmpty(origQuery)) return;
 
-            var db = Settings.Current.Building.VocabularyEngine switch
-            {
-                framework.desktop.Databases.MssqlDatabaseEngine => Database.MsSql,
-                framework.desktop.Databases.PostgreDatabaseEngine => Database.Postgre,
-                framework.desktop.Databases.MySqlDatabaseEngine => Database.MySql,
-                _ => throw new NotImplementedException(Settings.Current.Building.VocabularyEngine + " is not supported!")
-            };
-
-            var sql = Utility.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess, db, origQuery, chunkSchema, null);
+            var sql = Utility.GetSqlHelper.TranslateSqlFromRedshift(vendor, Settings.Current.Building.VocabularyEngine.Database, origQuery, chunkSchema, null);
 
             if (string.IsNullOrEmpty(sql)) return;
 

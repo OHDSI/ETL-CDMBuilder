@@ -85,10 +85,16 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             timer.Start();
 
             foreach (KeyValuePair<long, Lazy<IPersonBuilder>> personBuilder in _databaseChunkPart.PersonBuilders)
-            {
-                Attrition attrition = personBuilder.Value.Value.Build(_databaseChunkPart.ChunkData, _offsetManager);
-                _databaseChunkPart.ChunkData.AddAttrition(personBuilder.Key, attrition);
-            }
+                try
+                {
+                    Attrition attrition = personBuilder.Value.Value.Build(_databaseChunkPart.ChunkData, _offsetManager);
+                    _databaseChunkPart.ChunkData.AddAttrition(personBuilder.Key, attrition);
+                }
+                catch (Exception e)
+                {
+                    Logger.Write(_chunkId, Logger.LogMessageTypes.Error, $"PersonBuilder fails at id {personBuilder.Key}!\r\n{e.Message}\r\n{e.InnerException?.Message ?? ""}");
+                    throw;
+                }
             _databaseChunkPart.PersonBuilders.Clear();
             _databaseChunkPart.PersonBuilders = null;
 
@@ -149,9 +155,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 if (sourceQueryDefinitionTyped.HasAnyProvidersLocationsCareSites)
                     return;
 
-                var tableName = sourceQueryDefinition.FileName;
                 sourceQueryDefinitionSql = sourceQueryDefinitionTyped.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
-                sourceQueryDefinition.Query.Text = GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql, building.SourceSchemaName, tableName, _chunkId.ToString());
+                sourceQueryDefinition.Query.Text = GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql, 
+                    building.SourceSchemaName, sourceQueryDefinition.FileName, _chunkId.ToString());
                 if (string.IsNullOrEmpty(sourceQueryDefinition.Query.Text))
                     return;
 

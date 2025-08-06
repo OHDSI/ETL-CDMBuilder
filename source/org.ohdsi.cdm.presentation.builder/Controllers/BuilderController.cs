@@ -221,11 +221,9 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
         {
             var vendor = Settings.Current.Building.VendorToProcess;
             var origQuery = qd.GetSql(vendor, Settings.Current.Building.SourceSchema, chunkSchema);
-
             if (string.IsNullOrEmpty(origQuery)) return;
 
-            var sql = Utility.GetSqlHelper.TranslateSqlFromRedshift(vendor, Settings.Current.Building.VocabularyEngine.Database, origQuery, chunkSchema, null);
-
+            var sql = Utility.GetSqlHelper.TranslateSqlFromRedshift(vendor, Settings.Current.Building.SourceEngine.Database, origQuery, chunkSchema, qd.FileName);
             if (string.IsNullOrEmpty(sql)) return;
 
             var keys = new Dictionary<string, bool>();

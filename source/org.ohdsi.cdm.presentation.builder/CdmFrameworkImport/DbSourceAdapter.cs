@@ -79,12 +79,10 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
         public IEnumerable<IDataReader> GetPersonKeys(string batchScript, long batches, int batchSize, string schemaName)
         {
             batchScript = batchScript.Replace("{sc}", schemaName);
-
-            //unclear why this is necessary, not working in Postgre
-            //var sql = batches > 0
-            //    ? string.Format(batchScript, "TOP " + batches * batchSize)
-            //    : string.Format(batchScript, "");
             var sql = string.Format(batchScript, "");
+
+            sql = GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess,
+                Settings.Current.Building.SourceEngine.Database, sql, schemaName, Settings.Current.Building.VendorToProcess.PersonTableName);
 
             using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
             using var c = new OdbcCommand(sql, connection) { CommandTimeout = 0 };

@@ -37,6 +37,10 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             queryChanged = queryChanged.Replace("bigint)", "double)", StringComparison.InvariantCultureIgnoreCase);
 
+            queryChanged = queryChanged.Replace("int)", "double)", StringComparison.InvariantCultureIgnoreCase);
+
+            queryChanged = queryChanged.Replace("timestamp)", "datetime)", StringComparison.InvariantCultureIgnoreCase);
+
             // ISNULL(a,b) → IFNULL(a,b)
             queryChanged = Regex.Replace(queryChanged, @"\bISNULL\(", "IFNULL(", RegexOptions.IgnoreCase);
 
@@ -56,10 +60,24 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
                 "YEAR($1)",
                 RegexOptions.IgnoreCase);
 
+            // DATE_PART(YEAR, t1.DTSTART) → YEAR(t1.DTSTART)
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\bDATE_PART\s*\(\s*YEAR\s*,\s*([^)]+)\)",
+                "YEAR($1)",
+                RegexOptions.IgnoreCase);
+
             // DATEPART(MONTH, col) → MONTH(col)
             queryChanged = Regex.Replace(
               queryChanged,
               @"\bDATEPART\s*\(\s*MONTH\s*,\s*(?<c>[\w\.]+)\s*\)",
+              "MONTH(${c})",
+              RegexOptions.IgnoreCase);
+
+            // DATE_PART(MONTH, col) → MONTH(col)
+            queryChanged = Regex.Replace(
+              queryChanged,
+              @"\bDATE_PART\s*\(\s*MONTH\s*,\s*(?<c>[\w\.]+)\s*\)",
               "MONTH(${c})",
               RegexOptions.IgnoreCase);
 
@@ -99,6 +117,39 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
                 "CAST($1 AS SIGNED)",
                 RegexOptions.IgnoreCase);
 
+            #region procedure_date ilike 'yy%' to like
+            queryChanged = Regex.Replace(
+              queryChanged,
+              @"\b([\w\.\[\]]+)\s+ilike\s+('(?:[^']|'')*')",
+              "LOWER($1) LIKE LOWER($2)",
+              RegexOptions.IgnoreCase
+            );
+            #endregion
+
+            #region to_date → str_to_date
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\bto_date\s*\(\s*([\w\.]+)\s*,\s*'YYYY-MM-DD'\s*,\s*false\s*\)",
+                "STR_TO_DATE($1, '%Y-%m-%d')",
+                RegexOptions.IgnoreCase
+            );
+
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\bto_date\s*\(\s*([\w\.]+)\s*,\s*'YYYYMMDD'\s*,\s*false\s*\)",
+                "STR_TO_DATE($1, '%Y%m%d')",
+                RegexOptions.IgnoreCase
+            );
+
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\bto_date\s*\(\s*([\w\.]+)\s*,\s*'YYYYMMDD'\s*\)",
+                "STR_TO_DATE($1, '%Y%m%d')",
+                RegexOptions.IgnoreCase
+            );
+            #endregion
+
+
             return queryChanged;
         }
 
@@ -108,6 +159,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             if (new[] { "ccae", "mdcr", "mdcd" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                 queryChanged = translateTruven(queryChanged);
+
+            if (new[] { "optum_panther", "optumpanther", "ehr" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                queryChanged = translateOptumPantherEhr(queryChanged);
 
             return queryChanged;
         }
@@ -135,6 +189,85 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
                 StringComparison.CurrentCultureIgnoreCase);
 
             return queryChanged;
+        }
+
+        string translateOptumPantherEhr(string query)
+        {
+            var queryChanged = query;
+
+            if (_table.Equals("alz_imaging", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = Regex.Replace(
+                    queryChanged,
+                    @"\bprocedure\b",
+                    " \"procedure\" ",
+                    RegexOptions.IgnoreCase
+                );
+            }
+
+            if (_table.Equals("diagnosis", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = queryChanged.Replace(
+                    @"'October 1, 2015'",
+                    "STR_TO_DATE('October 1, 2015', '%M %e, %Y')",
+                    StringComparison.CurrentCultureIgnoreCase
+                );
+            }
+
+            if (_table.Equals("L_LOCATION", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = queryChanged.Replace(
+                    @"region + '_' + division",
+                    "concat(region, '_', division)",
+                    StringComparison.CurrentCultureIgnoreCase
+                );
+            }
+
+            if (_table.Equals("onc_metastatic_location", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = queryChanged.Replace("to_date(replace(metastasis_dx_date, 'mmdd', '0630'), 'YYYYMMDD')",
+                    "STR_TO_DATE(metastasis_dx_date, '%Y%m%d')",
+                    StringComparison.CurrentCultureIgnoreCase);
+
+                queryChanged = queryChanged.Replace("to_date(replace(metastasis_dx_date, 'dd', '15'), 'YYYYMMDD')",
+                    "STR_TO_DATE(metastasis_dx_date, '%Y%m%d')",
+                    StringComparison.CurrentCultureIgnoreCase);
+            }
+
+            if (_table.Equals("onc_neoplasm_histology", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = queryChanged.Replace("trim (coalesce(histology_characteristic, '') || ' ' || coalesce(direction, '') || ' ' || coalesce(neoplasm_type, '') || ' ' || coalesce(histology, ''))",
+                    "ltrim(rtrim(coalesce(histology_characteristic, '') || ' ' || coalesce(direction, '') || ' ' || coalesce(neoplasm_type, '') || ' ' || coalesce(histology, '')))",
+                    StringComparison.CurrentCultureIgnoreCase);
+
+                queryChanged = queryChanged.Replace("trim (coalesce (neoplasm_characteristic, '') ||' '|| coalesce (histology_characteristic, '')||' '||coalesce (direction, '')||' '|| coalesce (neoplasm_type, '')||' '\r\n                || coalesce (histology, 'neoplasm'))",
+                    "ltrim(rtrim(coalesce (neoplasm_characteristic, '') ||' '|| coalesce (histology_characteristic, '')||' '||coalesce (direction, '')||' '|| coalesce (neoplasm_type, '')||' '\r\n                || coalesce (histology, 'neoplasm')))",
+                    StringComparison.CurrentCultureIgnoreCase);
+
+            }
+
+            if (_table.Equals("onc_tumor_size", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = queryChanged.Replace("ISNULL",
+                    "COALESCE",
+                    StringComparison.CurrentCultureIgnoreCase);
+
+                queryChanged = Regex.Replace(
+                    queryChanged,
+                    @"\b([A-Za-z0-9_\.]+)::float\s*/\s*(\d+)",
+                    "CAST($1 AS FLOAT) / $2",
+                    RegexOptions.IgnoreCase);
+
+                queryChanged = Regex.Replace(
+                    queryChanged,
+                    @"\b([A-Za-z0-9_\.]+)::float\b",
+                    "CAST($1 AS FLOAT)",
+                    RegexOptions.IgnoreCase);
+
+            }
+
+            return queryChanged;
+
         }
     }
 }

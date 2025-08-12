@@ -110,14 +110,17 @@ namespace org.ohdsi.cdm.presentation.builder
                     using (var command = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
                     using (var reader = command.ExecuteReader())
                     {
-                        var lookup = new Lookup();
+                        var lookup = _lookups.TryGetValue(conceptIdMapper.Lookup, out var existingLookup)
+                            ? existingLookup
+                            : new Lookup();
+
                         while (reader.Read())
                         {
                             var lv = CreateLookupValue(reader);
                             lookup.Add(lv);
                         }
 
-                        _lookups.Add(conceptIdMapper.Lookup, lookup);
+                        _lookups[conceptIdMapper.Lookup] = lookup;
                     }
 
                     timer.Stop();

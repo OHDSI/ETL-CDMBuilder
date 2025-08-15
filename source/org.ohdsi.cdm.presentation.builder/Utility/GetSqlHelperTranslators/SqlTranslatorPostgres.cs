@@ -204,6 +204,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
             if (new[] { "optum_panther", "optumpanther", "ehr" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                 queryChanged = translateOptumPantherEhr(queryChanged);
 
+            if (new[] { "optum_extended", "optumextended", "dod", "ses" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                queryChanged = translateOptumExtended(queryChanged);
+
             return queryChanged;
         }
 
@@ -297,11 +300,11 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             if (_table.Equals("patbill", StringComparison.InvariantCultureIgnoreCase))
             {
-                queryChanged = queryChanged.Replace("chg.std_chg_code != 360360000530008", 
+                queryChanged = queryChanged.Replace("chg.std_chg_code != 360360000530008",
                     "chg.std_chg_code != '360360000530008'",
                     StringComparison.CurrentCultureIgnoreCase);
 
-                queryChanged = queryChanged.Replace("len(pat.ms_drg)", 
+                queryChanged = queryChanged.Replace("len(pat.ms_drg)",
                     "length(cast(pat.ms_drg as varchar))",
                     StringComparison.CurrentCultureIgnoreCase);
             }
@@ -332,9 +335,27 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             if (_table.Equals("diagnosis", StringComparison.InvariantCultureIgnoreCase))
             {
-                queryChanged = queryChanged.Replace("diagnosis_status || ';' || ad + dd + p + pd as condition_status_source_value", 
+                queryChanged = queryChanged.Replace("diagnosis_status || ';' || ad + dd + p + pd as condition_status_source_value",
                     "diagnosis_status || ';' || ad || dd || p || pd as condition_status_source_value",
                     StringComparison.CurrentCultureIgnoreCase);
+            }
+
+            return queryChanged;
+        }
+
+        string translateOptumExtended(string query)
+        {
+            var queryChanged = query;           
+
+
+            if (string.IsNullOrEmpty(_table))
+                return queryChanged;
+
+            if (_table.Equals("SES", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = queryChanged.Replace("last_day(cast(extract_ym || '01' as date)) date",
+                    "(date_trunc('month', cast(extract_ym || '01' as date) + interval '1 month') - interval '1 day')::date as date",
+                    StringComparison.CurrentCultureIgnoreCase);                
             }
 
             return queryChanged;

@@ -39,13 +39,13 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             queryChanged = queryChanged.Replace("isnull(", "COALESCE(", StringComparison.InvariantCultureIgnoreCase);
 
-            // length → len
+            #region length → len
             queryChanged = Regex.Replace(queryChanged, @"\s*length\s*\(", " len(", RegexOptions.IgnoreCase);
+            #endregion
 
-            // chr → char
+            #region chr → char
             queryChanged = Regex.Replace(queryChanged, @"\s*chr\s*\(", " char(", RegexOptions.IgnoreCase);
-
-            queryChanged = Regex.Replace(queryChanged, @"\s*date_part\s*\(", " datepart(", RegexOptions.IgnoreCase);
+            #endregion
 
             #region procedure_date ilike 'yy%' to like
             queryChanged = Regex.Replace(
@@ -57,6 +57,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
             #endregion
 
             #region datepart translation (EXTRACT → DATEPART)
+
+            queryChanged = Regex.Replace(queryChanged, @"\s*date_part\s*\(", " datepart(", RegexOptions.IgnoreCase);
+
             queryChanged = Regex.Replace(
                 queryChanged,
                 // EXTRACT(MONTH FROM col) → DATEPART(MONTH, col)
@@ -64,6 +67,14 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
                 "DATEPART($1, $2)",
                 RegexOptions.IgnoreCase
             );
+
+            //remove quotes
+            queryChanged = queryChanged
+                .Replace("datepart('year'", "DATEPART(YEAR", StringComparison.CurrentCultureIgnoreCase)
+                .Replace("datepart('MONTH'", "DATEPART(MONTH", StringComparison.CurrentCultureIgnoreCase)
+                .Replace("datepart('YEAR'", "DATEPART(YEAR", StringComparison.CurrentCultureIgnoreCase)
+                .Replace("datepart('Month'", "DATEPART(MONTH", StringComparison.CurrentCultureIgnoreCase);
+
             #endregion
 
             #region coalesce → isnull
@@ -150,6 +161,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
             if (new[] { "optum_panther", "optumpanther", "ehr" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                 queryChanged = translateOptumPantherEhr(queryChanged);
 
+            if (new[] { "optum_extended", "optumextended", "dod", "ses" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                queryChanged = translateOptumExtended(queryChanged);
+
             return queryChanged;
         }
 
@@ -159,7 +173,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
 
 
-            if(string.IsNullOrEmpty(_table))
+            if (string.IsNullOrEmpty(_table))
                 return queryChanged;
 
             if (_table.Equals("patbill", StringComparison.CurrentCultureIgnoreCase))
@@ -255,6 +269,47 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
             {
                 queryChanged = queryChanged.Replace(".procedure",
                     ".\"procedure\"",
+                    StringComparison.CurrentCultureIgnoreCase);
+            }
+
+            return queryChanged;
+        }
+
+        string translateOptumExtended(string query)
+        {
+            var queryChanged = query;
+
+
+
+            if (string.IsNullOrEmpty(_table))
+                return queryChanged;
+
+
+            if (_table.Equals("med_procedure", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = queryChanged.Replace("proc,",
+                    "\"proc\",",
+                    StringComparison.CurrentCultureIgnoreCase);
+            }
+
+            if (_table.Equals("member_continuous_enrollment", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = queryChanged.Replace("DATEPART(MONTH, m2.startDate)",
+                    "RIGHT('0' + CAST(DATEPART(MONTH, m2.startDate) AS VARCHAR), 2)",
+                    StringComparison.CurrentCultureIgnoreCase);
+            }
+
+            if (_table.Equals("rx_claims", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = queryChanged.Replace("ISNULL",
+                    "COALESCE",
+                    StringComparison.CurrentCultureIgnoreCase);
+            }
+
+            if (_table.Equals("SES", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = queryChanged.Replace("last_day(cast(extract_ym || '01' as date)) date",
+                    "EOMONTH(CAST(extract_ym + '01' AS date)) AS [date]",
                     StringComparison.CurrentCultureIgnoreCase);
             }
 

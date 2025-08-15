@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -53,6 +54,10 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             queryChanged = queryChanged.Replace("len(", "char_length(", StringComparison.InvariantCultureIgnoreCase);
 
+            #region datepart
+
+            queryChanged = Regex.Replace(queryChanged, @"\s*date_part\s*\(", " datepart(", RegexOptions.IgnoreCase);
+
             // DATEPART(YEAR, t1.DTSTART) → YEAR(t1.DTSTART)
             queryChanged = Regex.Replace(
                 queryChanged,
@@ -60,26 +65,28 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
                 "YEAR($1)",
                 RegexOptions.IgnoreCase);
 
-            // DATE_PART(YEAR, t1.DTSTART) → YEAR(t1.DTSTART)
+            // DATEPART('YEAR', t1.DTSTART) → YEAR(t1.DTSTART)
             queryChanged = Regex.Replace(
                 queryChanged,
-                @"\bDATE_PART\s*\(\s*YEAR\s*,\s*([^)]+)\)",
+                @"\bDATEPART\s*\(\s*'YEAR'\s*,\s*([^)]+)\)",
                 "YEAR($1)",
                 RegexOptions.IgnoreCase);
 
-            // DATEPART(MONTH, col) → MONTH(col)
+            // DATEPART(MONTH, t1.col) → MONTH(t1.col)
             queryChanged = Regex.Replace(
               queryChanged,
-              @"\bDATEPART\s*\(\s*MONTH\s*,\s*(?<c>[\w\.]+)\s*\)",
-              "MONTH(${c})",
+              @"\bDATEPART\s*\(\s*MONTH\s*,\s*([^)]+)\)",
+              "MONTH($1)",
               RegexOptions.IgnoreCase);
 
-            // DATE_PART(MONTH, col) → MONTH(col)
+            // DATEPART('MONTH', t1.col) → MONTH(t1.col)
             queryChanged = Regex.Replace(
               queryChanged,
-              @"\bDATE_PART\s*\(\s*MONTH\s*,\s*(?<c>[\w\.]+)\s*\)",
-              "MONTH(${c})",
+              @"\bDATEPART\s*\(\s*'MONTH'\s*,\s*([^)]+)\)",
+              "MONTH($1)",
               RegexOptions.IgnoreCase);
+
+            #endregion
 
             // GETDATE() → NOW()
             queryChanged = Regex.Replace(
@@ -162,6 +169,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             if (new[] { "optum_panther", "optumpanther", "ehr" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                 queryChanged = translateOptumPantherEhr(queryChanged);
+
+            if (new[] { "optum_extended", "optumextended", "dod", "ses" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                queryChanged = translateOptumExtended(queryChanged);
 
             return queryChanged;
         }
@@ -268,6 +278,42 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             return queryChanged;
 
+        }
+
+        string translateOptumExtended(string query)
+        {
+            var queryChanged = query;
+
+
+            queryChanged = queryChanged.Replace("10/01/2015",
+                "2015-10-01",
+                StringComparison.CurrentCultureIgnoreCase);
+
+
+            queryChanged = queryChanged.Replace("05/01/2000",
+                "2000-05-01",
+                StringComparison.CurrentCultureIgnoreCase);
+
+
+            if (string.IsNullOrEmpty(_table))
+                return queryChanged;
+
+
+            if (_table.Equals("member_continuous_enrollment", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = queryChanged.Replace("DATEPART(MONTH, m2.startDate)",
+                    "RIGHT('0' + CAST(DATEPART(MONTH, m2.startDate) AS VARCHAR), 2)",
+                    StringComparison.CurrentCultureIgnoreCase);
+            }
+
+            if (_table.Equals("rx_claims", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = queryChanged.Replace("ISNULL",
+                    "COALESCE",
+                    StringComparison.CurrentCultureIgnoreCase);
+            }
+
+            return queryChanged;
         }
     }
 }

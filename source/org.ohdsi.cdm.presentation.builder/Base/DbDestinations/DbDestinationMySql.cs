@@ -27,8 +27,6 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
 
             string localInfileCommand = "SET GLOBAL local_infile = ON;";
 
-            string createTrimCommand = "USE `" + SchemaName + "`;\r\nDELIMITER $$\r\nCREATE FUNCTION `trim`(in_str TEXT)\r\nRETURNS TEXT\r\nDETERMINISTIC\r\nRETURN TRIM(in_str);\r\n$$\r\nDELIMITER ;";
-
             string createToDateCommand = "USE `" + SchemaName + "`;\r\nDELIMITER $$\r\nCREATE FUNCTION to_date(in_str VARCHAR(255), in_mask VARCHAR(255))\r\nRETURNS DATE\r\nDETERMINISTIC\r\nBEGIN\r\n  DECLARE fmt VARCHAR(255);\r\n  SET fmt = REPLACE(REPLACE(REPLACE(in_mask, 'YYYY', '%Y'), 'MM', '%m'), 'DD', '%d');\r\n  RETURN STR_TO_DATE(in_str, fmt);\r\nEND$$\r\nDELIMITER ;";
 
             #endregion
@@ -87,7 +85,6 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                 }
 
                 ExecuteQuery(localInfileCommand);
-                ExecuteQuery(createTrimCommand);
                 ExecuteQuery(createToDateCommand);
             }
 

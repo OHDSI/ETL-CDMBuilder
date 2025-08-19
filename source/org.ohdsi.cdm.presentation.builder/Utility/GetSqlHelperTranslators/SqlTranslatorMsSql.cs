@@ -311,6 +311,10 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
                 queryChanged = queryChanged.Replace("last_day(cast(extract_ym || '01' as date)) date",
                     "EOMONTH(CAST(extract_ym + '01' AS date)) AS [date]",
                     StringComparison.CurrentCultureIgnoreCase);
+
+                queryChanged = queryChanged.Replace("last_day(cast(extract_ym + '01' as date)) date",
+                    "EOMONTH(CAST(extract_ym + '01' AS date)) AS [date]",
+                    StringComparison.CurrentCultureIgnoreCase);                
             }
 
             return queryChanged;

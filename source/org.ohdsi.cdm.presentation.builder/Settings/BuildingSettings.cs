@@ -194,9 +194,10 @@ namespace org.ohdsi.cdm.presentation.builder
         private void SetVendorSettings(string databaseEngineName)
         {
             var relatedResources = EmbeddedResourceManager.ReadEmbeddedResources("ETL", VendorToProcess.Folder, StringComparison.InvariantCultureIgnoreCase);
-            BatchScript = relatedResources.FirstOrDefault(s => s.Key.Contains("Batch.sql")).Value;
+            var vendorResources = relatedResources.Where(s => s.Key.Contains("." + VendorToProcess.Folder + ".")).ToDictionary(); //strinct search in cases of CPRD and CPRDHES
+            BatchScript = vendorResources.FirstOrDefault(s => s.Key.Contains("Batch.sql")).Value;
 
-            SourceQueryDefinitions = relatedResources
+            SourceQueryDefinitions = vendorResources
                 .Where(s => s.Key.Contains("Definitions"))
                 .Select(s => new QueryDefinition()
                 {

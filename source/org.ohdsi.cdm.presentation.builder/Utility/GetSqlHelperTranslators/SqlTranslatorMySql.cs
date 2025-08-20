@@ -88,6 +88,20 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
               "MONTH($1)",
               RegexOptions.IgnoreCase);
 
+            // DATEPART(DAY, t1.col) → MONTH(t1.col)
+            queryChanged = Regex.Replace(
+              queryChanged,
+              @"\bDATEPART\s*\(\s*DAY\s*,\s*([^)]+)\)",
+              "MONTH($1)",
+              RegexOptions.IgnoreCase);
+
+            // DATEPART('DAY', t1.col) → MONTH(t1.col)
+            queryChanged = Regex.Replace(
+              queryChanged,
+              @"\bDATEPART\s*\(\s*'DAY'\s*,\s*([^)]+)\)",
+              "MONTH($1)",
+              RegexOptions.IgnoreCase);
+
             #endregion
 
             #region dateadd

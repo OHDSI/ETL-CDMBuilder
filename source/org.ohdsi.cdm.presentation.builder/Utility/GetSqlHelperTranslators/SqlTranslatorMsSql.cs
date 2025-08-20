@@ -70,10 +70,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             //remove quotes
             queryChanged = queryChanged
-                .Replace("datepart('year'", "DATEPART(YEAR", StringComparison.CurrentCultureIgnoreCase)
-                .Replace("datepart('MONTH'", "DATEPART(MONTH", StringComparison.CurrentCultureIgnoreCase)
                 .Replace("datepart('YEAR'", "DATEPART(YEAR", StringComparison.CurrentCultureIgnoreCase)
-                .Replace("datepart('Month'", "DATEPART(MONTH", StringComparison.CurrentCultureIgnoreCase);
+                .Replace("datepart('MONTH'", "DATEPART(MONTH", StringComparison.CurrentCultureIgnoreCase)
+                .Replace("datepart('DAY'", "DATEPART(DAY", StringComparison.CurrentCultureIgnoreCase);
 
             #endregion
 

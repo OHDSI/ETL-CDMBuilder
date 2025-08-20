@@ -231,6 +231,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
             if (new[] { "jmdc" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                 queryChanged = translateJmdc(queryChanged);
 
+            if (new[] { "cprd" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                queryChanged = translateCprd(queryChanged);
+
             return queryChanged;
         }
 
@@ -399,6 +402,26 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
                     "(to_date(CAST(e.observation_end AS varchar) || '01','YYYYMMDD') + interval '1 month' - interval '1 day') AS observation_period_end_date",
                     StringComparison.CurrentCultureIgnoreCase);
             }
+
+            return queryChanged;
+        }
+
+        string translateCprd(string query)
+        {
+            var queryChanged = query;
+
+
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\bpatid\s*=\s*ch.person_source_value",
+                "patid = cast(ch.person_source_value as int8)",
+                RegexOptions.IgnoreCase
+            );
+
+
+            if (string.IsNullOrEmpty(_table))
+                return queryChanged;
+
 
             return queryChanged;
         }

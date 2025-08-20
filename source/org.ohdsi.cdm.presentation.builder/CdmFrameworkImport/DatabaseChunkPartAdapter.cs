@@ -67,7 +67,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 catch (Exception e)
                 {
                     //error info is written in LoadQuery catch
-                    Console.WriteLine("FileName is " + queries[i].FileName + ". Query number is " + i);
+                    Console.WriteLine("\n\rFileName is " + queries[i].FileName + ". Query number is " + i + "\n\r");
                     throw;
                 }
             }

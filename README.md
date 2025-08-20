@@ -29,12 +29,22 @@ Getting Started
 Kicking off a Build
 ===============
 * Windows environment
-    - Go to the ETL-CDMBuilder\executable\ folder
-    - Update org.ohdsi.cdm.presentation.builder.dll.config file:
-        1. Check actual driver names in ODBC Data Sources system application
-        2. Update drivers in connection strings with the actual driver names
-	- Change database credentials in the params.txt file or specify them as program arguments
+    - Go to the ETL-CDMBuilder\source\RunLocal folder
+    - Update App.config file:
+        1. Check actual driver names in the ODBC Data Sources system application
+        2. Update drivers in the connection strings with the actual driver names
+	- Either
+		1. Specify settings as the program arguments
+			- Some examples of correct settings can be found in the file Properties\launchSettingsExample.json
+		2. Change settings in the params.txt file. This is used only if no command line arguments have been provided
     - Run RunLocal.exe
+
+Notes
+===============
+* As parameters for MySql database the database name and schema name should match.
+* This application heaviliy relies on ETL-LambdaBuilder project. 
+* As it translates code from one SQL dialect to another, errors are likely to happen in case of changes in source SQL code.
+* So after any relevant SQL code update in ETL-LambdaBuilder this project should be updated as well.
 
 Getting Involved
 =============

@@ -164,6 +164,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
             if (new[] { "optum_extended", "optumextended", "dod", "ses" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                 queryChanged = translateOptumExtended(queryChanged);
 
+            if (new[] { "jmdc" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                queryChanged = translateJmdc(queryChanged);
+
             return queryChanged;
         }
 
@@ -267,9 +270,12 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             if (_table.Equals("procedure", StringComparison.CurrentCultureIgnoreCase))
             {
-                queryChanged = queryChanged.Replace(".procedure",
+                queryChanged = Regex.Replace(
+                    queryChanged,
+                    @"\.procedure\b",
                     ".\"procedure\"",
-                    StringComparison.CurrentCultureIgnoreCase);
+                    RegexOptions.IgnoreCase
+                );
             }
 
             return queryChanged;
@@ -315,6 +321,43 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
                 queryChanged = queryChanged.Replace("last_day(cast(extract_ym + '01' as date)) date",
                     "EOMONTH(CAST(extract_ym + '01' AS date)) AS [date]",
                     StringComparison.CurrentCultureIgnoreCase);                
+            }
+
+            return queryChanged;
+        }
+
+        string translateJmdc(string query)
+        {
+            var queryChanged = query;
+
+
+
+            if (string.IsNullOrEmpty(_table))
+                return queryChanged;
+
+
+            if (_table.Equals("Annual_health_checkups", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = queryChanged.Replace("ELSE Eating1_fast_eating + ' unknown'",
+                    "ELSE CAST(Eating1_fast_eating as varchar) + ' unknown'",
+                    StringComparison.CurrentCultureIgnoreCase);
+            }
+
+            if (_table.Equals("Enrollment", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = queryChanged.Replace("a.payer_concept_id, baby_person_id, m2.year_of_birth",
+                    "a.payer_concept_id, m2.person_id, m2.year_of_birth",
+                    StringComparison.CurrentCultureIgnoreCase);
+            }
+
+            if (_table.Equals("procedure", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = Regex.Replace(
+                    queryChanged,
+                    @"\.procedure\b",
+                    ".\"procedure\"",
+                    RegexOptions.IgnoreCase
+                );
             }
 
             return queryChanged;

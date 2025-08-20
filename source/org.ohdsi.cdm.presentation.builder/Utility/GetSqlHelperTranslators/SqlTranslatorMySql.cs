@@ -42,6 +42,8 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             queryChanged = queryChanged.Replace("timestamp)", "datetime)", StringComparison.InvariantCultureIgnoreCase);
 
+            queryChanged = queryChanged.Replace("--", "-- ", StringComparison.InvariantCultureIgnoreCase); // this is very weird but no space after the comment causes parsing errors
+
             // ISNULL(a,b) → IFNULL(a,b)
             queryChanged = Regex.Replace(queryChanged, @"\bISNULL\(", "IFNULL(", RegexOptions.IgnoreCase);
 
@@ -85,6 +87,24 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
               @"\bDATEPART\s*\(\s*'MONTH'\s*,\s*([^)]+)\)",
               "MONTH($1)",
               RegexOptions.IgnoreCase);
+
+            #endregion
+
+            #region dateadd
+
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"DATEADD\s*\(\s*MONTH\s*,\s*(?<n>-?\d+)\s*,\s*(?<d>[^)]+?)\s*\)",
+                "DATE_ADD(${d}, INTERVAL ${n} MONTH)",
+                RegexOptions.IgnoreCase
+            );
+
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"DATEADD\s*\(\s*DAY\s*,\s*(?<n>-?\d+)\s*,\s*(?<d>[^)]+?)\s*\)",
+                "DATE_ADD(${d}, INTERVAL ${n} DAY)",
+                RegexOptions.IgnoreCase
+            );
 
             #endregion
 
@@ -172,6 +192,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             if (new[] { "optum_extended", "optumextended", "dod", "ses" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                 queryChanged = translateOptumExtended(queryChanged);
+
+            if (new[] { "jmdc" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                queryChanged = translateJmdc(queryChanged);
 
             return queryChanged;
         }
@@ -311,6 +334,60 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
                 queryChanged = queryChanged.Replace("ISNULL",
                     "COALESCE",
                     StringComparison.CurrentCultureIgnoreCase);
+            }
+
+            return queryChanged;
+        }
+
+        string translateJmdc(string query)
+        {
+            var queryChanged = query;
+
+            queryChanged = Regex.Replace(queryChanged,
+                @"END AS Condition\b",
+                "END AS \"Condition\"",
+                RegexOptions.IgnoreCase);
+            
+
+            if (string.IsNullOrEmpty(_table))
+                return queryChanged;
+
+
+            if (_table.Equals("claim", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = Regex.Replace(queryChanged,
+                    @"CAST\s*\(\s*CAST\s*\(\s*Month_and_year_of_medical_care\s+AS\s+VARCHAR\s*\(\s*6\s*\)\s*\)\s*\+\s*'(?<day>01|15)'\s*AS\s+DATE\s*\)",
+                    "STR_TO_DATE(CONCAT(CAST(Month_and_year_of_medical_care AS CHAR(6)), '${day}'), '%Y%m%d')", 
+                    RegexOptions.IgnoreCase
+                );
+            }
+
+            if (_table.Equals("Enrollment", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = queryChanged.Replace("a.payer_concept_id, baby_person_id, m2.year_of_birth",
+                    "a.payer_concept_id, m2.person_id, m2.year_of_birth",
+                    StringComparison.CurrentCultureIgnoreCase
+                );
+
+                queryChanged = Regex.Replace(
+                    queryChanged,
+                    @"CAST\s*\(\s*CAST\s*\(\s*(?<expr>[A-Za-z0-9_\.]+)\s+AS\s+VARCHAR\s*\(\s*6\s*\)\s*\)\s*(\|\||\+)\s*'(?<day>01|15)'\s*AS\s+DATE\s*\)",
+                    "STR_TO_DATE(CONCAT(CAST(${expr} AS CHAR(6)), '${day}'), '%Y%m%d')",
+                    RegexOptions.IgnoreCase
+                );
+
+                queryChanged = Regex.Replace(
+                    queryChanged,
+                    @"MIN\s*\(\s*CAST\s*\(\s*\(\s*CAST\s*\(\s*(?<y>[^)]+?)\s+AS\s+CHAR\s*\)\s*\|\|\s*'-'\s*\|\|\s*CAST\s*\(\s*(?<m>[^)]+?)\s+AS\s+CHAR\s*\)\s*\|\|\s*'-01'\s*\)\s+AS\s+DATE\s*\)\s*\)",
+                    "MIN(STR_TO_DATE(CONCAT(CAST(${y} AS CHAR), '-', LPAD(CAST(${m} AS CHAR), 2, '0'), '-01'), '%Y-%m-%d'))",
+                    RegexOptions.IgnoreCase
+                );
+
+                queryChanged = queryChanged.Replace("DATE_ADD(DATE_ADD(CAST(CAST(e.observation_end AS VARCHAR(6, INTERVAL 1 MONTH, INTERVAL -1 DAY)) + '01' AS DATE))) AS observation_period_end_date",
+                    "LAST_DAY(STR_TO_DATE(CONCAT(CAST(e.observation_end AS CHAR(6)), '01'), '%Y%m%d')) AS observation_period_end_date",
+                    StringComparison.CurrentCultureIgnoreCase
+                );
+                
             }
 
             return queryChanged;

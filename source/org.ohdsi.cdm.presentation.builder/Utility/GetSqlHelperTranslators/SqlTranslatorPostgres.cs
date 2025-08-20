@@ -46,13 +46,15 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             queryChanged = queryChanged.Replace("  ", " ", StringComparison.InvariantCultureIgnoreCase);
 
-            queryChanged = queryChanged.Replace("bigint)", "decimal)", StringComparison.InvariantCultureIgnoreCase);
+            queryChanged = queryChanged.Replace("bigint)", "DECIMAL)", StringComparison.InvariantCultureIgnoreCase);
 
             queryChanged = queryChanged.Replace("getdate()", "CURRENT_TIMESTAMP", StringComparison.InvariantCultureIgnoreCase);
 
             queryChanged = queryChanged.Replace("nvl(", "COALESCE(", StringComparison.InvariantCultureIgnoreCase);
 
             queryChanged = queryChanged.Replace("isnull(", "COALESCE(", StringComparison.InvariantCultureIgnoreCase);
+
+            queryChanged = queryChanged.Replace("len(", "LENGTH(", StringComparison.InvariantCultureIgnoreCase);
 
             #endregion
 
@@ -175,6 +177,25 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
             );
             #endregion
 
+            #region left and right fix 
+            // LEFT(integer, n) → LEFT(CAST(integer AS varchar), n)
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\bleft\s*\(\s*([^,]+?)\s*,\s*(\d+)\s*\)",
+                "left(CAST($1 AS varchar), $2)",
+                RegexOptions.IgnoreCase
+            );
+
+            // RIGHT(integer, n) → RIGHT(CAST(integer AS varchar), n)
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\bRIGHT\s*\(\s*([^,]+?)\s*,\s*(\d+)\s*\)",
+                "RIGHT(CAST($1 AS varchar), $2)",
+                RegexOptions.IgnoreCase
+            );
+            #endregion
+
+
             #region to_date fix
             // to_date(text_date, 'YYYYMMDD', FALSE)
             // -> -> ->
@@ -206,6 +227,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             if (new[] { "optum_extended", "optumextended", "dod", "ses" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                 queryChanged = translateOptumExtended(queryChanged);
+
+            if (new[] { "jmdc" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                queryChanged = translateJmdc(queryChanged);
 
             return queryChanged;
         }
@@ -356,6 +380,24 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
                 queryChanged = queryChanged.Replace("last_day(cast(extract_ym || '01' as date)) date",
                     "(date_trunc('month', cast(extract_ym || '01' as date) + interval '1 month') - interval '1 day')::date as date",
                     StringComparison.CurrentCultureIgnoreCase);                
+            }
+
+            return queryChanged;
+        }
+
+        string translateJmdc(string query)
+        {
+            var queryChanged = query;
+
+
+            if (string.IsNullOrEmpty(_table))
+                return queryChanged;
+
+            if (_table.Equals("enrollment", StringComparison.CurrentCultureIgnoreCase))
+            {
+                queryChanged = queryChanged.Replace("DATEADD(DAY, -1, DATEADD(MONTH, 1, CAST(CAST(e.observation_end AS VARCHAR(6)) || '01' AS DATE))) AS observation_period_end_date",
+                    "(to_date(CAST(e.observation_end AS varchar) || '01','YYYYMMDD') + interval '1 month' - interval '1 day') AS observation_period_end_date",
+                    StringComparison.CurrentCultureIgnoreCase);
             }
 
             return queryChanged;

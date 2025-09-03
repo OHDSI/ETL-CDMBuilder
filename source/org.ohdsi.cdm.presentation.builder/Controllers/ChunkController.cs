@@ -33,9 +33,9 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         public int CreateChunks(string chunksSchema, AssignEmptyPersonIdSettings assignEmptyPersonIdSettings = AssignEmptyPersonIdSettings.AssignIfNoPersonIdSet)
         {
-            var chunks = new List<ChunkRecord>();
-
             Console.WriteLine("\r\nGenerating chunk ids...");
+
+            var chunks = new SortedList<string, ChunkRecord>(StringComparer.Ordinal);
 
             _dbSource.CreateChunkTable(chunksSchema);
             _dbSource.CreateIndexesChunkTable(chunksSchema);
@@ -46,28 +46,38 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 .Create(Settings.Current.Building.SourceConnectionString))
             {
                 foreach (var chunk in GetPersonKeys(Settings.Current.Building.ChunkSize))
-                 {
-                    chunks.AddRange(chunk.Select(c =>
-                        new ChunkRecord { Id = chunkId, PersonId = Convert.ToInt64(c.Key), PersonSource = c.Value }));
+                {
+                    var records = chunk.Select(s => new ChunkRecord 
+                    { 
+                        Id = chunkId, 
+                        PersonId = Convert.ToInt64(s.Key), 
+                        PersonSource = s.Value 
+                    });
+                    foreach (var record in records)
+                    {
+                        chunks.Add(record.PersonSource, record);
+                    }
 
                     chunkId++;
                 }
 
                 if (chunks.Count > 0)
                 {
-                     saver.AddChunk(chunks, 0, chunksSchema);
+                    if (assignEmptyPersonIdSettings == AssignEmptyPersonIdSettings.AssignAll
+                        || (assignEmptyPersonIdSettings == AssignEmptyPersonIdSettings.AssignIfNoPersonIdSet
+                            && chunks.All(s => s.Value.PersonId == 0)))
+                    {
+                        for (int i = 0; i < chunks.Count; i++)
+                        {
+                            var value = chunks.GetValueAtIndex(i);
+                            value.PersonId = i;
+                        }
+                    }
+
+                    saver.AddChunk(chunks.Values.ToList(), 0, chunksSchema);
                 }
 
                 saver.Commit();
-            }
-
-            if (assignEmptyPersonIdSettings == AssignEmptyPersonIdSettings.AssignAll
-                || (assignEmptyPersonIdSettings == AssignEmptyPersonIdSettings.AssignIfNoPersonIdSet
-                    && chunks.All(s => s.PersonId == 0)))
-            {
-                chunks.Sort((x, y) => x.PersonSource.CompareTo(y.PersonSource));
-                for (int i = 0; i < chunks.Count; i++)
-                    chunks[i].PersonId = i;
             }
 
             int idsCount = chunks.Count();

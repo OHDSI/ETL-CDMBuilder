@@ -18,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="App.config">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Update="params.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

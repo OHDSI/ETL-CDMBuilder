@@ -1,7 +1,5 @@
 ﻿using org.ohdsi.cdm.framework.common.Builder;
 using org.ohdsi.cdm.framework.common.DataReaders.v5;
-using org.ohdsi.cdm.framework.common.DataReaders.v5.v52;
-using org.ohdsi.cdm.framework.common.DataReaders.v5.v53;
 using org.ohdsi.cdm.framework.common.DataReaders.v5.v54;
 using org.ohdsi.cdm.framework.common.Enums;
 using org.ohdsi.cdm.framework.common.Extensions;
@@ -35,7 +33,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
                 framework.desktop.Savers.MsSqlSaver => new MsSqlSaver(),
                 framework.desktop.Savers.MySqlSaver => new MySqlSaver(),
                 framework.desktop.Savers.PostgreSaver => new PostgreSaver(),
-                framework.desktop.Savers.RedshiftSaver => new RedshiftSaver(),
                 framework.desktop.Savers.Saver => new Saver(),
                 _ => throw new NotImplementedException("The specified framework saver is not implemented.")
             };
@@ -72,9 +69,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
                         {
                             yield return FrameworkSettings.Settings.Current.Building.Cdm switch
                             {
-                                CdmVersions.V53 => new ObservationPeriodDataReader53(list, _offsetManager),
-                                CdmVersions.V54 => new ObservationPeriodDataReader53(list, _offsetManager),
-                                _ => new ObservationPeriodDataReader52(list, _offsetManager)
+                                _ => new ObservationPeriodDataReader(list, _offsetManager)
                             };                          
                         }
 
@@ -87,8 +82,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
                         {
                             yield return FrameworkSettings.Settings.Current.Building.Cdm switch
                             {
-                                CdmVersions.V53 => new PayerPlanPeriodDataReader53(list, _offsetManager),
-                                CdmVersions.V54 => new PayerPlanPeriodDataReader53(list, _offsetManager),
                                 _ => new PayerPlanPeriodDataReader(list, _offsetManager)
                             };
                         }
@@ -99,7 +92,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
                     {
                         foreach (var list in SplitList(chunk.Deaths))
                         {
-                            yield return new DeathDataReader52(list);
+                            yield return new DeathDataReader(list);
                         }
 
                         break;
@@ -111,9 +104,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
                         {
                             yield return FrameworkSettings.Settings.Current.Building.Cdm switch
                             {
-                                CdmVersions.V53 => new DrugExposureDataReader53(list, _offsetManager),
-                                CdmVersions.V54 => new DrugExposureDataReader53(list, _offsetManager),
-                                _ => new DrugExposureDataReader52(list, _offsetManager)
+                                _ => new DrugExposureDataReader(list, _offsetManager)
                             };
                         }
                         break;
@@ -125,8 +116,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
                         {
                             yield return FrameworkSettings.Settings.Current.Building.Cdm switch
                             {
-                                CdmVersions.V53 => new ObservationDataReader53(list, _offsetManager),
-                                CdmVersions.V54 => new ObservationDataReader54(list, _offsetManager),
                                 _ => new ObservationDataReader(list, _offsetManager)
                             };
                         }
@@ -139,8 +128,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
                         {
                             yield return FrameworkSettings.Settings.Current.Building.Cdm switch
                             {
-                                CdmVersions.V54 => new VisitOccurrenceDataReader54(list, _offsetManager),
-                                _ => new VisitOccurrenceDataReader52(list, _offsetManager)
+                                _ => new VisitOccurrenceDataReader(list, _offsetManager)
                             };
                         }
 
@@ -152,8 +140,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
                     {
                         yield return FrameworkSettings.Settings.Current.Building.Cdm switch
                         {
-                            CdmVersions.V54 => new VisitDetailDataReader54(list, _offsetManager),
-                            _ => new VisitDetailDataReader53(list, _offsetManager)
+                            _ => new VisitDetailDataReader(list, _offsetManager)
                         };
                     }
 
@@ -165,9 +152,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
                         {
                             yield return FrameworkSettings.Settings.Current.Building.Cdm switch
                             {
-                                CdmVersions.V52 => new ProcedureOccurrenceDataReader52(list, _offsetManager),
-                                CdmVersions.V53 => new ProcedureOccurrenceDataReader53(list, _offsetManager),
-                                CdmVersions.V54 => new ProcedureOccurrenceDataReader54(list, _offsetManager),
                                 _ => new ProcedureOccurrenceDataReader(list, _offsetManager)
                             };
                         }
@@ -195,9 +179,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
                         {
                             yield return FrameworkSettings.Settings.Current.Building.Cdm switch
                             {
-                                CdmVersions.V52 => new DeviceExposureDataReader52(list, _offsetManager),
-                                CdmVersions.V53 => new DeviceExposureDataReader53(list, _offsetManager),
-                                CdmVersions.V54 => new DeviceExposureDataReader54(list, _offsetManager),
                                 _ => new DeviceExposureDataReader(list, _offsetManager)
                             };
                         }
@@ -210,8 +191,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
                     {
                         yield return FrameworkSettings.Settings.Current.Building.Cdm switch
                         {
-                            CdmVersions.V53 => new MeasurementDataReader53(list, _offsetManager),
-                            CdmVersions.V54 => new MeasurementDataReader54(list, _offsetManager),
                             _ => new MeasurementDataReader(list, _offsetManager)
                         };
                     }
@@ -230,10 +209,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
                         {
                             yield return FrameworkSettings.Settings.Current.Building.Cdm switch
                             {
-                                //CdmVersions.V51 => new ConditionOccurrenceDataReader51(list, _offsetManager),
-                                CdmVersions.V52 => new ConditionOccurrenceDataReader52(list, _offsetManager),
-                                CdmVersions.V53 => new ConditionOccurrenceDataReader53(list, _offsetManager),
-                                CdmVersions.V54 => new ConditionOccurrenceDataReader53(list, _offsetManager),
                                 _ => new ConditionOccurrenceDataReader(list, _offsetManager)
                             };
                         }
@@ -244,7 +219,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
                     {
                         foreach (var list in SplitList(chunk.Cost))
                         {
-                            yield return new CostDataReader52(list, _offsetManager);
+                            yield return new CostDataReader(list, _offsetManager);
                         }
                         break;
                     }
@@ -254,9 +229,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
                     {
                         yield return FrameworkSettings.Settings.Current.Building.Cdm switch
                         {
-                            CdmVersions.V53 => new NoteDataReader53(list, _offsetManager),
-                            CdmVersions.V54 => new NoteDataReader54(list, _offsetManager),
-                            _ => new NoteDataReader52(list, _offsetManager)
+                            _ => new NoteDataReader(list, _offsetManager)
                         };
                     }
                     break;
@@ -317,13 +290,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
 
                 Write(chunk, "COST");
                 Write(chunk, "NOTE");
-
-                if (FrameworkSettings.Settings.Current.Building.Cdm == CdmVersions.V53 
-                    || FrameworkSettings.Settings.Current.Building.Cdm == CdmVersions.V6)
-                {
-                    Write(chunk, "VISIT_DETAIL");
-                    Write(chunk.ChunkId, chunk.SubChunkId, new MetadataDataReader([.. chunk.Metadata.Values]), "METADATA_TMP");
-                }
 
                 Write(chunk, "FACT_RELATIONSHIP");
 
@@ -418,7 +384,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
 
         void ThrowIfWrongCdmVersion()
         {
-            if (new[] { CdmVersions.V53, CdmVersions.V54 }
+            if (new[] { CdmVersions.V54 }
                 .Any(s => s == FrameworkSettings.Settings.Current.Building.Cdm))
                 return;
 

@@ -124,8 +124,9 @@ namespace org.ohdsi.cdm.presentation.builder
                     }
 
                     timer.Stop();
+                    var elapsedSeconds = Math.Round(Convert.ToDecimal(timer.ElapsedMilliseconds) / 1000, 3);
                     Logger.Write(null, Logger.LogMessageTypes.Info,
-                        $"{conceptIdMapper.Lookup} - DONE - {timer.ElapsedMilliseconds} ms | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}");
+                        $"{conceptIdMapper.Lookup} - DONE - {elapsedSeconds} s | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}");
                 }
                 catch (Exception e)
                 {
@@ -147,6 +148,10 @@ namespace org.ohdsi.cdm.presentation.builder
         {
             if (Settings.Current.Building.SourceQueryDefinitions == null)
                 throw new NoNullAllowedException("Settings.Current.Building.SourceQueryDefinitions is null!");
+
+
+            var timer = new Stopwatch();
+            timer.Start();
 
             _genderConcepts = new GenderLookup();
             _genderConcepts.Load();
@@ -200,7 +205,10 @@ namespace org.ohdsi.cdm.presentation.builder
                     throw;
                 }
             LoadPregnancyDrug();
-            Console.WriteLine("Loading lookups - DONE\r\n");
+
+            timer.Stop();
+            var elapsedSeconds = Math.Round(Convert.ToDecimal(timer.ElapsedMilliseconds) / 1000, 3);
+            Console.WriteLine($"Loading lookups - DONE - {elapsedSeconds} s\r\n");
         }
 
 

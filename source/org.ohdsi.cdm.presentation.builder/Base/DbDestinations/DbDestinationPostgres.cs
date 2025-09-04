@@ -1,7 +1,9 @@
 ﻿using org.ohdsi.cdm.framework.desktop.Databases;
+using org.ohdsi.cdm.framework.desktop.Enums;
 using org.ohdsi.cdm.framework.desktop.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Odbc;
 using System.Linq;
 using System.Text;
@@ -13,8 +15,8 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
     {
         public DbDestinationPostgres(string connectionString, IDatabaseEngine dbEngine, string schemaName)
             : base(connectionString, dbEngine, schemaName)
-        { 
-        
+        {
+
         }
 
         public override ActionStatus CreateDatabase(string query)
@@ -31,7 +33,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
             {
                 connection = SqlConnectionHelper.OpenOdbcConnection(sqlConnectionStringBuilder.ConnectionString);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 if (new[] { "database ", " does not exist" }.All(s => e.Message.Contains(s)))
                 {
@@ -45,6 +47,9 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
 
             using (connection)
             {
+                if (IsDatabaseExisting(connection, database.ToString()))
+                    return ActionStatus.AlreadyExists;
+
                 using (var command = new OdbcCommand(preciseQuery, connection))
                 {
                     try
@@ -168,5 +173,29 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                 throw;
             }
         }
+
+        bool IsDatabaseExisting(OdbcConnection connection, string database)
+        {
+            var checkDbExistQuery = $"SELECT 1\r\nFROM pg_database\r\nWHERE lower(datname) = lower('{database}');";
+
+            using (var command = new OdbcCommand(checkDbExistQuery, connection))
+            {
+                try
+                {
+                    command.CommandTimeout = 30000;
+                    var reader = command.ExecuteReader(CommandBehavior.SingleRow);
+                    if (reader.Read())
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
+
+            return false;
+        }    
     }
 }

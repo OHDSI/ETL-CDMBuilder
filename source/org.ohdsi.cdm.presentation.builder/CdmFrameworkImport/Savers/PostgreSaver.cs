@@ -17,13 +17,10 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
 
             var connectionStringTemplate = "Server={server};Port=5432;Database={database};User Id={username};Password={password};SslMode=Require;Trust Server Certificate=true";
 
-
-
             var npgsqlConnectionString = connectionStringTemplate.Replace("{server}", odbc["server"].ToString())
                 .Replace("{database}", odbc["database"].ToString()).Replace("{username}", odbc["uid"].ToString())
                 .Replace("{password}", odbc["pwd"].ToString());
 
-            Console.WriteLine("npgsqlConnectionString=" + npgsqlConnectionString);
             _connection = SqlConnectionHelper.OpenNpgsqlConnection(npgsqlConnectionString);
 
             return this;

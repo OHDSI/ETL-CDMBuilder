@@ -70,7 +70,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     chunks[i].PersonId = i;
             }
 
-            int idsCount = chunks.Count();
+            int idsCount = chunks.Count;
             Console.WriteLine("Chunk ids were generated and saved, total count=" + chunkId + " (" + idsCount + " persons)");
 
             return chunkId;

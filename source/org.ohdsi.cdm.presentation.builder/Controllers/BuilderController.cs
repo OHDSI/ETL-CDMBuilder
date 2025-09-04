@@ -204,8 +204,9 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 }
 
                 timer.Stop();
+                var elapsedSeconds = Math.Round(Convert.ToDecimal(timer.ElapsedMilliseconds) / 1000, 3);
                 Logger.Write(null, Logger.LogMessageTypes.Info,
-                    $"Care site, Location and Provider tables were saved to CDM database - {timer.ElapsedMilliseconds} ms");
+                    $"Care site, Location and Provider tables were saved to CDM database - {elapsedSeconds} s");
 
                 locationConcepts.Clear();
                 careSiteConcepts.Clear();
@@ -291,7 +292,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             using (var connection = new OdbcConnection(Settings.Current.Building.SourceConnectionString))
             {
                 connection.Open();
-                chunk.Process(Settings.Current.Building.SourceEngine, Settings.Current.Building.SourceSchema);
+                chunk.Process();
             }
 
             Settings.Current.Save(false);

@@ -37,7 +37,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
         #endregion
 
         #region Methods
-        public void Process(IDatabaseEngine sourceEngine, string sourceSchemaName)
+        public void Process()
         {
             DatabaseChunkPartAdapter part;
             try

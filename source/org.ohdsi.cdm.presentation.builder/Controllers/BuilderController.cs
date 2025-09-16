@@ -275,6 +275,10 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             if (Settings.Current.ChunksTo > 0)
                 Logger.Write(null, Logger.LogMessageTypes.Info, $"ChunkIds from {Settings.Current.ChunksFrom} to {Settings.Current.ChunksTo} will be converted");
 
+            int previousPercent = 0;
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             for (int chunkId = 0; chunkId < Settings.Current.Building.ChunksCount; chunkId++)
             {
                 if (Settings.Current.Building.CompletedChunkIds.Contains(chunkId)
@@ -283,6 +287,15 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     continue;
 
                 ProcessChunkId(chunkId);
+                                
+                var currentPercent = chunkId * 100 / Settings.Current.Building.ChunksCount;
+                if (currentPercent != previousPercent)
+                {
+                    var eta = sw.Elapsed.TotalSeconds / (currentPercent - previousPercent) * (100 - currentPercent);
+                    Logger.Write(chunkId, Logger.LogMessageTypes.Info, $"Procesed {chunkId} ({currentPercent}%) chunks over {sw.Elapsed.TotalSeconds} seconds! Estimated time to completion: {Math.Round(eta)} seconds");
+                    sw.Restart();
+                    previousPercent = currentPercent;
+                }
             }
         }
 

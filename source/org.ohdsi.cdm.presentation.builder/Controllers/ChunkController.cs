@@ -1,5 +1,6 @@
 ﻿using org.ohdsi.cdm.framework.common;
 using org.ohdsi.cdm.framework.desktop;
+using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.framework.desktop.DbLayer;
 using org.ohdsi.cdm.framework.desktop.Helpers;
 using org.ohdsi.cdm.framework.desktop.Savers;
@@ -38,7 +39,10 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             Console.WriteLine("\r\nGenerating chunk ids...");
 
             _dbSource.CreateChunkTable(chunksSchema);
-            _dbSource.CreateIndexesChunkTable(chunksSchema);
+
+            if (Settings.Current.Building.SourceEngine is not PostgreDatabaseEngine)
+                //chunk table for PG is partitioned and the index creation will fail
+                _dbSource.CreateIndexesChunkTable(chunksSchema);
             
             var chunkId = 0;
 
@@ -53,21 +57,21 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     chunkId++;
                 }
 
+                if (assignEmptyPersonIdSettings == AssignEmptyPersonIdSettings.AssignAll
+                    || (assignEmptyPersonIdSettings == AssignEmptyPersonIdSettings.AssignIfNoPersonIdSet
+                        && chunks.All(s => s.PersonId == 0)))
+                {
+                    chunks.Sort((x, y) => x.PersonSource.CompareTo(y.PersonSource));
+                    for (int i = 0; i < chunks.Count; i++)
+                        chunks[i].PersonId = i;
+                }
+
                 if (chunks.Count > 0)
                 {
                      saver.AddChunk(chunks, 0, chunksSchema);
                 }
 
                 saver.Commit();
-            }
-
-            if (assignEmptyPersonIdSettings == AssignEmptyPersonIdSettings.AssignAll
-                || (assignEmptyPersonIdSettings == AssignEmptyPersonIdSettings.AssignIfNoPersonIdSet
-                    && chunks.All(s => s.PersonId == 0)))
-            {
-                chunks.Sort((x, y) => x.PersonSource.CompareTo(y.PersonSource));
-                for (int i = 0; i < chunks.Count; i++)
-                    chunks[i].PersonId = i;
             }
 
             int idsCount = chunks.Count;

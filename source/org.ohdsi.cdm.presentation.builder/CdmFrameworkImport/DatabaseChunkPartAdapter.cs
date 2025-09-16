@@ -187,6 +187,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 //using (IDbConnection dbConnection = building.SourceEngine.GetConnection(building.SourceConnectionString))
                 {
                     using IDbCommand cmd = building.SourceEngine.GetCommand(sourceQueryDefinition.Query.Text, dbConnection);
+                    cmd.CommandTimeout = 3600;                    
                     using IDataReader dataReader = building.SourceEngine.ReadChunkData(dbConnection, cmd, sourceQueryDefinition, _chunkId, _prefix);
                     while (dataReader.Read())
                     {

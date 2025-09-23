@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "org.ohdsi.cdm.presentation.builder", "org.ohdsi.cdm.presentation.builder\org.ohdsi.cdm.presentation.builder.csproj", "{24F011BA-0091-46D7-84BC-7F7A88E0CAC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunLocal", "RunLocal\RunLocal.csproj", "{FFDC8FE6-7FC2-482B-B76E-7D0B24AFA874}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "org.ohdsi.cdm.RunLocal", "org.ohdsi.cdm.RunLocal\org.ohdsi.cdm.RunLocal.csproj", "{FFDC8FE6-7FC2-482B-B76E-7D0B24AFA874}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

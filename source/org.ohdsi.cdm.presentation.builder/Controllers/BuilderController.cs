@@ -13,6 +13,7 @@ using org.ohdsi.cdm.presentation.builder.Base;
 using org.ohdsi.cdm.presentation.builder.Base.DbDestinations;
 using org.ohdsi.cdm.presentation.builder.Utility;
 using org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport;
+using Spectre.Console;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -275,37 +276,41 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             if (Settings.Current.ChunksTo > 0)
                 Logger.Write(null, Logger.LogMessageTypes.Info, $"ChunkIds from {Settings.Current.ChunksFrom} to {Settings.Current.ChunksTo} will be converted");
 
-            int previousPercent = 0;
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
+            AnsiConsole.Progress()
+                    .AutoClear(false)
+                    .HideCompleted(true)
+                    .Columns(
+                        new TaskDescriptionColumn(),
+                        new ElapsedTimeColumn(),
+                        new ProgressBarColumn(),
+                        new PercentageColumn(),
+                        new SpinnerColumn(),
+                        new RemainingTimeColumn())
+                    .Start(ctx =>
+                    {
+                        var overallTask = ctx.AddTask("Processing chunks...", maxValue: Settings.Current.Building.ChunksCount);                        
 
-            for (int chunkId = 0; chunkId < Settings.Current.Building.ChunksCount; chunkId++)
-            {
-                if (Settings.Current.Building.CompletedChunkIds.Contains(chunkId)
-                    || chunkId < Settings.Current.ChunksFrom
-                    || (chunkId > Settings.Current.ChunksTo && Settings.Current.ChunksTo > 0))
-                    continue;
+                        for (int chunkId = 0; chunkId < Settings.Current.Building.ChunksCount; chunkId++)
+                        {
+                            overallTask.Increment(1);
+                            if (Settings.Current.Building.CompletedChunkIds.Contains(chunkId)
+                                || chunkId < Settings.Current.ChunksFrom
+                                || (chunkId > Settings.Current.ChunksTo && Settings.Current.ChunksTo > 0))
+                                continue;
 
-                ProcessChunkId(chunkId);
-                                
-                var currentPercent = chunkId * 100 / Settings.Current.Building.ChunksCount;
-                if (currentPercent != previousPercent)
-                {
-                    var eta = sw.Elapsed.TotalSeconds / (currentPercent - previousPercent) * (100 - currentPercent);
-                    Logger.Write(chunkId, Logger.LogMessageTypes.Info, $"Procesed {chunkId} ({currentPercent}%) chunks over {sw.Elapsed.TotalSeconds} seconds! Estimated time to completion: {Math.Round(eta)} seconds");
-                    sw.Restart();
-                    previousPercent = currentPercent;
-                }
-            }
+                            var chunkTask = ctx.AddTask($"Chunk {chunkId}", maxValue: Settings.Current.Building.ChunkSize);
+                            ProcessChunkId(chunkId, chunkTask);
+                        }
+                    });
         }
 
-        void ProcessChunkId(int chunkId)
+        void ProcessChunkId(int chunkId,  ProgressTask chunkTask)
         {
             var chunk = new DatabaseChunkBuilder(chunkId, CreatePersonBuilder);
             using (var connection = new OdbcConnection(Settings.Current.Building.SourceConnectionString))
             {
                 connection.Open();
-                chunk.Process();
+                chunk.Process(chunkTask);
             }
 
             Settings.Current.Save(false);

@@ -5,6 +5,7 @@ using org.ohdsi.cdm.framework.common.Omop;
 using org.ohdsi.cdm.framework.desktop.Enums;
 using org.ohdsi.cdm.framework.desktop.Helpers;
 using org.ohdsi.cdm.framework.desktop.Savers;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -79,7 +80,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             return new KeyValuePair<string, Exception>(null, null);
         }
 
-        public void Build()
+        public void Build(ProgressTask progressTask)
         {
             var timer = new Stopwatch();
             timer.Start();
@@ -89,6 +90,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 {
                     Attrition attrition = personBuilder.Value.Value.Build(_databaseChunkPart.ChunkData, _offsetManager);
                     _databaseChunkPart.ChunkData.AddAttrition(personBuilder.Key, attrition);
+                    progressTask.Increment(1);
                 }
                 catch (Exception e)
                 {
@@ -187,7 +189,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 //using (IDbConnection dbConnection = building.SourceEngine.GetConnection(building.SourceConnectionString))
                 {
                     using IDbCommand cmd = building.SourceEngine.GetCommand(sourceQueryDefinition.Query.Text, dbConnection);
-                    cmd.CommandTimeout = 3600;                    
+                    cmd.CommandTimeout = 6000;                    
                     using IDataReader dataReader = building.SourceEngine.ReadChunkData(dbConnection, cmd, sourceQueryDefinition, _chunkId, _prefix);
                     while (dataReader.Read())
                     {

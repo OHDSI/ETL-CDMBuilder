@@ -78,6 +78,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 
                     using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
                     using var cmd = new OdbcCommand(query, connection);
+                    cmd.CommandTimeout = 6000;
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -96,6 +97,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             Console.WriteLine("DropChunkTable:" + query);
             using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
             using var cmd = new OdbcCommand(query, connection);
+            cmd.CommandTimeout = 6000;
             cmd.ExecuteNonQuery();
         }
 

@@ -32,6 +32,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="org.ohdsi.cdm.framework" Version="1.0.4" />
+	  <PackageReference Include="Spectre.Console" Version="0.51.1" />
 	</ItemGroup>
 
 </Project>

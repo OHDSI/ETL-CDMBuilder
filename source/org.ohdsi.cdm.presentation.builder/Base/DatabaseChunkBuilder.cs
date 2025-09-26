@@ -11,6 +11,7 @@ using System.Diagnostics;
 using IPersonBuilder = org.ohdsi.cdm.framework.common.Base.IPersonBuilder;
 using org.ohdsi.cdm.framework.common.Enums;
 using DatabaseChunkPartAdapter = org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.DatabaseChunkPartAdapter;
+using Spectre.Console;
 
 namespace org.ohdsi.cdm.presentation.builder.Base
 {
@@ -37,7 +38,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
         #endregion
 
         #region Methods
-        public void Process()
+        public void Process(ProgressTask progressTask)
         {
             DatabaseChunkPartAdapter part;
             try
@@ -52,7 +53,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
                     throw result.Value;
                 }
 
-                part.Build();
+                part.Build(progressTask);
                 part.Save();
             }
             catch (Exception e)

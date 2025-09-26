@@ -246,6 +246,8 @@ namespace RunLocal
                     BuilderFolder = vendor.Folder
                 };
                 Settings.Current.Building.SetFrameworkBuildingSettings();
+
+                Console.WriteLine("Chunk size:" + Settings.Current.Building.ChunkSize);
             }
             catch (Exception e)
             {

@@ -247,7 +247,7 @@ namespace RunLocal
                 };
                 Settings.Current.Building.SetFrameworkBuildingSettings();
 
-                Console.WriteLine("Chunk size:" + Settings.Current.Building.ChunkSize);
+                Console.WriteLine("\r\nChunk size:" + Settings.Current.Building.ChunkSize);
             }
             catch (Exception e)
             {

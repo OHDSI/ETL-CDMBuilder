@@ -26,68 +26,13 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
         public void CreateChunkTable(string schemaName, bool withDrop = true)
         {
             if (withDrop)
-                DropChunkTable(schemaName);           
+                DropChunkTable(schemaName);
 
             var origQuery = GetQuery("CreateChunkTable.sql", schemaName);
 
-            if (_dbType == "Postgre")
-            {
-                List<string> queries = new List<string>();
-
-                //create a partitioned table
-                queries.Add("""
-                    CREATE TABLE {0}._chunks 
-                    (ChunkId int, PERSON_ID bigint NOT NULL, PERSON_SOURCE_VALUE varchar(50) NULL)
-                    PARTITION BY HASH (ChunkId);
-                    """);
-
-                //create the partitions by ChunkId for that table
-                queries.Add("""                    
-                    DO $$
-                    DECLARE
-                      top_mod    int := 128;
-                      i          int;
-                      top_name   text;
-                    BEGIN
-                      FOR i IN 0..top_mod-1 LOOP
-                        top_name := format('_chunks_c%03s', i);
-
-                        IF NOT EXISTS (
-                          SELECT 1
-                          FROM pg_class c
-                          JOIN pg_namespace n ON n.oid = c.relnamespace
-                          WHERE n.nspname = '{0}' AND c.relname = top_name
-                        ) THEN
-                          EXECUTE format(
-                            'CREATE TABLE %I.%I
-                               PARTITION OF %I.%I
-                               FOR VALUES WITH (MODULUS %s, REMAINDER %s);',
-                            '{0}', top_name, '{0}', '_chunks', top_mod, i
-                          );
-                        END IF;
-
-                      END LOOP;
-                    END $$;
-                    """);
-
-                foreach (var queryRaw in queries)
-                {
-                    var query = string.Format(queryRaw, schemaName);
-
-                    Console.WriteLine("CreateChunkTable:" + query);
-
-                    using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
-                    using var cmd = new OdbcCommand(query, connection);
-                    cmd.CommandTimeout = 6000;
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            else 
-            {
-                using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
-                using var cmd = new OdbcCommand(origQuery, connection);
-                cmd.ExecuteNonQuery();
-            }
+            using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
+            using var cmd = new OdbcCommand(origQuery, connection);
+            cmd.ExecuteNonQuery();
         }
 
         public void DropChunkTable(string schemaName)

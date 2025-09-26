@@ -40,9 +40,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
             _dbSource.CreateChunkTable(chunksSchema);
 
-            if (Settings.Current.Building.SourceEngine is not PostgreDatabaseEngine)
-                //chunk table for PG is partitioned and the index creation will fail
-                _dbSource.CreateIndexesChunkTable(chunksSchema);
+            _dbSource.CreateIndexesChunkTable(chunksSchema);
             
             var chunkId = 0;
 

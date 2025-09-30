@@ -74,8 +74,8 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             }
 
             stopwatch.Stop();
-            Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
-                $"ChunkId={_chunkId} has been loaded - {stopwatch.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
+            //Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
+            //    $"ChunkId={_chunkId} has been loaded - {stopwatch.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
 
             return new KeyValuePair<string, Exception>(null, null);
         }
@@ -100,8 +100,8 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             _databaseChunkPart.PersonBuilders.Clear();
             _databaseChunkPart.PersonBuilders = null;
 
-            Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
-                $"ChunkId={_chunkId} has been built - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb | {_databaseChunkPart.ChunkData.Persons.Count} persons");
+            //Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
+            //    $"ChunkId={_chunkId} has been built - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb | {_databaseChunkPart.ChunkData.Persons.Count} persons");
         }
 
         public void Save()
@@ -126,8 +126,8 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                     createdSaver.Save(_databaseChunkPart.ChunkData, _offsetManager);
                 }
                 stopwatch.Stop();
-                Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
-                    $"ChunkId={_chunkId} was saved - {stopwatch.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
+                //Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
+                //    $"ChunkId={_chunkId} was saved - {stopwatch.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
                 _databaseChunkPart.ChunkData.Clean();
                 GC.Collect();
             }
@@ -168,21 +168,16 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                     return;
                 #endregion
 
+                // this is a workaround to pass sourceQueryDefinition with a correct code to building.SourceEngine.ReadChunkData()
+                // without this chunkId = {0} filter becomes 0 for all chunks and all iterations
+                var sourceQueryDefinitionQueryTextBackup = sourceQueryDefinition.Query.Text;
+
                 sourceQueryDefinitionSql = sourceQueryDefinitionTyped.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
                 sourceQueryDefinition.Query.Text = GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql, 
-                    building.SourceSchemaName, sourceQueryDefinition.FileName, _chunkId.ToString());
+                    building.SourceSchemaName, building.SourceSchemaName, sourceQueryDefinition.FileName, _chunkId.ToString());
                 if (string.IsNullOrEmpty(sourceQueryDefinition.Query.Text))
                     return;
 
-                if (building.SourceEngine.Database == Database.Redshift)
-                {
-                    using IDataReader dataReader2 = building.SourceEngine.ReadChunkData(null, null, sourceQueryDefinition, _chunkId, _prefix);
-                    while (dataReader2.Read())
-                    {
-                        _databaseChunkPart.PopulateData(sourceQueryDefinition, dataReader2);
-                    }
-                    return;
-                }
                 sourceConnectionString = building.SourceConnectionString;
                 sourceEngine = building.SourceEngine.Database.ToString();
                 using (var dbConnection = SqlConnectionHelper.OpenOdbcConnection(building.SourceConnectionString))
@@ -196,6 +191,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                         _databaseChunkPart.PopulateData(sourceQueryDefinition, dataReader);
                     }
                 }
+                sourceQueryDefinition.Query.Text = sourceQueryDefinitionQueryTextBackup;
             }
             catch (Exception ex)
             {                

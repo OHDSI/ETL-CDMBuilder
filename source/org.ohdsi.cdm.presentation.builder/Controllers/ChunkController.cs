@@ -7,6 +7,7 @@ using org.ohdsi.cdm.framework.desktop.Savers;
 using org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -37,6 +38,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             var chunks = new List<ChunkRecord>();
 
             Console.WriteLine("\r\nGenerating chunk ids...");
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
 
             _dbSource.CreateChunkTable(chunksSchema);
 
@@ -48,7 +51,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 .Create(Settings.Current.Building.SourceConnectionString))
             {
                 foreach (var chunk in GetPersonKeys(Settings.Current.Building.ChunkSize))
-                 {
+                {
                     chunks.AddRange(chunk.Select(c =>
                         new ChunkRecord { Id = chunkId, PersonId = Convert.ToInt64(c.Key), PersonSource = c.Value }));
 
@@ -72,8 +75,10 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 saver.Commit();
             }
 
+            var elapsedSeconds = Math.Round((double)sw.ElapsedMilliseconds / 1000, 3);
             int idsCount = chunks.Count;
-            Console.WriteLine("Chunk ids were generated and saved, total count=" + chunkId + " (" + idsCount + " persons)");
+            Console.WriteLine("Chunk ids were generated and saved, total count=" 
+                + chunkId + " (" + idsCount + " persons). - " + elapsedSeconds + "s");
 
             return chunkId;
         }
@@ -88,7 +93,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             var batch = new List<KeyValuePair<string, string>>(batchSize);
 
             
-            var query = Utility.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess, Settings.Current.Building.SourceEngine.Database, Settings.Current.Building.BatchScript, Settings.Current.Building.SourceSchema, Settings.Current.Building.VendorToProcess.PersonTableName);
+            var query = Utility.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess, Settings.Current.Building.SourceEngine.Database, Settings.Current.Building.BatchScript, Settings.Current.Building.SourceSchema, Settings.Current.Building.SourceSchema, Settings.Current.Building.VendorToProcess.PersonTableName);
 
             foreach (var reader in _dbSource.GetPersonKeys(query, batches, batchSize, Settings.Current.Building.SourceSchema))
             {

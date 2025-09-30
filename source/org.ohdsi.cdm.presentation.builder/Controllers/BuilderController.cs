@@ -225,7 +225,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             var origQuery = qd.GetSql(vendor, Settings.Current.Building.SourceSchema, chunkSchema);
             if (string.IsNullOrEmpty(origQuery)) return;
 
-            var sql = Utility.GetSqlHelper.TranslateSqlFromRedshift(vendor, Settings.Current.Building.SourceEngine.Database, origQuery, chunkSchema, qd.FileName);
+            var sql = Utility.GetSqlHelper.TranslateSqlFromRedshift(vendor, Settings.Current.Building.SourceEngine.Database, origQuery, chunkSchema, chunkSchema, qd.FileName);
             if (string.IsNullOrEmpty(sql)) return;
 
             var keys = new Dictionary<string, bool>();
@@ -312,6 +312,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 connection.Open();
                 chunk.Process(chunkTask);
             }
+
+            Settings.Current.Building.CompletedChunkIds.Add(chunkId);
 
             Settings.Current.Save(false);
         }

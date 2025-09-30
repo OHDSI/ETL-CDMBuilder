@@ -25,13 +25,13 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
         /// <param name="schemaName"></param>
         /// <param name="chunkId">Should be left null or blank for batch sqcript</param>
         /// <returns></returns>
-        public static string TranslateSqlFromRedshift(Vendor vendor, Database sourceDatabase, string query, string schemaName, string? tableName, string? chunkId = "")
+        public static string TranslateSqlFromRedshift(Vendor vendor, Database sourceDatabase, string query, string chunkSchemaName, string schemaName, string? tableName, string? chunkId = "")
         {
             try
             {
                 var translator = TranslatorFactory.GetTranslator(sourceDatabase, schemaName, tableName);
                 var translated = translator.Translate(query);
-                var finalized = FinalizeXmlToDbQueryConversion(translated, chunkId, schemaName);
+                var finalized = FinalizeXmlToDbQueryConversion(translated, chunkId, chunkSchemaName, schemaName);
                 return finalized;
             }
             catch (Exception e)
@@ -40,11 +40,12 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
             }
         }
 
-        static string FinalizeXmlToDbQueryConversion(string source, string? chunkId, string schemaName)
+        static string FinalizeXmlToDbQueryConversion(string source, string? chunkId, string chunkSchemaName, string schemaName)
         {
             var result = source
                     .Replace("{0}", chunkId ?? "0")
                     .Replace("{sc}", schemaName)
+                    .Replace("{sc_ch}", chunkSchemaName)
                     .Replace("&gt;", ">")
                     .Replace("&lt;", "<")
                     .Replace("&ge;", ">=")

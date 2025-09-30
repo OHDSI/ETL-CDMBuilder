@@ -82,7 +82,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             var sql = string.Format(batchScript, "");
 
             sql = GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess,
-                Settings.Current.Building.SourceEngine.Database, sql, schemaName, Settings.Current.Building.VendorToProcess.PersonTableName);
+                Settings.Current.Building.SourceEngine.Database, sql, schemaName, schemaName, Settings.Current.Building.VendorToProcess.PersonTableName);
 
             using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
             using var c = new OdbcCommand(sql, connection) { CommandTimeout = 0 };

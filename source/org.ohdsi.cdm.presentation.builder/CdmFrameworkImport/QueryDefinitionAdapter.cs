@@ -30,12 +30,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 
         public string GetSql(Vendor vendor, string sourceSchema, string chunkSchema)
         {
-            //not clear what this does so skip the check. It's not working correctly sometimes
-            if (false && !IsSuitable(_original.Query.Database, vendor))
-            {
-                return null;
-            }
-
             if (_original.Variables == null || _original.Variables.Length == 0)
             {
                 return _original.Query.Text.Replace("{sc}", sourceSchema).Replace("{ch_sc}", chunkSchema);

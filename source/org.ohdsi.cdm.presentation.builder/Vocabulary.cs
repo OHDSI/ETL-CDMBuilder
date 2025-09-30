@@ -99,7 +99,7 @@ namespace org.ohdsi.cdm.presentation.builder
                 sqlRedshift = sqlRedshift.Replace("{sc}", Settings.Current.Building.VocabSchema);
 
                 var sql = Utility.GetSqlHelper.TranslateSqlFromRedshift(FrameworkSettings.Current.Building.Vendor, Settings.Current.Building.VocabularyEngine.Database,
-                    sqlRedshift, FrameworkSettings.Current.Building.VocabularySchemaName, null, null);
+                    sqlRedshift, FrameworkSettings.Current.Building.VocabularySchemaName, FrameworkSettings.Current.Building.VocabularySchemaName, null, null);
 
                 try
                 {

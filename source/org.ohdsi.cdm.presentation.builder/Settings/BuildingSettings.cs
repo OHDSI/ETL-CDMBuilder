@@ -48,7 +48,6 @@ namespace org.ohdsi.cdm.presentation.builder
         public string VocabUser { get; set; }
         public string VocabPswd { get; set; }
 
-        public List<int> CompletedChunkIds { get; set; }
 
         public int ChunksCount { get; set; }
 
@@ -178,7 +177,6 @@ namespace org.ohdsi.cdm.presentation.builder
 
         public BuildingSettings(IDatabaseEngine sourceDatabaseEngine, IDatabaseEngine cdmDatabaseEngine, IDatabaseEngine vocabularyDatabaseEngine, Vendor vendor)
         {
-            CompletedChunkIds = new List<int>();
             BuildingState = new Building();
             ChunksCount = 0;
             _threadlock = new object();
@@ -267,7 +265,6 @@ namespace org.ohdsi.cdm.presentation.builder
                     VocabPswd = bs.VocabPswd;
 
                     BuildingState = bs.BuildingState;
-                    CompletedChunkIds = bs.CompletedChunkIds;
                     ChunksCount = bs.ChunksCount;
 
                     Settings.Current.Building = bs;
@@ -284,7 +281,6 @@ namespace org.ohdsi.cdm.presentation.builder
         public void Reset()
         {
             BuildingState = new Building();
-            CompletedChunkIds = new List<int>();
             ChunksCount = 0;
         }
 

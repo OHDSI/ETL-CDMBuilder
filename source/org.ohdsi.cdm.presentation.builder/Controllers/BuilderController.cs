@@ -55,7 +55,6 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
         #region Properties
 
         public BuilderState CurrentState { get; set; }
-        public int CompleteChunksCount => Settings.Current.Building.CompletedChunkIds.Count;
 
         #endregion
 
@@ -293,8 +292,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                         for (int chunkId = 0; chunkId < Settings.Current.Building.ChunksCount; chunkId++)
                         {
                             overallTask.Increment(1);
-                            if (Settings.Current.Building.CompletedChunkIds.Contains(chunkId)
-                                || chunkId < Settings.Current.ChunksFrom
+                            if (chunkId < Settings.Current.ChunksFrom
                                 || (chunkId > Settings.Current.ChunksTo && Settings.Current.ChunksTo > 0))
                                 continue;
 
@@ -312,8 +310,6 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 connection.Open();
                 chunk.Process(chunkTask);
             }
-
-            Settings.Current.Building.CompletedChunkIds.Add(chunkId);
 
             Settings.Current.Save(false);
         }

@@ -269,18 +269,19 @@ namespace RunLocal
 
         static void Build(string chunkSchema, string etlLibraryPath, bool truncateTargetTables = false)
         {
+            BuilderController builder = new BuilderController(etlLibraryPath);
+            builder.CreateDestination();
+                        
+            if (truncateTargetTables)
+                builder.TruncateTables();            
+
             var vocabulary = new Vocabulary();
             vocabulary.Fill(false, false);
+            vocabulary.Fill(true, false);            
 
-            BuilderController builder = new BuilderController(etlLibraryPath);
-
-            builder.CreateDestination();
-
-            if (truncateTargetTables)
-                builder.TruncateTables();
-            
-
+            builder.TruncateLookup();
             builder.CreateLookup(vocabulary, chunkSchema);
+
             builder.Build(vocabulary, chunkSchema);
         }
     }

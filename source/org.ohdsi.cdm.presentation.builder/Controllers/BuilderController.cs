@@ -52,12 +52,6 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         #endregion
 
-        #region Properties
-
-        public BuilderState CurrentState { get; set; }
-
-        #endregion
-
         #region Constructor
 
         public BuilderController(string etlLibraryPath)
@@ -70,37 +64,15 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         #region Methods 
 
-        private void PerformAction(Action act)
-        {
-            if (CurrentState == BuilderState.Error)
-                return;
-
-            try
-            {
-                act();
-            }
-            catch (Exception e)
-            {
-                CurrentState = BuilderState.Error;
-                Logger.WriteError(e);
-            }
-            finally
-            {
-            }
-        }
-
         public void CreateDestination()
         {
-            PerformAction(() =>
-            {
-                var dbDestination = DbDestinationFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
-                    Settings.Current.Building.CdmSchema);
+            var dbDestination = DbDestinationFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
+                Settings.Current.Building.CdmSchema);
 
-                dbDestination.CreateDatabase(Settings.Current.CreateCdmDatabaseScript);
-                dbDestination.CreateSchema();
-                dbDestination.ExecuteQuery(Settings.Current.CreateCdmTablesScript);
-                Console.WriteLine("\r\nDDL complete!");
-            });
+            dbDestination.CreateDatabase(Settings.Current.CreateCdmDatabaseScript);
+            dbDestination.CreateSchema();
+            dbDestination.ExecuteQuery(Settings.Current.CreateCdmTablesScript);
+            Console.WriteLine("\r\nDDL complete!");
         }
 
         public void DropDestination()
@@ -146,76 +118,73 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         public void CreateLookup(IVocabulary vocabulary, string chunkSchema)
         {
-            PerformAction(() =>
+            var timer = new Stopwatch();
+            timer.Start();
+            vocabulary.Fill(true, false);
+            var locationConcepts = new List<Location>();
+            var careSiteConcepts = new List<CareSite>();
+            var providerConcepts = new List<Provider>();
+
+            Console.WriteLine("Loading locations...");
+            var location = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.Locations != null);
+            if (location != null)
             {
-                var timer = new Stopwatch();
-                timer.Start();
-                vocabulary.Fill(true, false);
-                var locationConcepts = new List<Location>();
-                var careSiteConcepts = new List<CareSite>();
-                var providerConcepts = new List<Provider>();
+                FillList<Location>(locationConcepts, location, location.Locations[0], _etlLibraryPath, chunkSchema);
+            }
 
-                Console.WriteLine("Loading locations...");
-                var location = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.Locations != null);
-                if (location != null)
+            if (locationConcepts.Count == 0)
+                locationConcepts.Add(new Location { Id = Entity.GetId(null) });
+            Console.WriteLine("Locations were loaded");
+
+            Console.WriteLine("Loading care sites...");
+            var careSite = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.CareSites != null);
+            if (careSite != null)
+            {
+                FillList<CareSite>(careSiteConcepts, careSite, careSite.CareSites[0], _etlLibraryPath, chunkSchema);
+            }
+
+            if (careSiteConcepts.Count == 0)
+                careSiteConcepts.Add(new CareSite { Id = 0, LocationId = 0, OrganizationId = 0, PlaceOfSvcSourceValue = null });
+            Console.WriteLine("Care sites were loaded");
+
+            Console.WriteLine("Loading providers...");
+            var provider = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.Providers != null);
+            if (provider != null)
+            {
+                FillList<Provider>(providerConcepts, provider, provider.Providers[0], _etlLibraryPath, chunkSchema);
+            }
+            Console.WriteLine("Providers were loaded");
+
+            try
+            {
+                Console.WriteLine("Saving lookups...");
+
+                var saver = Settings.Current.Building.CdmEngine.GetSaver();
+                using (saver.Create(Settings.Current.Building.DestinationConnectionString))
                 {
-                    FillList<Location>(locationConcepts, location, location.Locations[0], _etlLibraryPath, chunkSchema);
+
+                    saver.SaveEntityLookup(Settings.Current.Building.Cdm, locationConcepts, careSiteConcepts, providerConcepts, null);
+                    //System.NullReferenceException: 'Object reference not set to an instance of an object.'
+
                 }
+            }
+            catch (Exception ex)
+            {
+                //throw;
+            }
 
-                if (locationConcepts.Count == 0)
-                    locationConcepts.Add(new Location { Id = Entity.GetId(null) });
-                Console.WriteLine("Locations were loaded");
+            timer.Stop();
+            var elapsedSeconds = Math.Round(Convert.ToDecimal(timer.ElapsedMilliseconds) / 1000, 3);
+            Logger.Write(null, Logger.LogMessageTypes.Info,
+                $"Care site, Location and Provider tables were saved to CDM database - {elapsedSeconds} s");
 
-                Console.WriteLine("Loading care sites...");
-                var careSite = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.CareSites != null);
-                if (careSite != null)
-                {
-                    FillList<CareSite>(careSiteConcepts, careSite, careSite.CareSites[0], _etlLibraryPath, chunkSchema);
-                }
-
-                if (careSiteConcepts.Count == 0)
-                    careSiteConcepts.Add(new CareSite { Id = 0, LocationId = 0, OrganizationId = 0, PlaceOfSvcSourceValue = null });
-                Console.WriteLine("Care sites were loaded");
-
-                Console.WriteLine("Loading providers...");
-                var provider = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.Providers != null);
-                if (provider != null)
-                {
-                    FillList<Provider>(providerConcepts, provider, provider.Providers[0], _etlLibraryPath, chunkSchema);
-                }
-                Console.WriteLine("Providers were loaded");
-
-                try
-                {
-                    Console.WriteLine("Saving lookups...");
-
-                    var saver = Settings.Current.Building.CdmEngine.GetSaver();
-                    using (saver.Create(Settings.Current.Building.DestinationConnectionString))
-                    {
-                            
-                        saver.SaveEntityLookup(Settings.Current.Building.Cdm, locationConcepts, careSiteConcepts, providerConcepts, null); 
-                            //System.NullReferenceException: 'Object reference not set to an instance of an object.'
-                            
-                    }
-                }
-                catch (Exception ex)
-                {
-                    //throw;
-                }
-
-                timer.Stop();
-                var elapsedSeconds = Math.Round(Convert.ToDecimal(timer.ElapsedMilliseconds) / 1000, 3);
-                Logger.Write(null, Logger.LogMessageTypes.Info,
-                    $"Care site, Location and Provider tables were saved to CDM database - {elapsedSeconds} s");
-
-                locationConcepts.Clear();
-                careSiteConcepts.Clear();
-                providerConcepts.Clear();
-                locationConcepts = null;
-                careSiteConcepts = null;
-                providerConcepts = null;
-                GC.Collect();
-            });
+            locationConcepts.Clear();
+            careSiteConcepts.Clear();
+            providerConcepts.Clear();
+            locationConcepts = null;
+            careSiteConcepts = null;
+            providerConcepts = null;
+            GC.Collect();
         }
 
         private void FillList<T>(ICollection<T> list, QueryDefinition qd, EntityDefinition ed, string etlLibraryPath, string chunkSchema) where T : IEntity
@@ -253,9 +222,6 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                             keys.Add(key, false);
 
                             list.Add(concept);
-
-                            if (CurrentState != BuilderState.Running)
-                                break;
                         }
                     }
                 }

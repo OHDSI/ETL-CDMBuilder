@@ -253,28 +253,27 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                         new RemainingTimeColumn())
                     .Start(ctx =>
                     {
-                        var overallTask = ctx.AddTask("Processing chunks...", maxValue: Settings.Current.Building.ChunksCount);                        
+                        var overallTask = ctx.AddTask("Processing chunks...", maxValue: Settings.Current.Building.ChunksCount * Settings.Current.Building.ChunkSize);                        
 
                         for (int chunkId = 0; chunkId < Settings.Current.Building.ChunksCount; chunkId++)
                         {
-                            overallTask.Increment(1);
                             if (chunkId < Settings.Current.ChunksFrom
                                 || (chunkId > Settings.Current.ChunksTo && Settings.Current.ChunksTo > 0))
                                 continue;
 
                             var chunkTask = ctx.AddTask($"Chunk {chunkId}", maxValue: Settings.Current.Building.ChunkSize);
-                            ProcessChunkId(chunkId, chunkTask);
+                            ProcessChunkId(chunkId, chunkTask, overallTask);
                         }
                     });
         }
 
-        void ProcessChunkId(int chunkId,  ProgressTask chunkTask)
+        void ProcessChunkId(int chunkId,  ProgressTask chunkTask, ProgressTask overallTask)
         {
             var chunk = new DatabaseChunkBuilder(chunkId, CreatePersonBuilder);
             using (var connection = new OdbcConnection(Settings.Current.Building.SourceConnectionString))
             {
                 connection.Open();
-                chunk.Process(chunkTask);
+                chunk.Process(chunkTask, overallTask);
             }
 
             Settings.Current.Save(false);

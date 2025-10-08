@@ -80,7 +80,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             return new KeyValuePair<string, Exception>(null, null);
         }
 
-        public void Build(ProgressTask progressTask)
+        public void Build(ProgressTask progressTask, ProgressTask overallTask)
         {
             var timer = new Stopwatch();
             timer.Start();
@@ -90,7 +90,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 {
                     Attrition attrition = personBuilder.Value.Value.Build(_databaseChunkPart.ChunkData, _offsetManager);
                     _databaseChunkPart.ChunkData.AddAttrition(personBuilder.Key, attrition);
+                    
                     progressTask.Increment(1);
+                    overallTask.Increment(1);
                 }
                 catch (Exception e)
                 {

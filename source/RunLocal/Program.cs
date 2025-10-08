@@ -158,8 +158,8 @@ namespace RunLocal
                 .WithNotParsed(HandleParseError);
 
             var secondsElapsed = Math.Round((double)sw.ElapsedMilliseconds / 1000);
-            var hoursElapsed = secondsElapsed / 60 / 60;
-            Console.WriteLine($"\r\nThe program has finished! - {hoursElapsed}h({secondsElapsed}s)");
+            var hoursElapsed = Math.Round(secondsElapsed / 60 / 60, 1);
+            Console.WriteLine($"\r\nThe program has finished! - {hoursElapsed}h ({secondsElapsed}s)");
             Console.ReadLine();
         }
 

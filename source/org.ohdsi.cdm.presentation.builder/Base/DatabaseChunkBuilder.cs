@@ -38,7 +38,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
         #endregion
 
         #region Methods
-        public void Process(ProgressTask progressTask)
+        public void Process(ProgressTask progressTask, ProgressTask overallTask)
         {
             DatabaseChunkPartAdapter part;
             try
@@ -53,7 +53,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
                     throw result.Value;
                 }
 
-                part.Build(progressTask);
+                part.Build(progressTask, overallTask);
                 part.Save();
             }
             catch (Exception e)

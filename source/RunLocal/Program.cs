@@ -10,6 +10,7 @@ using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.presentation.builder;
 using org.ohdsi.cdm.presentation.builder.Controllers;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
+using System.Diagnostics;
 
 namespace RunLocal
 {
@@ -127,6 +128,9 @@ namespace RunLocal
 
         static void Main(string[] args)
         {
+            var sw = new Stopwatch();
+            sw.Start();
+
             string[] paramsLines = new string[0];
             try
             {
@@ -153,7 +157,9 @@ namespace RunLocal
                 .WithParsed(RunWithOptions)
                 .WithNotParsed(HandleParseError);
 
-            Console.WriteLine("\r\nThe program has finished!");
+            var secondsElapsed = Math.Round((double)sw.ElapsedMilliseconds / 1000);
+            var hoursElapsed = secondsElapsed / 60 / 60;
+            Console.WriteLine($"\r\nThe program has finished! - {hoursElapsed}h({secondsElapsed}s)");
             Console.ReadLine();
         }
 

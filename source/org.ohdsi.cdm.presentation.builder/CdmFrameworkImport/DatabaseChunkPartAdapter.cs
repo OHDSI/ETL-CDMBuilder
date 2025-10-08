@@ -28,11 +28,11 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 
         public DatabaseChunkPartAdapter(Func<IPersonBuilder> createPersonBuilder, int chunkId, string prefix, int attempt)
         {
-            _databaseChunkPart = new framework.desktop.Base.DatabaseChunkPart(chunkId, createPersonBuilder, prefix, attempt);
-            _offsetManager = new KeyMasterOffsetManager(_chunkId, int.Parse(prefix), attempt);
             _chunkId = chunkId;
             _prefix = prefix;
             _attempt = attempt;
+            _databaseChunkPart = new framework.desktop.Base.DatabaseChunkPart(chunkId, createPersonBuilder, prefix, attempt);
+            _offsetManager = new KeyMasterOffsetManager(chunkId, int.Parse(prefix), attempt);            
         }
 
         public framework.desktop.Base.DatabaseChunkPart GetDatabaseChunkPart()

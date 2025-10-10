@@ -31,8 +31,8 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             _chunkId = chunkId;
             _prefix = prefix;
             _attempt = attempt;
-            _databaseChunkPart = new framework.desktop.Base.DatabaseChunkPart(chunkId, createPersonBuilder, prefix, attempt);
-            _offsetManager = new KeyMasterOffsetManager(chunkId, int.Parse(prefix), attempt);            
+            _databaseChunkPart = new framework.desktop.Base.DatabaseChunkPart(chunkId, createPersonBuilder, prefix, attempt);            
+            _offsetManager = _databaseChunkPart.Offset;            
         }
 
         public framework.desktop.Base.DatabaseChunkPart GetDatabaseChunkPart()
@@ -54,6 +54,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             for (int i = 0; i < queries.Count; i++)
             {
                 var query = queries[i];
+                var fileName = query.FileName;
                 try
                 {
                     if (query.Query.Database != null)

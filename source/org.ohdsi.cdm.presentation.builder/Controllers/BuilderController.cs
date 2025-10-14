@@ -1,4 +1,5 @@
-﻿using org.ohdsi.cdm.framework.common.Base;
+﻿using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
+using org.ohdsi.cdm.framework.common.Base;
 using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Enums;
 using org.ohdsi.cdm.framework.common.Lookups;
@@ -238,9 +239,6 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             Logger.Write(null, Logger.LogMessageTypes.Info,
                 "\r\n==================== Conversion to CDM has been started ====================");
 
-            if (Settings.Current.ChunksTo > 0)
-                Logger.Write(null, Logger.LogMessageTypes.Info, $"ChunkIds from {Settings.Current.ChunksFrom} to {Settings.Current.ChunksTo} will be converted");
-
             AnsiConsole.Progress()
                     .AutoClear(false)
                     .HideCompleted(true)
@@ -250,19 +248,18 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                         new ProgressBarColumn(),
                         new PercentageColumn(),
                         new SpinnerColumn(),
-                        new RemainingTimeColumn())
+                        new RemainingTimeColumn(),
+                        new MemoryColumn())
                     .Start(ctx =>
                     {
                         var overallTask = ctx.AddTask("Processing chunks...", maxValue: Settings.Current.Building.ChunksCount * Settings.Current.Building.ChunkSize);                        
 
                         for (int chunkId = 0; chunkId < Settings.Current.Building.ChunksCount; chunkId++)
                         {
-                            if (chunkId < Settings.Current.ChunksFrom
-                                || (chunkId > Settings.Current.ChunksTo && Settings.Current.ChunksTo > 0))
-                                continue;
-
                             var chunkTask = ctx.AddTask($"Chunk {chunkId}", maxValue: Settings.Current.Building.ChunkSize);
                             ProcessChunkId(chunkId, chunkTask, overallTask);
+
+                            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced); //frees 1 mb RAM per person in chunk in testing
                         }
                     });
         }

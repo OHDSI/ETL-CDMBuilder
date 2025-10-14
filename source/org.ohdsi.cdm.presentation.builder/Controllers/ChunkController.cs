@@ -8,6 +8,7 @@ using org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -77,8 +78,12 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
             var elapsedSeconds = Math.Round((double)sw.ElapsedMilliseconds / 1000, 3);
             int idsCount = chunks.Count;
-            Console.WriteLine("Chunk ids were generated and saved, total count=" 
-                + chunkId + " (" + idsCount + " persons). - " + elapsedSeconds + "s");
+            var culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+            culture.NumberFormat.NumberGroupSeparator = " ";
+            Console.WriteLine($"Chunk ids have been generated and saved - {elapsedSeconds}s");
+            Console.WriteLine($"Persons count = {idsCount.ToString(culture)}"
+                + $" | Chunk size = {Settings.Current.Building.ChunkSize.ToString(culture)}"
+                + $" | Chunks count = {chunkId.ToString(culture)}");
 
             return chunkId;
         }

@@ -40,68 +40,6 @@ namespace org.ohdsi.cdm.presentation.builder
         }
         private string builderFolder;
         #endregion
-
-        #region public int DegreeOfParallelism
-        public int DegreeOfParallelism
-        {
-            get => int.Parse(ConfigurationManager.AppSettings["DegreeOfParallelism"]);
-            set 
-            {
-                degreeOfParallelism = value;
-                FrameworkSettings.Current.ParallelChunks = FrameworkSettings.Current.ParallelQueries = value;                
-            }
-        }
-        private int degreeOfParallelism;
-        #endregion
-
-
-        #region public int OnlyEvenChunks
-        public bool OnlyEvenChunks
-        {
-            get => bool.Parse(ConfigurationManager.AppSettings["OnlyEvenChunks"]);
-            set
-            {
-                onlyEvenChunks = value;                
-            }
-        }
-        private bool onlyEvenChunks;
-        #endregion
-
-        #region public bool OnlyOddChunks
-        public bool OnlyOddChunks
-        { 
-            get => bool.Parse(ConfigurationManager.AppSettings["OnlyOddChunks"]);
-            set
-            {
-                onlyOddChunks = value;
-            }
-        }
-        private bool onlyOddChunks;
-        #endregion
-
-        #region public int ChunksFrom
-        public int ChunksFrom
-        {
-            get => int.Parse(ConfigurationManager.AppSettings["ChunksFrom"]);
-            set 
-            {
-                chunksFrom = value;
-            }
-        }
-        private int chunksFrom;
-        #endregion
-
-        #region public int ChunksTo
-        public int ChunksTo
-        {
-            get => int.Parse(ConfigurationManager.AppSettings["ChunksTo"]);
-            set
-            {
-                chunksTo = value;
-            }
-        }
-        private int chunksTo;
-        #endregion
         
         //scripts below in FrameworkSettings only have getters
 

@@ -9,6 +9,7 @@ using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Odbc;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -51,6 +52,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             stopwatch.Start();
 
             var queries = FrameworkSettings.Settings.Current.Building.SourceQueryDefinitions;
+            
+            bool hasRestarted = false;
+
             for (int i = 0; i < queries.Count; i++)
             {
                 var query = queries[i];
@@ -64,19 +68,33 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                         if (!dbs.Any(s => settingsDb.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                             continue; //do not process query if the database requirements are not met
                     }
+
                     LoadQuery(query);
                 }
                 catch (Exception e)
                 {
                     //error info is written in LoadQuery catch
-                    Console.WriteLine("\n\rFileName is " + queries[i].FileName + ". Query number is " + i + "\n\r");
-                    throw;
+
+                    if (hasRestarted || e.InnerException is not OdbcException)
+                    {
+                        Console.WriteLine("\n\rFileName is " + queries[i].FileName + ". Query number is " + i + "\n\r");
+                        throw;
+                    }
+
+                    //try to avoid network or db connectivity errors
+
+                    Console.WriteLine("\r\n\r\nLoading failed for " + queries[i].FileName + "[" + i + "]! Waiting and trying loading all tables over again!\r\n\r\n");
+
+                    _databaseChunkPart.Reset();
+                    Thread.Sleep(60 * 5 * 1000);
+
+                    hasRestarted = true;
+                    i = -1;
+                    continue;
                 }
             }
 
             stopwatch.Stop();
-            //Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
-            //    $"ChunkId={_chunkId} has been loaded - {stopwatch.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
 
             return new KeyValuePair<string, Exception>(null, null);
         }
@@ -141,11 +159,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             }
         }
 
-        public void Clean()
-        {
-            _databaseChunkPart.ChunkData.Clean();
-        }
-
         private void LoadQuery(framework.common.Definitions.QueryDefinition sourceQueryDefinition)
         {
             var building = FrameworkSettings.Settings.Current.Building;
@@ -176,29 +189,33 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 var sourceQueryDefinitionQueryTextBackup = sourceQueryDefinition.Query.Text;
 
                 sourceQueryDefinitionSql = sourceQueryDefinitionTyped.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
-                sourceQueryDefinition.Query.Text = GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql, 
+                sourceQueryDefinition.Query.Text = GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql,
                     building.SourceSchemaName, building.SourceSchemaName, sourceQueryDefinition.FileName, _chunkId.ToString());
                 if (string.IsNullOrEmpty(sourceQueryDefinition.Query.Text))
                     return;
 
                 sourceConnectionString = building.SourceConnectionString;
                 sourceEngine = building.SourceEngine.Database.ToString();
+
                 using (var dbConnection = SqlConnectionHelper.OpenOdbcConnection(building.SourceConnectionString))
                 //using (IDbConnection dbConnection = building.SourceEngine.GetConnection(building.SourceConnectionString))
                 {
                     using IDbCommand cmd = building.SourceEngine.GetCommand(sourceQueryDefinition.Query.Text, dbConnection);
-                    cmd.CommandTimeout = 6000;                    
+                    cmd.CommandTimeout = 6000;
                     using IDataReader dataReader = building.SourceEngine.ReadChunkData(dbConnection, cmd, sourceQueryDefinition, _chunkId, _prefix);
                     while (dataReader.Read())
                     {
                         _databaseChunkPart.PopulateData(sourceQueryDefinition, dataReader);
                     }
                 }
+
                 sourceQueryDefinition.Query.Text = sourceQueryDefinitionQueryTextBackup;
             }
             catch (Exception ex)
-            {                
+            {
                 StringBuilder stringBuilder = new StringBuilder();
+                for (int lineCur = 0; lineCur < 10; lineCur++) 
+                    stringBuilder.AppendLine();
                 stringBuilder.AppendLine(ex.Message);
                 stringBuilder.AppendLine("SourceEngine=" + sourceEngine);
                 stringBuilder.AppendLine("SourceConnectionString=" + sourceConnectionString);

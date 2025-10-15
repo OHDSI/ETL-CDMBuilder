@@ -238,6 +238,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
             Logger.Write(null, Logger.LogMessageTypes.Info,
                 "\r\n==================== Conversion to CDM has been started ====================");
+            Logger.Write(null, Logger.LogMessageTypes.Info, "Console window should not be resized, lest the earlier messages are erased.");
             //todo make DI instead of passing it to methods
             AnsiConsole.Progress()
                     .AutoClear(false)
@@ -264,9 +265,11 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     });
         }
 
-        void ProcessChunkId(int chunkId,  ProgressTask chunkTask, ProgressTask overallTask, int maxTries = 5)
+        void ProcessChunkId(int chunkId,  ProgressTask chunkTask, ProgressTask overallTask)
         {
             DatabaseChunkBuilder chunk;
+            var maxTries = Settings.Current.Building.QueryTriesAmount;
+            var tryDelaySeconds = Settings.Current.Building.QueryTriesDelaySeconds;
             for (int i = 0; i < maxTries; i++)
                 try
                 {
@@ -288,7 +291,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     }
                     chunk = null;
                     GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
-                    Thread.Sleep(5 * 60 * 1000);
+                    Thread.Sleep(tryDelaySeconds * 1000);
                 }
         }
 

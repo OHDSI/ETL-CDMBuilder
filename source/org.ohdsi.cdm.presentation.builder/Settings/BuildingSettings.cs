@@ -72,6 +72,12 @@ namespace org.ohdsi.cdm.presentation.builder
         public string BatchScript { get; set; }
 
         [XmlIgnore]
+        public int QueryTriesAmount => int.Parse(ConfigurationManager.AppSettings["QueryTriesAmount"]);
+
+        [XmlIgnore]
+        public int QueryTriesDelaySeconds => int.Parse(ConfigurationManager.AppSettings["QueryTriesDelaySeconds"]);
+
+        [XmlIgnore]
         public IDatabaseEngine SourceEngine { get; private set; }
 
         [XmlIgnore]

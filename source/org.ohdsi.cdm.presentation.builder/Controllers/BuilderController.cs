@@ -238,7 +238,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
             Logger.Write(null, Logger.LogMessageTypes.Info,
                 "\r\n==================== Conversion to CDM has been started ====================");
-
+            //todo make DI instead of passing it to methods
             AnsiConsole.Progress()
                     .AutoClear(false)
                     .HideCompleted(true)
@@ -251,7 +251,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                         new RemainingTimeColumn(),
                         new MemoryColumn())
                     .Start(ctx =>
-                    {
+                    {                        
                         var overallTask = ctx.AddTask("Processing chunks...", maxValue: Settings.Current.Building.ChunksCount * Settings.Current.Building.ChunkSize);                        
 
                         for (int chunkId = 0; chunkId < Settings.Current.Building.ChunksCount; chunkId++)
@@ -264,16 +264,32 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     });
         }
 
-        void ProcessChunkId(int chunkId,  ProgressTask chunkTask, ProgressTask overallTask)
+        void ProcessChunkId(int chunkId,  ProgressTask chunkTask, ProgressTask overallTask, int maxTries = 5)
         {
-            var chunk = new DatabaseChunkBuilder(chunkId, CreatePersonBuilder);
-            using (var connection = new OdbcConnection(Settings.Current.Building.SourceConnectionString))
-            {
-                connection.Open();
-                chunk.Process(chunkTask, overallTask);
-            }
+            DatabaseChunkBuilder chunk;
+            for (int i = 0; i < maxTries; i++)
+                try
+                {
+                    chunk = new DatabaseChunkBuilder(chunkId, CreatePersonBuilder);
+                    using (var connection = new OdbcConnection(Settings.Current.Building.SourceConnectionString))
+                    {
+                        connection.Open();
+                        chunk.Process(chunkTask, overallTask);
+                    }
 
-            Settings.Current.Save(false);
+                    Settings.Current.Save(false);
+                    break; // success
+                }
+                catch(Exception e)
+                {
+                    if (i >= maxTries - 1)
+                    {
+                        throw;
+                    }
+                    chunk = null;
+                    GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
+                    Thread.Sleep(5 * 60 * 1000);
+                }
         }
 
         private PersonBuilder CreatePersonBuilder()

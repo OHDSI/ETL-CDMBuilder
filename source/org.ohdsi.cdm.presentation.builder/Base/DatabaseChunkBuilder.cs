@@ -12,6 +12,7 @@ using IPersonBuilder = org.ohdsi.cdm.framework.common.Base.IPersonBuilder;
 using org.ohdsi.cdm.framework.common.Enums;
 using DatabaseChunkPartAdapter = org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.DatabaseChunkPartAdapter;
 using Spectre.Console;
+using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
 
 namespace org.ohdsi.cdm.presentation.builder.Base
 {
@@ -59,6 +60,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
             catch (Exception e)
             {
                 Logger.WriteError(_chunkId, e);
+                Logger.Write(_chunkId, Logger.LogMessageTypes.Error, "ChunkId=" + _chunkId + ". Peak memory=" + MemoryColumn.MaxMemoryMb + "/" + MemoryColumn.MaxMemoryGC);
 
                 throw;
             }

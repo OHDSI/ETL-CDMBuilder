@@ -52,8 +52,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             stopwatch.Start();
 
             var queries = FrameworkSettings.Settings.Current.Building.SourceQueryDefinitions;
-            
-            bool hasRestarted = false;
 
             for (int i = 0; i < queries.Count; i++)
             {
@@ -74,23 +72,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 catch (Exception e)
                 {
                     //error info is written in LoadQuery catch
-
-                    if (hasRestarted || e.InnerException is not OdbcException)
-                    {
-                        Console.WriteLine("\n\rFileName is " + queries[i].FileName + ". Query number is " + i + "\n\r");
-                        throw;
-                    }
-
-                    //try to avoid network or db connectivity errors
-
-                    Console.WriteLine("\r\n\r\nLoading failed for " + queries[i].FileName + "[" + i + "]! Waiting and trying loading all tables over again!\r\n\r\n");
-
-                    _databaseChunkPart.Reset();
-                    Thread.Sleep(60 * 5 * 1000);
-
-                    hasRestarted = true;
-                    i = -1;
-                    continue;
+                    Console.WriteLine("\n\rFileName is " + queries[i].FileName + ". Query number is " + i + "\n\r");
                 }
             }
 

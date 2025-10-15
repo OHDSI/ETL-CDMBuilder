@@ -11,6 +11,7 @@ using org.ohdsi.cdm.presentation.builder;
 using org.ohdsi.cdm.presentation.builder.Controllers;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
 using System.Diagnostics;
+using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
 
 namespace RunLocal
 {
@@ -159,7 +160,7 @@ namespace RunLocal
 
             var secondsElapsed = Math.Round((double)sw.ElapsedMilliseconds / 1000);
             var hoursElapsed = Math.Round(secondsElapsed / 60 / 60, 1);
-            Console.WriteLine($"\r\nThe program has finished! - {hoursElapsed}h ({secondsElapsed}s)");
+            Console.WriteLine($"\r\nThe program has finished! - {hoursElapsed}h ({secondsElapsed}s), Max memory used={MemoryColumn.MaxMemoryMb}({MemoryColumn.MaxMemoryGC}) MB");
             Console.ReadLine();
         }
 

@@ -160,7 +160,7 @@ namespace RunLocal
 
             var secondsElapsed = Math.Round((double)sw.ElapsedMilliseconds / 1000);
             var hoursElapsed = Math.Round(secondsElapsed / 60 / 60, 1);
-            Console.WriteLine($"\r\nThe program has finished! - {hoursElapsed}h ({secondsElapsed}s), Max memory used={MemoryColumn.MaxMemoryMb}({MemoryColumn.MaxMemoryGC}) MB");
+            Console.WriteLine($"\r\nThe program has finished! - {hoursElapsed}h ({secondsElapsed}s), Max memory used={Math.Round(MemoryColumn.MaxMemoryMb)}({Math.Round(MemoryColumn.MaxMemoryGC)}) MB");
             Console.ReadLine();
         }
 

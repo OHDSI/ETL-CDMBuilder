@@ -292,6 +292,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     chunk = null;
                     GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
                     Thread.Sleep(tryDelaySeconds * 1000);
+                    Logger.Write(chunkId, Logger.LogMessageTypes.Warning, "\r\nCommencing try #" + (i + 1) + "/" + (maxTries - 1) + "\r\n\r\n");
                 }
         }
 

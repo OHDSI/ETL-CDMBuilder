@@ -258,9 +258,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                         for (int chunkId = 0; chunkId < Settings.Current.Building.ChunksCount; chunkId++)
                         {
                             var chunkTask = ctx.AddTask($"Chunk {chunkId}", maxValue: Settings.Current.Building.ChunkSize);
-                            ProcessChunkId(chunkId, chunkTask, overallTask);
-
-                            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced); //frees 1 mb RAM per person in chunk in testing
+                            ProcessChunkId(chunkId, chunkTask, overallTask);                            
+                            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, blocking: true, compacting: true);
                         }
                     });
         }

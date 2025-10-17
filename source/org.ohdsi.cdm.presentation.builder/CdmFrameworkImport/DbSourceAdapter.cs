@@ -76,7 +76,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
         }
 
 
-        public IEnumerable<IDataReader> GetPersonKeys(string batchScript, long batches, int batchSize, string schemaName)
+        public IEnumerable<IDataReader> GetPersonKeys(string batchScript, string schemaName)
         {
             batchScript = batchScript.Replace("{sc}", schemaName);
             var sql = string.Format(batchScript, "");

@@ -32,12 +32,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 Settings.Current.Building.SourceEngine.Database.ToString(), Settings.Current.Building.SourceSchema);
         }
 
-
-
-        public int CreateChunks(string chunksSchema, AssignEmptyPersonIdSettings assignEmptyPersonIdSettings = AssignEmptyPersonIdSettings.AssignIfNoPersonIdSet)
+        public int CreateChunks(string chunksSchema)
         {
-            var chunks = new List<ChunkRecord>();
-
             Console.WriteLine("\r\nGenerating chunk ids...");
             Stopwatch sw = new Stopwatch();
             sw.Start();
@@ -45,76 +41,59 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             _dbSource.CreateChunkTable(chunksSchema);
 
             _dbSource.CreateIndexesChunkTable(chunksSchema);
-            
-            var chunkId = 0;
+
+            var personIds = new List<ChunkRecord>();
 
             using (var saver = Settings.Current.Building.SourceEngine.GetSaver()
                 .Create(Settings.Current.Building.SourceConnectionString))
             {
-                foreach (var chunk in GetPersonKeys(Settings.Current.Building.ChunkSize))
+                personIds = GetPersonKeys().OrderBy(s => s.PersonId).ToList();                
+                for (int i = 0; i < personIds.Count; i++)
                 {
-                    chunks.AddRange(chunk.Select(c =>
-                        new ChunkRecord { Id = chunkId, PersonId = Convert.ToInt64(c.Key), PersonSource = c.Value }));
-
-                    chunkId++;
+                    var chunkId = Math.Floor((double)i / (double)Settings.Current.Building.ChunkSize);
+                    personIds[i].Id = Convert.ToInt32(chunkId);
                 }
 
-                if (assignEmptyPersonIdSettings == AssignEmptyPersonIdSettings.AssignAll
-                    || (assignEmptyPersonIdSettings == AssignEmptyPersonIdSettings.AssignIfNoPersonIdSet
-                        && chunks.All(s => s.PersonId == 0)))
+                if (personIds.Count > 0)
                 {
-                    chunks.Sort((x, y) => x.PersonSource.CompareTo(y.PersonSource));
-                    for (int i = 0; i < chunks.Count; i++)
-                        chunks[i].PersonId = i;
+                    saver.AddChunk(personIds, 0, chunksSchema);
+                    saver.Commit();
                 }
-
-                if (chunks.Count > 0)
-                {
-                     saver.AddChunk(chunks, 0, chunksSchema);
-                }
-
-                saver.Commit();
             }
 
+            int chunksCount = personIds.Count / Settings.Current.Building.ChunkSize;
+
             var elapsedSeconds = Math.Round((double)sw.ElapsedMilliseconds / 1000, 3);
-            int idsCount = chunks.Count;
             var culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
             culture.NumberFormat.NumberGroupSeparator = " ";
             Console.WriteLine($"Chunk ids have been generated and saved - {elapsedSeconds}s");
-            Console.WriteLine($"Persons count = {idsCount.ToString(culture)}"
+            Console.WriteLine($"Persons count = {personIds.Count.ToString(culture)}"
                 + $" | Chunk size = {Settings.Current.Building.ChunkSize.ToString(culture)}"
-                + $" | Chunks count = {chunkId.ToString(culture)}");
+                + $" | Chunks count = { chunksCount }");
 
-            return chunkId;
+            return chunksCount;
         }
 
-        public IEnumerable<List<KeyValuePair<string, string>>> GetPersonKeys(int batchSize)
-        {
-            return GetPersonKeys(Settings.Current.Building.Batches, batchSize);
-        }
-
-        public IEnumerable<List<KeyValuePair<string, string>>> GetPersonKeys(long batches, int batchSize)
-        {
-            var batch = new List<KeyValuePair<string, string>>(batchSize);
-
-            
+        public IEnumerable<ChunkRecord> GetPersonKeys()
+        {            
             var query = Utility.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess, Settings.Current.Building.SourceEngine.Database, Settings.Current.Building.BatchScript, Settings.Current.Building.SourceSchema, Settings.Current.Building.SourceSchema, Settings.Current.Building.VendorToProcess.PersonTableName);
 
-            foreach (var reader in _dbSource.GetPersonKeys(query, batches, batchSize, Settings.Current.Building.SourceSchema))
+            foreach (var reader in _dbSource.GetPersonKeys(query, Settings.Current.Building.SourceSchema))
             {
-                if (batch.Count == batchSize)
+                if (reader[0] == null || reader[1] == null)
+                    continue;
+
+                long personId = long.Parse(reader[0].ToString().Trim());
+                string personSource = reader[1].ToString().Trim();
+
+                ChunkRecord chunkRecord = new ChunkRecord()
                 {
-                    yield return batch;
-                    batch.Clear();
-                }
+                    PersonId = personId,
+                    PersonSource = personSource,
+                };
 
-                var id = reader[0].ToString().Trim();
-                var source = reader[1].ToString().Trim();
-
-                batch.Add(new KeyValuePair<string, string>(id, source));
+                yield return chunkRecord;
             }
-
-            yield return batch;
         }
     }
 }

@@ -24,7 +24,9 @@ namespace org.ohdsi.cdm.presentation.builder
         #region Properties
 
         [XmlIgnore]
-        public string Folder { get; private set; }
+        public string Folder { get; protected set; }
+        [XmlIgnore]
+        public int ContinueLoadFromChunk { get; protected set; }
         public Building BuildingState { get; set; }
         public string RawSourceConnectionString { get; set; }
         public string RawDestinationConnectionString { get; set; }
@@ -66,7 +68,7 @@ namespace org.ohdsi.cdm.presentation.builder
         public int Batches { get; set; }
 
         [XmlIgnore]
-        public int ChunkSize => int.Parse(ConfigurationManager.AppSettings["ChunkSize"]);
+        public int ChunkSize { get; protected set; }
 
         [XmlIgnore]
         public string BatchScript { get; set; }
@@ -181,7 +183,8 @@ namespace org.ohdsi.cdm.presentation.builder
         [Obsolete("This constructor is only for XML serialization")]
         public BuildingSettings() { }
 
-        public BuildingSettings(IDatabaseEngine sourceDatabaseEngine, IDatabaseEngine cdmDatabaseEngine, IDatabaseEngine vocabularyDatabaseEngine, Vendor vendor)
+        public BuildingSettings(IDatabaseEngine sourceDatabaseEngine, IDatabaseEngine cdmDatabaseEngine, 
+            IDatabaseEngine vocabularyDatabaseEngine, Vendor vendor, int continueLoadFromChunk, int chunkSize)
         {
             BuildingState = new Building();
             ChunksCount = 0;
@@ -189,7 +192,9 @@ namespace org.ohdsi.cdm.presentation.builder
             SourceEngine = sourceDatabaseEngine;
             CdmEngine = cdmDatabaseEngine;
             VocabularyEngine = vocabularyDatabaseEngine;
-            VendorToProcess = vendor;            
+            VendorToProcess = vendor;
+            ContinueLoadFromChunk = continueLoadFromChunk;
+            ChunkSize = chunkSize;
             SetVendorSettings(sourceDatabaseEngine.Database.ToName());
         }
 
@@ -272,6 +277,7 @@ namespace org.ohdsi.cdm.presentation.builder
 
                     BuildingState = bs.BuildingState;
                     ChunksCount = bs.ChunksCount;
+                    ContinueLoadFromChunk = bs.ContinueLoadFromChunk;
 
                     Settings.Current.Building = bs;
 
@@ -281,7 +287,7 @@ namespace org.ohdsi.cdm.presentation.builder
                 }
             }
             else
-                Settings.Current.Building = new BuildingSettings(SourceEngine, CdmEngine, VocabularyEngine, VendorToProcess);
+                Settings.Current.Building = new BuildingSettings(SourceEngine, CdmEngine, VocabularyEngine, VendorToProcess, 0, 10000);
         }
 
         public void Reset()

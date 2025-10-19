@@ -26,6 +26,13 @@ namespace RunLocal
             [Option("EtlLibraryPath", Required = false, HelpText = "Path to the library with Vendor definition")]
             public string EtlLibraryPath { get; set; } = "";
 
+            [Option("ContinueLoadFromChunk", Required = false, HelpText = "If >0, then chunk generation and previous chunks processing are skipped")]
+            public string ContinueLoadFromChunk { get; set; } = "";
+
+            [Option("ChunkSize", Required = false, HelpText = "Amount of Persons to process in one chunk")]
+            public string ChunkSize { get; set; } = "10000";
+
+
             #region source
 
             [Option("SourceEngine", Required = true, HelpText = "Source engine")]
@@ -118,7 +125,9 @@ namespace RunLocal
                         VocabularyDatabase = "VocabularyDatabase",
                         VocabularySchema = "VocabularySchema",
                         VocabularyUser = "VocabularyUser",
-                        VocabularyPassword = "VocabularyPassword"
+                        VocabularyPassword = "VocabularyPassword",
+                        ChunkSize = "10000",
+                        ContinueLoadFromChunk = ""
                     };
                     var example = new Example("Example with placeholder arguments", options);
                     string txt = "RunLocal " + string.Join(" ", options.GetType().GetProperties().Where(s => s.Name != "Examples").Select(s => "--" + s.Name + "=\"" + s.Name + "\"")); // to fill program args
@@ -140,9 +149,11 @@ namespace RunLocal
                 paramsLines = text
                     .Replace("\"", "")
                     .Split(new[] { "--"}, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(s => "--" + s.Trim().Replace("\\\\", "\\")) //these get doubled for some reason while in double quotes
+                    .Select(s => s.Trim().Replace("\\\\", "\\")) //these get doubled for some reason while in double quotes
+                    .Select(s => s.Contains("=") ? "--" + s : s)
                     .Where(s => s != "--RunLocal")
                     .Prepend("RunLocal")
+                    .Distinct()
                     .ToArray();
             }
             catch (Exception e)
@@ -168,7 +179,9 @@ namespace RunLocal
         {
             SetSettings(opts);
 
-            Build(Settings.Current.Building.SourceSchema, Settings.Current.Building.EtlLibraryPath, true);
+            bool truncateTargetTables = Settings.Current.Building.ContinueLoadFromChunk > 0 ? false : true;
+
+            Build(Settings.Current.Building.SourceSchema, Settings.Current.Building.EtlLibraryPath, truncateTargetTables);
         }
 
         static void HandleParseError(IEnumerable<Error> errs)
@@ -190,6 +203,8 @@ namespace RunLocal
 
                 Console.WriteLine($"VendorName: {opts.VendorName}");
                 Console.WriteLine($"EtlLibraryPath: {etlLibraryPath}");
+                Console.WriteLine($"ContinueLoadFromChunk: {opts.ContinueLoadFromChunk}");
+                Console.WriteLine($"ChunkSize: {opts.ChunkSize}");
 
                 Console.WriteLine($"SourceEngine: {opts.SourceEngine}");
                 Console.WriteLine($"SourceServer: {opts.SourceServer}");
@@ -221,13 +236,19 @@ namespace RunLocal
                 var cdmEngine = GetDatabaseEngine(opts.DestinationEngine);
                 var vocabEngine = GetDatabaseEngine(opts.VocabularyEngine);
 
+                if (!int.TryParse(opts.ContinueLoadFromChunk, out int continueLoadFromChunk))
+                    continueLoadFromChunk = 0;
+
+                if (!int.TryParse(opts.ChunkSize, out int chunkSize))
+                    chunkSize = 0;
+
                 //create instance, nothing drastic is done at init, properties are copied at BuildingSettings properties Set
                 //these properties must be filled at the moment of the interaction with the db
                 FrameworkSettings.Settings.Initialize("", "");
 
                 Settings.Current = new Settings()
                 {
-                    Building = new BuildingSettings(sourceEngine, cdmEngine, vocabEngine, vendor)
+                    Building = new BuildingSettings(sourceEngine, cdmEngine, vocabEngine, vendor, continueLoadFromChunk, chunkSize)
                     {
                         Batches = 1,
 
@@ -248,9 +269,9 @@ namespace RunLocal
                         VocabSchema = opts.VocabularySchema,
                         VocabUser = opts.VocabularyUser,
                         VocabPswd = opts.VocabularyPassword,
-                        EtlLibraryPath = etlLibraryPath
+                        EtlLibraryPath = etlLibraryPath,
                     },
-                    BuilderFolder = vendor.Folder
+                    BuilderFolder = vendor.Folder,                    
                 };
                 Settings.Current.Building.SetFrameworkBuildingSettings();
             }
@@ -276,9 +297,12 @@ namespace RunLocal
         {
             BuilderController builder = new BuilderController(etlLibraryPath);
             builder.CreateDestination();
-                        
+
             if (truncateTargetTables)
-                builder.TruncateTables();            
+                builder.TruncateTables();
+            else
+                Logger.Write(0, Logger.LogMessageTypes.Info, 
+                    $"Target tables truncation skipped due to loading continuation from chunk {Settings.Current.Building.ContinueLoadFromChunk}!");
 
             var vocabulary = new Vocabulary();
             vocabulary.Fill(false, false);

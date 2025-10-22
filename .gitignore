@@ -351,3 +351,4 @@ MigrationBackup/
 executable/Building/
 /source/RunLocal/Properties/launchSettings.json
 /source/RunLocal/params.txt
+source/org.ohdsi.cdm.RunLocal/params.txt

@@ -1,6 +1,6 @@
 ﻿RunLocal 
---VendorName="" 
---SourceEngine="" 
+--VendorName="Truven_CCAE" 
+--SourceEngine="postgresql" 
 --SourceServer="" 
 --SourceDatabase="" 
 --SourceSchema="" 
@@ -18,6 +18,6 @@
 --VocabularySchema=""
 --VocabularyUser=""
 --VocabularyPassword=""
---EtlLibraryPath=""
+--EtlLibraryPath="C:\Docs\repos\open source\ETL-LambdaBuilder\My\EtlLibrary"
 --ContinueLoadFromChunk=0 
 --ChunkSize=10000

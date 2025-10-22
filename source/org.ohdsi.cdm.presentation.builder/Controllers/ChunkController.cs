@@ -1,4 +1,5 @@
-﻿using org.ohdsi.cdm.framework.common;
+﻿using Microsoft.Extensions.Logging.Abstractions;
+using org.ohdsi.cdm.framework.common;
 using org.ohdsi.cdm.framework.desktop;
 using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.framework.desktop.DbLayer;
@@ -51,7 +52,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 for (int i = 0; i < personIds.Count; i++)
                 {
                     var chunkId = Math.Floor((double)i / (double)Settings.Current.Building.ChunkSize);
-                    personIds[i].Id = Convert.ToInt32(chunkId);
+                    var chunkPerson = personIds[i];
+                    chunkPerson.Id = Convert.ToInt32(chunkId);
                 }
 
                 if (personIds.Count > 0)

@@ -12,6 +12,7 @@ using org.ohdsi.cdm.presentation.builder.Controllers;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
 using System.Diagnostics;
 using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
+using org.ohdsi.cdm.framework.common.Extensions;
 
 namespace RunLocal
 {
@@ -229,8 +230,15 @@ namespace RunLocal
 
                 Console.WriteLine();
 
+                #region vendor
                 Vendor vendor = EtlLibrary.CreateVendorInstance(etlLibraryPath, opts.VendorName)
                     ?? throw new NoNullAllowedException("Failed to setup the vendor!");
+
+                var cdmV = Convert.ToDecimal(vendor.CdmVersion.ToString().Replace("v", ""));
+                var descV = Convert.ToDecimal(vendor.Description.Split('v').Last());
+                if (cdmV != descV)
+                    throw new Exception("The CdmVersion has not been assigned correctly!");
+                #endregion
 
                 var sourceEngine = GetDatabaseEngine(opts.SourceEngine);
                 var cdmEngine = GetDatabaseEngine(opts.DestinationEngine);
@@ -305,8 +313,8 @@ namespace RunLocal
                     $"Target tables truncation skipped due to loading continuation from chunk {Settings.Current.Building.ContinueLoadFromChunk}!");
 
             var vocabulary = new Vocabulary();
-            vocabulary.Fill(false, false);
-            vocabulary.Fill(true, false);            
+            vocabulary.Fill(false);
+            vocabulary.Fill(true);            
 
             builder.TruncateLookup();
             builder.CreateLookup(vocabulary, chunkSchema);

@@ -121,7 +121,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
         {
             var timer = new Stopwatch();
             timer.Start();
-            vocabulary.Fill(true, false);
+            vocabulary.Fill(true);
             var locationConcepts = new List<Location>();
             var careSiteConcepts = new List<CareSite>();
             var providerConcepts = new List<Provider>();
@@ -234,7 +234,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             if (Settings.Current.Building.ChunksCount == 0)
                 Settings.Current.Building.ChunksCount = _chunkController.CreateChunks(chunksSchema);
 
-            vocabulary.Fill(false, false);
+            vocabulary.Fill(false);
 
             Logger.Write(null, Logger.LogMessageTypes.Info,
                 "\r\n==================== Conversion to CDM has been started ====================");

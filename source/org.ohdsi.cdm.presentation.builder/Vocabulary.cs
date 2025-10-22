@@ -144,7 +144,7 @@ namespace org.ohdsi.cdm.presentation.builder
         /// Fill vocabulary for source to conceptId mapping
         /// </summary>
         /// <param name="forLookup">true - fill vocab. for: CareSites, Providers, Locations; false - rest of them</param>
-        public void Fill(bool forLookup, bool readFromS3)
+        public void Fill(bool forLookup)
         {
             if (Settings.Current.Building.SourceQueryDefinitions == null)
                 throw new NoNullAllowedException("Settings.Current.Building.SourceQueryDefinitions is null!");

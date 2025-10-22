@@ -1,18 +1,20 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Reflection.Metadata;
-using System.Reflection;
+﻿using Castle.DynamicProxy;
 using CommandLine;
 using CommandLine.Text;
 using org.ohdsi.cdm.framework.common.Enums;
+using org.ohdsi.cdm.framework.common.Extensions;
 using org.ohdsi.cdm.framework.common.Utility;
 using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.presentation.builder;
 using org.ohdsi.cdm.presentation.builder.Controllers;
-using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
-using System.Diagnostics;
 using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
-using org.ohdsi.cdm.framework.common.Extensions;
+using org.ohdsi.cdm.RunLocal;
+using System.Configuration;
+using System.Data;
+using System.Diagnostics;
+using System.Reflection;
+using System.Reflection.Metadata;
+using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
 
 namespace RunLocal
 {
@@ -234,10 +236,19 @@ namespace RunLocal
                 Vendor vendor = EtlLibrary.CreateVendorInstance(etlLibraryPath, opts.VendorName)
                     ?? throw new NoNullAllowedException("Failed to setup the vendor!");
 
-                var cdmV = Convert.ToDecimal(vendor.CdmVersion.ToString().Replace("v", ""));
-                var descV = Convert.ToDecimal(vendor.Description.Split('v').Last());
-                if (cdmV != descV)
-                    throw new Exception("The CdmVersion has not been assigned correctly!");
+                if (!IsVendorWellInitialized(vendor))
+                {
+                    var generator = new ProxyGenerator();
+                    var vendorType = vendor.GetType();     
+                    var interceptor = new CdmVersionInterceptor();
+                    var proxied = generator.CreateClassProxyWithTarget(vendorType, vendor, interceptor);
+                    vendor = (Vendor)proxied;
+
+                    if (IsVendorWellInitialized(vendor))
+                        Console.WriteLine("WARNING! The vendor has not been initialized properly, but the issue was fixed! A subclass with harcoded CdmVersion v5.4 has been created!");
+                    else
+                        throw new Exception("The Vendor has not been properly initialized!");
+                }
                 #endregion
 
                 var sourceEngine = GetDatabaseEngine(opts.SourceEngine);
@@ -320,6 +331,17 @@ namespace RunLocal
             builder.CreateLookup(vocabulary, chunkSchema);
 
             builder.Build(vocabulary, chunkSchema);
+        }
+
+        static bool IsVendorWellInitialized(Vendor vendor)
+        {
+            string normalize(string x) => x.ToLower().Split('v').Last().Replace(".", "");
+            var cdmV = normalize(vendor.CdmVersion.ToString());
+            var descV = normalize(vendor.Description);
+            if (Convert.ToDecimal(cdmV) != Convert.ToDecimal(descV))
+                return false;
+
+            return true;
         }
     }
 }

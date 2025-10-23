@@ -344,7 +344,7 @@ namespace org.ohdsi.cdm.presentation.builder
 
             #region set SourceQueryDefinitions
 
-            var buildingSettings = new Utility.CdmFrameworkImport.BuildingSettings(0, VendorToProcess, EtlLibraryPath);
+            var buildingSettings = new CdmFrameworkImport.BuildingSettings(0, VendorToProcess, EtlLibraryPath);
             EtlLibrary.LoadVendorSettings(EtlLibraryPath, buildingSettings);
 
             foreach (var sourceQueryDefinion in buildingSettings.SourceQueryDefinitions)

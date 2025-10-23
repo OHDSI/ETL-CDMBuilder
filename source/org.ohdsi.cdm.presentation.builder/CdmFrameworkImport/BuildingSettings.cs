@@ -3,7 +3,7 @@ using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Enums;
 using org.ohdsi.cdm.framework.common.Utility;
 
-namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
+namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
 {
     public class BuildingSettings : IVendorSettings
     {

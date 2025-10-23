@@ -2,7 +2,7 @@
 using System.Text;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
 
-namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
+namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport.Savers
 {
     public class FileSaver : Saver
     {

@@ -4,7 +4,7 @@ using org.ohdsi.cdm.framework.common.Omop;
 using org.ohdsi.cdm.framework.desktop;
 using System.Data;
 
-namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
+namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport.Savers
 {
     public interface ISaver : IDisposable
     {

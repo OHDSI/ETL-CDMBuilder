@@ -1,6 +1,6 @@
 ﻿using org.ohdsi.cdm.framework.common.Base;
 
-namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
+namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
 {
     public class DatabaseChunkBuilderAdapter
     {

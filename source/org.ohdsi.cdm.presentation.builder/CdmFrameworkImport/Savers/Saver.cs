@@ -4,12 +4,11 @@ using org.ohdsi.cdm.framework.common.Enums;
 using org.ohdsi.cdm.framework.common.Extensions;
 using org.ohdsi.cdm.framework.common.Omop;
 using org.ohdsi.cdm.framework.desktop;
-using org.ohdsi.cdm.framework.desktop.DataReaders;
 using org.ohdsi.cdm.framework.desktop.Enums;
 using System.Data;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
 
-namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
+namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport.Savers
 {
     public class Saver : ISaver
     {
@@ -358,7 +357,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
         {
             try
             {
-                Write(null, null, new ChunkDataReader(chunk), "_chunks");
+                //var chunkDataReader = new framework.desktop.DataReaders.ChunkDataReader(chunk);
+                var chunkDataReader = new CdmFrameworkImport.ChunkDataReader(chunk);
+                Write(null, null, chunkDataReader, "_chunks");
             }
             catch (Exception)
             {

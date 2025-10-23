@@ -4,7 +4,7 @@ using org.ohdsi.cdm.framework.desktop.Helpers;
 using System.Data.Odbc;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
 
-namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
+namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport.Savers
 {
     public class PostgreSaver : Saver
     {
@@ -72,7 +72,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
                     {
                         var name = reader.GetName(col);
                         var clrType = reader.GetFieldType(col);
-                        var value = reader.IsDBNull(col) ? null : reader.GetValue(col);
+                        var value = reader.GetValue(col);
 
                         rowData.Add((col, name, clrType, value));
                     }

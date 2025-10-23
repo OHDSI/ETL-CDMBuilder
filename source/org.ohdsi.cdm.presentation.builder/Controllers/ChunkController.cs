@@ -1,5 +1,6 @@
 ﻿using org.ohdsi.cdm.framework.desktop;
-using org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport;
+using org.ohdsi.cdm.framework.desktop.Savers;
+using org.ohdsi.cdm.presentation.builder.CdmFrameworkImport;
 using System.Diagnostics;
 using System.Globalization;
 
@@ -35,10 +36,13 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
             var personIds = new List<ChunkRecord>();
 
-            using (var saver = Settings.Current.Building.SourceEngine.GetSaver()
-                .Create(Settings.Current.Building.SourceConnectionString))
+            ISaver frameworkSaver =  Settings.Current.Building.SourceEngine.GetSaver();
+            var saver = CdmFrameworkImport.Savers.Saver.GetSaverFromFrameworkSaver(frameworkSaver);
+            //debug saver._connection is null now
+
+            using (saver)
             {
-                personIds = GetPersonKeys().OrderBy(s => s.PersonId).ToList();                
+                personIds = GetPersonKeys().OrderBy(s => s.PersonId).ToList();
                 for (int i = 0; i < personIds.Count; i++)
                 {
                     var chunkId = Math.Floor((double)i / (double)Settings.Current.Building.ChunkSize);
@@ -47,10 +51,16 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 }
 
                 if (personIds.Count > 0)
-                {
-                    saver.AddChunk(personIds, 0, chunksSchema);
-                    saver.Commit();
-                }
+                    try
+                    {
+                        var createdSaver = saver.Create(Settings.Current.Building.SourceConnectionString);
+                        createdSaver.AddChunk(personIds, 0, chunksSchema);
+                        createdSaver.Commit();
+                    }
+                    catch (Exception e)
+                    {
+                        throw;
+                    }
             }
 
             int chunksCount = personIds.Count / Settings.Current.Building.ChunkSize;

@@ -1,5 +1,5 @@
 ﻿using IPersonBuilder = org.ohdsi.cdm.framework.common.Base.IPersonBuilder;
-using DatabaseChunkPartAdapter = org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.DatabaseChunkPartAdapter;
+using DatabaseChunkPartAdapter = org.ohdsi.cdm.presentation.builder.CdmFrameworkImport.DatabaseChunkPartAdapter;
 using Spectre.Console;
 using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
 

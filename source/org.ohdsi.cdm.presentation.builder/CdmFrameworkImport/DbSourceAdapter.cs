@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.Odbc;
 using System.Text;
 
-namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
+namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
 {
     public class DbSourceAdapter
     {
@@ -76,7 +76,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
             batchScript = batchScript.Replace("{sc}", schemaName);
             var sql = string.Format(batchScript, "");
 
-            sql = GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess,
+            sql = Utility.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess,
                 Settings.Current.Building.SourceEngine.Database, sql, schemaName, schemaName, Settings.Current.Building.VendorToProcess.PersonTableName);
 
             using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
@@ -140,7 +140,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 
         private string GetQuery(string fileName, string schemaName)
         {
-            var resources = EmbeddedResourceManager.ReadEmbeddedResources("ohdsi", fileName, StringComparison.InvariantCultureIgnoreCase);
+            var resources = Utility.EmbeddedResourceManager.ReadEmbeddedResources("ohdsi", fileName, StringComparison.InvariantCultureIgnoreCase);
             var query = resources
                 .FirstOrDefault(s => s.Key.Contains(_dbType, StringComparison.InvariantCultureIgnoreCase))
                 .Value.Replace("{sc}", schemaName);

@@ -2,7 +2,7 @@
 using org.ohdsi.cdm.framework.common.Enums;
 using System.Xml.Serialization;
 
-namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
+namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
 {
     [XmlInclude(typeof(QueryDefinition))]
     [Serializable]

@@ -1,5 +1,4 @@
-﻿using Castle.DynamicProxy;
-using CommandLine;
+﻿using CommandLine;
 using CommandLine.Text;
 using org.ohdsi.cdm.framework.common.Enums;
 using org.ohdsi.cdm.framework.common.Utility;
@@ -7,12 +6,11 @@ using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.presentation.builder;
 using org.ohdsi.cdm.presentation.builder.Controllers;
 using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
-using org.ohdsi.cdm.RunLocal;
 using System.Data;
 using System.Diagnostics;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
 
-namespace RunLocal
+namespace org.ohdsi.cdm.RunLocal
 {
     class Program
     {
@@ -176,7 +174,7 @@ namespace RunLocal
         {
             try
             {
-                var etlLibraryPath = !string.IsNullOrEmpty(opts.EtlLibraryPath) ? opts.EtlLibraryPath : Directory.GetCurrentDirectory();                
+                var etlLibraryPath = !string.IsNullOrEmpty(opts.EtlLibraryPath) ? opts.EtlLibraryPath : Directory.GetCurrentDirectory();
 
                 Console.WriteLine("Options:");
 
@@ -209,22 +207,11 @@ namespace RunLocal
                 Console.WriteLine();
 
                 #region vendor
-                Vendor vendor = EtlLibrary.CreateVendorInstance(etlLibraryPath, opts.VendorName)
+                Vendor vendor = EtlLibrary.CreateVendorInstance(Directory.GetCurrentDirectory(), opts.VendorName)
                     ?? throw new NoNullAllowedException("Failed to setup the vendor!");
 
                 if (!IsVendorWellInitialized(vendor))
-                {
-                    var generator = new ProxyGenerator();
-                    var vendorType = vendor.GetType();     
-                    var interceptor = new CdmVersionInterceptor();
-                    var proxied = generator.CreateClassProxyWithTarget(vendorType, vendor, interceptor);
-                    vendor = (Vendor)proxied;
-
-                    if (IsVendorWellInitialized(vendor))
-                        Console.WriteLine("WARNING! The vendor has not been initialized properly, but the issue was fixed! A subclass with harcoded CdmVersion v5.4 has been created!");
-                    else
-                        throw new Exception("The Vendor has not been properly initialized!");
-                }
+                    throw new Exception("The Vendor has not been properly initialized!");
                 #endregion
 
                 var sourceEngine = GetDatabaseEngine(opts.SourceEngine);
@@ -266,7 +253,7 @@ namespace RunLocal
                         VocabPswd = opts.VocabularyPassword,
                         EtlLibraryPath = etlLibraryPath,
                     },
-                    BuilderFolder = vendor.Folder,                    
+                    BuilderFolder = vendor.Folder,
                 };
                 Settings.Current.Building.SetFrameworkBuildingSettings();
             }

@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.Text;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
 
-namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
+namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
 {
     public class DatabaseChunkPartAdapter
     {
@@ -109,7 +109,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 return;
             }
             ISaver frameworkSaver = FrameworkSettings.Settings.Current.Building.DestinationEngine.GetSaver();
-            var saver = Utility.CdmFrameworkImport.Savers.Saver.GetSaverFromFrameworkSaver(frameworkSaver);
+            var saver = CdmFrameworkImport.Savers.Saver.GetSaverFromFrameworkSaver(frameworkSaver);
             Stopwatch stopwatch = new Stopwatch();
 
             try
@@ -163,7 +163,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
                 var sourceQueryDefinitionQueryTextBackup = sourceQueryDefinition.Query.Text;
 
                 sourceQueryDefinitionSql = sourceQueryDefinitionTyped.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
-                sourceQueryDefinition.Query.Text = GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql,
+                sourceQueryDefinition.Query.Text = Utility.GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql,
                     building.SourceSchemaName, building.SourceSchemaName, sourceQueryDefinition.FileName, _chunkId.ToString());
                 if (string.IsNullOrEmpty(sourceQueryDefinition.Query.Text))
                     return;

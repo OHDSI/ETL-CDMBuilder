@@ -2,7 +2,7 @@
 using org.ohdsi.cdm.framework.desktop.Helpers;
 using System.Data.Odbc;
 
-namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
+namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport.Savers
 {
     public class MySqlSaver : Saver
     {

@@ -322,6 +322,8 @@ namespace RunLocal
 
         static string[] ReadSettingsFromFile()
         {
+            Console.WriteLine("No command line arguments were specified! Trying to read options from params.txt file!");
+
             var paramsFile = Path.Combine(Directory.GetCurrentDirectory(), "params.txt");
             if (!File.Exists(paramsFile))
                 throw new IOException("params.txt file does not exist!");

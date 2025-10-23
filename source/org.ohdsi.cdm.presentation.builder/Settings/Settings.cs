@@ -1,8 +1,4 @@
-﻿using System.Configuration;
-using System.IO;
-using System.Reflection;
-using org.ohdsi.cdm.framework.common.Extensions;
-using org.ohdsi.cdm.framework.desktop.Databases;
+﻿using org.ohdsi.cdm.framework.common.Extensions;
 using org.ohdsi.cdm.presentation.builder.Utility;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings.Settings;
 

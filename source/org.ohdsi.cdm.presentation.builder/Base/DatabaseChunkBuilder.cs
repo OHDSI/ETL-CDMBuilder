@@ -1,15 +1,4 @@
-﻿using org.ohdsi.cdm.framework.common.Base;
-using org.ohdsi.cdm.framework.common.Definitions;
-using org.ohdsi.cdm.framework.common.DataReaders;
-using org.ohdsi.cdm.framework.desktop.Base;
-using org.ohdsi.cdm.framework.desktop.Databases;
-using org.ohdsi.cdm.framework.desktop.Enums;
-using System;
-using System.Collections.Generic;
-using System.Data.Odbc;
-using System.Diagnostics;
-using IPersonBuilder = org.ohdsi.cdm.framework.common.Base.IPersonBuilder;
-using org.ohdsi.cdm.framework.common.Enums;
+﻿using IPersonBuilder = org.ohdsi.cdm.framework.common.Base.IPersonBuilder;
 using DatabaseChunkPartAdapter = org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.DatabaseChunkPartAdapter;
 using Spectre.Console;
 using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;

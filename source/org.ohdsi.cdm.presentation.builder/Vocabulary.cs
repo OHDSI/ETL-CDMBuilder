@@ -1,16 +1,9 @@
 ﻿using org.ohdsi.cdm.framework.common.Definitions;
-using org.ohdsi.cdm.framework.common.Extensions;
 using org.ohdsi.cdm.framework.common.Lookups;
-using org.ohdsi.cdm.framework.common.PregnancyAlgorithm;
-using org.ohdsi.cdm.framework.desktop.Enums;
 using org.ohdsi.cdm.framework.desktop.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Odbc;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings.Settings;
 
 namespace org.ohdsi.cdm.presentation.builder

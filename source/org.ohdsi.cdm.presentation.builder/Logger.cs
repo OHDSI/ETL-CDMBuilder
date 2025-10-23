@@ -1,8 +1,4 @@
-﻿using org.ohdsi.cdm.framework.desktop.Enums;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
 
 namespace org.ohdsi.cdm.presentation.builder

@@ -1,17 +1,7 @@
-﻿using Microsoft.Extensions.Logging.Abstractions;
-using org.ohdsi.cdm.framework.common;
-using org.ohdsi.cdm.framework.desktop;
-using org.ohdsi.cdm.framework.desktop.Databases;
-using org.ohdsi.cdm.framework.desktop.DbLayer;
-using org.ohdsi.cdm.framework.desktop.Helpers;
-using org.ohdsi.cdm.framework.desktop.Savers;
+﻿using org.ohdsi.cdm.framework.desktop;
 using org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 
 
 namespace org.ohdsi.cdm.presentation.builder.Controllers

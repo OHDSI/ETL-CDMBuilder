@@ -1,12 +1,7 @@
-﻿using org.ohdsi.cdm.framework.common.Definitions;
-using org.ohdsi.cdm.framework.desktop.Helpers;
-using System;
-using System.Collections.Generic;
+﻿using org.ohdsi.cdm.framework.desktop.Helpers;
 using System.Data;
 using System.Data.Odbc;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport
 {

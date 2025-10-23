@@ -1,7 +1,5 @@
 ﻿using Npgsql;
 using NpgsqlTypes;
-using org.ohdsi.cdm.framework.common.Builder;
-using org.ohdsi.cdm.framework.common.Extensions;
 using org.ohdsi.cdm.framework.desktop.Helpers;
 using System.Data.Odbc;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;

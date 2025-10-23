@@ -1,8 +1,6 @@
 ﻿using MySqlConnector;
-using org.ohdsi.cdm.framework.desktop.DbLayer;
 using org.ohdsi.cdm.framework.desktop.Helpers;
 using System.Data.Odbc;
-using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
 
 namespace org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport.Savers
 {

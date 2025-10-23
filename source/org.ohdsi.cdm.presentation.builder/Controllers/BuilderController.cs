@@ -1,29 +1,13 @@
 ﻿using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
 using org.ohdsi.cdm.framework.common.Base;
 using org.ohdsi.cdm.framework.common.Definitions;
-using org.ohdsi.cdm.framework.common.Enums;
 using org.ohdsi.cdm.framework.common.Lookups;
 using org.ohdsi.cdm.framework.common.Omop;
 using org.ohdsi.cdm.framework.common.Utility;
-using org.ohdsi.cdm.framework.desktop.Base;
-using org.ohdsi.cdm.framework.desktop.DbLayer;
-using org.ohdsi.cdm.framework.desktop.Enums;
-using org.ohdsi.cdm.framework.desktop.Helpers;
-using org.ohdsi.cdm.framework.desktop.Savers;
-using org.ohdsi.cdm.presentation.builder.Base;
 using org.ohdsi.cdm.presentation.builder.Base.DbDestinations;
-using org.ohdsi.cdm.presentation.builder.Utility;
-using org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport;
 using Spectre.Console;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Data.Odbc;
 using System.Diagnostics;
-using System.Linq;
-using System.Numerics;
-using System.Threading;
-using System.Threading.Tasks;
 using DatabaseChunkBuilder = org.ohdsi.cdm.presentation.builder.Base.DatabaseChunkBuilder;
 
 

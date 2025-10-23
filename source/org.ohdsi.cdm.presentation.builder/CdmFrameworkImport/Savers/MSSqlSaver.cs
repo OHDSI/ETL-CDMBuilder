@@ -1,5 +1,4 @@
-﻿using org.ohdsi.cdm.framework.desktop.DbLayer;
-using org.ohdsi.cdm.framework.desktop.Helpers;
+﻿using org.ohdsi.cdm.framework.desktop.Helpers;
 using System.Data.Odbc;
 using System.Data.SqlClient;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;

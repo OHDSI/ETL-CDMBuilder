@@ -1,7 +1,4 @@
 ﻿using org.ohdsi.cdm.framework.desktop.Databases;
-using org.ohdsi.cdm.framework.desktop.Helpers;
-using System;
-using System.Data.Odbc;
 
 namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
 {

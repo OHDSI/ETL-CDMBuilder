@@ -1,15 +1,11 @@
-﻿using org.ohdsi.cdm.framework.common.Base;
-using org.ohdsi.cdm.framework.common.Definitions;
+﻿using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Enums;
 using org.ohdsi.cdm.framework.common.Extensions;
 using org.ohdsi.cdm.framework.common.Utility;
-using org.ohdsi.cdm.framework.common.Base;
 using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.presentation.builder.Utility;
-using org.ohdsi.cdm.presentation.builder.Utility.CdmFrameworkImport;
 using System.Configuration;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings.Settings;
 

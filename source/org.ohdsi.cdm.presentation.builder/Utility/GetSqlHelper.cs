@@ -1,16 +1,6 @@
 ﻿using org.ohdsi.cdm.framework.common.Enums;
-using org.ohdsi.cdm.framework.common.Extensions;
-using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.framework.desktop.Enums;
 using org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace org.ohdsi.cdm.presentation.builder.Utility
 {

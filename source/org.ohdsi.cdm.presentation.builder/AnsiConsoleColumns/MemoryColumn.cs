@@ -1,6 +1,5 @@
 ﻿using Spectre.Console;
 using Spectre.Console.Rendering;
-using System;
 using System.Diagnostics;
 
 namespace org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;

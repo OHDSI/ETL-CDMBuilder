@@ -354,3 +354,4 @@ executable/Building/
 source/org.ohdsi.cdm.RunLocal/params.txt
 /source/org.ohdsi.cdm.RunLocal/Properties/launchSettings.json
 /source/org.ohdsi.cdm.RunLocal/Properties/launchSettings.json
+*.bat

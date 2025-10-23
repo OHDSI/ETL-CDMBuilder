@@ -21,8 +21,11 @@
     <None Update="App.config">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="paramsExample.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="Bats\RunLocal_CCAE_Remote.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Bats\RunLocalTemplate.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="params.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

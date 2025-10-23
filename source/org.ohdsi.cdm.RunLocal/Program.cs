@@ -135,14 +135,18 @@ namespace org.ohdsi.cdm.RunLocal
 
         static void Main(string[] args)
         {
+            if (args.Length == 0)
+            {
+                Console.WriteLine("The arguments must be provided! For an example, see the file Bats/RunLocalTemplate.bat!");
+                Console.WriteLine("Then create another .bat file with proper parameters and run it.");
+                Console.ReadLine();
+                return;
+            }
+
             var sw = new Stopwatch();
             sw.Start();
 
-            string[] argsFinal = args.Length != 0 
-                ? args
-                : ReadSettingsFromFile();
-
-            Parser.Default.ParseArguments<Options>(argsFinal)
+            Parser.Default.ParseArguments<Options>(args)
                 .WithParsed(RunWithOptions)
                 .WithNotParsed(HandleParseError);
 

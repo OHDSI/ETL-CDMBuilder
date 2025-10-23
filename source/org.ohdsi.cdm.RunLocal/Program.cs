@@ -140,29 +140,9 @@ namespace RunLocal
             var sw = new Stopwatch();
             sw.Start();
 
-            string[] paramsLines = new string[0];
-            try
-            {
-                var paramsFile = Path.Combine(Directory.GetCurrentDirectory(), "params.txt");
-                var text = File.ReadAllText(paramsFile);
-                paramsLines = text
-                    .Replace("\"", "")
-                    .Split(new[] { "--"}, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(s => s.Trim().Replace("\\\\", "\\")) //these get doubled for some reason while in double quotes
-                    .Select(s => s.Contains("=") ? "--" + s : s)
-                    .Where(s => s != "--RunLocal")
-                    .Prepend("RunLocal")
-                    .Distinct()
-                    .ToArray();
-            }
-            catch (Exception e)
-            { 
-            
-            }
-
             string[] argsFinal = args.Length != 0 
                 ? args
-                : paramsLines;
+                : ReadSettingsFromFile();
 
             Parser.Default.ParseArguments<Options>(argsFinal)
                 .WithParsed(RunWithOptions)
@@ -338,6 +318,26 @@ namespace RunLocal
                 return false;
 
             return true;
+        }
+
+        static string[] ReadSettingsFromFile()
+        {
+            var paramsFile = Path.Combine(Directory.GetCurrentDirectory(), "params.txt");
+            if (!File.Exists(paramsFile))
+                throw new IOException("params.txt file does not exist!");
+
+            var text = File.ReadAllText(paramsFile);
+            var paramsLines = text
+                .Replace("\"", "")
+                .Split(new[] { "--" }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim().Replace("\\\\", "\\")) //these get doubled for some reason while in double quotes
+                .Select(s => s.Contains("=") ? "--" + s : s)
+                .Where(s => s != "--RunLocal")
+                .Prepend("RunLocal")
+                .Distinct()
+                .ToArray();
+
+            return paramsLines;
         }
     }
 }

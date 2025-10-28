@@ -1,14 +1,12 @@
 ﻿using CommandLine;
 using CommandLine.Text;
 using org.ohdsi.cdm.framework.common.Enums;
-using org.ohdsi.cdm.framework.common.Utility;
 using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.presentation.builder;
 using org.ohdsi.cdm.presentation.builder.Controllers;
 using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
 using System.Data;
 using System.Diagnostics;
-using EtlTransformation = org.ohdsi.cdm.framework.etl.Transformation;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
 
 namespace org.ohdsi.cdm.RunLocal
@@ -213,32 +211,9 @@ namespace org.ohdsi.cdm.RunLocal
 
                 Console.WriteLine();
 
-                #region vendor
-                Vendor vendor = opts.VendorName switch
-                {
-                    "CDM" => new EtlTransformation.CDM.CdmPersonBuilder.CdmVendor(),
-                    "Cprd" => new EtlTransformation.CPRD.CprdPersonBuilder.CprdVendor(),
-                    "CprdAurum" => new EtlTransformation.CprdAurum.CprdAurumPersonBuilder.CprdAurumVendor(),
-                    "CprdHES" => new EtlTransformation.CprdHES.CprdHESPersonBuilder.CprdHESVendor(),
-                    "Era" => new EtlTransformation.Era.EraPersonBuilder.EraVendor(),
-                    "HealthVerity" => new EtlTransformation.HealthVerity.HealthVerityPersonBuilder.HealthVerityVendor(),
-                    "OptumExtendedSES" => new EtlTransformation.OptumExtended.OptumExtendedPersonBuilder.OptumExtendedSESVendor(),
-                    "OptumExtendedDOD" => new EtlTransformation.OptumExtended.OptumExtendedPersonBuilder.OptumExtendedDODVendor(),
-                    "OptumPanther" => new EtlTransformation.OptumPanther.OptumPantherPersonBuilder.OptumPantherVendor(),
-                    "JMDC" => new EtlTransformation.JMDC.JmdcPersonBuilder.JmdcVendor(),
-                    "PregnancyAlgorithm" => new EtlTransformation.PA.PregnancyAlgorithmPersonBuilder.PregnancyAlgorithmVendor(),
-                    "Premier" => new EtlTransformation.Premier.PremierPersonBuilder.PremierVendor(),
-                    "Truven_MDCD" => new EtlTransformation.Truven.TruvenPersonBuilder.Truven_MDCDVendor(),
-                    "Truven_MDCR" => new EtlTransformation.Truven.TruvenPersonBuilder.Truven_MDCRVendor(),
-                    "Truven_CCAE" => new EtlTransformation.Truven.TruvenPersonBuilder.Truven_CCAEVendor(),
-
-                    _ => EtlLibrary.CreateVendorInstance(Directory.GetCurrentDirectory(), opts.VendorName)
-                    ?? throw new NoNullAllowedException("Failed to setup the vendor!")
-                };
-
+                Vendor vendor = presentation.builder.Utility.VendorHelper.GetVendor(opts.VendorName);
                 if (!IsVendorWellInitialized(vendor))
                     throw new Exception("The Vendor has not been properly initialized!");
-                #endregion
 
                 var sourceEngine = GetDatabaseEngine(opts.SourceEngine);
                 var cdmEngine = GetDatabaseEngine(opts.DestinationEngine);

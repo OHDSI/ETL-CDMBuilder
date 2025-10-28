@@ -1,11 +1,12 @@
-﻿using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
-using org.ohdsi.cdm.framework.common.Base;
+﻿using org.ohdsi.cdm.framework.common.Base;
 using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Lookups;
 using org.ohdsi.cdm.framework.common.Omop;
 using org.ohdsi.cdm.framework.common.Utility;
 using org.ohdsi.cdm.presentation.builder.Base.DbDestinations;
+using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
 using Spectre.Console;
+using System.Data;
 using System.Data.Odbc;
 using System.Diagnostics;
 using DatabaseChunkBuilder = org.ohdsi.cdm.presentation.builder.Base.DatabaseChunkBuilder;
@@ -262,7 +263,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             for (int i = 0; i < maxTries; i++)
                 try
                 {
-                    chunk = new DatabaseChunkBuilder(chunkId, CreatePersonBuilder);
+                    chunk = new DatabaseChunkBuilder(chunkId, Utility.VendorHelper.CreatePersonBuilder);
                     using (var connection = new OdbcConnection(Settings.Current.Building.SourceConnectionString))
                     {
                         connection.Open();
@@ -283,13 +284,6 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     Thread.Sleep(tryDelaySeconds * 1000);
                     Logger.Write(chunkId, Logger.LogMessageTypes.Warning, "\r\nCommencing try #" + (i + 1) + "/" + (maxTries - 1) + "\r\n\r\n");
                 }
-        }
-
-        private PersonBuilder CreatePersonBuilder()
-        {
-            var constructorInfo = EtlLibrary.GetBuilderConstructor(_etlLibraryPath, Settings.Current.Building.VendorToProcess);
-            var handle = (PersonBuilder)constructorInfo.Invoke([Settings.Current.Building.VendorToProcess]);
-            return handle;
         }
 
         #endregion

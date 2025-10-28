@@ -237,8 +237,9 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                         new RemainingTimeColumn(),
                         new MemoryColumn())
                     .Start(ctx =>
-                    {                        
-                        var overallTask = ctx.AddTask("Processing chunks...", maxValue: Settings.Current.Building.ChunksCount * Settings.Current.Building.ChunkSize);                        
+                    {
+                        var overallTask = ctx.AddTask($"Processing {Settings.Current.Building.ChunksCount} chunks",
+                            maxValue: Settings.Current.Building.ChunksCount * Settings.Current.Building.ChunkSize);
 
                         for (int chunkId = 0; chunkId < Settings.Current.Building.ChunksCount; chunkId++)
                         {

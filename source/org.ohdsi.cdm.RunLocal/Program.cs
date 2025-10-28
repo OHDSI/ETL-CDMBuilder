@@ -8,6 +8,7 @@ using org.ohdsi.cdm.presentation.builder.Controllers;
 using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
 using System.Data;
 using System.Diagnostics;
+using EtlTransformation = org.ohdsi.cdm.framework.etl.Transformation;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
 
 namespace org.ohdsi.cdm.RunLocal
@@ -20,7 +21,7 @@ namespace org.ohdsi.cdm.RunLocal
             [Option("VendorName", Required = true, HelpText = "Name of the vendor")]
             public string VendorName { get; set; }
 
-            [Option("EtlLibraryPath", Required = false, HelpText = "Path to the library with Vendor definition")]
+            [Option("EtlLibraryPath", Required = false, HelpText = "[Obsolete, only VendorName is required] Path to the library with Vendor definition")]
             public string EtlLibraryPath { get; set; } = "";
 
             [Option("ContinueLoadFromChunk", Required = false, HelpText = "If >0, then chunk generation and previous chunks processing are skipped")]
@@ -213,8 +214,27 @@ namespace org.ohdsi.cdm.RunLocal
                 Console.WriteLine();
 
                 #region vendor
-                Vendor vendor = EtlLibrary.CreateVendorInstance(Directory.GetCurrentDirectory(), opts.VendorName)
-                    ?? throw new NoNullAllowedException("Failed to setup the vendor!");
+                Vendor vendor = opts.VendorName switch
+                {
+                    "CDM" => new EtlTransformation.CDM.CdmPersonBuilder.CdmVendor(),
+                    "Cprd" => new EtlTransformation.CPRD.CprdPersonBuilder.CprdVendor(),
+                    "CprdAurum" => new EtlTransformation.CprdAurum.CprdAurumPersonBuilder.CprdAurumVendor(),
+                    "CprdHES" => new EtlTransformation.CprdHES.CprdHESPersonBuilder.CprdHESVendor(),
+                    "Era" => new EtlTransformation.Era.EraPersonBuilder.EraVendor(),
+                    "HealthVerity" => new EtlTransformation.HealthVerity.HealthVerityPersonBuilder.HealthVerityVendor(),
+                    "OptumExtendedSES" => new EtlTransformation.OptumExtended.OptumExtendedPersonBuilder.OptumExtendedSESVendor(),
+                    "OptumExtendedDOD" => new EtlTransformation.OptumExtended.OptumExtendedPersonBuilder.OptumExtendedDODVendor(),
+                    "OptumPanther" => new EtlTransformation.OptumPanther.OptumPantherPersonBuilder.OptumPantherVendor(),
+                    "JMDC" => new EtlTransformation.JMDC.JmdcPersonBuilder.JmdcVendor(),
+                    "PregnancyAlgorithm" => new EtlTransformation.PA.PregnancyAlgorithmPersonBuilder.PregnancyAlgorithmVendor(),
+                    "Premier" => new EtlTransformation.Premier.PremierPersonBuilder.PremierVendor(),
+                    "Truven_MDCD" => new EtlTransformation.Truven.TruvenPersonBuilder.Truven_MDCDVendor(),
+                    "Truven_MDCR" => new EtlTransformation.Truven.TruvenPersonBuilder.Truven_MDCRVendor(),
+                    "Truven_CCAE" => new EtlTransformation.Truven.TruvenPersonBuilder.Truven_CCAEVendor(),
+
+                    _ => EtlLibrary.CreateVendorInstance(Directory.GetCurrentDirectory(), opts.VendorName)
+                    ?? throw new NoNullAllowedException("Failed to setup the vendor!")
+                };
 
                 if (!IsVendorWellInitialized(vendor))
                     throw new Exception("The Vendor has not been properly initialized!");
@@ -304,6 +324,9 @@ namespace org.ohdsi.cdm.RunLocal
 
         static bool IsVendorWellInitialized(Vendor vendor)
         {
+            if(vendor == null)
+                throw new ArgumentNullException(nameof(vendor));
+
             string normalize(string x) => x.ToLower().Split('v').Last().Replace(".", "");
             var cdmV = normalize(vendor.CdmVersion.ToString());
             var descV = normalize(vendor.Description);
@@ -311,28 +334,6 @@ namespace org.ohdsi.cdm.RunLocal
                 return false;
 
             return true;
-        }
-
-        static string[] ReadSettingsFromFile()
-        {
-            Console.WriteLine("No command line arguments were specified! Trying to read options from params.txt file!");
-
-            var paramsFile = Path.Combine(Directory.GetCurrentDirectory(), "params.txt");
-            if (!File.Exists(paramsFile))
-                throw new IOException("params.txt file does not exist!");
-
-            var text = File.ReadAllText(paramsFile);
-            var paramsLines = text
-                .Replace("\"", "")
-                .Split(new[] { "--" }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => s.Trim().Replace("\\\\", "\\")) //these get doubled for some reason while in double quotes
-                .Select(s => s.Contains("=") ? "--" + s : s)
-                .Where(s => s != "--RunLocal")
-                .Prepend("RunLocal")
-                .Distinct()
-                .ToArray();
-
-            return paramsLines;
         }
     }
 }

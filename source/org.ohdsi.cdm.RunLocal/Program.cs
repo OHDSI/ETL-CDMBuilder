@@ -136,6 +136,7 @@ namespace org.ohdsi.cdm.RunLocal
         static void Main(string[] args)
         {
             Console.WriteLine($"\r\n\r\n==========START - {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}==========");
+            Console.WriteLine($"Current process id = " + Process.GetCurrentProcess().Id + " - " + Process.GetCurrentProcess().ProcessName);
             if (args.Length == 0)
             {
                 Console.WriteLine("The arguments must be provided! For an example, see the file Bats/RunLocalTemplate.bat!");

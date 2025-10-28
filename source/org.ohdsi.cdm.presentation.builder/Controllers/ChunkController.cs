@@ -34,49 +34,54 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
             _dbSource.CreateIndexesChunkTable(chunksSchema);
 
-            var personIds = new List<ChunkRecord>();
+            var personKeysByChunks = GetPersonKeys()
+                    .OrderBy(s => s.PersonId)
+                    .Chunk(Settings.Current.Building.ChunkSize)
+                    .ToList();
+            var persons = personKeysByChunks
+                .SelectMany((s, i) =>
+                    s.Select(a => new ChunkRecord()
+                    {
+                        PersonId = a.PersonId,
+                        PersonSource = a.PersonSource,
+                        Id = i
+                    }))
+                .ToList();
+
+            var chunksCount = persons.Select(s => s.Id).DistinctBy(s => s).Count();
+            if (chunksCount < persons.Count / Settings.Current.Building.ChunkSize)
+                throw new Exception("Failed to create correct number of chunks!");
 
             ISaver frameworkSaver =  Settings.Current.Building.SourceEngine.GetSaver();
             var saver = CdmFrameworkImport.Savers.Saver.GetSaverFromFrameworkSaver(frameworkSaver);
-            //debug saver._connection is null now
-
             using (saver)
             {
-                personIds = GetPersonKeys().OrderBy(s => s.PersonId).ToList();
-                for (int i = 0; i < personIds.Count; i++)
+                try
                 {
-                    var chunkId = Math.Floor((double)i / (double)Settings.Current.Building.ChunkSize);
-                    var chunkPerson = personIds[i];
-                    chunkPerson.Id = Convert.ToInt32(chunkId);
+                    var createdSaver = saver.Create(Settings.Current.Building.SourceConnectionString);
+                    var index = 0; //not used in the function
+                    createdSaver.AddChunk(persons, index, chunksSchema);
+                    createdSaver.Commit();
                 }
-
-                if (personIds.Count > 0)
-                    try
-                    {
-                        var createdSaver = saver.Create(Settings.Current.Building.SourceConnectionString);
-                        createdSaver.AddChunk(personIds, 0, chunksSchema);
-                        createdSaver.Commit();
-                    }
-                    catch (Exception e)
-                    {
-                        throw;
-                    }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Chunks have not been properly created!");
+                    throw;
+                }
             }
-
-            int chunksCount = personIds.Count / Settings.Current.Building.ChunkSize;
 
             var elapsedSeconds = Math.Round((double)sw.ElapsedMilliseconds / 1000, 3);
             var culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
             culture.NumberFormat.NumberGroupSeparator = " ";
-            Console.WriteLine($"Chunk ids have been generated and saved - {elapsedSeconds}s");
-            Console.WriteLine($"Persons count = {personIds.Count.ToString(culture)}"
-                + $" | Chunk size = {Settings.Current.Building.ChunkSize.ToString(culture)}"
+            Console.WriteLine($"Chunk ids have been generated and saved - { elapsedSeconds }s");
+            Console.WriteLine($"Persons count = { persons.Count.ToString(culture) }"
+                + $" | Chunk size = { Settings.Current.Building.ChunkSize.ToString(culture) }"
                 + $" | Chunks count = { chunksCount }");
 
             return chunksCount;
         }
 
-        public IEnumerable<ChunkRecord> GetPersonKeys()
+        public IEnumerable<(long PersonId, string PersonSource)> GetPersonKeys()
         {            
             var query = Utility.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess, Settings.Current.Building.SourceEngine.Database, Settings.Current.Building.BatchScript, Settings.Current.Building.SourceSchema, Settings.Current.Building.SourceSchema, Settings.Current.Building.VendorToProcess.PersonTableName);
 
@@ -88,13 +93,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 long personId = long.Parse(reader[0].ToString().Trim());
                 string personSource = reader[1].ToString().Trim();
 
-                ChunkRecord chunkRecord = new ChunkRecord()
-                {
-                    PersonId = personId,
-                    PersonSource = personSource,
-                };
-
-                yield return chunkRecord;
+                yield return new (personId, personSource);
             }
         }
     }

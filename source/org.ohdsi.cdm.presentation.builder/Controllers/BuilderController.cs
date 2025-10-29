@@ -246,9 +246,12 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
                     var total = Settings.Current.Building.ChunksCount * Settings.Current.Building.ChunkSize;
                     var overallTask = ctx.AddTask($"Processing {Settings.Current.Building.ChunksCount} chunks", maxValue: total);
+                    
+                    var startChunkId = Settings.Current.Building.ContinueLoadFromChunk;
+                    if (startChunkId > 0)
+                        overallTask.Increment(Settings.Current.Building.ChunkSize * startChunkId);
                 
                     //process the 1st chunk separately to get max memory usage
-                    var startChunkId = Settings.Current.Building.ContinueLoadFromChunk;
                     var startChunkTask = ctx.AddTask($"Chunk {startChunkId}", maxValue: Settings.Current.Building.ChunkSize);
                     ProcessChunkId(startChunkId, startChunkTask, overallTask, saveLock);
                     if (Settings.Current.Building.ChunksCount == 1)

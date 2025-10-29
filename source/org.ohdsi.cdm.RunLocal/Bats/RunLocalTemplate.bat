@@ -35,7 +35,11 @@ org.ohdsi.cdm.RunLocal.exe ^
   --VocabularyPassword="" ^
   --EtlLibraryPath="" ^
   --ChunkSize="1000" ^
-  --ContinueLoadFromChunk="0"
+  --ContinueLoadFromChunk="0" ^
+  --QueryTriesAmount="5" ^
+  --QueryTriesDelaySeconds="300" ^
+  --MaxMemoryBudgetMb="20000" ^
+  --MemoryPerChunkMarginPercent="5"
 echo.
 echo [INFO] Finished with code %ERRORLEVEL%
 pause

@@ -26,7 +26,19 @@ namespace org.ohdsi.cdm.RunLocal
             public string ContinueLoadFromChunk { get; set; } = "";
 
             [Option("ChunkSize", Required = false, HelpText = "Amount of Persons to process in one chunk")]
-            public string ChunkSize { get; set; } = "10000";
+            public string ChunkSize { get; set; } = "1000";
+
+            [Option("QueryTriesAmount", Required = false, HelpText = "If query fails try again the required amounth of times")]
+            public string QueryTriesAmount { get; set; } = "5";
+
+            [Option("QueryTriesDelaySeconds", Required = false, HelpText = "Wait this time before trying again")]
+            public string QueryTriesDelaySeconds { get; set; } = "300";
+
+            [Option("MaxMemoryBudgetMb", Required = false, HelpText = "How much memory may be used for loading chunks in parallel. To turn off parallellism, set MaxMemoryBudgetMb to 0. No parallellisn if chunks are too big.")]
+            public string MaxMemoryBudgetMb { get; set; } = "4000";
+
+            [Option("MemoryPerChunkMarginPercent", Required = false, HelpText = "Must be more than or equal to 0. Chunk loading is considered to take more memory than actual by this amount when calculating possible degree of parallelism. Helps to avoid memory issues")]
+            public string MemoryPerChunkMarginPercent { get; set; } = "5";
 
 
             #region source
@@ -187,6 +199,10 @@ namespace org.ohdsi.cdm.RunLocal
                 Console.WriteLine($"EtlLibraryPath: {etlLibraryPath}");
                 Console.WriteLine($"ContinueLoadFromChunk: {opts.ContinueLoadFromChunk}");
                 Console.WriteLine($"ChunkSize: {opts.ChunkSize}");
+                Console.WriteLine($"QueryTriesAmount: {opts.QueryTriesAmount}");
+                Console.WriteLine($"QueryTriesDelaySeconds: {opts.QueryTriesDelaySeconds}");
+                Console.WriteLine($"MaxMemoryBudgetMb: {opts.MaxMemoryBudgetMb}");
+                Console.WriteLine($"MemoryPerChunkMarginPercent: {opts.MemoryPerChunkMarginPercent}");
 
                 Console.WriteLine($"SourceEngine: {opts.SourceEngine}");
                 Console.WriteLine($"SourceServer: {opts.SourceServer}");
@@ -223,7 +239,19 @@ namespace org.ohdsi.cdm.RunLocal
                     continueLoadFromChunk = 0;
 
                 if (!int.TryParse(opts.ChunkSize, out int chunkSize))
-                    chunkSize = 0;
+                    chunkSize = 1000;
+
+                if (!int.TryParse(opts.QueryTriesAmount, out int queryTriesAmount))
+                    queryTriesAmount = 5;
+
+                if (!int.TryParse(opts.QueryTriesDelaySeconds, out int queryTriesDelaySeconds))
+                    queryTriesDelaySeconds = 60;
+
+                if (!int.TryParse(opts.MaxMemoryBudgetMb, out int maxMemoryBudgetMb))
+                    maxMemoryBudgetMb = 5000;
+
+                if (!int.TryParse(opts.MemoryPerChunkMarginPercent, out int memoryPerChunkMarginPercent))
+                    memoryPerChunkMarginPercent = 5;
 
                 //create instance, nothing drastic is done at init, properties are copied at BuildingSettings properties Set
                 //these properties must be filled at the moment of the interaction with the db
@@ -231,7 +259,8 @@ namespace org.ohdsi.cdm.RunLocal
 
                 Settings.Current = new Settings()
                 {
-                    Building = new BuildingSettings(sourceEngine, cdmEngine, vocabEngine, vendor, continueLoadFromChunk, chunkSize)
+                    Building = new BuildingSettings(sourceEngine, cdmEngine, vocabEngine, vendor, continueLoadFromChunk, 
+                        chunkSize, queryTriesAmount, queryTriesDelaySeconds, maxMemoryBudgetMb, memoryPerChunkMarginPercent)
                     {
                         Batches = 1,
 

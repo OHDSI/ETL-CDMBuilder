@@ -24,9 +24,9 @@ namespace org.ohdsi.cdm.presentation.builder
         [XmlIgnore]
         public int ContinueLoadFromChunk { get; protected set; }
         [XmlIgnore]
-        public int MaxMemoryBudgetMb => int.Parse(ConfigurationManager.AppSettings["MaxMemoryBudgetMb"]);
+        public int MaxMemoryBudgetMb { get; protected set; }
         [XmlIgnore]
-        public int MemoryPerChunkMarginPercent => int.Parse(ConfigurationManager.AppSettings["MemoryPerChunkMarginPercent"]);
+        public int MemoryPerChunkMarginPercent { get; protected set; }
         public Building BuildingState { get; set; }
         public string RawSourceConnectionString { get; set; }
         public string RawDestinationConnectionString { get; set; }
@@ -75,10 +75,10 @@ namespace org.ohdsi.cdm.presentation.builder
         public string BatchScript { get; set; }
 
         [XmlIgnore]
-        public int QueryTriesAmount => int.Parse(ConfigurationManager.AppSettings["QueryTriesAmount"]);
+        public int QueryTriesAmount { get; protected set; }
 
         [XmlIgnore]
-        public int QueryTriesDelaySeconds => int.Parse(ConfigurationManager.AppSettings["QueryTriesDelaySeconds"]);
+        public int QueryTriesDelaySeconds { get; protected set; }
 
         [XmlIgnore]
         public IDatabaseEngine SourceEngine { get; private set; }
@@ -185,7 +185,8 @@ namespace org.ohdsi.cdm.presentation.builder
         public BuildingSettings() { }
 
         public BuildingSettings(IDatabaseEngine sourceDatabaseEngine, IDatabaseEngine cdmDatabaseEngine, 
-            IDatabaseEngine vocabularyDatabaseEngine, Vendor vendor, int continueLoadFromChunk, int chunkSize)
+            IDatabaseEngine vocabularyDatabaseEngine, Vendor vendor, int continueLoadFromChunk, int chunkSize,
+            int queryTriesAmount, int queryTriesDelaySeconds, int maxMemoryBudgetMb, int memoryPerChunkMarginPercent)
         {
             BuildingState = new Building();
             ChunksCount = 0;
@@ -196,6 +197,10 @@ namespace org.ohdsi.cdm.presentation.builder
             VendorToProcess = vendor;
             ContinueLoadFromChunk = continueLoadFromChunk;
             ChunkSize = chunkSize;
+            QueryTriesAmount = queryTriesAmount;
+            QueryTriesDelaySeconds = queryTriesDelaySeconds;
+            MaxMemoryBudgetMb = maxMemoryBudgetMb;
+            MemoryPerChunkMarginPercent = memoryPerChunkMarginPercent;
             SetVendorSettings(sourceDatabaseEngine.Database.ToName());
         }
 
@@ -288,7 +293,7 @@ namespace org.ohdsi.cdm.presentation.builder
                 }
             }
             else
-                Settings.Current.Building = new BuildingSettings(SourceEngine, CdmEngine, VocabularyEngine, VendorToProcess, 0, 10000);
+                Settings.Current.Building = new BuildingSettings(SourceEngine, CdmEngine, VocabularyEngine, VendorToProcess, 0, 10000, 5, 60, 5000, 5);
         }
 
         public void Reset()

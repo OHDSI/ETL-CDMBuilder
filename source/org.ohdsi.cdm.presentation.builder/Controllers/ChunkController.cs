@@ -78,6 +78,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 + $" | Chunk size = { Settings.Current.Building.ChunkSize.ToString(culture) }"
                 + $" | Chunks count = { chunksCount }");
 
+            Settings.Current.Building.PersonsCount = persons.Count;
+
             return chunksCount;
         }
 

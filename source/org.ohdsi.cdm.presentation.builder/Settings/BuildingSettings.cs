@@ -52,6 +52,7 @@ namespace org.ohdsi.cdm.presentation.builder
 
 
         public int ChunksCount { get; set; }
+        public int PersonsCount { get; set; }
 
         [XmlIgnore]
         public Vendor VendorToProcess { get; set; }

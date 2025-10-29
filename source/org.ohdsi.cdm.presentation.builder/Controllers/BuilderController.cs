@@ -227,7 +227,10 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             Logger.Write(null, Logger.LogMessageTypes.Info,
                 "\r\n==================== Conversion to CDM has been started ====================");
             Logger.Write(null, Logger.LogMessageTypes.Info, "Console window should not be resized, lest the earlier messages are erased.");
-            Logger.Write(null, Logger.LogMessageTypes.Info, $"Maximum memory allocation for multithreading is {Settings.Current.Building.MaxMemoryBudgetMb} mb.");
+            Logger.Write(null, Logger.LogMessageTypes.Info,
+                $"Maximum memory allocation for multithreading is {Settings.Current.Building.MaxMemoryBudgetMb} mb. " +
+                $"Memory margin is {Settings.Current.Building.MemoryPerChunkMarginPercent}%.");
+            Logger.Write(null, Logger.LogMessageTypes.Info, $"Starting loading from chunk {Settings.Current.Building.ContinueLoadFromChunk}.");
 
             AnsiConsole.Progress()
                 .AutoClear(false)
@@ -238,14 +241,14 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     new ProgressBarColumn(),
                     new PercentageColumn(),
                     new SpinnerColumn(),
-                    new RemainingTimeColumn(),
+                    new RemainingTimeNewColumn(),
                     new MemoryColumn())
                 .Start(ctx =>
                 {
                     ctx.Refresh();
 
                     var total = Settings.Current.Building.ChunksCount * Settings.Current.Building.ChunkSize;
-                    var overallTask = ctx.AddTask($"Processing {Settings.Current.Building.ChunksCount} chunks", maxValue: total);
+                    var overallTask = ctx.AddTask($"Processing \n{Settings.Current.Building.ChunksCount} \nchunks", maxValue: total);
                     
                     var startChunkId = Settings.Current.Building.ContinueLoadFromChunk;
                     if (startChunkId > 0)
@@ -333,6 +336,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                             Settings.Current.Save(false);
                             chunk = null;
                             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, blocking: true, compacting: true);
+                            RemainingTimeNewColumn.IncrementPersonsProcessed(Settings.Current.Building.ChunkSize);
                         }
                     }
                     return; // success, no need to retry processing

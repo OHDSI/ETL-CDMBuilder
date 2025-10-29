@@ -6,6 +6,7 @@ using org.ohdsi.cdm.framework.common.Utility;
 using org.ohdsi.cdm.presentation.builder.Base.DbDestinations;
 using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
 using Spectre.Console;
+using System.Collections.Concurrent;
 using System.Data;
 using System.Data.Odbc;
 using System.Diagnostics;
@@ -35,6 +36,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         private readonly ChunkController _chunkController;
         private readonly string _etlLibraryPath;
+
+        private ConcurrentBag<int> _processedChunkIds = new ConcurrentBag<int>();
 
         #endregion
 
@@ -335,8 +338,12 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                             chunk.Save();
                             Settings.Current.Save(false);
                             chunk = null;
-                            var path = Path.Combine(Directory.GetCurrentDirectory(), "lastProcessedChunkId.txt");
-                            File.WriteAllText(path, chunkId.ToString());
+
+                            _processedChunkIds.Add(chunkId);
+                            var path = Path.Combine(Directory.GetCurrentDirectory(), "LastProcessedChunkId.txt");
+                            var info = GetProcessedChunksInfo();
+                            File.WriteAllText(path, info);
+                            
                             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, blocking: true, compacting: true);
                             RemainingTimeNewColumn.IncrementPersonsProcessed(Settings.Current.Building.ChunkSize);
                         }
@@ -353,6 +360,28 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                         $"\r\nCommencing try #{i + 2}/{maxTries}.\r\n{e.Message}\r\n{e.InnerException?.Message ?? ""}\r\n");
                 }
             }
+        }
+
+        string GetProcessedChunksInfo()
+        {
+            var sortedList = _processedChunkIds.OrderBy(s => s).ToList();
+            var beforeGaps = new List<int>();
+
+            for (int i = 0; i < sortedList.Count - 1; i++)
+            {                
+                if (sortedList[i + 1] != sortedList[i] + 1)
+                {
+                    beforeGaps.Add(sortedList[i]);
+                }
+            }
+
+            if (sortedList.Any())
+            {
+                beforeGaps.Add(sortedList.Last());
+            }
+
+            var res = string.Join("\r\n", beforeGaps);
+            return res;
         }
 
         #endregion

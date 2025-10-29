@@ -30,7 +30,7 @@ public class MemoryColumn : ProgressColumn
         if (new[] { "Processing", "chunks"}.All(s => task.Description.Contains(s)))
         {
             string text = $" Memory: Process /  GC" +
-                $"\r\nCurrent[yellow]:{mbMemoryProcess,5:F0} MB[/] / {mbMemoryGC,5:F0} MB. " +
+                $"\r\nCurrent[yellow]:{mbMemoryProcess,5:F0} MB[/] / {mbMemoryGC,5:F0} MB" +
                 $"\r\n   Peak[red]:{MaxMbMemoryProcess,5:F0} MB[/] / {MaxMbMemoryGC,5:F0} MB";
 
             return new Markup(text);

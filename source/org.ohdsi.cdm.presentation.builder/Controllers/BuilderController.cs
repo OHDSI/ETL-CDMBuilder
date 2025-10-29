@@ -248,7 +248,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     ctx.Refresh();
 
                     var total = Settings.Current.Building.ChunksCount * Settings.Current.Building.ChunkSize;
-                    var overallTask = ctx.AddTask($"Processing \n{Settings.Current.Building.ChunksCount} \nchunks", maxValue: total);
+                    var overallTask = ctx.AddTask($"Processing {Settings.Current.Building.ChunksCount} chunks", maxValue: total);
                     
                     var startChunkId = Settings.Current.Building.ContinueLoadFromChunk;
                     if (startChunkId > 0)

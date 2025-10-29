@@ -335,6 +335,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                             chunk.Save();
                             Settings.Current.Save(false);
                             chunk = null;
+                            var path = Path.Combine(Directory.GetCurrentDirectory(), "lastProcessedChunkId.txt");
+                            File.WriteAllText(path, chunkId.ToString());
                             GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, blocking: true, compacting: true);
                             RemainingTimeNewColumn.IncrementPersonsProcessed(Settings.Current.Building.ChunkSize);
                         }

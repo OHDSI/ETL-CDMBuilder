@@ -15,6 +15,8 @@ namespace org.ohdsi.cdm.presentation.builder.Base
         private readonly int _chunkId;
         private readonly Func<IPersonBuilder> _createPersonBuilder;
         private readonly framework.desktop.Settings.BuildingSettings _frameworkBuildingSettings; //this is here for debug purposes to quickly check it
+
+        private DatabaseChunkPartAdapter _databaseChunkPartAdapter;
         #endregion
 
         #region Constructors
@@ -28,14 +30,13 @@ namespace org.ohdsi.cdm.presentation.builder.Base
         #endregion
 
         #region Methods
-        public void Process(ProgressTask progressTask, ProgressTask overallTask)
+        public void Calculate(ProgressTask progressTask, ProgressTask overallTask)
         {
-            DatabaseChunkPartAdapter part;
             try
             {
-                part = new DatabaseChunkPartAdapter(_createPersonBuilder, _chunkId, "0", 0);
+                _databaseChunkPartAdapter = new DatabaseChunkPartAdapter(_createPersonBuilder, _chunkId, "0", 0);
 
-                var result = part.Load();
+                var result = _databaseChunkPartAdapter.Load();
 
                 if (result.Value != null)
                 {
@@ -43,13 +44,27 @@ namespace org.ohdsi.cdm.presentation.builder.Base
                     throw result.Value;
                 }
 
-                part.Build(progressTask, overallTask);
-                part.Save();
+                _databaseChunkPartAdapter.Build(progressTask, overallTask);
             }
             catch (Exception e)
             {
                 Logger.WriteError(_chunkId, e);
-                Logger.Write(_chunkId, Logger.LogMessageTypes.Error, "ChunkId=" + _chunkId + ". Peak memory=" + MemoryColumn.MaxMemoryMb + "/" + MemoryColumn.MaxMemoryGC);
+                Logger.Write(_chunkId, Logger.LogMessageTypes.Error, "ChunkId=" + _chunkId + ". Peak memory=" + MemoryColumn.MaxMbMemoryProcess + "/" + MemoryColumn.MaxMbMemoryGC);
+
+                throw;
+            }
+        }
+
+        public void Save()
+        {
+            try
+            {
+                _databaseChunkPartAdapter.Save();
+            }
+            catch (Exception e)
+            {
+                Logger.WriteError(_chunkId, e);
+                Logger.Write(_chunkId, Logger.LogMessageTypes.Error, "ChunkId=" + _chunkId + ". Peak memory=" + MemoryColumn.MaxMbMemoryProcess + "/" + MemoryColumn.MaxMbMemoryGC);
 
                 throw;
             }

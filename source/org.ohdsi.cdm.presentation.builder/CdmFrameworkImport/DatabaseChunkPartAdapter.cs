@@ -94,9 +94,6 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                 }
             _databaseChunkPart.PersonBuilders.Clear();
             _databaseChunkPart.PersonBuilders = null;
-
-            //Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
-            //    $"ChunkId={_chunkId} has been built - {timer.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb | {_databaseChunkPart.ChunkData.Persons.Count} persons");
         }
 
         public void Save()
@@ -121,8 +118,6 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                     createdSaver.Save(_databaseChunkPart.ChunkData, _offsetManager);
                 }
                 stopwatch.Stop();
-                //Logger.Write(_chunkId, Logger.LogMessageTypes.Info,
-                //    $"ChunkId={_chunkId} was saved - {stopwatch.ElapsedMilliseconds} ms | {GC.GetTotalMemory(false) / 1024f / 1024f} Mb");
                 _databaseChunkPart.ChunkData.Clean();
                 GC.Collect();
             }
@@ -138,13 +133,14 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
             var building = FrameworkSettings.Settings.Current.Building;
 
             string sourceQueryDefinitionSql = "";
+            string translatedSql = "";
             string sourceConnectionString = "";
             string sourceEngine = "";
 
             try
             {
-                var sourceQueryDefinitionTyped = new QueryDefinitionAdapter(sourceQueryDefinition);
-                if (sourceQueryDefinitionTyped.HasAnyProvidersLocationsCareSites)
+                var sourceQueryDefinitionAdapter = new QueryDefinitionAdapter(sourceQueryDefinition);
+                if (sourceQueryDefinitionAdapter.HasAnyProvidersLocationsCareSites)
                     return;
 
                 #region debug remove this after fixing core package
@@ -158,14 +154,10 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                     return;
                 #endregion
 
-                // this is a workaround to pass sourceQueryDefinition with a correct code to building.SourceEngine.ReadChunkData()
-                // without this chunkId = {0} filter becomes 0 for all chunks and all iterations
-                var sourceQueryDefinitionQueryTextBackup = sourceQueryDefinition.Query.Text;
-
-                sourceQueryDefinitionSql = sourceQueryDefinitionTyped.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
-                sourceQueryDefinition.Query.Text = Utility.GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql,
-                    building.SourceSchemaName, building.SourceSchemaName, sourceQueryDefinition.FileName, _chunkId.ToString());
-                if (string.IsNullOrEmpty(sourceQueryDefinition.Query.Text))
+                sourceQueryDefinitionSql = sourceQueryDefinitionAdapter.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
+                translatedSql = Utility.GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql,
+                    building.SourceSchemaName, building.SourceSchemaName, sourceQueryDefinitionAdapter.FileName, _chunkId.ToString());
+                if (string.IsNullOrEmpty(translatedSql))
                     return;
 
                 sourceConnectionString = building.SourceConnectionString;
@@ -174,16 +166,14 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                 using (var dbConnection = SqlConnectionHelper.OpenOdbcConnection(building.SourceConnectionString))
                 //using (IDbConnection dbConnection = building.SourceEngine.GetConnection(building.SourceConnectionString))
                 {
-                    using IDbCommand cmd = building.SourceEngine.GetCommand(sourceQueryDefinition.Query.Text, dbConnection);
+                    using IDbCommand cmd = building.SourceEngine.GetCommand(translatedSql, dbConnection);
                     cmd.CommandTimeout = 6000;
-                    using IDataReader dataReader = building.SourceEngine.ReadChunkData(dbConnection, cmd, sourceQueryDefinition, _chunkId, _prefix);
+                    using IDataReader dataReader = building.SourceEngine.ReadChunkData(dbConnection, cmd, sourceQueryDefinitionAdapter, _chunkId, _prefix);
                     while (dataReader.Read())
                     {
-                        _databaseChunkPart.PopulateData(sourceQueryDefinition, dataReader);
+                        _databaseChunkPart.PopulateData(sourceQueryDefinitionAdapter, dataReader);
                     }
                 }
-
-                sourceQueryDefinition.Query.Text = sourceQueryDefinitionQueryTextBackup;
             }
             catch (Exception ex)
             {
@@ -194,7 +184,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                 stringBuilder.AppendLine("SourceEngine=" + sourceEngine);
                 stringBuilder.AppendLine("SourceConnectionString=" + sourceConnectionString);
                 stringBuilder.AppendLine("Query:");
-                stringBuilder.AppendLine(sourceQueryDefinition.Query.Text);
+                stringBuilder.AppendLine(translatedSql);
                 Logger.WriteError(_chunkId, new Exception(stringBuilder.ToString(), ex));
 
                 throw;

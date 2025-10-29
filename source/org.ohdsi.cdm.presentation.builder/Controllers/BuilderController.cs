@@ -221,70 +221,128 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
             vocabulary.Fill(false);
 
+            var degreeParallel = Math.Max(1, Environment.ProcessorCount - 1);
+            var saveLock = new object();
+
             Logger.Write(null, Logger.LogMessageTypes.Info,
                 "\r\n==================== Conversion to CDM has been started ====================");
             Logger.Write(null, Logger.LogMessageTypes.Info, "Console window should not be resized, lest the earlier messages are erased.");
-            //todo make DI instead of passing it to methods
+
             AnsiConsole.Progress()
-                    .AutoClear(false)
-                    .HideCompleted(true)
-                    .Columns(
-                        new TaskDescriptionColumn(),
-                        new ElapsedTimeColumn(),
-                        new ProgressBarColumn(),
-                        new PercentageColumn(),
-                        new SpinnerColumn(),
-                        new RemainingTimeColumn(),
-                        new MemoryColumn())
-                    .Start(ctx =>
+                .AutoClear(false)
+                .HideCompleted(true)
+                .Columns(
+                    new TaskDescriptionColumn(),
+                    new ElapsedTimeColumn(),
+                    new ProgressBarColumn(),
+                    new PercentageColumn(),
+                    new SpinnerColumn(),
+                    new RemainingTimeColumn(),
+                    new MemoryColumn())
+                .Start(ctx =>
+                {
+                    ctx.Refresh();
+
+                    var total = Settings.Current.Building.ChunksCount * Settings.Current.Building.ChunkSize;
+                    var overallTask = ctx.AddTask($"Processing {Settings.Current.Building.ChunksCount} chunks", maxValue: total);
+                
+                    //process the 1st chunk separately to get max memory usage
+                    var startChunkId = Settings.Current.Building.ContinueLoadFromChunk;
+                    var startChunkTask = ctx.AddTask($"Chunk {startChunkId}", maxValue: Settings.Current.Building.ChunkSize);
+                    ProcessChunkId(startChunkId, startChunkTask, overallTask, saveLock);
+                    if (Settings.Current.Building.ChunksCount == 1)
+                        return;
+
+                    //initial chunk has already been dumped and memory counters triggered
+                    var initialMemoryLoad = MemoryColumn.CurrentMbMemoryGC; // only consider actual usage, not OS allocations. Mostly for Vocabulary
+                    var maxThreadCountByMemoryLimits = GetMaxThreadCountByMemoryLimits(initialMemoryLoad);
+                    degreeParallel = Math.Min(degreeParallel, maxThreadCountByMemoryLimits);
+
+                    //start from 2nd chunk
+                    int first = startChunkId + 1;
+                    int lastExclusive = Settings.Current.Building.ChunksCount;
+                    int nextId = first - 1;
+
+                    var workers = new List<Task>(degreeParallel);
+                    for (int w = 0; w < degreeParallel; w++)
                     {
-                        var overallTask = ctx.AddTask($"Processing {Settings.Current.Building.ChunksCount} chunks",
-                            maxValue: Settings.Current.Building.ChunksCount * Settings.Current.Building.ChunkSize);
-
-                        for (int chunkId = 0; chunkId < Settings.Current.Building.ChunksCount; chunkId++)
+                        workers.Add(Task.Run(() =>
                         {
-                            if (chunkId < Settings.Current.Building.ContinueLoadFromChunk)
-                            {
-                                overallTask.Increment(Settings.Current.Building.ChunkSize);
-                                continue;
-                            }
+                            while (true)
+                            {                                
+                                int chunkId = Interlocked.Increment(ref nextId);
+                                if (chunkId >= lastExclusive) break;
 
-                            var chunkTask = ctx.AddTask($"Chunk {chunkId}", maxValue: Settings.Current.Building.ChunkSize);
-                            ProcessChunkId(chunkId, chunkTask, overallTask);                            
-                            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, blocking: true, compacting: true);
-                        }
-                    });
+                                if (chunkId < Settings.Current.Building.ContinueLoadFromChunk)
+                                {
+                                    overallTask.Increment(Settings.Current.Building.ChunkSize);
+                                    continue;
+                                }
+
+                                var chunkTask = ctx.AddTask($"Chunk {chunkId}", maxValue: Settings.Current.Building.ChunkSize);
+                                ProcessChunkId(chunkId, chunkTask, overallTask, saveLock);                                
+                            }
+                        }));
+                    }
+                    Task.WaitAll(workers.ToArray());
+                });
+
+            //avoid possible conflicts between Console and AnsiConsole
+            for (int i = 0; i <= degreeParallel; i++)
+                Console.WriteLine();
         }
 
-        void ProcessChunkId(int chunkId,  ProgressTask chunkTask, ProgressTask overallTask)
+        int GetMaxThreadCountByMemoryLimits(double initialMemoryLoad)
         {
-            DatabaseChunkBuilder chunk;
+            //considering OS memory allocation here will also help to avoid memory errors due to less possible threads
+            var currentPeak = Math.Max(MemoryColumn.MaxMbMemoryProcess, MemoryColumn.MaxMbMemoryGC); 
+            var delta = currentPeak - initialMemoryLoad;
+            var deltaPlusMargin = delta / 100 * (100 + Settings.Current.Building.MemoryPerChunkMarginPercent);
+
+            var unclaimedMemory = Settings.Current.Building.MaxMemoryBudgetMb - currentPeak;
+            var possibleThreadCount = Math.Floor(unclaimedMemory / deltaPlusMargin);
+
+            var res = possibleThreadCount > 1 ? Convert.ToInt32(possibleThreadCount) : 1;
+            return res;
+        }
+
+        void ProcessChunkId(int chunkId, ProgressTask chunkTask, ProgressTask overallTask, object saveLock)
+        {
             var maxTries = Settings.Current.Building.QueryTriesAmount;
             var tryDelaySeconds = Settings.Current.Building.QueryTriesDelaySeconds;
+
             for (int i = 0; i < maxTries; i++)
+            {
                 try
                 {
-                    chunk = new DatabaseChunkBuilder(chunkId, Utility.VendorHelper.CreatePersonBuilder);
+                    var chunk = new DatabaseChunkBuilder(chunkId, Utility.VendorHelper.CreatePersonBuilder);
+
                     using (var connection = new OdbcConnection(Settings.Current.Building.SourceConnectionString))
                     {
                         connection.Open();
-                        chunk.Process(chunkTask, overallTask);
-                    }
 
-                    Settings.Current.Save(false);
-                    break; // success
+                        chunk.Calculate(chunkTask, overallTask);
+
+                        lock (saveLock)
+                        {
+                            chunk.Save();
+                            Settings.Current.Save(false);
+                            chunk = null;
+                            GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, blocking: true, compacting: true);
+                        }
+                    }
+                    return; // success, no need to retry processing
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     if (i >= maxTries - 1)
-                    {
                         throw;
-                    }
-                    chunk = null;
-                    GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced);
+
                     Thread.Sleep(tryDelaySeconds * 1000);
-                    Logger.Write(chunkId, Logger.LogMessageTypes.Warning, "\r\nCommencing try #" + (i + 1) + "/" + (maxTries - 1) + "\r\n\r\n");
+                    Logger.Write(chunkId, Logger.LogMessageTypes.Warning,
+                        $"\r\nCommencing try #{i + 2}/{maxTries}.\r\n{e.Message}\r\n{e.InnerException?.Message ?? ""}\r\n");
                 }
+            }
         }
 
         #endregion

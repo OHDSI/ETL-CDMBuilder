@@ -23,6 +23,10 @@ namespace org.ohdsi.cdm.presentation.builder
         public string Folder { get; protected set; }
         [XmlIgnore]
         public int ContinueLoadFromChunk { get; protected set; }
+        [XmlIgnore]
+        public int MaxMemoryBudgetMb => int.Parse(ConfigurationManager.AppSettings["MaxMemoryBudgetMb"]);
+        [XmlIgnore]
+        public int MemoryPerChunkMarginPercent => int.Parse(ConfigurationManager.AppSettings["MemoryPerChunkMarginPercent"]);
         public Building BuildingState { get; set; }
         public string RawSourceConnectionString { get; set; }
         public string RawDestinationConnectionString { get; set; }

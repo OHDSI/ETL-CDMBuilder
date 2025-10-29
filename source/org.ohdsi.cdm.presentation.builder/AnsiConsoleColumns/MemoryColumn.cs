@@ -5,8 +5,10 @@ using System.Diagnostics;
 namespace org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
 public class MemoryColumn : ProgressColumn
 {
-    public static double MaxMemoryMb { get; protected set; } = 0;
-    public static double MaxMemoryGC { get; protected set; } = 0;
+    public static double MaxMbMemoryProcess { get; protected set; } = 0;
+    public static double MaxMbMemoryGC { get; protected set; } = 0;
+    public static double CurrentMbMemoryProcess { get; protected set; } = 0;
+    public static double CurrentMbMemoryGC { get; protected set; } = 0;
 
     private readonly Process _process = Process.GetCurrentProcess();
 
@@ -14,17 +16,22 @@ public class MemoryColumn : ProgressColumn
     {
         _process.Refresh();
 
-        double memoryMb = _process.WorkingSet64 / 1024.0 / 1024.0;
-        double memoryGC = GC.GetTotalMemory(false) / 1024.0 / 1024.0;
+        double mbMemoryProcess = _process.WorkingSet64 / 1024.0 / 1024.0;
+        double mbMemoryGC = GC.GetTotalMemory(false) / 1024.0 / 1024.0;
 
-        if (memoryMb > MaxMemoryMb)
-            MaxMemoryMb = memoryMb;
-        if(memoryGC > MaxMemoryGC)
-            MaxMemoryGC = memoryGC;
+        if (mbMemoryProcess > MaxMbMemoryProcess)
+            MaxMbMemoryProcess = mbMemoryProcess;
+        if(mbMemoryGC > MaxMbMemoryGC)
+            MaxMbMemoryGC = mbMemoryGC;
 
-        if (task.Description == "Processing chunks...")
+        CurrentMbMemoryGC = mbMemoryGC;
+        CurrentMbMemoryProcess = mbMemoryProcess;
+
+        if (new[] { "Processing", "chunks"}.All(s => task.Description.Contains(s)))
         {
-            string text = $"Memory. [yellow]Current total:{memoryMb,6:F0} MB[/] / GC {memoryGC,4:F0} MB. [red]Peak total:{MaxMemoryMb,6:F0} MB[/] / GC {MaxMemoryGC,4:F0} MB";
+            string text = $" Memory: Process /  GC" +
+                $"\r\nCurrent[yellow]:{mbMemoryProcess,5:F0} MB[/] / {mbMemoryGC,5:F0} MB. " +
+                $"\r\n   Peak[red]:{MaxMbMemoryProcess,5:F0} MB[/] / {MaxMbMemoryGC,5:F0} MB";
 
             return new Markup(text);
         }

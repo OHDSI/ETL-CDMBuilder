@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <None Update="App.config">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Bats\RunLocal_CCAE_Remote.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -1,4 +1,5 @@
 ﻿@echo off
+chcp 65001 > nul
 REM === RunLocal.bat ===
 REM Move to parent directory
 cd ..
@@ -36,7 +37,7 @@ org.ohdsi.cdm.RunLocal.exe ^
   --EtlLibraryPath="" ^
   --ChunkSize="1000" ^
   --ContinueLoadFromChunk="0" ^
-  --QueryTriesAmount="5" ^
+  --QueryTriesAmount="2" ^
   --QueryTriesDelaySeconds="300" ^
   --MaxMemoryBudgetMb="20000" ^
   --MemoryPerChunkMarginPercent="5"

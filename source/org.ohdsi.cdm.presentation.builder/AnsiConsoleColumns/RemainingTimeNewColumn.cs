@@ -1,6 +1,7 @@
 ﻿using org.ohdsi.cdm.presentation.builder;
 using Spectre.Console;
 using Spectre.Console.Rendering;
+using System.Diagnostics;
 
 namespace org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
 
@@ -18,7 +19,7 @@ public class RemainingTimeNewColumn : ProgressColumn
 
     public static DateTime LastChangeTime { get; protected set; }
 
-    public static int AverageSpeedPersonsPerMinute { get; protected set; }
+    public static double AverageSecondsPerPerson { get; protected set; }
 
     public static TimeSpan TimeToFinishEstimated { get; protected set; } = new TimeSpan();
 
@@ -36,12 +37,19 @@ public class RemainingTimeNewColumn : ProgressColumn
             var processed = PersonsProcessed;
             var now = DateTime.Now;
 
+            #region get AverageSecondsPerPerson
             var timeToCheckAgainst = _personsProcessedPrevious == processed //no person has been processed since the previous time
                 ? LastChangeTime //use the previous time to get the same string
                 : now; //else get actual speed and renew the string
 
             var timeSpentTotal = timeToCheckAgainst - CreationTime;
-            AverageSpeedPersonsPerMinute = timeSpentTotal.TotalMinutes < 1 ? 0 : Convert.ToInt32(processed / timeSpentTotal.TotalMinutes);
+
+            if (processed == 0 || timeSpentTotal.TotalSeconds < 1)
+                AverageSecondsPerPerson = 0;
+            else
+                AverageSecondsPerPerson = timeSpentTotal.TotalSeconds / processed;
+            #endregion
+
             res = GetMarkup(processed, Settings.Current.Building.PersonsCount);
             
             LastChangeTime = now;
@@ -49,8 +57,6 @@ public class RemainingTimeNewColumn : ProgressColumn
         }
         else
         {
-            //always get actual estimation by AverageSpeedPersonsPerMinute
-            var timeSpent = task.ElapsedTime.HasValue ? task.ElapsedTime.Value : new TimeSpan();
             res = GetMarkup(Convert.ToInt32(task.Value), Convert.ToInt32(task.MaxValue));
         }
         return new Markup(res);
@@ -59,8 +65,8 @@ public class RemainingTimeNewColumn : ProgressColumn
     string GetMarkup(int personsProcessed, int personsTotalCount)
     {
         var persons2Process = personsTotalCount - personsProcessed;
-        var minutesLeftForProcessing = AverageSpeedPersonsPerMinute == 0 ? 0 : persons2Process / AverageSpeedPersonsPerMinute;
-        TimeToFinishEstimated = new TimeSpan(0, minutesLeftForProcessing, 0);
+        var secondsLeftForProcessing = Convert.ToInt32(persons2Process * AverageSecondsPerPerson);
+        TimeToFinishEstimated = new TimeSpan(0, 0, secondsLeftForProcessing);
 
         //can't use TotalHours in format masks
         var formated = $"{Convert.ToInt32(TimeToFinishEstimated.TotalHours).ToString().PadLeft(3, '0')}"

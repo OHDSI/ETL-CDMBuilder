@@ -290,11 +290,9 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport.Savers
                 Write(chunk, "COST");
                 Write(chunk, "NOTE");
 
-                if (FrameworkSettings.Settings.Current.Building.Cdm != CdmVersions.V54)
-                {
-                    Write(chunk, "VISIT_DETAIL");
-                    Write(chunk.ChunkId, chunk.SubChunkId, new MetadataDataReader([.. chunk.Metadata.Values]), "METADATA_TMP");
-                }
+                Write(chunk, "VISIT_DETAIL");
+                Write(chunk.ChunkId, chunk.SubChunkId, new MetadataDataReader([.. chunk.Metadata.Values]), "METADATA_TMP");
+
 
                 Write(chunk, "FACT_RELATIONSHIP");
 

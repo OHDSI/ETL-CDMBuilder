@@ -164,8 +164,25 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                 sourceEngine = building.SourceEngine.Database.ToString();
 
                 using (var dbConnection = SqlConnectionHelper.OpenOdbcConnection(building.SourceConnectionString))
-                //using (IDbConnection dbConnection = building.SourceEngine.GetConnection(building.SourceConnectionString))
                 {
+                    if (Settings.Current.Building.SourceEngine.Database == framework.desktop.Enums.Database.Postgre)
+                        try
+                        {
+                            //this is absolutely necessary if a huge table cannot be indexed due to lack of space for data or temp, but it is partitioned
+                            //does not affect the load for non-partitioned tables
+
+                            using IDbCommand cmdPartitionPruning = building.SourceEngine.GetCommand("SET enable_partition_pruning = on", dbConnection);
+                            cmdPartitionPruning.ExecuteNonQuery();
+
+                            using IDbCommand cdmPartitionJoin = building.SourceEngine.GetCommand("SET enable_partitionwise_join = on", dbConnection);
+                            cdmPartitionJoin.ExecuteNonQuery();
+                        }
+                        catch(Exception prepEx)
+                        {
+                            AnsiConsole.WriteException(prepEx, ExceptionFormats.NoStackTrace);
+                            throw;
+                        }
+
                     using IDbCommand cmd = building.SourceEngine.GetCommand(translatedSql, dbConnection);
                     cmd.CommandTimeout = 6000;
                     using IDataReader dataReader = building.SourceEngine.ReadChunkData(dbConnection, cmd, sourceQueryDefinitionAdapter, _chunkId, _prefix);

@@ -1,6 +1,7 @@
 ﻿using org.ohdsi.cdm.framework.desktop;
 using org.ohdsi.cdm.framework.desktop.Savers;
 using org.ohdsi.cdm.presentation.builder.CdmFrameworkImport;
+using org.ohdsi.cdm.presentation.builder.Utility;
 using System.Diagnostics;
 using System.Globalization;
 
@@ -15,7 +16,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             AssignIfNoPersonIdSet,
             AssignAll
         }
-
+                
         private readonly DbSourceAdapter _dbSource;
 
         public ChunkController()
@@ -31,25 +32,26 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             sw.Start();
 
             _dbSource.CreateChunkTable(chunksSchema);
-
-            _dbSource.CreateIndexesChunkTable(chunksSchema);
+            //the table is partitioned for postgre, index creation would be too complex. Also the bottleneck is fact tables, not _chunks
+            if (Settings.Current.Building.SourceEngine.Database != framework.desktop.Enums.Database.Postgre)
+                _dbSource.CreateIndexesChunkTable(chunksSchema);
 
             var personKeysByChunks = GetPersonKeys()
                     .OrderBy(s => s.PersonId)
                     .Chunk(Settings.Current.Building.ChunkSize)
                     .ToList();
-            var persons = personKeysByChunks
-                .SelectMany((s, i) =>
-                    s.Select(a => new ChunkRecord()
-                    {
-                        PersonId = a.PersonId,
-                        PersonSource = a.PersonSource,
-                        Id = i
-                    }))
-                .ToList();
 
-            var chunksCount = persons.Select(s => s.Id).DistinctBy(s => s).Count();
-            if (chunksCount < persons.Count / Settings.Current.Building.ChunkSize)
+            for (int chunkId = 0; chunkId < personKeysByChunks.Count; chunkId++)
+            {
+                for (int i = 0; i < personKeysByChunks[chunkId].Length; i++)
+                {
+                    personKeysByChunks[chunkId][i].Id = chunkId;
+                }
+            }
+
+            var chunksCount = personKeysByChunks.Count;
+            var personsCount = personKeysByChunks.Sum(s => s.Length);
+            if (chunksCount < personKeysByChunks.Sum(s => s.Length) / Settings.Current.Building.ChunkSize)
                 throw new Exception("Failed to create correct number of chunks!");
 
             ISaver frameworkSaver =  Settings.Current.Building.SourceEngine.GetSaver();
@@ -60,7 +62,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 {
                     var createdSaver = saver.Create(Settings.Current.Building.SourceConnectionString);
                     var index = 0; //not used in the function
-                    createdSaver.AddChunk(persons, index, chunksSchema);
+                    var personsAggr = personKeysByChunks.SelectMany(s => s).ToList();
+                    createdSaver.AddChunk(personsAggr, index, chunksSchema);
                     createdSaver.Commit();
                 }
                 catch (Exception e)
@@ -73,19 +76,37 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             var elapsedSeconds = Math.Round((double)sw.ElapsedMilliseconds / 1000, 3);
             var culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
             culture.NumberFormat.NumberGroupSeparator = " ";
-            Console.WriteLine($"Chunk ids have been generated and saved - { elapsedSeconds }s");
-            Console.WriteLine($"Persons count = { persons.Count.ToString(culture) }"
+            Console.WriteLine($"Chunk ids have been generated, saved, and have their hash calculated - { elapsedSeconds }s");
+            Console.WriteLine($"Persons count = { personsCount.ToString(culture) }"
                 + $" | Chunk size = { Settings.Current.Building.ChunkSize.ToString(culture) }"
                 + $" | Chunks count = { chunksCount }");
 
-            Settings.Current.Building.PersonsCount = persons.Count;
+            Settings.Current.Building.PersonsCount = personsCount;
 
             return chunksCount;
         }
 
-        public IEnumerable<(long PersonId, string PersonSource)> GetPersonKeys()
+        IEnumerable<ChunkRecord> GetPersonKeys()
         {            
-            var query = Utility.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess, Settings.Current.Building.SourceEngine.Database, Settings.Current.Building.BatchScript, Settings.Current.Building.SourceSchema, Settings.Current.Building.SourceSchema, Settings.Current.Building.VendorToProcess.PersonTableName);
+            var query = Utility.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess, 
+                Settings.Current.Building.SourceEngine.Database, Settings.Current.Building.BatchScript, 
+                Settings.Current.Building.SourceSchema, Settings.Current.Building.SourceSchema, Settings.Current.Building.VendorToProcess.PersonTableName);
+
+
+            if (Settings.Current.Building.SourceEngine.Database == framework.desktop.Enums.Database.Postgre)
+            {
+                var pkName = VendorHelper.GetVendorPrimaryKeyName();
+                query = "with cte_main_calc as"
+                    + "\r\n("
+                    + "\r\n" + query
+                    + "\r\n)"
+                    
+                    //this magic is required as hashtext by itself can fetch negative numbers and must be cast to uint32
+                    //trying to emulate command partition by hash(id) + modulus and remainder
+                    + $"\r\nselect cmc.*, ((hashtext(cmc.{pkName})::bigint & 4294967295) % {DbSourceAdapter.PartitionCount}) AS partitionId"
+                    + $"\r\nfrom cte_main_calc cmc"
+                    ;
+            }
 
             foreach (var reader in _dbSource.GetPersonKeys(query, Settings.Current.Building.SourceSchema))
             {
@@ -94,8 +115,18 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
                 long personId = long.Parse(reader[0].ToString().Trim());
                 string personSource = reader[1].ToString().Trim();
+                int partitionId = 0;
+                if (Settings.Current.Building.SourceEngine.Database == framework.desktop.Enums.Database.Postgre)
+                    try
+                    {
+                        partitionId = int.Parse(reader[2].ToString().Trim());
+                    }
+                    catch (Exception e)
+                    {
+                        throw;
+                    }
 
-                yield return new (personId, personSource);
+                yield return new ChunkRecord() { PersonId = personId, PersonSource = personSource, PartitionId = partitionId };
             }
         }
     }

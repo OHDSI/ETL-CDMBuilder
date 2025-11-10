@@ -1,8 +1,6 @@
-﻿using org.ohdsi.cdm.framework.common.Base;
-using org.ohdsi.cdm.framework.common.Definitions;
+﻿using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Lookups;
 using org.ohdsi.cdm.framework.common.Omop;
-using org.ohdsi.cdm.framework.common.Utility;
 using org.ohdsi.cdm.presentation.builder.Base.DbDestinations;
 using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
 using Spectre.Console;
@@ -221,6 +219,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
         {
             if (Settings.Current.Building.ChunksCount == 0)
                 Settings.Current.Building.ChunksCount = _chunkController.CreateChunks(chunksSchema);
+
+            var partitionPersons = new Dictionary<int, long>();
 
             vocabulary.Fill(false);
 

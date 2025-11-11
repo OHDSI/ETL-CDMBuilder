@@ -349,9 +349,6 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 executable/Building/
-/source/RunLocal/Properties/launchSettings.json
-/source/RunLocal/params.txt
-source/org.ohdsi.cdm.RunLocal/params.txt
 /source/org.ohdsi.cdm.RunLocal/Properties/launchSettings.json
 /source/org.ohdsi.cdm.RunLocal/Properties/launchSettings.json
-*.bat
+/source/org.ohdsi.cdm.RunLocal/Bats

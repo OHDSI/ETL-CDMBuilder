@@ -49,7 +49,8 @@ namespace org.ohdsi.cdm.presentation.builder.Base
             catch (Exception e)
             {
                 Logger.WriteError(_chunkId, e);
-                Logger.Write(_chunkId, Logger.LogMessageTypes.Error, "ChunkId=" + _chunkId + ". Peak memory=" + MemoryColumn.MaxMbMemoryProcess + "/" + MemoryColumn.MaxMbMemoryGC);
+                string msg = "\r\n\r\nChunkId=" + _chunkId + ". Peak memory=" + MemoryColumn.MaxMbMemoryProcess + "/" + MemoryColumn.MaxMbMemoryGC + "\r\n\r\n";
+                Logger.Write(_chunkId, Logger.LogMessageTypes.Error, msg);
 
                 throw;
             }
@@ -64,7 +65,8 @@ namespace org.ohdsi.cdm.presentation.builder.Base
             catch (Exception e)
             {
                 Logger.WriteError(_chunkId, e);
-                Logger.Write(_chunkId, Logger.LogMessageTypes.Error, "ChunkId=" + _chunkId + ". Peak memory=" + MemoryColumn.MaxMbMemoryProcess + "/" + MemoryColumn.MaxMbMemoryGC);
+                string msg = "\r\n\r\nChunkId=" + _chunkId + ". Peak memory=" + MemoryColumn.MaxMbMemoryProcess + "/" + MemoryColumn.MaxMbMemoryGC + "\r\n\r\n";
+                Logger.Write(_chunkId, Logger.LogMessageTypes.Error, msg);
 
                 throw;
             }

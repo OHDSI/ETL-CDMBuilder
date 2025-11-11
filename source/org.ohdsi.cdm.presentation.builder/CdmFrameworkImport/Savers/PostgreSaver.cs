@@ -123,7 +123,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport.Savers
             catch (Exception e)
             {
                 var personId = rowData.FirstOrDefault().Value?.ToString() ?? "unknown";
-                throw new Exception($"Error importing row {row} Id {personId} into {tableName}", e);
+                throw new Exception($"Error importing row {row} Id {personId} into {tableName}. ChunkId {chunkId}", e);
             }
         }
 
@@ -206,7 +206,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport.Savers
             catch (Exception e)
             {
                 var personId = rowData.FirstOrDefault().Value?.ToString() ?? "unknown";
-                throw new Exception($"Error importing row {row} Id {personId} into {tableName}", e);
+                throw new Exception($"Error importing row {row} Id {personId} into {tableName}. ChunkId {chunkId}", e);
             }
         }
 

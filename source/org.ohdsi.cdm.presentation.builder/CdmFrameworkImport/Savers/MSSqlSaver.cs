@@ -11,6 +11,8 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport.Savers
         private SqlTransaction _transaction;
         private SqlBulkCopy _bulkCopy;
 
+        protected override string UniqueKeyViolationMessage => "Cannot insert duplicate key in object";
+
         public override ISaver Create(string connectionString)
         {
             var odbcConnection = new OdbcConnectionStringBuilder(connectionString);

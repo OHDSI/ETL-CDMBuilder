@@ -9,6 +9,8 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport.Savers
         private MySqlConnection _connection;
         private MySqlTransaction _transaction;
 
+        protected override string UniqueKeyViolationMessage => "Duplicate entry";
+
         public override ISaver Create(string connectionString)
         {
             var odbcConnection = new OdbcConnectionStringBuilder(connectionString);

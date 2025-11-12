@@ -15,6 +15,8 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport.Savers
     {
         private KeyMasterOffsetManager _offsetManager;
 
+        protected virtual string UniqueKeyViolationMessage => throw new NotImplementedException("Unknown message for duplicate key for this database type!");
+
         /// <summary>
         /// Change saver instance from Framework with the one from this project with the altered code
         /// </summary>
@@ -267,40 +269,65 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport.Savers
 
         private void SaveSync(ChunkData chunk)
         {
-
+            int dupErrors = 0, tableCount = 8+5+3+3-1; //refresh this upon adding a new table below, exclude metadata_tmp
             try
             {
-                Write(chunk, "PERSON");
-                Write(chunk, "OBSERVATION_PERIOD");
-                Write(chunk, "PAYER_PLAN_PERIOD");
-                Write(chunk, "DEATH");
-                Write(chunk, "DRUG_EXPOSURE");
-                Write(chunk, "OBSERVATION");
-                Write(chunk, "VISIT_OCCURRENCE");
-                Write(chunk, "PROCEDURE_OCCURRENCE");
+                WriteEntity(chunk, "PERSON", ref dupErrors);
+                WriteEntity(chunk, "OBSERVATION_PERIOD", ref dupErrors);
+                WriteEntity(chunk, "PAYER_PLAN_PERIOD", ref dupErrors);
+                WriteEntity(chunk, "DEATH", ref dupErrors);
+                WriteEntity(chunk, "DRUG_EXPOSURE", ref dupErrors);
+                WriteEntity(chunk, "OBSERVATION", ref dupErrors);
+                WriteEntity(chunk, "VISIT_OCCURRENCE", ref dupErrors);
+                WriteEntity(chunk, "PROCEDURE_OCCURRENCE", ref dupErrors);
 
-                Write(chunk, "DRUG_ERA");
-                Write(chunk, "CONDITION_ERA");
-                Write(chunk, "DEVICE_EXPOSURE");
-                Write(chunk, "MEASUREMENT");
-                Write(chunk, "COHORT");
+                WriteEntity(chunk, "DRUG_ERA", ref dupErrors);
+                WriteEntity(chunk, "CONDITION_ERA", ref dupErrors);
+                WriteEntity(chunk, "DEVICE_EXPOSURE", ref dupErrors);
+                WriteEntity(chunk, "MEASUREMENT", ref dupErrors);
+                WriteEntity(chunk, "COHORT", ref dupErrors);
 
-                Write(chunk, "CONDITION_OCCURRENCE");
+                WriteEntity(chunk, "CONDITION_OCCURRENCE", ref dupErrors);
+                WriteEntity(chunk, "COST", ref dupErrors);
+                WriteEntity(chunk, "NOTE", ref dupErrors);
 
-                Write(chunk, "COST");
-                Write(chunk, "NOTE");
-
-                Write(chunk, "VISIT_DETAIL");
+                WriteEntity(chunk, "VISIT_DETAIL", ref dupErrors);
                 Write(chunk.ChunkId, chunk.SubChunkId, new MetadataDataReader([.. chunk.Metadata.Values]), "METADATA_TMP");
-
-
-                Write(chunk, "FACT_RELATIONSHIP");
+                WriteEntity(chunk, "FACT_RELATIONSHIP", ref dupErrors);
 
                 Commit();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Rollback();
+                throw;
+            }
+
+            if (dupErrors == tableCount)
+            {
+                //hitting here means every table above failed with unique constraint violation
+                //meaning that the chunk is already procesesd and nothing actually bad happened
+                //progress as usual
+                string msg = $"The entire chunk {chunk.ChunkId} had been already procesesed! Writing to every table has failed by unique constraint violation!";
+                Logger.Write(chunk.ChunkId, Logger.LogMessageTypes.Warning, msg);
+                return;
+            }
+        }
+
+        private void WriteEntity(ChunkData chunk, string entity, ref int dupErrors)
+        {
+            try
+            {
+                Write(chunk, entity);
+            }
+            catch(Exception e)
+            {
+                if (e.Message.Contains(UniqueKeyViolationMessage, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    dupErrors++;
+                    return;
+                }
+
                 throw;
             }
         }

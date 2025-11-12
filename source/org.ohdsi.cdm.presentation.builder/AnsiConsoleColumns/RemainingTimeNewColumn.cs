@@ -74,7 +74,7 @@ public class RemainingTimeNewColumn : ProgressColumn
             + $":{TimeToFinishEstimated.Seconds.ToString().PadLeft(2, '0')}";
 
         var res = TimeToFinishEstimated.TotalMinutes < 1
-            ? "[blue]__:__:__[/]"
+            ? "[blue]00:01:00[/]"
             : $"[blue]{formated}[/]";
         return res;
     }

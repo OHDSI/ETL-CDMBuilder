@@ -9,6 +9,9 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport.Savers
     public class PostgreSaver : Saver
     {
         private NpgsqlConnection _connection;
+
+        protected override string UniqueKeyViolationMessage => "duplicate key value violates unique constraint";
+
         public override ISaver Create(string connectionString)
         {
             var odbc = new OdbcConnectionStringBuilder(connectionString);

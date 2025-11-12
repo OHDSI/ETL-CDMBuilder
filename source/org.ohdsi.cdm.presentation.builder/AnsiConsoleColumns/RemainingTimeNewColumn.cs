@@ -50,7 +50,8 @@ public class RemainingTimeNewColumn : ProgressColumn
                 AverageSecondsPerPerson = timeSpentTotal.TotalSeconds / processed;
             #endregion
 
-            res = GetMarkup(processed, Settings.Current.Building.PersonsCount);
+            var skippedPersons = Settings.Current.Building.ContinueLoadFromChunk * Settings.Current.Building.ChunkSize;
+            res = GetMarkup(processed, Settings.Current.Building.PersonsCount - skippedPersons);
             
             LastChangeTime = now;
             _personsProcessedPrevious = processed;

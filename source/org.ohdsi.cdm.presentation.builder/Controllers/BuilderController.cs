@@ -234,6 +234,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 $"Maximum memory allocation for multithreading is {Settings.Current.Building.MaxMemoryBudgetMb} mb. " +
                 $"Memory margin is {Settings.Current.Building.MemoryPerChunkMarginPercent}%.");
             Logger.Write(null, Logger.LogMessageTypes.Info, $"Starting loading from chunk {Settings.Current.Building.ContinueLoadFromChunk}.");
+            Logger.Write(null, Logger.LogMessageTypes.Info, $"Target: {Settings.Current.Building.CdmSchema}@{Settings.Current.Building.CdmServer}.");
 
             AnsiConsole.Progress()
                 .AutoClear(false)

@@ -1,5 +1,5 @@
-﻿@echo off
-chcp 65001 > nul
+﻿chcp 65001 > nul
+@echo off
 REM === RunLocal.bat ===
 REM Move to parent directory
 cd ..

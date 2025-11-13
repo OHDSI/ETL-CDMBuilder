@@ -228,7 +228,7 @@ namespace org.ohdsi.cdm.RunLocal
                 Console.WriteLine();
 
                 Vendor vendor = presentation.builder.Utility.VendorHelper.GetVendor(opts.VendorName);
-                if (!IsVendorWellInitialized(vendor))
+                if (!IsVendorWellInitialized(vendor, opts.VendorName))
                     throw new Exception("The Vendor has not been properly initialized!");
 
                 var sourceEngine = GetDatabaseEngine(opts.SourceEngine);
@@ -326,10 +326,13 @@ namespace org.ohdsi.cdm.RunLocal
             builder.Build(vocabulary, chunkSchema);
         }
 
-        static bool IsVendorWellInitialized(Vendor vendor)
+        static bool IsVendorWellInitialized(Vendor vendor, string argsVendorName)
         {
             if(vendor == null)
                 throw new ArgumentNullException(nameof(vendor));
+
+            if (!argsVendorName.Equals(vendor.Name, StringComparison.CurrentCultureIgnoreCase))
+                return false;
 
             string normalize(string x) => x.ToLower().Split('v').Last().Replace(".", "");
             var cdmV = normalize(vendor.CdmVersion.ToString());

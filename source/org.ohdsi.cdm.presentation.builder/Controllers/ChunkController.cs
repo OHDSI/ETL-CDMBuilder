@@ -98,14 +98,15 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 var pkName = VendorHelper.GetVendorPrimaryKeyName();
                 query = "with cte_main_calc as"
                     + "\r\n("
-                    + "\r\n" + query
+                    + "\r\n" + query.TrimEnd().TrimEnd(';')
                     + "\r\n)"
                     
                     //this magic is required as hashtext by itself can fetch negative numbers and must be cast to uint32
                     //trying to emulate command partition by hash(id) + modulus and remainder
-                    + $"\r\nselect cmc.*, ((hashtext(cmc.{pkName})::bigint & 4294967295) % {DbSourceAdapter.PartitionCount}) AS partitionId"
+                    + $"\r\nselect cmc.*, ((hashtext(cmc.{pkName}::text)::bigint & 4294967295) % {DbSourceAdapter.PartitionCount}) AS partitionId"
                     + $"\r\nfrom cte_main_calc cmc"
                     ;
+
             }
 
             foreach (var reader in _dbSource.GetPersonKeys(query, Settings.Current.Building.SourceSchema))

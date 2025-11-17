@@ -95,7 +95,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
 
             #region checks
             if (_databaseChunkPart.ChunkData.Observations.Any()
-                && _databaseChunkPart.ChunkData.Observations.First().Id == null)
+                && _databaseChunkPart.ChunkData.Observations.All(s => s.Id == null))
                 throw new Exception("Observations have no Id after building!");
             #endregion
 

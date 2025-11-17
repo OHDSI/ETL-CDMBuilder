@@ -16,6 +16,8 @@
 	  <None Remove="CdmFrameworkImport\DDL\MsSql\V5.4\CreateTables.sql" />
 	  <None Remove="CdmFrameworkImport\DDL\MySql\v5.4\CreateTables.sql" />
 	  <None Remove="CdmFrameworkImport\DDL\Postgre\V5.4\CreateTables.sql" />
+	  <None Remove="Settings\TempReplaceQueries\Additional.sql" />
+	  <None Remove="Settings\TempReplaceQueries\Original\CPRD\Additional.sql" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -28,6 +30,8 @@
 	  <EmbeddedResource Include="CdmFrameworkImport\DDL\Postgre\V5.4\CreateTables.sql">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
+	  <EmbeddedResource Include="Settings\TempReplaceQueries\Altered\CPRD\Additional.sql" />
+	  <EmbeddedResource Include="Settings\TempReplaceQueries\Original\CPRD\Additional.sql" />
 	</ItemGroup>
 
 	<ItemGroup>

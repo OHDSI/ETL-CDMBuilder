@@ -4,6 +4,7 @@ using org.ohdsi.cdm.framework.common.Extensions;
 using org.ohdsi.cdm.framework.common.Utility;
 using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.presentation.builder.Utility;
+using System;
 using System.Configuration;
 using System.Reflection;
 using System.Xml.Serialization;
@@ -357,6 +358,8 @@ namespace org.ohdsi.cdm.presentation.builder
             var buildingSettings = new CdmFrameworkImport.BuildingSettings(0, VendorToProcess, EtlLibraryPath);
             EtlLibrary.LoadVendorSettings(EtlLibraryPath, buildingSettings);
 
+            TempReplaceQuery(buildingSettings.SourceQueryDefinitions, new string[] { "CPRD - Additional" });
+
             foreach (var sourceQueryDefinion in buildingSettings.SourceQueryDefinitions)
             {
                 var match = SourceQueryDefinitions.FirstOrDefault(s => s.FileName.Replace(".xml", "").Split('.').Last() == sourceQueryDefinion.FileName);
@@ -381,6 +384,55 @@ namespace org.ohdsi.cdm.presentation.builder
             fb.SourceQueryDefinitions = SourceQueryDefinitions;
 
             #endregion
+        }
+
+        /// <summary>
+        /// Fix queries locally to make them compatible with DB-specific optimizations. New queries should be in TempReplaceQueries Altered and Original folders
+        /// </summary>
+        /// <param name="vendorQueryNameToReplace">Specify which queries are to be rewritten. Only use this if necessary, othrwwise pass null</param>
+        private void TempReplaceQuery(List<QueryDefinition> frameworkDefinitions, string[] vendorQueryNameToReplace)
+        {
+            if (vendorQueryNameToReplace == null || vendorQueryNameToReplace.Length == 0)
+                return;
+
+            var vendorQueries = vendorQueryNameToReplace
+                .Where(s => s.Contains(VendorToProcess.Name, StringComparison.CurrentCultureIgnoreCase))
+                .Select(s => s.Replace(VendorToProcess.Name, "", StringComparison.CurrentCultureIgnoreCase).Trim().Trim('-').Trim())
+                .ToList();
+
+            foreach (var queryName in vendorQueries)
+            {
+                var frameworkDefinition = frameworkDefinitions.First(s => s.FileName.Equals(queryName, StringComparison.CurrentCultureIgnoreCase));
+                TempReplaceQuery(frameworkDefinition, VendorToProcess.Name, queryName);
+            }
+        }
+
+        private void TempReplaceQuery(QueryDefinition targetQD, string VendorName, string queryName)
+        {
+            var localFiles = EmbeddedResourceManager.ReadEmbeddedResources("cdm.presentation.builder", queryName);
+            var vendorFiles = localFiles.Where(s => s.Key.Contains(VendorName, StringComparison.CurrentCultureIgnoreCase)).ToDictionary();
+            if (vendorFiles.Count > 2)
+                throw new Exception("Multiple resources were found for replacing TempReplaceQueries." + VendorName + ", " + queryName + "!");
+            if (vendorFiles.Count == 0)
+                throw new Exception("No resources were found for replacing TempReplaceQueries." + VendorName + ", " + queryName + "!");
+
+            var original = vendorFiles.First(s => s.Key.Contains("Original")); //copy from EtlLibrary
+            var altered = vendorFiles.First(s => s.Key.Contains("Altered"));            
+            var actualQuery = targetQD.Query.Text.Contains("<Query>") && targetQD.Query.Text.Contains("</Query>")
+                ? targetQD.Query.Text.Split(new[] { "<Query>", "</Query>" }, StringSplitOptions.None)[1]
+                : targetQD.Query.Text;
+
+            var actualQueryNormalized = new string(actualQuery.ToLower().SkipWhile(s => s != 's' || s != 'w').ToArray())//select, with
+                .Replace("  ", " ").Trim();
+            var originalNormalized = new string(original.Value.ToLower().SkipWhile(s => s != 's' || s != 'w').ToArray())//select, with
+                .Replace("  ", " ").Trim();
+
+            if (actualQueryNormalized != originalNormalized)
+                //altered query should be manually changed or not be used at this point
+                throw new Exception("Original saved SQL differs from the actual SQL from ETL library for " + VendorName + " - " + queryName + "!");
+
+            targetQD.Query.Text = targetQD.Query.Text.Replace(actualQuery, altered.Value);
+            Console.WriteLine("Script for " + queryName + " has been altered!");
         }
 
         #endregion

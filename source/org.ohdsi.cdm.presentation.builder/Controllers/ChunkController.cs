@@ -73,6 +73,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 }
             }
 
+            _dbSource.AnalyzeChunkTable(chunksSchema);
+
             var elapsedSeconds = Math.Round((double)sw.ElapsedMilliseconds / 1000, 3);
             var culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
             culture.NumberFormat.NumberGroupSeparator = " ";

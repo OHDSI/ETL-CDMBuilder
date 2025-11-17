@@ -1,6 +1,5 @@
 ﻿using org.ohdsi.cdm.framework.common.Base;
 using org.ohdsi.cdm.framework.common.Enums;
-using org.ohdsi.cdm.framework.common.Utility;
 using org.ohdsi.cdm.framework.etl.Transformation.CDM;
 using org.ohdsi.cdm.framework.etl.Transformation.CPRD;
 using org.ohdsi.cdm.framework.etl.Transformation.CprdAurum;
@@ -13,7 +12,6 @@ using org.ohdsi.cdm.framework.etl.Transformation.OptumPanther;
 using org.ohdsi.cdm.framework.etl.Transformation.PA;
 using org.ohdsi.cdm.framework.etl.Transformation.Premier;
 using org.ohdsi.cdm.framework.etl.Transformation.Truven;
-using System.Data;
 using static org.ohdsi.cdm.framework.etl.Transformation.CDM.CdmPersonBuilder;
 using static org.ohdsi.cdm.framework.etl.Transformation.CPRD.CprdPersonBuilder;
 using static org.ohdsi.cdm.framework.etl.Transformation.CprdAurum.CprdAurumPersonBuilder;
@@ -26,7 +24,6 @@ using static org.ohdsi.cdm.framework.etl.Transformation.OptumPanther.OptumPanthe
 using static org.ohdsi.cdm.framework.etl.Transformation.PA.PregnancyAlgorithmPersonBuilder;
 using static org.ohdsi.cdm.framework.etl.Transformation.Premier.PremierPersonBuilder;
 using static org.ohdsi.cdm.framework.etl.Transformation.Truven.TruvenPersonBuilder;
-using EtlTransformation = org.ohdsi.cdm.framework.etl.Transformation;
 
 namespace org.ohdsi.cdm.presentation.builder.Utility
 {

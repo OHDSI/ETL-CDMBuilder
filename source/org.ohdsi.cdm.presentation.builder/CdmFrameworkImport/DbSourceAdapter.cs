@@ -29,6 +29,8 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
             //make the table partitioned to enable partitionwise join with gigantic tables which can't be indexed due to huge disk load for temp and actual data storage            
             if (Settings.Current.Building.SourceEngine.Database == framework.desktop.Enums.Database.Postgre)
             {
+                using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
+
                 #region main table
                 string fieldSet = "(ChunkId int, PartitionId int, PERSON_ID bigint NOT NULL, PERSON_SOURCE_VALUE varchar(50) NULL)";
                 if (!origQuery.Contains(fieldSet.Replace("  ", " ").Trim(), StringComparison.InvariantCultureIgnoreCase))
@@ -39,8 +41,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                     "\r\npartition by HASH (person_source_value);";
                 var createTableFormatted = string.Format(createTable, schemaName);
 
-                using var createTableConnection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
-                using var createTableCmd = new OdbcCommand(createTableFormatted, createTableConnection);
+                using var createTableCmd = new OdbcCommand(createTableFormatted, connection);
                 createTableCmd.ExecuteNonQuery();
                 #endregion
 
@@ -70,10 +71,20 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                     "\r\nEND$$;";
                 var createPartitionsformatted = string.Format(createPartitions, schemaName, PartitionCount.ToString());
 
-                using var createPartitionsConnection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
-                using var createPartitionsCmd = new OdbcCommand(createPartitionsformatted, createPartitionsConnection);
+                using var createPartitionsCmd = new OdbcCommand(createPartitionsformatted, connection);
                 createPartitionsCmd.ExecuteNonQuery();
                 #endregion
+
+                #region statistics 
+                string createStatistics = string.Format("CREATE STATISTICS {0}_chunks_stats", schemaName) +
+                    "\r\n    (dependencies, ndistinct)" +
+                    "\r\n    ON chunkid, person_source_value" +
+                    string.Format("\r\nFROM {0}._chunks;", schemaName);
+
+                using var statisticsCmd = new OdbcCommand(createStatistics, connection);
+                statisticsCmd.ExecuteNonQuery();
+                #endregion
+
             }
             //use default _chunks script
             else
@@ -81,6 +92,22 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                 using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
                 using var cmd = new OdbcCommand(origQuery, connection);
                 cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void AnalyzeChunkTable(string schemaName)
+        {
+            if (Settings.Current.Building.SourceEngine.Database == framework.desktop.Enums.Database.Postgre)
+            {
+                string analyze = string.Format("ANALYZE {0}._chunks;", schemaName);
+
+                using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
+                using var analyzeCmd = new OdbcCommand(analyze, connection);
+                analyzeCmd.ExecuteNonQuery();
+            }
+            else
+            {
+                //do nothing for other RDBMS
             }
         }
 

@@ -125,7 +125,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport.Savers
             }
             catch (Exception e)
             {
-                var personId = rowData.FirstOrDefault().Value?.ToString() ?? "unknown";
+                var personId = rowData.FirstOrDefault().Value?.ToString() ?? "null";
                 throw new Exception($"Error importing row {row} Id {personId} into {tableName}. ChunkId {chunkId}", e);
             }
         }

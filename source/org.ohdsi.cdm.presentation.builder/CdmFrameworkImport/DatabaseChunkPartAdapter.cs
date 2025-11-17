@@ -83,7 +83,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                 {
                     Attrition attrition = personBuilder.Value.Value.Build(_databaseChunkPart.ChunkData, _offsetManager);
                     _databaseChunkPart.ChunkData.AddAttrition(personBuilder.Key, attrition);
-                    
+
                     progressTask.Increment(1);
                     overallTask.Increment(1);
                 }
@@ -92,6 +92,13 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                     Logger.Write(_chunkId, Logger.LogMessageTypes.Error, $"PersonBuilder fails at id {personBuilder.Key}!\r\n{e.Message}\r\n{e.InnerException?.Message ?? ""}");
                     throw;
                 }
+
+            #region checks
+            if (_databaseChunkPart.ChunkData.Observations.Any()
+                && _databaseChunkPart.ChunkData.Observations.First().Id == null)
+                throw new Exception("Observations have no Id after building!");
+            #endregion
+
             _databaseChunkPart.PersonBuilders.Clear();
             _databaseChunkPart.PersonBuilders = null;
         }

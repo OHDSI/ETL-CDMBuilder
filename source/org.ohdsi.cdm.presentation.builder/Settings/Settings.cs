@@ -77,9 +77,9 @@ namespace org.ohdsi.cdm.presentation.builder
 
             var requiredVersion = getVersion(Settings.Current.Building.Cdm.ToName());
 
-            var result = databased.Any(s => s.Key.Contains("CdmFrameworkImport"))
-                ? databased.First(s => s.Key.Contains("CdmFrameworkImport"))
-                : databased.First(s => getVersion(s.Key) <= requiredVersion);
+            var result = databased.Any(s => s.Key.Contains("cdm.framework"))
+                ? databased.First(s => getVersion(s.Key) <= requiredVersion)
+                : databased.First(s => s.Key.Contains("CdmFrameworkImport"));
 
             return result.Value;
         }

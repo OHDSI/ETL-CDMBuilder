@@ -38,7 +38,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
             _databaseChunkPart.Reset();
         }
 
-        public KeyValuePair<string, Exception> Load()
+        public KeyValuePair<string, Exception> Load(ProgressTask chunkTask)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -59,14 +59,17 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                             continue; //do not process query if the database requirements are not met
                     }
 
+                    chunkTask.Description = $"Chunk {_chunkId} | {fileName}({i}/{queries.Count})";
                     LoadQuery(query);
                 }
                 catch (Exception e)
                 {
                     //error info is written in LoadQuery catch
                     Console.WriteLine("\n\rFileName is " + queries[i].FileName + ". Query number is " + i + "\n\r");
+                    throw;
                 }
             }
+            chunkTask.Description = $"Chunk {_chunkId}";
 
             stopwatch.Stop();
 

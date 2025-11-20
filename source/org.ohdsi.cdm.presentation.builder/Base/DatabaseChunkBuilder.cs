@@ -36,7 +36,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
             {
                 _databaseChunkPartAdapter = new DatabaseChunkPartAdapter(_createPersonBuilder, _chunkId, "0", 0);
 
-                var result = _databaseChunkPartAdapter.Load();
+                var result = _databaseChunkPartAdapter.Load(progressTask);
 
                 if (result.Value != null)
                 {

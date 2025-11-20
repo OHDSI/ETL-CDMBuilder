@@ -132,7 +132,8 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                     {
                         try
                         {
-                            using (var command = new OdbcCommand(subQuery, connection))
+                            var cleaned = CleanCommand(subQuery);
+                            using (var command = new OdbcCommand(cleaned, connection))
                             {
                                 command.CommandTimeout = 30000;
                                 command.ExecuteNonQuery();

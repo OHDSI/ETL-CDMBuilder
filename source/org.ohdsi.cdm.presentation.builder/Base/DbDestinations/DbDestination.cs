@@ -1,4 +1,5 @@
 ﻿using org.ohdsi.cdm.framework.desktop.Databases;
+using System.Text.RegularExpressions;
 
 namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
 {
@@ -30,5 +31,8 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
         public abstract ActionStatus CreateSchema();
 
         public abstract ActionStatus ExecuteQuery(string query);
+
+        protected string CleanCommand(string command)
+            => Regex.Replace(command, @"\s+", " ").Trim();
     }
 }

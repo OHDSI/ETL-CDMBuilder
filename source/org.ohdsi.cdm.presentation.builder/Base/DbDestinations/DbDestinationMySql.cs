@@ -22,7 +22,15 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
 
             string localInfileCommand = "SET GLOBAL local_infile = ON;";
 
-            string createToDateCommand = "USE `" + SchemaName + "`;\r\nDELIMITER $$\r\nCREATE FUNCTION to_date(in_str VARCHAR(255), in_mask VARCHAR(255))\r\nRETURNS DATE\r\nDETERMINISTIC\r\nBEGIN\r\n  DECLARE fmt VARCHAR(255);\r\n  SET fmt = REPLACE(REPLACE(REPLACE(in_mask, 'YYYY', '%Y'), 'MM', '%m'), 'DD', '%d');\r\n  RETURN STR_TO_DATE(in_str, fmt);\r\nEND$$\r\nDELIMITER ;";
+            string createToDateCommand = 
+                "\r\nCREATE FUNCTION to_date(in_str VARCHAR(255), in_mask VARCHAR(255))" +
+                "\r\nRETURNS DATE" +
+                "\r\nDETERMINISTIC" +
+                "\r\nBEGIN" +
+                "\r\n  DECLARE fmt VARCHAR(255);" +
+                "\r\n  SET fmt = REPLACE(REPLACE(REPLACE(in_mask, 'YYYY', '%Y'), 'MM', '%m'), 'DD', '%d');" +
+                "\r\n  RETURN STR_TO_DATE(in_str, fmt);" +
+                "\r\nEND";
 
             #endregion
 
@@ -103,14 +111,19 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                         .Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => new string(s.Skip(s.IndexOf("CREATE", StringComparison.CurrentCultureIgnoreCase)).ToArray()).Trim() + ";")
                         .Where(s => s.Contains("CREATE", StringComparison.CurrentCultureIgnoreCase)
-                                 || s.Contains("truncate", StringComparison.CurrentCultureIgnoreCase))
+                                 || s.Contains("truncate", StringComparison.CurrentCultureIgnoreCase)
+                                 || s.Contains("SET GLOBAL", StringComparison.CurrentCultureIgnoreCase))
                         .ToList();
+
+                    if (queryAltered.Contains("create function", StringComparison.CurrentCultureIgnoreCase))
+                        subQueries = new[] { queryAltered }.ToList();
 
                     foreach (var subQuery in subQueries)
                     {
                         try
                         {
-                            using (var command = new OdbcCommand(subQuery, connection))
+                            var cleaned = CleanCommand(subQuery);
+                            using (var command = new OdbcCommand(cleaned, connection))
                             {
                                 command.CommandTimeout = 30000;
                                 command.ExecuteNonQuery();

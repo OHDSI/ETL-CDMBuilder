@@ -76,38 +76,49 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
 
         public override ActionStatus CreateSchema()
         {
-
             if (SchemaName.ToLower().Trim() == "dbo")
                 return ActionStatus.AlreadyExists;
 
-            var query = $"create schema {SchemaName}";
+            var q1 = $"create schema {SchemaName}";
+
+            var q2 = $"IF NOT EXISTS (\r\n    " +
+                $"SELECT 1 FROM sys.database_principals WHERE name = '{Settings.Current.Building.CdmDb}'\r\n)\r\n" +
+                $"BEGIN\r\n    " +
+                $"CREATE USER {Settings.Current.Building.CdmDb} FOR LOGIN {Settings.Current.Building.CdmDb};\r\nEND";
+
+            var q3 = $"ALTER AUTHORIZATION ON SCHEMA::[{SchemaName}] TO [{Settings.Current.Building.CdmDb}];";
 
             try
             {
                 using (var connection = SqlConnectionHelper.OpenOdbcConnection(ConnectionString))
                 {
-                    using (var command = new OdbcCommand(query, connection))
+                    try
+                    {
+                        using (var command = new OdbcCommand(q1, connection))
+                        {
+                            command.CommandTimeout = 0;
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                    catch(Exception q1ex)
+                    {
+                        if (new[] { "There is already an object named", "in the database" }.All(s => q1ex.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                        {
+                            // ignore
+                        }
+                    }
+                    using (var command = new OdbcCommand(q2, connection))
+                    {
+                        command.CommandTimeout = 0;
+                        command.ExecuteNonQuery();
+                    }
+                    using (var command = new OdbcCommand(q3, connection))
                     {
                         command.CommandTimeout = 0;
                         command.ExecuteNonQuery();
                     }
                 }
                 return ActionStatus.Success;
-            }
-            catch (OdbcException ex)
-            {
-                if (new[] { "There is already an object named", "in the database" }.All(s => ex.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    // ignore
-                    return ActionStatus.AlreadyExists;
-                }
-                else
-                {
-                    Console.WriteLine();
-                    Console.WriteLine(@"Failed to execute command: {0}", query);
-                    Console.WriteLine(ex.Message);
-                    throw;
-                }
             }
             catch (Exception e)
             {
@@ -134,7 +145,8 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                     {
                         try
                         {
-                            using (var command = new OdbcCommand(subQuery, connection))
+                            var cleaned = CleanCommand(subQuery);
+                            using (var command = new OdbcCommand(cleaned, connection))
                             {
                                 command.CommandTimeout = 30000;
                                 command.ExecuteNonQuery();

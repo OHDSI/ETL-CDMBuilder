@@ -93,7 +93,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                 catch (Exception e)
                 {
                     Logger.Write(_chunkId, Logger.LogMessageTypes.Error, $"PersonBuilder fails at id {personBuilder.Key}!\r\n{e.Message}\r\n{e.InnerException?.Message ?? ""}");
-                    //throw; //debug
+                    throw; 
                 }
             _databaseChunkPart.PersonBuilders.Clear();
             _databaseChunkPart.PersonBuilders = null;

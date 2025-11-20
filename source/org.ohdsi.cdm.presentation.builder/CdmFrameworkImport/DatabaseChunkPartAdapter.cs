@@ -65,7 +65,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                 catch (Exception e)
                 {
                     //error info is written in LoadQuery catch
-                    Console.WriteLine("\n\rFileName is " + queries[i].FileName + ". Query number is " + i + "\n\r");
+                    AnsiConsole.WriteLine("\n\rFileName is " + queries[i].FileName + ". Query number is " + i + "\n\r");
                     throw;
                 }
             }
@@ -93,7 +93,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                 catch (Exception e)
                 {
                     Logger.Write(_chunkId, Logger.LogMessageTypes.Error, $"PersonBuilder fails at id {personBuilder.Key}!\r\n{e.Message}\r\n{e.InnerException?.Message ?? ""}");
-                    throw;
+                    //throw; //debug
                 }
             _databaseChunkPart.PersonBuilders.Clear();
             _databaseChunkPart.PersonBuilders = null;

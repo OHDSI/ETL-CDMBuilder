@@ -1,5 +1,6 @@
 ﻿using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.framework.desktop.Helpers;
+using Spectre.Console;
 using System.Data.Odbc;
 
 namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
@@ -74,9 +75,9 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                             }
                             else
                             {
-                                Console.WriteLine();
-                                Console.WriteLine(@"Failed to execute command: {0}", command.CommandText);
-                                Console.WriteLine(ex.Message);
+                                AnsiConsole.WriteLine();
+                                AnsiConsole.WriteLine(@"Failed to execute command: {0}", command.CommandText);
+                                AnsiConsole.WriteLine(ex.Message);
                                 throw;
                             }
                         }
@@ -138,9 +139,9 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                             }
                             else
                             {
-                                Console.WriteLine();
-                                Console.WriteLine(@"Failed to execute command: {0}", query);
-                                Console.WriteLine(odbcEx.Message);
+                                AnsiConsole.WriteLine();
+                                AnsiConsole.WriteLine(@"Failed to execute command: {0}", query);
+                                AnsiConsole.WriteLine(odbcEx.Message);
                                 throw;
                             }
                         }

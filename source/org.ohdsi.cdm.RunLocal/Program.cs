@@ -5,6 +5,7 @@ using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.presentation.builder;
 using org.ohdsi.cdm.presentation.builder.Controllers;
 using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
+using Spectre.Console;
 using System.Data;
 using System.Diagnostics;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
@@ -146,12 +147,12 @@ namespace org.ohdsi.cdm.RunLocal
 
         static void Main(string[] args)
         {
-            Console.WriteLine($"\r\n\r\n==========START - {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}==========");
-            Console.WriteLine($"Current process id = " + Process.GetCurrentProcess().Id + " - " + Process.GetCurrentProcess().ProcessName);
+            AnsiConsole.WriteLine($"\r\n\r\n==========START - {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}==========");
+            AnsiConsole.WriteLine($"Current process id = " + Process.GetCurrentProcess().Id + " - " + Process.GetCurrentProcess().ProcessName);
             if (args.Length == 0)
             {
-                Console.WriteLine("The arguments must be provided! For an example, see the file Bats/RunLocalTemplate.bat!");
-                Console.WriteLine("Then create another .bat file with proper parameters and run it.");
+                AnsiConsole.WriteLine("The arguments must be provided! For an example, see the file Bats/RunLocalTemplate.bat!");
+                AnsiConsole.WriteLine("Then create another .bat file with proper parameters and run it.");
                 Console.ReadLine();
                 return;
             }
@@ -165,7 +166,7 @@ namespace org.ohdsi.cdm.RunLocal
 
             var secondsElapsed = Math.Round((double)sw.ElapsedMilliseconds / 1000);
             var hoursElapsed = Math.Round(secondsElapsed / 60 / 60, 1);
-            Console.WriteLine($"\r\nThe program has finished! - {hoursElapsed}h ({secondsElapsed}s), Max memory used={Math.Round(MemoryColumn.MaxMbMemoryProcess)}({Math.Round(MemoryColumn.MaxMbMemoryGC)}) MB");
+            AnsiConsole.WriteLine($"\r\nThe program has finished! - {hoursElapsed}h ({secondsElapsed}s), Max memory used={Math.Round(MemoryColumn.MaxMbMemoryProcess)}({Math.Round(MemoryColumn.MaxMbMemoryGC)}) MB");
             Console.ReadLine();
         }
 
@@ -180,10 +181,10 @@ namespace org.ohdsi.cdm.RunLocal
 
         static void HandleParseError(IEnumerable<Error> errs)
         {
-            Console.WriteLine("Failed to parse command-line arguments.");
+            AnsiConsole.WriteLine("Failed to parse command-line arguments.");
             foreach (var error in errs)
             {
-                Console.WriteLine(error.ToString());
+                AnsiConsole.WriteLine(error.ToString());
             }
         }
 
@@ -193,39 +194,39 @@ namespace org.ohdsi.cdm.RunLocal
             {
                 var etlLibraryPath = !string.IsNullOrEmpty(opts.EtlLibraryPath) ? opts.EtlLibraryPath : Directory.GetCurrentDirectory();
 
-                Console.WriteLine("Options:");
+                AnsiConsole.WriteLine("Options:");
 
-                Console.WriteLine($"VendorName: {opts.VendorName}");
-                Console.WriteLine($"EtlLibraryPath: {etlLibraryPath}");
-                Console.WriteLine($"ContinueLoadFromChunk: {opts.ContinueLoadFromChunk}");
-                Console.WriteLine($"ChunkSize: {opts.ChunkSize}");
-                Console.WriteLine($"QueryTriesAmount: {opts.QueryTriesAmount}");
-                Console.WriteLine($"QueryTriesDelaySeconds: {opts.QueryTriesDelaySeconds}");
-                Console.WriteLine($"MaxMemoryBudgetMb: {opts.MaxMemoryBudgetMb}");
-                Console.WriteLine($"MemoryPerChunkMarginPercent: {opts.MemoryPerChunkMarginPercent}");
+                AnsiConsole.WriteLine($"VendorName: {opts.VendorName}");
+                AnsiConsole.WriteLine($"EtlLibraryPath: {etlLibraryPath}");
+                AnsiConsole.WriteLine($"ContinueLoadFromChunk: {opts.ContinueLoadFromChunk}");
+                AnsiConsole.WriteLine($"ChunkSize: {opts.ChunkSize}");
+                AnsiConsole.WriteLine($"QueryTriesAmount: {opts.QueryTriesAmount}");
+                AnsiConsole.WriteLine($"QueryTriesDelaySeconds: {opts.QueryTriesDelaySeconds}");
+                AnsiConsole.WriteLine($"MaxMemoryBudgetMb: {opts.MaxMemoryBudgetMb}");
+                AnsiConsole.WriteLine($"MemoryPerChunkMarginPercent: {opts.MemoryPerChunkMarginPercent}");
 
-                Console.WriteLine($"SourceEngine: {opts.SourceEngine}");
-                Console.WriteLine($"SourceServer: {opts.SourceServer}");
-                Console.WriteLine($"SourceDatabase: {opts.SourceDatabase}");
-                Console.WriteLine($"SourceSchema: {opts.SourceSchema}");
-                Console.WriteLine($"SourceUser: {opts.SourceUser}");
-                Console.WriteLine($"SourcePassword: ******");
+                AnsiConsole.WriteLine($"SourceEngine: {opts.SourceEngine}");
+                AnsiConsole.WriteLine($"SourceServer: {opts.SourceServer}");
+                AnsiConsole.WriteLine($"SourceDatabase: {opts.SourceDatabase}");
+                AnsiConsole.WriteLine($"SourceSchema: {opts.SourceSchema}");
+                AnsiConsole.WriteLine($"SourceUser: {opts.SourceUser}");
+                AnsiConsole.WriteLine($"SourcePassword: ******");
 
-                Console.WriteLine($"DestinationEngine: {opts.DestinationEngine}");
-                Console.WriteLine($"DestinationServer: {opts.DestinationServer}");
-                Console.WriteLine($"DestinationDatabase: {opts.DestinationDatabase}");
-                Console.WriteLine($"DestinationSchema: {opts.DestinationSchema}");
-                Console.WriteLine($"DestinationUser: {opts.DestinationUser}");
-                Console.WriteLine($"DestinationPassword: ******");
+                AnsiConsole.WriteLine($"DestinationEngine: {opts.DestinationEngine}");
+                AnsiConsole.WriteLine($"DestinationServer: {opts.DestinationServer}");
+                AnsiConsole.WriteLine($"DestinationDatabase: {opts.DestinationDatabase}");
+                AnsiConsole.WriteLine($"DestinationSchema: {opts.DestinationSchema}");
+                AnsiConsole.WriteLine($"DestinationUser: {opts.DestinationUser}");
+                AnsiConsole.WriteLine($"DestinationPassword: ******");
 
-                Console.WriteLine($"VocabularyEngine: {opts.VocabularyEngine}");
-                Console.WriteLine($"VocabularyServer: {opts.VocabularyServer}");
-                Console.WriteLine($"VocabularyDatabase: {opts.VocabularyDatabase}");
-                Console.WriteLine($"VocabularySchema: {opts.VocabularySchema}");
-                Console.WriteLine($"VocabularyUser: {opts.VocabularyUser}");
-                Console.WriteLine($"VocabularyPassword: ******");
+                AnsiConsole.WriteLine($"VocabularyEngine: {opts.VocabularyEngine}");
+                AnsiConsole.WriteLine($"VocabularyServer: {opts.VocabularyServer}");
+                AnsiConsole.WriteLine($"VocabularyDatabase: {opts.VocabularyDatabase}");
+                AnsiConsole.WriteLine($"VocabularySchema: {opts.VocabularySchema}");
+                AnsiConsole.WriteLine($"VocabularyUser: {opts.VocabularyUser}");
+                AnsiConsole.WriteLine($"VocabularyPassword: ******");
 
-                Console.WriteLine();
+                AnsiConsole.WriteLine();
 
                 Vendor vendor = presentation.builder.Utility.VendorHelper.GetVendor(opts.VendorName);
                 if (!IsVendorWellInitialized(vendor, opts.VendorName))
@@ -306,7 +307,7 @@ namespace org.ohdsi.cdm.RunLocal
         }
 
         static void Build(string chunkSchema, string etlLibraryPath, bool truncateTargetTables = false)
-        {
+        {            
             BuilderController builder = new BuilderController(etlLibraryPath);
             builder.CreateDestination();
 

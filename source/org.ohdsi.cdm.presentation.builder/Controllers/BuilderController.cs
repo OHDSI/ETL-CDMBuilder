@@ -59,7 +59,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             dbDestination.CreateDatabase(Settings.Current.CreateCdmDatabaseScript);
             dbDestination.CreateSchema();
             dbDestination.ExecuteQuery(Settings.Current.CreateCdmTablesScript);
-            Console.WriteLine("\r\nDDL complete!");
+            AnsiConsole.WriteLine("\r\nDDL complete!");
         }
 
         public void DropDestination()
@@ -84,7 +84,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 Settings.Current.Building.CdmSchema);
 
             dbDestination.ExecuteQuery(Settings.Current.TruncateTablesScript);
-            Console.WriteLine("\r\nTable truncation complete!");
+            AnsiConsole.WriteLine("\r\nTable truncation complete!");
         }
 
         public void TruncateWithoutLookupTables()
@@ -112,7 +112,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             var careSiteConcepts = new List<CareSite>();
             var providerConcepts = new List<Provider>();
 
-            Console.WriteLine("Loading locations...");
+            AnsiConsole.WriteLine("Loading locations...");
             var location = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.Locations != null);
             if (location != null)
             {
@@ -121,9 +121,9 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
             if (locationConcepts.Count == 0)
                 locationConcepts.Add(new Location { Id = Entity.GetId(null) });
-            Console.WriteLine("Locations were loaded");
+            AnsiConsole.WriteLine("Locations were loaded");
 
-            Console.WriteLine("Loading care sites...");
+            AnsiConsole.WriteLine("Loading care sites...");
             var careSite = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.CareSites != null);
             if (careSite != null)
             {
@@ -132,19 +132,19 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
             if (careSiteConcepts.Count == 0)
                 careSiteConcepts.Add(new CareSite { Id = 0, LocationId = 0, OrganizationId = 0, PlaceOfSvcSourceValue = null });
-            Console.WriteLine("Care sites were loaded");
+            AnsiConsole.WriteLine("Care sites were loaded");
 
-            Console.WriteLine("Loading providers...");
+            AnsiConsole.WriteLine("Loading providers...");
             var provider = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.Providers != null);
             if (provider != null)
             {
                 FillList<Provider>(providerConcepts, provider, provider.Providers[0], _etlLibraryPath, chunkSchema);
             }
-            Console.WriteLine("Providers were loaded");
+            AnsiConsole.WriteLine("Providers were loaded");
 
             try
             {
-                Console.WriteLine("Saving lookups...");
+                AnsiConsole.WriteLine("Saving lookups...");
 
                 var saver = Settings.Current.Building.CdmEngine.GetSaver();
                 using (saver.Create(Settings.Current.Building.DestinationConnectionString))
@@ -298,9 +298,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     Task.WaitAll(workers.ToArray());
                 });
 
-            //avoid possible conflicts between Console and AnsiConsole
             for (int i = 0; i <= degreeParallel; i++)
-                Console.WriteLine();
+                AnsiConsole.WriteLine();
         }
 
         int GetMaxThreadCountByMemoryLimits(double initialMemoryLoad)

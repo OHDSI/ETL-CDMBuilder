@@ -1,4 +1,6 @@
-﻿namespace org.ohdsi.cdm.presentation.builder.Utility
+﻿using Spectre.Console;
+
+namespace org.ohdsi.cdm.presentation.builder.Utility
 {
     public static class EmbeddedResourceManager
     {
@@ -42,8 +44,8 @@
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine($"Error reading embedded resource: {assembly.FullName ?? ""} {resourceName ?? ""}");
-                        Console.WriteLine(e.Message);
+                        AnsiConsole.WriteLine($"Error reading embedded resource: {assembly.FullName ?? ""} {resourceName ?? ""}");
+                        AnsiConsole.WriteLine(e.Message);
                     }
                 }
             }

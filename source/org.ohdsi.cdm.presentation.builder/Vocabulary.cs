@@ -1,6 +1,7 @@
 ﻿using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Lookups;
 using org.ohdsi.cdm.framework.desktop.Helpers;
+using Spectre.Console;
 using System.Data;
 using System.Data.Odbc;
 using System.Diagnostics;
@@ -123,8 +124,6 @@ namespace org.ohdsi.cdm.presentation.builder
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Lookup error [file]: " + conceptIdMapper.Lookup);
-                    Console.WriteLine("Lookup error [query]: " + sql);
                     Logger.WriteWarning("Lookup error [file]: " + conceptIdMapper.Lookup);
                     Logger.WriteWarning("Lookup error [query]: " + sql);
                     throw;
@@ -156,7 +155,7 @@ namespace org.ohdsi.cdm.presentation.builder
             _vendorLookups = Utility.EmbeddedResourceManager.ReadEmbeddedResources(null, vendorFolder + ".Lookups");
 
 
-            Console.WriteLine("\r\nLoading lookups");
+            AnsiConsole.WriteLine("\r\nLoading lookups");
             foreach (var qd in Settings.Current.Building.SourceQueryDefinitions)
                 try
                 {
@@ -201,7 +200,7 @@ namespace org.ohdsi.cdm.presentation.builder
 
             timer.Stop();
             var elapsedSeconds = Math.Round(Convert.ToDecimal(timer.ElapsedMilliseconds) / 1000, 3);
-            Console.WriteLine($"Loading lookups - DONE - {elapsedSeconds} s\r\n");
+            AnsiConsole.WriteLine($"Loading lookups - DONE - {elapsedSeconds} s\r\n");
         }
 
 

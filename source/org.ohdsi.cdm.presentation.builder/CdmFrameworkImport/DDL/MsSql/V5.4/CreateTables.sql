@@ -1,9 +1,9 @@
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.[_version] (
+CREATE TABLE {sc}.[_version] (
 [version_id] bigint NOT NULL,
 [version_date] date NOT NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.care_site (
+CREATE TABLE {sc}.care_site (
 [care_site_id] bigint NOT NULL,
 [care_site_name] varchar(255) NULL,
 [place_of_service_concept_id] bigint NULL,
@@ -12,7 +12,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.care_site (
 [place_of_service_source_value] varchar(150) NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.cdm_source (
+CREATE TABLE {sc}.cdm_source (
 [cdm_source_name] varchar(255) NULL,
 [cdm_source_abbreviation] varchar(30) NULL,
 [cdm_holder] varchar(255) NULL,
@@ -26,14 +26,14 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.cdm_source (
 [vocabulary_version] varchar(20) NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.cohort (
+CREATE TABLE {sc}.cohort (
 [cohort_definition_id] bigint NOT NULL,
 [subject_id] bigint NOT NULL,
 [cohort_start_date] date NOT NULL,
 [cohort_end_date] date NOT NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.cohort_definition (
+CREATE TABLE {sc}.cohort_definition (
 [cohort_definition_id] bigint NOT NULL,
 [cohort_definition_name] varchar(255) NULL,
 [cohort_definition_description] varchar(MAX) NULL,
@@ -43,7 +43,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.cohort_definition (
 [cohort_initiation_date] date NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.concept (
+CREATE TABLE {sc}.concept (
 [concept_id] bigint NOT NULL,
 [concept_name] varchar(500) NULL,
 [domain_id] varchar(20) NULL,
@@ -56,20 +56,20 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.concept (
 [invalid_reason] varchar(1) NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.concept_ancestor (
+CREATE TABLE {sc}.concept_ancestor (
 [ancestor_concept_id] bigint NOT NULL,
 [descendant_concept_id] bigint NOT NULL,
 [min_levels_of_separation] bigint NOT NULL,
 [max_levels_of_separation] bigint NOT NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.concept_class (
+CREATE TABLE {sc}.concept_class (
 [concept_class_id] varchar(20) NULL,
 [concept_class_name] varchar(255) NULL,
 [concept_class_concept_id] bigint NOT NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.concept_relationship (
+CREATE TABLE {sc}.concept_relationship (
 [concept_id_1] bigint NOT NULL,
 [concept_id_2] bigint NOT NULL,
 [relationship_id] varchar(20) NULL,
@@ -78,13 +78,13 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.concept_relationship (
 [invalid_reason] varchar(1) NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.concept_synonym (
+CREATE TABLE {sc}.concept_synonym (
 [concept_id] bigint NOT NULL,
 [concept_synonym_name] varchar(1500) NULL,
 [language_concept_id] bigint NOT NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.condition_era (
+CREATE TABLE {sc}.condition_era (
 [condition_era_id] bigint NOT NULL,
 [person_id] bigint NOT NULL,
 [condition_concept_id] bigint NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.condition_era (
 [condition_occurrence_count] bigint NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.condition_occurrence (
+CREATE TABLE {sc}.condition_occurrence (
 [condition_occurrence_id] bigint NOT NULL,
 [person_id] bigint NOT NULL,
 [condition_concept_id] bigint NOT NULL,
@@ -112,7 +112,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.condition_occurrence (
 [condition_status_source_value] varchar(MAX) NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.cost (
+CREATE TABLE {sc}.cost (
 [cost_id] bigint NOT NULL,
 [cost_event_id] bigint NOT NULL,
 [cost_domain_id] varchar(20) NULL,
@@ -137,7 +137,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.cost (
 [drg_source_value] varchar(3) NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.death (
+CREATE TABLE {sc}.death (
 [person_id] bigint NOT NULL,
 [death_date] date NOT NULL,
 [death_datetime] datetime NULL,
@@ -147,7 +147,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.death (
 [cause_source_concept_id] bigint NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.device_exposure (
+CREATE TABLE {sc}.device_exposure (
 [device_exposure_id] bigint NOT NULL,
 [person_id] bigint NOT NULL,
 [device_concept_id] bigint NOT NULL,
@@ -169,13 +169,13 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.device_exposure (
 [unit_source_concept_id] bigint NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.[domain] (
+CREATE TABLE {sc}.[domain] (
 [domain_id] varchar(20) NULL,
 [domain_name] varchar(255) NULL,
 [domain_concept_id] bigint NOT NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.dose_era (
+CREATE TABLE {sc}.dose_era (
 [dose_era_id] bigint NOT NULL,
 [person_id] bigint NOT NULL,
 [drug_concept_id] bigint NOT NULL,
@@ -185,7 +185,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.dose_era (
 [dose_era_end_date] date NOT NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.drug_era (
+CREATE TABLE {sc}.drug_era (
 [drug_era_id] bigint NOT NULL,
 [person_id] bigint NOT NULL,
 [drug_concept_id] bigint NOT NULL,
@@ -195,7 +195,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.drug_era (
 [gap_days] bigint NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.drug_exposure (
+CREATE TABLE {sc}.drug_exposure (
 [drug_exposure_id] bigint NOT NULL,
 [person_id] bigint NOT NULL,
 [drug_concept_id] bigint NOT NULL,
@@ -221,7 +221,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.drug_exposure (
 [dose_unit_source_value] varchar(MAX) NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.drug_strength (
+CREATE TABLE {sc}.drug_strength (
 [drug_concept_id] bigint NOT NULL,
 [ingredient_concept_id] bigint NOT NULL,
 [amount_value] float NULL,
@@ -236,7 +236,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.drug_strength (
 [invalid_reason] varchar(1) NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.episode (
+CREATE TABLE {sc}.episode (
 [episode_id] bigint NOT NULL,
 [person_id] bigint NOT NULL,
 [episode_concept_id] bigint NOT NULL,
@@ -252,13 +252,13 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.episode (
 [episode_source_concept_id] bigint NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.episode_event (
+CREATE TABLE {sc}.episode_event (
 [episode_id] bigint NOT NULL,
 [event_id] bigint NOT NULL,
 [episode_event_field_concept_id] bigint NOT NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.fact_relationship (
+CREATE TABLE {sc}.fact_relationship (
 [domain_concept_id_1] bigint NOT NULL,
 [fact_id_1] bigint NOT NULL,
 [domain_concept_id_2] bigint NOT NULL,
@@ -266,7 +266,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.fact_relationship (
 [relationship_concept_id] bigint NOT NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.location (
+CREATE TABLE {sc}.location (
 [location_id] bigint NOT NULL,
 [address_1] varchar(50) NULL,
 [address_2] varchar(50) NULL,
@@ -281,7 +281,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.location (
 [longitude] numeric(38,2) NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.measurement (
+CREATE TABLE {sc}.measurement (
 [measurement_id] bigint NOT NULL,
 [person_id] bigint NOT NULL,
 [measurement_concept_id] bigint NOT NULL,
@@ -307,7 +307,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.measurement (
 [meas_event_field_concept_id] bigint NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.metadata (
+CREATE TABLE {sc}.metadata (
 [metadata_id] bigint NOT NULL,
 [metadata_concept_id] bigint NOT NULL,
 [metadata_type_concept_id] bigint NOT NULL,
@@ -319,12 +319,12 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.metadata (
 [metadata_datetime] datetime NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.metadata_tmp (
+CREATE TABLE {sc}.metadata_tmp (
 [person_id] bigint NOT NULL,
 [name] varchar(250) NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.note (
+CREATE TABLE {sc}.note (
 [note_id] bigint NOT NULL,
 [person_id] bigint NOT NULL,
 [note_date] date NOT NULL,
@@ -343,7 +343,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.note (
 [note_event_field_concept_id] bigint NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.note_nlp (
+CREATE TABLE {sc}.note_nlp (
 [note_nlp_id] bigint NOT NULL,
 [note_id] bigint NOT NULL,
 [section_concept_id] bigint NULL,
@@ -360,7 +360,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.note_nlp (
 [term_modifiers] varchar(2000) NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.observation (
+CREATE TABLE {sc}.observation (
 [observation_id] bigint NOT NULL,
 [person_id] bigint NOT NULL,
 [observation_concept_id] bigint NOT NULL,
@@ -384,7 +384,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.observation (
 [obs_event_field_concept_id] bigint NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.observation_period (
+CREATE TABLE {sc}.observation_period (
 [observation_period_id] bigint NOT NULL,
 [person_id] bigint NOT NULL,
 [observation_period_start_date] date NOT NULL,
@@ -392,7 +392,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.observation_period (
 [period_type_concept_id] bigint NOT NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.payer_plan_period (
+CREATE TABLE {sc}.payer_plan_period (
 [payer_plan_period_id] bigint NOT NULL,
 [person_id] bigint NOT NULL,
 [payer_plan_period_start_date] date NOT NULL,
@@ -412,7 +412,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.payer_plan_period (
 [stop_reason_source_concept_id] bigint NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.person (
+CREATE TABLE {sc}.person (
 [person_id] bigint NOT NULL,
 [gender_concept_id] bigint NOT NULL,
 [year_of_birth] bigint NOT NULL,
@@ -433,7 +433,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.person (
 [ethnicity_source_concept_id] bigint NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.procedure_occurrence (
+CREATE TABLE {sc}.procedure_occurrence (
 [procedure_occurrence_id] bigint NOT NULL,
 [person_id] bigint NOT NULL,
 [procedure_concept_id] bigint NOT NULL,
@@ -452,7 +452,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.procedure_occurrence (
 [modifier_source_value] varchar(50) NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.provider (
+CREATE TABLE {sc}.provider (
 [provider_id] bigint NOT NULL,
 [provider_name] varchar(255) NULL,
 [npi] varchar(25) NULL,
@@ -468,7 +468,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.provider (
 [gender_source_concept_id] bigint NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.relationship (
+CREATE TABLE {sc}.relationship (
 [relationship_id] varchar(20) NULL,
 [relationship_name] varchar(255) NULL,
 [is_hierarchical] varchar(1) NULL,
@@ -477,7 +477,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.relationship (
 [relationship_concept_id] bigint NOT NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.source_to_concept_map (
+CREATE TABLE {sc}.source_to_concept_map (
 [source_code] varchar(255) NULL,
 [source_concept_id] bigint NOT NULL,
 [source_vocabulary_id] varchar(50) NULL,
@@ -489,7 +489,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.source_to_concept_map (
 [invalid_reason] varchar(1) NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.specimen (
+CREATE TABLE {sc}.specimen (
 [specimen_id] bigint NOT NULL,
 [person_id] bigint NOT NULL,
 [specimen_concept_id] bigint NOT NULL,
@@ -507,7 +507,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.specimen (
 [disease_status_source_value] varchar(50) NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.visit_detail (
+CREATE TABLE {sc}.visit_detail (
 [visit_detail_id] bigint NOT NULL,
 [person_id] bigint NOT NULL,
 [visit_detail_concept_id] bigint NOT NULL,
@@ -529,7 +529,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.visit_detail (
 [visit_occurrence_id] bigint NOT NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.visit_occurrence (
+CREATE TABLE {sc}.visit_occurrence (
 [visit_occurrence_id] bigint NOT NULL,
 [person_id] bigint NOT NULL,
 [visit_concept_id] bigint NOT NULL,
@@ -549,7 +549,7 @@ CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.visit_occurrence (
 [preceding_visit_occurrence_id] bigint NULL
 );
 
-CREATE TABLE mssql.optum_extended_ses_cdm_test_ddl.vocabulary (
+CREATE TABLE {sc}.vocabulary (
 [vocabulary_id] varchar(20) NULL,
 [vocabulary_name] varchar(255) NULL,
 [vocabulary_reference] varchar(255) NULL,

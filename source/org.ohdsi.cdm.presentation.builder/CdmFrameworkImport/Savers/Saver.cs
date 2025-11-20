@@ -6,6 +6,7 @@ using org.ohdsi.cdm.framework.common.Omop;
 using org.ohdsi.cdm.framework.desktop;
 using org.ohdsi.cdm.framework.desktop.DataReaders;
 using org.ohdsi.cdm.framework.desktop.Enums;
+using Spectre.Console;
 using System.Data;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings;
 
@@ -261,7 +262,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport.Savers
                 catch (Exception e)
                 {
                     var personIds = chunk.Persons.Select(s => s.PersonId).OrderBy(s => s).ToList();
-                    Console.WriteLine("Failed to write to table " + table + "! " + e.Message);
+                    AnsiConsole.WriteLine("Failed to write to table " + table + "! " + e.Message);
                     throw;
                 }
             }

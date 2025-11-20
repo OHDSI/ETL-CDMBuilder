@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Spectre.Console;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace org.ohdsi.cdm.presentation.builder
@@ -61,7 +62,7 @@ namespace org.ohdsi.cdm.presentation.builder
             {
                 File.AppendAllText($@"{buildingFolder}\log.txt", $@"{DateTime.Now:G}| {message}{Environment.NewLine}");
             }
-            Console.WriteLine(message);
+            AnsiConsole.WriteLine(message);
         }
 
         public static IEnumerable<string> GetErrors()

@@ -2,6 +2,7 @@
 using org.ohdsi.cdm.framework.desktop.Savers;
 using org.ohdsi.cdm.presentation.builder.CdmFrameworkImport;
 using org.ohdsi.cdm.presentation.builder.Utility;
+using Spectre.Console;
 using System.Diagnostics;
 using System.Globalization;
 
@@ -27,7 +28,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         public int CreateChunks(string chunksSchema)
         {
-            Console.WriteLine("\r\nGenerating chunk ids...");
+            AnsiConsole.WriteLine("\r\nGenerating chunk ids...");
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
@@ -68,7 +69,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Chunks have not been properly created!");
+                    AnsiConsole.WriteLine("Chunks have not been properly created!");
                     throw;
                 }
             }
@@ -78,8 +79,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             var elapsedSeconds = Math.Round((double)sw.ElapsedMilliseconds / 1000, 3);
             var culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
             culture.NumberFormat.NumberGroupSeparator = " ";
-            Console.WriteLine($"Chunk ids have been generated, saved, and have their hash calculated - { elapsedSeconds }s");
-            Console.WriteLine($"Persons count = { personsCount.ToString(culture) }"
+            AnsiConsole.WriteLine($"Chunk ids have been generated, saved, and have their hash calculated - { elapsedSeconds }s");
+            AnsiConsole.WriteLine($"Persons count = { personsCount.ToString(culture) }"
                 + $" | Chunk size = { Settings.Current.Building.ChunkSize.ToString(culture) }"
                 + $" | Chunks count = { chunksCount }");
 

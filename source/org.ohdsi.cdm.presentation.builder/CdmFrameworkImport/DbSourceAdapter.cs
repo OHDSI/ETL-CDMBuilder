@@ -1,4 +1,5 @@
 ﻿using org.ohdsi.cdm.framework.desktop.Helpers;
+using Spectre.Console;
 using System.Data;
 using System.Data.Odbc;
 
@@ -89,6 +90,9 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
             //use default _chunks script
             else
             {
+                if (Settings.Current.Building.SourceEngine.Database == framework.desktop.Enums.Database.MsSql
+                    && !origQuery.Contains(", [PartitionId] [int]"))
+                    origQuery = origQuery.Replace("[ChunkId] [int],", "[ChunkId] [int], [PartitionId] [int],");
                 using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
                 using var cmd = new OdbcCommand(origQuery, connection);
                 cmd.ExecuteNonQuery();
@@ -115,7 +119,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
         {
             var query = GetQuery("DropChunkTable.sql", schemaName);
 
-            Console.WriteLine("DropChunkTable:" + query);
+            AnsiConsole.WriteLine("DropChunkTable:" + query);
             using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
             using var cmd = new OdbcCommand(query, connection);
             cmd.CommandTimeout = 6000;

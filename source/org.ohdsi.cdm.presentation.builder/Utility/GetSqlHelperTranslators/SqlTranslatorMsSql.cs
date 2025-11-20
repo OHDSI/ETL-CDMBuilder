@@ -297,6 +297,11 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
                 queryChanged = queryChanged.Replace("DATEPART(MONTH, m2.startDate)",
                     "RIGHT('0' + CAST(DATEPART(MONTH, m2.startDate) AS VARCHAR), 2)",
                     StringComparison.CurrentCultureIgnoreCase);
+
+                //group by -> baby_person_id
+                queryChanged = queryChanged.Replace("a.SPONSOR_SOURCE_VALUE, a.FAMILY_SOURCE_VALUE, baby_person_id, m2.yrdob, m2.startDate",
+                    "a.SPONSOR_SOURCE_VALUE, a.FAMILY_SOURCE_VALUE, m2.patid, m2.yrdob, m2.startDate",
+                    StringComparison.CurrentCultureIgnoreCase);
             }
 
             if (_table.Equals("rx_claims", StringComparison.CurrentCultureIgnoreCase))

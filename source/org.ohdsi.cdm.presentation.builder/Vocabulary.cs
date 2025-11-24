@@ -49,7 +49,7 @@ namespace org.ohdsi.cdm.presentation.builder
                 Ingredients = new HashSet<long>()
             };
 
-            if (reader.FieldCount > 5)
+            if (reader.FieldCount > 6)
             {
                 var sourceConceptId = int.TryParse(reader[6].ToString(), out var scptId) ? scptId : 0;
                 lv.SourceConcepts = new HashSet<SourceConcepts>() { new SourceConcepts() { ConceptId = sourceConceptId } };

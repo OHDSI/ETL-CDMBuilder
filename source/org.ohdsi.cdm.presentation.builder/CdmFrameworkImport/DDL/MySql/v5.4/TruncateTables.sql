@@ -1,5 +1,4 @@
-﻿truncate TABLE {sc}._version;
-truncate TABLE {sc}.care_site;
+﻿truncate TABLE {sc}.care_site;
 truncate TABLE {sc}.cdm_source;
 truncate TABLE {sc}.cohort;
 truncate TABLE {sc}.cohort_attribute;

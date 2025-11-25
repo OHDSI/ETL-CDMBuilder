@@ -156,14 +156,10 @@ namespace org.ohdsi.cdm.presentation.builder
 
 
             AnsiConsole.WriteLine("\r\nLoading lookups");
+
             foreach (var qd in Settings.Current.Building.SourceQueryDefinitions)
                 try
                 {
-                    //#region debug, remove after fixing Lookup
-                    //if (qd.FileName == "alz_biomarker")
-                    //    continue;
-                    //#endregion
-
                     if (forLookup)
                     {
                         Load(qd.CareSites);

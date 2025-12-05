@@ -329,6 +329,10 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
                 queryChanged = queryChanged.Replace("len(pat.ms_drg)",
                     "length(cast(pat.ms_drg as varchar))",
                     StringComparison.CurrentCultureIgnoreCase);
+
+                queryChanged = queryChanged.Replace("length(pat.ms_drg)",
+                    "length(cast(pat.ms_drg as varchar))",
+                    StringComparison.CurrentCultureIgnoreCase);
             }
 
             return queryChanged;

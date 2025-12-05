@@ -141,10 +141,6 @@ namespace org.ohdsi.cdm.presentation.builder
             if (Settings.Current.Building.SourceQueryDefinitions == null)
                 throw new NoNullAllowedException("Settings.Current.Building.SourceQueryDefinitions is null!");
 
-
-            var timer = new Stopwatch();
-            timer.Start();
-
             _genderConcepts = new GenderLookup();
             _genderConcepts.Load();
 
@@ -193,13 +189,14 @@ namespace org.ohdsi.cdm.presentation.builder
                     throw;
                 }
 
+            mappers = mappers
+                .DistinctBy(s => s.Lookup)
+                .OrderBy(s => s.Lookup)
+                .ToList();
+
             Load(mappers);
 
             LoadPregnancyDrug();
-
-            timer.Stop();
-            var elapsedSeconds = Math.Round(Convert.ToDecimal(timer.ElapsedMilliseconds) / 1000, 3);
-            AnsiConsole.WriteLine($"Loading lookups - DONE - {elapsedSeconds} s\r\n");
         }
 
         private List<Mapper> GetMappers(IEnumerable<EntityDefinition> definitions)

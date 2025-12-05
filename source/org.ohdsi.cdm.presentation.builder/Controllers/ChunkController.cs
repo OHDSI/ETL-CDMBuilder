@@ -2,6 +2,7 @@
 using org.ohdsi.cdm.framework.desktop.Savers;
 using org.ohdsi.cdm.presentation.builder.CdmFrameworkImport;
 using org.ohdsi.cdm.presentation.builder.Utility;
+using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
 using Spectre.Console;
 using System.Diagnostics;
 using System.Globalization;
@@ -89,31 +90,48 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             return chunksCount;
         }
 
-        IEnumerable<ChunkRecord> GetPersonKeys()
-        {            
-            var query = Utility.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess, 
-                Settings.Current.Building.SourceEngine.Database, Settings.Current.Building.BatchScript, 
+        List<ChunkRecord> GetPersonKeys()
+        {
+            var query = Utility.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess,
+                Settings.Current.Building.SourceEngine.Database, Settings.Current.Building.BatchScript,
                 Settings.Current.Building.SourceSchema, Settings.Current.Building.SourceSchema, Settings.Current.Building.VendorToProcess.PersonTableName);
 
-            foreach (var reader in _dbSource.GetPersonKeys(query, Settings.Current.Building.SourceSchema))
-            {
-                if (reader[0] == null || reader[1] == null)
-                    continue;
+            var result = new List<ChunkRecord>();
 
-                long personId = long.Parse(reader[0].ToString().Trim());
-                string personSource = reader[1].ToString().Trim();
-                int partitionId = 0;
-                try
+            AnsiConsole.Progress()
+                .AutoClear(false)
+                .HideCompleted(false)
+                .Columns(
+                    new TaskDescriptionColumn(),
+                    new ElapsedTimeColumn(),
+                    new SpinnerColumn())
+                .Start(ctx =>
                 {
-                    partitionId = int.Parse(reader[2].ToString().Trim());
-                }
-                catch (Exception e)
-                {
-                    //partitionId is not set
-                }
+                    var overallTask = ctx.AddTask($"Reading person table...");
 
-                yield return new ChunkRecord() { PersonId = personId, PersonSource = personSource, PartitionId = partitionId };
-            }
+                    foreach (var reader in _dbSource.GetPersonKeys(query, Settings.Current.Building.SourceSchema))
+                    {
+                        if (reader[0] == null || reader[1] == null)
+                            continue;
+
+                        long personId = long.Parse(reader[0].ToString().Trim());
+                        string personSource = reader[1].ToString().Trim();
+                        int partitionId = 0;
+                        try
+                        {
+                            partitionId = int.Parse(reader[2].ToString().Trim());
+                        }
+                        catch (Exception e)
+                        {
+                            //partitionId is not set
+                        }
+
+                        result.Add(new ChunkRecord() { PersonId = personId, PersonSource = personSource, PartitionId = partitionId });
+                        overallTask.Description = $"Reading person table... {result.Count} ids";
+                    }
+                });
+
+            return result;                
         }
     }
 }

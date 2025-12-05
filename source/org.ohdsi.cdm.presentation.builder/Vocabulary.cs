@@ -1,6 +1,7 @@
 ﻿using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Lookups;
 using org.ohdsi.cdm.framework.desktop.Helpers;
+using org.ohdsi.cdm.presentation.builder.AnsiConsoleColumns;
 using Spectre.Console;
 using System.Data;
 using System.Data.Odbc;
@@ -68,68 +69,67 @@ namespace org.ohdsi.cdm.presentation.builder
         }
 
 
-        private void Load(IEnumerable<EntityDefinition> definitions)
+        private void Load(List<Mapper> conceptIdMappers)
         {
-            if (definitions == null) return;
+            if (conceptIdMappers == null) return;
 
-            foreach (var item in definitions)
-                if (item != null)
-                    item.Vocabulary = this;
-
-            var conceptIdMappers = definitions
-                .Where(s => s != null)
-                .Where(s => s.Concepts != null)
-                .SelectMany(s => s.Concepts)
-                .Where(s => s.ConceptIdMappers != null)
-                .SelectMany(s => s.ConceptIdMappers)
-                .Where(s => !string.IsNullOrEmpty(s.Lookup))
-                .Where(s => !_lookups.ContainsKey(s.Lookup))
-                .ToList();
-
-            foreach (var conceptIdMapper in conceptIdMappers)
-            {
-                string sqlRedshift = _vendorLookups.First(s => s.Key.EndsWith("." + conceptIdMapper.Lookup + ".sql")).Value;
-                sqlRedshift = sqlRedshift.Replace("{base}", _baseSql);
-                sqlRedshift = sqlRedshift.Replace("{sc}", Settings.Current.Building.VocabSchema);
-
-                var sql = Utility.GetSqlHelper.TranslateSqlFromRedshift(FrameworkSettings.Current.Building.Vendor, Settings.Current.Building.VocabularyEngine.Database,
-                    sqlRedshift, FrameworkSettings.Current.Building.VocabularySchemaName, FrameworkSettings.Current.Building.VocabularySchemaName, null, null);
-
-                try
+            AnsiConsole.Progress()
+                .AutoClear(false)
+                .HideCompleted(false)
+                .Columns(
+                    new TaskDescriptionColumn(),
+                    new FrozenElapsedTimeColumn(),
+                    new SpinnerColumn())
+                .Start(ctx =>
                 {
-                    var timer = new Stopwatch();
-                    timer.Start();
+                    var overallTask = ctx.AddTask($"Reading vocabulary...", maxValue: conceptIdMappers.Count);
+                    int i = 0;
 
-                    using (var connection = SqlConnectionHelper.OpenOdbcConnection(Settings.Current.Building.VocabularyConnectionString))
-                    using (var command = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
-                    using (var reader = command.ExecuteReader())
+                    foreach (var conceptIdMapper in conceptIdMappers)
                     {
-                        var lookup = _lookups.TryGetValue(conceptIdMapper.Lookup, out var existingLookup)
-                            ? existingLookup
-                            : new Lookup();
+                        i++;
+                        overallTask.Description = $"Reading vocabulary ({i}/{conceptIdMappers.Count})...";
 
-                        while (reader.Read())
+                        var currentTask = ctx.AddTask($"{conceptIdMapper.Lookup}");
+
+                        string sqlRedshift = _vendorLookups.First(s => s.Key.EndsWith("." + conceptIdMapper.Lookup + ".sql")).Value;
+                        sqlRedshift = sqlRedshift.Replace("{base}", _baseSql);
+                        sqlRedshift = sqlRedshift.Replace("{sc}", Settings.Current.Building.VocabSchema);
+
+                        var sql = Utility.GetSqlHelper.TranslateSqlFromRedshift(FrameworkSettings.Current.Building.Vendor, Settings.Current.Building.VocabularyEngine.Database,
+                            sqlRedshift, FrameworkSettings.Current.Building.VocabularySchemaName, FrameworkSettings.Current.Building.VocabularySchemaName, null, null);
+
+                        try
                         {
-                            var lv = CreateLookupValue(reader);
-                            lookup.Add(lv);
+                            using (var connection = SqlConnectionHelper.OpenOdbcConnection(Settings.Current.Building.VocabularyConnectionString))
+                            using (var command = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
+                            using (var reader = command.ExecuteReader())
+                            {
+                                var lookup = _lookups.TryGetValue(conceptIdMapper.Lookup, out var existingLookup)
+                                    ? existingLookup
+                                    : new Lookup();
+
+                                while (reader.Read())
+                                {
+                                    var lv = CreateLookupValue(reader);
+                                    lookup.Add(lv);
+                                }
+
+                                _lookups[conceptIdMapper.Lookup] = lookup;
+                            }
+
+                            currentTask.Description = $"{conceptIdMapper.Lookup} | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}";
+                            currentTask.Increment(currentTask.MaxValue - currentTask.Value);
+                            currentTask.StopTask();
                         }
-
-                        _lookups[conceptIdMapper.Lookup] = lookup;
+                        catch (Exception e)
+                        {
+                            Logger.WriteWarning("Lookup error [file]: " + conceptIdMapper.Lookup);
+                            Logger.WriteWarning("Lookup error [query]: " + sql);
+                            throw;
+                        }
                     }
-
-                    timer.Stop();
-                    var elapsedSeconds = Math.Round(Convert.ToDecimal(timer.ElapsedMilliseconds) / 1000, 3);
-                    Logger.Write(null, Logger.LogMessageTypes.Info,
-                        $"{conceptIdMapper.Lookup} - DONE - {elapsedSeconds} s | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}");
-                }
-                catch (Exception e)
-                {
-                    Logger.WriteWarning("Lookup error [file]: " + conceptIdMapper.Lookup);
-                    Logger.WriteWarning("Lookup error [query]: " + sql);
-                    throw;
-                }
-            }
-
+                });
         }
 
         /// <summary>
@@ -155,48 +155,74 @@ namespace org.ohdsi.cdm.presentation.builder
             _vendorLookups = Utility.EmbeddedResourceManager.ReadEmbeddedResources(null, vendorFolder + ".Lookups");
 
 
-            AnsiConsole.WriteLine("\r\nLoading lookups");
+            var mappers = new List<Mapper>();
 
             foreach (var qd in Settings.Current.Building.SourceQueryDefinitions)
                 try
                 {
                     if (forLookup)
                     {
-                        Load(qd.CareSites);
-                        Load(qd.Providers);
-                        Load(qd.Locations);
+                        mappers.AddRange(GetMappers(qd.CareSites));
+                        mappers.AddRange(GetMappers(qd.Providers));
+                        mappers.AddRange(GetMappers(qd.Locations));
                     }
                     else
                     {
-                        Load(qd.Persons);
-                        Load(qd.ConditionOccurrence);
-                        Load(qd.DrugExposure);
-                        Load(qd.ProcedureOccurrence);
-                        Load(qd.Observation);
-                        Load(qd.VisitOccurrence);
-                        Load(qd.VisitDetail);
-                        Load(qd.Death);
-                        Load(qd.Measurement);
-                        Load(qd.DeviceExposure);
-                        Load(qd.Note);
+                        mappers.AddRange(GetMappers(qd.Persons));
+                        mappers.AddRange(GetMappers(qd.ConditionOccurrence));
+                        mappers.AddRange(GetMappers(qd.DrugExposure));
+                        mappers.AddRange(GetMappers(qd.ProcedureOccurrence));
+                        mappers.AddRange(GetMappers(qd.Observation));
+                        mappers.AddRange(GetMappers(qd.VisitOccurrence));
+                        mappers.AddRange(GetMappers(qd.VisitDetail));
+                        mappers.AddRange(GetMappers(qd.Death));
+                        mappers.AddRange(GetMappers(qd.Measurement));
+                        mappers.AddRange(GetMappers(qd.DeviceExposure));
+                        mappers.AddRange(GetMappers(qd.Note));
 
-                        Load(qd.VisitCost);
-                        Load(qd.ProcedureCost);
-                        Load(qd.DeviceCost);
-                        Load(qd.ObservationCost);
-                        Load(qd.MeasurementCost);
-                        Load(qd.DrugCost);
+                        mappers.AddRange(GetMappers(qd.VisitCost));
+                        mappers.AddRange(GetMappers(qd.ProcedureCost));
+                        mappers.AddRange(GetMappers(qd.DeviceCost));
+                        mappers.AddRange(GetMappers(qd.ObservationCost));
+                        mappers.AddRange(GetMappers(qd.MeasurementCost));
+                        mappers.AddRange(GetMappers(qd.DrugCost));
                     }
                 }
                 catch( Exception e)
                 {
                     throw;
                 }
+
+            Load(mappers);
+
             LoadPregnancyDrug();
 
             timer.Stop();
             var elapsedSeconds = Math.Round(Convert.ToDecimal(timer.ElapsedMilliseconds) / 1000, 3);
             AnsiConsole.WriteLine($"Loading lookups - DONE - {elapsedSeconds} s\r\n");
+        }
+
+        private List<Mapper> GetMappers(IEnumerable<EntityDefinition> definitions)
+        {
+            var result = new List<Mapper>();
+
+            if (definitions == null) return result;
+
+            foreach (var item in definitions)
+                if (item != null)
+                    item.Vocabulary = this;
+
+            result = definitions
+                .Where(s => s != null)
+                .Where(s => s.Concepts != null)
+                .SelectMany(s => s.Concepts)
+                .Where(s => s.ConceptIdMappers != null)
+                .SelectMany(s => s.ConceptIdMappers)
+                .Where(s => !string.IsNullOrEmpty(s.Lookup))
+                .Where(s => !_lookups.ContainsKey(s.Lookup))
+                .ToList();
+
+            return result;
         }
 
 

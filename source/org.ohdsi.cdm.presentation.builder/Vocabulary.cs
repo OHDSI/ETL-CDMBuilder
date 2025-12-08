@@ -82,6 +82,9 @@ namespace org.ohdsi.cdm.presentation.builder
                     new SpinnerColumn())
                 .Start(ctx =>
                 {
+                    if (conceptIdMappers.Count == 0)
+                        return;
+
                     var overallTask = ctx.AddTask($"Reading vocabulary...", maxValue: conceptIdMappers.Count);
                     int i = 0;
 

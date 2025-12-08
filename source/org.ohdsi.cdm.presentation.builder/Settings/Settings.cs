@@ -1,5 +1,6 @@
 ﻿using org.ohdsi.cdm.framework.common.Extensions;
 using org.ohdsi.cdm.presentation.builder.Utility;
+using Spectre.Console;
 using System.Linq;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings.Settings;
 
@@ -66,23 +67,34 @@ namespace org.ohdsi.cdm.presentation.builder
 
         private static string ReadEmbeddedResource(string resourceName)
         {
-            var frameworkResources = EmbeddedResourceManager.ReadEmbeddedResources("org.ohdsi.cdm.framework", resourceName, StringComparison.CurrentCultureIgnoreCase);
-            var presentationResources = EmbeddedResourceManager.ReadEmbeddedResources("org.ohdsi.cdm.presentation.builder", resourceName, StringComparison.CurrentCultureIgnoreCase);
-            var resources = frameworkResources.Union(presentationResources).ToList();
+            var requiredVersion = getVersion(Settings.Current.Building.Cdm.ToName());
 
-            var databased = resources
+            var frameworkResources = EmbeddedResourceManager.ReadEmbeddedResources("org.ohdsi.cdm.framework", resourceName, StringComparison.CurrentCultureIgnoreCase);
+            var frameworkFiltered = frameworkResources
                 .Where(s => s.Key.Contains(Current.Building.CdmEngine.Database.ToName(), StringComparison.InvariantCultureIgnoreCase))
                 .OrderByDescending(s => getVersion(s.Key))
                 .ToList()
                 ;
 
-            var requiredVersion = getVersion(Settings.Current.Building.Cdm.ToName());
+            var presentationResources = EmbeddedResourceManager.ReadEmbeddedResources("org.ohdsi.cdm.presentation.builder", resourceName, StringComparison.CurrentCultureIgnoreCase);
+            var presentationFiltered = presentationResources
+                .Where(s => s.Key.Contains(Current.Building.CdmEngine.Database.ToName(), StringComparison.InvariantCultureIgnoreCase))
+                .OrderByDescending(s => getVersion(s.Key))
+                .ToList()
+                ;
 
-            var result = databased.Any(s => s.Key.Contains("CdmFrameworkImport"))
-                ? databased.First(s => s.Key.Contains("CdmFrameworkImport"))
-                : databased.First(s => getVersion(s.Key) <= requiredVersion);
+            var frameworkResource = frameworkFiltered.First(s => getVersion(s.Key) <= requiredVersion);
+            var presentationResource = presentationFiltered.FirstOrDefault(s => getVersion(s.Key) <= requiredVersion);
 
-            return result.Value;
+            var result = frameworkResource.Value;
+
+            if (presentationResource.Value != null)
+            {
+                result = presentationResource.Value;
+                AnsiConsole.MarkupLine($"\r\n[yellow]File {presentationResource.Key} was overwritten![/]\r\n");
+            }
+
+            return result;
         }
 
         static float getVersion(string resourceKey)

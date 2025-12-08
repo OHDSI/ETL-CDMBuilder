@@ -4,6 +4,7 @@ using org.ohdsi.cdm.framework.common.Extensions;
 using org.ohdsi.cdm.framework.common.Utility;
 using org.ohdsi.cdm.framework.desktop.Databases;
 using org.ohdsi.cdm.presentation.builder.Utility;
+using Spectre.Console;
 using System.Configuration;
 using System.Reflection;
 using System.Xml.Serialization;
@@ -209,7 +210,7 @@ namespace org.ohdsi.cdm.presentation.builder
         private void SetVendorSettings(string databaseEngineName)
         {
             var relatedResources = EmbeddedResourceManager.ReadEmbeddedResources("ETL", VendorToProcess.Folder, StringComparison.InvariantCultureIgnoreCase);
-            var vendorResources = relatedResources.Where(s => s.Key.Contains("." + VendorToProcess.Folder + ".")).ToDictionary(); //strinct search in cases of CPRD and CPRDHES
+            var vendorResources = relatedResources.Where(s => s.Key.Contains("." + VendorToProcess.Folder + ".")).ToDictionary(); //strict search in cases of CPRD and CPRDHES
             BatchScript = vendorResources.FirstOrDefault(s => s.Key.Contains("Batch.sql")).Value;
 
             SourceQueryDefinitions = vendorResources
@@ -356,6 +357,28 @@ namespace org.ohdsi.cdm.presentation.builder
 
             var buildingSettings = new CdmFrameworkImport.BuildingSettings(0, VendorToProcess, EtlLibraryPath);
             EtlLibrary.LoadVendorSettings(EtlLibraryPath, buildingSettings);
+
+            #region resolve temproral query overrides
+
+            var vendorName = VendorToProcess.Name;
+            if (vendorName.StartsWith("Truven"))
+                vendorName = "Truven";
+
+            var overrides = EmbeddedResourceManager.ReadEmbeddedResources("org.ohdsi.cdm.presentation.builder", "." + vendorName + "."); //strict search
+            foreach (var v in overrides)
+            {
+                var fileName = v.Key.Replace(".xml", "").Split('.').Last();
+
+                QueryDefinition newQd = new QueryDefinition().DeserializeFromXml(v.Value);
+                newQd.FileName = fileName;
+
+                buildingSettings.SourceQueryDefinitions.RemoveAll(s => s.FileName.Equals(fileName, StringComparison.CurrentCultureIgnoreCase));
+                buildingSettings.SourceQueryDefinitions.Add(newQd);
+
+                AnsiConsole.MarkupLine($"[yellow]\r\nFile {fileName} was overwritten!\r\n[/]");
+            }
+
+            #endregion
 
             foreach (var sourceQueryDefinion in buildingSettings.SourceQueryDefinitions)
             {

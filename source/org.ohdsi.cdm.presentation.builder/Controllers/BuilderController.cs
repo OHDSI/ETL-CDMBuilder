@@ -1,6 +1,7 @@
 ﻿using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Lookups;
 using org.ohdsi.cdm.framework.common.Omop;
+using org.ohdsi.cdm.presentation.builder.AnsiConsoleColumns;
 using org.ohdsi.cdm.presentation.builder.Base.DbDestinations;
 using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
 using Spectre.Console;
@@ -87,60 +88,61 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             AnsiConsole.WriteLine("\r\nTable truncation complete!");
         }
 
-        public void TruncateWithoutLookupTables()
-        {
-            var dbDestination = DbDestinationFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
-                Settings.Current.Building.CdmSchema);
-
-            dbDestination.ExecuteQuery(Settings.Current.TruncateWithoutLookupTablesScript);
-        }
-
-        public void ResetVocabularyStep()
-        {
-            var dbDestination = DbDestinationFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
-                Settings.Current.Building.CdmSchema);
-
-            dbDestination.ExecuteQuery(Settings.Current.DropVocabularyTablesScript);
-        }
-
         public void CreateLookup(IVocabulary vocabulary, string chunkSchema)
         {
-            var timer = new Stopwatch();
-            timer.Start();
             vocabulary.Fill(true);
+
             var locationConcepts = new List<Location>();
             var careSiteConcepts = new List<CareSite>();
             var providerConcepts = new List<Provider>();
 
-            AnsiConsole.WriteLine("Loading locations...");
-            var location = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.Locations != null);
-            if (location != null)
-            {
-                FillList<Location>(locationConcepts, location, location.Locations[0], _etlLibraryPath, chunkSchema);
-            }
+            AnsiConsole.Progress()
+                .AutoClear(false)
+                .HideCompleted(false)
+                .Columns(
+                    new TaskDescriptionColumn(),
+                    new FrozenElapsedTimeColumn(),
+                    new SpinnerColumn())
+                .Start(ctx =>
+                {
+                    #region Location
+                    var location = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.Locations != null);
 
-            if (locationConcepts.Count == 0)
-                locationConcepts.Add(new Location { Id = Entity.GetId(null) });
-            AnsiConsole.WriteLine("Locations were loaded");
+                    if (location != null)
+                    {
+                        var locationTask = ctx.AddTask("Loading Location...");
+                        FillList<Location>(locationConcepts, location, location.Locations[0], _etlLibraryPath, chunkSchema, "Location", locationTask);
+                    }
 
-            AnsiConsole.WriteLine("Loading care sites...");
-            var careSite = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.CareSites != null);
-            if (careSite != null)
-            {
-                FillList<CareSite>(careSiteConcepts, careSite, careSite.CareSites[0], _etlLibraryPath, chunkSchema);
-            }
+                    if (locationConcepts.Count == 0)
+                        locationConcepts.Add(new Location { Id = Entity.GetId(null) });
+                    #endregion
 
-            if (careSiteConcepts.Count == 0)
-                careSiteConcepts.Add(new CareSite { Id = 0, LocationId = 0, OrganizationId = 0, PlaceOfSvcSourceValue = null });
-            AnsiConsole.WriteLine("Care sites were loaded");
 
-            AnsiConsole.WriteLine("Loading providers...");
-            var provider = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.Providers != null);
-            if (provider != null)
-            {
-                FillList<Provider>(providerConcepts, provider, provider.Providers[0], _etlLibraryPath, chunkSchema);
-            }
-            AnsiConsole.WriteLine("Providers were loaded");
+                    #region CareSite
+                    var careSite = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.CareSites != null);
+
+                    if (careSite != null)
+                    {
+                        var careSiteTask = ctx.AddTask("Loading CareSite...");
+                        FillList<CareSite>(careSiteConcepts, careSite, careSite.CareSites[0], _etlLibraryPath, chunkSchema, "CareSite", careSiteTask);
+                    }
+
+                    if (careSiteConcepts.Count == 0)
+                        careSiteConcepts.Add(new CareSite { Id = 0, LocationId = 0, OrganizationId = 0, PlaceOfSvcSourceValue = null });
+                    #endregion
+
+
+                    #region Provider
+                    var provider = Settings.Current.Building.SourceQueryDefinitions.FirstOrDefault(qd => qd.Providers != null);
+
+                    if (provider != null)
+                    {
+                        var providerTask = ctx.AddTask("Loading Provider...");
+                        FillList<Provider>(providerConcepts, provider, provider.Providers[0], _etlLibraryPath, chunkSchema, "Provider", providerTask);
+                    }
+                    #endregion
+                });
 
             try
             {
@@ -149,21 +151,13 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 var saver = Settings.Current.Building.CdmEngine.GetSaver();
                 using (saver.Create(Settings.Current.Building.DestinationConnectionString))
                 {
-
                     saver.SaveEntityLookup(Settings.Current.Building.Cdm, locationConcepts, careSiteConcepts, providerConcepts, null);
-                    //System.NullReferenceException: 'Object reference not set to an instance of an object.'
-
                 }
             }
             catch (Exception ex)
             {
-                //throw;
+                throw;
             }
-
-            timer.Stop();
-            var elapsedSeconds = Math.Round(Convert.ToDecimal(timer.ElapsedMilliseconds) / 1000, 3);
-            Logger.Write(null, Logger.LogMessageTypes.Info,
-                $"Care site, Location and Provider tables were saved to CDM database - {elapsedSeconds} s");
 
             locationConcepts.Clear();
             careSiteConcepts.Clear();
@@ -174,8 +168,14 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             GC.Collect();
         }
 
-        private void FillList<T>(ICollection<T> list, QueryDefinition qd, EntityDefinition ed, string etlLibraryPath, string chunkSchema) where T : IEntity
+        private void FillList<T>(ICollection<T> list, QueryDefinition qd, EntityDefinition ed, string etlLibraryPath, 
+            string chunkSchema, string tableName, ProgressTask task) where T : IEntity
         {
+            if (!new[] { "Location", "CareSite", "Provider" }.Any(s => s == tableName))
+                throw new ArgumentException("Invalid name for FillList! " + tableName);
+
+            var initTaskDescription = task.Description;
+
             var vendor = Settings.Current.Building.VendorToProcess;
             var origQuery = qd.GetSql(vendor, Settings.Current.Building.SourceSchema, chunkSchema);
             if (string.IsNullOrEmpty(origQuery)) return;
@@ -207,6 +207,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                                 continue;
 
                             keys.Add(key, false);
+                            task.Description = initTaskDescription + "KeysCount=" + keys.Count;
 
                             list.Add(concept);
                         }

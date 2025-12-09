@@ -43,8 +43,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="org.ohdsi.cdm.framework" Version="1.1.1" />
-	  <PackageReference Include="org.ohdsi.cdm.framework.etl" Version="1.1.0" />
+	  <PackageReference Include="org.ohdsi.cdm.framework" Version="1.1.2" />
+	  <PackageReference Include="org.ohdsi.cdm.framework.etl" Version="1.1.1" />
 	  <PackageReference Include="Spectre.Console" Version="0.54.0" />
 	</ItemGroup>
 

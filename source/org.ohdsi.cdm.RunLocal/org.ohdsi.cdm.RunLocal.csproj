@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
-    <PackageReference Include="org.ohdsi.cdm.framework.etl" Version="1.1.0" />
+    <PackageReference Include="org.ohdsi.cdm.framework.etl" Version="1.1.1" />
     <PackageReference Include="Spectre.Console" Version="0.54.0" />
   </ItemGroup>
 

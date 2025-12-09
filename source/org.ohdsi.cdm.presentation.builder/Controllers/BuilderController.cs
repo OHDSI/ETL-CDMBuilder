@@ -110,7 +110,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
                     if (location != null)
                     {
-                        var locationTask = ctx.AddTask("Loading Location...");
+                        var locationTask = ctx.AddTask("Loading Location");
                         FillList<Location>(locationConcepts, location, location.Locations[0], _etlLibraryPath, chunkSchema, "Location", locationTask);
                     }
 
@@ -124,7 +124,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
                     if (careSite != null)
                     {
-                        var careSiteTask = ctx.AddTask("Loading CareSite...");
+                        var careSiteTask = ctx.AddTask("Loading CareSite");
                         FillList<CareSite>(careSiteConcepts, careSite, careSite.CareSites[0], _etlLibraryPath, chunkSchema, "CareSite", careSiteTask);
                     }
 
@@ -138,7 +138,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
                     if (provider != null)
                     {
-                        var providerTask = ctx.AddTask("Loading Provider...");
+                        var providerTask = ctx.AddTask("Loading Provider");
                         FillList<Provider>(providerConcepts, provider, provider.Providers[0], _etlLibraryPath, chunkSchema, "Provider", providerTask);
                     }
                     #endregion
@@ -207,7 +207,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                                 continue;
 
                             keys.Add(key, false);
-                            task.Description = initTaskDescription + "KeysCount=" + keys.Count;
+                            task.Description = initTaskDescription + " | KeysCount=" + keys.Count;
 
                             list.Add(concept);
                         }
@@ -292,11 +292,14 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                                 }
 
                                 var chunkTask = ctx.AddTask($"Chunk {chunkId}", maxValue: Settings.Current.Building.ChunkSize);
-                                ProcessChunkId(chunkId, chunkTask, overallTask, saveLock);                                
+                                ProcessChunkId(chunkId, chunkTask, overallTask, saveLock);
+                                chunkTask.Increment(chunkTask.MaxValue - chunkTask.Value);
                             }
                         }));
                     }
                     Task.WaitAll(workers.ToArray());
+                    overallTask.Increment(overallTask.MaxValue - overallTask.Value);
+
                 });
 
             for (int i = 0; i <= degreeParallel; i++)

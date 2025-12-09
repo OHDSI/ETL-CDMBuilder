@@ -326,7 +326,8 @@ CREATE TABLE {sc}.metadata (
 
 CREATE TABLE {sc}.metadata_tmp (
   person_id bigint NOT NULL,
-  name varchar(250) DEFAULT NULL
+  name varchar(250) DEFAULT NULL,
+  count bigint NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE {sc}.note (

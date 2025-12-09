@@ -13,36 +13,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="CdmFrameworkImport\DDL\MsSql\V5.4\CreateTables.sql" />
-	  <None Remove="CdmFrameworkImport\DDL\MsSql\V5.4\TruncateTables.sql" />
-	  <None Remove="CdmFrameworkImport\DDL\MySql\v5.4\CreateTables.sql" />
-	  <None Remove="CdmFrameworkImport\DDL\MySql\v5.4\TruncateTables.sql" />
-	  <None Remove="CdmFrameworkImport\DDL\Postgre\V5.4\CreateTables.sql" />
-	  <None Remove="CdmFrameworkImport\DDL\Postgre\V5.4\TruncateTables.sql" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Include="CdmFrameworkImport\DDL\MsSql\V5.4\CreateTables.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="CdmFrameworkImport\DDL\MsSql\V5.4\TruncateTables.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="CdmFrameworkImport\DDL\MySql\v5.4\CreateTables.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="CdmFrameworkImport\DDL\MySql\v5.4\TruncateTables.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="CdmFrameworkImport\DDL\Postgre\V5.4\CreateTables.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="CdmFrameworkImport\DDL\Postgre\V5.4\TruncateTables.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <PackageReference Include="org.ohdsi.cdm.framework" Version="1.1.2" />
 	  <PackageReference Include="org.ohdsi.cdm.framework.etl" Version="1.1.1" />
 	  <PackageReference Include="Spectre.Console" Version="0.54.0" />

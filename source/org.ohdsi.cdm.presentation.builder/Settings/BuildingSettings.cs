@@ -356,29 +356,7 @@ namespace org.ohdsi.cdm.presentation.builder
             #region set SourceQueryDefinitions
 
             var buildingSettings = new CdmFrameworkImport.BuildingSettings(0, VendorToProcess, EtlLibraryPath);
-            EtlLibrary.LoadVendorSettings(EtlLibraryPath, buildingSettings);
-
-            #region resolve temproral query overrides
-
-            var vendorName = VendorToProcess.Name;
-            if (vendorName.StartsWith("Truven"))
-                vendorName = "Truven";
-
-            var overrides = EmbeddedResourceManager.ReadEmbeddedResources("org.ohdsi.cdm.presentation.builder", "." + vendorName + "."); //strict search
-            foreach (var v in overrides)
-            {
-                var fileName = v.Key.Replace(".xml", "").Split('.').Last();
-
-                QueryDefinition newQd = new QueryDefinition().DeserializeFromXml(v.Value);
-                newQd.FileName = fileName;
-
-                buildingSettings.SourceQueryDefinitions.RemoveAll(s => s.FileName.Equals(fileName, StringComparison.CurrentCultureIgnoreCase));
-                buildingSettings.SourceQueryDefinitions.Add(newQd);
-
-                AnsiConsole.MarkupLine($"[yellow]\r\nFile {fileName} was overwritten!\r\n[/]");
-            }
-
-            #endregion
+            ResolveTemporalQueryOverrides(buildingSettings);
 
             foreach (var sourceQueryDefinion in buildingSettings.SourceQueryDefinitions)
             {
@@ -404,6 +382,30 @@ namespace org.ohdsi.cdm.presentation.builder
             fb.SourceQueryDefinitions = SourceQueryDefinitions;
 
             #endregion
+        }
+
+        void ResolveTemporalQueryOverrides(CdmFrameworkImport.BuildingSettings settings)
+        {
+
+            var vendorName = VendorToProcess.Name;
+            if (vendorName.StartsWith("Truven"))
+                vendorName = "Truven";
+            if (vendorName.StartsWith("OptumExtended"))
+                vendorName = "OptumExtended";
+
+            var overrides = EmbeddedResourceManager.ReadEmbeddedResources("org.ohdsi.cdm.presentation.builder", "." + vendorName + "."); //strict search
+            foreach (var v in overrides)
+            {
+                var fileName = v.Key.Replace(".xml", "").Split('.').Last();
+
+                QueryDefinition newQd = new QueryDefinition().DeserializeFromXml(v.Value);
+                newQd.FileName = fileName;
+
+                settings.SourceQueryDefinitions.RemoveAll(s => s.FileName.Equals(fileName, StringComparison.CurrentCultureIgnoreCase));
+                settings.SourceQueryDefinitions.Add(newQd);
+
+                AnsiConsole.MarkupLine($"[yellow]\r\nFile {fileName} was overwritten!\r\n[/]");
+            }
         }
 
         #endregion

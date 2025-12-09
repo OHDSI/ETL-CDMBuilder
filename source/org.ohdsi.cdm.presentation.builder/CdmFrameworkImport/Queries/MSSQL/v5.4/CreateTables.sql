@@ -316,7 +316,8 @@ CREATE TABLE {sc}.metadata (
 
 CREATE TABLE {sc}.metadata_tmp (
 [person_id] bigint NOT NULL,
-[name] varchar(250) NULL
+[name] varchar(250) NULL,
+[count] numeric(38, 2) NULL
 );
 
 CREATE TABLE {sc}.note (

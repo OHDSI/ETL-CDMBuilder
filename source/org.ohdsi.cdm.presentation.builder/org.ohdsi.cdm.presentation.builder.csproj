@@ -7,15 +7,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="CdmFrameworkImport\Transformation\**" />
+	  <EmbeddedResource Remove="CdmFrameworkImport\Transformation\**" />
+	  <None Remove="CdmFrameworkImport\Transformation\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="CdmFrameworkImport\DDL\MsSql\V5.4\CreateTables.sql" />
 	  <None Remove="CdmFrameworkImport\DDL\MsSql\V5.4\TruncateTables.sql" />
 	  <None Remove="CdmFrameworkImport\DDL\MySql\v5.4\CreateTables.sql" />
 	  <None Remove="CdmFrameworkImport\DDL\MySql\v5.4\TruncateTables.sql" />
 	  <None Remove="CdmFrameworkImport\DDL\Postgre\V5.4\CreateTables.sql" />
 	  <None Remove="CdmFrameworkImport\DDL\Postgre\V5.4\TruncateTables.sql" />
-	  <None Remove="CdmFrameworkImport\Transformation\Truven\FACILITY_HEADER.xml" />
-	  <None Remove="CdmFrameworkImport\Transformation\Truven\INPATIENT_ADMISSIONS.xml" />
-	  <None Remove="CdmFrameworkImport\Transformation\Truven\INPATIENT_SERVICES.xml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -35,15 +38,6 @@
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Include="CdmFrameworkImport\DDL\Postgre\V5.4\TruncateTables.sql">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="CdmFrameworkImport\Transformation\Truven\FACILITY_HEADER.xml">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="CdmFrameworkImport\Transformation\Truven\INPATIENT_ADMISSIONS.xml">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="CdmFrameworkImport\Transformation\Truven\INPATIENT_SERVICES.xml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	</ItemGroup>

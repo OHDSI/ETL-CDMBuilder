@@ -90,8 +90,6 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         public void CreateLookup(IVocabulary vocabulary, string chunkSchema)
         {
-            vocabulary.Fill(true);
-
             var locationConcepts = new List<Location>();
             var careSiteConcepts = new List<CareSite>();
             var providerConcepts = new List<Provider>();
@@ -220,10 +218,6 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
         {
             if (Settings.Current.Building.ChunksCount == 0)
                 Settings.Current.Building.ChunksCount = _chunkController.CreateChunks(chunksSchema);
-
-            var partitionPersons = new Dictionary<int, long>();
-
-            vocabulary.Fill(false);
 
             var degreeParallel = Math.Max(1, Environment.ProcessorCount - 1);
             var saveLock = new object();

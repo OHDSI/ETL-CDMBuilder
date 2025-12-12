@@ -12,6 +12,8 @@ namespace org.ohdsi.cdm.presentation.builder
 {
     public class Vocabulary : IVocabulary
     {
+        public int KeysCount => _lookups.Sum(s => s.Key.Count());
+
         private readonly Dictionary<string, Lookup> _lookups = new Dictionary<string, Lookup>();
         private GenderLookup _genderConcepts;
         private PregnancyConcepts _pregnancyConcepts;
@@ -118,7 +120,7 @@ namespace org.ohdsi.cdm.presentation.builder
                                     lookup.Add(lv);
                                 }
 
-                                _lookups[conceptIdMapper.Lookup] = lookup;
+                                _lookups[conceptIdMapper.Lookup] = lookup;                                
                             }
 
                             currentTask.Description = $"{conceptIdMapper.Lookup} | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}";

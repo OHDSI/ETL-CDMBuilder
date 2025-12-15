@@ -116,19 +116,16 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
                         long personId = long.Parse(reader[0].ToString().Trim());
                         string personSource = reader[1].ToString().Trim();
+
                         int partitionId = 0;
-                        try
-                        {
+                        if(reader.FieldCount > 2)
                             partitionId = int.Parse(reader[2].ToString().Trim());
-                        }
-                        catch (Exception e)
-                        {
-                            //partitionId is not set
-                        }
 
                         result.Add(new ChunkRecord() { PersonId = personId, PersonSource = personSource, PartitionId = partitionId });
-                        overallTask.Description = $"Reading person table... {result.Count} ids";
+                        if (result.Count % 100 == 0)
+                            overallTask.Description = $"Reading person table... {result.Count} ids";
                     }
+                    overallTask.Description = $"Reading person table... {result.Count} ids";
                 });
 
             return result;                

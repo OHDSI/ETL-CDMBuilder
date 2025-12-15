@@ -24,6 +24,9 @@
     <None Update="Bats\RunLocal_CPRD_Remote.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Bats\RunLocal_OE_DOD_Remote.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Bats\RunLocal_JMDC_Remote.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

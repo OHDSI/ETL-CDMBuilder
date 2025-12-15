@@ -379,8 +379,8 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             if (_table.Equals("SES", StringComparison.CurrentCultureIgnoreCase))
             {
-                queryChanged = queryChanged.Replace("last_day(cast(extract_ym || '01' as date)) date",
-                    "(date_trunc('month', cast(extract_ym || '01' as date) + interval '1 month') - interval '1 day')::date as date",
+                queryChanged = queryChanged.Replace("last_day(to_date(extract_ym || '01', 'yyyyMMdd')) date",
+                    "(to_date(extract_ym || '01', 'YYYYMMDD') + interval '1 month - 1 day')::date as date",
                     StringComparison.CurrentCultureIgnoreCase);                
             }
 
@@ -397,8 +397,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
 
             if (_table.Equals("enrollment", StringComparison.CurrentCultureIgnoreCase))
             {
-                queryChanged = queryChanged.Replace("DATEADD(DAY, -1, DATEADD(MONTH, 1, CAST(CAST(e.observation_end AS VARCHAR(6)) || '01' AS DATE))) AS observation_period_end_date",
-                    "(to_date(CAST(e.observation_end AS varchar) || '01','YYYYMMDD') + interval '1 month' - interval '1 day') AS observation_period_end_date",
+                queryChanged = queryChanged.Replace(
+                    "DATEADD(DAY, -1, DATEADD(MONTH, 1, to_date(CONCAT(CAST(e.observation_end AS VARCHAR(6)), '01'), 'yyyyMMdd'))) AS observation_period_end_date",
+                    "to_date(CONCAT(CAST(e.observation_end AS VARCHAR(6)), '01'), 'yyyyMMdd') + INTERVAL '1 month - 1 day' AS observation_period_end_date",
                     StringComparison.CurrentCultureIgnoreCase);
             }
 

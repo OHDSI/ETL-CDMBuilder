@@ -13,6 +13,41 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="CdmFrameworkImport\Queries\MSSQL\v5.4\CreateTables.sql" />
+	  <None Remove="CdmFrameworkImport\Queries\MySql\v5.4\CreateTables.sql" />
+	  <None Remove="CdmFrameworkImport\Queries\Postgre\v5.4\CreateTables.sql" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\JMDC\Enrollment.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumExtended\MEMBER_CONTINUOUS_ENROLLMENT.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumPanther\encounter.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\Truven\ENROLLMENT_DETAIL_MDCD.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\MSSQL\v5.4\CreateTables.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\MySql\v5.4\CreateTables.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Postgre\v5.4\CreateTables.sql">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\JMDC\Enrollment.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\OptumExtended\MEMBER_CONTINUOUS_ENROLLMENT.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\OptumPanther\encounter.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Truven\ENROLLMENT_DETAIL_MDCD.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	  <PackageReference Include="org.ohdsi.cdm.framework" Version="1.1.2" />
 	  <PackageReference Include="org.ohdsi.cdm.framework.etl" Version="1.1.1" />
 	  <PackageReference Include="Spectre.Console" Version="0.54.0" />

@@ -1,0 +1,156 @@
+﻿<QueryDefinition>
+	<Variables>
+		<Variable name="location" database="ses">me.region as Location</Variable>
+		<Variable name="location" database="dod">STATE as Location</Variable>
+	</Variables>
+	<Query>
+		with a as
+		(
+		SELECT DISTINCT
+		mce.PATID,
+		mce.YRDOB,
+		mce.GDR_CD,
+
+		me.ELIGEFF as me_ELIGEFF,
+		me.ELIGEND as me_ELIGEND,
+
+		mce.ELIGEFF as mce_ELIGEFF,
+		mce.ELIGEND as mce_ELIGEND,
+
+		CASE
+		WHEN me.eligeff &lt; to_date('05/01/2000', 'MM/dd/yyyy') THEN to_date('05/01/2000', 'MM/dd/yyyy')
+		ELSE me.eligeff
+		END as p_p_startDate,
+
+		CASE
+		WHEN mce.eligeff &lt; to_date('05/01/2000', 'MM/dd/yyyy') THEN to_date('05/01/2000', 'MM/dd/yyyy')
+		ELSE mce.eligeff
+		END as o_p_startDate,
+
+		32813 as PeriodTypeConceptId,
+		case
+		when me.race is null or me.race = '' or lower(me.race) = 'u' then 0
+		when lower(me.race) = 'a' then 8515
+		when lower(me.race) = 'b' then 8516
+		when lower(me.race) = 'w' then 8527
+		else 0
+		end as RaceConceptId,
+		case
+		when me.ethnicity is null or me.ethnicity = '' or lower(me.ethnicity) = 'u' then 0
+		when lower(me.ethnicity) = 'n' then 38003564
+		when lower(me.ethnicity) = 'h' then 38003563
+		else 0
+		end as EthnicityConceptId,
+		me.race AS RACE,
+		me.ethnicity AS ETHNICITY,
+		{location},
+
+		case
+		when me.bus = 'MCR' then 281
+		when me.health_exch = '1' then 275
+		when me.health_exch in ('2','3') then 276
+		when me.bus = 'COM' then 327
+		else 0
+		end as PAYER_CONCEPT_ID,
+		CONCAT(me.bus, me.health_exch) as PAYER_SOURCE_VALUE,
+		CONCAT(me.product, me.cdhp) as PLAN_SOURCE_VALUE,
+		CONCAT(me.aso, me.group_nbr) as SPONSOR_SOURCE_VALUE,
+		me.family_id as FAMILY_SOURCE_VALUE,
+		ch.PartitionId
+		FROM {sc}.MEMBER_CONTINUOUS_ENROLLMENT mce
+		JOIN {ch_sc}._chunks ch ON ch.ChunkId = {0} AND mce.PATID = ch.PERSON_ID
+		LEFT JOIN {sc}.MEMBER_ENROLLMENT me ON mce.PATID = me.PATID
+		),
+		a2 as
+		(
+		SELECT DISTINCT
+		mce.PATID,
+		mce.YRDOB,
+		CASE
+		WHEN mce.eligeff &lt; to_date('05/01/2000', 'MM/dd/yyyy') THEN to_date('05/01/2000', 'MM/dd/yyyy')
+		ELSE mce.eligeff
+		END as startDate,
+		me.family_id as FAMILY_SOURCE_VALUE
+		FROM {sc}.MEMBER_CONTINUOUS_ENROLLMENT mce
+		LEFT JOIN {sc}.MEMBER_ENROLLMENT me ON mce.PATID = me.PATID
+		)
+
+		select a.PATID,
+		a.YRDOB,
+		a.GDR_CD,
+		a.me_ELIGEFF,
+		a.me_ELIGEND,
+		a.mce_ELIGEFF,
+		a.mce_ELIGEND,
+		a.p_p_startDate,
+		a.o_p_startDate,
+		a.PeriodTypeConceptId,
+		a.RaceConceptId,
+		a.EthnicityConceptId,
+		a.RACE,
+		a.ETHNICITY,
+		a.Location,
+		a.PAYER_CONCEPT_ID,
+		a.PAYER_SOURCE_VALUE,
+		a.PLAN_SOURCE_VALUE,
+		a.SPONSOR_SOURCE_VALUE,
+		a.FAMILY_SOURCE_VALUE,
+
+		m2.patid as baby_person_id,
+		case
+		when DATE_PART('year', m2.startDate) = m2.yrdob then min(m2.startDate)
+		else min(to_date((CAST(m2.yrdob AS VARCHAR(4)) || '-' || DATE_PART('MONTH', m2.startDate) || '-01'), 'yyyy-M-dd'))
+		end as baby_dob,
+		a.PartitionId
+		from a
+		left join a2 m2 on a.patid != m2.patid and a.gdr_cd = 'F' and a.FAMILY_SOURCE_VALUE is not null and a.FAMILY_SOURCE_VALUE = m2.FAMILY_SOURCE_VALUE and m2.yrdob - DATE_PART('YEAR', m2.startDate) = 0
+		group by a.PartitionId, a.patid, a.yrdob, a.gdr_cd, a.me_ELIGEFF, a.me_ELIGEND, a.mce_ELIGEFF, a.mce_ELIGEND, a.p_p_startDate, a.o_p_startDate, a.periodtypeconceptid, a.raceconceptid, a.ethnicityconceptid, a.race, a.ethnicity, a.location, a.PAYER_CONCEPT_ID, a.PAYER_SOURCE_VALUE, a.PLAN_SOURCE_VALUE, a.SPONSOR_SOURCE_VALUE, a.FAMILY_SOURCE_VALUE, baby_person_id, m2.yrdob, m2.startDate
+		order by a.PartitionId, a.PATID
+	</Query>
+	<Persons>
+		<PersonDefinition>
+			<PersonId>PATID</PersonId>
+			<PersonSourceValue>PATID</PersonSourceValue>
+			<StartDate>o_p_startDate</StartDate>
+			<EndDate>mce_ELIGEND</EndDate>
+			<Gender>GDR_CD</Gender>
+			<YearOfBirth>YRDOB</YearOfBirth>
+			<RaceConceptId>RaceConceptId</RaceConceptId>
+			<Race>RACE</Race>
+			<EthnicityConceptId>EthnicityConceptId</EthnicityConceptId>
+			<Ethnicity>ETHNICITY</Ethnicity>
+			<PeriodTypeConceptId>PeriodTypeConceptId</PeriodTypeConceptId>
+			<Location>Location</Location>
+			<PotentialChildId>baby_person_id</PotentialChildId>
+			<PotentialChildBirthDate>baby_dob</PotentialChildBirthDate>
+		</PersonDefinition>
+	</Persons>
+	<PayerPlanPeriods>
+		<PayerPlanPeriodDefinition>
+			<PersonId>PATID</PersonId>
+			<StartDate>p_p_startDate</StartDate>
+			<EndDate>me_ELIGEND</EndDate>
+			<FamilySource>FAMILY_SOURCE_VALUE</FamilySource>
+			<Concepts>
+				<!--payer_concept_id-->
+				<Concept>
+					<Fields>
+						<Field conceptId="PAYER_CONCEPT_ID" key="PAYER_SOURCE_VALUE" sourceKey="PAYER_SOURCE_VALUE" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+				<!--plan_concept_id-->
+				<Concept>
+					<Fields>
+						<Field defaultConceptId="0" key="PLAN_SOURCE_VALUE" sourceKey="PLAN_SOURCE_VALUE" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+				<!--sponsor_concept_id-->
+				<Concept>
+					<Fields>
+						<Field defaultConceptId="0" key="SPONSOR_SOURCE_VALUE" sourceKey="SPONSOR_SOURCE_VALUE" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</PayerPlanPeriodDefinition>
+	</PayerPlanPeriods>
+</QueryDefinition>

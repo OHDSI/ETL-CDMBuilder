@@ -1,0 +1,132 @@
+﻿<QueryDefinition>
+	<Query database="mdcd">
+		with a as (
+		SELECT ENROLID,
+		SEX,
+		DOBYR,
+		DTSTART,
+		DTEND,
+		CASE
+		WHEN DTSTART > DTEND THEN DTSTART
+		ELSE DTEND
+		END as END_DATE,
+		null PLANKEY,
+		null Family,
+		CAP,
+		MEDICARE,
+		STDRACE RACE_SOURCE_VALUE,
+		STDRACE ETHNICITY_SOURCE_VALUE,
+		CASE
+		WHEN STDRACE ='1' THEN 8527
+		WHEN STDRACE ='2' THEN 8516
+		ELSE 0
+		END AS RACE_CONCEPT_ID,
+		CASE
+		WHEN STDRACE ='4'
+		THEN 38003563 /*Hispanic or Latino*/
+		ELSE 0
+		END AS ETHNICITY_CONCEPT_ID,
+		CASE PLANTYP
+		WHEN 1 THEN 'Medicaid Basic/Major Medical'
+		WHEN 2 THEN 'Medicaid Comprehensive'
+		WHEN 3 THEN 'Medicaid EPO'
+		WHEN 4 THEN 'Medicaid HMO'
+		WHEN 5 THEN 'Medicaid POS'
+		WHEN 6 THEN 'Medicaid PPO'
+		WHEN 7 THEN 'Medicaid POS with Capitation'
+		WHEN 8 THEN 'Medicaid CDHP'
+		WHEN 9 THEN 'Medicaid HDHP'
+		ELSE 'Medicaid Other'
+		END as ps,
+		null EGEOLOC,
+		32813 PeriodTypeConceptId,
+		CASE WHEN MHSACOVG IS NULL THEN '0' ELSE MHSACOVG END AS VALUE_AS_NUMBER,
+		case when DRUGCOVG = '1' then 0 else 1  end as missinginsurance,
+		ch.partitionId
+		FROM {sc}.ENROLLMENT_DETAIL
+		JOIN {ch_sc}._chunks ch ON ch.ChunkId = {0} AND ENROLID = ch.PERSON_ID)
+
+		select
+		a.ENROLID,
+		a.SEX,
+		a.DOBYR,
+		a.DTSTART,
+		a.DTEND,
+		a.END_DATE,
+		a.PLANKEY,
+		a.Family,
+		a.CAP,
+		a.MEDICARE,
+		a.RACE_SOURCE_VALUE,
+		a.ETHNICITY_SOURCE_VALUE,
+		a.RACE_CONCEPT_ID,
+		a.ETHNICITY_CONCEPT_ID,
+		a.ps,
+		a.EGEOLOC,
+		a.PeriodTypeConceptId,
+		a.VALUE_AS_NUMBER,
+		a.missinginsurance,
+		CASE WHEN MEDICARE = '1' THEN 'D ' ELSE 'N ' END || CASE WHEN CAP = '1' THEN 'C ' ELSE 'N ' END
+		|| ps
+		PayerSource,
+		900000010 AS OBSERVATION_CONCEPT_ID,
+		'MHSACOVG' AS OBSERVATION_SOURCE_VALUE,
+		'mdcd' as vendor,
+		PartitionId
+		from a
+		ORDER BY PartitionId, ENROLID
+	</Query>
+	<Persons>
+		<PersonDefinition>
+			<PersonId>ENROLID</PersonId>
+			<PersonSourceValue>ENROLID</PersonSourceValue>
+			<StartDate>DTSTART</StartDate>
+			<EndDate>END_DATE</EndDate>
+			<Gender>SEX</Gender>
+			<YearOfBirth>DOBYR</YearOfBirth>
+			<Location>EGEOLOC</Location>
+			<Race>RACE_SOURCE_VALUE</Race>
+			<RaceConceptId>RACE_CONCEPT_ID</RaceConceptId>
+			<Ethnicity>ETHNICITY_SOURCE_VALUE</Ethnicity>
+			<EthnicityConceptId>ETHNICITY_CONCEPT_ID</EthnicityConceptId>
+			<PeriodTypeConceptId>PeriodTypeConceptId</PeriodTypeConceptId>
+			<AdditionalFields>
+				<string>vendor</string>
+				<string>missinginsurance</string>
+			</AdditionalFields>
+		</PersonDefinition>
+	</Persons>
+	<PayerPlanPeriods>
+		<PayerPlanPeriodDefinition>
+			<PersonId>ENROLID</PersonId>
+			<StartDate>DTSTART</StartDate>
+			<EndDate>DTEND</EndDate>
+			<PayerSource>PayerSource</PayerSource>
+			<PlanSource>PLANKEY</PlanSource>
+			<FamilySource>Family</FamilySource>
+			<AdditionalFields>
+				<string>vendor</string>
+			</AdditionalFields>
+		</PayerPlanPeriodDefinition>
+	</PayerPlanPeriods>
+	<Observation>
+		<ObservationDefinition>
+			<IsUnique>true</IsUnique>
+			<PersonId>ENROLID</PersonId>
+			<StartDate>DTEND</StartDate>
+			<ValuesAsNumber>
+				<string>VALUE_AS_NUMBER</string>
+			</ValuesAsNumber>
+			<AdditionalFields>
+				<string>vendor</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field conceptId="OBSERVATION_CONCEPT_ID" sourceKey="OBSERVATION_SOURCE_VALUE" defaultTypeId="900000009"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+	</Observation>
+</QueryDefinition>

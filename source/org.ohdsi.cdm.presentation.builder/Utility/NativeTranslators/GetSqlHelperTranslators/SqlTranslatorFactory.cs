@@ -1,6 +1,6 @@
 ﻿using org.ohdsi.cdm.framework.desktop.Enums;
 
-namespace org.ohdsi.cdm.presentation.builder.Utility.GetSqlHelperTranslators
+namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHelperTranslators
 {
     static class TranslatorFactory
     {

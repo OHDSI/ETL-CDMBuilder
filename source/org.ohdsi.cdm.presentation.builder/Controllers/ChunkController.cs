@@ -1,7 +1,7 @@
 ﻿using org.ohdsi.cdm.framework.desktop;
 using org.ohdsi.cdm.framework.desktop.Savers;
 using org.ohdsi.cdm.presentation.builder.CdmFrameworkImport;
-using org.ohdsi.cdm.presentation.builder.Utility;
+using org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators;
 using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
 using Spectre.Console;
 using System.Diagnostics;
@@ -92,7 +92,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         List<ChunkRecord> GetPersonKeys()
         {
-            var query = Utility.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess,
+            var query = GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess,
                 Settings.Current.Building.SourceEngine.Database, Settings.Current.Building.BatchScript,
                 Settings.Current.Building.SourceSchema, Settings.Current.Building.SourceSchema, Settings.Current.Building.VendorToProcess.PersonTableName);
 

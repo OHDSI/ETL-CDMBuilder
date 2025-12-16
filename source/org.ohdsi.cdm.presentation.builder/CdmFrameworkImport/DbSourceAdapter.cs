@@ -149,7 +149,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
             batchScript = batchScript.Replace("{sc}", schemaName);
             var sql = string.Format(batchScript, "");
 
-            sql = Utility.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess,
+            sql = Utility.NativeTranslators.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess,
                 Settings.Current.Building.SourceEngine.Database, sql, schemaName, schemaName, Settings.Current.Building.VendorToProcess.PersonTableName);
 
             using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);

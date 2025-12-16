@@ -158,7 +158,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                 #endregion
 
                 sourceQueryDefinitionSql = sourceQueryDefinitionAdapter.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
-                translatedSql = Utility.GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql,
+                translatedSql = Utility.NativeTranslators.GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql,
                     building.SourceSchemaName, building.SourceSchemaName, sourceQueryDefinitionAdapter.FileName, _chunkId.ToString());
                 if (string.IsNullOrEmpty(translatedSql))
                     return;

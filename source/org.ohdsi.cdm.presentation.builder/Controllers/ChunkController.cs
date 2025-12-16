@@ -2,7 +2,6 @@
 using org.ohdsi.cdm.framework.desktop.Savers;
 using org.ohdsi.cdm.presentation.builder.CdmFrameworkImport;
 using org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators;
-using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
 using Spectre.Console;
 using System.Diagnostics;
 using System.Globalization;

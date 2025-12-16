@@ -3,6 +3,7 @@ using org.ohdsi.cdm.framework.common.Lookups;
 using org.ohdsi.cdm.framework.common.Omop;
 using org.ohdsi.cdm.presentation.builder.AnsiConsoleColumns;
 using org.ohdsi.cdm.presentation.builder.Base.DbDestinations;
+using org.ohdsi.cdm.presentation.builder.Utility;
 using org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators;
 using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
 using Spectre.Console;
@@ -179,7 +180,14 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             var origQuery = qd.GetSql(vendor, Settings.Current.Building.SourceSchema, chunkSchema);
             if (string.IsNullOrEmpty(origQuery)) return;
 
-            var sql = GetSqlHelper.TranslateSqlFromRedshift(vendor, Settings.Current.Building.SourceEngine.Database, origQuery, chunkSchema, chunkSchema, qd.FileName);
+            var sql = SqlRenderTranslator.Translate(new SqlRenderTranslator.Request(
+                null,
+                vendor.Name,
+                qd.FileName,
+                origQuery,
+                Settings.Current.Building.SourceEngine.Database));
+
+            sql = GetSqlHelper.TranslateSqlFromRedshift(vendor, Settings.Current.Building.SourceEngine.Database, sql, chunkSchema, chunkSchema, qd.FileName);
             if (string.IsNullOrEmpty(sql)) return;
 
             var keys = new Dictionary<string, bool>();

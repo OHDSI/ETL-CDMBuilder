@@ -1,4 +1,5 @@
 ﻿using org.ohdsi.cdm.framework.desktop.Helpers;
+using org.ohdsi.cdm.presentation.builder.Utility;
 using Spectre.Console;
 using System.Data;
 using System.Data.Odbc;
@@ -148,6 +149,13 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
         {
             batchScript = batchScript.Replace("{sc}", schemaName);
             var sql = string.Format(batchScript, "");
+
+            sql = SqlRenderTranslator.Translate(new SqlRenderTranslator.Request(
+                null,
+                Settings.Current.Building.VendorToProcess.Name,
+                "GetPersonKeys.sql",
+                sql,
+                Settings.Current.Building.SourceEngine.Database));
 
             sql = Utility.NativeTranslators.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess,
                 Settings.Current.Building.SourceEngine.Database, sql, schemaName, schemaName, Settings.Current.Building.VendorToProcess.PersonTableName);

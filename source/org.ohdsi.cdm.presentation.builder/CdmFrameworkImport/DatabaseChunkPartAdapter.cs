@@ -3,6 +3,7 @@ using org.ohdsi.cdm.framework.common.Builder;
 using org.ohdsi.cdm.framework.common.Omop;
 using org.ohdsi.cdm.framework.desktop.Helpers;
 using org.ohdsi.cdm.framework.desktop.Savers;
+using org.ohdsi.cdm.presentation.builder.Utility;
 using Spectre.Console;
 using System.Data;
 using System.Diagnostics;
@@ -158,8 +159,18 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                 #endregion
 
                 sourceQueryDefinitionSql = sourceQueryDefinitionAdapter.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
-                translatedSql = Utility.NativeTranslators.GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sourceQueryDefinitionSql,
+
+                translatedSql = SqlRenderTranslator.Translate(new SqlRenderTranslator.Request(
+                    null,
+                    building.Vendor.Name,
+                    sourceQueryDefinition.FileName,
+                    sourceQueryDefinitionSql,
+                    building.SourceEngine.Database
+                    ));
+
+                translatedSql = Utility.NativeTranslators.GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, translatedSql,
                     building.SourceSchemaName, building.SourceSchemaName, sourceQueryDefinitionAdapter.FileName, _chunkId.ToString());
+
                 if (string.IsNullOrEmpty(translatedSql))
                     return;
 

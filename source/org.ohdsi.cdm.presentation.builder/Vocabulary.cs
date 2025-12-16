@@ -97,12 +97,20 @@ namespace org.ohdsi.cdm.presentation.builder
 
                         var currentTask = ctx.AddTask($"{conceptIdMapper.Lookup}");
 
-                        string sqlRedshift = _vendorLookups.First(s => s.Key.EndsWith("." + conceptIdMapper.Lookup + ".sql")).Value;
+                        var currentLookup = _vendorLookups.First(s => s.Key.EndsWith("." + conceptIdMapper.Lookup + ".sql"));
+                        string sqlRedshift = currentLookup.Value;
                         sqlRedshift = sqlRedshift.Replace("{base}", _baseSql);
                         sqlRedshift = sqlRedshift.Replace("{sc}", Settings.Current.Building.VocabSchema);
 
-                        var sql = Utility.NativeTranslators.GetSqlHelper.TranslateSqlFromRedshift(FrameworkSettings.Current.Building.Vendor, Settings.Current.Building.VocabularyEngine.Database,
-                            sqlRedshift, FrameworkSettings.Current.Building.VocabularySchemaName, FrameworkSettings.Current.Building.VocabularySchemaName, null, null);
+                        var sqlRender = Utility.SqlRenderTranslator.Translate(new Utility.SqlRenderTranslator.Request(
+                            null, 
+                            Settings.Current.Building.VendorToProcess.Name,
+                            currentLookup.Key,
+                            sqlRedshift,
+                            Settings.Current.Building.CdmEngine.Database));
+
+                         var sql = Utility.NativeTranslators.GetSqlHelper.TranslateSqlFromRedshift(FrameworkSettings.Current.Building.Vendor, Settings.Current.Building.VocabularyEngine.Database,
+                            sqlRender, FrameworkSettings.Current.Building.VocabularySchemaName, FrameworkSettings.Current.Building.VocabularySchemaName, null, null);
 
                         try
                         {

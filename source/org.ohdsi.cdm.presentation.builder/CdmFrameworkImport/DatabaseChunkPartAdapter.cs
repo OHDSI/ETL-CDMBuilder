@@ -160,7 +160,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
 
                 sourceQueryDefinitionSql = sourceQueryDefinitionAdapter.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
 
-                translatedSql = SqlRenderTranslator.Translate(new SqlRenderTranslator.Request(
+                var sqlRenderTranslatedSql = SqlRenderTranslator.Translate(new SqlRenderTranslator.Request(
                     null,
                     building.Vendor.Name,
                     sourceQueryDefinition.FileName,
@@ -168,7 +168,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                     building.SourceEngine.Database
                     ));
 
-                translatedSql = Utility.NativeTranslators.GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, translatedSql,
+                translatedSql = Utility.NativeTranslators.GetSqlHelper.TranslateSqlFromRedshift(building.Vendor, building.SourceEngine.Database, sqlRenderTranslatedSql,
                     building.SourceSchemaName, building.SourceSchemaName, sourceQueryDefinitionAdapter.FileName, _chunkId.ToString());
 
                 if (string.IsNullOrEmpty(translatedSql))

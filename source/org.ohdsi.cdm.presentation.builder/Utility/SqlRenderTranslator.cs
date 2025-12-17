@@ -12,50 +12,61 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
 
         public static string Translate(Request request)
         {
-            var parsed = ParseArguments(request);
-
-            var baseDir = Directory.GetCurrentDirectory();
-            var dir = Path.Combine(baseDir, "SqlRender");
-            Directory.CreateDirectory(dir);
-
-            var inputFileName = $"{parsed.VendorName}_{parsed.SqlFileName.Replace(".sql", "").Split('.').Last()}_input.sql";
-            var outputFileName = $"{parsed.VendorName}_{parsed.SqlFileName.Replace(".sql", "").Split('.').Last()}_output.sql";
-
-            string inputPathFull = Path.Combine(dir, inputFileName);
-            string outputPathFull = Path.Combine(dir, outputFileName);                        
-
-            string args = $"-jar \"{parsed.JarPath}\" \"{inputPathFull}\" \"{outputPathFull}\" -translate \"{parsed.targetDialect}\"";
-            //string args = $"-jar \"{parsed.JarPath}\" rendertranslate \"{inputPathFull}\" \"{outputPathFull}\" --targetDialect \"{parsed.targetDialect}\"";
-
-            File.WriteAllText(inputPathFull, parsed.SqlOriginal);
-
-            var psi = new ProcessStartInfo
+            string error = "";
+            try
             {
-                FileName = "java",
-                Arguments = args,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
+                if(request.TargetDatabase == Database.MySql) //not supported
+                    return request.SqlOriginal;
 
-            using var proc = Process.Start(psi);
-            string output = proc.StandardOutput.ReadToEnd();
-            string error = proc.StandardError.ReadToEnd();
-            proc.WaitForExit();
+                var parsed = ParseArguments(request);
 
-            if (!string.IsNullOrEmpty(error))
-            {
-                AnsiConsole.WriteLine(error);
-                throw new Exception("SqlRender translation failed!");
+                var baseDir = Directory.GetCurrentDirectory();
+                var dir = Path.Combine(baseDir, "SqlRender", parsed.VendorName);
+                Directory.CreateDirectory(dir);
+
+                var sqlFileNameNormalized = parsed.SqlFileName.Replace(".sql", "").Split('.').Last();
+                var inputFileName = $"{sqlFileNameNormalized}_redshift.sql";
+                var outputFileName = $"{sqlFileNameNormalized}_{parsed.targetDialect.Replace(" ", "")}.sql";
+
+                string inputPathFull = Path.Combine(dir, inputFileName);
+                string outputPathFull = Path.Combine(dir, outputFileName);
+
+                string args = $"-jar \"{parsed.JarPath}\" \"{inputPathFull}\" \"{outputPathFull}\" -translate \"{parsed.targetDialect}\"";
+
+                File.WriteAllText(inputPathFull, parsed.SqlOriginal);
+
+                var psi = new ProcessStartInfo
+                {
+                    FileName = "java",
+                    Arguments = args,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                using var proc = Process.Start(psi);
+                string output = proc.StandardOutput.ReadToEnd();
+                error = proc.StandardError.ReadToEnd();
+                proc.WaitForExit();
+
+                if (!string.IsNullOrEmpty(error))
+                {
+                    AnsiConsole.WriteLine(error);
+                    throw new Exception("SqlRender translation failed!");
+                }
+
+                if (!string.IsNullOrEmpty(output))
+                    AnsiConsole.WriteLine(output);
+
+                var result = File.ReadAllText(outputPathFull);
+
+                return result;
             }
-
-            if (!string.IsNullOrEmpty(output))
-                AnsiConsole.WriteLine(output);
-
-            var result = File.ReadAllText(outputPathFull);
-
-            return result;
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         private static RequestParsed ParseArguments(Request request)
@@ -78,7 +89,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
             string targetDialect = request.TargetDatabase switch
             {
                 Database.Postgre => "postgresql",
-                Database.MsSql => "sql server", // this is to be checked
+                Database.MsSql => "sql server",
                 Database.MySql => "mysql",
                 _ => throw new NotImplementedException($"Database {request.TargetDatabase.ToString()} is not supported for translation from Redshift")
             };

@@ -28,16 +28,6 @@ CREATE TABLE {sc}.cohort (
   cohort_end_date date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE {sc}.cohort_attribute (
-  cohort_definition_id int NOT NULL,
-  subject_id int NOT NULL,
-  cohort_start_date date NOT NULL,
-  cohort_end_date date NOT NULL,
-  attribute_definition_id int NOT NULL,
-  value_as_number decimal(38,2) DEFAULT NULL,
-  value_as_concept_id int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 CREATE TABLE {sc}.cohort_definition (
   cohort_definition_id bigint NOT NULL,
   cohort_definition_name varchar(255) DEFAULT NULL,

@@ -4,8 +4,8 @@
 		(
 		SELECT CAST(RIGHT(Member_ID, LEN(Member_ID) - 1) AS BIGINT) AS person_id,
 		Member_ID AS person_source_value,
-		cast(left(Month_and_year_of_birth_of_member, 4) as int) AS year_of_birth,
-		cast(right(Month_and_year_of_birth_of_member, 2) as int) AS month_of_birth,
+		cast(left(cast(Month_and_year_of_birth_of_member as varchar(6)), 4) as int) AS year_of_birth,
+		cast(right(cast(Month_and_year_of_birth_of_member as varchar(6)), 2) as int) AS month_of_birth,
 		lower(Gender_of_member) AS gender_source_value,
 		to_date(CONCAT(CAST(e.observation_start AS VARCHAR(6)), '01'), 'yyyyMMdd') AS observation_period_start_date,
 		DATEADD(DAY, -1, DATEADD(MONTH, 1, to_date(CONCAT(CAST(e.observation_end AS VARCHAR(6)), '01'), 'yyyyMMdd'))) AS observation_period_end_date,
@@ -34,8 +34,8 @@
 		(
 		SELECT CAST(RIGHT(Member_ID, LEN(Member_ID) - 1) AS BIGINT) AS person_id,
 		Member_ID AS person_source_value,
-		cast(left(Month_and_year_of_birth_of_member, 4) as int) AS year_of_birth,
-		cast(right(Month_and_year_of_birth_of_member, 2) as int) AS month_of_birth,
+		cast(left(cast(Month_and_year_of_birth_of_member as varchar(6)), 4) as int) AS year_of_birth,
+		cast(right(cast(Month_and_year_of_birth_of_member as varchar(6)), 2) as int) AS month_of_birth,
 		to_date(cast(Month_and_year_of_birth_of_member as varchar(6)), 'yyyyMMdd') AS month_and_year_of_birth_of_member,
 		lower(Gender_of_member) AS gender_source_value,
 		to_date(CONCAT(CAST(e.observation_start AS VARCHAR(6)), '01'), 'yyyyMMdd') AS observation_period_start_date,

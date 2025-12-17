@@ -172,25 +172,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
             );
             #endregion
 
-            #region left and right fix 
-            // LEFT(integer, n) → LEFT(CAST(integer AS varchar), n)
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"\bleft\s*\(\s*([^,]+?)\s*,\s*(\d+)\s*\)",
-                "left(CAST($1 AS varchar), $2)",
-                RegexOptions.IgnoreCase
-            );
-
-            // RIGHT(integer, n) → RIGHT(CAST(integer AS varchar), n)
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"\bRIGHT\s*\(\s*([^,]+?)\s*,\s*(\d+)\s*\)",
-                "RIGHT(CAST($1 AS varchar), $2)",
-                RegexOptions.IgnoreCase
-            );
-            #endregion
-
-
             #region to_date fix
             // to_date(text_date, 'YYYYMMDD', FALSE)
             // -> -> ->
@@ -202,7 +183,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
                 RegexOptions.IgnoreCase
             );
             #endregion
-
 
             return queryChanged;
         }
@@ -395,13 +375,13 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
             if (string.IsNullOrEmpty(_table))
                 return queryChanged;
 
-            if (_table.Equals("enrollment", StringComparison.CurrentCultureIgnoreCase))
-            {
-                queryChanged = queryChanged.Replace(
-                    "DATEADD(DAY, -1, DATEADD(MONTH, 1, to_date(CONCAT(CAST(e.observation_end AS VARCHAR(6)), '01'), 'yyyyMMdd'))) AS observation_period_end_date",
-                    "to_date(CONCAT(CAST(e.observation_end AS VARCHAR(6)), '01'), 'yyyyMMdd') + INTERVAL '1 month - 1 day' AS observation_period_end_date",
-                    StringComparison.CurrentCultureIgnoreCase);
-            }
+            //if (_table.Equals("enrollment", StringComparison.CurrentCultureIgnoreCase))
+            //{
+            //    queryChanged = queryChanged.Replace(
+            //        "DATEADD(DAY, -1, DATEADD(MONTH, 1, to_date(CONCAT(CAST(e.observation_end AS VARCHAR(6)), '01'), 'yyyyMMdd'))) AS observation_period_end_date",
+            //        "to_date(CONCAT(CAST(e.observation_end AS VARCHAR(6)), '01'), 'yyyyMMdd') + INTERVAL '1 month - 1 day' AS observation_period_end_date",
+            //        StringComparison.CurrentCultureIgnoreCase);
+            //}
 
             return queryChanged;
         }

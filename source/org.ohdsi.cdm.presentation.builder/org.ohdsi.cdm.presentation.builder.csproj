@@ -17,10 +17,6 @@
 	  <None Remove="CdmFrameworkImport\Queries\MSSQL\v5.4\DropTables.sql" />
 	  <None Remove="CdmFrameworkImport\Queries\MSSQL\v5.4\TruncateTables.sql" />
 	  <None Remove="CdmFrameworkImport\Queries\MSSQL\v5.4\TruncateWithoutLookupTables.sql" />
-	  <None Remove="CdmFrameworkImport\Queries\MySql\v5.4\CreateTables.sql" />
-	  <None Remove="CdmFrameworkImport\Queries\MySql\v5.4\DropTables.sql" />
-	  <None Remove="CdmFrameworkImport\Queries\MySql\v5.4\TruncateTables.sql" />
-	  <None Remove="CdmFrameworkImport\Queries\MySql\v5.4\TruncateWithoutLookupTables.sql" />
 	  <None Remove="CdmFrameworkImport\Queries\Postgre\v5.4\CreateTables.sql" />
 	  <None Remove="CdmFrameworkImport\Queries\Postgre\v5.4\DropTables.sql" />
 	  <None Remove="CdmFrameworkImport\Queries\Postgre\v5.4\TruncateTables.sql" />
@@ -42,18 +38,6 @@
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Include="CdmFrameworkImport\Queries\MSSQL\v5.4\TruncateWithoutLookupTables.sql">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="CdmFrameworkImport\Queries\MySql\v5.4\CreateTables.sql">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="CdmFrameworkImport\Queries\MySql\v5.4\DropTables.sql">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="CdmFrameworkImport\Queries\MySql\v5.4\TruncateTables.sql">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="CdmFrameworkImport\Queries\MySql\v5.4\TruncateWithoutLookupTables.sql">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Postgre\v5.4\CreateTables.sql">

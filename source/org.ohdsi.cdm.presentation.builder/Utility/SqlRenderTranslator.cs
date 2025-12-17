@@ -90,7 +90,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
             {
                 Database.Postgre => "postgresql",
                 Database.MsSql => "sql server",
-                Database.MySql => "mysql",
+                Database.MySql => throw new InvalidOperationException("SqlRender does not support MySql!"),
                 _ => throw new NotImplementedException($"Database {request.TargetDatabase.ToString()} is not supported for translation from Redshift")
             };
 

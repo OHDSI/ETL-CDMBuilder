@@ -299,7 +299,8 @@ namespace org.ohdsi.cdm.RunLocal
             return engine switch
             {
                 "postgresql" => new PostgreDatabaseEngine(),
-                "mysql" => new MySqlDatabaseEngine(),
+                //"mysql" => new MySqlDatabaseEngine(),
+                "mysql" => throw new Exception("MySQL is not supported as database engine anymore!"),
                 "redshift" => new RedshiftDatabaseEngine(),
                 "mssql" => new MssqlDatabaseEngine(),
                 _ => throw new NotSupportedException($"The database engine '{engine}' is not supported!")

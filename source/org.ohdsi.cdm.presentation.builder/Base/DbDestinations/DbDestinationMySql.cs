@@ -5,6 +5,7 @@ using System.Data.Odbc;
 
 namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
 {
+    [Obsolete("This is not supported anymore")]
     public class DbDestinationMySql : DbDestination
     {
         public DbDestinationMySql(string connectionString, IDatabaseEngine dbEngine, string schemaName)

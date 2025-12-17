@@ -4,6 +4,7 @@ using System.Data.Odbc;
 
 namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport.Savers
 {
+    [Obsolete("This is not supported anymore")]
     public class MySqlSaver : Saver
     {
         private MySqlConnection _connection;

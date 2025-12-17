@@ -2,6 +2,7 @@
 
 namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHelperTranslators
 {
+    [Obsolete("This is not supported anymore")]
     internal class SqlTranslatorMySql : ISqlTranslator
     {
         private readonly string _schema;

@@ -160,15 +160,33 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
             );
             #endregion
 
-            #region left(lpad) translation
-            // SUBSTRING(RIGHT('00000000000' + cast(ENROLID as VARCHAR), 11), 1,9)
-            // -> -> ->
-            // LEFT(LPAD(ENROLID::TEXT, 11, '0'), 9)
+            #region left/right translation
+            // left(expr, n)
+            // substring((expr)::text from 1 for n)
             queryChanged = Regex.Replace(
                 queryChanged,
-                @"SUBSTRING\(\s*RIGHT\('0+'\s*\+\s*cast\(\s*(\w+)\s+as\s+VARCHAR\)\s*,\s*11\)\s*,\s*1\s*,\s*9\)",
-                @"LEFT(LPAD($1::text,11,'0'),9)",
-                RegexOptions.IgnoreCase
+                @"\bleft\s*\(\s*(?<expr>(?>[^,()']+|'[^']*'|\((?<d>)|\)(?<-d>))*(?(d)(?!)))\s*,\s*(?<n>\d+)\s*\)",
+                m =>
+                {
+                    var expr = m.Groups["expr"].Value.Trim();
+                    var n = m.Groups["n"].Value.Trim();
+                    return $"substring(({expr})::text from 1 for {n})";
+                },
+                RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
+            );
+
+            // right(expr, n)
+            // substring((expr)::text from (char_length((expr)::text)-n+1) for n)
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\bright\s*\(\s*(?<expr>(?>[^,()']+|'[^']*'|\((?<d>)|\)(?<-d>))*(?(d)(?!)))\s*,\s*(?<n>\d+)\s*\)",
+                m =>
+                {
+                    var expr = m.Groups["expr"].Value.Trim();
+                    var n = m.Groups["n"].Value.Trim();
+                    return $"substring(({expr})::text from greatest(char_length(({expr})::text) - {n} + 1, 1) for {n})";
+                },
+                RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
             );
             #endregion
 
@@ -375,13 +393,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
             if (string.IsNullOrEmpty(_table))
                 return queryChanged;
 
-            //if (_table.Equals("enrollment", StringComparison.CurrentCultureIgnoreCase))
-            //{
-            //    queryChanged = queryChanged.Replace(
-            //        "DATEADD(DAY, -1, DATEADD(MONTH, 1, to_date(CONCAT(CAST(e.observation_end AS VARCHAR(6)), '01'), 'yyyyMMdd'))) AS observation_period_end_date",
-            //        "to_date(CONCAT(CAST(e.observation_end AS VARCHAR(6)), '01'), 'yyyyMMdd') + INTERVAL '1 month - 1 day' AS observation_period_end_date",
-            //        StringComparison.CurrentCultureIgnoreCase);
-            //}
 
             return queryChanged;
         }

@@ -10,6 +10,8 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
         
         protected record RequestParsed(string JarPath, string VendorName, string SqlFileName, string SqlOriginal, string targetDialect);
 
+        static string DirectoryPath => Path.Combine(Directory.GetCurrentDirectory(), "Cache", "SqlRender");
+
         public static string Translate(Request request)
         {
             string error = "";
@@ -21,7 +23,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                 var parsed = ParseArguments(request);
 
                 var baseDir = Directory.GetCurrentDirectory();
-                var dir = Path.Combine(baseDir, "SqlRender", parsed.VendorName);
+                var dir = Path.Combine(DirectoryPath, parsed.VendorName);
                 Directory.CreateDirectory(dir);
 
                 var sqlFileNameNormalized = parsed.SqlFileName.Replace(".sql", "").Split('.').Last();

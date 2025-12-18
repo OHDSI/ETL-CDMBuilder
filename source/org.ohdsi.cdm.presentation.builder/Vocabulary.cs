@@ -6,13 +6,20 @@ using Spectre.Console;
 using System.Data;
 using System.Data.Odbc;
 using System.Diagnostics;
+using System.Xml;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings.Settings;
+using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace org.ohdsi.cdm.presentation.builder
 {
     public class Vocabulary : IVocabulary
     {
         public int KeysCount => _lookups.Sum(s => s.Key.Count());
+
+        protected string FileCacheFolder => Path.Combine(Directory.GetCurrentDirectory(), "Cache", "Vocabulary");
 
         private readonly Dictionary<string, Lookup> _lookups = new Dictionary<string, Lookup>();
         private GenderLookup _genderConcepts;
@@ -114,24 +121,35 @@ namespace org.ohdsi.cdm.presentation.builder
 
                         try
                         {
-                            using (var connection = SqlConnectionHelper.OpenOdbcConnection(Settings.Current.Building.VocabularyConnectionString))
-                            using (var command = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
-                            using (var reader = command.ExecuteReader())
+                            var fromFile = ReadLookupFromFile(conceptIdMapper.Lookup);
+
+                            if (!fromFile)
                             {
-                                var lookup = _lookups.TryGetValue(conceptIdMapper.Lookup, out var existingLookup)
-                                    ? existingLookup
-                                    : new Lookup();
-
-                                while (reader.Read())
+                                using (var connection = SqlConnectionHelper.OpenOdbcConnection(Settings.Current.Building.VocabularyConnectionString))
+                                using (var command = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
+                                using (var reader = command.ExecuteReader())
                                 {
-                                    var lv = CreateLookupValue(reader);
-                                    lookup.Add(lv);
-                                }
+                                    var lookup = _lookups.TryGetValue(conceptIdMapper.Lookup, out var existingLookup)
+                                        ? existingLookup
+                                        : new Lookup();
 
-                                _lookups[conceptIdMapper.Lookup] = lookup;                                
+                                    var lookupPublic = new List<LookupValue>();
+
+                                    while (reader.Read())
+                                    {
+                                        var lv = CreateLookupValue(reader);
+                                        lookup.Add(lv);
+                                        lookupPublic.Add(lv);
+                                    }
+
+                                    _lookups[conceptIdMapper.Lookup] = lookup;
+                                    WriteLookupToFile(conceptIdMapper.Lookup, lookupPublic);
+                                }
                             }
 
-                            currentTask.Description = $"{conceptIdMapper.Lookup} | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}";
+                            var fromType = fromFile ? "FromFile" : "FromDB";
+                            var keysCount = _lookups[conceptIdMapper.Lookup].KeysCount;
+                            currentTask.Description = $"{conceptIdMapper.Lookup} | {fromType} | KeysCount={keysCount}";
                             currentTask.Increment(currentTask.MaxValue - currentTask.Value);
                             currentTask.StopTask();
                         }
@@ -233,6 +251,60 @@ namespace org.ohdsi.cdm.presentation.builder
                 .ToList();
 
             return result;
+        }
+
+        private void WriteLookupToFile(string lookupName, List<LookupValue> lookupValues)
+        {
+            var folder = Path.Combine(this.FileCacheFolder, Settings.Current.Building.VendorToProcess.Name);
+            Directory.CreateDirectory(folder);
+
+            var path = Path.Combine(folder, lookupName + ".json");
+            var pathTmp = path + ".tmp";
+            var json = JsonSerializer.Serialize(lookupValues, new JsonSerializerOptions() 
+            {
+                WriteIndented = true,
+                IncludeFields = true,
+                PropertyNameCaseInsensitive = true
+            });
+            File.WriteAllText(pathTmp, json);
+
+            if (File.Exists(path))
+                File.Delete(path);
+
+            File.Move(pathTmp, path);
+        }
+
+        private bool ReadLookupFromFile(string lookupName)
+        {
+            var path = Path.Combine(this.FileCacheFolder, Settings.Current.Building.VendorToProcess.Name, lookupName + ".json");
+            if (!File.Exists(path))
+                return false;
+
+            try
+            {
+                var lookup = _lookups.TryGetValue(lookupName, out var existingLookup)
+                                        ? existingLookup
+                                        : new Lookup();
+
+                var lookupValues = JsonSerializer.Deserialize<List<LookupValue>>(File.ReadAllText(path), new JsonSerializerOptions()
+                {
+                    IncludeFields = true,
+                    PropertyNameCaseInsensitive = true
+                });
+
+                foreach(var lv in lookupValues)
+                    lookup.Add(lv);
+
+                _lookups[lookupName] = lookup;
+            }
+            catch(Exception e)
+            {
+                Logger.WriteWarning("Error reading vocabulary cache file: " + path + "\r\n" + e.Message);
+                _lookups.Clear();
+                return false;
+            }
+
+            return true;
         }
 
 

@@ -21,6 +21,7 @@
 	  <None Remove="CdmFrameworkImport\Queries\Postgre\v5.4\DropTables.sql" />
 	  <None Remove="CdmFrameworkImport\Queries\Postgre\v5.4\TruncateTables.sql" />
 	  <None Remove="CdmFrameworkImport\Queries\Postgre\v5.4\TruncateWithoutLookupTables.sql" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\JMDC\Annual_health_checkups.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\JMDC\Enrollment.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumExtended\MEMBER_CONTINUOUS_ENROLLMENT.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumPanther\encounter.xml" />
@@ -50,6 +51,9 @@
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Postgre\v5.4\TruncateWithoutLookupTables.sql">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\JMDC\Annual_health_checkups.xml">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\JMDC\Enrollment.xml">

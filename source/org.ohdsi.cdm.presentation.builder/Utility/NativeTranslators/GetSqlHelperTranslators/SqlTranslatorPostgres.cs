@@ -202,6 +202,22 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
             );
             #endregion
 
+            #region last_day(to_date) → to_date + interval
+            // last_day(to_date(col || '01', 'yyyyMMdd'))
+            // (to_date(col || '01', 'YYYYMMDD') + interval '1 month - 1 day')::date
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\blast_day\s*\(\s*(?<inner>(?>[^()']+|'[^']*'|\((?<d>)|\)(?<-d>))*(?(d)(?!)))\s*\)",
+                m =>
+                {
+                    var inner = m.Groups["inner"].Value.Trim();
+                    return $"({inner} + interval '1 month - 1 day')::date";
+                },
+                RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
+            );
+
+            #endregion
+
             return queryChanged;
         }
 
@@ -375,12 +391,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
             if (string.IsNullOrEmpty(_table))
                 return queryChanged;
 
-            if (_table.Equals("SES", StringComparison.CurrentCultureIgnoreCase))
-            {
-                queryChanged = queryChanged.Replace("last_day(to_date(extract_ym || '01', 'yyyyMMdd')) date",
-                    "(to_date(extract_ym || '01', 'YYYYMMDD') + interval '1 month - 1 day')::date as date",
-                    StringComparison.CurrentCultureIgnoreCase);                
-            }
 
             return queryChanged;
         }

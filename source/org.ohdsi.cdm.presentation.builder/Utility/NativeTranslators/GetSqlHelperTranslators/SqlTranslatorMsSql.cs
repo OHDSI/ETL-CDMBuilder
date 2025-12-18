@@ -71,16 +71,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
 
             #endregion
 
-            #region coalesce → isnull
-            // COALESCE(col, 'val') → ISNULL(col, 'val')
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"\bCOALESCE\s*\(\s*([^,]+?)\s*,\s*([^)]+?)\)",
-                "ISNULL($1, $2)",
-                RegexOptions.IgnoreCase
-            );
-            #endregion
-
             #region null::type → CAST(NULL AS type)
             // NULL::NUMERIC → CAST(NULL AS NUMERIC)
             queryChanged = Regex.Replace(
@@ -136,6 +126,22 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
                         return $"convert(date, {expr}, 112)";
             
                     return $"convert(date, {expr})";
+                },
+                RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
+            );
+            #endregion
+
+            #region last_day → EOMONTH
+            // last_day(cast(extract_ym || '01' as date))
+            // EOMONTH(CAST(extract_ym || '01' AS date))
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"last_day\s*\(\s*(?<expr>(?>[^()']+|'[^']*'|\((?<d>)|\)(?<-d>))*(?(d)(?!)))\s*\)?\)",
+                m =>
+                {
+                    var expr = m.Groups["expr"].Value.Trim();
+
+                    return $"EOMONTH({expr})";
                 },
                 RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
             );
@@ -303,24 +309,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
                     StringComparison.CurrentCultureIgnoreCase);
             }
 
-            if (_table.Equals("rx_claims", StringComparison.CurrentCultureIgnoreCase))
-            {
-                queryChanged = queryChanged.Replace("ISNULL",
-                    "COALESCE",
-                    StringComparison.CurrentCultureIgnoreCase);
-            }
-
-            if (_table.Equals("SES", StringComparison.CurrentCultureIgnoreCase))
-            {
-                queryChanged = queryChanged.Replace("last_day(cast(extract_ym || '01' as date)) date",
-                    "EOMONTH(CAST(extract_ym + '01' AS date)) AS [date]",
-                    StringComparison.CurrentCultureIgnoreCase);
-
-                queryChanged = queryChanged.Replace("last_day(cast(extract_ym + '01' as date)) date",
-                    "EOMONTH(CAST(extract_ym + '01' AS date)) AS [date]",
-                    StringComparison.CurrentCultureIgnoreCase);                
-            }
-
             return queryChanged;
         }
 
@@ -338,13 +326,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
             if (string.IsNullOrEmpty(_table))
                 return queryChanged;
 
-
-            if (_table.Equals("Annual_health_checkups", StringComparison.CurrentCultureIgnoreCase))
-            {
-                queryChanged = queryChanged.Replace("ELSE Eating1_fast_eating + ' unknown'",
-                    "ELSE CAST(Eating1_fast_eating as varchar) + ' unknown'",
-                    StringComparison.CurrentCultureIgnoreCase);
-            }
 
             return queryChanged;
         }

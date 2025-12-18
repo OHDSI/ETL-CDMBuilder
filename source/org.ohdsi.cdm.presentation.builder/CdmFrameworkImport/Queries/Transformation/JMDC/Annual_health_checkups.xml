@@ -1,0 +1,997 @@
+﻿<QueryDefinition>
+	<Query>
+		SELECT
+		CAST(RIGHT(Member_ID, LEN(Member_ID) - 1) AS BIGINT) AS person_id,
+		date_of_health_checkup AS observation_date,
+		--value_as_number
+		BMI,
+		ast as Got,
+		abdominal_circumference as Abdominal_girth,
+		systolic_bp as SBP,
+		diastolic_bp as DBP,
+		total_cholesterol as TC,
+		Triglyceride as TG,
+		alt as gpt,
+
+		CASE
+		WHEN uric_protein_qualitative is NULL
+		THEN NULL
+		WHEN uric_protein_qualitative = 1
+		THEN '-'
+		WHEN uric_protein_qualitative = 2
+		THEN '-+'
+		WHEN uric_protein_qualitative = 3
+		THEN '+'
+		WHEN uric_protein_qualitative = 4
+		THEN '++'
+		WHEN uric_protein_qualitative = 5
+		THEN '+++'
+		END AS Urine_protein,
+
+		CASE
+		WHEN uric_protein_qualitative is NULL
+		THEN NULL
+		WHEN uric_protein_qualitative = 1
+		THEN 'Absent'
+		WHEN uric_protein_qualitative = 2
+		THEN 'Equivocal'
+		WHEN uric_protein_qualitative = 3
+		THEN '+'
+		WHEN uric_protein_qualitative = 4
+		THEN '++'
+		WHEN uric_protein_qualitative = 5
+		THEN '+++'
+		END AS Urine_protein_unit,
+
+		CASE
+		WHEN uric_protein_qualitative is NULL
+		THEN NULL
+		WHEN uric_protein_qualitative = 1
+		THEN 4132135
+		WHEN uric_protein_qualitative = 2
+		THEN 4172976
+		WHEN uric_protein_qualitative = 3
+		THEN 4123508
+		WHEN uric_protein_qualitative = 4
+		THEN 4126673
+		WHEN uric_protein_qualitative = 5
+		THEN 4125547
+		END AS Urine_protein_unit_concept_id,
+
+		hdl_cholesterol as HDL_C,
+		ldl_cholesterol as LDL_C,
+
+		G_GT as G_GT,
+		Fasting_blood_sugar as Fasting_blood_sugar,
+		Casual_blood_sugar as Casual_blood_sugar,
+		HbA1c,
+		HCT as Hematocrit,
+		hemoglobin_content as Hemoglobin,
+		rbc_count as Red_blood_cell_count,
+		Serum_uric_acid as Serum_uric_acid,
+		Serum_creatinine as Serum_creatinine,
+
+		--value_as_string
+		CASE
+		WHEN Urinary_sugar is NULL
+		THEN NULL
+		WHEN Urinary_sugar = 1
+		THEN '-'
+		WHEN Urinary_sugar = 2
+		THEN '-+'
+		WHEN Urinary_sugar = 3
+		THEN '+'
+		WHEN Urinary_sugar = 4
+		THEN '++'
+		WHEN Urinary_sugar = 5
+		THEN '+++'
+		END AS Urine_sugar,
+
+		CASE
+		WHEN Urinary_sugar is NULL
+		THEN NULL
+		WHEN Urinary_sugar = 1
+		THEN 'Absent'
+		WHEN Urinary_sugar = 2
+		THEN 'Equivocal'
+		WHEN Urinary_sugar = 3
+		THEN '+'
+		WHEN Urinary_sugar = 4
+		THEN '++'
+		WHEN Urinary_sugar = 5
+		THEN '+++'
+		END AS Urine_sugar_unit,
+
+		CASE
+		WHEN Urinary_sugar is NULL
+		THEN NULL
+		WHEN Urinary_sugar = 1
+		THEN 4132135
+		WHEN Urinary_sugar = 2
+		THEN 4172976
+		WHEN Urinary_sugar = 3
+		THEN 4123508
+		WHEN Urinary_sugar = 4
+		THEN 4126673
+		WHEN Urinary_sugar = 5
+		THEN 4125547
+		END AS Urine_sugar_unit_concept_id,
+
+		CASE
+		WHEN Fundus_examination_Keith_Wagener_classification IS NULL
+		THEN NULL
+		WHEN Fundus_examination_Keith_Wagener_classification = 1
+		THEN '0'
+		WHEN Fundus_examination_Keith_Wagener_classification = 2
+		THEN 'I'
+		WHEN Fundus_examination_Keith_Wagener_classification = 3
+		THEN 'IIa'
+		WHEN Fundus_examination_Keith_Wagener_classification = 4
+		THEN 'IIb'
+		WHEN Fundus_examination_Keith_Wagener_classification = 5
+		THEN 'III'
+		ELSE 'IV'
+		END AS Ophthalmoscopy_K_W_classificatio,
+
+		CASE
+		WHEN fundus_examination_scheie_classification_h IS NULL
+		THEN NULL
+		WHEN fundus_examination_scheie_classification_h = 1
+		THEN '0'
+		WHEN fundus_examination_scheie_classification_h = 2
+		THEN '1'
+		WHEN fundus_examination_scheie_classification_h = 3
+		THEN '2'
+		WHEN fundus_examination_scheie_classification_h = 3
+		THEN '3'
+		ELSE '4'
+		END AS Ophthalmoscopy_Scheie_Classifica,
+
+		CASE
+		WHEN fundus_examination_scheie_classification_s IS NULL
+		THEN NULL
+		WHEN fundus_examination_scheie_classification_s = 1
+		THEN '0'
+		WHEN fundus_examination_scheie_classification_s = 2
+		THEN '1'
+		WHEN fundus_examination_scheie_classification_s = 3
+		THEN '2'
+		WHEN fundus_examination_scheie_classification_s = 3
+		THEN '3'
+		ELSE '4'
+		END AS Ophthalmoscopy_Scheie_Classific0,
+
+		CASE
+		WHEN fundus_examination_scott_classification IS NULL
+		THEN NULL
+		WHEN fundus_examination_scott_classification = 1
+		THEN 'I (a)'
+		WHEN fundus_examination_scott_classification = 2
+		THEN 'I (b)'
+		WHEN fundus_examination_scott_classification = 3
+		THEN 'II'
+		WHEN fundus_examination_scott_classification = 4
+		THEN 'III (a)'
+		WHEN fundus_examination_scott_classification = 5
+		THEN 'III (b)'
+		WHEN fundus_examination_scott_classification = 6
+		THEN 'IV'
+		WHEN fundus_examination_scott_classification = 7
+		THEN 'V (a)'
+		WHEN fundus_examination_scott_classification = 8
+		THEN 'V (b)'
+		ELSE 'VI'
+		END AS Ophthalmoscopy_SCOTT_classificat,
+
+		CASE
+		WHEN Eating1_fast_eating IS NULL
+		THEN NULL
+		WHEN Eating1_fast_eating = 1 THEN 'fast'
+		WHEN Eating1_fast_eating = 2 THEN 'average'
+		WHEN Eating1_fast_eating = 3 THEN 'slow'
+		ELSE cast(Eating1_fast_eating as varchar(1)) || ' unknown'
+		END AS Eating_speed,
+
+		CASE
+		WHEN Eating2_before_bedtime IS NULL THEN NULL
+		WHEN Eating2_before_bedtime = 1 THEN 'yes'
+		ELSE 'no'
+		END AS Eating_before_bedtime,
+
+		CASE
+		WHEN Eating2_before_bedtime IS NULL THEN NULL
+		WHEN Eating2_before_bedtime = 1 THEN 4188539
+		ELSE 4188540
+		END AS Eating_before_bedtime_concept_id,
+
+		CASE
+		WHEN eating3_snack IS NULL THEN NULL
+		WHEN eating3_snack = 1 THEN 'Every day'
+		WHEN eating3_snack = 2 THEN 'Sometimes'
+		WHEN eating3_snack = 3 THEN 'Rarely'
+		END AS Eat_snack,
+
+		CASE
+		WHEN eating3_snack IS NULL THEN NULL
+		WHEN eating3_snack = 1 THEN 4288153
+		WHEN eating3_snack = 2 THEN 765707
+		WHEN eating3_snack = 3 THEN 763696
+		END AS Eat_snack_concept_id,
+
+		CASE
+		WHEN Eating3_late_evening_snack IS NULL THEN NULL
+		WHEN Eating3_late_evening_snack = 1 THEN 'yes'
+		ELSE 'no'
+		END AS night_meal,
+
+		CASE
+		WHEN Eating3_late_evening_snack IS NULL THEN NULL
+		WHEN Eating3_late_evening_snack = 1 THEN 4188539
+		ELSE 4188540
+		END AS night_meal_concept_id,
+
+		CASE
+		WHEN eating_habit_breakfast IS NULL THEN NULL
+		WHEN eating_habit_breakfast = 1 THEN 'yes'
+		ELSE 'no'
+		END AS Skip_breakfast,
+
+		CASE
+		WHEN eating_habit_breakfast IS NULL THEN NULL
+		WHEN eating_habit_breakfast = 1 THEN 4188539
+		ELSE 4188540
+		END AS Skip_breakfast_concept_id,
+
+
+		CASE
+		WHEN drinking_habit_until_mar_24 IS NULL and drinking_habit_after_apr_24 IS NULL THEN NULL
+		WHEN drinking_habit_after_apr_24 = 1 THEN 'Daily'
+		WHEN drinking_habit_after_apr_24 = 2 THEN '5~6 days a week'
+		WHEN drinking_habit_after_apr_24 = 3 THEN '3~4 days a week'
+		WHEN drinking_habit_after_apr_24 = 4 THEN '1~2 days a week'
+		WHEN drinking_habit_after_apr_24 = 5 THEN '1~3 days per month'
+		WHEN drinking_habit_after_apr_24 = 6 THEN 'Less than 1 day per month'
+		WHEN drinking_habit_after_apr_24 = 7 THEN 'Quit'
+		WHEN drinking_habit_after_apr_24 = 8 THEN 'Dont drink (cant drink)'
+
+		WHEN drinking_habit_until_mar_24 = 1 THEN 'Every day'
+		WHEN drinking_habit_until_mar_24 = 2 THEN 'Sometimes'
+		ELSE 'Rarely'
+		END AS Drinking_habits,
+
+		CASE
+		WHEN drinking_habit_until_mar_24 IS NULL and drinking_habit_after_apr_24 IS NULL THEN NULL
+		WHEN drinking_habit_until_mar_24 = 1 or drinking_habit_after_apr_24 = 1	THEN 4288153
+		WHEN drinking_habit_until_mar_24 = 2 and drinking_habit_after_apr_24 is null THEN 765707
+		WHEN drinking_habit_until_mar_24 = 3 and drinking_habit_after_apr_24 is null THEN 763696
+		WHEN drinking_habit_after_apr_24 = 7 THEN 4220362
+		WHEN drinking_habit_after_apr_24 = 8 THEN 4022664
+		ELSE 0
+		END AS Drinking_habits_concept_id,
+
+		CASE
+		WHEN amount_of_drinking_until_mar_24 IS NULL and amount_of_drinking_after_apr_24 IS NULL THEN NULL
+
+		WHEN amount_of_drinking_after_apr_24 = 1 THEN '1 is not in the balance'
+		WHEN amount_of_drinking_after_apr_24 = 2 THEN '1~2 is not in the balance'
+		WHEN amount_of_drinking_after_apr_24 = 3 THEN '2~3 is not in the balance'
+		WHEN amount_of_drinking_after_apr_24 = 4 THEN '3~5'
+		WHEN amount_of_drinking_after_apr_24 = 5 THEN '5 or more'
+
+		WHEN amount_of_drinking_until_mar_24 = 1 THEN 'Less than 1'
+		WHEN amount_of_drinking_until_mar_24 = 2 THEN 'Less than 2'
+		WHEN amount_of_drinking_until_mar_24 = 3 THEN 'Less than 3'
+		WHEN amount_of_drinking_until_mar_24 = 4 THEN '3 or more'
+		END AS amount_of_drinking,
+
+		ecg as Electrocardiogram,
+
+		CASE
+		WHEN ecg IS NULL THEN 0
+		ELSE 1
+		END AS Condition,
+
+		CASE
+		WHEN ecg IS NULL
+		THEN NULL
+		WHEN ecg = 1
+		THEN 320536
+		ELSE 4065279
+		END AS ecg_concept_id,
+
+		CASE
+		WHEN ecg IS NULL
+		THEN NULL
+		WHEN ecg = 1
+		THEN 'Electrocardiogram abnormal'
+		ELSE 'ECG normal'
+		END AS ecg_concept_name,
+
+		CASE
+		WHEN smoking_habit_until_mar_24 IS NULL and smoking_habit_after_apr_24 IS NULL
+		THEN NULL
+		WHEN smoking_habit_until_mar_24 = 1 or smoking_habit_after_apr_24 = 1 THEN 4298794
+		WHEN smoking_habit_after_apr_24 = 2 THEN 4310250
+		ELSE 4222303
+		END AS Smoking_habit_concept_id,
+
+		CASE
+		WHEN smoking_habit_until_mar_24 IS NULL and smoking_habit_after_apr_24 IS NULL
+		THEN NULL
+		WHEN smoking_habit_until_mar_24 = 1 or smoking_habit_after_apr_24 = 1 THEN 'Smoker'
+		WHEN smoking_habit_after_apr_24 = 2 THEN 'Ex-smoker'
+		ELSE 'Non-smoker'
+		END AS Smoking_habit_concept_name,
+
+		CASE
+		WHEN mastication IS NULL THEN NULL
+		WHEN mastication = 1 THEN 45880745
+		WHEN mastication = 2 THEN 45877108
+		WHEN mastication = 3 THEN 45884578
+		ELSE 0
+		END AS mastication_value,
+
+		CASE
+		WHEN sleep IS NULL
+		THEN NULL
+		WHEN sleep = 1
+		THEN 4188539
+		ELSE 4188540
+		END AS Sleeping_value,
+		40 as Abdominal_girth_min, 250 as Abdominal_girth_max,
+		60 as SBP_min, 300 as SBP_max,
+		30 as DBP_min, 150 as DBP_max,
+		30 as TC_min, 1500 as TC_max,
+		10 as TG_min, 2000 as TG_max,
+		10 as HDL_C_min, 500 as HDL_C_max,
+		20 as LDL_C_min, 1000 as LDL_C_max,
+		1000 as GPT_max,
+		1000 as G_GT_max,
+		20 as Fasting_blood_sugar_min, 600 as Fasting_blood_sugar_max,
+		50 as Casual_blood_sugar_min, 500 as Casual_blood_sugar_max,
+		3 as HbA1c_min, 20 as HbA1c_max,
+		1000 as Hematocrit_max,
+		30 as Hemoglobin_max,
+		1000 as Red_blood_cell_count_max,
+		100 as Serum_uric_acid_max,
+		100 as Serum_creatinine_max,
+		ch.PartitionId
+		FROM {sc}.Annual_health_checkup h
+		JOIN {ch_sc}._chunks ch ON ch.ChunkId = {0} AND h.Member_ID = ch.PERSON_SOURCE_VALUE
+		order by ch.PartitionId, CAST(RIGHT(Member_ID, LEN(Member_ID) - 1) AS BIGINT)
+	</Query>
+
+	<Measurement>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueAsNumber>BMI</ValueAsNumber>
+			<ValueSourceValue>BMI</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="BMI" defaultConceptId="3038553" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="kg/m3" defaultConceptId="9531" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<RangeLow>Abdominal_girth_min</RangeLow>
+			<RangeHigh>Abdominal_girth_max</RangeHigh>
+			<ValueAsNumber>Abdominal_girth</ValueAsNumber>
+			<ValueSourceValue>Abdominal_girth</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Abdominal girth" defaultConceptId="3016258" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="cm" defaultConceptId="8582" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<RangeLow>SBP_min</RangeLow>
+			<RangeHigh>SBP_max</RangeHigh>
+			<ValueAsNumber>SBP</ValueAsNumber>
+			<ValueSourceValue>SBP</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="SBP" defaultConceptId="3004249" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="mmHg" defaultConceptId="8876" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<RangeLow>DBP_min</RangeLow>
+			<RangeHigh>DBP_max</RangeHigh>
+			<ValueAsNumber>DBP</ValueAsNumber>
+			<ValueSourceValue>DBP</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="DBP" defaultConceptId="3012888" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="mmHg" defaultConceptId="8876" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<RangeLow>TC_min</RangeLow>
+			<RangeHigh>TC_max</RangeHigh>
+			<ValueAsNumber>TC</ValueAsNumber>
+			<ValueSourceValue>TC</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="TC" defaultConceptId="3027114" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="mg/dl" defaultConceptId="8840" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueAsNumber>TG</ValueAsNumber>
+			<ValueSourceValue>TG</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="TG" defaultConceptId="3022038" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="mg/dl" defaultConceptId="8840" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<RangeLow>HDL_C_min</RangeLow>
+			<RangeHigh>HDL_C_max</RangeHigh>
+			<ValueAsNumber>HDL_C</ValueAsNumber>
+			<ValueSourceValue>HDL_C</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="HDL C" defaultConceptId="3007070" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="mg/dl" defaultConceptId="8840" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<RangeLow>LDL_C_min</RangeLow>
+			<RangeHigh>LDL_C_max</RangeHigh>
+			<ValueAsNumber>LDL_C</ValueAsNumber>
+			<ValueSourceValue>LDL_C</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="LDL C" defaultConceptId="3028437" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="mg/dl" defaultConceptId="8840" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<RangeHigh>GPT_max</RangeHigh>
+			<ValueAsNumber>GPT</ValueAsNumber>
+			<ValueSourceValue>GPT</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="GPT" defaultConceptId="3006923" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="IU/I 37 degrees celcius" defaultConceptId="8645" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<RangeHigh>G_GT_max</RangeHigh>
+			<ValueAsNumber>G_GT</ValueAsNumber>
+			<ValueSourceValue>G_GT</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="G GT" defaultConceptId="3026910" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="IU/I 37 degrees celcius" defaultConceptId="8645" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<RangeLow>Fasting_blood_sugar_min</RangeLow>
+			<RangeHigh>Fasting_blood_sugar_max</RangeHigh>
+			<ValueAsNumber>Fasting_blood_sugar</ValueAsNumber>
+			<ValueSourceValue>Fasting_blood_sugar</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Fasting blood sugar" defaultConceptId="3037187" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="mg/dl" defaultConceptId="8840" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<RangeLow>Casual_blood_sugar_min</RangeLow>
+			<RangeHigh>Casual_blood_sugar_max</RangeHigh>
+			<ValueAsNumber>Casual_blood_sugar</ValueAsNumber>
+			<ValueSourceValue>Casual_blood_sugar</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Casual blood sugar" defaultConceptId="3000483" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="mg/dl" defaultConceptId="8840" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueAsNumber>Got</ValueAsNumber>
+			<ValueSourceValue>Got</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="glutamic-oxaloacetic transaminase" defaultConceptId="3003792" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="IU/I 37 degrees celcius" defaultConceptId="8645" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<RangeLow>HbA1c_min</RangeLow>
+			<RangeHigh>HbA1c_max</RangeHigh>
+			<ValueAsNumber>HbA1c</ValueAsNumber>
+			<ValueSourceValue>HbA1c</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="HbA1c" defaultConceptId="3004410" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="%" defaultConceptId="8554" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueAsNumber>Urine_sugar</ValueAsNumber>
+			<ValueSourceValue>Urine_sugar_unit</ValueSourceValue>
+			<ValueAsConceptId>Urine_sugar_unit_concept_id</ValueAsConceptId>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Urine sugar" defaultConceptId="3020650" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueAsNumber>Urine_protein</ValueAsNumber>
+			<ValueSourceValue>Urine_protein_unit</ValueSourceValue>
+			<ValueAsConceptId>Urine_protein_unit_concept_id</ValueAsConceptId>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Urine protein" defaultConceptId="3037185" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<RangeHigh>Hematocrit_max</RangeHigh>
+			<ValueAsNumber>Hematocrit</ValueAsNumber>
+			<ValueSourceValue>Hematocrit</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Hematocrit" defaultConceptId="3009542" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="%" defaultConceptId="8554" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<RangeHigh>Hemoglobin_max</RangeHigh>
+			<ValueAsNumber>Hemoglobin</ValueAsNumber>
+			<ValueSourceValue>Hemoglobin</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Hemoglobin" defaultConceptId="3000963" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="g/dl" defaultConceptId="8713" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<RangeHigh>Red_blood_cell_count_max</RangeHigh>
+			<ValueAsNumber>Red_blood_cell_count</ValueAsNumber>
+			<ValueSourceValue>Red_blood_cell_count</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Red blood cell count" defaultConceptId="3026361" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="10*4/uL" defaultConceptId="32706" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<RangeHigh>Serum_uric_acid_max</RangeHigh>
+			<ValueAsNumber>Serum_uric_acid</ValueAsNumber>
+			<ValueSourceValue>Serum_uric_acid</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Serum uric acid" defaultConceptId="3037556" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="mg/dl" defaultConceptId="8840" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<RangeHigh>Serum_creatinine_max</RangeHigh>
+			<ValueAsNumber>Serum_creatinine</ValueAsNumber>
+			<ValueSourceValue>Serum_creatinine</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Serum creatinine" defaultConceptId="3016723" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field defaultSource="mg/dl" defaultConceptId="8840" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueSourceValue>Ophthalmoscopy_K_W_classificatio</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Ophthalmoscopy K W classificatio" defaultConceptId="0" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueSourceValue>Ophthalmoscopy_Scheie_Classifica</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Ophthalmoscopy Scheie Classifica" defaultConceptId="0" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueSourceValue>Ophthalmoscopy_Scheie_Classific0</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Ophthalmoscopy Scheie Classific0" defaultConceptId="0" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+		<MeasurementDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueSourceValue>Ophthalmoscopy_SCOTT_classificat</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Ophthalmoscopy SCOTT classificat" defaultConceptId="0" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+	</Measurement>
+
+	<Observation>
+		<ObservationDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueAsConceptId>Sleeping_value</ValueAsConceptId>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Get enough sleep" defaultConceptId="40764749" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+
+		<ObservationDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueAsConceptId>mastication_value</ValueAsConceptId>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Mastication" defaultConceptId="4003394" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+		<ObservationDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field conceptId="Smoking_habit_concept_id" sourceKey="Smoking_habit_concept_name" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+
+		<ObservationDefinition>
+			<Condition>{Condition} = 1</Condition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field conceptId="ecg_concept_id" sourceKey="ecg_concept_name" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+
+		<ObservationDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueSourceValue>Eating_speed</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Eating speed" defaultConceptId="0" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+
+		<ObservationDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueSourceValue>Eat_snack</ValueSourceValue>
+			<ValueAsConceptId>Eat_snack_concept_id</ValueAsConceptId>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Eat snack other than breakfast, lunch and dinner" defaultConceptId="0" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+
+		<ObservationDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueSourceValue>Eating_before_bedtime</ValueSourceValue>
+			<ValueAsConceptId>Eating_before_bedtime_concept_id</ValueAsConceptId>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Have a late-night meal after supper more than 3 times in a week" defaultConceptId="0" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+
+		<ObservationDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueSourceValue>night_meal</ValueSourceValue>
+			<ValueAsConceptId>night_meal_concept_id</ValueAsConceptId>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Eat snack after dinner more than 3 times in a week" defaultConceptId="0" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+
+		<ObservationDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueSourceValue>Skip_breakfast</ValueSourceValue>
+			<ValueAsConceptId>Skip_breakfast_concept_id</ValueAsConceptId>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Skip breakfast more than 3 times in a week" defaultConceptId="0" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+
+		<ObservationDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueSourceValue>Drinking_habits</ValueSourceValue>
+			<ValueAsConceptId>Drinking_habits_concept_id</ValueAsConceptId>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Drinking habits" defaultConceptId="0" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+
+		<ObservationDefinition>
+			<PersonId>PERSON_ID</PersonId>
+			<IsUnique>true</IsUnique>
+			<StartDate>observation_date</StartDate>
+			<ValueSourceValue>amount_of_drinking</ValueSourceValue>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultSource="Amount of alcohol" defaultConceptId="0" defaultTypeId="32836"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+	</Observation>
+	
+</QueryDefinition>

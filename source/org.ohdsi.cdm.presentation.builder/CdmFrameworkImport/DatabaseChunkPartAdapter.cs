@@ -137,6 +137,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
             var building = FrameworkSettings.Settings.Current.Building;
 
             string sourceQueryDefinitionSql = "";
+            string sqlRenderTranslatedSql = "";
             string translatedSql = "";
             string sourceConnectionString = "";
             string sourceEngine = "";
@@ -160,7 +161,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
 
                 sourceQueryDefinitionSql = sourceQueryDefinitionAdapter.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
 
-                var sqlRenderTranslatedSql = SqlRenderTranslator.Translate(new SqlRenderTranslator.Request(
+                sqlRenderTranslatedSql = SqlRenderTranslator.Translate(new SqlRenderTranslator.Request(
                     null,
                     building.Vendor.Name,
                     sourceQueryDefinition.FileName,

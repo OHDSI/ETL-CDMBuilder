@@ -113,32 +113,31 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
             #endregion
 
             #region to_date → convert
+            // to_date(CONCAT(CAST(x AS VARCHAR(6)), '01'), 'yyyyMMdd')
+            // CONVERT(date, CONCAT(CAST(x AS VARCHAR(6)), '01'), 112)
             queryChanged = Regex.Replace(
                 queryChanged,
-                @"\bto_date\s*\(\s*([\w\.\[\]]+)\s*,\s*'YYYY-MM-DD'\s*,\s*false\s*\)",
-                "CONVERT(date, $1, 23)",
-                RegexOptions.IgnoreCase
-            );
-
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"\bto_date\s*\(\s*([\w\.\[\]]+)\s*,\s*'YYYYMMDD'\s*,\s*false\s*\)",
-                "CONVERT(date, $1, 112)",
-                RegexOptions.IgnoreCase
-            );
-
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"\bto_date\s*\(\s*([\w\.\[\]]+)\s*,\s*'YYYY-MM-DD'\s*\)",
-                "CONVERT(date, $1, 23)",
-                RegexOptions.IgnoreCase
-            );
-
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"\bto_date\s*\(\s*([\w\.\[\]]+)\s*,\s*'YYYYMMDD'\s*\)",
-                "CONVERT(date, $1, 112)",
-                RegexOptions.IgnoreCase
+                // 1) Find a call of to_date(...)
+                // 2) Find the 1st argument (expr) including nested brackets -> 1st '(' to 1st ',' in pattern
+                // 3) Find date format -> after the 1st ',' up to 2nd ',' or ')'
+                // 4) Ignore the third argument (true/false)
+                // 5) Replace to_date(expr, fmt, optional_bool) by convert(date, expr, mssql style)
+                // 6) (?(d)(?!)) -> this makes Regex balance brackets
+                @"\bto_date\s*\(\s*(?<expr>(?>[^()']+|'[^']*'|\((?<d>)|\)(?<-d>))*(?(d)(?!)))\s*,\s*'(?<fmt>[^']+)'\s*(?:,\s*(?<bool>true|false)\s*)?\)",
+                m =>
+                {
+                    var expr = m.Groups["expr"].Value.Trim();
+                    var fmt = m.Groups["fmt"].Value.Trim();
+            
+                    if (fmt.Equals("YYYY-MM-DD", StringComparison.OrdinalIgnoreCase))
+                        return $"convert(date, {expr}, 23)";
+            
+                    if (fmt.Equals("YYYYMMDD", StringComparison.OrdinalIgnoreCase))
+                        return $"convert(date, {expr}, 112)";
+            
+                    return $"convert(date, {expr})";
+                },
+                RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
             );
             #endregion
 
@@ -329,7 +328,12 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
         {
             var queryChanged = query;
 
-
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\.procedure\b",
+                ".\"procedure\"",
+                RegexOptions.IgnoreCase
+            );
 
             if (string.IsNullOrEmpty(_table))
                 return queryChanged;
@@ -340,23 +344,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
                 queryChanged = queryChanged.Replace("ELSE Eating1_fast_eating + ' unknown'",
                     "ELSE CAST(Eating1_fast_eating as varchar) + ' unknown'",
                     StringComparison.CurrentCultureIgnoreCase);
-            }
-
-            if (_table.Equals("Enrollment", StringComparison.CurrentCultureIgnoreCase))
-            {
-                queryChanged = queryChanged.Replace("a.payer_concept_id, baby_person_id, m2.year_of_birth",
-                    "a.payer_concept_id, m2.person_id, m2.year_of_birth",
-                    StringComparison.CurrentCultureIgnoreCase);
-            }
-
-            if (_table.Equals("procedure", StringComparison.CurrentCultureIgnoreCase))
-            {
-                queryChanged = Regex.Replace(
-                    queryChanged,
-                    @"\.procedure\b",
-                    ".\"procedure\"",
-                    RegexOptions.IgnoreCase
-                );
             }
 
             return queryChanged;

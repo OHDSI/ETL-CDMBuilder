@@ -19,7 +19,10 @@ namespace org.ohdsi.cdm.presentation.builder
     {
         public int KeysCount => _lookups.Sum(s => s.Key.Count());
 
-        protected string FileCacheFolder => Path.Combine(Directory.GetCurrentDirectory(), "Cache", "Vocabulary");
+        protected string FileCacheFolder => Path.Combine(Directory.GetCurrentDirectory(), 
+            "Cache", 
+            "Vocabulary", 
+            Settings.Current.Building.VocabSchema);
 
         private readonly Dictionary<string, Lookup> _lookups = new Dictionary<string, Lookup>();
         private GenderLookup _genderConcepts;

@@ -107,12 +107,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
             // CONVERT(date, CONCAT(CAST(x AS VARCHAR(6)), '01'), 112)
             queryChanged = Regex.Replace(
                 queryChanged,
-                // 1) Find a call of to_date(...)
-                // 2) Find the 1st argument (expr) including nested brackets -> 1st '(' to 1st ',' in pattern
-                // 3) Find date format -> after the 1st ',' up to 2nd ',' or ')'
-                // 4) Ignore the third argument (true/false)
-                // 5) Replace to_date(expr, fmt, optional_bool) by convert(date, expr, mssql style)
-                // 6) (?(d)(?!)) -> this makes Regex balance brackets
                 @"\bto_date\s*\(\s*(?<expr>(?>[^()']+|'[^']*'|\((?<d>)|\)(?<-d>))*(?(d)(?!)))\s*,\s*'(?<fmt>[^']+)'\s*(?:,\s*(?<bool>true|false)\s*)?\)",
                 m =>
                 {
@@ -145,6 +139,23 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
                 },
                 RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
             );
+            #endregion
+
+            #region to_char(date, 'MM')
+            //to_char(m2.startDate, 'MM')
+            // RIGHT('0' + CAST(DATEPART(MONTH, m2.startDate) AS VARCHAR(2)), 2)
+
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"(?i)\bto_char\s*\(\s*(?<expr>[A-Za-z_][A-Za-z0-9_]*\.[A-Za-z_][A-Za-z0-9_]*)\s*,\s*'MM'\s*\)",
+                m =>
+                {
+                    var expr = m.Groups["expr"].Value;
+                    return $"RIGHT('0' + CAST(DATEPART(MONTH, {expr}) AS VARCHAR(2)), 2)";
+                },
+                RegexOptions.CultureInvariant
+            );
+
             #endregion
 
             return queryChanged;
@@ -284,30 +295,17 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
         {
             var queryChanged = query;
 
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\bproc\b",
+                "\"proc\"",
+                RegexOptions.IgnoreCase
+            );
 
 
             if (string.IsNullOrEmpty(_table))
                 return queryChanged;
 
-
-            if (_table.Equals("med_procedure", StringComparison.CurrentCultureIgnoreCase))
-            {
-                queryChanged = queryChanged.Replace("proc,",
-                    "\"proc\",",
-                    StringComparison.CurrentCultureIgnoreCase);
-            }
-
-            if (_table.Equals("member_continuous_enrollment", StringComparison.CurrentCultureIgnoreCase))
-            {
-                queryChanged = queryChanged.Replace("DATEPART(MONTH, m2.startDate)",
-                    "RIGHT('0' + CAST(DATEPART(MONTH, m2.startDate) AS VARCHAR), 2)",
-                    StringComparison.CurrentCultureIgnoreCase);
-
-                //group by -> baby_person_id
-                queryChanged = queryChanged.Replace("a.SPONSOR_SOURCE_VALUE, a.FAMILY_SOURCE_VALUE, baby_person_id, m2.yrdob, m2.startDate",
-                    "a.SPONSOR_SOURCE_VALUE, a.FAMILY_SOURCE_VALUE, m2.patid, m2.yrdob, m2.startDate",
-                    StringComparison.CurrentCultureIgnoreCase);
-            }
 
             return queryChanged;
         }

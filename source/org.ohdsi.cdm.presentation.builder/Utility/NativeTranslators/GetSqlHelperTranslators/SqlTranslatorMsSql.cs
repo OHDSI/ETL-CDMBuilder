@@ -30,9 +30,23 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
 
             queryChanged = queryChanged.Replace("getdate()", "CURRENT_TIMESTAMP", StringComparison.InvariantCultureIgnoreCase);
 
-            queryChanged = queryChanged.Replace("nvl(", "COALESCE(", StringComparison.InvariantCultureIgnoreCase);
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\bregexp_replace\s*\(",
+                "replace(",
+                RegexOptions.IgnoreCase);
 
-            queryChanged = queryChanged.Replace("isnull(", "COALESCE(", StringComparison.InvariantCultureIgnoreCase);
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\bnvl\s*\(",
+                "coalesce(",
+                RegexOptions.IgnoreCase);
+
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\bisnull\s*\(",
+                "coalesce(",
+                RegexOptions.IgnoreCase);
 
             #region length → len
             queryChanged = Regex.Replace(queryChanged, @"\s*length\s*\(", " len(", RegexOptions.IgnoreCase);
@@ -40,6 +54,16 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
 
             #region chr → char
             queryChanged = Regex.Replace(queryChanged, @"\s*chr\s*\(", " char(", RegexOptions.IgnoreCase);
+            #endregion
+
+            #region ::float -> CAST(... AS FLOAT)
+
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\b([A-Za-z0-9_\.]+)::float\b",
+                "CAST($1 AS FLOAT)",
+                RegexOptions.IgnoreCase);
+
             #endregion
 
             #region procedure_date ilike 'yy%' to like
@@ -123,6 +147,28 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
                 },
                 RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
             );
+
+            //regex above seems to fail parsing simple fields
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"\bto_date\s*\(\s*(?<expr>(?>[^()' ,]+|'[^']*'|\((?<d>)|\)(?<-d>)|,(?(d))|\s+)*)\s*,\s*'(?<fmt>[^']+)'\s*(?:,\s*(?<bool>true|false)\s*)?\)",
+                m =>
+                {
+                    var expr = m.Groups["expr"].Value.Trim();
+                    var fmt = m.Groups["fmt"].Value.Trim();
+            
+                    if (fmt.Equals("YYYY-MM-DD", StringComparison.OrdinalIgnoreCase))
+                        return $"convert(date, {expr}, 23)";
+            
+                    if (fmt.Equals("YYYYMMDD", StringComparison.OrdinalIgnoreCase))
+                        return $"convert(date, {expr}, 112)";
+            
+                    return $"convert(date, {expr})";
+                },
+                RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
+            );
+
+
             #endregion
 
             #region last_day → EOMONTH
@@ -211,9 +257,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
             var queryChanged = query;
 
 
-
             if (string.IsNullOrEmpty(_table))
                 return queryChanged;
+
 
             if (_table.Equals("alz_imaging", StringComparison.CurrentCultureIgnoreCase))
             {
@@ -230,52 +276,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
                 queryChanged = queryChanged.Replace("cast(m.admin_date + ' ' + m.admin_time as TIMESTAMP)",
                     "TRY_CONVERT(datetime, CONCAT(m.admin_date, ' ', m.admin_time), 120)",
                     StringComparison.CurrentCultureIgnoreCase);
-            }
-
-            if (_table.Equals("onc_metastatic_location", StringComparison.CurrentCultureIgnoreCase))
-            {
-                queryChanged = queryChanged.Replace("to_date(replace(metastasis_dx_date, 'mmdd', '0630'), 'YYYYMMDD')",
-                    "TRY_CONVERT(date, REPLACE(metastasis_dx_date, 'mmdd', '0630'), 112)",
-                    StringComparison.CurrentCultureIgnoreCase);
-
-                queryChanged = queryChanged.Replace("to_date(replace(metastasis_dx_date, 'dd', '15'), 'YYYYMMDD')",
-                    "TRY_CONVERT(date, REPLACE(metastasis_dx_date, 'dd', '15'), 112)",
-                    StringComparison.CurrentCultureIgnoreCase);
-            }
-
-            if (_table.Equals("onc_neoplasm_histology", StringComparison.CurrentCultureIgnoreCase))
-            {
-                queryChanged = queryChanged.Replace("regexp_replace",
-                    "replace",
-                    StringComparison.CurrentCultureIgnoreCase);
-
-                queryChanged = queryChanged.Replace("to_date(replace(h.neoplasm_dx_date, 'mmdd', '0630'), 'YYYYMMDD')",
-                    "TRY_CONVERT(date, REPLACE(h.neoplasm_dx_date, 'mmdd', '0630'), 112)",
-                    StringComparison.CurrentCultureIgnoreCase);
-
-                queryChanged = queryChanged.Replace("to_date(replace(h.neoplasm_dx_date, 'dd', '15'), 'YYYYMMDD')",
-                    "TRY_CONVERT(date, REPLACE(h.neoplasm_dx_date, 'dd', '15'), 112)",
-                    StringComparison.CurrentCultureIgnoreCase);
-            }
-
-            if (_table.Equals("onc_tumor_size", StringComparison.CurrentCultureIgnoreCase))
-            {
-                queryChanged = queryChanged.Replace("ISNULL",
-                    "COALESCE",
-                    StringComparison.CurrentCultureIgnoreCase);
-
-                queryChanged = Regex.Replace(
-                    queryChanged,
-                    @"\b([A-Za-z0-9_\.]+)::float\s*/\s*(\d+)",
-                    "CAST($1 AS FLOAT) / $2",
-                    RegexOptions.IgnoreCase);
-
-                queryChanged = Regex.Replace(
-                    queryChanged,
-                    @"\b([A-Za-z0-9_\.]+)::float\b",
-                    "CAST($1 AS FLOAT)",
-                    RegexOptions.IgnoreCase);
-
             }
 
             if (_table.Equals("procedure", StringComparison.CurrentCultureIgnoreCase))
@@ -320,6 +320,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
                 ".\"procedure\"",
                 RegexOptions.IgnoreCase
             );
+
 
             if (string.IsNullOrEmpty(_table))
                 return queryChanged;

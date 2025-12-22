@@ -356,9 +356,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
         {
             var queryChanged = query;
 
-            if (string.IsNullOrEmpty(_table))
-                return queryChanged;
-
             //add cast as varchar
             queryChanged = Regex.Replace(
                 queryChanged,
@@ -373,12 +370,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
                 RegexOptions.IgnoreCase
             );
 
-            if (_table.Equals("diagnosis", StringComparison.InvariantCultureIgnoreCase))
-            {
-                queryChanged = queryChanged.Replace("diagnosis_status || ';' || ad + dd + p + pd as condition_status_source_value",
-                    "diagnosis_status || ';' || ad || dd || p || pd as condition_status_source_value",
-                    StringComparison.CurrentCultureIgnoreCase);
-            }
+
+            if (string.IsNullOrEmpty(_table))
+                return queryChanged;
 
             return queryChanged;
         }

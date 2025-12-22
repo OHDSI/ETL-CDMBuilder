@@ -166,7 +166,9 @@ namespace org.ohdsi.cdm.RunLocal
 
             var secondsElapsed = Math.Round((double)sw.ElapsedMilliseconds / 1000);
             var hoursElapsed = Math.Round(secondsElapsed / 60 / 60, 1);
-            AnsiConsole.WriteLine($"\r\nThe program has finished! - {hoursElapsed}h ({secondsElapsed}s), Max memory used={Math.Round(MemoryColumn.MaxMbMemoryProcess)}({Math.Round(MemoryColumn.MaxMbMemoryGC)}) MB");
+            var time = $"{hoursElapsed}h ({secondsElapsed}s";
+            var memory = $"{Math.Round(MemoryColumn.MaxMbMemoryProcess)}({Math.Round(MemoryColumn.MaxMbMemoryGC)}";             
+            AnsiConsole.MarkupLine($"[green]\r\nThe program has finished! - {time}), Max memory used={memory}) MB[/]");
             Console.ReadLine();
         }
 

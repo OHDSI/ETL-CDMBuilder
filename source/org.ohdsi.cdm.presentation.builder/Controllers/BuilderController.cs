@@ -231,8 +231,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             var degreeParallel = Math.Max(1, Environment.ProcessorCount - 1);
             var saveLock = new object();
 
-            Logger.Write(null, Logger.LogMessageTypes.Info,
-                "\r\n==================== Conversion to CDM has been started ====================");
+            AnsiConsole.MarkupLine("[blue]\r\n==================== Conversion to CDM has been started ====================[/]");
             Logger.Write(null, Logger.LogMessageTypes.Info, "Console window should not be resized, lest the earlier messages are erased.");
             Logger.Write(null, Logger.LogMessageTypes.Info,
                 $"Maximum memory allocation for multithreading is {Settings.Current.Building.MaxMemoryBudgetMb} mb. " +

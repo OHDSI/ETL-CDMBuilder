@@ -237,9 +237,12 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
 
             if (_table.Equals("patbill", StringComparison.CurrentCultureIgnoreCase))
             {
-                queryChanged = queryChanged.Replace("chg.std_chg_code != 360360000530008",
-                    "chg.std_chg_code != '360360000530008'",
-                    StringComparison.CurrentCultureIgnoreCase);
+                queryChanged = Regex.Replace(
+                    queryChanged,
+                    @"\b360360000530008\b",
+                    "'360360000530008'",
+                    RegexOptions.IgnoreCase
+                );
             }
 
             if (_table.Equals("vitals", StringComparison.CurrentCultureIgnoreCase))

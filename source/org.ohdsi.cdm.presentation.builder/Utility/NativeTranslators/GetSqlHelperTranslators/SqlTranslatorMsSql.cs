@@ -167,6 +167,19 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
                 },
                 RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
             );
+                        
+            //try to avoid errors when concatinating multiple data types to a string for date casting
+            //check each line for convert(date  
+            //make everything between '+' wrapped in cast(x as varchar(4))
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! THIS WILL BREAK IF ANY TO_DATE CONVERSION IS SPLIT BY LINES !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            var lines = queryChanged.Split(new[] { "\r\n", "\n", "\r" }, StringSplitOptions.None);
+            for (int i = 0; i < lines.Length; i++)
+                if (lines[i].Contains("convert(date", StringComparison.OrdinalIgnoreCase) && lines[i].Contains('+'))
+                    lines[i] = Regex.Replace(lines[i],
+                        @"(?<=\+)\s*(?!')(?<op>[^+]+?)\s*(?=\+)",
+                        m => $" CAST({m.Groups["op"].Value.Trim()} AS varchar(4)) ",
+                        RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+            queryChanged = string.Join("\n", lines);
 
 
             #endregion

@@ -250,42 +250,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
         {
             var queryChanged = query;
 
-            #region cast enrolid as varchar
-            // ENROLID AS PERSON_ID
-            // -> -> ->
-            // CAST(ENROLID AS VARCHAR(50)) AS PERSON_ID
-            //t. is optional
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"\b(\w+\.)?ENROLID\s*AS\s*PERSON_ID\b",
-                "cast($1ENROLID AS VARCHAR(50)) AS PERSON_ID",
-                RegexOptions.IgnoreCase
-            );
-            #endregion
-
-            #region fix _chunks join 
-            // = ch.person_id
-            // -> -> ->
-            // = ch.person_source_value
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"=(\s*)ch\.person_id\b",
-                "= $1ch.person_source_value",
-                RegexOptions.IgnoreCase
-            );
-
-            // t.ENROLID = ch.person_source_value
-            // -> -> ->
-            // cast(t.ENROLID as varchar) = ch.person_source_value
-            //t. is optional
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"\b(\w+\.)?ENROLID\s*=\s*ch\.person_source_value\b",
-                "cast($1ENROLID as varchar) = ch.person_source_value",
-                RegexOptions.IgnoreCase
-            );
-            #endregion
-
             #region dstatus fix
             // look for a number that’s either
             // - right after "IN("  or
@@ -299,6 +263,11 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
                 RegexOptions.IgnoreCase
             );
             #endregion
+
+
+            if (string.IsNullOrEmpty(_table))
+                return queryChanged;
+
 
             if (_table.Equals("drug_claims", StringComparison.InvariantCultureIgnoreCase))
             {

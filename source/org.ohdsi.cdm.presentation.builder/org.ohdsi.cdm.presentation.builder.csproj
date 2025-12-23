@@ -21,12 +21,26 @@
 	  <None Remove="CdmFrameworkImport\Queries\Postgre\v5.4\DropTables.sql" />
 	  <None Remove="CdmFrameworkImport\Queries\Postgre\v5.4\TruncateTables.sql" />
 	  <None Remove="CdmFrameworkImport\Queries\Postgre\v5.4\TruncateWithoutLookupTables.sql" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\CPRD\Additional.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\CPRD\Clinical.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\CPRD\Immunisation.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\CPRD\L_CARE_SITE.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\CPRD\L_LOCATION.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\CPRD\L_PROVIDER.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\CPRD\Patient.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\CPRD\Referral.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\CPRD\Test.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\CPRD\Therapy.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\JMDC\Annual_health_checkups.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\JMDC\Enrollment.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\JMDC\Procedure.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumExtended\MED_PROCEDURE.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumExtended\MEMBER_CONTINUOUS_ENROLLMENT.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumPanther\alz_imaging.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumPanther\encounter.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumPanther\onc_metastatic_location.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumPanther\onc_neoplasm_histology.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumPanther\procedure.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\Premier\patbill.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\Truven\DRUG_CLAIMS.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\Truven\ENROLLMENT_DETAIL_MDCD.xml" />
@@ -60,14 +74,53 @@
 	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Postgre\v5.4\TruncateWithoutLookupTables.sql">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\CPRD\Additional.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\CPRD\Clinical.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\CPRD\Immunisation.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\CPRD\L_CARE_SITE.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\CPRD\L_LOCATION.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\CPRD\L_PROVIDER.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\CPRD\Patient.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\CPRD\Referral.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\CPRD\Test.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\CPRD\Therapy.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
 	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\JMDC\Annual_health_checkups.xml">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\JMDC\Enrollment.xml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\JMDC\Procedure.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\OptumExtended\MED_PROCEDURE.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
 	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\OptumExtended\MEMBER_CONTINUOUS_ENROLLMENT.xml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\OptumPanther\alz_imaging.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\OptumPanther\encounter.xml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -76,6 +129,9 @@
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\OptumPanther\onc_neoplasm_histology.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\OptumPanther\procedure.xml">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Premier\patbill.xml">

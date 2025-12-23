@@ -393,7 +393,7 @@ namespace org.ohdsi.cdm.presentation.builder
             if (vendorName.StartsWith("OptumExtended"))
                 vendorName = "OptumExtended";
 
-            var overrides = EmbeddedResourceManager.ReadEmbeddedResources("org.ohdsi.cdm.presentation.builder", "." + vendorName + "."); //strict search
+            var overrides = EmbeddedResourceManager.ReadEmbeddedResources("org.ohdsi.cdm.presentation.builder", "." + vendorName + ".", StringComparison.CurrentCultureIgnoreCase); //strict search
             foreach (var v in overrides)
             {
                 var fileName = v.Key.Replace(".xml", "").Split('.').Last();

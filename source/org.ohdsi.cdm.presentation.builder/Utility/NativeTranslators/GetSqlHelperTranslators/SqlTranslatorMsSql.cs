@@ -281,40 +281,12 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
             if (string.IsNullOrEmpty(_table))
                 return queryChanged;
 
-
-            if (_table.Equals("alz_imaging", StringComparison.CurrentCultureIgnoreCase))
-            {
-                queryChanged = Regex.Replace(
-                    queryChanged,
-                    @"\bprocedure\b",
-                    " l.[procedure] ",
-                    RegexOptions.IgnoreCase
-                );
-            }
-
-            if (_table.Equals("procedure", StringComparison.CurrentCultureIgnoreCase))
-            {
-                queryChanged = Regex.Replace(
-                    queryChanged,
-                    @"\.procedure\b",
-                    ".\"procedure\"",
-                    RegexOptions.IgnoreCase
-                );
-            }
-
             return queryChanged;
         }
 
         string translateOptumExtended(string query)
         {
             var queryChanged = query;
-
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"\bproc\b",
-                "\"proc\"",
-                RegexOptions.IgnoreCase
-            );
 
 
             if (string.IsNullOrEmpty(_table))
@@ -327,13 +299,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
         string translateJmdc(string query)
         {
             var queryChanged = query;
-
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"\.procedure\b",
-                ".\"procedure\"",
-                RegexOptions.IgnoreCase
-            );
 
 
             if (string.IsNullOrEmpty(_table))

@@ -74,29 +74,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
 
             #endregion
 
-            #region convert '' to null when context demands it
-            // … CASE WHEN col > -999999.99999 THEN col ELSE '' END AS VALUE_AS_NUMBER
-            // -> -> ->
-            // … CASE WHEN col > -999999.99999 THEN col ELSE NULL END AS VALUE_AS_NUMBER
-            queryChanged = Regex.Replace(
-                queryChanged,
-                // find the ELSE '' END AS VALUE_AS_NUMBER pattern and replace the '' with NULL
-                @"(ELSE\s*)''(\s*END\s+AS\s+VALUE_AS_NUMBER\b)",
-                "$1NULL$2",
-                RegexOptions.IgnoreCase
-            );
-
-            // CAST('' AS NUMERIC)
-            // -> -> ->
-            //  NULL::NUMERIC
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"CAST\(\s*''\s+AS\s+(?:NUMERIC|DOUBLE\s+PRECISION|DECIMAL)\)",
-                "NULL::${1}",
-                RegexOptions.IgnoreCase
-            );
-            #endregion
-
             #region coalesce(x,'') → coalesce(CAST(x AS VARCHAR), '')
             queryChanged = Regex.Replace(
               queryChanged,
@@ -320,14 +297,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
         string translateCprd(string query)
         {
             var queryChanged = query;
-
-
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"\bpatid\s*=\s*ch.person_source_value",
-                "patid = cast(ch.person_source_value as int8)",
-                RegexOptions.IgnoreCase
-            );
 
 
             if (string.IsNullOrEmpty(_table))

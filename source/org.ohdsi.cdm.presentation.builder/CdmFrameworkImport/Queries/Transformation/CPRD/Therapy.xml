@@ -1,0 +1,147 @@
+<QueryDefinition>
+	<Query>
+		with careSite as
+		(
+		SELECT distinct pracid as id
+		FROM {sc}.Practice
+		)
+
+		select
+		ch.person_id as patid,
+		a.staffid,
+		a.issueseq,
+		a.eventdate,
+		product.gemscriptcode,
+		round(case when a.qty &lt; 0 then null else a.qty end, 0) qty,
+		(cast(ch.person_id as bigint) * 10000000000) +
+		(cast(EXTRACT(year from a.eventdate) as bigint) * 1000000) +
+		(cast(EXTRACT(month from a.eventdate) as bigint) * 10000) +
+		(cast(EXTRACT(day from a.eventdate) as bigint) * 100) + coalesce(c.constype, 99) as visit_occurrence_id,
+		a.consid,
+		d.dosage_text,
+		coalesce(a.numpacks, 0) numpacks,
+		cs.id as care_site_id,
+		coalesce(coalesce(case when a.numdays = 0 or a.numdays &gt; 365 then null else a.numdays end, coalesce(dd.numdays, dm.numdays)), 1) days_supply,
+		case
+		when c.constype = 0 then 'Data Not Entered'
+		when c.constype = 1 then 'Clinic'
+		when c.constype = 2 then 'Night visit, Deputising service'
+		when c.constype = 3 then 'Follow-up/routine visit'
+		when c.constype = 4 then 'Night visit, Local rota'
+		when c.constype = 5 then 'Mail from patient'
+		when c.constype = 6 then 'Night visit , practice'
+		when c.constype = 7 then 'Out of hours, Practice'
+		when c.constype = 8 then 'Out of hours, Non Practice'
+		when c.constype = 9 then 'Surgery consultation'
+		when c.constype = 10 then 'Telephone call from a patient'
+		when c.constype = 11 then 'Acute visit'
+		when c.constype = 12 then 'Discharge details'
+		when c.constype = 13 then 'Letter from Outpatients'
+		when c.constype = 14 then 'Repeat Issue'
+		when c.constype = 15 then 'Other'
+		when c.constype = 16 then 'Results recording'
+		when c.constype = 17 then 'Mail to patient'
+		when c.constype = 18 then 'Emergency Consultation'
+		when c.constype = 19 then 'Administration'
+		when c.constype = 20 then 'Casualty Attendance'
+		when c.constype = 21 then 'Telephone call to a patient'
+		when c.constype = 22 then 'Third Party Consultation'
+		when c.constype = 23 then 'Hospital Admission'
+		when c.constype = 24 then 'Children''s Home Visit'
+		when c.constype = 25 then 'Day Case Report'
+		when c.constype = 26 then 'GOS18 Report'
+		when c.constype = 27 then 'Home Visit'
+		when c.constype = 28 then 'Hotel Visit'
+		when c.constype = 29 then 'NHS Direct Report'
+		when c.constype = 30 then 'Nursing Home Visit'
+		when c.constype = 31 then 'Residential Home Visit'
+		when c.constype = 32 then 'Twilight Visit'
+		when c.constype = 33 then 'Triage'
+		when c.constype = 34 then 'Walk-in Centre'
+		when c.constype = 35 then 'Co-op Telephone advice'
+		when c.constype = 36 then 'Co-op Surgery Consultation'
+		when c.constype = 37 then 'Co-op Home Visit'
+		when c.constype = 38 then 'Minor Injury Service'
+		when c.constype = 39 then 'Medicine Management'
+		when c.constype = 40 then 'Community Clinic'
+		when c.constype = 41 then 'Community Nursing Note'
+		when c.constype = 42 then 'Community Nursing Report'
+		when c.constype = 43 then 'Data Transferred from other system'
+		when c.constype = 44 then 'Health Authority Entry'
+		when c.constype = 45 then 'Health Visitor Note'
+		when c.constype = 46 then 'Health Visitor Report'
+		when c.constype = 47 then 'Hospital Inpatient Report'
+		when c.constype = 48 then 'Initial Post Discharge Review'
+		when c.constype = 49 then 'Laboratory Request'
+		when c.constype = 50 then 'Night Visit'
+		when c.constype = 51 then 'Radiology Request'
+		when c.constype = 52 then 'Radiology Result'
+		when c.constype = 53 then 'Referral Letter'
+		when c.constype = 54 then 'Social Services Report'
+		when c.constype = 55 then 'Telephone Consultation'
+		when c.constype = 56 then 'Template Entry'
+		when c.constype = 57 then 'GP to GP communication transaction'
+		when c.constype = 58 then 'Non-consultation medication data'
+		when c.constype = 59 then 'Non-consultation data'
+		when c.constype = 60 then 'ePharmacy message'
+		when c.constype = 61 then 'Extended Hours'
+		end as description,
+		c.constype,
+		ch.PartitionId
+		from {sc}.therapy as a
+		JOIN {ch_sc}._chunks ch ON ch.ChunkId = {0} AND a.patid = ch.person_id
+		left join {sc}.Product product on a.prodcode = product.prodcode
+		left join {sc}.commondosages d on a.dosageid = d.dosageid
+		left join {sc}.daysupply_decodes dd on a.prodcode = dd.prodcode and dd.daily_dose = coalesce(d.daily_dose, 0) and dd.qty = coalesce(case when a.qty &lt; 0 then null else a.qty end, 0) and dd.numpacks = coalesce(a.numpacks, 0)
+		left join {sc}.daysupply_modes dm on a.prodcode = dm.prodcode
+		left join {sc}.consultation c on a.patid = c.patid and a.consid = c.consid
+		left join careSite cs ON cs.id = cast(right(cast(a.patid as varchar(20)),5) as int)
+		where a.eventdate is not null
+		order by ch.PartitionId, ch.person_id
+	</Query>
+	<DrugExposure>
+		<DrugExposureDefinition>
+			<PersonId>patid</PersonId>
+			<StartDate>eventdate</StartDate>
+			<EndDate>eventdate</EndDate>
+			<DaysSupply>days_supply</DaysSupply>
+			<VisitDetailId>visit_occurrence_id</VisitDetailId>
+			<Refill>issueseq</Refill>
+			<Sig>dosage_text</Sig>
+			<Quantity>qty</Quantity>
+			<ProviderId>staffid</ProviderId>
+			<Concepts>
+				<Concept>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Drug</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="gemscriptcode" defaultTypeId="32838"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</DrugExposureDefinition>
+	</DrugExposure>
+	<VisitOccurrence>
+		<VisitOccurrenceDefinition>
+			<Id>visit_occurrence_id</Id>
+			<PersonId>patid</PersonId>
+			<StartDate>eventdate</StartDate>
+			<EndDate>eventdate</EndDate>
+			<CareSiteId>care_site_id</CareSiteId>
+			<ProviderId>staffid</ProviderId>
+			<AdditionalFields>
+				<string>constype</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultConceptId="9202" sourceKey="description" defaultTypeId="32817"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</VisitOccurrenceDefinition>
+	</VisitOccurrence>
+</QueryDefinition>

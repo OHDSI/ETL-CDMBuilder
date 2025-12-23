@@ -347,7 +347,10 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                             chunk = null;
 
                             _processedChunkIds.Add(chunkId);
-                            var path = Path.Combine(Directory.GetCurrentDirectory(), "LastProcessedChunkId.txt");
+                            var dir = Path.Combine(Directory.GetCurrentDirectory(), "Cache");
+                            Directory.CreateDirectory(dir);
+
+                            var path = Path.Combine(dir, "LastProcessedChunkId.txt");
                             var info = GetProcessedChunksInfo();
                             File.WriteAllText(path, info);
                             

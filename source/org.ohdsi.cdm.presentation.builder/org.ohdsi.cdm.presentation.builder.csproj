@@ -25,7 +25,14 @@
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\JMDC\Enrollment.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumExtended\MEMBER_CONTINUOUS_ENROLLMENT.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumPanther\encounter.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumPanther\onc_metastatic_location.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumPanther\onc_neoplasm_histology.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\Premier\patbill.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\Truven\DRUG_CLAIMS.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\Truven\ENROLLMENT_DETAIL_MDCD.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\Truven\FACILITY_HEADER.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\Truven\INPATIENT_ADMISSIONS.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\Truven\INPATIENT_SERVICES.xml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -65,8 +72,29 @@
 	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\OptumPanther\encounter.xml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\OptumPanther\onc_metastatic_location.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\OptumPanther\onc_neoplasm_histology.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Premier\patbill.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Truven\DRUG_CLAIMS.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
 	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Truven\ENROLLMENT_DETAIL_MDCD.xml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Truven\FACILITY_HEADER.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Truven\INPATIENT_ADMISSIONS.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Truven\INPATIENT_SERVICES.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	</ItemGroup>
 

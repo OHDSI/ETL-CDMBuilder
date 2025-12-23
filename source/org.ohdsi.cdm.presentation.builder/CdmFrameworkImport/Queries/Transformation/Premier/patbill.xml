@@ -1,0 +1,386 @@
+﻿<QueryDefinition>
+	<Query>
+		SELECT
+		cast(pat.medrec_key as bigint) as medrec_key,
+		pat.adm_date,
+		ROUND(bill.std_qty, 0) as quantity,
+		pat.pat_key,
+		bill.std_chg_code,
+		case
+		when chg.std_dept_desc = 'LABORATORY' then 38003621
+		when pat.i_o_ind = 'I' then 38000249
+		when pat.i_o_ind = 'O' then 38000267
+		end as procedure_type_concept_id,
+		32852 as condition_type_concept_id,
+		replace(replace(replace(hosp.hosp_chg_desc, chr(9), ' '), chr(10), ' '), chr(13), ' ') as hosp_chg_desc,
+		case when hosp.hosp_chg_desc is not null then lower(replace(replace(replace(hosp.hosp_chg_desc, chr(9), ' '), chr(10), ' '), chr(13), ' ')) else lower(replace(replace(replace(chg.std_chg_desc, chr(9), ' '), chr(10), ' '), chr(13), ' ')) end as source_value,
+		replace(replace(replace(nvl(chg.std_chg_desc, ''), chr(9), ' '), chr(10), ' '), chr(13), ' ') || ' / ' || replace(replace(replace(nvl(hosp.hosp_chg_desc, ''), chr(9), ' '), chr(10), ' '), chr(13), ' ')   as observation_source_value,
+		pat.adm_phy,
+		case
+		when lower(chg.clin_sum_desc) = 'surgery time' and chg.std_chg_code != '360360000530008' THEN 1
+		ELSE 0
+		end as surgery,
+		chg.std_chg_desc,
+		bill.bill_charges as total_paid,
+		bill_cost,
+		44818668 CurrencyConceptId,
+		sum_dept_desc || ' / ' || std_dept_desc AS revenue_code_source_value,
+		CASE
+		WHEN len(CAST(pat.ms_drg as varchar(5))) = 1 THEN '00' || CAST(pat.ms_drg as varchar(5))
+		WHEN len(CAST(pat.ms_drg as varchar(5))) = 2 THEN '0' || CAST(pat.ms_drg as varchar(5))
+		ELSE CAST(pat.ms_drg as varchar(5))
+		END AS ms_drg,
+		'patbill' as source,
+		bill.hosp_chg_id,
+		bill.serv_date,
+		32908 as condition_status_concept_id,
+		'From PATBILL - No information provided' as condition_status_source_value,
+		ch.PartitionId
+		FROM {sc}.patbill bill
+		join {sc}.pat pat on pat.pat_key = bill.pat_key
+		JOIN {ch_sc}._chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_SOURCE_VALUE
+		left join {sc}.chgmstr chg on chg.std_chg_code = bill.std_chg_code
+		left join {sc}.hospchg hosp on hosp.hosp_chg_id=bill.hosp_chg_id
+		order by ch.PartitionId, 1
+	</Query>
+	<ConditionOccurrence>
+		<ConditionOccurrenceDefinition>
+			<IsUnique>true</IsUnique>
+			<PersonId>medrec_key</PersonId>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+			<ProviderId>adm_phy</ProviderId>
+			<StartDate>serv_date</StartDate>
+			<AdditionalFields>
+				<!--<string>serv_day</string>-->
+				<string>std_chg_code</string>
+				<string>source_value</string>
+				<string>quantity</string>
+				<string>source</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<IdRequired>true</IdRequired>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Condition</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="std_chg_code" sourceKey="observation_source_value"  typeId="condition_type_concept_id"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<Fields>
+						<Field conceptId="condition_status_concept_id" sourceKey="condition_status_source_value" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ConditionOccurrenceDefinition>
+	</ConditionOccurrence>
+	<DrugExposure>
+		<DrugExposureDefinition>
+			<IsUnique>true</IsUnique>
+			<PersonId>medrec_key</PersonId>
+			<Quantity>quantity</Quantity>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+			<ProviderId>adm_phy</ProviderId>
+			<StartDate>serv_date</StartDate>
+			<AdditionalFields>
+				<!--<string>serv_day</string>-->
+				<string>source</string>
+				<string>std_chg_code</string>
+				<string>source_value</string>
+				<string>quantity</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<IdRequired>true</IdRequired>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Drug</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="std_chg_code" sourceKey="observation_source_value" defaultTypeId="38000180"/>
+						<Field key="hosp_chg_id" sourceKey="observation_source_value" defaultTypeId="38000180"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</DrugExposureDefinition>
+	</DrugExposure>
+	<DrugCost>
+		<DrugCostDefinition>
+			<TotalPaid>total_paid</TotalPaid>
+			<PaidByPayer>bill_cost</PaidByPayer>
+			<CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+			<Concepts>
+				<Concept>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>RevenueCode</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="revenue_code_source_value"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Drg</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="ms_drg"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</DrugCostDefinition>
+	</DrugCost>
+	<ProcedureOccurrence>
+		<ProcedureOccurrenceDefinition>
+			<IsUnique>true</IsUnique>
+			<PersonId>medrec_key</PersonId>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+			<ProviderId>adm_phy</ProviderId>
+			<Quantity>quantity</Quantity>
+			<StartDate>serv_date</StartDate>
+			<AdditionalFields>
+				<string>source_value</string>
+				<string>source</string>
+				<!--<string>serv_day</string>-->
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<IdRequired>true</IdRequired>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Procedure</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="std_chg_code" typeId="procedure_type_concept_id" sourceKey="observation_source_value"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ProcedureOccurrenceDefinition>
+	</ProcedureOccurrence>
+	<ProcedureCost>
+		<ProcedureCostDefinition>
+			<TotalPaid>total_paid</TotalPaid>
+			<PaidByPayer>bill_cost</PaidByPayer>
+			<CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+			<Concepts>
+				<Concept>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>RevenueCode</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="revenue_code_source_value"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Drg</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="ms_drg"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ProcedureCostDefinition>
+	</ProcedureCost>
+	<Observation>
+		<ObservationDefinition>
+			<PersonId>medrec_key</PersonId>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+			<ProviderId>adm_phy</ProviderId>
+			<StartDate>serv_date</StartDate>
+			<AdditionalFields>
+				<!--<string>serv_day</string>-->
+				<string>source</string>
+				<string>source_value</string>
+				<string>quantity</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<IdRequired>true</IdRequired>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Observation</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="std_chg_code" sourceKey="observation_source_value" defaultTypeId="38000281"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+		<ObservationDefinition>
+			<Condition>{surgery} = 1</Condition>
+			<PersonId>medrec_key</PersonId>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+			<ProviderId>adm_phy</ProviderId>
+			<StartDate>serv_date</StartDate>
+			<AdditionalFields>
+				<string>source</string>
+				<!--<string>serv_day</string>-->
+				<string>quantity</string>
+				<string>std_chg_desc</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultConceptId="3016562" defaultSource=" " defaultTypeId="45754907"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+	</Observation>
+	<ObservationCost>
+		<ObservationCostDefinition>
+			<TotalPaid>total_paid</TotalPaid>
+			<PaidByPayer>bill_cost</PaidByPayer>
+			<CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+			<Concepts>
+				<Concept>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>RevenueCode</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="revenue_code_source_value"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Drg</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="ms_drg"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationCostDefinition>
+	</ObservationCost>
+	<Measurement>
+		<MeasurementDefinition>
+			<PersonId>medrec_key</PersonId>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+			<ProviderId>adm_phy</ProviderId>
+			<StartDate>serv_date</StartDate>
+			<AdditionalFields>
+				<!--<string>serv_day</string>-->
+				<string>source</string>
+				<string>source_value</string>
+				<string>quantity</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<IdRequired>true</IdRequired>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Measurement</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="std_chg_code" sourceKey="observation_source_value" defaultTypeId="44818701"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+	</Measurement>
+	<MeasurementCost>
+		<MeasurementCostDefinition>
+			<TotalPaid>total_paid</TotalPaid>
+			<PaidByPayer>bill_cost</PaidByPayer>
+			<CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+			<Concepts>
+				<Concept>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>RevenueCode</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="revenue_code_source_value"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Drg</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="ms_drg"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementCostDefinition>
+	</MeasurementCost>
+	<DeviceExposure>
+		<DeviceExposureDefinition>
+			<PersonId>medrec_key</PersonId>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+			<ProviderId>adm_phy</ProviderId>
+			<StartDate>serv_date</StartDate>
+			<AdditionalFields>
+				<!--<string>serv_day</string>-->
+				<string>source</string>
+				<string>source_value</string>
+				<string>quantity</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<IdRequired>true</IdRequired>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Device</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="hosp_chg_desc" sourceKey="observation_source_value" defaultTypeId="0"/>
+						<Field key="std_chg_code" sourceKey="observation_source_value" defaultTypeId="1"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</DeviceExposureDefinition>
+	</DeviceExposure>
+	<DeviceCost>
+		<DeviceCostDefinition>
+			<TotalPaid>total_paid</TotalPaid>
+			<PaidByPayer>bill_cost</PaidByPayer>
+			<CurrencyConceptId>CurrencyConceptId</CurrencyConceptId>
+			<Concepts>
+				<Concept>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>RevenueCode</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="revenue_code_source_value"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Drg</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="ms_drg"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</DeviceCostDefinition>
+	</DeviceCost>
+</QueryDefinition>

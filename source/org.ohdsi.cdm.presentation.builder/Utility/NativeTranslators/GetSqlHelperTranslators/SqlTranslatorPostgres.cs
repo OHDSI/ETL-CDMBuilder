@@ -250,36 +250,10 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
         {
             var queryChanged = query;
 
-            #region dstatus fix
-            // look for a number that’s either
-            // - right after "IN("  or
-            // - right after the previous comma (\G, )
-            // and is followed by either a comma or the closing parenthesis
-            // then wrap the numbers in quotes
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"(?<=\bDSTATUS\s+IN\s*\(\s*|\G,)\s*(\d+)\s*(?=\s*(?:,|\)))",
-                "'$1'",
-                RegexOptions.IgnoreCase
-            );
-            #endregion
-
 
             if (string.IsNullOrEmpty(_table))
                 return queryChanged;
 
-
-            if (_table.Equals("drug_claims", StringComparison.InvariantCultureIgnoreCase))
-            {
-                // wrap any bare integer after “RXMR” and one of the operators =, !=, <, >, <=, >=
-                queryChanged = Regex.Replace(
-                    queryChanged,
-                    // capture “RXMR” + whitespace + one of the ops + whitespace, then the number
-                    @"\b(RXMR\s*(?:!=|>=|<=|=|>|<)\s*)(\d+)\b",
-                    "$1'$2'",
-                    RegexOptions.IgnoreCase
-                );
-            }
 
             return queryChanged;
         }
@@ -303,23 +277,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
             if (string.IsNullOrEmpty(_table))
                 return queryChanged;
 
-            if (_table.Equals("patbill", StringComparison.InvariantCultureIgnoreCase))
-            {
-                queryChanged = Regex.Replace(
-                    queryChanged,
-                    @"\b360360000530008\b",
-                    "'360360000530008'",
-                    RegexOptions.IgnoreCase
-                );
-
-                queryChanged = queryChanged.Replace("len(pat.ms_drg)",
-                    "length(cast(pat.ms_drg as varchar))",
-                    StringComparison.CurrentCultureIgnoreCase);
-
-                queryChanged = queryChanged.Replace("length(pat.ms_drg)",
-                    "length(cast(pat.ms_drg as varchar))",
-                    StringComparison.CurrentCultureIgnoreCase);
-            }
 
             return queryChanged;
         }
@@ -328,23 +285,10 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
         {
             var queryChanged = query;
 
-            //add cast as varchar
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"\bEXTRACT\s*\(\s*YEAR\s+FROM\s+((?:\w+\.)*)note_date\s*\)\s*=",
-                "cast(EXTRACT(YEAR FROM $1note_date) as varchar) =",
-                RegexOptions.IgnoreCase
-            );
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"\bEXTRACT\s*\(\s*MONTH\s+FROM\s+((?:\w+\.)*)note_date\s*\)\s*=",
-                "cast(EXTRACT(MONTH FROM $1note_date) as varchar) =",
-                RegexOptions.IgnoreCase
-            );
-
 
             if (string.IsNullOrEmpty(_table))
                 return queryChanged;
+
 
             return queryChanged;
         }

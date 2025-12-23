@@ -248,16 +248,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
             if (string.IsNullOrEmpty(_table))
                 return queryChanged;
 
-            if (_table.Equals("patbill", StringComparison.CurrentCultureIgnoreCase))
-            {
-                queryChanged = Regex.Replace(
-                    queryChanged,
-                    @"\b360360000530008\b",
-                    "'360360000530008'",
-                    RegexOptions.IgnoreCase
-                );
-            }
-
             if (_table.Equals("vitals", StringComparison.CurrentCultureIgnoreCase))
             {
                 queryChanged = queryChanged.Replace("regexp_replace(lab_test, '\\\\(.*\\\\)', '') snomed",

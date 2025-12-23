@@ -1,0 +1,297 @@
+﻿<QueryDefinition>
+	<Variables>
+		<Variable name="providField" database="ccae, mdcr">CAST(PROVID AS VARCHAR(15))</Variable>
+		<Variable name="providField" database="mdcd">PROV_ID</Variable>
+		<Variable name="field2" database="ccae,mdcr">hlthplan</Variable>
+		<Variable name="field2" database="mdcd">1 as hlthplan</Variable>
+		<Variable name="vendor" database="ccae">'ccae' as vendor</Variable>
+		<Variable name="vendor" database="mdcr">'mdcr' as vendor</Variable>
+		<Variable name="vendor" database="mdcd">'mdcd' as vendor</Variable>
+
+		<Variable name="ccae_mdcr" database="ccae, mdcr">1 as ccae_mdcr</Variable>
+		<Variable name="ccae_mdcr" database="mdcd">0 as ccae_mdcr</Variable>
+	</Variables>
+	<Query>
+		with a as
+		(
+		SELECT DX1, DX2, DX3, DX4, DX5, DX6, DX7, DX8, DX9, PROC1, PROC2,
+		PROC3, PROC4, PROC5, PROC6,
+		case when STDPLAC &lt; 10 then '0' || cast(STDPLAC as varchar(2)) else cast(STDPLAC as varchar(2)) end STDPLAC,
+		SVCDATE, ENROLID, DSTATUS, TSVCDAT,
+		FACHDID, YEAR,
+		RTRIM(LTRIM(COALESCE({providField}, ''))) PROVID,
+		RTRIM(LTRIM(COALESCE(CAST(STDPROV AS VARCHAR(5)),''))) STDPROV,
+		RTRIM(LTRIM(COALESCE(CAST(STDPROV AS VARCHAR(5)),''))) || ';' || RTRIM(LTRIM(COALESCE({providField}, ''))) ProviderIdKey,
+		case
+		when DSTATUS is null or DSTATUS = '' THEN NULL
+		else cast(DSTATUS as int)
+		end as DSTATUS_INT,
+		CASE
+		WHEN DSTATUS IN ('20','40','41','42') THEN 1
+		ELSE 0
+		END as DIED,
+		3 priority,
+		CASE WHEN DXVER IS NULL OR DXVER NOT IN ('0', '9') THEN CASE WHEN SVCDATE &lt; to_date('10/01/2015', 'MM/dd/yyyy') THEN '9' ELSE '0' END ELSE DXVER END as DXVER, '9' as PROCTYP,
+		CASE
+		WHEN DSTATUS = '01' THEN 'Discharged to home self care'
+		WHEN DSTATUS = '02' THEN 'Transfer to short term hospital'
+		WHEN DSTATUS = '03' THEN 'Transfer to SNF'
+		WHEN DSTATUS = '04' THEN 'Transfer to ICF'
+		WHEN DSTATUS = '05' THEN 'Transfer to other facility'
+		WHEN DSTATUS = '06' THEN 'Discharged home under care'
+		WHEN DSTATUS = '07' THEN 'Left against medical advice'
+		WHEN DSTATUS IN ('08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19') THEN 'Other alive status'
+		WHEN DSTATUS = '20' THEN 'Died'
+		WHEN DSTATUS = '21' THEN 'Discharged/transferred to court/law enforcement'
+		WHEN DSTATUS IN ('30', '31', '32', '33', '34', '35', '36', '37', '38', '39') THEN 'Still patient'
+		WHEN DSTATUS IN ('40', '41', '42') THEN 'Other died status'
+		WHEN DSTATUS = '43' THEN 'Discharged/transferred to federal hospital'
+		WHEN DSTATUS = '50' THEN 'Discharged to home (from Hospice)'
+		WHEN DSTATUS = '51' THEN 'Transfer to med fac (from Hospice)'
+		WHEN DSTATUS = '61' THEN 'Transfer to Medicare approved swing bed'
+		WHEN DSTATUS = '62' THEN 'Transferred to inpatient rehab facility (IRF)'
+		WHEN DSTATUS = '63' THEN 'Transferred to long term care hospital (LTCH)'
+		WHEN DSTATUS = '64' THEN 'Transferred to nursing facility Medicaid certified'
+		WHEN DSTATUS = '65' THEN 'Transferred to psychiatric hospital or unit'
+		WHEN DSTATUS = '66' THEN 'Transferred to critical access hospital (CAH)'
+		WHEN DSTATUS = '70' THEN 'Transfer to another facility NEC'
+		WHEN DSTATUS = '71' THEN 'Transfer/referred to other facility for outpt svcs'
+		WHEN DSTATUS = '72' THEN 'Transfer/referred to this facility for outpt svcs'
+		WHEN DSTATUS = '99' THEN 'Transfer (Hospital ID MDST change)'
+		ELSE NULL
+		END as VALUE_AS_STRING,
+		{field2},
+		ch.PartitionId
+		FROM {sc}.FACILITY_HEADER
+		JOIN {ch_sc}._chunks ch ON ch.ChunkId = {0} AND ENROLID = ch.PERSON_ID
+		)
+		select
+		DX1, DX2, DX3, DX4, DX5, DX6, DX7, DX8, DX9, PROC1, PROC2,
+		PROC3, PROC4, PROC5, PROC6,
+		STDPLAC,
+		SVCDATE, ENROLID, DSTATUS, TSVCDAT,
+		FACHDID, YEAR,
+		PROVID,
+		STDPROV,
+		ProviderIdKey,
+		DSTATUS_INT,
+		DIED,
+		priority,
+		PROCTYP,
+		VALUE_AS_STRING,
+		hlthplan,
+		DXVER,
+
+		{vendor},
+		{ccae_mdcr},
+		PartitionId
+		from a
+		ORDER BY PartitionId, ENROLID
+	</Query>
+	<ConditionOccurrence>
+		<ConditionOccurrenceDefinition>
+			<Condition>{DXVER} = 9</Condition>
+			<PersonId>ENROLID</PersonId>
+			<StartDate>SVCDATE</StartDate>
+			<ProviderIdKey>ProviderIdKey</ProviderIdKey>
+			<AdditionalFields>
+				<string>FACHDID</string>
+				<string>YEAR</string>
+				<string>priority</string>
+				<string>DXVER</string>
+				<string>hlthplan</string>
+				<string>vendor</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<!--<IdRequired>true</IdRequired>-->
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Condition</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="DX1" defaultTypeId="101"/>
+						<Field key="DX2" defaultTypeId="102"/>
+						<Field key="DX3" defaultTypeId="103"/>
+						<Field key="DX4" defaultTypeId="104"/>
+						<Field key="DX5" defaultTypeId="105"/>
+						<Field key="DX6" defaultTypeId="106"/>
+						<Field key="DX7" defaultTypeId="107"/>
+						<Field key="DX8" defaultTypeId="108"/>
+						<Field key="DX9" defaultTypeId="109"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ConditionOccurrenceDefinition>
+		<ConditionOccurrenceDefinition>
+			<Condition>{DXVER} = 0</Condition>
+			<PersonId>ENROLID</PersonId>
+			<StartDate>SVCDATE</StartDate>
+			<ProviderIdKey>ProviderIdKey</ProviderIdKey>
+			<AdditionalFields>
+				<string>FACHDID</string>
+				<string>YEAR</string>
+				<string>priority</string>
+				<string>DXVER</string>
+				<string>hlthplan</string>
+				<string>vendor</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<!--<IdRequired>true</IdRequired>-->
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Condition_icd10</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="DX1" defaultTypeId="101"/>
+						<Field key="DX2" defaultTypeId="102"/>
+						<Field key="DX3" defaultTypeId="103"/>
+						<Field key="DX4" defaultTypeId="104"/>
+						<Field key="DX5" defaultTypeId="105"/>
+						<Field key="DX6" defaultTypeId="106"/>
+						<Field key="DX7" defaultTypeId="107"/>
+						<Field key="DX8" defaultTypeId="108"/>
+						<Field key="DX9" defaultTypeId="109"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ConditionOccurrenceDefinition>
+		<ConditionOccurrenceDefinition>
+			<PersonId>ENROLID</PersonId>
+			<StartDate>SVCDATE</StartDate>
+			<ProviderIdKey>ProviderIdKey</ProviderIdKey>
+			<AdditionalFields>
+				<string>FACHDID</string>
+				<string>YEAR</string>
+				<string>priority</string>
+				<string>DXVER</string>
+				<string>hlthplan</string>
+				<string>vendor</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<IdRequired>true</IdRequired>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Procedure</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="DX1" defaultTypeId="1001"/>
+						<Field key="DX2" defaultTypeId="1002"/>
+						<Field key="DX3" defaultTypeId="1003"/>
+						<Field key="DX4" defaultTypeId="1004"/>
+						<Field key="DX5" defaultTypeId="1005"/>
+						<Field key="DX6" defaultTypeId="1006"/>
+						<Field key="DX7" defaultTypeId="1007"/>
+						<Field key="DX8" defaultTypeId="1008"/>
+						<Field key="DX9" defaultTypeId="1009"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ConditionOccurrenceDefinition>
+	</ConditionOccurrence>
+	<DrugExposure>
+		<DrugExposureDefinition>
+			<PersonId>ENROLID</PersonId>
+			<StartDate>SVCDATE</StartDate>
+			<EndDate>SVCDATE</EndDate>
+			<ProviderIdKey>ProviderIdKey</ProviderIdKey>
+			<AdditionalFields>
+				<string>hlthplan</string>
+				<string>vendor</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<!--<IdRequired>true</IdRequired>-->
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Drug</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="PROC1" defaultTypeId="1"/>
+						<Field key="PROC2" defaultTypeId="2"/>
+						<Field key="PROC3" defaultTypeId="3"/>
+						<Field key="PROC4" defaultTypeId="4"/>
+						<Field key="PROC5" defaultTypeId="5"/>
+						<Field key="PROC6" defaultTypeId="6"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</DrugExposureDefinition>
+	</DrugExposure>
+	<ProcedureOccurrence>
+		<ProcedureOccurrenceDefinition>
+			<PersonId>ENROLID</PersonId>
+			<StartDate>SVCDATE</StartDate>
+			<ProviderIdKey>ProviderIdKey</ProviderIdKey>
+			<AdditionalFields>
+				<string>FACHDID</string>
+				<string>YEAR</string>
+				<string>priority</string>
+				<string>DX1</string>
+				<string>PROVID</string>
+				<string>STDPROV</string>
+				<string>PROCTYP</string>
+				<string>hlthplan</string>
+				<string>vendor</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<!--<IdRequired>true</IdRequired>-->
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Procedure</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="PROC1" defaultTypeId="1"/>
+						<Field key="PROC2" defaultTypeId="2"/>
+						<Field key="PROC3" defaultTypeId="3"/>
+						<Field key="PROC4" defaultTypeId="4"/>
+						<Field key="PROC5" defaultTypeId="5"/>
+						<Field key="PROC6" defaultTypeId="6"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ProcedureOccurrenceDefinition>
+	</ProcedureOccurrence>
+	<VisitOccurrence>
+		<VisitOccurrenceDefinition>
+			<PersonId>ENROLID</PersonId>
+			<StartDate>SVCDATE</StartDate>
+			<EndDate>TSVCDAT</EndDate>
+			<ProviderIdKey>ProviderIdKey</ProviderIdKey>
+			<AdditionalFields>
+				<string>hlthplan</string>
+				<string>vendor</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>CMS</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field isNullable="true" key="STDPLAC" defaultConceptId="0" defaultTypeId="32846"/>
+					</Fields>
+				</Concept>
+				<Concept>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>DischargeTo</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="DSTATUS_INT" sourceKey="DSTATUS" defaultTypeId="0"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</VisitOccurrenceDefinition>
+	</VisitOccurrence>
+</QueryDefinition>

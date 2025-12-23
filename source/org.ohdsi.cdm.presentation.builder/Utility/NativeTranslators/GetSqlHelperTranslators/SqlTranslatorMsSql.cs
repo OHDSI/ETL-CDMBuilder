@@ -181,6 +181,21 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
                         RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
             queryChanged = string.Join("\n", lines);
 
+            //cast(x + y + z as timestamp)
+            //cast(cast(x as varchar) + cast(y as varchar) + cast(z as varchar) as timestamp)
+            queryChanged = Regex.Replace(
+                queryChanged,
+                @"CAST\s*\(\s*(?<expr>[^()]+?)\s+AS\s+timestamp\s*\)",
+                m =>
+                {
+                    var expr = m.Groups["expr"].Value.Trim();
+                    var args = expr.Split(new[] { "+", "||" }, StringSplitOptions.RemoveEmptyEntries);
+                    return string.Join(" + ", args.Select(s => "cast(" + s.Trim() + " as varchar(20))"));
+                },
+                RegexOptions.IgnoreCase
+            );
+
+
 
             #endregion
 
@@ -275,13 +290,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
                     " l.[procedure] ",
                     RegexOptions.IgnoreCase
                 );
-            }
-
-            if (_table.Equals("medication_administrations", StringComparison.CurrentCultureIgnoreCase))
-            {
-                queryChanged = queryChanged.Replace("cast(m.admin_date + ' ' + m.admin_time as TIMESTAMP)",
-                    "TRY_CONVERT(datetime, CONCAT(m.admin_date, ' ', m.admin_time), 120)",
-                    StringComparison.CurrentCultureIgnoreCase);
             }
 
             if (_table.Equals("procedure", StringComparison.CurrentCultureIgnoreCase))

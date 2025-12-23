@@ -22,7 +22,7 @@ namespace org.ohdsi.cdm.presentation.builder
         protected string FileCacheFolder => Path.Combine(Directory.GetCurrentDirectory(), 
             "Cache", 
             "Vocabulary", 
-            Settings.Current.Building.VocabSchema);
+            (Settings.Current.Building.VocabDb + "_" + Settings.Current.Building.VocabSchema));
 
         private readonly Dictionary<string, Lookup> _lookups = new Dictionary<string, Lookup>();
         private GenderLookup _genderConcepts;

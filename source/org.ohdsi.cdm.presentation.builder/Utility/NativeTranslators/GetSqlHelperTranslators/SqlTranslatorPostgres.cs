@@ -202,106 +202,23 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
         {
             var queryChanged = query;
 
-            if (new[] { "ccae", "mdcr", "mdcd" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
-                queryChanged = translateTruven(queryChanged);
+            //if (new[] { "ccae", "mdcr", "mdcd" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+            //    queryChanged = translateTruven(queryChanged);
 
-            if (_schema.Contains("premier", StringComparison.InvariantCultureIgnoreCase))
-                queryChanged = translatePremier(queryChanged);
+            //if (_schema.Contains("premier", StringComparison.InvariantCultureIgnoreCase))
+            //    queryChanged = translatePremier(queryChanged);
 
-            if (new[] { "optum_panther", "optumpanther", "ehr" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
-                queryChanged = translateOptumPantherEhr(queryChanged);
+            //if (new[] { "optum_panther", "optumpanther", "ehr" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+            //    queryChanged = translateOptumPantherEhr(queryChanged);
 
-            if (new[] { "optum_extended", "optumextended", "dod", "ses" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
-                queryChanged = translateOptumExtended(queryChanged);
+            //if (new[] { "optum_extended", "optumextended", "dod", "ses" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+            //    queryChanged = translateOptumExtended(queryChanged);
 
-            if (new[] { "jmdc" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
-                queryChanged = translateJmdc(queryChanged);
+            //if (new[] { "jmdc" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+            //    queryChanged = translateJmdc(queryChanged);
 
-            if (new[] { "cprd" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
-                queryChanged = translateCprd(queryChanged);
-
-            return queryChanged;
-        }
-
-        string translateTruven(string query)
-        {
-            var queryChanged = query;
-
-
-            if (string.IsNullOrEmpty(_table))
-                return queryChanged;
-
-
-            return queryChanged;
-        }
-
-        string translatePremier(string query)
-        {
-            var queryChanged = query;
-
-            #region cast medrec_key as varchar
-            // t.medrec_key = ch.person_source_value
-            // -> -> ->
-            // cast(t.medrec_key as varchar) = ch.person_source_value
-            queryChanged = Regex.Replace(
-                queryChanged,
-                @"\b(\w+\.)?medrec_key\s*=\s*ch\.person_source_value\b",
-                "cast(medrec_key as varchar) = ch.person_source_value",
-                RegexOptions.IgnoreCase
-            );
-            #endregion
-
-            if (string.IsNullOrEmpty(_table))
-                return queryChanged;
-
-
-            return queryChanged;
-        }
-
-        string translateOptumPantherEhr(string query)
-        {
-            var queryChanged = query;
-
-
-            if (string.IsNullOrEmpty(_table))
-                return queryChanged;
-
-
-            return queryChanged;
-        }
-
-        string translateOptumExtended(string query)
-        {
-            var queryChanged = query;           
-
-
-            if (string.IsNullOrEmpty(_table))
-                return queryChanged;
-
-
-            return queryChanged;
-        }
-
-        string translateJmdc(string query)
-        {
-            var queryChanged = query;
-
-
-            if (string.IsNullOrEmpty(_table))
-                return queryChanged;
-
-
-            return queryChanged;
-        }
-
-        string translateCprd(string query)
-        {
-            var queryChanged = query;
-
-
-            if (string.IsNullOrEmpty(_table))
-                return queryChanged;
-
+            //if (new[] { "cprd" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+            //    queryChanged = translateCprd(queryChanged);
 
             return queryChanged;
         }

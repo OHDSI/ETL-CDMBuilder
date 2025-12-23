@@ -159,7 +159,7 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
                     return;
                 #endregion
 
-                sourceQueryDefinitionSql = sourceQueryDefinitionAdapter.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName);
+                sourceQueryDefinitionSql = sourceQueryDefinitionAdapter.GetSql(building.Vendor, building.SourceSchemaName, building.SourceSchemaName).Trim();
 
                 sqlRenderTranslatedSql = SqlRenderTranslator.Translate(new SqlRenderTranslator.Request(
                     null,

@@ -242,14 +242,14 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
             if (_schema.Contains("premier", StringComparison.CurrentCultureIgnoreCase))
                 queryChanged = translatePremier(queryChanged);
 
-            if (new[] { "optum_panther", "optumpanther", "ehr" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
-                queryChanged = translateOptumPantherEhr(queryChanged);
+            //if (new[] { "optum_panther", "optumpanther", "ehr" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+            //    queryChanged = translateOptumPantherEhr(queryChanged);
 
-            if (new[] { "optum_extended", "optumextended", "dod", "ses" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
-                queryChanged = translateOptumExtended(queryChanged);
+            //if (new[] { "optum_extended", "optumextended", "dod", "ses" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+            //    queryChanged = translateOptumExtended(queryChanged);
 
-            if (new[] { "jmdc" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
-                queryChanged = translateJmdc(queryChanged);
+            //if (new[] { "jmdc" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+            //    queryChanged = translateJmdc(queryChanged);
 
             return queryChanged;
         }
@@ -259,9 +259,9 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
             var queryChanged = query;
 
 
-
             if (string.IsNullOrEmpty(_table))
                 return queryChanged;
+
 
             if (_table.Equals("vitals", StringComparison.CurrentCultureIgnoreCase))
             {
@@ -269,41 +269,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
                     "STUFF(lab_test, \r\n PATINDEX('%([(]%)%', lab_test), \r\n CHARINDEX(')', lab_test + ')') - PATINDEX('%([(]%)%', lab_test) + 1, \r\n '')",
                     StringComparison.CurrentCultureIgnoreCase);
             }
-
-            return queryChanged;
-        }
-
-        string translateOptumPantherEhr(string query)
-        {
-            var queryChanged = query;
-
-
-            if (string.IsNullOrEmpty(_table))
-                return queryChanged;
-
-            return queryChanged;
-        }
-
-        string translateOptumExtended(string query)
-        {
-            var queryChanged = query;
-
-
-            if (string.IsNullOrEmpty(_table))
-                return queryChanged;
-
-
-            return queryChanged;
-        }
-
-        string translateJmdc(string query)
-        {
-            var queryChanged = query;
-
-
-            if (string.IsNullOrEmpty(_table))
-                return queryChanged;
-
 
             return queryChanged;
         }

@@ -19,21 +19,22 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
             var result = new Dictionary<string, string>();
 
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var assembliesRelated = assemblies
+                .Where(s => s.GetName().Name != null)
+                .Where(s => string.IsNullOrEmpty(assemblyNameFilter)
+                         || s.GetName().Name!.Contains(assemblyNameFilter, stringComparison))
+                .ToList();
 
-            foreach (var assembly in assemblies)
+            foreach (var assembly in assembliesRelated)
             {
-                if (assemblyNameFilter != null &&
-                    !assembly.GetName().Name?.Contains(assemblyNameFilter, stringComparison) == true)                
-                    continue;
-
                 var resourceNames = assembly.GetManifestResourceNames();
+                var resourceNamesRelated = resourceNames
+                    .Where(s => string.IsNullOrEmpty(resourceNameFilter)
+                             || s.Contains(resourceNameFilter, stringComparison))
+                    .ToList();
 
-                foreach (var resourceName in resourceNames)
+                foreach (var resourceName in resourceNamesRelated)
                 {
-                    if(resourceNameFilter != null &&
-                        !resourceName.Contains(resourceNameFilter, stringComparison))
-                        continue;
-
                     try
                     {
                         using Stream? stream = assembly.GetManifestResourceStream(resourceName);

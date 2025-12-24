@@ -239,8 +239,8 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
         {
             var queryChanged = query;
 
-            if (_schema.Contains("premier", StringComparison.CurrentCultureIgnoreCase))
-                queryChanged = translatePremier(queryChanged);
+            //if (_schema.Contains("premier", StringComparison.CurrentCultureIgnoreCase))
+            //    queryChanged = translatePremier(queryChanged);
 
             //if (new[] { "optum_panther", "optumpanther", "ehr" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
             //    queryChanged = translateOptumPantherEhr(queryChanged);
@@ -250,25 +250,6 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators.GetSqlHel
 
             //if (new[] { "jmdc" }.Any(s => _schema.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
             //    queryChanged = translateJmdc(queryChanged);
-
-            return queryChanged;
-        }
-
-        string translatePremier(string query)
-        {
-            var queryChanged = query;
-
-
-            if (string.IsNullOrEmpty(_table))
-                return queryChanged;
-
-
-            if (_table.Equals("vitals", StringComparison.CurrentCultureIgnoreCase))
-            {
-                queryChanged = queryChanged.Replace("regexp_replace(lab_test, '\\\\(.*\\\\)', '') snomed",
-                    "STUFF(lab_test, \r\n PATINDEX('%([(]%)%', lab_test), \r\n CHARINDEX(')', lab_test + ')') - PATINDEX('%([(]%)%', lab_test) + 1, \r\n '')",
-                    StringComparison.CurrentCultureIgnoreCase);
-            }
 
             return queryChanged;
         }

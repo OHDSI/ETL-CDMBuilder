@@ -41,7 +41,18 @@
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumPanther\onc_metastatic_location.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumPanther\onc_neoplasm_histology.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\OptumPanther\procedure.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\Premier\genlab.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\Premier\lab_result.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\Premier\L_CARE_SITE.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\Premier\L_LOCATION.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\Premier\L_PROVIDER.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\Premier\pat.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\Premier\patbill.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\Premier\patcpt.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\Premier\paticd_diag.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\Premier\paticd_proc.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\Premier\payor.xml" />
+	  <None Remove="CdmFrameworkImport\Queries\Transformation\Premier\vitals.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\Truven\DRUG_CLAIMS.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\Truven\ENROLLMENT_DETAIL_MDCD.xml" />
 	  <None Remove="CdmFrameworkImport\Queries\Transformation\Truven\FACILITY_HEADER.xml" />
@@ -134,7 +145,40 @@
 	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\OptumPanther\procedure.xml">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Premier\genlab.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Premier\lab_result.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Premier\L_CARE_SITE.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Premier\L_LOCATION.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Premier\L_PROVIDER.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Premier\pat.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
 	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Premier\patbill.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Premier\patcpt.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Premier\paticd_diag.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Premier\paticd_proc.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Premier\payor.xml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Premier\vitals.xml">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <EmbeddedResource Include="CdmFrameworkImport\Queries\Transformation\Truven\DRUG_CLAIMS.xml">

@@ -1,0 +1,19 @@
+﻿<QueryDefinition>
+	<Query>
+		select distinct cast(pat.medrec_key as bigint) as medrec_key,
+		pat.pat_key,
+		payor.std_payor_desc,
+		ch.PartitionId
+		from {sc}.payor
+		join {sc}.pat on pat.std_payor = payor.std_payor
+		JOIN {ch_sc}._chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_SOURCE_VALUE
+		order by ch.PartitionId, 1
+	</Query>
+	<PayerPlanPeriods>
+		<PayerPlanPeriodDefinition>
+			<PersonId>medrec_key</PersonId>
+			<PayerSource>std_payor_desc</PayerSource>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+		</PayerPlanPeriodDefinition>
+	</PayerPlanPeriods>
+</QueryDefinition>

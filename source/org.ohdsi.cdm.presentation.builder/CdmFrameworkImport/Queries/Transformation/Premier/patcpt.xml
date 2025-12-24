@@ -1,0 +1,120 @@
+﻿<QueryDefinition>
+	<Query>
+		SELECT DISTINCT cast(pat.medrec_key as bigint) as medrec_key,
+		pat.disc_date AS procedure_date,
+		CASE
+		WHEN pat.i_o_ind = 'I' THEN 38000249
+		WHEN pat.i_o_ind = 'O' THEN 38000267
+		END AS procedure_type_concept_id,
+		pat.pat_key,
+		cpt.cpt_code,
+		pat.adm_phy,
+		ch.PartitionId
+		FROM {sc}.pat
+		JOIN {ch_sc}._chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_SOURCE_VALUE
+		JOIN {sc}.patcpt cpt ON PAT.PAT_KEY = cpt.pat_key
+		ORDER BY ch.PartitionId, 1
+	</Query>
+	<ProcedureOccurrence>
+		<ProcedureOccurrenceDefinition>
+			<IsUnique>true</IsUnique>
+			<PersonId>medrec_key</PersonId>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+			<ProviderId>adm_phy</ProviderId>
+			<Concepts>
+				<Concept>
+					<IdRequired>true</IdRequired>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Procedure</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="cpt_code" DefaultConceptId = "0" typeId="procedure_type_concept_id"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ProcedureOccurrenceDefinition>
+	</ProcedureOccurrence>
+	<DrugExposure>
+		<DrugExposureDefinition>
+			<IsUnique>true</IsUnique>
+			<PersonId>medrec_key</PersonId>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+			<ProviderId>adm_phy</ProviderId>
+			<Concepts>
+				<Concept>
+					<IdRequired>true</IdRequired>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>DrugCpt</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="cpt_code" defaultTypeId="38000180"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</DrugExposureDefinition>
+	</DrugExposure>
+	<Observation>
+		<ObservationDefinition>
+			<PersonId>medrec_key</PersonId>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+			<ProviderId>adm_phy</ProviderId>
+			<Concepts>
+				<Concept>
+					<IdRequired>true</IdRequired>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Observation</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="cpt_code" defaultTypeId="38000281"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+	</Observation>
+	<Measurement>
+		<MeasurementDefinition>
+			<PersonId>medrec_key</PersonId>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+			<ProviderId>adm_phy</ProviderId>
+			<Concepts>
+				<Concept>
+					<IdRequired>true</IdRequired>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Measurement</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="cpt_code" defaultTypeId="44818701"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</MeasurementDefinition>
+	</Measurement>
+	<DeviceExposure>
+		<DeviceExposureDefinition>
+			<PersonId>medrec_key</PersonId>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+			<ProviderId>adm_phy</ProviderId>
+			<Concepts>
+				<Concept>
+					<IdRequired>true</IdRequired>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Device</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="cpt_code" defaultTypeId="44818705"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</DeviceExposureDefinition>
+	</DeviceExposure>
+</QueryDefinition>

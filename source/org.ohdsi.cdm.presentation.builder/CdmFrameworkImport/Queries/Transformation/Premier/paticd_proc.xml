@@ -1,0 +1,151 @@
+﻿<QueryDefinition>
+	<Query>
+		select
+		cast(pat.medrec_key as bigint) as medrec_key,
+		null as condition_end_date,
+		pat.disc_date,
+		case
+		when pat.i_o_ind = 'I' and icd.icd_pri_sec = 'P' then 38000183
+		when pat.i_o_ind = 'I' and icd.icd_pri_sec = 'S' then 38000185
+		when pat.i_o_ind = 'O' and icd.icd_pri_sec = 'P' then 38000215
+		when pat.i_o_ind = 'O' and icd.icd_pri_sec = 'S' then 38000216
+		when pat.i_o_ind = 'I' and icd.icd_pri_sec = 'A' then 4203942
+		when pat.i_o_ind = 'O' and icd.icd_pri_sec = 'A' then 4203942
+		else 0
+		end as condition_type_concept_id,
+		pat.pat_key,
+		icd.icd_code source_value,
+		case
+		when icd.icd_pri_sec = 'P' then 44786630
+		when icd.icd_pri_sec = 'S' then 44786631
+		end as procedure_type_concept_id,
+		icd.icd_code,
+		pat.adm_phy,
+		icd.proc_phy,
+		icd.icd_version,
+		icd.proc_date,
+		'paticd_proc' as source,
+		ch.PartitionId
+		from {sc}.pat pat
+		JOIN {ch_sc}._chunks ch ON ch.ChunkId = {0} AND pat.medrec_key = ch.PERSON_SOURCE_VALUE
+		join {sc}.paticd_proc icd on pat.pat_key = icd.pat_key
+		order by ch.PartitionId, 1
+	</Query>
+	<ProcedureOccurrence>
+		<ProcedureOccurrenceDefinition>
+			<IsUnique>true</IsUnique>
+			<PersonId>medrec_key</PersonId>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+			<ProviderId>adm_phy</ProviderId>
+			<StartDate>proc_date</StartDate>
+			<AdditionalFields>
+				<!--<string>proc_day</string>-->
+				<string>proc_phy</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<IdRequired>true</IdRequired>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Procedure</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="source_value" typeId="procedure_type_concept_id"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ProcedureOccurrenceDefinition>
+	</ProcedureOccurrence>
+	<Observation>
+		<ObservationDefinition>
+			<Condition>{icd_version} = 9</Condition>
+			<PersonId>medrec_key</PersonId>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+			<StartDate>proc_date</StartDate>
+			<ProviderId>adm_phy</ProviderId>
+			<AdditionalFields>
+				<string>proc_phy</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<IdRequired>true</IdRequired>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>ObservationICD9</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="icd_code" defaultTypeId="38000281"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+		<ObservationDefinition>
+			<Condition>{icd_version} = 10</Condition>
+			<PersonId>medrec_key</PersonId>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+			<StartDate>proc_date</StartDate>
+			<ProviderId>adm_phy</ProviderId>
+			<AdditionalFields>
+				<string>proc_phy</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<IdRequired>true</IdRequired>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>ObservationICD10</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="icd_code" defaultTypeId="38000281"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+		<ObservationDefinition>
+			<PersonId>medrec_key</PersonId>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+			<ProviderId>adm_phy</ProviderId>
+			<StartDate>proc_date</StartDate>
+			<AdditionalFields>
+				<string>source</string>
+				<!--<string>proc_day</string>-->
+				<string>icd_code</string>
+				<string>proc_phy</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<Fields>
+						<Field defaultConceptId="3016562" defaultSource=" " defaultTypeId="45754907"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</ObservationDefinition>
+	</Observation>
+	<DeviceExposure>
+		<DeviceExposureDefinition>
+			<PersonId>medrec_key</PersonId>
+			<VisitOccurrenceId>pat_key</VisitOccurrenceId>
+			<StartDate>proc_date</StartDate>
+			<ProviderId>adm_phy</ProviderId>
+			<AdditionalFields>
+				<string>proc_phy</string>
+			</AdditionalFields>
+			<Concepts>
+				<Concept>
+					<IdRequired>true</IdRequired>
+					<ConceptIdMappers>
+						<Mapper>
+							<Lookup>Device</Lookup>
+						</Mapper>
+					</ConceptIdMappers>
+					<Fields>
+						<Field key="icd_code" defaultTypeId="44818705"/>
+					</Fields>
+				</Concept>
+			</Concepts>
+		</DeviceExposureDefinition>
+	</DeviceExposure>
+</QueryDefinition>

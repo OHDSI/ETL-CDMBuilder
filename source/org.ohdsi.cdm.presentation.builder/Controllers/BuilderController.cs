@@ -302,11 +302,11 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     }
                     Task.WaitAll(workers.ToArray());
                     overallTask.Increment(overallTask.MaxValue - overallTask.Value);
-
                 });
 
             for (int i = 0; i <= degreeParallel; i++)
                 AnsiConsole.WriteLine();
+            Thread.Sleep(1000);
         }
 
         int GetMaxThreadCountByMemoryLimits(double initialMemoryLoad)

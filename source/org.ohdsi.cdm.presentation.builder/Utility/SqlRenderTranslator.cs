@@ -1,5 +1,6 @@
 ﻿using org.ohdsi.cdm.framework.desktop.Enums;
 using Spectre.Console;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 
 namespace org.ohdsi.cdm.presentation.builder.Utility
@@ -11,6 +12,8 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
         protected record RequestParsed(string JarPath, string VendorName, string SqlFileName, string SqlOriginal, string targetDialect);
 
         static string DirectoryPath => Path.Combine(Directory.GetCurrentDirectory(), "Cache", "SqlRender");
+     
+        static ConcurrentDictionary<string, string> _translatedQueries = new ConcurrentDictionary<string, string>();
 
         public static string Translate(Request request)
         {
@@ -32,6 +35,10 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
 
                 string inputPathFull = Path.Combine(dir, inputFileName);
                 string outputPathFull = Path.Combine(dir, outputFileName);
+
+                if (_translatedQueries.TryGetValue(outputPathFull, out string? fromFile))
+                    return fromFile;
+
 
                 string args = $"-jar \"{parsed.JarPath}\" \"{inputPathFull}\" \"{outputPathFull}\" -translate \"{parsed.targetDialect}\"";
 
@@ -62,7 +69,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                     AnsiConsole.WriteLine(output);
 
                 var result = File.ReadAllText(outputPathFull);
-
+                _translatedQueries.TryAdd(outputPathFull, result);
                 return result;
             }
             catch (Exception e)

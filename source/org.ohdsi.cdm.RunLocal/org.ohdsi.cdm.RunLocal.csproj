@@ -8,6 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="SqlRender.jar" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="SqlRender.jar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="org.ohdsi.cdm.framework.etl" Version="1.1.2" />
     <PackageReference Include="Spectre.Console" Version="0.54.0" />
@@ -38,9 +48,6 @@
     </None>
     <None Update="params.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="SqlRender.jar">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

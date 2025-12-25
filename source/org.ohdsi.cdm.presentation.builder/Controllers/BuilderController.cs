@@ -112,6 +112,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     {
                         var locationTask = ctx.AddTask("Loading Location");
                         FillList<Location>(locationConcepts, location, location.Locations[0], _etlLibraryPath, chunkSchema, "Location", locationTask);
+                        locationTask.StopTask();
                     }
 
                     if (locationConcepts.Count == 0)
@@ -126,6 +127,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     {
                         var careSiteTask = ctx.AddTask("Loading CareSite");
                         FillList<CareSite>(careSiteConcepts, careSite, careSite.CareSites[0], _etlLibraryPath, chunkSchema, "CareSite", careSiteTask);
+                        careSiteTask.StopTask();
                     }
 
                     if (careSiteConcepts.Count == 0)
@@ -140,6 +142,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     {
                         var providerTask = ctx.AddTask("Loading Provider");
                         FillList<Provider>(providerConcepts, provider, provider.Providers[0], _etlLibraryPath, chunkSchema, "Provider", providerTask);
+                        providerTask.StopTask();
                     }
                     #endregion
                 });

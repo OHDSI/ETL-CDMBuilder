@@ -20,8 +20,8 @@ namespace org.ohdsi.cdm.RunLocal
             [Option("VendorName", Required = true, HelpText = "Name of the vendor")]
             public string VendorName { get; set; }
 
-            [Option("EtlLibraryPath", Required = false, HelpText = "[Obsolete, only VendorName is required] Path to the library with Vendor definition")]
-            public string EtlLibraryPath { get; set; } = "";
+            [Option("QueryOverwriteFolderPath", Required = false, HelpText = "Path to a folderwith queries to overwrite the original ones. Queries within must be placed in folders named after either rdbms or vendor.")]
+            public string QueryOverwriteFolderPath { get; set; } = "";
 
             [Option("ContinueLoadFromChunk", Required = false, HelpText = "If >0, then chunk generation and previous chunks processing are skipped")]
             public string ContinueLoadFromChunk { get; set; } = "";
@@ -116,7 +116,7 @@ namespace org.ohdsi.cdm.RunLocal
                     var options = new Options()
                     {
                         VendorName = "VendorName",
-                        EtlLibraryPath = Directory.GetCurrentDirectory(),
+                        QueryOverwriteFolderPath = "",
                         SourceEngine = "SourceEngine",
                         SourceServer = "SourceServer",
                         SourceDatabase = "SourceDatabase",
@@ -178,7 +178,7 @@ namespace org.ohdsi.cdm.RunLocal
 
             bool truncateTargetTables = Settings.Current.Building.ContinueLoadFromChunk > 0 ? false : true;
 
-            Build(Settings.Current.Building.SourceSchema, Settings.Current.Building.EtlLibraryPath, truncateTargetTables);
+            Build(Settings.Current.Building.SourceSchema, truncateTargetTables);
         }
 
         static void HandleParseError(IEnumerable<Error> errs)
@@ -194,12 +194,12 @@ namespace org.ohdsi.cdm.RunLocal
         {
             try
             {
-                var etlLibraryPath = !string.IsNullOrEmpty(opts.EtlLibraryPath) ? opts.EtlLibraryPath : Directory.GetCurrentDirectory();
+                var queryOverwriteFolderPath = opts.QueryOverwriteFolderPath ?? "";
 
                 AnsiConsole.WriteLine("Options:");
 
                 AnsiConsole.WriteLine($"VendorName: {opts.VendorName}");
-                AnsiConsole.WriteLine($"EtlLibraryPath: {etlLibraryPath}");
+                AnsiConsole.WriteLine($"QueryOverwriteFolderPath: {queryOverwriteFolderPath}");
                 AnsiConsole.WriteLine($"ContinueLoadFromChunk: {opts.ContinueLoadFromChunk}");
                 AnsiConsole.WriteLine($"ChunkSize: {opts.ChunkSize}");
                 AnsiConsole.WriteLine($"QueryTriesAmount: {opts.QueryTriesAmount}");
@@ -284,7 +284,7 @@ namespace org.ohdsi.cdm.RunLocal
                         VocabSchema = opts.VocabularySchema,
                         VocabUser = opts.VocabularyUser,
                         VocabPswd = opts.VocabularyPassword,
-                        EtlLibraryPath = etlLibraryPath,
+                        QueryOverwriteFolderPath = queryOverwriteFolderPath,
                     },
                     BuilderFolder = vendor.Folder,
                 };
@@ -309,9 +309,9 @@ namespace org.ohdsi.cdm.RunLocal
             };
         }
 
-        static void Build(string chunkSchema, string etlLibraryPath, bool truncateTargetTables = false)
+        static void Build(string chunkSchema, bool truncateTargetTables = false)
         {            
-            BuilderController builder = new BuilderController(etlLibraryPath);
+            BuilderController builder = new BuilderController();
             builder.CreateDestination();
 
             if (truncateTargetTables)

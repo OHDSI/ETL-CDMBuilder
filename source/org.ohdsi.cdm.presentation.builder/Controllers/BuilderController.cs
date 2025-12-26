@@ -36,7 +36,6 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
         #region Variables
 
         private readonly ChunkController _chunkController;
-        private readonly string _etlLibraryPath;
 
         private ConcurrentBag<int> _processedChunkIds = new ConcurrentBag<int>();
 
@@ -44,10 +43,9 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         #region Constructor
 
-        public BuilderController(string etlLibraryPath)
+        public BuilderController()
         {
             _chunkController = new ChunkController();
-            _etlLibraryPath = etlLibraryPath;
         }
 
         #endregion
@@ -111,7 +109,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     if (location != null)
                     {
                         var locationTask = ctx.AddTask("Loading Location");
-                        FillList<Location>(locationConcepts, location, location.Locations[0], _etlLibraryPath, chunkSchema, "Location", locationTask);
+                        FillList<Location>(locationConcepts, location, location.Locations[0], chunkSchema, "Location", locationTask);
                         locationTask.StopTask();
                     }
 
@@ -126,7 +124,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     if (careSite != null)
                     {
                         var careSiteTask = ctx.AddTask("Loading CareSite");
-                        FillList<CareSite>(careSiteConcepts, careSite, careSite.CareSites[0], _etlLibraryPath, chunkSchema, "CareSite", careSiteTask);
+                        FillList<CareSite>(careSiteConcepts, careSite, careSite.CareSites[0], chunkSchema, "CareSite", careSiteTask);
                         careSiteTask.StopTask();
                     }
 
@@ -141,7 +139,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                     if (provider != null)
                     {
                         var providerTask = ctx.AddTask("Loading Provider");
-                        FillList<Provider>(providerConcepts, provider, provider.Providers[0], _etlLibraryPath, chunkSchema, "Provider", providerTask);
+                        FillList<Provider>(providerConcepts, provider, provider.Providers[0], chunkSchema, "Provider", providerTask);
                         providerTask.StopTask();
                     }
                     #endregion
@@ -171,7 +169,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             GC.Collect();
         }
 
-        private void FillList<T>(ICollection<T> list, QueryDefinition qd, EntityDefinition ed, string etlLibraryPath, 
+        private void FillList<T>(ICollection<T> list, QueryDefinition qd, EntityDefinition ed, 
             string chunkSchema, string tableName, ProgressTask task) where T : IEntity
         {
             if (!new[] { "Location", "CareSite", "Provider" }.Any(s => s == tableName))

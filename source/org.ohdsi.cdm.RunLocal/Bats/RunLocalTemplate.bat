@@ -34,7 +34,7 @@ org.ohdsi.cdm.RunLocal.exe ^
   --VocabularySchema="" ^
   --VocabularyUser="" ^
   --VocabularyPassword="" ^
-  --EtlLibraryPath="" ^
+  --QueryOverwriteFolderPath="" ^
   --ChunkSize="1000" ^
   --ContinueLoadFromChunk="0" ^
   --QueryTriesAmount="2" ^

@@ -76,22 +76,36 @@ namespace org.ohdsi.cdm.presentation.builder
                 .ToList()
                 ;
 
-            var presentationResources = EmbeddedResourceManager.ReadEmbeddedResources("org.ohdsi.cdm.presentation.builder", resourceName, StringComparison.CurrentCultureIgnoreCase);
-            var presentationFiltered = presentationResources
-                .Where(s => s.Key.Contains(Current.Building.CdmEngine.Database.ToName(), StringComparison.InvariantCultureIgnoreCase))
-                .OrderByDescending(s => getVersion(s.Key))
-                .ToList()
-                ;
+            var overwrites = new Dictionary<string, string>();
+            if (!string.IsNullOrEmpty(Settings.Current.Building.QueryOverwriteFolderPath)
+                && Directory.Exists(Settings.Current.Building.QueryOverwriteFolderPath))
+            {
+                var dbDir = Directory.GetDirectories(Settings.Current.Building.QueryOverwriteFolderPath)
+                    .Select(s => new DirectoryInfo(s))
+                    .FirstOrDefault(s => s.Name.Contains(Current.Building.CdmEngine.Database.ToName(), StringComparison.InvariantCultureIgnoreCase));
+
+                if (dbDir != null)
+                {
+                    var files = Directory.GetFiles(dbDir.FullName)
+                        .Select(s => new FileInfo(s))
+                        .ToList();
+
+                    foreach (var file in files)
+                    {
+                        overwrites[file.Name] = File.ReadAllText(file.FullName);
+                    }
+                }
+            }
 
             var frameworkResource = frameworkFiltered.First(s => getVersion(s.Key) <= requiredVersion);
-            var presentationResource = presentationFiltered.FirstOrDefault(s => getVersion(s.Key) <= requiredVersion);
+            var overwrite = overwrites.FirstOrDefault(s => s.Key.Replace(".sql", "").Split('.').Last() == frameworkResource.Key.Replace(".sql", "").Split('.').Last());
 
             var result = frameworkResource.Value;
 
-            if (presentationResource.Value != null)
+            if (overwrite.Value != null)
             {
-                result = presentationResource.Value;
-                AnsiConsole.MarkupLine($"\r\n[yellow]File {presentationResource.Key} was overwritten![/]\r\n");
+                result = overwrite.Value;
+                AnsiConsole.MarkupLine($"\r\n[yellow]File {overwrite.Key} was overwritten![/]\r\n");
             }
 
             return result;

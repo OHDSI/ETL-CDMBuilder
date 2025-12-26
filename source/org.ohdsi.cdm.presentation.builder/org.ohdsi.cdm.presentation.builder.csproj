@@ -7,8 +7,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="CdmFrameworkImport\Queries\**" />
 	  <Compile Remove="CdmFrameworkImport\Transformation\**" />
+	  <EmbeddedResource Remove="CdmFrameworkImport\Queries\**" />
 	  <EmbeddedResource Remove="CdmFrameworkImport\Transformation\**" />
+	  <None Remove="CdmFrameworkImport\Queries\**" />
 	  <None Remove="CdmFrameworkImport\Transformation\**" />
 	</ItemGroup>
 
@@ -17,10 +20,6 @@
 	  <PackageReference Include="org.ohdsi.cdm.framework" Version="1.1.3" />
 	  <PackageReference Include="org.ohdsi.cdm.framework.etl" Version="1.1.2" />
 	  <PackageReference Include="Spectre.Console" Version="0.54.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="CdmFrameworkImport\Queries\" />
 	</ItemGroup>
 
 </Project>

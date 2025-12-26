@@ -58,7 +58,7 @@ namespace org.ohdsi.cdm.presentation.builder
         [XmlIgnore]
         public Vendor VendorToProcess { get; set; }
 
-        public string EtlLibraryPath { get; set; }
+        public string QueryOverwriteFolderPath { get; set; }
 
         [XmlIgnore]
         public CdmVersions Cdm => FrameworkSettings.Current.Building.Cdm;
@@ -355,7 +355,7 @@ namespace org.ohdsi.cdm.presentation.builder
 
             #region set SourceQueryDefinitions
 
-            var buildingSettings = new CdmFrameworkImport.BuildingSettings(0, VendorToProcess, EtlLibraryPath);
+            var buildingSettings = new CdmFrameworkImport.BuildingSettings(0, VendorToProcess, Directory.GetCurrentDirectory());
             ResolveTemporalQueryOverrides(buildingSettings);
 
             foreach (var sourceQueryDefinion in buildingSettings.SourceQueryDefinitions)
@@ -393,18 +393,34 @@ namespace org.ohdsi.cdm.presentation.builder
             if (vendorName.StartsWith("OptumExtended"))
                 vendorName = "OptumExtended";
 
-            var overrides = EmbeddedResourceManager.ReadEmbeddedResources("org.ohdsi.cdm.presentation.builder", "." + vendorName + ".", StringComparison.CurrentCultureIgnoreCase); //strict search
-            foreach (var v in overrides)
+            var overwrites = new Dictionary<string, string>();
+            if (!string.IsNullOrEmpty(Settings.Current.Building.QueryOverwriteFolderPath)
+                && Directory.Exists(Settings.Current.Building.QueryOverwriteFolderPath))
             {
-                var fileName = v.Key.Replace(".xml", "").Split('.').Last();
+                var dbDir = Directory.GetDirectories(Settings.Current.Building.QueryOverwriteFolderPath)
+                    .Select(s => new DirectoryInfo(s))
+                    .FirstOrDefault(s => s.Name.Contains(vendorName, StringComparison.InvariantCultureIgnoreCase));
 
-                QueryDefinition newQd = new QueryDefinition().DeserializeFromXml(v.Value);
-                newQd.FileName = fileName;
+                if (dbDir != null)
+                {
+                    var files = Directory.GetFiles(dbDir.FullName)
+                        .Select(s => new FileInfo(s))
+                        .ToList();
 
-                settings.SourceQueryDefinitions.RemoveAll(s => s.FileName.Equals(fileName, StringComparison.CurrentCultureIgnoreCase));
-                settings.SourceQueryDefinitions.Add(newQd);
+                    foreach (var file in files)
+                    {
+                        var fileName = file.Name.Replace(".xml", "");
+                        var fileContents = File.ReadAllText(file.FullName);
 
-                AnsiConsole.MarkupLine($"[yellow]\r\nFile {fileName} was overwritten!\r\n[/]");
+                        QueryDefinition newQd = new QueryDefinition().DeserializeFromXml(fileContents);
+                        newQd.FileName = fileName;
+
+                        settings.SourceQueryDefinitions.RemoveAll(s => s.FileName.Equals(fileName, StringComparison.CurrentCultureIgnoreCase));
+                        settings.SourceQueryDefinitions.Add(newQd);
+
+                        AnsiConsole.MarkupLine($"[yellow]\r\nFile {fileName} was overwritten!\r\n[/]");
+                    }
+                }
             }
         }
 

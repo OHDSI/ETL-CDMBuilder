@@ -29,7 +29,7 @@ namespace org.ohdsi.cdm.presentation.builder.Utility
                 var dir = Path.Combine(DirectoryPath, parsed.VendorName);
                 Directory.CreateDirectory(dir);
 
-                var sqlFileNameNormalized = parsed.SqlFileName.Replace(".sql", "").Split('.').Last();
+                var sqlFileNameNormalized = parsed.SqlFileName.Replace(".sql", "").Replace(".xml", "").Split('.').Last() + "_" + parsed.SqlOriginal.Length;
                 var inputFileName = $"{sqlFileNameNormalized}_redshift.sql";
                 var outputFileName = $"{sqlFileNameNormalized}_{parsed.targetDialect.Replace(" ", "")}.sql";
 

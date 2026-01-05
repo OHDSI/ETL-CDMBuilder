@@ -2,7 +2,7 @@
 using org.ohdsi.cdm.framework.common.Lookups;
 using org.ohdsi.cdm.framework.common.Omop;
 using org.ohdsi.cdm.presentation.builder.AnsiConsoleColumns;
-using org.ohdsi.cdm.presentation.builder.Base.DbDestinations;
+using org.ohdsi.cdm.presentation.builder.Base.DatabaseManager;
 using org.ohdsi.cdm.presentation.builder.Utility;
 using org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators;
 using org.ohdsi.cdm.presentation.Builder.AnsiConsoleHelpers;
@@ -18,21 +18,6 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 {
     public class BuilderController
     {
-
-        #region Enums
-
-        public enum BuilderState
-        {
-            Unknown,
-            Idle,
-            Running,
-            Stopping,
-            Stopped,
-            Error
-        }
-
-        #endregion
-
         #region Variables
 
         private readonly ChunkController _chunkController;
@@ -52,9 +37,11 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         #region Methods 
 
+        #region destination ddl
+
         public void CreateDestination()
         {
-            var dbDestination = DbDestinationFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
+            var dbDestination = DatabaseManagerFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
                 Settings.Current.Building.CdmSchema);
 
             dbDestination.CreateDatabase(Settings.Current.CreateCdmDatabaseScript);
@@ -65,7 +52,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         public void DropDestination()
         {
-            var dbDestination = DbDestinationFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
+            var dbDestination = DatabaseManagerFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
                 Settings.Current.Building.CdmSchema);
 
             dbDestination.ExecuteQuery(Settings.Current.DropTablesScript);
@@ -73,7 +60,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         public void TruncateLookup()
         {
-            var dbDestination = DbDestinationFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
+            var dbDestination = DatabaseManagerFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
                 Settings.Current.Building.CdmSchema);
 
             dbDestination.ExecuteQuery(Settings.Current.TruncateLookupScript);
@@ -81,12 +68,16 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         public void TruncateTables()
         {
-            var dbDestination = DbDestinationFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
+            var dbDestination = DatabaseManagerFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
                 Settings.Current.Building.CdmSchema);
 
             dbDestination.ExecuteQuery(Settings.Current.TruncateTablesScript);
             AnsiConsole.WriteLine("\r\nTable truncation complete!");
         }
+
+        #endregion
+
+        #region lookups
 
         public void CreateLookup(IVocabulary vocabulary, string chunkSchema)
         {
@@ -224,11 +215,12 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             }
         }
 
-        public void Build(IVocabulary vocabulary, string chunksSchema)
-        {
-            if (Settings.Current.Building.ChunksCount == 0)
-                Settings.Current.Building.ChunksCount = _chunkController.CreateChunks(chunksSchema);
+        #endregion
 
+        #region Build
+
+        public void Build(IVocabulary vocabulary)
+        {
             var degreeParallel = Math.Max(1, Environment.ProcessorCount - 1);
             var saveLock = new object();
 
@@ -394,6 +386,8 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             var res = string.Join("\r\n", beforeGaps);
             return res;
         }
+
+        #endregion
 
         #endregion
     }

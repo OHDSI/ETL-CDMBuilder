@@ -1,6 +1,7 @@
 ﻿using org.ohdsi.cdm.framework.desktop;
 using org.ohdsi.cdm.framework.desktop.Savers;
 using org.ohdsi.cdm.presentation.builder.Base;
+using org.ohdsi.cdm.presentation.builder.Base.DatabaseManager;
 using org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators;
 using Spectre.Console;
 using System.Diagnostics;
@@ -10,20 +11,13 @@ using System.Globalization;
 namespace org.ohdsi.cdm.presentation.builder.Controllers
 {
     public class ChunkController
-    {
-        public enum AssignEmptyPersonIdSettings
-        {
-            DoNothing,
-            AssignIfNoPersonIdSet,
-            AssignAll
-        }
-                
-        private readonly DbSource _dbSource;
+    {                
+        private readonly DatabaseManager _databaseManager;
 
         public ChunkController()
         {
-            _dbSource = new DbSource(Settings.Current.Building.SourceConnectionString,
-                Settings.Current.Building.SourceEngine.Database.ToString());
+            _databaseManager = DatabaseManagerFactory.Create(Settings.Current.Building.SourceConnectionString,
+                Settings.Current.Building.SourceEngine.Database, Settings.Current.Building.SourceSchema);
         }
 
         public int CreateChunks(string chunksSchema)
@@ -32,10 +26,10 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
-            _dbSource.CreateChunkTable(chunksSchema);
+            _databaseManager.CreateChunkTable(chunksSchema);
             //the table is partitioned for postgre, index creation would be too complex. Also the bottleneck is fact tables, not _chunks
             if (Settings.Current.Building.SourceEngine.Database != framework.desktop.Enums.Database.Postgre)
-                _dbSource.CreateIndexesChunkTable(chunksSchema);
+                _databaseManager.CreateIndexesChunkTable(chunksSchema);
 
             var personKeysByChunks = GetPersonKeys()
                     .OrderBy(s => s.PersonId)
@@ -74,7 +68,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 }
             }
 
-            _dbSource.AnalyzeChunkTable(chunksSchema);
+            _databaseManager.AnalyzeChunkTable(chunksSchema);
 
             var elapsedSeconds = Math.Round((double)sw.ElapsedMilliseconds / 1000, 3);
             var culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
@@ -108,7 +102,7 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
                 {
                     var overallTask = ctx.AddTask($"Reading person table...");
 
-                    foreach (var reader in _dbSource.GetPersonKeys(query, Settings.Current.Building.SourceSchema))
+                    foreach (var reader in _databaseManager.GetPersonKeys(query, Settings.Current.Building.SourceSchema))
                     {
                         if (reader[0] == null || reader[1] == null)
                             continue;

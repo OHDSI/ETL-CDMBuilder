@@ -4,15 +4,17 @@ using Spectre.Console;
 using System.Data;
 using System.Data.Odbc;
 
-namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
+namespace org.ohdsi.cdm.presentation.builder.Base.DatabaseManager
 {
-    public class DbDestinationPostgres : DbDestination
+    public class DatabaseManagerPostgres : DatabaseManager
     {
-        public DbDestinationPostgres(string connectionString, IDatabaseEngine dbEngine, string schemaName)
+        public DatabaseManagerPostgres(string connectionString, IDatabaseEngine dbEngine, string schemaName)
             : base(connectionString, dbEngine, schemaName)
         {
 
         }
+
+        #region interface
 
         public override ActionStatus CreateDatabase(string query)
         {
@@ -169,6 +171,8 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                 throw;
             }
         }
+
+        #endregion
 
         bool IsDatabaseExisting(OdbcConnection connection, string database)
         {

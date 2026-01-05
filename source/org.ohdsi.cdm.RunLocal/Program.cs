@@ -310,7 +310,7 @@ namespace org.ohdsi.cdm.RunLocal
         }
 
         static void Build(string chunkSchema, bool truncateTargetTables = false)
-        {            
+        {
             BuilderController builder = new BuilderController();
             builder.CreateDestination();
 
@@ -327,7 +327,10 @@ namespace org.ohdsi.cdm.RunLocal
             builder.TruncateLookup();
             builder.CreateLookup(vocabulary, chunkSchema);
 
-            builder.Build(vocabulary, chunkSchema);
+            ChunkController chunk = new ChunkController();
+            chunk.CreateChunks(chunkSchema);
+
+            builder.Build(vocabulary);
         }
 
         static bool IsVendorWellInitialized(Vendor vendor, string argsVendorName)

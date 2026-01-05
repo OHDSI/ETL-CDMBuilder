@@ -1,23 +1,42 @@
-﻿using org.ohdsi.cdm.framework.desktop.Helpers;
+﻿using org.ohdsi.cdm.framework.desktop.Databases;
+using org.ohdsi.cdm.framework.desktop.Helpers;
 using org.ohdsi.cdm.presentation.builder.Utility;
 using Spectre.Console;
-using System.Data;
 using System.Data.Odbc;
+using System.Data;
+using System.Text.RegularExpressions;
+using Microsoft.Extensions.Logging.Abstractions;
 
-namespace org.ohdsi.cdm.presentation.builder.Base
+namespace org.ohdsi.cdm.presentation.builder.Base.DatabaseManager
 {
-    public class DbSource
+    /// <summary>
+    /// Created via DbDestinationFactory
+    /// </summary>
+    public abstract class DatabaseManager
     {
-        public static int PartitionCount => 256; //all other partitioned tables must have the same amount of partitions 
-
-        private readonly string _connectionString;
-        private readonly string _dbType;
-
-        public DbSource(string connectionString, string dbType)
+        public enum ActionStatus
         {
-            _connectionString = connectionString;
-            _dbType = dbType;
+            Success,
+            Failed,
+            AlreadyExists
         }
+
+        public string ConnectionString { get; }
+        public IDatabaseEngine DbEngine { get; }
+        public string SchemaName { get; }
+
+        protected DatabaseManager(string connectionString, IDatabaseEngine dbEngine, string schemaName)
+        {
+            ConnectionString = connectionString;
+            DbEngine = dbEngine;
+            SchemaName = schemaName;
+        }
+
+        public abstract ActionStatus CreateDatabase(string query);
+
+        public abstract ActionStatus CreateSchema();
+
+        public abstract ActionStatus ExecuteQuery(string query);
 
         #region _chunks
 
@@ -31,7 +50,9 @@ namespace org.ohdsi.cdm.presentation.builder.Base
             //make the table partitioned to enable partitionwise join with gigantic tables which can't be indexed due to huge disk load for temp and actual data storage            
             if (Settings.Current.Building.SourceEngine.Database == framework.desktop.Enums.Database.Postgre)
             {
-                using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
+                var partitionCount = 256;
+
+                using var connection = SqlConnectionHelper.OpenOdbcConnection(ConnectionString);
 
                 #region main table
                 string fieldSet = "(ChunkId int, PartitionId int, PERSON_ID bigint NOT NULL, PERSON_SOURCE_VALUE varchar(50) NULL)";
@@ -71,7 +92,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
                     "\r\n    END IF;" +
                     "\r\n  END LOOP;" +
                     "\r\nEND$$;";
-                var createPartitionsformatted = string.Format(createPartitions, schemaName, PartitionCount.ToString());
+                var createPartitionsformatted = string.Format(createPartitions, schemaName, partitionCount.ToString());
 
                 using var createPartitionsCmd = new OdbcCommand(createPartitionsformatted, connection);
                 createPartitionsCmd.ExecuteNonQuery();
@@ -94,7 +115,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
                 if (Settings.Current.Building.SourceEngine.Database == framework.desktop.Enums.Database.MsSql
                     && !origQuery.Contains(", [PartitionId] [int]"))
                     origQuery = origQuery.Replace("[ChunkId] [int],", "[ChunkId] [int], [PartitionId] [int],");
-                using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
+                using var connection = SqlConnectionHelper.OpenOdbcConnection(ConnectionString);
                 using var cmd = new OdbcCommand(origQuery, connection);
                 cmd.ExecuteNonQuery();
             }
@@ -106,7 +127,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
             {
                 string analyze = string.Format("ANALYZE {0}._chunks;", schemaName);
 
-                using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
+                using var connection = SqlConnectionHelper.OpenOdbcConnection(ConnectionString);
                 using var analyzeCmd = new OdbcCommand(analyze, connection);
                 analyzeCmd.ExecuteNonQuery();
             }
@@ -121,7 +142,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
             var query = GetQuery("DropChunkTable.sql", schemaName);
 
             AnsiConsole.WriteLine("DropChunkTable:" + query);
-            using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
+            using var connection = SqlConnectionHelper.OpenOdbcConnection(ConnectionString);
             using var cmd = new OdbcCommand(query, connection);
             cmd.CommandTimeout = 6000;
             cmd.ExecuteNonQuery();
@@ -134,7 +155,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
             if (string.IsNullOrEmpty(query.Trim()))
                 return;
 
-            using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
+            using var connection = SqlConnectionHelper.OpenOdbcConnection(ConnectionString);
             foreach (var subQuery in query.Split(new[] { "GO" + "\r\n", "GO" + "\n" },
                 StringSplitOptions.RemoveEmptyEntries))
             {
@@ -159,7 +180,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base
             sql = Utility.NativeTranslators.GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess,
                 Settings.Current.Building.SourceEngine.Database, sql, schemaName, schemaName, Settings.Current.Building.VendorToProcess.PersonTableName);
 
-            using var connection = SqlConnectionHelper.OpenOdbcConnection(_connectionString);
+            using var connection = SqlConnectionHelper.OpenOdbcConnection(ConnectionString);
             using var c = new OdbcCommand(sql, connection) { CommandTimeout = 0 };
             using var reader = c.ExecuteReader();
             while (reader.Read())
@@ -171,13 +192,17 @@ namespace org.ohdsi.cdm.presentation.builder.Base
 
         #endregion
 
-        private string GetQuery(string fileName, string schemaName)
+        protected string GetQuery(string fileName, string schemaName)
         {
             var resources = EmbeddedResourceManager.ReadEmbeddedResources("ohdsi", fileName, StringComparison.InvariantCultureIgnoreCase);
+
             var query = resources
-                .FirstOrDefault(s => s.Key.Contains(_dbType, StringComparison.InvariantCultureIgnoreCase))
+                .FirstOrDefault(s => s.Key.Contains(DbEngine.Database.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 .Value.Replace("{sc}", schemaName);
             return query;
         }
+
+        protected string CleanCommand(string command)
+            => Regex.Replace(command, @"\s+", " ").Trim();
     }
 }

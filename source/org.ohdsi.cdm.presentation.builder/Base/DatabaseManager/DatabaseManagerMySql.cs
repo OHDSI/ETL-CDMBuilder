@@ -3,21 +3,39 @@ using org.ohdsi.cdm.framework.desktop.Helpers;
 using Spectre.Console;
 using System.Data.Odbc;
 
-namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
+namespace org.ohdsi.cdm.presentation.builder.Base.DatabaseManager
 {
-    public class DbDestinationMsSql : DbDestination
+    [Obsolete("This is not supported anymore")]
+    public class DatabaseManagerMySql : DatabaseManager
     {
-        public DbDestinationMsSql(string connectionString, IDatabaseEngine dbEngine, string schemaName)
+        public DatabaseManagerMySql(string connectionString, IDatabaseEngine dbEngine, string schemaName)
             : base(connectionString, dbEngine, schemaName)
         { 
         
         }
+
+        #region interface
 
         public override ActionStatus CreateDatabase(string query)
         {
             var sqlConnectionStringBuilder = new OdbcConnectionStringBuilder(ConnectionString);
             var database = sqlConnectionStringBuilder["database"];
 
+            #region commands
+
+            string localInfileCommand = "SET GLOBAL local_infile = ON;";
+
+            string createToDateCommand = 
+                "\r\nCREATE FUNCTION to_date(in_str VARCHAR(255), in_mask VARCHAR(255))" +
+                "\r\nRETURNS DATE" +
+                "\r\nDETERMINISTIC" +
+                "\r\nBEGIN" +
+                "\r\n  DECLARE fmt VARCHAR(255);" +
+                "\r\n  SET fmt = REPLACE(REPLACE(REPLACE(in_mask, 'YYYY', '%Y'), 'MM', '%m'), 'DD', '%d');" +
+                "\r\n  RETURN STR_TO_DATE(in_str, fmt);" +
+                "\r\nEND";
+
+            #endregion
 
             #region OdbcConnection connection = SqlConnectionHelper.OpenOdbcConnection(sqlConnectionStringBuilder.ConnectionString)
             OdbcConnection connection;
@@ -27,9 +45,9 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
             }
             catch (Exception e)
             {
-                if (new[] { "database ", " does not exist" }.All(s => e.Message.Contains(s)))
+                if (new[] { "Unknown database" }.All(s => e.Message.Contains(s)))
                 {
-                    var CSwithDefaultDatabase = sqlConnectionStringBuilder.ConnectionString.Replace(database.ToString(), "master");
+                    var CSwithDefaultDatabase = sqlConnectionStringBuilder.ConnectionString.Replace(database.ToString(), "sys");
                     connection = SqlConnectionHelper.OpenOdbcConnection(CSwithDefaultDatabase);
                 }
                 else
@@ -51,8 +69,9 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                         }
                         catch (OdbcException ex)
                         {
-                            if (new[] { "database", "already exists" }.All(s => ex.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                            if (new[] { "database exists" }.All(s => ex.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                             {
+                                ExecuteQuery(localInfileCommand);
                                 // ignore
                                 return ActionStatus.AlreadyExists;
                             }
@@ -70,6 +89,9 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                         }
                     }
                 }
+
+                ExecuteQuery(localInfileCommand);
+                ExecuteQuery(createToDateCommand);
             }
 
             return ActionStatus.Success;
@@ -77,54 +99,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
 
         public override ActionStatus CreateSchema()
         {
-            if (SchemaName.ToLower().Trim() == "dbo")
-                return ActionStatus.AlreadyExists;
-
-            var q1 = $"create schema {SchemaName}";
-
-            var q2 = $"IF NOT EXISTS (\r\n    " +
-                $"SELECT 1 FROM sys.database_principals WHERE name = '{Settings.Current.Building.CdmDb}'\r\n)\r\n" +
-                $"BEGIN\r\n    " +
-                $"CREATE USER {Settings.Current.Building.CdmDb} FOR LOGIN {Settings.Current.Building.CdmDb};\r\nEND";
-
-            var q3 = $"ALTER AUTHORIZATION ON SCHEMA::[{SchemaName}] TO [{Settings.Current.Building.CdmDb}];";
-
-            try
-            {
-                using (var connection = SqlConnectionHelper.OpenOdbcConnection(ConnectionString))
-                {
-                    try
-                    {
-                        using (var command = new OdbcCommand(q1, connection))
-                        {
-                            command.CommandTimeout = 0;
-                            command.ExecuteNonQuery();
-                        }
-                    }
-                    catch(Exception q1ex)
-                    {
-                        if (new[] { "There is already an object named", "in the database" }.All(s => q1ex.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
-                        {
-                            // ignore
-                        }
-                    }
-                    using (var command = new OdbcCommand(q2, connection))
-                    {
-                        command.CommandTimeout = 0;
-                        command.ExecuteNonQuery();
-                    }
-                    using (var command = new OdbcCommand(q3, connection))
-                    {
-                        command.CommandTimeout = 0;
-                        command.ExecuteNonQuery();
-                    }
-                }
-                return ActionStatus.Success;
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            return ActionStatus.Success; // MySQL does not use schemas
         }
 
         public override ActionStatus ExecuteQuery(string query)
@@ -139,8 +114,12 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                         .Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries)
                         .Select(s => new string(s.Skip(s.IndexOf("CREATE", StringComparison.CurrentCultureIgnoreCase)).ToArray()).Trim() + ";")
                         .Where(s => s.Contains("CREATE", StringComparison.CurrentCultureIgnoreCase)
-                                 || s.Contains("truncate", StringComparison.CurrentCultureIgnoreCase))
+                                 || s.Contains("truncate", StringComparison.CurrentCultureIgnoreCase)
+                                 || s.Contains("SET GLOBAL", StringComparison.CurrentCultureIgnoreCase))
                         .ToList();
+
+                    if (queryAltered.Contains("create function", StringComparison.CurrentCultureIgnoreCase))
+                        subQueries = new[] { queryAltered }.ToList();
 
                     foreach (var subQuery in subQueries)
                     {
@@ -155,7 +134,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                         }
                         catch (OdbcException odbcEx)
                         {
-                            if (new[] { "There is already an object named", "in the database" }.All(s => odbcEx.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
+                            if (new[] { "Table", "already exists" }.All(s => odbcEx.Message.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
                             {
                                 // ignore
                                 // don't return because we need to execute all subqueries
@@ -181,5 +160,7 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DbDestinations
                 throw;
             }
         }
+
+        #endregion
     }
 }

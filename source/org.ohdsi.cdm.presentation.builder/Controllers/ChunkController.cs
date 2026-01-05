@@ -1,99 +1,133 @@
 ﻿using org.ohdsi.cdm.framework.desktop;
-using org.ohdsi.cdm.framework.desktop.DbLayer;
-using org.ohdsi.cdm.framework.desktop.Helpers;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using org.ohdsi.cdm.framework.desktop.Savers;
+using org.ohdsi.cdm.presentation.builder.CdmFrameworkImport;
+using org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators;
+using Spectre.Console;
+using System.Diagnostics;
+using System.Globalization;
+
 
 namespace org.ohdsi.cdm.presentation.builder.Controllers
 {
     public class ChunkController
     {
-        private readonly DbSource _dbSource;
+        public enum AssignEmptyPersonIdSettings
+        {
+            DoNothing,
+            AssignIfNoPersonIdSet,
+            AssignAll
+        }
+                
+        private readonly DbSourceAdapter _dbSource;
 
         public ChunkController()
         {
-            _dbSource = new DbSource(Settings.Current.Building.SourceConnectionString, Path.Combine(new[]
-            {
-                Settings.Current.BuilderFolder,
-                "ETL",
-                "Common",
-                "Scripts",
-                Settings.Current.Building.SourceEngine.Database.ToString()
-            }), Settings.Current.Building.SourceSchema);
+            _dbSource = new DbSourceAdapter(Settings.Current.Building.SourceConnectionString,
+                Settings.Current.Building.SourceEngine.Database.ToString(), Settings.Current.Building.SourceSchema);
         }
 
-
-        public void ClenupChunks()
+        public int CreateChunks(string chunksSchema)
         {
-            _dbSource.DropChunkTable();
-        }
+            AnsiConsole.WriteLine("\r\nGenerating chunk ids...");
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
 
-        public int CreateChunks()
-        {
-            var chunks = new List<ChunkRecord>();
+            _dbSource.CreateChunkTable(chunksSchema);
+            //the table is partitioned for postgre, index creation would be too complex. Also the bottleneck is fact tables, not _chunks
+            if (Settings.Current.Building.SourceEngine.Database != framework.desktop.Enums.Database.Postgre)
+                _dbSource.CreateIndexesChunkTable(chunksSchema);
 
-            Console.WriteLine("Generating chunk ids...");
-            _dbSource.CreateChunkTable();
-            _dbSource.CreateIndexesChunkTable();
+            var personKeysByChunks = GetPersonKeys()
+                    .OrderBy(s => s.PersonId)
+                    .Chunk(Settings.Current.Building.ChunkSize)
+                    .ToList();
 
-            var chunkId = 0;
-            var k = 0;
-
-            using (var saver = Settings.Current.Building.SourceEngine.GetSaver()
-                .Create(Settings.Current.Building.SourceConnectionString,
-                Settings.Current.Building.Cdm,
-                Settings.Current.Building.SourceSchema,
-                Settings.Current.Building.CdmSchema))
+            for (int chunkId = 0; chunkId < personKeysByChunks.Count; chunkId++)
             {
-                foreach (var chunk in GetPersonKeys(Settings.Current.Building.ChunkSize))
+                for (int i = 0; i < personKeysByChunks[chunkId].Length; i++)
                 {
-                    chunks.AddRange(chunk.Select(c =>
-                        new ChunkRecord { Id = chunkId, PersonId = Convert.ToInt64(c.Key), PersonSource = c.Value }));
-
-                    chunkId++;
+                    personKeysByChunks[chunkId][i].Id = chunkId;
                 }
-
-                if (chunks.Count > 0)
-                {
-                    saver.AddChunk(chunks, k);
-                }
-
-                saver.Commit();
             }
 
-            Console.WriteLine("Chunk ids were generated and saved, total count=" + chunkId);
+            var chunksCount = personKeysByChunks.Count;
+            var personsCount = personKeysByChunks.Sum(s => s.Length);
+            if (chunksCount < personKeysByChunks.Sum(s => s.Length) / Settings.Current.Building.ChunkSize)
+                throw new Exception("Failed to create correct number of chunks!");
 
-            return chunkId;
-        }
-
-        public IEnumerable<List<KeyValuePair<string, string>>> GetPersonKeys(int batchSize)
-        {
-            return GetPersonKeys(Settings.Current.Building.Batches, batchSize);
-        }
-
-        public IEnumerable<List<KeyValuePair<string, string>>> GetPersonKeys(long batches, int batchSize)
-        {
-            var batch = new List<KeyValuePair<string, string>>(batchSize);
-
-            var query = GetSqlHelper.GetSql(Settings.Current.Building.SourceEngine.Database, Settings.Current.Building.BatchScript, Settings.Current.Building.SourceSchema);
-
-            foreach (var reader in _dbSource.GetPersonKeys(query, batches, batchSize))
+            ISaver frameworkSaver =  Settings.Current.Building.SourceEngine.GetSaver();
+            var saver = CdmFrameworkImport.Savers.Saver.GetSaverFromFrameworkSaver(frameworkSaver);
+            using (saver)
             {
-                if (batch.Count == batchSize)
+                try
                 {
-                    yield return batch;
-                    batch.Clear();
+                    var createdSaver = saver.Create(Settings.Current.Building.SourceConnectionString);
+                    var index = 0; //not used in the function
+                    var personsAggr = personKeysByChunks.SelectMany(s => s).ToList();
+                    createdSaver.AddChunk(personsAggr, index, chunksSchema);
+                    createdSaver.Commit();
                 }
-
-                var id = reader[0].ToString().Trim();
-                var source = reader[1].ToString().Trim();
-
-                batch.Add(new KeyValuePair<string, string>(id, source));
+                catch (Exception e)
+                {
+                    AnsiConsole.WriteLine("Chunks have not been properly created!");
+                    throw;
+                }
             }
 
-            yield return batch;
+            _dbSource.AnalyzeChunkTable(chunksSchema);
+
+            var elapsedSeconds = Math.Round((double)sw.ElapsedMilliseconds / 1000, 3);
+            var culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+            culture.NumberFormat.NumberGroupSeparator = " ";
+            AnsiConsole.WriteLine($"Chunk ids have been generated, saved, and have their hash calculated - { elapsedSeconds }s");
+            AnsiConsole.WriteLine($"Persons count = { personsCount.ToString(culture) }"
+                + $" | Chunk size = { Settings.Current.Building.ChunkSize.ToString(culture) }"
+                + $" | Chunks count = { chunksCount }");
+
+            Settings.Current.Building.PersonsCount = personsCount;
+
+            return chunksCount;
+        }
+
+        List<ChunkRecord> GetPersonKeys()
+        {
+            var query = GetSqlHelper.TranslateSqlFromRedshift(Settings.Current.Building.VendorToProcess,
+                Settings.Current.Building.SourceEngine.Database, Settings.Current.Building.BatchScript,
+                Settings.Current.Building.SourceSchema, Settings.Current.Building.SourceSchema, Settings.Current.Building.VendorToProcess.PersonTableName);
+
+            var result = new List<ChunkRecord>();
+
+            AnsiConsole.Progress()
+                .AutoClear(false)
+                .HideCompleted(false)
+                .Columns(
+                    new TaskDescriptionColumn(),
+                    new ElapsedTimeColumn(),
+                    new SpinnerColumn())
+                .Start(ctx =>
+                {
+                    var overallTask = ctx.AddTask($"Reading person table...");
+
+                    foreach (var reader in _dbSource.GetPersonKeys(query, Settings.Current.Building.SourceSchema))
+                    {
+                        if (reader[0] == null || reader[1] == null)
+                            continue;
+
+                        long personId = long.Parse(reader[0].ToString().Trim());
+                        string personSource = reader[1].ToString().Trim();
+
+                        int partitionId = 0;
+                        if(reader.FieldCount > 2)
+                            partitionId = int.Parse(reader[2].ToString().Trim());
+
+                        result.Add(new ChunkRecord() { PersonId = personId, PersonSource = personSource, PartitionId = partitionId });
+                        if (result.Count % 100 == 0)
+                            overallTask.Description = $"Reading person table... {result.Count} ids";
+                    }
+                    overallTask.Description = $"Reading person table... {result.Count} ids";
+                });
+
+            return result;                
         }
     }
 }

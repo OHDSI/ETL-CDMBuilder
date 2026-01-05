@@ -1,14 +1,21 @@
-﻿using org.ohdsi.cdm.framework.desktop.Enums;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using Spectre.Console;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace org.ohdsi.cdm.presentation.builder
 {
     public class Logger
     {
-        private static object _threadlock;
+
+        public enum LogMessageTypes
+        {
+            Debug,
+            Info,
+            Warning,
+            Error
+        }
+
+    private static object _threadlock;
 
         static Logger()
         {
@@ -55,6 +62,7 @@ namespace org.ohdsi.cdm.presentation.builder
             {
                 File.AppendAllText($@"{buildingFolder}\log.txt", $@"{DateTime.Now:G}| {message}{Environment.NewLine}");
             }
+            AnsiConsole.WriteLine(message);
         }
 
         public static IEnumerable<string> GetErrors()
@@ -110,8 +118,14 @@ namespace org.ohdsi.cdm.presentation.builder
                 sb.AppendFormat("{0}Inner ", indent);
             }
 
+            var masked = Regex.Replace(
+                e.Message,
+                @"(?<=PASSWORD=)[^;]+",
+                "****",
+                RegexOptions.IgnoreCase);
+
             sb.AppendFormat("Exception Found:\n{0}Type: {1}", indent, e.GetType().FullName);
-            sb.AppendFormat("\n{0}Message: {1}", indent, e.Message);
+            sb.AppendFormat("\n{0}Message: {1}", indent, masked);
             sb.AppendFormat("\n{0}Source: {1}", indent, e.Source);
             sb.AppendFormat("\n{0}Stacktrace: {1}", indent, e.StackTrace);
 

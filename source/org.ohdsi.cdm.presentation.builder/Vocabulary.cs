@@ -1,23 +1,35 @@
 ﻿using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Lookups;
-using org.ohdsi.cdm.framework.common.PregnancyAlgorithm;
-using org.ohdsi.cdm.framework.desktop.Enums;
 using org.ohdsi.cdm.framework.desktop.Helpers;
-using System;
-using System.Collections.Generic;
+using org.ohdsi.cdm.presentation.builder.AnsiConsoleColumns;
+using Spectre.Console;
 using System.Data;
 using System.Data.Odbc;
 using System.Diagnostics;
+using System.Xml;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using FrameworkSettings = org.ohdsi.cdm.framework.desktop.Settings.Settings;
+using Newtonsoft.Json.Linq;
 using System.IO;
-using System.Linq;
 
 namespace org.ohdsi.cdm.presentation.builder
 {
     public class Vocabulary : IVocabulary
     {
+        public int KeysCount => _lookups.Sum(s => s.Key.Count());
+
+        protected string FileCacheFolder => Path.Combine(Directory.GetCurrentDirectory(), 
+            "Cache", 
+            "Vocabulary", 
+            (Settings.Current.Building.VocabDb + "_" + Settings.Current.Building.VocabSchema));
+
         private readonly Dictionary<string, Lookup> _lookups = new Dictionary<string, Lookup>();
         private GenderLookup _genderConcepts;
         private PregnancyConcepts _pregnancyConcepts;
+
+        private string _baseSql;
+        private Dictionary<string, string> _vendorLookups;
 
         private static LookupValue CreateLookupValue(IDataRecord reader)
         {
@@ -47,12 +59,13 @@ namespace org.ohdsi.cdm.presentation.builder
                 Domain = string.Intern(reader[2].ToString().Trim()),
                 ValidStartDate = validStartDate,
                 ValidEndDate = validEndDate,
-                Ingredients = new HashSet<int>()
+                Ingredients = new HashSet<long>()
             };
 
-            if (reader.FieldCount > 5)
+            if (reader.FieldCount > 6)
             {
-                lv.SourceConceptId = int.TryParse(reader[6].ToString(), out var scptId) ? scptId : 0;
+                var sourceConceptId = int.TryParse(reader[6].ToString(), out var scptId) ? scptId : 0;
+                lv.SourceConcepts = new HashSet<SourceConcepts>() { new SourceConcepts() { ConceptId = sourceConceptId } };
 
                 if (int.TryParse(reader[9].ToString(), out var ingredient))
                     lv.Ingredients.Add(ingredient);
@@ -68,132 +81,233 @@ namespace org.ohdsi.cdm.presentation.builder
         }
 
 
-        private void Load(IEnumerable<EntityDefinition> definitions)
+        private void Load(List<Mapper> conceptIdMappers)
         {
-            if (definitions == null) return;
+            if (conceptIdMappers == null) return;
 
-            foreach (var ed in definitions)
-            {
-                ed.Vocabulary = this;
-
-                if (ed.Concepts == null) continue;
-
-                foreach (var c in ed.Concepts)
+            AnsiConsole.Progress()
+                .AutoClear(false)
+                .HideCompleted(false)
+                .Columns(
+                    new TaskDescriptionColumn(),
+                    new FrozenElapsedTimeColumn(),
+                    new SpinnerColumn())
+                .Start(ctx =>
                 {
-                    if (c.ConceptIdMappers == null) continue;
+                    if (conceptIdMappers.Count == 0)
+                        return;
 
-                    foreach (var conceptIdMapper in c.ConceptIdMappers)
+                    var overallTask = ctx.AddTask($"Reading vocabulary...", maxValue: conceptIdMappers.Count);
+                    int i = 0;
+
+                    foreach (var conceptIdMapper in conceptIdMappers)
                     {
-                        if (!string.IsNullOrEmpty(conceptIdMapper.Lookup))
+                        i++;
+                        overallTask.Description = $"Reading vocabulary ({i}/{conceptIdMappers.Count})...";
+
+                        var currentTask = ctx.AddTask($"{conceptIdMapper.Lookup}");
+
+                        var currentLookup = _vendorLookups.First(s => s.Key.EndsWith("." + conceptIdMapper.Lookup + ".sql"));
+                        string sqlRedshift = currentLookup.Value;
+                        sqlRedshift = sqlRedshift.Replace("{base}", _baseSql);
+                        sqlRedshift = sqlRedshift.Replace("{sc}", Settings.Current.Building.VocabSchema);
+
+                        var sqlRender = Utility.SqlRenderTranslator.Translate(new Utility.SqlRenderTranslator.Request(
+                            null, 
+                            Settings.Current.Building.VendorToProcess.Name,
+                            currentLookup.Key,
+                            sqlRedshift,
+                            Settings.Current.Building.CdmEngine.Database));
+
+                         var sql = Utility.NativeTranslators.GetSqlHelper.TranslateSqlFromRedshift(FrameworkSettings.Current.Building.Vendor, Settings.Current.Building.VocabularyEngine.Database,
+                            sqlRender, FrameworkSettings.Current.Building.VocabularySchemaName, FrameworkSettings.Current.Building.VocabularySchemaName, null, null);
+
+                        try
                         {
-                            if (!_lookups.ContainsKey(conceptIdMapper.Lookup))
+                            var fromFile = ReadLookupFromFile(conceptIdMapper.Lookup);
+
+                            if (!fromFile)
                             {
-                                string sql = string.Empty;
-                                var vendorFolder = Settings.Current.Building.VendorFolder;
-
-                                var baseSql = string.Empty;
-                                var sqlFileDestination = string.Empty;
-
-                                baseSql = File.ReadAllText(Path.Combine(Settings.Current.BuilderFolder,
-                                    @"ETL\Common\Lookups\Base.sql"));
-
-                                sqlFileDestination = Path.Combine(Settings.Current.BuilderFolder,
-                                                                  vendorFolder,
-                                                                  "Lookups",
-                                                                  conceptIdMapper.Lookup + ".sql");
-
-                                sql = File.ReadAllText(sqlFileDestination);
-
-                                sql = sql.Replace("{base}", baseSql);
-                                sql = sql.Replace("{sc}", Settings.Current.Building.VocabSchema);
-
-                                try
+                                using (var connection = SqlConnectionHelper.OpenOdbcConnection(Settings.Current.Building.VocabularyConnectionString))
+                                using (var command = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
+                                using (var reader = command.ExecuteReader())
                                 {
-                                    Console.WriteLine(conceptIdMapper.Lookup + " - Loading...");
+                                    var lookup = _lookups.TryGetValue(conceptIdMapper.Lookup, out var existingLookup)
+                                        ? existingLookup
+                                        : new Lookup();
 
-                                    var timer = new Stopwatch();
-                                    timer.Start();
+                                    var lookupPublic = new List<LookupValue>();
 
-
-                                    Logger.Write(null, LogMessageTypes.Info, conceptIdMapper.Lookup + " - Loading into RAM...");
-
-                                    using (var connection = SqlConnectionHelper.OpenOdbcConnection(Settings.Current.Building.VocabularyConnectionString))
-                                    using (var command = new OdbcCommand(sql, connection) { CommandTimeout = 0 })
-                                    using (var reader = command.ExecuteReader())
+                                    while (reader.Read())
                                     {
-                                        Console.WriteLine(conceptIdMapper.Lookup + " - filling");
-                                        var lookup = new Lookup();
-                                        while (reader.Read())
-                                        {
-                                            var lv = CreateLookupValue(reader);
-                                            lookup.Add(lv);
-                                        }
-
-                                        _lookups.Add(conceptIdMapper.Lookup, lookup);
+                                        var lv = CreateLookupValue(reader);
+                                        lookup.Add(lv);
+                                        lookupPublic.Add(lv);
                                     }
 
-                                    Console.WriteLine(conceptIdMapper.Lookup + " - Done");
-                                    timer.Stop();
-                                    Logger.Write(null, LogMessageTypes.Info,
-                                        $"DONE - {timer.ElapsedMilliseconds} ms | KeysCount={_lookups[conceptIdMapper.Lookup].KeysCount}");
-                                }
-                                catch (Exception e)
-                                {
-                                    Console.WriteLine("Lookup error [file]: " + sqlFileDestination);
-                                    Console.WriteLine("Lookup error [query]: " + sql);
-                                    Logger.WriteWarning("Lookup error [file]: " + sqlFileDestination);
-                                    Logger.WriteWarning("Lookup error [query]: " + sql);
-                                    throw;
+                                    _lookups[conceptIdMapper.Lookup] = lookup;
+                                    WriteLookupToFile(conceptIdMapper.Lookup, lookupPublic);
                                 }
                             }
+
+                            var fromType = fromFile ? "FromFile" : "FromDB";
+                            var keysCount = _lookups[conceptIdMapper.Lookup].KeysCount;
+                            currentTask.Description = $"{conceptIdMapper.Lookup} | {fromType} | KeysCount={keysCount}";
+                            currentTask.Increment(currentTask.MaxValue - currentTask.Value);
+                            currentTask.StopTask();
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.WriteWarning("Lookup error [file]: " + conceptIdMapper.Lookup);
+                            Logger.WriteWarning("Lookup error [query]: " + sql);
+                            throw;
                         }
                     }
-                }
-            }
+                });
         }
 
         /// <summary>
         /// Fill vocabulary for source to conceptId mapping
         /// </summary>
-        /// <param name="forLookup">true - fill vocab. for: CareSites, Providers, Locations; false - rest of us</param>
-        public void Fill(bool forLookup, bool readFromS3)
+        /// <param name="forLookup">true - fill vocab. for: CareSites, Providers, Locations; false - rest of them</param>
+        public void Fill(bool forLookup)
         {
+            if (Settings.Current.Building.SourceQueryDefinitions == null)
+                throw new NoNullAllowedException("Settings.Current.Building.SourceQueryDefinitions is null!");
+
             _genderConcepts = new GenderLookup();
             _genderConcepts.Load();
 
-            _pregnancyConcepts = new PregnancyConcepts();
+            _pregnancyConcepts = new PregnancyConcepts(null);
+
+            var vendorFolder = Settings.Current.Building.VendorToProcess.Folder;
+            _baseSql = Utility.EmbeddedResourceManager.ReadEmbeddedResources(null, "Base.sql").Values.First();
+            _vendorLookups = Utility.EmbeddedResourceManager.ReadEmbeddedResources(null, vendorFolder + ".Lookups");
+
+
+            var mappers = new List<Mapper>();
 
             foreach (var qd in Settings.Current.Building.SourceQueryDefinitions)
-            {
-                if (forLookup)
+                try
                 {
-                    Load(qd.CareSites);
-                    Load(qd.Providers);
-                    Load(qd.Locations);
-                }
-                else
-                {
-                    Load(qd.Persons);
-                    Load(qd.ConditionOccurrence);
-                    Load(qd.DrugExposure);
-                    Load(qd.ProcedureOccurrence);
-                    Load(qd.Observation);
-                    Load(qd.VisitOccurrence);
-                    Load(qd.VisitDetail);
-                    Load(qd.Death);
-                    Load(qd.Measurement);
-                    Load(qd.DeviceExposure);
-                    Load(qd.Note);
+                    if (forLookup)
+                    {
+                        mappers.AddRange(GetMappers(qd.CareSites));
+                        mappers.AddRange(GetMappers(qd.Providers));
+                        mappers.AddRange(GetMappers(qd.Locations));
+                    }
+                    else
+                    {
+                        mappers.AddRange(GetMappers(qd.Persons));
+                        mappers.AddRange(GetMappers(qd.ConditionOccurrence));
+                        mappers.AddRange(GetMappers(qd.DrugExposure));
+                        mappers.AddRange(GetMappers(qd.ProcedureOccurrence));
+                        mappers.AddRange(GetMappers(qd.Observation));
+                        mappers.AddRange(GetMappers(qd.VisitOccurrence));
+                        mappers.AddRange(GetMappers(qd.VisitDetail));
+                        mappers.AddRange(GetMappers(qd.Death));
+                        mappers.AddRange(GetMappers(qd.Measurement));
+                        mappers.AddRange(GetMappers(qd.DeviceExposure));
+                        mappers.AddRange(GetMappers(qd.Note));
 
-                    Load(qd.VisitCost);
-                    Load(qd.ProcedureCost);
-                    Load(qd.DeviceCost);
-                    Load(qd.ObservationCost);
-                    Load(qd.MeasurementCost);
-                    Load(qd.DrugCost);
+                        mappers.AddRange(GetMappers(qd.VisitCost));
+                        mappers.AddRange(GetMappers(qd.ProcedureCost));
+                        mappers.AddRange(GetMappers(qd.DeviceCost));
+                        mappers.AddRange(GetMappers(qd.ObservationCost));
+                        mappers.AddRange(GetMappers(qd.MeasurementCost));
+                        mappers.AddRange(GetMappers(qd.DrugCost));
+                    }
                 }
-            }
+                catch( Exception e)
+                {
+                    throw;
+                }
+
+            mappers = mappers
+                .DistinctBy(s => s.Lookup)
+                .OrderBy(s => s.Lookup)
+                .ToList();
+
+            Load(mappers);
+
             LoadPregnancyDrug();
+        }
+
+        private List<Mapper> GetMappers(IEnumerable<EntityDefinition> definitions)
+        {
+            var result = new List<Mapper>();
+
+            if (definitions == null) return result;
+
+            foreach (var item in definitions)
+                if (item != null)
+                    item.Vocabulary = this;
+
+            result = definitions
+                .Where(s => s != null)
+                .Where(s => s.Concepts != null)
+                .SelectMany(s => s.Concepts)
+                .Where(s => s.ConceptIdMappers != null)
+                .SelectMany(s => s.ConceptIdMappers)
+                .Where(s => !string.IsNullOrEmpty(s.Lookup))
+                .Where(s => !_lookups.ContainsKey(s.Lookup))
+                .ToList();
+
+            return result;
+        }
+
+        private void WriteLookupToFile(string lookupName, List<LookupValue> lookupValues)
+        {
+            var folder = Path.Combine(this.FileCacheFolder, Settings.Current.Building.VendorToProcess.Name);
+            Directory.CreateDirectory(folder);
+
+            var path = Path.Combine(folder, lookupName + ".json");
+            var pathTmp = path + ".tmp";
+            var json = JsonSerializer.Serialize(lookupValues, new JsonSerializerOptions() 
+            {
+                WriteIndented = true,
+                IncludeFields = true,
+                PropertyNameCaseInsensitive = true
+            });
+            File.WriteAllText(pathTmp, json);
+
+            if (File.Exists(path))
+                File.Delete(path);
+
+            File.Move(pathTmp, path);
+        }
+
+        private bool ReadLookupFromFile(string lookupName)
+        {
+            var path = Path.Combine(this.FileCacheFolder, Settings.Current.Building.VendorToProcess.Name, lookupName + ".json");
+            if (!File.Exists(path))
+                return false;
+
+            try
+            {
+                var lookup = _lookups.TryGetValue(lookupName, out var existingLookup)
+                                        ? existingLookup
+                                        : new Lookup();
+
+                var lookupValues = JsonSerializer.Deserialize<List<LookupValue>>(File.ReadAllText(path), new JsonSerializerOptions()
+                {
+                    IncludeFields = true,
+                    PropertyNameCaseInsensitive = true
+                });
+
+                foreach(var lv in lookupValues)
+                    lookup.Add(lv);
+
+                _lookups[lookupName] = lookup;
+            }
+            catch(Exception e)
+            {
+                Logger.WriteWarning("Error reading vocabulary cache file: " + path + "\r\n" + e.Message);
+                _lookups.Clear();
+                return false;
+            }
+
+            return true;
         }
 
 
@@ -214,9 +328,19 @@ namespace org.ohdsi.cdm.presentation.builder
             return res;
         }
 
-        public IEnumerable<PregnancyConcept> LookupPregnancyConcept(int conceptId)
+        public IEnumerable<PregnancyConcept> LookupPregnancyConcept(long conceptId)
         {
             return _pregnancyConcepts.GetConcepts(conceptId);
+        }
+
+        public string GetSourceVocabularyId(long conceptId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetSourceDomain(long conceptId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

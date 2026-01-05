@@ -1,1 +1,0 @@
-﻿ALTER TABLE {sc}._chunks ADD INDEX (PERSON_SOURCE_VALUE);

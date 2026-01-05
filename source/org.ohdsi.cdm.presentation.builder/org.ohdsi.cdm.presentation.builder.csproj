@@ -1,91 +1,25 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="CdmFrameworkImport\Queries\**" />
+	  <Compile Remove="CdmFrameworkImport\Transformation\**" />
+	  <EmbeddedResource Remove="CdmFrameworkImport\Queries\**" />
+	  <EmbeddedResource Remove="CdmFrameworkImport\Transformation\**" />
+	  <None Remove="CdmFrameworkImport\Queries\**" />
+	  <None Remove="CdmFrameworkImport\Transformation\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Resources\download.ico" />
-    <None Remove="Resources\splash.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
-    <PackageReference Include="System.Data.Odbc" Version="5.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\org.ohdsi.cdm.framework.common\org.ohdsi.cdm.framework.common.csproj" />
-    <ProjectReference Include="..\org.ohdsi.cdm.framework.desktop\org.ohdsi.cdm.framework.desktop.csproj" />
-    <ProjectReference Include="..\org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.cerner\org.ohdsi.cdm.framework.etl.cerner.csproj" />
-    <ProjectReference Include="..\org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.common\org.ohdsi.cdm.framework.etl.common.csproj" />
-    <ProjectReference Include="..\org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.cprdhes\org.ohdsi.cdm.framework.etl.cprdhes.csproj" />
-    <ProjectReference Include="..\org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.cprd\org.ohdsi.cdm.framework.etl.cprd.csproj" />
-    <ProjectReference Include="..\org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.hcup\org.ohdsi.cdm.framework.etl.hcup.csproj" />
-    <ProjectReference Include="..\org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.healthverity\org.ohdsi.cdm.framework.etl.healthverity.csproj" />
-    <ProjectReference Include="..\org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.ibm\org.ohdsi.cdm.framework.etl.ibm.csproj" />
-    <ProjectReference Include="..\org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.jmdc\org.ohdsi.cdm.framework.etl.jmdc.csproj" />
-    <ProjectReference Include="..\org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.nhanes\org.ohdsi.cdm.framework.etl.nhanes.csproj" />
-    <ProjectReference Include="..\org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.optumextended\org.ohdsi.cdm.framework.etl.optumextended.csproj" />
-    <ProjectReference Include="..\org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.optumpanther\org.ohdsi.cdm.framework.etl.optumpanther.csproj" />
-    <ProjectReference Include="..\org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.premier\org.ohdsi.cdm.framework.etl.premier.csproj" />
-    <ProjectReference Include="..\org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.seer\org.ohdsi.cdm.framework.etl.seer.csproj" />
-    <ProjectReference Include="..\org.ohdsi.cdm.framework.etl\org.ohdsi.cdm.framework.etl.symphonyemr\org.ohdsi.cdm.framework.etl.symphonyemr.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Resources\download.ico" />
-    <Resource Include="Resources\splash.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ApplicationDefinition Update="App.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </ApplicationDefinition>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="App.xaml.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="MainWindow.xaml.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Resources\Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\Resources.resx">
-      <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="App.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+	  <PackageReference Include="org.ohdsi.cdm.framework" Version="1.1.3" />
+	  <PackageReference Include="org.ohdsi.cdm.framework.etl" Version="1.1.2" />
+	  <PackageReference Include="Spectre.Console" Version="0.54.0" />
+	</ItemGroup>
 
 </Project>

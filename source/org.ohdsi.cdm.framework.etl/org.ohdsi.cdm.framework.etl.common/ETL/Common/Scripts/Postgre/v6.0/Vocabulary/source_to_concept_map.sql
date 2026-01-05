@@ -1,1 +1,0 @@
-﻿select * from {sc}.source_to_concept_map

@@ -1,6 +1,6 @@
 ﻿using org.ohdsi.cdm.framework.desktop;
 using org.ohdsi.cdm.framework.desktop.Savers;
-using org.ohdsi.cdm.presentation.builder.CdmFrameworkImport;
+using org.ohdsi.cdm.presentation.builder.Base;
 using org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators;
 using Spectre.Console;
 using System.Diagnostics;
@@ -18,12 +18,12 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             AssignAll
         }
                 
-        private readonly DbSourceAdapter _dbSource;
+        private readonly DbSource _dbSource;
 
         public ChunkController()
         {
-            _dbSource = new DbSourceAdapter(Settings.Current.Building.SourceConnectionString,
-                Settings.Current.Building.SourceEngine.Database.ToString(), Settings.Current.Building.SourceSchema);
+            _dbSource = new DbSource(Settings.Current.Building.SourceConnectionString,
+                Settings.Current.Building.SourceEngine.Database.ToString());
         }
 
         public int CreateChunks(string chunksSchema)

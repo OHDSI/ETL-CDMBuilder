@@ -4,22 +4,22 @@ using Spectre.Console;
 using System.Data;
 using System.Data.Odbc;
 
-namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
+namespace org.ohdsi.cdm.presentation.builder.Base
 {
-    public class DbSourceAdapter
+    public class DbSource
     {
         public static int PartitionCount => 256; //all other partitioned tables must have the same amount of partitions 
 
-        readonly framework.desktop.DbLayer.DbSource _dbSource;
         private readonly string _connectionString;
         private readonly string _dbType;
 
-        public DbSourceAdapter(string connectionString, string dbType, string schemaName)
+        public DbSource(string connectionString, string dbType)
         {
             _connectionString = connectionString;
             _dbType = dbType;
-            _dbSource = new framework.desktop.DbLayer.DbSource(connectionString, dbType, schemaName);
         }
+
+        #region _chunks
 
         public void CreateChunkTable(string schemaName, bool withDrop = true)
         {
@@ -144,7 +144,6 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
             }
         }
 
-
         public IEnumerable<IDataReader> GetPersonKeys(string batchScript, string schemaName)
         {
             batchScript = batchScript.Replace("{sc}", schemaName);
@@ -170,9 +169,11 @@ namespace org.ohdsi.cdm.presentation.builder.CdmFrameworkImport
 
         }
 
+        #endregion
+
         private string GetQuery(string fileName, string schemaName)
         {
-            var resources = Utility.EmbeddedResourceManager.ReadEmbeddedResources("ohdsi", fileName, StringComparison.InvariantCultureIgnoreCase);
+            var resources = EmbeddedResourceManager.ReadEmbeddedResources("ohdsi", fileName, StringComparison.InvariantCultureIgnoreCase);
             var query = resources
                 .FirstOrDefault(s => s.Key.Contains(_dbType, StringComparison.InvariantCultureIgnoreCase))
                 .Value.Replace("{sc}", schemaName);

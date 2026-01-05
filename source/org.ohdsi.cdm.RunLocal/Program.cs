@@ -315,7 +315,7 @@ namespace org.ohdsi.cdm.RunLocal
             builder.CreateDestination();
 
             if (truncateTargetTables)
-                builder.TruncateTables();
+                builder.TruncateDestinationTables();
             else
                 Logger.Write(0, Logger.LogMessageTypes.Info, 
                     $"Target tables truncation skipped due to loading continuation from chunk {Settings.Current.Building.ContinueLoadFromChunk}!");

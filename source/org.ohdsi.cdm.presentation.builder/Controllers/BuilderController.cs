@@ -20,9 +20,11 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
     {
         #region Variables
 
-        private readonly ChunkController _chunkController;
+        private readonly DatabaseManager _dbSource;
+        private readonly DatabaseManager _dbDestination;
 
         private ConcurrentBag<int> _processedChunkIds = new ConcurrentBag<int>();
+
 
         #endregion
 
@@ -30,54 +32,70 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
 
         public BuilderController()
         {
-            _chunkController = new ChunkController();
+            _dbSource = DatabaseManagerFactory.Create(Settings.Current.Building.SourceConnectionString, Settings.Current.Building.SourceEngine,
+                Settings.Current.Building.SourceSchema);
+
+            _dbDestination = DatabaseManagerFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
+                Settings.Current.Building.CdmSchema);
         }
 
         #endregion
 
         #region Methods 
 
-        #region destination ddl
+        #region Source
 
-        public void CreateDestination()
+        public void CreateSource()
         {
-            var dbDestination = DatabaseManagerFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
-                Settings.Current.Building.CdmSchema);
-
-            dbDestination.CreateDatabase(Settings.Current.CreateCdmDatabaseScript);
-            dbDestination.CreateSchema();
-            dbDestination.ExecuteQuery(Settings.Current.CreateCdmTablesScript);
-            AnsiConsole.WriteLine("\r\nDDL complete!");
+            throw new NotImplementedException();
         }
 
-        public void DropDestination()
+        public void DropSource()
         {
-            var dbDestination = DatabaseManagerFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
-                Settings.Current.Building.CdmSchema);
-
-            dbDestination.ExecuteQuery(Settings.Current.DropTablesScript);
+            throw new NotImplementedException();
         }
 
-        public void TruncateLookup()
+        public void FillSource()
         {
-            var dbDestination = DatabaseManagerFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
-                Settings.Current.Building.CdmSchema);
-
-            dbDestination.ExecuteQuery(Settings.Current.TruncateLookupScript);
+            throw new NotImplementedException();
         }
 
-        public void TruncateTables()
+        public void TruncateSource()
         {
-            var dbDestination = DatabaseManagerFactory.Create(Settings.Current.Building.DestinationConnectionString, Settings.Current.Building.CdmEngine,
-                Settings.Current.Building.CdmSchema);
-
-            dbDestination.ExecuteQuery(Settings.Current.TruncateTablesScript);
-            AnsiConsole.WriteLine("\r\nTable truncation complete!");
+            throw new NotImplementedException();
         }
 
         #endregion
 
-        #region lookups
+        #region Destination
+
+        public void CreateDestination()
+        {
+            _dbDestination.CreateDatabase(Settings.Current.CreateCdmDatabaseScript);
+            _dbDestination.CreateSchema();
+            _dbDestination.ExecuteQuery(Settings.Current.CreateCdmTablesScript);
+            AnsiConsole.WriteLine("\r\nDestination DDL complete!");
+        }
+
+        public void DropDestination()
+        {
+            _dbDestination.ExecuteQuery(Settings.Current.DropTablesScript);
+        }
+
+        public void TruncateLookup()
+        {
+            _dbDestination.ExecuteQuery(Settings.Current.TruncateLookupScript);
+        }
+
+        public void TruncateDestinationTables()
+        {
+            _dbDestination.ExecuteQuery(Settings.Current.TruncateTablesScript);
+            AnsiConsole.WriteLine("\r\nDestination table truncation complete!");
+        }
+
+        #endregion
+
+        #region Lookups
 
         public void CreateLookup(IVocabulary vocabulary, string chunkSchema)
         {

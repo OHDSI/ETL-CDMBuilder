@@ -189,6 +189,7 @@ quit(status = 0, save = "no")
             new UTF8Encoding(false)
         );
     }
+
     static (int Exit, string Out, string Err) RunR(string rscriptExe, string workDir, string scriptFileName)
     {
         var scriptFullPath = Path.GetFullPath(Path.Combine(workDir, scriptFileName));

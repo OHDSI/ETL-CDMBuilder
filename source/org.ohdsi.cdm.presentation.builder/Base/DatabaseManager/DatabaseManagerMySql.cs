@@ -110,16 +110,10 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DatabaseManager
                 {
                     string queryAltered = "\n" + query.Replace("{sc}", SchemaName);
 
-                    var subQueries = queryAltered
-                        .Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries)
-                        .Select(s => new string(s.Skip(s.IndexOf("CREATE", StringComparison.CurrentCultureIgnoreCase)).ToArray()).Trim() + ";")
-                        .Where(s => s.Contains("CREATE", StringComparison.CurrentCultureIgnoreCase)
-                                 || s.Contains("truncate", StringComparison.CurrentCultureIgnoreCase)
-                                 || s.Contains("SET GLOBAL", StringComparison.CurrentCultureIgnoreCase))
-                        .ToList();
+                    var subQueries = SplitQuery(queryAltered);
 
                     if (queryAltered.Contains("create function", StringComparison.CurrentCultureIgnoreCase))
-                        subQueries = new[] { queryAltered }.ToList();
+                        subQueries = new[] { queryAltered }.ToArray();
 
                     foreach (var subQuery in subQueries)
                     {

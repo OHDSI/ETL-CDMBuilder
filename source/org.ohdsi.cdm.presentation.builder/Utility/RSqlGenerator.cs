@@ -1,168 +1,158 @@
-﻿using System;
+﻿using org.ohdsi.cdm.framework.desktop.Settings;
+using Spectre.Console;
 using System.Diagnostics;
-using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
 public static class RSqlGenerator
 {
     public record Request(
-        string RscriptPath,
-        string FrameworkType,          
-        string NativeDatabaseSchema,   
-        string CdmDatabaseSchema,      
-        string Dbms,                   
-        string Server,
-        int Port,
-        string User,
-        string Password
+        string RexePath,
+        string RprojectPath       
     );
 
     public record Response(
         string InsertSqlPath,
-        string TestSqlPath,
-        string InsertSqlText,
-        string TestSqlText,
-        string StdOut,
-        string StdErr,
-        int ExitCode
+        string InsertSqlText
     );
 
     public static Response GenerateSqlOnly(Request cfg)
     {
-        if (string.IsNullOrWhiteSpace(cfg.RscriptPath) || !File.Exists(cfg.RscriptPath))
-            throw new FileNotFoundException("code to run.R not found", cfg.RscriptPath);
+        AnsiConsole.WriteLine($"\r\nRun R to clear and populate source with test data...");
+        var sw = new Stopwatch();
+        sw.Start();
 
-        var rDir = Path.GetDirectoryName(Path.GetFullPath(cfg.RscriptPath))!;
-        var original = File.ReadAllText(cfg.RscriptPath, Encoding.UTF8);
+        var rExePath = @"C:\Program Files\R\R-4.5.0\bin\Rscript.exe";
+        var rProjectPath = @"C:\repos\OPEN SOURCE\ETL-LambdaBuilder\ETL-LambdaBuilder\docs\IBM_CCAE_MDCR\Test Cases";
 
-        var patched = PatchAssignments(original, cfg);
+        var cacheFolder = Path.Combine(Directory.GetCurrentDirectory(), "Cache", "R");
+        var frameworkFileName = "IBMCCAE_TestingFramework.R";
 
-        patched = InsertEarlyQuitAfterSqlGeneration(patched);
+        var sourcedFiles = CopyDirectory(rProjectPath, cacheFolder);
+        WriteHardcodedR(cacheFolder, frameworkFileName, sourcedFiles);
 
-        var tempRPath = Path.Combine(rDir, $"__run_generate_only_{Guid.NewGuid():N}.R");
-        File.WriteAllText(tempRPath, patched, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
+        var (exit, o, e) = RunR(
+            rscriptExe: @"C:\Program Files\R\R-4.5.0\bin\Rscript.exe",
+            workDir: cacheFolder,
+            scriptFileName: "code to run.R"
+        );
+                
 
-        try
+
+
+        var insertPath = Path.Combine(cacheFolder, "insert.sql");
+        if (File.Exists(insertPath))
         {
-            var psi = new ProcessStartInfo
-            {
-                FileName = cfg.RscriptPath,
-                Arguments = Quote(tempRPath),
-                WorkingDirectory = rDir, //use relational paths
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                CreateNoWindow = true,
-                StandardOutputEncoding = Encoding.UTF8,
-                StandardErrorEncoding = Encoding.UTF8
-            };
+            var newE = Regex.Replace(
+                e,
+                @"^running\s+'[^']*'\s*$",
+                "",
+                RegexOptions.Multiline
+            );
 
-            using var p = Process.Start(psi) ?? throw new InvalidOperationException("Failed to start Rscript process");
+            AnsiConsole.WriteLine($"Exit={exit}\r\n OUT={o}\r\n ERR={newE}");
 
-            string stdout = p.StandardOutput.ReadToEnd();
-            string stderr = p.StandardError.ReadToEnd();
-            p.WaitForExit();
+            var insertSql = File.ReadAllText(insertPath);
 
-            var insertPath = Path.Combine(rDir, "insert.sql");
-            var testPath = Path.Combine(rDir, "test.sql");
-
-            if (!File.Exists(insertPath))
-                throw new FileNotFoundException("insert.sql was not generated. Check R output.", insertPath);
-
-            if (!File.Exists(testPath))
-                throw new FileNotFoundException("test.sql was not generated. Check R output.", testPath);
-
-            var insertText = File.ReadAllText(insertPath, Encoding.UTF8);
-            var testText = File.ReadAllText(testPath, Encoding.UTF8);
+            AnsiConsole.WriteLine($"DONE. {Convert.ToInt32(sw.Elapsed.TotalSeconds)}s.");
 
             return new Response(
-                InsertSqlPath: insertPath,
-                TestSqlPath: testPath,
-                InsertSqlText: insertText,
-                TestSqlText: testText,
-                StdOut: stdout,
-                StdErr: stderr,
-                ExitCode: p.ExitCode
-            );
+                    InsertSqlPath: insertPath,
+                    InsertSqlText: insertSql
+                );
         }
-        finally
+        else
         {
-
+            AnsiConsole.WriteLine($"Exit={exit}\r\n OUT={o}\r\n ERR={e}");
+            throw new Exception("Failed to generate sql to populate source!");
         }
     }
 
-    private static string PatchAssignments(string text, Request cfg)
+    static List<string> CopyDirectory(string sourceDir, string targetDir)
     {
-        text = ReplaceRStringAssignment(text, "frameworkType", cfg.FrameworkType);
+        List<string> sourcedFiles = new List<string>();
+        var sourceFilesToSearchFor = new[] { "main.R", "UnitTests.R", "SetDefaults.R" };
 
-        text = ReplaceRStringAssignment(text, "nativeDatabaseSchema", cfg.NativeDatabaseSchema);
+        if (Directory.Exists(targetDir))
+            Directory.Delete(targetDir, true);
 
-        text = ReplaceRStringAssignment(text, "cdmDatabaseSchema", cfg.CdmDatabaseSchema);
+        Directory.CreateDirectory(targetDir);
 
-        // connectionDetails <- DatabaseConnector::createConnectionDetails(...)
-        text = ReplaceCreateConnectionDetails(
-            text,
-            dbms: cfg.Dbms,
-            server: cfg.Server,
-            port: cfg.Port,
-            user: cfg.User,
-            password: cfg.Password
+        foreach (var file in Directory.GetFiles(sourceDir))
+        {
+            var fileName = Path.GetFileName(file);
+            File.Copy(file, Path.Combine(targetDir, fileName), true);
+
+            if (sourceFilesToSearchFor.Any(s => fileName.Contains(s, StringComparison.CurrentCultureIgnoreCase)))
+                sourcedFiles.Add(fileName);
+        }
+
+        foreach (var dir in Directory.GetDirectories(sourceDir))
+        {
+            sourcedFiles.AddRange(CopyDirectory(dir, Path.Combine(targetDir, Path.GetFileName(dir))));
+        }
+        return sourcedFiles;
+    }
+
+    static void WriteHardcodedR(string targetProjectDir, string frameworkFileName, List<string> sourcedFiles)
+    {
+        var source = "";
+        foreach (var sourceFile in sourcedFiles)
+            source = $"source(\"R/{sourceFile}\")" + "\r\n\r\n"
+                + source;
+        
+        var rCode = source + $"""
+
+source("extras/{frameworkFileName}")
+
+source_schema <- "{Settings.Current.Building.SourceSchemaName}"
+frameworkType <- "{Settings.Current.Building.Vendor.Name}"
+
+sequencer <- getSequence()
+initFramework()
+setDefaults()
+createTests()
+
+insertSql <- paste(generateInsertSql(databaseSchema = source_schema), sep = "", collapse = "\n")
+
+SqlRender::writeSql(insertSql, "insert.sql")
+quit(status = 0, save = "no")
+""";
+
+        File.WriteAllText(
+            Path.Combine(targetProjectDir, "code to run.R"),
+            rCode,
+            new UTF8Encoding(false)
         );
-
-        return text;
     }
-
-    private static string ReplaceRStringAssignment(string text, string varName, string value)
+    static (int Exit, string Out, string Err) RunR(string rscriptExe, string workDir, string scriptFileName)
     {
-        // varName <- "...."
-        var pattern = $@"(?m)^\s*{Regex.Escape(varName)}\s*<-\s*""[^""]*""\s*$";
-        var replacement = $"{varName} <- \"{EscapeForR(value)}\"";
-        if (!Regex.IsMatch(text, pattern))
-            throw new InvalidOperationException($"Assignment not found for variable: {varName}");
-        return Regex.Replace(text, pattern, replacement);
+        var scriptFullPath = Path.GetFullPath(Path.Combine(workDir, scriptFileName));
+        if (!File.Exists(scriptFullPath))
+            throw new FileNotFoundException("R script not found", scriptFullPath);
+
+        var psi = new ProcessStartInfo
+        {
+            FileName = rscriptExe,
+            WorkingDirectory = workDir,
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true,
+            StandardOutputEncoding = Encoding.UTF8,
+            StandardErrorEncoding = Encoding.UTF8
+        };
+
+        psi.ArgumentList.Add("--vanilla");
+        psi.ArgumentList.Add("--verbose");
+        psi.ArgumentList.Add(scriptFullPath);
+
+        using var p = Process.Start(psi) ?? throw new InvalidOperationException("Failed to start Rscript");
+
+        string stdout = p.StandardOutput.ReadToEnd();
+        string stderr = p.StandardError.ReadToEnd();
+        p.WaitForExit();
+
+        return (p.ExitCode, stdout, stderr);
     }
-
-    private static string ReplaceCreateConnectionDetails(string text, string dbms, string server, int port, string user, string password)
-    {
-        // connectionDetails <- DatabaseConnector::createConnectionDetails(dbms = "...", server = "...", port = ..., user = "...", password = "...")
-        var pattern =
-            @"(?ms)^\s*connectionDetails\s*<-\s*DatabaseConnector::createConnectionDetails\s*\(\s*.*?\)\s*";
-        var replacement =
-$@"connectionDetails <- DatabaseConnector::createConnectionDetails(dbms = ""{EscapeForR(dbms)}"",
-                                                                server = ""{EscapeForR(server)}"",
-                                                                port = {port},
-                                                                user = ""{EscapeForR(user)}"",
-                                                                password = ""{EscapeForR(password)}""
-)";
-        if (!Regex.IsMatch(text, pattern))
-            throw new InvalidOperationException("connectionDetails <- createConnectionDetails(...) block not found");
-        return Regex.Replace(text, pattern, replacement, RegexOptions.IgnoreCase);
-    }
-
-    private static string InsertEarlyQuitAfterSqlGeneration(string text)
-    {
-        // quit() after 2nd cat(...) (test.sql) ensuring both files are generated
-        // Find cat(file="test.sql", ...)
-        var pattern = @"(?ms)(^\s*cat\s*\(\s*file\s*=\s*""test\.sql"".*?\)\s*$)";
-        var m = Regex.Match(text, pattern);
-        if (!m.Success)
-            throw new InvalidOperationException("Could not find cat(file=\"test.sql\", ...) line to insert quit() after it.");
-
-        var insert =
-            m.Groups[1].Value +
-            Environment.NewLine +
-            Environment.NewLine +
-            "## AUTO-INJECTED: stop after SQL generation (no DB execution)\n" +
-            "quit(status = 0, save = \"no\")\n";
-
-        // insert quit
-        return Regex.Replace(text, pattern, Regex.Escape(m.Groups[1].Value)).Replace(Regex.Escape(m.Groups[1].Value), insert);
-    }
-
-    private static string Quote(string s) 
-        => "\"" + s.Replace("\"", "\\\"") + "\"";
-
-    private static string EscapeForR(string s)
-        => s.Replace("\\", "\\\\").Replace("\"", "\\\"");
 }

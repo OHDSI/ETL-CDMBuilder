@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Serialization;
-using org.ohdsi.cdm.framework.common.Definitions;
+﻿using org.ohdsi.cdm.framework.common.Definitions;
 using org.ohdsi.cdm.framework.common.Lookups;
 using org.ohdsi.cdm.framework.common.Omop;
 using org.ohdsi.cdm.framework.desktop.Databases;
@@ -12,7 +11,7 @@ using Spectre.Console;
 using System.Collections.Concurrent;
 using System.Data;
 using System.Data.Odbc;
-using System.Diagnostics;
+using System.Text.RegularExpressions;
 using DatabaseChunkBuilder = org.ohdsi.cdm.presentation.builder.Base.DatabaseChunkBuilder;
 
 
@@ -73,22 +72,18 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             if (servPort.Length == 2 && servPort.Last().Length == 4)
                 port = int.Parse(servPort.Last());
 
-            var request = new RSqlGenerator.Request(
-                RscriptPath: "",
-                FrameworkType: "",
-                NativeDatabaseSchema: Settings.Current.Building.SourceSchema,
-                CdmDatabaseSchema: Settings.Current.Building.CdmSchema,
-                Dbms: Settings.Current.Building.SourceDb,
-                Server: server,
-                Port: port,
-                User: Settings.Current.Building.SourceUser,
-                Password: Settings.Current.Building.SourcePswd
-                );
+            var request = new RSqlGenerator.Request("", "");
             var rResponse = RSqlGenerator.GenerateSqlOnly(request);
-            
 
+            var sqlFixed = Regex.Replace(
+                rResponse.InsertSqlText,
+                @"'\s*'",
+                "NULL",
+                RegexOptions.CultureInvariant
+            );
 
-            throw new NotImplementedException();
+            _dbSource.ExecuteQuery(sqlFixed);
+            AnsiConsole.WriteLine("Source schema populated!");
         }
 
         #endregion

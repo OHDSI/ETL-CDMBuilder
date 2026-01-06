@@ -2,10 +2,9 @@
 using org.ohdsi.cdm.framework.desktop.Helpers;
 using org.ohdsi.cdm.presentation.builder.Utility;
 using Spectre.Console;
-using System.Data.Odbc;
 using System.Data;
+using System.Data.Odbc;
 using System.Text.RegularExpressions;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace org.ohdsi.cdm.presentation.builder.Base.DatabaseManager
 {
@@ -204,5 +203,16 @@ namespace org.ohdsi.cdm.presentation.builder.Base.DatabaseManager
 
         protected string CleanCommand(string command)
             => Regex.Replace(command, @"\s+", " ").Trim();
+
+        protected string[] SplitQuery(string query)
+            => query
+                        .Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(s => s.Trim(new[] { ' ', '\r', '\n', '\t'}) +";")
+                        .Where(s => s.StartsWith("CREATE", StringComparison.CurrentCultureIgnoreCase)
+                                 || s.StartsWith("truncate", StringComparison.CurrentCultureIgnoreCase)
+                                 || s.StartsWith("insert", StringComparison.CurrentCultureIgnoreCase)
+                                 || s.StartsWith("set", StringComparison.CurrentCultureIgnoreCase)
+                        )
+                        .ToArray();
     }
 }

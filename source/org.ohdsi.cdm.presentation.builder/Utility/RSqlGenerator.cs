@@ -1,4 +1,6 @@
-﻿using org.ohdsi.cdm.framework.desktop.Settings;
+﻿using Microsoft.Win32;
+using org.ohdsi.cdm.framework.desktop.Settings;
+using PresentationSettings = org.ohdsi.cdm.presentation.builder.Settings;
 using Spectre.Console;
 using System.Diagnostics;
 using System.Text;
@@ -6,66 +8,102 @@ using System.Text.RegularExpressions;
 
 public static class RSqlGenerator
 {
-    public record Request(
-        string RexePath,
-        string RprojectPath       
-    );
-
-    public record Response(
-        string InsertSqlPath,
-        string InsertSqlText
-    );
-
-    public static Response GenerateSqlOnly(Request cfg)
+    public static string GenerateSqlOnly()
     {
         AnsiConsole.WriteLine($"\r\nRun R to clear and populate source with test data...");
         var sw = new Stopwatch();
         sw.Start();
 
-        var rExePath = @"C:\Program Files\R\R-4.5.0\bin\Rscript.exe";
-        var rProjectPath = @"C:\repos\OPEN SOURCE\ETL-LambdaBuilder\ETL-LambdaBuilder\docs\IBM_CCAE_MDCR\Test Cases";
+        var rExePaths = GetRscriptExePaths();
+        var rProjectPath = PresentationSettings.Current.Building.RepopulateSourceUsingRPath;
 
-        var cacheFolder = Path.Combine(Directory.GetCurrentDirectory(), "Cache", "R");
-        var frameworkFileName = "IBMCCAE_TestingFramework.R";
+        var errors = new List<string>();
 
-        var sourcedFiles = CopyDirectory(rProjectPath, cacheFolder);
-        WriteHardcodedR(cacheFolder, frameworkFileName, sourcedFiles);
-
-        var (exit, o, e) = RunR(
-            rscriptExe: @"C:\Program Files\R\R-4.5.0\bin\Rscript.exe",
-            workDir: cacheFolder,
-            scriptFileName: "code to run.R"
-        );
-                
-
-
-
-        var insertPath = Path.Combine(cacheFolder, "insert.sql");
-        if (File.Exists(insertPath))
+        //a lot of exe files and some seem randomly to fail to encode text. try all untill successful
+        foreach (var rExePath in rExePaths)
         {
-            var newE = Regex.Replace(
-                e,
-                @"^running\s+'[^']*'\s*$",
-                "",
-                RegexOptions.Multiline
+            var cacheFolder = Path.Combine(Directory.GetCurrentDirectory(), "Cache", "R");
+            var sourcedFiles = CopyDirectory(rProjectPath, cacheFolder);
+            var frameworkFileName = GetFrameworkFileName(cacheFolder);
+
+            WriteHardcodedR(cacheFolder, frameworkFileName, sourcedFiles);
+
+            var (exit, o, e) = RunR(
+                rscriptExe: rExePath,
+                workDir: cacheFolder,
+                scriptFileName: "code to run.R"
             );
 
-            AnsiConsole.WriteLine($"Exit={exit}\r\n OUT={o}\r\n ERR={newE}");
-
-            var insertSql = File.ReadAllText(insertPath);
-
-            AnsiConsole.WriteLine($"DONE. {Convert.ToInt32(sw.Elapsed.TotalSeconds)}s.");
-
-            return new Response(
-                    InsertSqlPath: insertPath,
-                    InsertSqlText: insertSql
+            var insertPath = Path.Combine(cacheFolder, "insert.sql");
+            if (File.Exists(insertPath))
+            {
+                var newE = Regex.Replace(
+                    e,
+                    @"^running\s+'[^']*'\s*$",
+                    "",
+                    RegexOptions.Multiline
                 );
+
+                AnsiConsole.WriteLine($"Exit={exit}\r\n OUT={o}\r\n ERR={newE}");
+
+                var insertSql = File.ReadAllText(insertPath);
+
+                AnsiConsole.WriteLine($"DONE. {Convert.ToInt32(sw.Elapsed.TotalSeconds)}s.");
+
+                return insertSql;
+            }
+            else
+            {
+                var msg = $"File={rExePath} \r\nExit={exit}\r\n OUT={o}\r\n ERR={e}";
+                errors.Add(msg);
+            }
         }
-        else
+        foreach (var error in errors)
+            AnsiConsole.WriteLine(error);
+        throw new Exception("Failed to generate sql to populate source!");
+    }
+
+    static string GetRExePath()
+    {
+        string[] keys =
         {
-            AnsiConsole.WriteLine($"Exit={exit}\r\n OUT={o}\r\n ERR={e}");
-            throw new Exception("Failed to generate sql to populate source!");
+            @"SOFTWARE\R-core\R",
+            @"SOFTWARE\WOW6432Node\R-core\R"
+        };
+
+        foreach (var keyPath in keys)
+        {
+            using var key = Registry.LocalMachine.OpenSubKey(keyPath);
+            if (key == null) continue;
+
+            var installPath = key.GetValue("InstallPath") as string;
+            if (string.IsNullOrWhiteSpace(installPath)) continue;
+
+            var rExe = Path.Combine(installPath, "bin", "x64", "R.exe");
+            if (File.Exists(rExe))
+                return rExe;
+
+            // fallback
+            rExe = Path.Combine(installPath, "bin", "R.exe");
+            if (File.Exists(rExe))
+                return rExe;
         }
+
+        throw new FileNotFoundException("R.exe not found in registry");
+    }
+
+    static string[] GetRscriptExePaths()
+    {
+        string rExe = GetRExePath();
+
+        DirectoryInfo rRoot = Directory.GetParent(Directory.GetParent(Directory.GetParent(rExe)!.FullName)!.FullName)!;
+        string[] files = Directory.GetFiles(rRoot.FullName, "*", SearchOption.AllDirectories)
+            .Where(s => s.EndsWith("Rscript.exe", StringComparison.CurrentCultureIgnoreCase)
+                     || s.EndsWith("R.exe", StringComparison.CurrentCultureIgnoreCase))
+            .OrderByDescending(s => s.Length)
+            .ToArray();
+
+        return files;
     }
 
     static List<string> CopyDirectory(string sourceDir, string targetDir)
@@ -92,6 +130,32 @@ public static class RSqlGenerator
             sourcedFiles.AddRange(CopyDirectory(dir, Path.Combine(targetDir, Path.GetFileName(dir))));
         }
         return sourcedFiles;
+    }
+
+    static string GetFrameworkFileName(string cacheFolder)
+    {
+        var path = Path.Combine(cacheFolder, "extras");
+        FileInfo[] files = Directory.GetFiles(path)
+            .Where(s => s.Contains("Framework", StringComparison.CurrentCultureIgnoreCase))
+            .Where(s => s.EndsWith(".R", StringComparison.CurrentCultureIgnoreCase))
+            .Select(s => new FileInfo(s))
+            .ToArray();
+
+        if (files.Length == 0)
+            throw new Exception("No Framework.R files in extras directory!");
+
+        var currentVendor = Settings.Current.Building.Vendor.Name;
+        var fileByVendor = files.FirstOrDefault(s => s.Name.Contains(currentVendor, StringComparison.CurrentCultureIgnoreCase));
+        if (fileByVendor != null)
+            return fileByVendor.Name;
+
+        var vendorEnd = currentVendor.Split(new[] { '_', ' ', '-' }).Last();
+        var fileByVendorEnd = files.FirstOrDefault(s => s.Name.Contains(vendorEnd, StringComparison.CurrentCultureIgnoreCase));
+        if (fileByVendorEnd != null)
+            return fileByVendorEnd.Name;
+
+        var remainingRandomFile = files.First();
+        return remainingRandomFile.Name;
     }
 
     static void WriteHardcodedR(string targetProjectDir, string frameworkFileName, List<string> sourcedFiles)

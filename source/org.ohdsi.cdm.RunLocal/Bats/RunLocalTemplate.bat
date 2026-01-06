@@ -40,7 +40,8 @@ org.ohdsi.cdm.RunLocal.exe ^
   --QueryTriesAmount="2" ^
   --QueryTriesDelaySeconds="300" ^
   --MaxMemoryBudgetMb="20000" ^
-  --MemoryPerChunkMarginPercent="5"
+  --MemoryPerChunkMarginPercent="5" ^
+  --RepopulateSourceUsingRPath=""
 echo.
 echo [INFO] Finished with code %ERRORLEVEL%
 pause

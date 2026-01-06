@@ -24,6 +24,10 @@ namespace org.ohdsi.cdm.presentation.builder
         public int MaxMemoryBudgetMb { get; protected set; }
         [XmlIgnore]
         public int MemoryPerChunkMarginPercent { get; protected set; }
+
+        [XmlIgnore]
+        public string RepopulateSourceUsingRPath { get; protected set; }
+
         public Building BuildingState { get; set; }
 
         public string SourceServer { get; set; }
@@ -180,7 +184,8 @@ namespace org.ohdsi.cdm.presentation.builder
 
         public BuildingSettings(IDatabaseEngine sourceDatabaseEngine, IDatabaseEngine cdmDatabaseEngine, 
             IDatabaseEngine vocabularyDatabaseEngine, Vendor vendor, int continueLoadFromChunk, int chunkSize,
-            int queryTriesAmount, int queryTriesDelaySeconds, int maxMemoryBudgetMb, int memoryPerChunkMarginPercent)
+            int queryTriesAmount, int queryTriesDelaySeconds, int maxMemoryBudgetMb, int memoryPerChunkMarginPercent,
+            string repopulateSourceUsingRPath)
         {
             BuildingState = new Building();
             ChunksCount = 0;
@@ -194,6 +199,7 @@ namespace org.ohdsi.cdm.presentation.builder
             QueryTriesDelaySeconds = queryTriesDelaySeconds;
             MaxMemoryBudgetMb = maxMemoryBudgetMb;
             MemoryPerChunkMarginPercent = memoryPerChunkMarginPercent;
+            RepopulateSourceUsingRPath = repopulateSourceUsingRPath;
             SetVendorSettings(sourceDatabaseEngine.Database.ToName());
         }
 

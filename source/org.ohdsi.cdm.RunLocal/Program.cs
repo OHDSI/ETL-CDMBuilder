@@ -41,6 +41,9 @@ namespace org.ohdsi.cdm.RunLocal
             [Option("MemoryPerChunkMarginPercent", Required = false, HelpText = "Must be more than or equal to 0. Chunk loading is considered to take more memory than actual by this amount when calculating possible degree of parallelism. Helps to avoid memory issues")]
             public string MemoryPerChunkMarginPercent { get; set; } = "5";
 
+            [Option("RepopulateSourceUsingRPath", Required = false, HelpText = "Path to R project for current vendor (folder \"Test Cases\"). If set and correct, then it will generate SQL to run against the source schema. ***SETTING THIS WILL TRUNCATE ALL SOURCE DATA***")]
+            public string RepopulateSourceUsingRPath { get; set; } = "";
+
 
             #region source
 
@@ -136,10 +139,17 @@ namespace org.ohdsi.cdm.RunLocal
                         VocabularyUser = "VocabularyUser",
                         VocabularyPassword = "VocabularyPassword",
                         ChunkSize = "10000",
-                        ContinueLoadFromChunk = ""
+                        ContinueLoadFromChunk = "",
+                        QueryTriesAmount = "1",
+                        MaxMemoryBudgetMb = "5000",
+                        MemoryPerChunkMarginPercent = "5",
+                        QueryTriesDelaySeconds = "60",
+                        RepopulateSourceUsingRPath = ""
+
                     };
                     var example = new Example("Example with placeholder arguments", options);
-                    string txt = "RunLocal " + string.Join(" ", options.GetType().GetProperties().Where(s => s.Name != "Examples").Select(s => "--" + s.Name + "=\"" + s.Name + "\"")); // to fill program args
+                    var properties = options.GetType().GetProperties().Where(s => s.Name != "Examples").Select(s => "--" + s.Name + "=\"" + s.Name + "\"");
+                    string txt = "RunLocal " + string.Join(" ", properties); // to fill program args
                     yield return example;
                 }
             }
@@ -177,9 +187,8 @@ namespace org.ohdsi.cdm.RunLocal
             SetSettings(opts);
 
             bool truncateTargetTables = Settings.Current.Building.ContinueLoadFromChunk > 0 ? false : true;
-            bool fillSourceTables = true;
 
-            Build(Settings.Current.Building.SourceSchema, truncateTargetTables, fillSourceTables);
+            Build(Settings.Current.Building.SourceSchema, truncateTargetTables);
         }
 
         static void HandleParseError(IEnumerable<Error> errs)
@@ -201,6 +210,8 @@ namespace org.ohdsi.cdm.RunLocal
 
                 AnsiConsole.WriteLine($"VendorName: {opts.VendorName}");
                 AnsiConsole.WriteLine($"QueryOverwriteFolderPath: {queryOverwriteFolderPath}");
+                AnsiConsole.WriteLine($"RepopulateSourceUsingRPath: {opts.RepopulateSourceUsingRPath}");
+
                 AnsiConsole.WriteLine($"ContinueLoadFromChunk: {opts.ContinueLoadFromChunk}");
                 AnsiConsole.WriteLine($"ChunkSize: {opts.ChunkSize}");
                 AnsiConsole.WriteLine($"QueryTriesAmount: {opts.QueryTriesAmount}");
@@ -264,9 +275,11 @@ namespace org.ohdsi.cdm.RunLocal
                 Settings.Current = new Settings()
                 {
                     Building = new BuildingSettings(sourceEngine, cdmEngine, vocabEngine, vendor, continueLoadFromChunk, 
-                        chunkSize, queryTriesAmount, queryTriesDelaySeconds, maxMemoryBudgetMb, memoryPerChunkMarginPercent)
+                        chunkSize, queryTriesAmount, queryTriesDelaySeconds, maxMemoryBudgetMb, memoryPerChunkMarginPercent, 
+                        opts.RepopulateSourceUsingRPath)
                     {
                         Batches = 1,
+                        QueryOverwriteFolderPath = queryOverwriteFolderPath,
 
                         SourceServer = opts.SourceServer,
                         SourceDb = opts.SourceDatabase,
@@ -285,7 +298,7 @@ namespace org.ohdsi.cdm.RunLocal
                         VocabSchema = opts.VocabularySchema,
                         VocabUser = opts.VocabularyUser,
                         VocabPswd = opts.VocabularyPassword,
-                        QueryOverwriteFolderPath = queryOverwriteFolderPath,
+
                     },
                     BuilderFolder = vendor.Folder,
                 };
@@ -310,13 +323,21 @@ namespace org.ohdsi.cdm.RunLocal
             };
         }
 
-        static void Build(string chunkSchema, bool truncateTargetTables = false, bool fillSourceTables = false)
+        static void Build(string chunkSchema, bool truncateTargetTables = false)
         {
             BuilderController builder = new BuilderController();
-            if (fillSourceTables)
+            if (!string.IsNullOrWhiteSpace(Settings.Current.Building.RepopulateSourceUsingRPath))
             {
+                AnsiConsole.MarkupLine($"[red]\r\nSource schema is about to be truncated and repopulated. Waiting 5 minutes before starting.[/]");
+                Thread.Sleep(5 * 60 * 1000);
                 builder.FillWithRSource();
             }
+            else
+            {
+                Logger.Write(0, Logger.LogMessageTypes.Info,
+                    $"\r\nSource schema is read only. Continuing.");
+            }
+
 
             builder.CreateDestination();
 

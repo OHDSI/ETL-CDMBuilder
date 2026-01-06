@@ -72,11 +72,10 @@ namespace org.ohdsi.cdm.presentation.builder.Controllers
             if (servPort.Length == 2 && servPort.Last().Length == 4)
                 port = int.Parse(servPort.Last());
 
-            var request = new RSqlGenerator.Request("", "");
-            var rResponse = RSqlGenerator.GenerateSqlOnly(request);
+            var rSql = RSqlGenerator.GenerateSqlOnly();
 
             var sqlFixed = Regex.Replace(
-                rResponse.InsertSqlText,
+                rSql,
                 @"'\s*'",
                 "NULL",
                 RegexOptions.CultureInvariant

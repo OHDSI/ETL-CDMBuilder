@@ -177,8 +177,9 @@ namespace org.ohdsi.cdm.RunLocal
             SetSettings(opts);
 
             bool truncateTargetTables = Settings.Current.Building.ContinueLoadFromChunk > 0 ? false : true;
+            bool fillSourceTables = true;
 
-            Build(Settings.Current.Building.SourceSchema, truncateTargetTables);
+            Build(Settings.Current.Building.SourceSchema, truncateTargetTables, fillSourceTables);
         }
 
         static void HandleParseError(IEnumerable<Error> errs)
@@ -309,9 +310,14 @@ namespace org.ohdsi.cdm.RunLocal
             };
         }
 
-        static void Build(string chunkSchema, bool truncateTargetTables = false)
+        static void Build(string chunkSchema, bool truncateTargetTables = false, bool fillSourceTables = false)
         {
             BuilderController builder = new BuilderController();
+            if (fillSourceTables)
+            {
+                builder.FillWithRSource();
+            }
+
             builder.CreateDestination();
 
             if (truncateTargetTables)

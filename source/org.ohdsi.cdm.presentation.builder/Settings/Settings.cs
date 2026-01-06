@@ -60,11 +60,6 @@ namespace org.ohdsi.cdm.presentation.builder
 
         #region Methods
 
-        public void Save(bool reloadVendorSettings)
-        {
-            Current.Building.Save(reloadVendorSettings);
-        }
-
         private static string ReadEmbeddedResource(string resourceName)
         {
             var requiredVersion = getVersion(Settings.Current.Building.Cdm.ToName());

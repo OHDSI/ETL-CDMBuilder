@@ -14,10 +14,6 @@ namespace org.ohdsi.cdm.presentation.builder
 {
     public class BuildingSettings
     {        
-
-        private static object _threadlock;
-
-
         #region Properties
 
         [XmlIgnore]
@@ -29,9 +25,6 @@ namespace org.ohdsi.cdm.presentation.builder
         [XmlIgnore]
         public int MemoryPerChunkMarginPercent { get; protected set; }
         public Building BuildingState { get; set; }
-        public string RawSourceConnectionString { get; set; }
-        public string RawDestinationConnectionString { get; set; }
-        public string RawVocabularyConnectionString { get; set; }
 
         public string SourceServer { get; set; }
         public string SourceDb { get; set; }
@@ -191,7 +184,6 @@ namespace org.ohdsi.cdm.presentation.builder
         {
             BuildingState = new Building();
             ChunksCount = 0;
-            _threadlock = new object();
             SourceEngine = sourceDatabaseEngine;
             CdmEngine = cdmDatabaseEngine;
             VocabularyEngine = vocabularyDatabaseEngine;
@@ -225,117 +217,6 @@ namespace org.ohdsi.cdm.presentation.builder
                     FileName = s.Key,                   
                 })
                 .ToList();
-        }
-
-        public void Load()
-        {
-            var folder = "Building";
-            var fileName = string.Empty;
-
-            if (!string.IsNullOrEmpty(SourceDb) && !string.IsNullOrEmpty(CdmDb) && !string.IsNullOrEmpty(VocabDb))
-            {
-                folder = Path.Combine("Building", $"{SourceDb}_{CdmDb}_{VocabDb}");
-            }
-
-            Folder = folder;
-
-            if (Directory.Exists(Folder))
-                folder = Folder;
-            else
-                Directory.CreateDirectory(Folder);
-
-            if (Directory.GetDirectories("Building").Length > 0 && !File.Exists($@"{folder}\Settings.xml"))
-            {
-                var last = Directory.GetDirectories("Building")
-                    .OrderByDescending(di => new DirectoryInfo(di).LastWriteTime)
-                    .FirstOrDefault();
-
-                fileName = $@"{last}\Settings.xml";
-            }
-            else
-            {
-                fileName = $@"{folder}\Settings.xml";
-            }
-
-            if (File.Exists(fileName))
-            {
-                var xmlSerializer = new XmlSerializer(GetType());
-                using (var reader = new StringReader(File.ReadAllText(fileName)))
-                {
-                    var bs = (BuildingSettings)xmlSerializer.Deserialize(reader);
-
-                    SourceServer = bs.SourceServer;
-                    SourceDb = bs.SourceDb;
-                    SourceSchema = bs.SourceSchema;
-                    SourceUser = bs.SourceUser;
-                    SourcePswd = bs.SourcePswd;
-
-                    CdmServer = bs.CdmServer;
-                    CdmDb = bs.CdmDb;
-                    CdmSchema = bs.CdmSchema;
-                    CdmUser = bs.CdmUser;
-                    CdmPswd = bs.CdmPswd;
-
-                    VocabServer = bs.VocabServer;
-                    VocabDb = bs.VocabDb;
-                    VocabSchema = bs.VocabSchema;
-                    VocabUser = bs.VocabUser;
-                    VocabPswd = bs.VocabPswd;
-
-                    BuildingState = bs.BuildingState;
-                    ChunksCount = bs.ChunksCount;
-                    ContinueLoadFromChunk = bs.ContinueLoadFromChunk;
-
-                    Settings.Current.Building = bs;
-
-                    Settings.Current.Building.RawSourceConnectionString = SourceConnectionString + "sc=" + SourceSchema + ";";
-                    Settings.Current.Building.RawDestinationConnectionString = DestinationConnectionString + "sc=" + CdmSchema + ";";
-                    Settings.Current.Building.RawVocabularyConnectionString = VocabularyConnectionString + "sc=" + VocabSchema + ";";
-                }
-            }
-            else
-                Settings.Current.Building = new BuildingSettings(SourceEngine, CdmEngine, VocabularyEngine, VendorToProcess, 0, 10000, 5, 60, 5000, 5);
-        }
-
-        public void Reset()
-        {
-            BuildingState = new Building();
-            ChunksCount = 0;
-        }
-
-        public void Save(bool reloadVendorSettings)
-        {
-            var folder = "Building";
-            if (!Directory.Exists(folder))
-            {
-                Directory.CreateDirectory(folder);
-                Reset();
-            }
-
-            if (!string.IsNullOrEmpty(SourceDb) && !string.IsNullOrEmpty(CdmDb) && !string.IsNullOrEmpty(VocabDb))
-            {
-                folder = Path.Combine("Building", $"{SourceDb}_{CdmDb}_{VocabDb}");
-                if (!Directory.Exists(folder))
-                {
-                    Directory.CreateDirectory(folder);
-                    Reset();
-                }
-            }
-
-            Folder = folder;
-
-            var xmlSerializer = new XmlSerializer(GetType());
-            using (StringWriter textWriter = new StringWriter())
-            {
-                xmlSerializer.Serialize(textWriter, this);
-                lock (_threadlock)
-                {
-                    File.WriteAllText($@"{folder}\Settings.xml", textWriter.ToString());
-                }
-            }
-
-            if (reloadVendorSettings)
-                SetVendorSettings(Settings.Current.Building.CdmEngine.Database.ToName());
         }
 
         /// <summary>

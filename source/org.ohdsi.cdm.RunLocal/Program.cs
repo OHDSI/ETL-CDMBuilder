@@ -207,6 +207,11 @@ namespace org.ohdsi.cdm.RunLocal
                 var queryOverwriteFolderPath = opts.QueryOverwriteFolderPath ?? "";
 
                 AnsiConsole.WriteLine("Options:");
+                if (!string.IsNullOrEmpty(opts.RepopulateSourceUsingRPath))
+                {
+                    AnsiConsole.MarkupLine($"[red]WARNING! RepopulateSourceUsingRPath is set, so the source schema will be truncated![/]");
+                    Thread.Sleep(5000);
+                }
 
                 AnsiConsole.WriteLine($"VendorName: {opts.VendorName}");
                 AnsiConsole.WriteLine($"QueryOverwriteFolderPath: {queryOverwriteFolderPath}");

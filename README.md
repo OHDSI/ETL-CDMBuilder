@@ -40,6 +40,10 @@ Kicking off a Build
 	- (Optionally) To overwrite and tweak DDL or transformation queries copy the files with the required changes from ETL-LambdaBuilder to a separate directory and set QueryOverwriteFolderPath parameter to that directory.
 		- The files must folow this structure:
 		  <QueryOverwriteFolderPath>/<RDBMS name for DDL or vendor name for tranformations>/<file copy with the same name as original>
+	- (Optionally) Source schema may be populated with data from R tests. This will not affect the tests, but will erase source data, if any. Requirements:
+		- Have R installed
+		- Have a folder with tests. It must end with "/Test cases" and contain a valid R project
+		- Set RepopulateSourceUsingRPath parameter to that folder
     - Run RunLocal.exe or a bat for the required vendor
 
 Notes

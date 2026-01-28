@@ -119,8 +119,14 @@ namespace org.ohdsi.cdm.presentation.builder
                             sqlRedshift,
                             Settings.Current.Building.CdmEngine.Database));
 
-                         var sql = Utility.NativeTranslators.GetSqlHelper.TranslateSqlFromRedshift(FrameworkSettings.Current.Building.Vendor, Settings.Current.Building.VocabularyEngine.Database,
-                            sqlRender, FrameworkSettings.Current.Building.VocabularySchemaName, FrameworkSettings.Current.Building.VocabularySchemaName, null, null);
+                         var sql = Utility.NativeTranslators.GetSqlHelper.TranslateSqlFromRedshift(
+                             FrameworkSettings.Current.Building.Vendor, 
+                             Settings.Current.Building.VocabularyEngine.Database,
+                             sqlRender, 
+                             FrameworkSettings.Current.Building.VocabularySchemaName, 
+                             FrameworkSettings.Current.Building.VocabularySchemaName, 
+                             "_lookup_" + conceptIdMapper.Lookup, 
+                             null);
 
                         try
                         {

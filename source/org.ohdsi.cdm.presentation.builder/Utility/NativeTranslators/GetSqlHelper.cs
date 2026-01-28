@@ -22,6 +22,11 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators
                 var translator = TranslatorFactory.GetTranslator(sourceDatabase, schemaName, tableName);
                 var translated = translator.Translate(query);
                 var finalized = FinalizeXmlToDbQueryConversion(translated, chunkId, chunkSchemaName, schemaName);
+
+                if(!int.TryParse(chunkId, out int chunkIdInt)
+                    || chunkIdInt == 0)
+                    SaveTranslation(vendor.Name, tableName ?? "unknown", finalized);
+
                 return finalized;
             }
             catch (Exception e)
@@ -43,6 +48,15 @@ namespace org.ohdsi.cdm.presentation.builder.Utility.NativeTranslators
                     .Trim()
                     ;
             return result;
+        }
+
+        static void SaveTranslation(string vendorName, string tableName, string sql)
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "Cache", "Translations", vendorName, Settings.Current.Building.CdmEngine.Database.ToString());
+            Directory.CreateDirectory(path);
+
+            var fileName = $"{tableName}_{sql.GetHashCode()}.sql";
+            File.WriteAllText(Path.Combine(path, fileName), sql);
         }
     }
 }
